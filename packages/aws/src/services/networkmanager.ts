@@ -2042,6 +2042,14 @@ export const acceptAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAttachment",
+  iam: {
+    actions: ["networkmanager:AcceptAttachment"],
+    resources: {
+      "networkmanager:AcceptAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptAttachment",
 }));
@@ -2082,6 +2090,15 @@ export const associateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectPeer",
+  iam: {
+    actions: ["networkmanager:AssociateConnectPeer"],
+    resources: {
+      "networkmanager:AssociateConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateConnectPeer",
 }));
@@ -2128,6 +2145,7 @@ export const associateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomerGateway",
+  iam: { actions: ["networkmanager:AssociateCustomerGateway"] },
   telemetry: TELEMETRY,
   span: "AssociateCustomerGateway",
 }));
@@ -2164,6 +2182,16 @@ export const associateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLink",
+  iam: {
+    actions: ["networkmanager:AssociateLink"],
+    resources: {
+      "networkmanager:AssociateLink": [
+        "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLink",
 }));
@@ -2206,6 +2234,7 @@ export const associateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayConnectPeer",
+  iam: { actions: ["networkmanager:AssociateTransitGatewayConnectPeer"] },
   telemetry: TELEMETRY,
   span: "AssociateTransitGatewayConnectPeer",
 }));
@@ -2244,6 +2273,28 @@ export const createConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectAttachment",
+  iam: {
+    actions: [
+      "networkmanager:CreateConnectAttachment",
+      "networkmanager:PutAttachmentRoutingPolicyLabel",
+      "networkmanager:TagResource",
+      "networkmanager:UpdateAttachmentNatConfiguration",
+    ],
+    resources: {
+      "networkmanager:CreateConnectAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:UpdateAttachmentNatConfiguration": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectAttachment",
 }));
@@ -2278,6 +2329,15 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: ["networkmanager:CreateConnection", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateConnection": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -2313,6 +2373,15 @@ export const createConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectPeer",
+  iam: {
+    actions: ["networkmanager:CreateConnectPeer", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectPeer",
 }));
@@ -2349,6 +2418,15 @@ export const createCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetwork",
+  iam: {
+    actions: ["networkmanager:CreateCoreNetwork", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateCoreNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCoreNetwork",
 }));
@@ -2385,6 +2463,14 @@ export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetworkPrefixListAssociation",
+  iam: {
+    actions: ["networkmanager:CreateCoreNetworkPrefixListAssociation"],
+    resources: {
+      "networkmanager:CreateCoreNetworkPrefixListAssociation": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCoreNetworkPrefixListAssociation",
 }));
@@ -2422,6 +2508,15 @@ export const createDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevice",
+  iam: {
+    actions: ["networkmanager:CreateDevice", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateDevice": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDevice",
 }));
@@ -2456,6 +2551,27 @@ export const createDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAttachment",
+  iam: {
+    actions: [
+      "networkmanager:CreateDirectConnectGatewayAttachment",
+      "networkmanager:PutAttachmentRoutingPolicyLabel",
+      "networkmanager:TagResource",
+      "networkmanager:UpdateAttachmentNatConfiguration",
+    ],
+    resources: {
+      "networkmanager:CreateDirectConnectGatewayAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:UpdateAttachmentNatConfiguration": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDirectConnectGatewayAttachment",
 }));
@@ -2490,6 +2606,10 @@ export const createGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalNetwork",
+  iam: {
+    actions: ["networkmanager:CreateGlobalNetwork", "networkmanager:TagResource"],
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGlobalNetwork",
 }));
@@ -2526,6 +2646,10 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  iam: {
+    actions: ["networkmanager:CreateLink", "networkmanager:TagResource"],
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLink",
 }));
@@ -2562,6 +2686,15 @@ export const createSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSite",
+  iam: {
+    actions: ["networkmanager:CreateSite", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateSite": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSite",
 }));
@@ -2596,6 +2729,27 @@ export const createSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSiteToSiteVpnAttachment",
+  iam: {
+    actions: [
+      "networkmanager:CreateSiteToSiteVpnAttachment",
+      "networkmanager:PutAttachmentRoutingPolicyLabel",
+      "networkmanager:TagResource",
+      "networkmanager:UpdateAttachmentNatConfiguration",
+    ],
+    resources: {
+      "networkmanager:CreateSiteToSiteVpnAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:UpdateAttachmentNatConfiguration": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSiteToSiteVpnAttachment",
 }));
@@ -2630,6 +2784,15 @@ export const createTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPeering",
+  iam: {
+    actions: ["networkmanager:CreateTransitGatewayPeering", "networkmanager:TagResource"],
+    resources: {
+      "networkmanager:CreateTransitGatewayPeering": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayPeering",
 }));
@@ -2664,6 +2827,23 @@ export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRouteTableAttachment",
+  iam: {
+    actions: [
+      "networkmanager:CreateTransitGatewayRouteTableAttachment",
+      "networkmanager:PutAttachmentRoutingPolicyLabel",
+      "networkmanager:TagResource",
+    ],
+    resources: {
+      "networkmanager:CreateTransitGatewayRouteTableAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:peering/${ResourceId}",
+      ],
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTransitGatewayRouteTableAttachment",
 }));
@@ -2698,6 +2878,27 @@ export const createVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcAttachment",
+  iam: {
+    actions: [
+      "networkmanager:CreateVpcAttachment",
+      "networkmanager:PutAttachmentRoutingPolicyLabel",
+      "networkmanager:TagResource",
+      "networkmanager:UpdateAttachmentNatConfiguration",
+    ],
+    resources: {
+      "networkmanager:CreateVpcAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+      "networkmanager:UpdateAttachmentNatConfiguration": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+    conditional: { "networkmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcAttachment",
 }));
@@ -2732,6 +2933,14 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
+  iam: {
+    actions: ["networkmanager:DeleteAttachment"],
+    resources: {
+      "networkmanager:DeleteAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAttachment",
 }));
@@ -2766,6 +2975,15 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: {
+    actions: ["networkmanager:DeleteConnection"],
+    resources: {
+      "networkmanager:DeleteConnection": [
+        "arn:${Partition}:networkmanager::${Account}:connection/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -2800,6 +3018,14 @@ export const deleteConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectPeer",
+  iam: {
+    actions: ["networkmanager:DeleteConnectPeer"],
+    resources: {
+      "networkmanager:DeleteConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:connect-peer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectPeer",
 }));
@@ -2834,6 +3060,14 @@ export const deleteCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetwork",
+  iam: {
+    actions: ["networkmanager:DeleteCoreNetwork"],
+    resources: {
+      "networkmanager:DeleteCoreNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoreNetwork",
 }));
@@ -2868,6 +3102,14 @@ export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPolicyVersion",
+  iam: {
+    actions: ["networkmanager:DeleteCoreNetworkPolicyVersion"],
+    resources: {
+      "networkmanager:DeleteCoreNetworkPolicyVersion": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoreNetworkPolicyVersion",
 }));
@@ -2904,6 +3146,14 @@ export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPrefixListAssociation",
+  iam: {
+    actions: ["networkmanager:DeleteCoreNetworkPrefixListAssociation"],
+    resources: {
+      "networkmanager:DeleteCoreNetworkPrefixListAssociation": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCoreNetworkPrefixListAssociation",
 }));
@@ -2939,6 +3189,15 @@ export const deleteDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevice",
+  iam: {
+    actions: ["networkmanager:DeleteDevice"],
+    resources: {
+      "networkmanager:DeleteDevice": [
+        "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDevice",
 }));
@@ -2974,6 +3233,14 @@ export const deleteGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalNetwork",
+  iam: {
+    actions: ["networkmanager:DeleteGlobalNetwork"],
+    resources: {
+      "networkmanager:DeleteGlobalNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGlobalNetwork",
 }));
@@ -3009,6 +3276,15 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  iam: {
+    actions: ["networkmanager:DeleteLink"],
+    resources: {
+      "networkmanager:DeleteLink": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLink",
 }));
@@ -3043,6 +3319,14 @@ export const deletePeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePeering",
+  iam: {
+    actions: ["networkmanager:DeletePeering"],
+    resources: {
+      "networkmanager:DeletePeering": [
+        "arn:${Partition}:networkmanager::${Account}:peering/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePeering",
 }));
@@ -3075,6 +3359,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["networkmanager:DeleteResourcePolicy"],
+    resources: {
+      "networkmanager:DeleteResourcePolicy": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -3109,6 +3401,15 @@ export const deleteSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSite",
+  iam: {
+    actions: ["networkmanager:DeleteSite"],
+    resources: {
+      "networkmanager:DeleteSite": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:site/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSite",
 }));
@@ -3144,6 +3445,14 @@ export const deregisterTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTransitGateway",
+  iam: {
+    actions: ["networkmanager:DeregisterTransitGateway"],
+    resources: {
+      "networkmanager:DeregisterTransitGateway": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterTransitGateway",
 }));
@@ -3186,6 +3495,7 @@ export const describeGlobalNetworks: API.PaginatedOperationMethod<
     items: "GlobalNetworks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:DescribeGlobalNetworks"] },
   telemetry: TELEMETRY,
   span: "DescribeGlobalNetworks",
 })) as any;
@@ -3220,6 +3530,14 @@ export const disassociateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectPeer",
+  iam: {
+    actions: ["networkmanager:DisassociateConnectPeer"],
+    resources: {
+      "networkmanager:DisassociateConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateConnectPeer",
 }));
@@ -3254,6 +3572,14 @@ export const disassociateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomerGateway",
+  iam: {
+    actions: ["networkmanager:DisassociateCustomerGateway"],
+    resources: {
+      "networkmanager:DisassociateCustomerGateway": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateCustomerGateway",
 }));
@@ -3289,6 +3615,16 @@ export const disassociateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLink",
+  iam: {
+    actions: ["networkmanager:DisassociateLink"],
+    resources: {
+      "networkmanager:DisassociateLink": [
+        "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLink",
 }));
@@ -3323,6 +3659,14 @@ export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayConnectPeer",
+  iam: {
+    actions: ["networkmanager:DisassociateTransitGatewayConnectPeer"],
+    resources: {
+      "networkmanager:DisassociateTransitGatewayConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTransitGatewayConnectPeer",
 }));
@@ -3357,6 +3701,14 @@ export const executeCoreNetworkChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteCoreNetworkChangeSet",
+  iam: {
+    actions: ["networkmanager:ExecuteCoreNetworkChangeSet"],
+    resources: {
+      "networkmanager:ExecuteCoreNetworkChangeSet": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecuteCoreNetworkChangeSet",
 }));
@@ -3389,6 +3741,14 @@ export const getConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectAttachment",
+  iam: {
+    actions: ["networkmanager:GetConnectAttachment"],
+    resources: {
+      "networkmanager:GetConnectAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectAttachment",
 }));
@@ -3428,6 +3788,7 @@ export const getConnections: API.PaginatedOperationMethod<
     items: "Connections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:GetConnections"] },
   telemetry: TELEMETRY,
   span: "GetConnections",
 })) as any;
@@ -3460,6 +3821,14 @@ export const getConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectPeer",
+  iam: {
+    actions: ["networkmanager:GetConnectPeer"],
+    resources: {
+      "networkmanager:GetConnectPeer": [
+        "arn:${Partition}:networkmanager::${Account}:connect-peer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectPeer",
 }));
@@ -3501,6 +3870,14 @@ export const getConnectPeerAssociations: API.PaginatedOperationMethod<
     items: "ConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetConnectPeerAssociations"],
+    resources: {
+      "networkmanager:GetConnectPeerAssociations": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectPeerAssociations",
 })) as any;
@@ -3533,6 +3910,14 @@ export const getCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetwork",
+  iam: {
+    actions: ["networkmanager:GetCoreNetwork"],
+    resources: {
+      "networkmanager:GetCoreNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoreNetwork",
 }));
@@ -3572,6 +3957,14 @@ export const getCoreNetworkChangeEvents: API.PaginatedOperationMethod<
     items: "CoreNetworkChangeEvents",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetCoreNetworkChangeEvents"],
+    resources: {
+      "networkmanager:GetCoreNetworkChangeEvents": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoreNetworkChangeEvents",
 })) as any;
@@ -3611,6 +4004,14 @@ export const getCoreNetworkChangeSet: API.PaginatedOperationMethod<
     items: "CoreNetworkChanges",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetCoreNetworkChangeSet"],
+    resources: {
+      "networkmanager:GetCoreNetworkChangeSet": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoreNetworkChangeSet",
 })) as any;
@@ -3643,6 +4044,14 @@ export const getCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetworkPolicy",
+  iam: {
+    actions: ["networkmanager:GetCoreNetworkPolicy"],
+    resources: {
+      "networkmanager:GetCoreNetworkPolicy": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCoreNetworkPolicy",
 }));
@@ -3685,6 +4094,14 @@ export const getCustomerGatewayAssociations: API.PaginatedOperationMethod<
     items: "CustomerGatewayAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetCustomerGatewayAssociations"],
+    resources: {
+      "networkmanager:GetCustomerGatewayAssociations": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomerGatewayAssociations",
 })) as any;
@@ -3724,6 +4141,7 @@ export const getDevices: API.PaginatedOperationMethod<
     items: "Devices",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:GetDevices"] },
   telemetry: TELEMETRY,
   span: "GetDevices",
 })) as any;
@@ -3756,6 +4174,14 @@ export const getDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectConnectGatewayAttachment",
+  iam: {
+    actions: ["networkmanager:GetDirectConnectGatewayAttachment"],
+    resources: {
+      "networkmanager:GetDirectConnectGatewayAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDirectConnectGatewayAttachment",
 }));
@@ -3796,6 +4222,7 @@ export const getLinkAssociations: API.PaginatedOperationMethod<
     items: "LinkAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:GetLinkAssociations"] },
   telemetry: TELEMETRY,
   span: "GetLinkAssociations",
 })) as any;
@@ -3837,6 +4264,7 @@ export const getLinks: API.PaginatedOperationMethod<
     items: "Links",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:GetLinks"] },
   telemetry: TELEMETRY,
   span: "GetLinks",
 })) as any;
@@ -3874,6 +4302,14 @@ export const getNetworkResourceCounts: API.PaginatedOperationMethod<
     items: "NetworkResourceCounts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetNetworkResourceCounts"],
+    resources: {
+      "networkmanager:GetNetworkResourceCounts": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkResourceCounts",
 })) as any;
@@ -3913,6 +4349,14 @@ export const getNetworkResourceRelationships: API.PaginatedOperationMethod<
     items: "Relationships",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetNetworkResourceRelationships"],
+    resources: {
+      "networkmanager:GetNetworkResourceRelationships": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkResourceRelationships",
 })) as any;
@@ -3954,6 +4398,14 @@ export const getNetworkResources: API.PaginatedOperationMethod<
     items: "NetworkResources",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetNetworkResources"],
+    resources: {
+      "networkmanager:GetNetworkResources": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkResources",
 })) as any;
@@ -3993,6 +4445,14 @@ export const getNetworkRoutes: API.PaginatedOperationMethod<
     items: "NetworkRoutes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetNetworkRoutes"],
+    resources: {
+      "networkmanager:GetNetworkRoutes": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkRoutes",
 })) as any;
@@ -4032,6 +4492,14 @@ export const getNetworkTelemetry: API.PaginatedOperationMethod<
     items: "NetworkTelemetry",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetNetworkTelemetry"],
+    resources: {
+      "networkmanager:GetNetworkTelemetry": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkTelemetry",
 })) as any;
@@ -4062,6 +4530,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["networkmanager:GetResourcePolicy"],
+    resources: {
+      "networkmanager:GetResourcePolicy": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -4094,6 +4570,14 @@ export const getRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteAnalysis",
+  iam: {
+    actions: ["networkmanager:GetRouteAnalysis"],
+    resources: {
+      "networkmanager:GetRouteAnalysis": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRouteAnalysis",
 }));
@@ -4133,6 +4617,7 @@ export const getSites: API.PaginatedOperationMethod<
     items: "Sites",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:GetSites"] },
   telemetry: TELEMETRY,
   span: "GetSites",
 })) as any;
@@ -4165,6 +4650,14 @@ export const getSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteToSiteVpnAttachment",
+  iam: {
+    actions: ["networkmanager:GetSiteToSiteVpnAttachment"],
+    resources: {
+      "networkmanager:GetSiteToSiteVpnAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSiteToSiteVpnAttachment",
 }));
@@ -4206,6 +4699,14 @@ export const getTransitGatewayConnectPeerAssociations: API.PaginatedOperationMet
     items: "TransitGatewayConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetTransitGatewayConnectPeerAssociations"],
+    resources: {
+      "networkmanager:GetTransitGatewayConnectPeerAssociations": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayConnectPeerAssociations",
 })) as any;
@@ -4238,6 +4739,14 @@ export const getTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayPeering",
+  iam: {
+    actions: ["networkmanager:GetTransitGatewayPeering"],
+    resources: {
+      "networkmanager:GetTransitGatewayPeering": [
+        "arn:${Partition}:networkmanager::${Account}:peering/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayPeering",
 }));
@@ -4278,6 +4787,14 @@ export const getTransitGatewayRegistrations: API.PaginatedOperationMethod<
     items: "TransitGatewayRegistrations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:GetTransitGatewayRegistrations"],
+    resources: {
+      "networkmanager:GetTransitGatewayRegistrations": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayRegistrations",
 })) as any;
@@ -4310,6 +4827,14 @@ export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayRouteTableAttachment",
+  iam: {
+    actions: ["networkmanager:GetTransitGatewayRouteTableAttachment"],
+    resources: {
+      "networkmanager:GetTransitGatewayRouteTableAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransitGatewayRouteTableAttachment",
 }));
@@ -4342,6 +4867,14 @@ export const getVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcAttachment",
+  iam: {
+    actions: ["networkmanager:GetVpcAttachment"],
+    resources: {
+      "networkmanager:GetVpcAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVpcAttachment",
 }));
@@ -4381,6 +4914,14 @@ export const listAttachmentNatConfigurations: API.PaginatedOperationMethod<
     items: "AttachmentNatConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListAttachmentNatConfigurations"],
+    resources: {
+      "networkmanager:ListAttachmentNatConfigurations": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachmentNatConfigurations",
 })) as any;
@@ -4420,6 +4961,14 @@ export const listAttachmentRoutingPolicyAssociations: API.PaginatedOperationMeth
     items: "AttachmentRoutingPolicyAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListAttachmentRoutingPolicyAssociations"],
+    resources: {
+      "networkmanager:ListAttachmentRoutingPolicyAssociations": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachmentRoutingPolicyAssociations",
 })) as any;
@@ -4457,6 +5006,14 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "Attachments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListAttachments"],
+    resources: {
+      "networkmanager:ListAttachments": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachments",
 })) as any;
@@ -4494,6 +5051,14 @@ export const listConnectPeers: API.PaginatedOperationMethod<
     items: "ConnectPeers",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListConnectPeers"],
+    resources: {
+      "networkmanager:ListConnectPeers": [
+        "arn:${Partition}:networkmanager::${Account}:connect-peer/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConnectPeers",
 })) as any;
@@ -4533,6 +5098,14 @@ export const listCoreNetworkPolicyVersions: API.PaginatedOperationMethod<
     items: "CoreNetworkPolicyVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListCoreNetworkPolicyVersions"],
+    resources: {
+      "networkmanager:ListCoreNetworkPolicyVersions": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCoreNetworkPolicyVersions",
 })) as any;
@@ -4572,6 +5145,14 @@ export const listCoreNetworkPrefixListAssociations: API.PaginatedOperationMethod
     items: "PrefixListAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListCoreNetworkPrefixListAssociations"],
+    resources: {
+      "networkmanager:ListCoreNetworkPrefixListAssociations": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCoreNetworkPrefixListAssociations",
 })) as any;
@@ -4611,6 +5192,14 @@ export const listCoreNetworkRoutingInformation: API.PaginatedOperationMethod<
     items: "CoreNetworkRoutingInformation",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["networkmanager:ListCoreNetworkRoutingInformation"],
+    resources: {
+      "networkmanager:ListCoreNetworkRoutingInformation": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCoreNetworkRoutingInformation",
 })) as any;
@@ -4648,6 +5237,7 @@ export const listCoreNetworks: API.PaginatedOperationMethod<
     items: "CoreNetworks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:ListCoreNetworks"] },
   telemetry: TELEMETRY,
   span: "ListCoreNetworks",
 })) as any;
@@ -4668,6 +5258,7 @@ export const listOrganizationServiceAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationServiceAccessStatus",
+  iam: { actions: ["networkmanager:ListOrganizationServiceAccessStatus"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationServiceAccessStatus",
 }));
@@ -4705,6 +5296,7 @@ export const listPeerings: API.PaginatedOperationMethod<
     items: "Peerings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["networkmanager:ListPeerings"] },
   telemetry: TELEMETRY,
   span: "ListPeerings",
 })) as any;
@@ -4737,6 +5329,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["networkmanager:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4773,6 +5366,15 @@ export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttachmentRoutingPolicyLabel",
+  iam: {
+    actions: ["networkmanager:PutAttachmentRoutingPolicyLabel"],
+    resources: {
+      "networkmanager:PutAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAttachmentRoutingPolicyLabel",
 }));
@@ -4809,6 +5411,14 @@ export const putCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCoreNetworkPolicy",
+  iam: {
+    actions: ["networkmanager:PutCoreNetworkPolicy"],
+    resources: {
+      "networkmanager:PutCoreNetworkPolicy": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutCoreNetworkPolicy",
 }));
@@ -4843,6 +5453,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["networkmanager:PutResourcePolicy"],
+    resources: {
+      "networkmanager:PutResourcePolicy": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -4881,6 +5499,14 @@ export const registerTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTransitGateway",
+  iam: {
+    actions: ["networkmanager:RegisterTransitGateway"],
+    resources: {
+      "networkmanager:RegisterTransitGateway": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterTransitGateway",
 }));
@@ -4915,6 +5541,14 @@ export const rejectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAttachment",
+  iam: {
+    actions: ["networkmanager:RejectAttachment"],
+    resources: {
+      "networkmanager:RejectAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectAttachment",
 }));
@@ -4951,6 +5585,15 @@ export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttachmentRoutingPolicyLabel",
+  iam: {
+    actions: ["networkmanager:RemoveAttachmentRoutingPolicyLabel"],
+    resources: {
+      "networkmanager:RemoveAttachmentRoutingPolicyLabel": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveAttachmentRoutingPolicyLabel",
 }));
@@ -4985,6 +5628,14 @@ export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCoreNetworkPolicyVersion",
+  iam: {
+    actions: ["networkmanager:RestoreCoreNetworkPolicyVersion"],
+    resources: {
+      "networkmanager:RestoreCoreNetworkPolicyVersion": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreCoreNetworkPolicyVersion",
 }));
@@ -5019,6 +5670,7 @@ export const startOrganizationServiceAccessUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOrganizationServiceAccessUpdate",
+  iam: { actions: ["networkmanager:StartOrganizationServiceAccessUpdate"] },
   telemetry: TELEMETRY,
   span: "StartOrganizationServiceAccessUpdate",
 }));
@@ -5054,6 +5706,14 @@ export const startRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouteAnalysis",
+  iam: {
+    actions: ["networkmanager:StartRouteAnalysis"],
+    resources: {
+      "networkmanager:StartRouteAnalysis": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRouteAnalysis",
 }));
@@ -5090,6 +5750,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["networkmanager:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5124,6 +5785,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["networkmanager:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5162,6 +5824,14 @@ export const updateAttachmentNatConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttachmentNatConfiguration",
+  iam: {
+    actions: ["networkmanager:UpdateAttachmentNatConfiguration"],
+    resources: {
+      "networkmanager:UpdateAttachmentNatConfiguration": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAttachmentNatConfiguration",
 }));
@@ -5197,6 +5867,15 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  iam: {
+    actions: ["networkmanager:UpdateConnection"],
+    resources: {
+      "networkmanager:UpdateConnection": [
+        "arn:${Partition}:networkmanager::${Account}:connection/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));
@@ -5231,6 +5910,14 @@ export const updateCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreNetwork",
+  iam: {
+    actions: ["networkmanager:UpdateCoreNetwork"],
+    resources: {
+      "networkmanager:UpdateCoreNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCoreNetwork",
 }));
@@ -5266,6 +5953,15 @@ export const updateDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevice",
+  iam: {
+    actions: ["networkmanager:UpdateDevice"],
+    resources: {
+      "networkmanager:UpdateDevice": [
+        "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDevice",
 }));
@@ -5300,6 +5996,14 @@ export const updateDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGatewayAttachment",
+  iam: {
+    actions: ["networkmanager:UpdateDirectConnectGatewayAttachment"],
+    resources: {
+      "networkmanager:UpdateDirectConnectGatewayAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDirectConnectGatewayAttachment",
 }));
@@ -5335,6 +6039,14 @@ export const updateGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalNetwork",
+  iam: {
+    actions: ["networkmanager:UpdateGlobalNetwork"],
+    resources: {
+      "networkmanager:UpdateGlobalNetwork": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGlobalNetwork",
 }));
@@ -5372,6 +6084,15 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  iam: {
+    actions: ["networkmanager:UpdateLink"],
+    resources: {
+      "networkmanager:UpdateLink": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLink",
 }));
@@ -5406,6 +6127,14 @@ export const updateNetworkResourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkResourceMetadata",
+  iam: {
+    actions: ["networkmanager:UpdateNetworkResourceMetadata"],
+    resources: {
+      "networkmanager:UpdateNetworkResourceMetadata": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkResourceMetadata",
 }));
@@ -5441,6 +6170,15 @@ export const updateSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSite",
+  iam: {
+    actions: ["networkmanager:UpdateSite"],
+    resources: {
+      "networkmanager:UpdateSite": [
+        "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}",
+        "arn:${Partition}:networkmanager::${Account}:site/${GlobalNetworkId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSite",
 }));
@@ -5475,6 +6213,14 @@ export const updateVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcAttachment",
+  iam: {
+    actions: ["networkmanager:UpdateVpcAttachment"],
+    resources: {
+      "networkmanager:UpdateVpcAttachment": [
+        "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVpcAttachment",
 }));

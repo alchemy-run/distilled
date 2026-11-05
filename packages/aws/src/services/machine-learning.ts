@@ -779,6 +779,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  iam: { actions: ["machinelearning:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -812,6 +813,16 @@ export const createBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPrediction",
+  iam: {
+    actions: ["machinelearning:CreateBatchPrediction"],
+    resources: {
+      "machinelearning:CreateBatchPrediction": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:batchprediction/${BatchPredictionId}",
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBatchPrediction",
 }));
@@ -844,6 +855,14 @@ export const createDataSourceFromRDS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRDS",
+  iam: {
+    actions: ["machinelearning:CreateDataSourceFromRDS"],
+    resources: {
+      "machinelearning:CreateDataSourceFromRDS": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSourceFromRDS",
 }));
@@ -897,6 +916,15 @@ export const createDataSourceFromRedshift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRedshift",
+  iam: {
+    actions: ["machinelearning:CreateDataSourceFromRedshift", "iam:PassRole"],
+    resources: {
+      "machinelearning:CreateDataSourceFromRedshift": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSourceFromRedshift",
 }));
@@ -951,6 +979,14 @@ export const createDataSourceFromS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromS3",
+  iam: {
+    actions: ["machinelearning:CreateDataSourceFromS3"],
+    resources: {
+      "machinelearning:CreateDataSourceFromS3": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSourceFromS3",
 }));
@@ -984,6 +1020,16 @@ export const createEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluation",
+  iam: {
+    actions: ["machinelearning:CreateEvaluation"],
+    resources: {
+      "machinelearning:CreateEvaluation": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+        "arn:${Partition}:machinelearning:${Region}:${Account}:evaluation/${EvaluationId}",
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEvaluation",
 }));
@@ -1027,6 +1073,15 @@ export const createMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLModel",
+  iam: {
+    actions: ["machinelearning:CreateMLModel"],
+    resources: {
+      "machinelearning:CreateMLModel": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMLModel",
 }));
@@ -1051,6 +1106,14 @@ export const createRealtimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeEndpoint",
+  iam: {
+    actions: ["machinelearning:CreateRealtimeEndpoint"],
+    resources: {
+      "machinelearning:CreateRealtimeEndpoint": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRealtimeEndpoint",
 }));
@@ -1080,6 +1143,14 @@ export const deleteBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPrediction",
+  iam: {
+    actions: ["machinelearning:DeleteBatchPrediction"],
+    resources: {
+      "machinelearning:DeleteBatchPrediction": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:batchprediction/${BatchPredictionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBatchPrediction",
 }));
@@ -1108,6 +1179,14 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  iam: {
+    actions: ["machinelearning:DeleteDataSource"],
+    resources: {
+      "machinelearning:DeleteDataSource": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -1137,6 +1216,14 @@ export const deleteEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluation",
+  iam: {
+    actions: ["machinelearning:DeleteEvaluation"],
+    resources: {
+      "machinelearning:DeleteEvaluation": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEvaluation",
 }));
@@ -1166,6 +1253,14 @@ export const deleteMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLModel",
+  iam: {
+    actions: ["machinelearning:DeleteMLModel"],
+    resources: {
+      "machinelearning:DeleteMLModel": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMLModel",
 }));
@@ -1190,6 +1285,14 @@ export const deleteRealtimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeEndpoint",
+  iam: {
+    actions: ["machinelearning:DeleteRealtimeEndpoint"],
+    resources: {
+      "machinelearning:DeleteRealtimeEndpoint": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRealtimeEndpoint",
 }));
@@ -1222,6 +1325,7 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: { actions: ["machinelearning:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -1252,6 +1356,7 @@ export const describeBatchPredictions: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["machinelearning:DescribeBatchPredictions"] },
   telemetry: TELEMETRY,
   span: "DescribeBatchPredictions",
 })) as any;
@@ -1282,6 +1387,7 @@ export const describeDataSources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["machinelearning:DescribeDataSources"] },
   telemetry: TELEMETRY,
   span: "DescribeDataSources",
 })) as any;
@@ -1312,6 +1418,7 @@ export const describeEvaluations: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["machinelearning:DescribeEvaluations"] },
   telemetry: TELEMETRY,
   span: "DescribeEvaluations",
 })) as any;
@@ -1339,6 +1446,7 @@ export const describeMLModels: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["machinelearning:DescribeMLModels"] },
   telemetry: TELEMETRY,
   span: "DescribeMLModels",
 })) as any;
@@ -1363,6 +1471,7 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  iam: { actions: ["machinelearning:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 }));
@@ -1388,6 +1497,14 @@ export const getBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchPrediction",
+  iam: {
+    actions: ["machinelearning:GetBatchPrediction"],
+    resources: {
+      "machinelearning:GetBatchPrediction": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:batchprediction/${BatchPredictionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBatchPrediction",
 }));
@@ -1415,6 +1532,14 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  iam: {
+    actions: ["machinelearning:GetDataSource"],
+    resources: {
+      "machinelearning:GetDataSource": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataSource",
 }));
@@ -1439,6 +1564,14 @@ export const getEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluation",
+  iam: {
+    actions: ["machinelearning:GetEvaluation"],
+    resources: {
+      "machinelearning:GetEvaluation": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEvaluation",
 }));
@@ -1465,6 +1598,14 @@ export const getMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModel",
+  iam: {
+    actions: ["machinelearning:GetMLModel"],
+    resources: {
+      "machinelearning:GetMLModel": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLModel",
 }));
@@ -1500,6 +1641,14 @@ export const predict: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Predict",
+  iam: {
+    actions: ["machinelearning:Predict"],
+    resources: {
+      "machinelearning:Predict": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Predict",
 }));
@@ -1526,6 +1675,14 @@ export const updateBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBatchPrediction",
+  iam: {
+    actions: ["machinelearning:UpdateBatchPrediction"],
+    resources: {
+      "machinelearning:UpdateBatchPrediction": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:batchprediction/${BatchPredictionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBatchPrediction",
 }));
@@ -1552,6 +1709,14 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  iam: {
+    actions: ["machinelearning:UpdateDataSource"],
+    resources: {
+      "machinelearning:UpdateDataSource": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:datasource/${DatasourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -1578,6 +1743,14 @@ export const updateEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluation",
+  iam: {
+    actions: ["machinelearning:UpdateEvaluation"],
+    resources: {
+      "machinelearning:UpdateEvaluation": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:evaluation/${EvaluationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEvaluation",
 }));
@@ -1604,6 +1777,14 @@ export const updateMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMLModel",
+  iam: {
+    actions: ["machinelearning:UpdateMLModel"],
+    resources: {
+      "machinelearning:UpdateMLModel": [
+        "arn:${Partition}:machinelearning:${Region}:${Account}:mlmodel/${MlModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMLModel",
 }));

@@ -296,6 +296,14 @@ export const deleteKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKey",
+  iam: {
+    actions: ["cloudfront-keyvaluestore:DeleteKey"],
+    resources: {
+      "cloudfront-keyvaluestore:DeleteKey": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKey",
 }));
@@ -326,6 +334,14 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
+  iam: {
+    actions: ["cloudfront-keyvaluestore:DescribeKeyValueStore"],
+    resources: {
+      "cloudfront-keyvaluestore:DescribeKeyValueStore": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKeyValueStore",
 }));
@@ -356,6 +372,14 @@ export const getKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKey",
+  iam: {
+    actions: ["cloudfront-keyvaluestore:GetKey"],
+    resources: {
+      "cloudfront-keyvaluestore:GetKey": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetKey",
 }));
@@ -395,6 +419,14 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudfront-keyvaluestore:ListKeys"],
+    resources: {
+      "cloudfront-keyvaluestore:ListKeys": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListKeys",
 })) as any;
@@ -429,6 +461,14 @@ export const putKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKey",
+  iam: {
+    actions: ["cloudfront-keyvaluestore:PutKey"],
+    resources: {
+      "cloudfront-keyvaluestore:PutKey": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutKey",
 }));
@@ -463,6 +503,14 @@ export const updateKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeys",
+  iam: {
+    actions: ["cloudfront-keyvaluestore:UpdateKeys"],
+    resources: {
+      "cloudfront-keyvaluestore:UpdateKeys": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKeys",
 }));

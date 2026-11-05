@@ -361,6 +361,10 @@ export const associateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfile",
+  iam: {
+    actions: ["route53profiles:AssociateProfile", "route53profiles:TagResource"],
+    conditional: { "route53profiles:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateProfile",
 }));
@@ -399,6 +403,7 @@ export const associateResourceToProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceToProfile",
+  iam: { actions: ["route53profiles:AssociateResourceToProfile"] },
   telemetry: TELEMETRY,
   span: "AssociateResourceToProfile",
 }));
@@ -431,6 +436,10 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["route53profiles:CreateProfile", "route53profiles:TagResource"],
+    conditional: { "route53profiles:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -463,6 +472,7 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: { actions: ["route53profiles:DeleteProfile"] },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -497,6 +507,7 @@ export const disassociateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfile",
+  iam: { actions: ["route53profiles:DisassociateProfile"] },
   telemetry: TELEMETRY,
   span: "DisassociateProfile",
 }));
@@ -535,6 +546,7 @@ export const disassociateResourceFromProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceFromProfile",
+  iam: { actions: ["route53profiles:DisassociateResourceFromProfile"] },
   telemetry: TELEMETRY,
   span: "DisassociateResourceFromProfile",
 }));
@@ -565,6 +577,7 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  iam: { actions: ["route53profiles:GetProfile"] },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
@@ -595,6 +608,7 @@ export const getProfileAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileAssociation",
+  iam: { actions: ["route53profiles:GetProfileAssociation"] },
   telemetry: TELEMETRY,
   span: "GetProfileAssociation",
 }));
@@ -627,6 +641,7 @@ export const getProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileResourceAssociation",
+  iam: { actions: ["route53profiles:GetProfileResourceAssociation"] },
   telemetry: TELEMETRY,
   span: "GetProfileResourceAssociation",
 }));
@@ -666,6 +681,7 @@ export const listProfileAssociations: API.PaginatedOperationMethod<
     items: "ProfileAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53profiles:ListProfileAssociations"] },
   telemetry: TELEMETRY,
   span: "ListProfileAssociations",
 })) as any;
@@ -709,6 +725,7 @@ export const listProfileResourceAssociations: API.PaginatedOperationMethod<
     items: "ProfileResourceAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53profiles:ListProfileResourceAssociations"] },
   telemetry: TELEMETRY,
   span: "ListProfileResourceAssociations",
 })) as any;
@@ -748,6 +765,7 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "ProfileSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53profiles:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
@@ -780,6 +798,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["route53profiles:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -810,6 +829,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["route53profiles:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -842,6 +862,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["route53profiles:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -880,6 +901,7 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileResourceAssociation",
+  iam: { actions: ["route53profiles:UpdateProfileResourceAssociation"] },
   telemetry: TELEMETRY,
   span: "UpdateProfileResourceAssociation",
 }));

@@ -690,6 +690,7 @@ export const acceptQualificationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptQualificationRequest",
+  iam: { actions: ["mechanicalturk:AcceptQualificationRequest"] },
   telemetry: TELEMETRY,
   span: "AcceptQualificationRequest",
 }));
@@ -726,6 +727,7 @@ export const approveAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApproveAssignment",
+  iam: { actions: ["mechanicalturk:ApproveAssignment"] },
   telemetry: TELEMETRY,
   span: "ApproveAssignment",
 }));
@@ -758,6 +760,7 @@ export const associateQualificationWithWorker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQualificationWithWorker",
+  iam: { actions: ["mechanicalturk:AssociateQualificationWithWorker"] },
   telemetry: TELEMETRY,
   span: "AssociateQualificationWithWorker",
 }));
@@ -791,6 +794,7 @@ export const createAdditionalAssignmentsForHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdditionalAssignmentsForHIT",
+  iam: { actions: ["mechanicalturk:CreateAdditionalAssignmentsForHIT"] },
   telemetry: TELEMETRY,
   span: "CreateAdditionalAssignmentsForHIT",
 }));
@@ -824,6 +828,7 @@ export const createHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHIT",
+  iam: { actions: ["mechanicalturk:CreateHIT"] },
   telemetry: TELEMETRY,
   span: "CreateHIT",
 }));
@@ -847,6 +852,7 @@ export const createHITType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHITType",
+  iam: { actions: ["mechanicalturk:CreateHITType"] },
   telemetry: TELEMETRY,
   span: "CreateHITType",
 }));
@@ -878,6 +884,7 @@ export const createHITWithHITType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHITWithHITType",
+  iam: { actions: ["mechanicalturk:CreateHITWithHITType"] },
   telemetry: TELEMETRY,
   span: "CreateHITWithHITType",
 }));
@@ -902,6 +909,7 @@ export const createQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQualificationType",
+  iam: { actions: ["mechanicalturk:CreateQualificationType"] },
   telemetry: TELEMETRY,
   span: "CreateQualificationType",
 }));
@@ -922,6 +930,7 @@ export const createWorkerBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerBlock",
+  iam: { actions: ["mechanicalturk:CreateWorkerBlock"] },
   telemetry: TELEMETRY,
   span: "CreateWorkerBlock",
 }));
@@ -958,6 +967,7 @@ export const deleteHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHIT",
+  iam: { actions: ["mechanicalturk:DeleteHIT"] },
   telemetry: TELEMETRY,
   span: "DeleteHIT",
 }));
@@ -994,6 +1004,7 @@ export const deleteQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQualificationType",
+  iam: { actions: ["mechanicalturk:DeleteQualificationType"] },
   telemetry: TELEMETRY,
   span: "DeleteQualificationType",
 }));
@@ -1014,6 +1025,7 @@ export const deleteWorkerBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerBlock",
+  iam: { actions: ["mechanicalturk:DeleteWorkerBlock"] },
   telemetry: TELEMETRY,
   span: "DeleteWorkerBlock",
 }));
@@ -1038,6 +1050,7 @@ export const disassociateQualificationFromWorker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQualificationFromWorker",
+  iam: { actions: ["mechanicalturk:DisassociateQualificationFromWorker"] },
   telemetry: TELEMETRY,
   span: "DisassociateQualificationFromWorker",
 }));
@@ -1060,6 +1073,7 @@ export const getAccountBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountBalance",
+  iam: { actions: ["mechanicalturk:GetAccountBalance"] },
   telemetry: TELEMETRY,
   span: "GetAccountBalance",
 }));
@@ -1080,6 +1094,7 @@ export const getAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssignment",
+  iam: { actions: ["mechanicalturk:GetAssignment"] },
   telemetry: TELEMETRY,
   span: "GetAssignment",
 }));
@@ -1114,6 +1129,7 @@ export const getFileUploadURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileUploadURL",
+  iam: { actions: ["mechanicalturk:GetFileUploadURL"] },
   telemetry: TELEMETRY,
   span: "GetFileUploadURL",
 }));
@@ -1134,6 +1150,7 @@ export const getHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHIT",
+  iam: { actions: ["mechanicalturk:GetHIT"] },
   telemetry: TELEMETRY,
   span: "GetHIT",
 }));
@@ -1165,6 +1182,7 @@ export const getQualificationScore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationScore",
+  iam: { actions: ["mechanicalturk:GetQualificationScore"] },
   telemetry: TELEMETRY,
   span: "GetQualificationScore",
 }));
@@ -1185,6 +1203,7 @@ export const getQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationType",
+  iam: { actions: ["mechanicalturk:GetQualificationType"] },
   telemetry: TELEMETRY,
   span: "GetQualificationType",
 }));
@@ -1235,6 +1254,7 @@ export const listAssignmentsForHIT: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListAssignmentsForHIT"] },
   telemetry: TELEMETRY,
   span: "ListAssignmentsForHIT",
 })) as any;
@@ -1264,6 +1284,7 @@ export const listBonusPayments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListBonusPayments"] },
   telemetry: TELEMETRY,
   span: "ListBonusPayments",
 })) as any;
@@ -1294,6 +1315,7 @@ export const listHITs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListHITs"] },
   telemetry: TELEMETRY,
   span: "ListHITs",
 })) as any;
@@ -1323,6 +1345,7 @@ export const listHITsForQualificationType: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListHITsForQualificationType"] },
   telemetry: TELEMETRY,
   span: "ListHITsForQualificationType",
 })) as any;
@@ -1354,6 +1377,7 @@ export const listQualificationRequests: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListQualificationRequests"] },
   telemetry: TELEMETRY,
   span: "ListQualificationRequests",
 })) as any;
@@ -1383,6 +1407,7 @@ export const listQualificationTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListQualificationTypes"] },
   telemetry: TELEMETRY,
   span: "ListQualificationTypes",
 })) as any;
@@ -1410,6 +1435,7 @@ export const listReviewableHITs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListReviewableHITs"] },
   telemetry: TELEMETRY,
   span: "ListReviewableHITs",
 })) as any;
@@ -1440,6 +1466,7 @@ export const listReviewPolicyResultsForHIT: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListReviewPolicyResultsForHIT"] },
   telemetry: TELEMETRY,
   span: "ListReviewPolicyResultsForHIT",
 })) as any;
@@ -1466,6 +1493,7 @@ export const listWorkerBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListWorkerBlocks"] },
   telemetry: TELEMETRY,
   span: "ListWorkerBlocks",
 })) as any;
@@ -1493,6 +1521,7 @@ export const listWorkersWithQualificationType: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mechanicalturk:ListWorkersWithQualificationType"] },
   telemetry: TELEMETRY,
   span: "ListWorkersWithQualificationType",
 })) as any;
@@ -1520,6 +1549,7 @@ export const notifyWorkers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyWorkers",
+  iam: { actions: ["mechanicalturk:NotifyWorkers"] },
   telemetry: TELEMETRY,
   span: "NotifyWorkers",
 }));
@@ -1548,6 +1578,7 @@ export const rejectAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAssignment",
+  iam: { actions: ["mechanicalturk:RejectAssignment"] },
   telemetry: TELEMETRY,
   span: "RejectAssignment",
 }));
@@ -1573,6 +1604,7 @@ export const rejectQualificationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectQualificationRequest",
+  iam: { actions: ["mechanicalturk:RejectQualificationRequest"] },
   telemetry: TELEMETRY,
   span: "RejectQualificationRequest",
 }));
@@ -1604,6 +1636,7 @@ export const sendBonus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBonus",
+  iam: { actions: ["mechanicalturk:SendBonus"] },
   telemetry: TELEMETRY,
   span: "SendBonus",
 }));
@@ -1628,6 +1661,7 @@ export const sendTestEventNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTestEventNotification",
+  iam: { actions: ["mechanicalturk:SendTestEventNotification"] },
   telemetry: TELEMETRY,
   span: "SendTestEventNotification",
 }));
@@ -1649,6 +1683,7 @@ export const updateExpirationForHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExpirationForHIT",
+  iam: { actions: ["mechanicalturk:UpdateExpirationForHIT"] },
   telemetry: TELEMETRY,
   span: "UpdateExpirationForHIT",
 }));
@@ -1671,6 +1706,7 @@ export const updateHITReviewStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHITReviewStatus",
+  iam: { actions: ["mechanicalturk:UpdateHITReviewStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateHITReviewStatus",
 }));
@@ -1696,6 +1732,7 @@ export const updateHITTypeOfHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHITTypeOfHIT",
+  iam: { actions: ["mechanicalturk:UpdateHITTypeOfHIT"] },
   telemetry: TELEMETRY,
   span: "UpdateHITTypeOfHIT",
 }));
@@ -1725,6 +1762,7 @@ export const updateNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationSettings",
+  iam: { actions: ["mechanicalturk:UpdateNotificationSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateNotificationSettings",
 }));
@@ -1781,6 +1819,7 @@ export const updateQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQualificationType",
+  iam: { actions: ["mechanicalturk:UpdateQualificationType"] },
   telemetry: TELEMETRY,
   span: "UpdateQualificationType",
 }));

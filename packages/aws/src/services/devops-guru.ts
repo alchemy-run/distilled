@@ -1251,6 +1251,14 @@ export const addNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannel",
+  iam: {
+    actions: ["devops-guru:AddNotificationChannel"],
+    resources: {
+      "devops-guru:AddNotificationChannel": [
+        "arn:${Partition}:sns:${Region}:${Account}:${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddNotificationChannel",
 }));
@@ -1285,6 +1293,7 @@ export const deleteInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
+  iam: { actions: ["devops-guru:DeleteInsight"] },
   telemetry: TELEMETRY,
   span: "DeleteInsight",
 }));
@@ -1317,6 +1326,7 @@ export const describeAccountHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountHealth",
+  iam: { actions: ["devops-guru:DescribeAccountHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountHealth",
 }));
@@ -1349,6 +1359,7 @@ export const describeAccountOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountOverview",
+  iam: { actions: ["devops-guru:DescribeAccountOverview"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountOverview",
 }));
@@ -1381,6 +1392,7 @@ export const describeAnomaly: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomaly",
+  iam: { actions: ["devops-guru:DescribeAnomaly"] },
   telemetry: TELEMETRY,
   span: "DescribeAnomaly",
 }));
@@ -1414,6 +1426,7 @@ export const describeEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSourcesConfig",
+  iam: { actions: ["devops-guru:DescribeEventSourcesConfig"] },
   telemetry: TELEMETRY,
   span: "DescribeEventSourcesConfig",
 }));
@@ -1446,6 +1459,7 @@ export const describeFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeedback",
+  iam: { actions: ["devops-guru:DescribeFeedback"] },
   telemetry: TELEMETRY,
   span: "DescribeFeedback",
 }));
@@ -1478,6 +1492,7 @@ export const describeInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsight",
+  iam: { actions: ["devops-guru:DescribeInsight"] },
   telemetry: TELEMETRY,
   span: "DescribeInsight",
 }));
@@ -1509,6 +1524,7 @@ export const describeOrganizationHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationHealth",
+  iam: { actions: ["devops-guru:DescribeOrganizationHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationHealth",
 }));
@@ -1540,6 +1556,7 @@ export const describeOrganizationOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationOverview",
+  iam: { actions: ["devops-guru:DescribeOrganizationOverview"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationOverview",
 }));
@@ -1578,6 +1595,7 @@ export const describeOrganizationResourceCollectionHealth: API.PaginatedOperatio
   retry: Retry,
   operationName: "DescribeOrganizationResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["devops-guru:DescribeOrganizationResourceCollectionHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationResourceCollectionHealth",
 })) as any;
@@ -1614,6 +1632,7 @@ export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["devops-guru:DescribeResourceCollectionHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeResourceCollectionHealth",
 })) as any;
@@ -1648,6 +1667,7 @@ export const describeServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceIntegration",
+  iam: { actions: ["devops-guru:DescribeServiceIntegration"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceIntegration",
 }));
@@ -1686,6 +1706,7 @@ export const getCostEstimation: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCostEstimation",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["devops-guru:GetCostEstimation"] },
   telemetry: TELEMETRY,
   span: "GetCostEstimation",
 })) as any;
@@ -1723,6 +1744,7 @@ export const getResourceCollection: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetResourceCollection",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["devops-guru:GetResourceCollection"] },
   telemetry: TELEMETRY,
   span: "GetResourceCollection",
 })) as any;
@@ -1762,6 +1784,7 @@ export const listAnomaliesForInsight: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListAnomaliesForInsight"] },
   telemetry: TELEMETRY,
   span: "ListAnomaliesForInsight",
 })) as any;
@@ -1800,6 +1823,7 @@ export const listAnomalousLogGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListAnomalousLogGroups"] },
   telemetry: TELEMETRY,
   span: "ListAnomalousLogGroups",
 })) as any;
@@ -1840,6 +1864,7 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListEvents"] },
   telemetry: TELEMETRY,
   span: "ListEvents",
 })) as any;
@@ -1878,6 +1903,7 @@ export const listInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListInsights"] },
   telemetry: TELEMETRY,
   span: "ListInsights",
 })) as any;
@@ -1914,6 +1940,7 @@ export const listMonitoredResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListMonitoredResources"] },
   telemetry: TELEMETRY,
   span: "ListMonitoredResources",
 })) as any;
@@ -1949,6 +1976,7 @@ export const listNotificationChannels: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotificationChannels",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Channels" } as const,
+  iam: { actions: ["devops-guru:ListNotificationChannels"] },
   telemetry: TELEMETRY,
   span: "ListNotificationChannels",
 })) as any;
@@ -1985,6 +2013,7 @@ export const listOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:ListOrganizationInsights"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationInsights",
 })) as any;
@@ -2024,6 +2053,7 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Recommendations",
   } as const,
+  iam: { actions: ["devops-guru:ListRecommendations"] },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -2058,6 +2088,7 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  iam: { actions: ["devops-guru:PutFeedback"] },
   telemetry: TELEMETRY,
   span: "PutFeedback",
 }));
@@ -2094,6 +2125,14 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  iam: {
+    actions: ["devops-guru:RemoveNotificationChannel"],
+    resources: {
+      "devops-guru:RemoveNotificationChannel": [
+        "arn:${Partition}:sns:${Region}:${Account}:${TopicName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveNotificationChannel",
 }));
@@ -2137,6 +2176,7 @@ export const searchInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:SearchInsights"] },
   telemetry: TELEMETRY,
   span: "SearchInsights",
 })) as any;
@@ -2181,6 +2221,7 @@ export const searchOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["devops-guru:SearchOrganizationInsights"] },
   telemetry: TELEMETRY,
   span: "SearchOrganizationInsights",
 })) as any;
@@ -2216,6 +2257,7 @@ export const startCostEstimation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCostEstimation",
+  iam: { actions: ["devops-guru:StartCostEstimation"] },
   telemetry: TELEMETRY,
   span: "StartCostEstimation",
 }));
@@ -2248,6 +2290,7 @@ export const updateEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourcesConfig",
+  iam: { actions: ["devops-guru:UpdateEventSourcesConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateEventSourcesConfig",
 }));
@@ -2284,6 +2327,7 @@ export const updateResourceCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceCollection",
+  iam: { actions: ["devops-guru:UpdateResourceCollection"] },
   telemetry: TELEMETRY,
   span: "UpdateResourceCollection",
 }));
@@ -2318,6 +2362,7 @@ export const updateServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceIntegration",
+  iam: { actions: ["devops-guru:UpdateServiceIntegration"] },
   telemetry: TELEMETRY,
   span: "UpdateServiceIntegration",
 }));

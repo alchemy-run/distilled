@@ -452,6 +452,17 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  iam: {
+    actions: ["dynamodb:DescribeStream", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:DescribeStream": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStream",
 }));
@@ -493,6 +504,17 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  iam: {
+    actions: ["dynamodb:GetRecords", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:GetRecords": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecords",
 }));
@@ -523,6 +545,17 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  iam: {
+    actions: ["dynamodb:GetShardIterator", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:GetShardIterator": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetShardIterator",
 }));
@@ -547,6 +580,7 @@ export const listStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
+  iam: { actions: ["dynamodb:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 }));

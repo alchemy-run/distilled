@@ -303,6 +303,10 @@ export const createContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainer",
+  iam: {
+    actions: ["mediastore:CreateContainer", "mediastore:TagResource"],
+    conditional: { "mediastore:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainer",
 }));
@@ -329,6 +333,14 @@ export const deleteContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainer",
+  iam: {
+    actions: ["mediastore:DeleteContainer"],
+    resources: {
+      "mediastore:DeleteContainer": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainer",
 }));
@@ -359,6 +371,14 @@ export const deleteContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerPolicy",
+  iam: {
+    actions: ["mediastore:DeleteContainerPolicy"],
+    resources: {
+      "mediastore:DeleteContainerPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerPolicy",
 }));
@@ -394,6 +414,14 @@ export const deleteCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCorsPolicy",
+  iam: {
+    actions: ["mediastore:DeleteCorsPolicy"],
+    resources: {
+      "mediastore:DeleteCorsPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCorsPolicy",
 }));
@@ -424,6 +452,14 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  iam: {
+    actions: ["mediastore:DeleteLifecyclePolicy"],
+    resources: {
+      "mediastore:DeleteLifecyclePolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLifecyclePolicy",
 }));
@@ -454,6 +490,14 @@ export const deleteMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricPolicy",
+  iam: {
+    actions: ["mediastore:DeleteMetricPolicy"],
+    resources: {
+      "mediastore:DeleteMetricPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMetricPolicy",
 }));
@@ -483,6 +527,14 @@ export const describeContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainer",
+  iam: {
+    actions: ["mediastore:DescribeContainer"],
+    resources: {
+      "mediastore:DescribeContainer": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeContainer",
 }));
@@ -515,6 +567,14 @@ export const getContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerPolicy",
+  iam: {
+    actions: ["mediastore:GetContainerPolicy"],
+    resources: {
+      "mediastore:GetContainerPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContainerPolicy",
 }));
@@ -550,6 +610,14 @@ export const getCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCorsPolicy",
+  iam: {
+    actions: ["mediastore:GetCorsPolicy"],
+    resources: {
+      "mediastore:GetCorsPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCorsPolicy",
 }));
@@ -580,6 +648,14 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  iam: {
+    actions: ["mediastore:GetLifecyclePolicy"],
+    resources: {
+      "mediastore:GetLifecyclePolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicy",
 }));
@@ -610,6 +686,14 @@ export const getMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricPolicy",
+  iam: {
+    actions: ["mediastore:GetMetricPolicy"],
+    resources: {
+      "mediastore:GetMetricPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMetricPolicy",
 }));
@@ -646,6 +730,7 @@ export const listContainers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediastore:ListContainers"] },
   telemetry: TELEMETRY,
   span: "ListContainers",
 })) as any;
@@ -670,6 +755,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["mediastore:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -701,6 +787,14 @@ export const putContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerPolicy",
+  iam: {
+    actions: ["mediastore:PutContainerPolicy"],
+    resources: {
+      "mediastore:PutContainerPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutContainerPolicy",
 }));
@@ -737,6 +831,14 @@ export const putCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCorsPolicy",
+  iam: {
+    actions: ["mediastore:PutCorsPolicy"],
+    resources: {
+      "mediastore:PutCorsPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutCorsPolicy",
 }));
@@ -763,6 +865,14 @@ export const putLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecyclePolicy",
+  iam: {
+    actions: ["mediastore:PutLifecyclePolicy"],
+    resources: {
+      "mediastore:PutLifecyclePolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLifecyclePolicy",
 }));
@@ -787,6 +897,14 @@ export const putMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricPolicy",
+  iam: {
+    actions: ["mediastore:PutMetricPolicy"],
+    resources: {
+      "mediastore:PutMetricPolicy": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMetricPolicy",
 }));
@@ -811,6 +929,16 @@ export const startAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessLogging",
+  iam: {
+    actions: ["iam:PassRole", "mediastore:StartAccessLogging"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "mediastore:StartAccessLogging": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "StartAccessLogging",
 }));
@@ -835,6 +963,14 @@ export const stopAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAccessLogging",
+  iam: {
+    actions: ["mediastore:StopAccessLogging"],
+    resources: {
+      "mediastore:StopAccessLogging": [
+        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopAccessLogging",
 }));
@@ -861,6 +997,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["mediastore:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -885,6 +1022,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["mediastore:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

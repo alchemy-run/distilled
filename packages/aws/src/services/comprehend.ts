@@ -1988,6 +1988,7 @@ export const batchDetectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectDominantLanguage",
+  iam: { actions: ["comprehend:BatchDetectDominantLanguage"] },
   telemetry: TELEMETRY,
   span: "BatchDetectDominantLanguage",
 }));
@@ -2022,6 +2023,7 @@ export const batchDetectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectEntities",
+  iam: { actions: ["comprehend:BatchDetectEntities"] },
   telemetry: TELEMETRY,
   span: "BatchDetectEntities",
 }));
@@ -2054,6 +2056,7 @@ export const batchDetectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectKeyPhrases",
+  iam: { actions: ["comprehend:BatchDetectKeyPhrases"] },
   telemetry: TELEMETRY,
   span: "BatchDetectKeyPhrases",
 }));
@@ -2088,6 +2091,7 @@ export const batchDetectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSentiment",
+  iam: { actions: ["comprehend:BatchDetectSentiment"] },
   telemetry: TELEMETRY,
   span: "BatchDetectSentiment",
 }));
@@ -2122,6 +2126,7 @@ export const batchDetectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSyntax",
+  iam: { actions: ["comprehend:BatchDetectSyntax"] },
   telemetry: TELEMETRY,
   span: "BatchDetectSyntax",
 }));
@@ -2157,6 +2162,7 @@ export const batchDetectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectTargetedSentiment",
+  iam: { actions: ["comprehend:BatchDetectTargetedSentiment"] },
   telemetry: TELEMETRY,
   span: "BatchDetectTargetedSentiment",
 }));
@@ -2209,6 +2215,14 @@ export const classifyDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClassifyDocument",
+  iam: {
+    actions: ["comprehend:ClassifyDocument"],
+    resources: {
+      "comprehend:ClassifyDocument": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier-endpoint/${DocumentClassifierEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ClassifyDocument",
 }));
@@ -2241,6 +2255,7 @@ export const containsPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContainsPiiEntities",
+  iam: { actions: ["comprehend:ContainsPiiEntities"] },
   telemetry: TELEMETRY,
   span: "ContainsPiiEntities",
 }));
@@ -2279,6 +2294,15 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  iam: {
+    actions: ["comprehend:CreateDataset", "comprehend:TagResource"],
+    resources: {
+      "comprehend:CreateDataset": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -2321,6 +2345,16 @@ export const createDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentClassifier",
+  iam: {
+    actions: ["comprehend:CreateDocumentClassifier", "iam:PassRole", "comprehend:TagResource"],
+    resources: {
+      "comprehend:CreateDocumentClassifier": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDocumentClassifier",
 }));
@@ -2361,6 +2395,11 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  iam: {
+    actions: ["comprehend:CreateEndpoint", "iam:PassRole", "comprehend:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "DataAccessRoleArn", "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEndpoint",
 }));
@@ -2401,6 +2440,16 @@ export const createEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntityRecognizer",
+  iam: {
+    actions: ["comprehend:CreateEntityRecognizer", "iam:PassRole", "comprehend:TagResource"],
+    resources: {
+      "comprehend:CreateEntityRecognizer": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEntityRecognizer",
 }));
@@ -2457,6 +2506,11 @@ export const createFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlywheel",
+  iam: {
+    actions: ["comprehend:CreateFlywheel", "iam:PassRole", "comprehend:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFlywheel",
 }));
@@ -2499,6 +2553,14 @@ export const deleteDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentClassifier",
+  iam: {
+    actions: ["comprehend:DeleteDocumentClassifier"],
+    resources: {
+      "comprehend:DeleteDocumentClassifier": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDocumentClassifier",
 }));
@@ -2533,6 +2595,15 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  iam: {
+    actions: ["comprehend:DeleteEndpoint"],
+    resources: {
+      "comprehend:DeleteEndpoint": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier-endpoint/${DocumentClassifierEndpointName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer-endpoint/${EntityRecognizerEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -2575,6 +2646,14 @@ export const deleteEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityRecognizer",
+  iam: {
+    actions: ["comprehend:DeleteEntityRecognizer"],
+    resources: {
+      "comprehend:DeleteEntityRecognizer": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEntityRecognizer",
 }));
@@ -2613,6 +2692,14 @@ export const deleteFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlywheel",
+  iam: {
+    actions: ["comprehend:DeleteFlywheel"],
+    resources: {
+      "comprehend:DeleteFlywheel": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFlywheel",
 }));
@@ -2637,6 +2724,15 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["comprehend:DeleteResourcePolicy"],
+    resources: {
+      "comprehend:DeleteResourcePolicy": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -2669,6 +2765,14 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  iam: {
+    actions: ["comprehend:DescribeDataset"],
+    resources: {
+      "comprehend:DescribeDataset": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -2700,6 +2804,14 @@ export const describeDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassificationJob",
+  iam: {
+    actions: ["comprehend:DescribeDocumentClassificationJob"],
+    resources: {
+      "comprehend:DescribeDocumentClassificationJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classification-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDocumentClassificationJob",
 }));
@@ -2730,6 +2842,14 @@ export const describeDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassifier",
+  iam: {
+    actions: ["comprehend:DescribeDocumentClassifier"],
+    resources: {
+      "comprehend:DescribeDocumentClassifier": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDocumentClassifier",
 }));
@@ -2761,6 +2881,14 @@ export const describeDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDominantLanguageDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeDominantLanguageDetectionJob"],
+    resources: {
+      "comprehend:DescribeDominantLanguageDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:dominant-language-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDominantLanguageDetectionJob",
 }));
@@ -2793,6 +2921,15 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
+  iam: {
+    actions: ["comprehend:DescribeEndpoint"],
+    resources: {
+      "comprehend:DescribeEndpoint": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier-endpoint/${DocumentClassifierEndpointName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer-endpoint/${EntityRecognizerEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEndpoint",
 }));
@@ -2824,6 +2961,14 @@ export const describeEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitiesDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeEntitiesDetectionJob"],
+    resources: {
+      "comprehend:DescribeEntitiesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entities-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEntitiesDetectionJob",
 }));
@@ -2855,6 +3000,14 @@ export const describeEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityRecognizer",
+  iam: {
+    actions: ["comprehend:DescribeEntityRecognizer"],
+    resources: {
+      "comprehend:DescribeEntityRecognizer": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEntityRecognizer",
 }));
@@ -2887,6 +3040,14 @@ export const describeEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventsDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeEventsDetectionJob"],
+    resources: {
+      "comprehend:DescribeEventsDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:events-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEventsDetectionJob",
 }));
@@ -2918,6 +3079,14 @@ export const describeFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheel",
+  iam: {
+    actions: ["comprehend:DescribeFlywheel"],
+    resources: {
+      "comprehend:DescribeFlywheel": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlywheel",
 }));
@@ -2950,6 +3119,14 @@ export const describeFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheelIteration",
+  iam: {
+    actions: ["comprehend:DescribeFlywheelIteration"],
+    resources: {
+      "comprehend:DescribeFlywheelIteration": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlywheelIteration",
 }));
@@ -2981,6 +3158,14 @@ export const describeKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyPhrasesDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeKeyPhrasesDetectionJob"],
+    resources: {
+      "comprehend:DescribeKeyPhrasesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:key-phrases-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKeyPhrasesDetectionJob",
 }));
@@ -3012,6 +3197,14 @@ export const describePiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePiiEntitiesDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribePiiEntitiesDetectionJob"],
+    resources: {
+      "comprehend:DescribePiiEntitiesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:pii-entities-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePiiEntitiesDetectionJob",
 }));
@@ -3037,6 +3230,15 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  iam: {
+    actions: ["comprehend:DescribeResourcePolicy"],
+    resources: {
+      "comprehend:DescribeResourcePolicy": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicy",
 }));
@@ -3068,6 +3270,14 @@ export const describeSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSentimentDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeSentimentDetectionJob"],
+    resources: {
+      "comprehend:DescribeSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:sentiment-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSentimentDetectionJob",
 }));
@@ -3099,6 +3309,14 @@ export const describeTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetedSentimentDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeTargetedSentimentDetectionJob"],
+    resources: {
+      "comprehend:DescribeTargetedSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:targeted-sentiment-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTargetedSentimentDetectionJob",
 }));
@@ -3130,6 +3348,14 @@ export const describeTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicsDetectionJob",
+  iam: {
+    actions: ["comprehend:DescribeTopicsDetectionJob"],
+    resources: {
+      "comprehend:DescribeTopicsDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:topics-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicsDetectionJob",
 }));
@@ -3155,6 +3381,7 @@ export const detectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDominantLanguage",
+  iam: { actions: ["comprehend:DetectDominantLanguage"] },
   telemetry: TELEMETRY,
   span: "DetectDominantLanguage",
 }));
@@ -3204,6 +3431,7 @@ export const detectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntities",
+  iam: { actions: ["comprehend:DetectEntities"] },
   telemetry: TELEMETRY,
   span: "DetectEntities",
 }));
@@ -3234,6 +3462,7 @@ export const detectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectKeyPhrases",
+  iam: { actions: ["comprehend:DetectKeyPhrases"] },
   telemetry: TELEMETRY,
   span: "DetectKeyPhrases",
 }));
@@ -3265,6 +3494,7 @@ export const detectPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectPiiEntities",
+  iam: { actions: ["comprehend:DetectPiiEntities"] },
   telemetry: TELEMETRY,
   span: "DetectPiiEntities",
 }));
@@ -3296,6 +3526,7 @@ export const detectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSentiment",
+  iam: { actions: ["comprehend:DetectSentiment"] },
   telemetry: TELEMETRY,
   span: "DetectSentiment",
 }));
@@ -3328,6 +3559,7 @@ export const detectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSyntax",
+  iam: { actions: ["comprehend:DetectSyntax"] },
   telemetry: TELEMETRY,
   span: "DetectSyntax",
 }));
@@ -3360,6 +3592,7 @@ export const detectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectTargetedSentiment",
+  iam: { actions: ["comprehend:DetectTargetedSentiment"] },
   telemetry: TELEMETRY,
   span: "DetectTargetedSentiment",
 }));
@@ -3392,6 +3625,7 @@ export const detectToxicContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectToxicContent",
+  iam: { actions: ["comprehend:DetectToxicContent"] },
   telemetry: TELEMETRY,
   span: "DetectToxicContent",
 }));
@@ -3439,6 +3673,17 @@ export const importModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModel",
+  iam: {
+    actions: ["comprehend:ImportModel", "iam:PassRole", "comprehend:TagResource"],
+    resources: {
+      "comprehend:ImportModel": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "DataAccessRoleArn", "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportModel",
 }));
@@ -3478,6 +3723,14 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["comprehend:ListDatasets"],
+    resources: {
+      "comprehend:ListDatasets": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -3514,6 +3767,7 @@ export const listDocumentClassificationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListDocumentClassificationJobs"] },
   telemetry: TELEMETRY,
   span: "ListDocumentClassificationJobs",
 })) as any;
@@ -3550,6 +3804,7 @@ export const listDocumentClassifiers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListDocumentClassifiers"] },
   telemetry: TELEMETRY,
   span: "ListDocumentClassifiers",
 })) as any;
@@ -3580,6 +3835,7 @@ export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListDocumentClassifierSummaries"] },
   telemetry: TELEMETRY,
   span: "ListDocumentClassifierSummaries",
 })) as any;
@@ -3616,6 +3872,7 @@ export const listDominantLanguageDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListDominantLanguageDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListDominantLanguageDetectionJobs",
 })) as any;
@@ -3648,6 +3905,7 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "EndpointPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListEndpoints",
 })) as any;
@@ -3684,6 +3942,7 @@ export const listEntitiesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListEntitiesDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListEntitiesDetectionJobs",
 })) as any;
@@ -3726,6 +3985,7 @@ export const listEntityRecognizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListEntityRecognizers"] },
   telemetry: TELEMETRY,
   span: "ListEntityRecognizers",
 })) as any;
@@ -3756,6 +4016,7 @@ export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListEntityRecognizerSummaries"] },
   telemetry: TELEMETRY,
   span: "ListEntityRecognizerSummaries",
 })) as any;
@@ -3794,6 +4055,7 @@ export const listEventsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListEventsDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListEventsDetectionJobs",
 })) as any;
@@ -3834,6 +4096,14 @@ export const listFlywheelIterationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["comprehend:ListFlywheelIterationHistory"],
+    resources: {
+      "comprehend:ListFlywheelIterationHistory": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFlywheelIterationHistory",
 })) as any;
@@ -3870,6 +4140,7 @@ export const listFlywheels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListFlywheels"] },
   telemetry: TELEMETRY,
   span: "ListFlywheels",
 })) as any;
@@ -3906,6 +4177,7 @@ export const listKeyPhrasesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListKeyPhrasesDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListKeyPhrasesDetectionJobs",
 })) as any;
@@ -3943,6 +4215,7 @@ export const listPiiEntitiesDetectionJobs: API.PaginatedOperationMethod<
     items: "PiiEntitiesDetectionJobPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListPiiEntitiesDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListPiiEntitiesDetectionJobs",
 })) as any;
@@ -3979,6 +4252,7 @@ export const listSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListSentimentDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListSentimentDetectionJobs",
 })) as any;
@@ -4003,6 +4277,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["comprehend:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4039,6 +4314,7 @@ export const listTargetedSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListTargetedSentimentDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListTargetedSentimentDetectionJobs",
 })) as any;
@@ -4075,6 +4351,7 @@ export const listTopicsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["comprehend:ListTopicsDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListTopicsDetectionJobs",
 })) as any;
@@ -4101,6 +4378,15 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["comprehend:PutResourcePolicy"],
+    resources: {
+      "comprehend:PutResourcePolicy": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -4141,6 +4427,15 @@ export const startDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentClassificationJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "comprehend:StartDocumentClassificationJob",
+      "comprehend:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartDocumentClassificationJob",
 }));
@@ -4177,6 +4472,20 @@ export const startDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDominantLanguageDetectionJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "comprehend:StartDominantLanguageDetectionJob",
+      "comprehend:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartDominantLanguageDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:dominant-language-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartDominantLanguageDetectionJob",
 }));
@@ -4220,6 +4529,11 @@ export const startEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEntitiesDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartEntitiesDetectionJob", "comprehend:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartEntitiesDetectionJob",
 }));
@@ -4256,6 +4570,16 @@ export const startEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventsDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartEventsDetectionJob", "comprehend:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartEventsDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:events-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartEventsDetectionJob",
 }));
@@ -4290,6 +4614,14 @@ export const startFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlywheelIteration",
+  iam: {
+    actions: ["comprehend:StartFlywheelIteration"],
+    resources: {
+      "comprehend:StartFlywheelIteration": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFlywheelIteration",
 }));
@@ -4326,6 +4658,16 @@ export const startKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartKeyPhrasesDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartKeyPhrasesDetectionJob", "comprehend:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartKeyPhrasesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:key-phrases-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartKeyPhrasesDetectionJob",
 }));
@@ -4360,6 +4702,16 @@ export const startPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPiiEntitiesDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartPiiEntitiesDetectionJob", "comprehend:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartPiiEntitiesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:pii-entities-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartPiiEntitiesDetectionJob",
 }));
@@ -4396,6 +4748,16 @@ export const startSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSentimentDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartSentimentDetectionJob", "comprehend:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:sentiment-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSentimentDetectionJob",
 }));
@@ -4432,6 +4794,20 @@ export const startTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTargetedSentimentDetectionJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "comprehend:StartTargetedSentimentDetectionJob",
+      "comprehend:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartTargetedSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:targeted-sentiment-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartTargetedSentimentDetectionJob",
 }));
@@ -4467,6 +4843,16 @@ export const startTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTopicsDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:StartTopicsDetectionJob", "comprehend:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "comprehend:StartTopicsDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:topics-detection-job/${JobId}",
+      ],
+    },
+    conditional: { "comprehend:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartTopicsDetectionJob",
 }));
@@ -4503,6 +4889,14 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDominantLanguageDetectionJob",
+  iam: {
+    actions: ["comprehend:StopDominantLanguageDetectionJob"],
+    resources: {
+      "comprehend:StopDominantLanguageDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:dominant-language-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDominantLanguageDetectionJob",
 }));
@@ -4539,6 +4933,14 @@ export const stopEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionJob",
+  iam: {
+    actions: ["comprehend:StopEntitiesDetectionJob"],
+    resources: {
+      "comprehend:StopEntitiesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entities-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopEntitiesDetectionJob",
 }));
@@ -4569,6 +4971,14 @@ export const stopEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventsDetectionJob",
+  iam: {
+    actions: ["comprehend:StopEventsDetectionJob"],
+    resources: {
+      "comprehend:StopEventsDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:events-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopEventsDetectionJob",
 }));
@@ -4605,6 +5015,14 @@ export const stopKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyPhrasesDetectionJob",
+  iam: {
+    actions: ["comprehend:StopKeyPhrasesDetectionJob"],
+    resources: {
+      "comprehend:StopKeyPhrasesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:key-phrases-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopKeyPhrasesDetectionJob",
 }));
@@ -4629,6 +5047,14 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPiiEntitiesDetectionJob",
+  iam: {
+    actions: ["comprehend:StopPiiEntitiesDetectionJob"],
+    resources: {
+      "comprehend:StopPiiEntitiesDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:pii-entities-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopPiiEntitiesDetectionJob",
 }));
@@ -4665,6 +5091,14 @@ export const stopSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSentimentDetectionJob",
+  iam: {
+    actions: ["comprehend:StopSentimentDetectionJob"],
+    resources: {
+      "comprehend:StopSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:sentiment-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopSentimentDetectionJob",
 }));
@@ -4701,6 +5135,14 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTargetedSentimentDetectionJob",
+  iam: {
+    actions: ["comprehend:StopTargetedSentimentDetectionJob"],
+    resources: {
+      "comprehend:StopTargetedSentimentDetectionJob": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:targeted-sentiment-detection-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopTargetedSentimentDetectionJob",
 }));
@@ -4737,6 +5179,14 @@ export const stopTrainingDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingDocumentClassifier",
+  iam: {
+    actions: ["comprehend:StopTrainingDocumentClassifier"],
+    resources: {
+      "comprehend:StopTrainingDocumentClassifier": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopTrainingDocumentClassifier",
 }));
@@ -4773,6 +5223,14 @@ export const stopTrainingEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingEntityRecognizer",
+  iam: {
+    actions: ["comprehend:StopTrainingEntityRecognizer"],
+    resources: {
+      "comprehend:StopTrainingEntityRecognizer": [
+        "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopTrainingEntityRecognizer",
 }));
@@ -4807,6 +5265,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["comprehend:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4839,6 +5298,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["comprehend:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4876,6 +5336,11 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:UpdateEndpoint"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "DesiredDataAccessRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEndpoint",
 }));
@@ -4908,6 +5373,11 @@ export const updateFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlywheel",
+  iam: {
+    actions: ["iam:PassRole", "comprehend:UpdateFlywheel"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "DataAccessRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlywheel",
 }));

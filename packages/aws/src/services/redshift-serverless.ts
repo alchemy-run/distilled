@@ -1124,6 +1124,19 @@ export const convertRecoveryPointToSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConvertRecoveryPointToSnapshot",
+  iam: {
+    actions: [
+      "redshift-serverless:ConvertRecoveryPointToSnapshot",
+      "redshift-serverless:TagResource",
+    ],
+    resources: {
+      "redshift-serverless:ConvertRecoveryPointToSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+    conditional: { "redshift-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ConvertRecoveryPointToSnapshot",
 }));
@@ -1158,6 +1171,14 @@ export const createCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDomainAssociation",
+  iam: {
+    actions: ["redshift-serverless:CreateCustomDomainAssociation"],
+    resources: {
+      "redshift-serverless:CreateCustomDomainAssociation": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomDomainAssociation",
 }));
@@ -1192,6 +1213,14 @@ export const createEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointAccess",
+  iam: {
+    actions: ["redshift-serverless:CreateEndpointAccess"],
+    resources: {
+      "redshift-serverless:CreateEndpointAccess": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEndpointAccess",
 }));
@@ -1217,6 +1246,20 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  iam: {
+    actions: [
+      "redshift-serverless:CreateNamespace",
+      "iam:PassRole",
+      "redshift-serverless:TagResource",
+    ],
+    resources: {
+      "redshift-serverless:CreateNamespace": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "defaultIamRoleArn", "redshift-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
@@ -1253,6 +1296,7 @@ export const createReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReservation",
+  iam: { actions: ["redshift-serverless:CreateReservation"] },
   telemetry: TELEMETRY,
   span: "CreateReservation",
 }));
@@ -1283,6 +1327,23 @@ export const createScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledAction",
+  iam: {
+    actions: [
+      "redshift-serverless:CreateScheduledAction",
+      "redshift-serverless:CreateSnapshot",
+      "iam:PassRole",
+    ],
+    resources: {
+      "redshift-serverless:CreateScheduledAction": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+      "redshift-serverless:CreateSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledAction",
 }));
@@ -1317,6 +1378,16 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  iam: {
+    actions: ["redshift-serverless:CreateSnapshot", "redshift-serverless:TagResource"],
+    resources: {
+      "redshift-serverless:CreateSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+    conditional: { "redshift-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -1351,6 +1422,14 @@ export const createSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotCopyConfiguration",
+  iam: {
+    actions: ["redshift-serverless:CreateSnapshotCopyConfiguration"],
+    resources: {
+      "redshift-serverless:CreateSnapshotCopyConfiguration": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSnapshotCopyConfiguration",
 }));
@@ -1383,6 +1462,7 @@ export const createUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageLimit",
+  iam: { actions: ["redshift-serverless:CreateUsageLimit"] },
   telemetry: TELEMETRY,
   span: "CreateUsageLimit",
 }));
@@ -1429,6 +1509,15 @@ export const createWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkgroup",
+  iam: {
+    actions: ["redshift-serverless:CreateWorkgroup", "redshift-serverless:TagResource"],
+    resources: {
+      "redshift-serverless:CreateWorkgroup": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+    conditional: { "redshift-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkgroup",
 }));
@@ -1463,6 +1552,14 @@ export const deleteCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDomainAssociation",
+  iam: {
+    actions: ["redshift-serverless:DeleteCustomDomainAssociation"],
+    resources: {
+      "redshift-serverless:DeleteCustomDomainAssociation": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomDomainAssociation",
 }));
@@ -1493,6 +1590,14 @@ export const deleteEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointAccess",
+  iam: {
+    actions: ["redshift-serverless:DeleteEndpointAccess"],
+    resources: {
+      "redshift-serverless:DeleteEndpointAccess": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEndpointAccess",
 }));
@@ -1523,6 +1628,14 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  iam: {
+    actions: ["redshift-serverless:DeleteNamespace"],
+    resources: {
+      "redshift-serverless:DeleteNamespace": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNamespace",
 }));
@@ -1547,6 +1660,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["redshift-serverless:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1571,6 +1685,7 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  iam: { actions: ["redshift-serverless:DeleteScheduledAction"] },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAction",
 }));
@@ -1601,6 +1716,14 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  iam: {
+    actions: ["redshift-serverless:DeleteSnapshot"],
+    resources: {
+      "redshift-serverless:DeleteSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -1633,6 +1756,7 @@ export const deleteSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotCopyConfiguration",
+  iam: { actions: ["redshift-serverless:DeleteSnapshotCopyConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSnapshotCopyConfiguration",
 }));
@@ -1663,6 +1787,7 @@ export const deleteUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageLimit",
+  iam: { actions: ["redshift-serverless:DeleteUsageLimit"] },
   telemetry: TELEMETRY,
   span: "DeleteUsageLimit",
 }));
@@ -1693,6 +1818,14 @@ export const deleteWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkgroup",
+  iam: {
+    actions: ["redshift-serverless:DeleteWorkgroup"],
+    resources: {
+      "redshift-serverless:DeleteWorkgroup": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkgroup",
 }));
@@ -1723,6 +1856,14 @@ export const getCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentials",
+  iam: {
+    actions: ["redshift-serverless:GetCredentials"],
+    resources: {
+      "redshift-serverless:GetCredentials": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCredentials",
 }));
@@ -1757,6 +1898,14 @@ export const getCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDomainAssociation",
+  iam: {
+    actions: ["redshift-serverless:GetCustomDomainAssociation"],
+    resources: {
+      "redshift-serverless:GetCustomDomainAssociation": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomDomainAssociation",
 }));
@@ -1787,6 +1936,14 @@ export const getEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpointAccess",
+  iam: {
+    actions: ["redshift-serverless:GetEndpointAccess"],
+    resources: {
+      "redshift-serverless:GetEndpointAccess": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEndpointAccess",
 }));
@@ -1827,6 +1984,14 @@ export const getIdentityCenterAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityCenterAuthToken",
+  iam: {
+    actions: ["redshift-serverless:GetIdentityCenterAuthToken"],
+    resources: {
+      "redshift-serverless:GetIdentityCenterAuthToken": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentityCenterAuthToken",
 }));
@@ -1851,6 +2016,14 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
+  iam: {
+    actions: ["redshift-serverless:GetNamespace"],
+    resources: {
+      "redshift-serverless:GetNamespace": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNamespace",
 }));
@@ -1881,6 +2054,14 @@ export const getRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPoint",
+  iam: {
+    actions: ["redshift-serverless:GetRecoveryPoint"],
+    resources: {
+      "redshift-serverless:GetRecoveryPoint": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPoint",
 }));
@@ -1911,6 +2092,7 @@ export const getReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservation",
+  iam: { actions: ["redshift-serverless:GetReservation"] },
   telemetry: TELEMETRY,
   span: "GetReservation",
 }));
@@ -1941,6 +2123,7 @@ export const getReservationOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationOffering",
+  iam: { actions: ["redshift-serverless:GetReservationOffering"] },
   telemetry: TELEMETRY,
   span: "GetReservationOffering",
 }));
@@ -1965,6 +2148,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["redshift-serverless:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1989,6 +2173,7 @@ export const getScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledAction",
+  iam: { actions: ["redshift-serverless:GetScheduledAction"] },
   telemetry: TELEMETRY,
   span: "GetScheduledAction",
 }));
@@ -2013,6 +2198,14 @@ export const getSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshot",
+  iam: {
+    actions: ["redshift-serverless:GetSnapshot"],
+    resources: {
+      "redshift-serverless:GetSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSnapshot",
 }));
@@ -2036,6 +2229,7 @@ export const getTableRestoreStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRestoreStatus",
+  iam: { actions: ["redshift-serverless:GetTableRestoreStatus"] },
   telemetry: TELEMETRY,
   span: "GetTableRestoreStatus",
 }));
@@ -2072,6 +2266,7 @@ export const getTrack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrack",
+  iam: { actions: ["redshift-serverless:GetTrack"] },
   telemetry: TELEMETRY,
   span: "GetTrack",
 }));
@@ -2102,6 +2297,7 @@ export const getUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageLimit",
+  iam: { actions: ["redshift-serverless:GetUsageLimit"] },
   telemetry: TELEMETRY,
   span: "GetUsageLimit",
 }));
@@ -2126,6 +2322,14 @@ export const getWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkgroup",
+  iam: {
+    actions: ["redshift-serverless:GetWorkgroup"],
+    resources: {
+      "redshift-serverless:GetWorkgroup": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkgroup",
 }));
@@ -2165,6 +2369,7 @@ export const listCustomDomainAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListCustomDomainAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCustomDomainAssociations",
 })) as any;
@@ -2202,6 +2407,14 @@ export const listEndpointAccess: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["redshift-serverless:ListEndpointAccess"],
+    resources: {
+      "redshift-serverless:ListEndpointAccess": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEndpointAccess",
 })) as any;
@@ -2232,6 +2445,7 @@ export const listManagedWorkgroups: API.PaginatedOperationMethod<
     items: "managedWorkgroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListManagedWorkgroups"] },
   telemetry: TELEMETRY,
   span: "ListManagedWorkgroups",
 })) as any;
@@ -2259,6 +2473,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListNamespaces"] },
   telemetry: TELEMETRY,
   span: "ListNamespaces",
 })) as any;
@@ -2286,6 +2501,14 @@ export const listRecoveryPoints: API.PaginatedOperationMethod<
     items: "recoveryPoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["redshift-serverless:ListRecoveryPoints"],
+    resources: {
+      "redshift-serverless:ListRecoveryPoints": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPoints",
 })) as any;
@@ -2317,6 +2540,7 @@ export const listReservationOfferings: API.PaginatedOperationMethod<
     items: "reservationOfferingsList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListReservationOfferings"] },
   telemetry: TELEMETRY,
   span: "ListReservationOfferings",
 })) as any;
@@ -2348,6 +2572,7 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "reservationsList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListReservations"] },
   telemetry: TELEMETRY,
   span: "ListReservations",
 })) as any;
@@ -2385,6 +2610,7 @@ export const listScheduledActions: API.PaginatedOperationMethod<
     items: "scheduledActions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListScheduledActions"] },
   telemetry: TELEMETRY,
   span: "ListScheduledActions",
 })) as any;
@@ -2424,6 +2650,7 @@ export const listSnapshotCopyConfigurations: API.PaginatedOperationMethod<
     items: "snapshotCopyConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListSnapshotCopyConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSnapshotCopyConfigurations",
 })) as any;
@@ -2455,6 +2682,14 @@ export const listSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["redshift-serverless:ListSnapshots"],
+    resources: {
+      "redshift-serverless:ListSnapshots": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSnapshots",
 })) as any;
@@ -2486,6 +2721,7 @@ export const listTableRestoreStatus: API.PaginatedOperationMethod<
     items: "tableRestoreStatuses",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListTableRestoreStatus"] },
   telemetry: TELEMETRY,
   span: "ListTableRestoreStatus",
 })) as any;
@@ -2516,6 +2752,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["redshift-serverless:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2555,6 +2792,7 @@ export const listTracks: API.PaginatedOperationMethod<
     items: "tracks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListTracks"] },
   telemetry: TELEMETRY,
   span: "ListTracks",
 })) as any;
@@ -2594,6 +2832,7 @@ export const listUsageLimits: API.PaginatedOperationMethod<
     items: "usageLimits",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListUsageLimits"] },
   telemetry: TELEMETRY,
   span: "ListUsageLimits",
 })) as any;
@@ -2621,6 +2860,7 @@ export const listWorkgroups: API.PaginatedOperationMethod<
     items: "workgroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["redshift-serverless:ListWorkgroups"] },
   telemetry: TELEMETRY,
   span: "ListWorkgroups",
 })) as any;
@@ -2653,6 +2893,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["redshift-serverless:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2683,6 +2924,14 @@ export const restoreFromRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromRecoveryPoint",
+  iam: {
+    actions: ["redshift-serverless:RestoreFromRecoveryPoint"],
+    resources: {
+      "redshift-serverless:RestoreFromRecoveryPoint": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreFromRecoveryPoint",
 }));
@@ -2715,6 +2964,14 @@ export const restoreFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromSnapshot",
+  iam: {
+    actions: ["redshift-serverless:RestoreFromSnapshot"],
+    resources: {
+      "redshift-serverless:RestoreFromSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreFromSnapshot",
 }));
@@ -2745,6 +3002,15 @@ export const restoreTableFromRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromRecoveryPoint",
+  iam: {
+    actions: ["redshift-serverless:RestoreTableFromRecoveryPoint"],
+    resources: {
+      "redshift-serverless:RestoreTableFromRecoveryPoint": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreTableFromRecoveryPoint",
 }));
@@ -2775,6 +3041,15 @@ export const restoreTableFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromSnapshot",
+  iam: {
+    actions: ["redshift-serverless:RestoreTableFromSnapshot"],
+    resources: {
+      "redshift-serverless:RestoreTableFromSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreTableFromSnapshot",
 }));
@@ -2807,6 +3082,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["redshift-serverless:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2837,6 +3113,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["redshift-serverless:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2871,6 +3148,14 @@ export const updateCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDomainAssociation",
+  iam: {
+    actions: ["redshift-serverless:UpdateCustomDomainAssociation"],
+    resources: {
+      "redshift-serverless:UpdateCustomDomainAssociation": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomDomainAssociation",
 }));
@@ -2903,6 +3188,14 @@ export const updateEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointAccess",
+  iam: {
+    actions: ["redshift-serverless:UpdateEndpointAccess"],
+    resources: {
+      "redshift-serverless:UpdateEndpointAccess": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEndpointAccess",
 }));
@@ -2935,6 +3228,25 @@ export const updateLakehouseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLakehouseConfiguration",
+  iam: {
+    actions: [
+      "redshift:AssociateDataShareConsumer",
+      "redshift:DeregisterNamespace",
+      "iam:PassRole",
+      "redshift:RegisterNamespace",
+      "redshift-serverless:UpdateLakehouseConfiguration",
+    ],
+    resources: {
+      "redshift:AssociateDataShareConsumer": [
+        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "redshift-serverless:UpdateLakehouseConfiguration": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLakehouseConfiguration",
 }));
@@ -2967,6 +3279,16 @@ export const updateNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamespace",
+  iam: {
+    actions: ["iam:PassRole", "redshift-serverless:UpdateNamespace"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "redshift-serverless:UpdateNamespace": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "defaultIamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNamespace",
 }));
@@ -2997,6 +3319,21 @@ export const updateScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAction",
+  iam: {
+    actions: [
+      "redshift-serverless:CreateSnapshot",
+      "iam:PassRole",
+      "redshift-serverless:UpdateScheduledAction",
+    ],
+    resources: {
+      "redshift-serverless:CreateSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledAction",
 }));
@@ -3027,6 +3364,14 @@ export const updateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshot",
+  iam: {
+    actions: ["redshift-serverless:UpdateSnapshot"],
+    resources: {
+      "redshift-serverless:UpdateSnapshot": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSnapshot",
 }));
@@ -3059,6 +3404,7 @@ export const updateSnapshotCopyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshotCopyConfiguration",
+  iam: { actions: ["redshift-serverless:UpdateSnapshotCopyConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateSnapshotCopyConfiguration",
 }));
@@ -3089,6 +3435,7 @@ export const updateUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsageLimit",
+  iam: { actions: ["redshift-serverless:UpdateUsageLimit"] },
   telemetry: TELEMETRY,
   span: "UpdateUsageLimit",
 }));
@@ -3133,6 +3480,14 @@ export const updateWorkgroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkgroup",
+  iam: {
+    actions: ["redshift-serverless:UpdateWorkgroup"],
+    resources: {
+      "redshift-serverless:UpdateWorkgroup": [
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkgroup",
 }));

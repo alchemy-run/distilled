@@ -1511,6 +1511,7 @@ export const batchDescribeEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeEntities",
+  iam: { actions: ["aws-marketplace:DescribeEntity"] },
   telemetry: TELEMETRY,
   span: "BatchDescribeEntities",
 }));
@@ -1548,6 +1549,7 @@ export const cancelChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChangeSet",
+  iam: { actions: ["aws-marketplace:CancelChangeSet"] },
   telemetry: TELEMETRY,
   span: "CancelChangeSet",
 }));
@@ -1581,6 +1583,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["aws-marketplace:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1625,6 +1628,7 @@ export const describeAssessment: API.PaginatedOperationMethod<
     items: "ControlAssessments",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:DescribeAssessment"] },
   telemetry: TELEMETRY,
   span: "DescribeAssessment",
 })) as any;
@@ -1657,6 +1661,7 @@ export const describeChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSet",
+  iam: { actions: ["aws-marketplace:DescribeChangeSet"] },
   telemetry: TELEMETRY,
   span: "DescribeChangeSet",
 }));
@@ -1691,6 +1696,7 @@ export const describeEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntity",
+  iam: { actions: ["aws-marketplace:DescribeEntity"] },
   telemetry: TELEMETRY,
   span: "DescribeEntity",
 }));
@@ -1724,6 +1730,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["aws-marketplace:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1771,6 +1778,7 @@ export const listAssessments: API.PaginatedOperationMethod<
     items: "AssessmentSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListAssessments"] },
   telemetry: TELEMETRY,
   span: "ListAssessments",
 })) as any;
@@ -1814,6 +1822,7 @@ export const listChangeSets: API.PaginatedOperationMethod<
     items: "ChangeSetSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListChangeSets"] },
   telemetry: TELEMETRY,
   span: "ListChangeSets",
 })) as any;
@@ -1853,6 +1862,7 @@ export const listEntities: API.PaginatedOperationMethod<
     items: "EntitySummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:DescribeEntity", "aws-marketplace:ListEntities"] },
   telemetry: TELEMETRY,
   span: "ListEntities",
 })) as any;
@@ -1885,6 +1895,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["aws-marketplace:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1918,6 +1929,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["aws-marketplace:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1971,6 +1983,25 @@ export const startChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeSet",
+  iam: {
+    actions: [
+      "aws-marketplace:DescribeAgreement",
+      "aws-marketplace:DescribeChangeSet",
+      "aws-marketplace:DescribeEntity",
+      "aws-marketplace:GetAgreementTerms",
+      "iam:PassRole",
+      "dataexchange:PublishDataSet",
+      "aws-marketplace:StartChangeSet",
+      "aws-marketplace:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "dataexchange:PublishDataSet": [
+        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "StartChangeSet",
 }));
@@ -2003,6 +2034,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["aws-marketplace:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2035,6 +2067,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["aws-marketplace:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

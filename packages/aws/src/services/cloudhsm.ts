@@ -442,6 +442,31 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
+  iam: {
+    actions: [
+      "ec2:AuthorizeSecurityGroupEgress",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "cloudhsm:CreateHsm",
+      "ec2:CreateNetworkInterface",
+      "ec2:CreateSecurityGroup",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSubnets",
+      "ec2:RevokeSecurityGroupEgress",
+    ],
+    resources: {
+      "cloudhsm:CreateHsm": [
+        "arn:${Partition}:cloudhsm:${Region}:${Account}:cluster/${CloudHsmClusterInstanceName}",
+      ],
+      "ec2:DeleteNetworkInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+      "ec2:RevokeSecurityGroupEgress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateHsm",
 }));
@@ -548,6 +573,14 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
+  iam: {
+    actions: ["cloudhsm:DeleteHsm", "ec2:DeleteNetworkInterface"],
+    resources: {
+      "ec2:DeleteNetworkInterface": [
+        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHsm",
 }));

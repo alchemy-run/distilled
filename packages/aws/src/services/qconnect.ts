@@ -3203,6 +3203,14 @@ export const activateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateMessageTemplate",
+  iam: {
+    actions: ["wisdom:ActivateMessageTemplate"],
+    resources: {
+      "wisdom:ActivateMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ActivateMessageTemplate",
 }));
@@ -3239,6 +3247,10 @@ export const createAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgent",
+  iam: {
+    actions: ["wisdom:CreateAIAgent", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIAgent",
 }));
@@ -3275,6 +3287,14 @@ export const createAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgentVersion",
+  iam: {
+    actions: ["wisdom:CreateAIAgentVersion"],
+    resources: {
+      "wisdom:CreateAIAgentVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIAgentVersion",
 }));
@@ -3311,6 +3331,10 @@ export const createAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrail",
+  iam: {
+    actions: ["wisdom:CreateAIGuardrail", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIGuardrail",
 }));
@@ -3347,6 +3371,14 @@ export const createAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrailVersion",
+  iam: {
+    actions: ["wisdom:CreateAIGuardrailVersion"],
+    resources: {
+      "wisdom:CreateAIGuardrailVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIGuardrailVersion",
 }));
@@ -3383,6 +3415,10 @@ export const createAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPrompt",
+  iam: {
+    actions: ["wisdom:CreateAIPrompt", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIPrompt",
 }));
@@ -3419,6 +3455,14 @@ export const createAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPromptVersion",
+  iam: {
+    actions: ["wisdom:CreateAIPromptVersion"],
+    resources: {
+      "wisdom:CreateAIPromptVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAIPromptVersion",
 }));
@@ -3451,6 +3495,10 @@ export const createAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistant",
+  iam: {
+    actions: ["wisdom:CreateAssistant", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssistant",
 }));
@@ -3483,6 +3531,11 @@ export const createAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistantAssociation",
+  iam: {
+    actions: ["wisdom:CreateAssistantAssociation", "iam:PassRole", "wisdom:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssistantAssociation",
 }));
@@ -3517,6 +3570,15 @@ export const createContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContent",
+  iam: {
+    actions: ["wisdom:CreateContent", "wisdom:TagResource"],
+    resources: {
+      "wisdom:CreateContent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContent",
 }));
@@ -3563,6 +3625,15 @@ export const createContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContentAssociation",
+  iam: {
+    actions: ["wisdom:CreateContentAssociation", "wisdom:TagResource"],
+    resources: {
+      "wisdom:CreateContentAssociation": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContentAssociation",
 }));
@@ -3607,6 +3678,10 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  iam: {
+    actions: ["wisdom:CreateKnowledgeBase", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKnowledgeBase",
 }));
@@ -3641,6 +3716,15 @@ export const createMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplate",
+  iam: {
+    actions: ["wisdom:CreateMessageTemplate", "wisdom:TagResource"],
+    resources: {
+      "wisdom:CreateMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMessageTemplate",
 }));
@@ -3677,6 +3761,14 @@ export const createMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateAttachment",
+  iam: {
+    actions: ["wisdom:CreateMessageTemplateAttachment"],
+    resources: {
+      "wisdom:CreateMessageTemplateAttachment": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMessageTemplateAttachment",
 }));
@@ -3711,6 +3803,14 @@ export const createMessageTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateVersion",
+  iam: {
+    actions: ["wisdom:CreateMessageTemplateVersion"],
+    resources: {
+      "wisdom:CreateMessageTemplateVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMessageTemplateVersion",
 }));
@@ -3745,6 +3845,10 @@ export const createQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickResponse",
+  iam: {
+    actions: ["wisdom:CreateQuickResponse", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQuickResponse",
 }));
@@ -3779,6 +3883,10 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  iam: {
+    actions: ["wisdom:CreateSession", "wisdom:TagResource"],
+    conditional: { "wisdom:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -3811,6 +3919,14 @@ export const deactivateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMessageTemplate",
+  iam: {
+    actions: ["wisdom:DeactivateMessageTemplate"],
+    resources: {
+      "wisdom:DeactivateMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeactivateMessageTemplate",
 }));
@@ -3843,6 +3959,14 @@ export const deleteAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgent",
+  iam: {
+    actions: ["wisdom:DeleteAIAgent"],
+    resources: {
+      "wisdom:DeleteAIAgent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIAgent",
 }));
@@ -3877,6 +4001,14 @@ export const deleteAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgentVersion",
+  iam: {
+    actions: ["wisdom:DeleteAIAgentVersion"],
+    resources: {
+      "wisdom:DeleteAIAgentVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIAgentVersion",
 }));
@@ -3911,6 +4043,14 @@ export const deleteAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrail",
+  iam: {
+    actions: ["wisdom:DeleteAIGuardrail"],
+    resources: {
+      "wisdom:DeleteAIGuardrail": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIGuardrail",
 }));
@@ -3945,6 +4085,14 @@ export const deleteAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrailVersion",
+  iam: {
+    actions: ["wisdom:DeleteAIGuardrailVersion"],
+    resources: {
+      "wisdom:DeleteAIGuardrailVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIGuardrailVersion",
 }));
@@ -3977,6 +4125,14 @@ export const deleteAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPrompt",
+  iam: {
+    actions: ["wisdom:DeleteAIPrompt"],
+    resources: {
+      "wisdom:DeleteAIPrompt": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIPrompt",
 }));
@@ -4011,6 +4167,14 @@ export const deleteAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPromptVersion",
+  iam: {
+    actions: ["wisdom:DeleteAIPromptVersion"],
+    resources: {
+      "wisdom:DeleteAIPromptVersion": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAIPromptVersion",
 }));
@@ -4041,6 +4205,14 @@ export const deleteAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
+  iam: {
+    actions: ["wisdom:DeleteAssistant"],
+    resources: {
+      "wisdom:DeleteAssistant": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssistant",
 }));
@@ -4071,6 +4243,14 @@ export const deleteAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
+  iam: {
+    actions: ["wisdom:DeleteAssistantAssociation"],
+    resources: {
+      "wisdom:DeleteAssistantAssociation": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:association/${AssistantId}/${AssistantAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssistantAssociation",
 }));
@@ -4103,6 +4283,14 @@ export const deleteContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
+  iam: {
+    actions: ["wisdom:DeleteContent"],
+    resources: {
+      "wisdom:DeleteContent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContent",
 }));
@@ -4135,6 +4323,15 @@ export const deleteContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContentAssociation",
+  iam: {
+    actions: ["wisdom:DeleteContentAssociation"],
+    resources: {
+      "wisdom:DeleteContentAssociation": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+        "arn:${Partition}:wisdom:${Region}:${Account}:content-association/${KnowledgeBaseId}/${ContentId}/${ContentAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContentAssociation",
 }));
@@ -4167,6 +4364,14 @@ export const deleteImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportJob",
+  iam: {
+    actions: ["wisdom:DeleteImportJob"],
+    resources: {
+      "wisdom:DeleteImportJob": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImportJob",
 }));
@@ -4201,6 +4406,14 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  iam: {
+    actions: ["wisdom:DeleteKnowledgeBase"],
+    resources: {
+      "wisdom:DeleteKnowledgeBase": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKnowledgeBase",
 }));
@@ -4233,6 +4446,14 @@ export const deleteMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplate",
+  iam: {
+    actions: ["wisdom:DeleteMessageTemplate"],
+    resources: {
+      "wisdom:DeleteMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMessageTemplate",
 }));
@@ -4265,6 +4486,14 @@ export const deleteMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplateAttachment",
+  iam: {
+    actions: ["wisdom:DeleteMessageTemplateAttachment"],
+    resources: {
+      "wisdom:DeleteMessageTemplateAttachment": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMessageTemplateAttachment",
 }));
@@ -4295,6 +4524,14 @@ export const deleteQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
+  iam: {
+    actions: ["wisdom:DeleteQuickResponse"],
+    resources: {
+      "wisdom:DeleteQuickResponse": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQuickResponse",
 }));
@@ -4327,6 +4564,14 @@ export const getAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIAgent",
+  iam: {
+    actions: ["wisdom:GetAIAgent"],
+    resources: {
+      "wisdom:GetAIAgent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAIAgent",
 }));
@@ -4359,6 +4604,14 @@ export const getAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIGuardrail",
+  iam: {
+    actions: ["wisdom:GetAIGuardrail"],
+    resources: {
+      "wisdom:GetAIGuardrail": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAIGuardrail",
 }));
@@ -4391,6 +4644,14 @@ export const getAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIPrompt",
+  iam: {
+    actions: ["wisdom:GetAIPrompt"],
+    resources: {
+      "wisdom:GetAIPrompt": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAIPrompt",
 }));
@@ -4421,6 +4682,14 @@ export const getAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
+  iam: {
+    actions: ["wisdom:GetAssistant"],
+    resources: {
+      "wisdom:GetAssistant": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssistant",
 }));
@@ -4451,6 +4720,14 @@ export const getAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
+  iam: {
+    actions: ["wisdom:GetAssistantAssociation"],
+    resources: {
+      "wisdom:GetAssistantAssociation": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:association/${AssistantId}/${AssistantAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssistantAssociation",
 }));
@@ -4481,6 +4758,14 @@ export const getContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
+  iam: {
+    actions: ["wisdom:GetContent"],
+    resources: {
+      "wisdom:GetContent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContent",
 }));
@@ -4513,6 +4798,15 @@ export const getContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentAssociation",
+  iam: {
+    actions: ["wisdom:GetContentAssociation"],
+    resources: {
+      "wisdom:GetContentAssociation": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+        "arn:${Partition}:wisdom:${Region}:${Account}:content-association/${KnowledgeBaseId}/${ContentId}/${ContentAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContentAssociation",
 }));
@@ -4543,6 +4837,14 @@ export const getContentSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
+  iam: {
+    actions: ["wisdom:GetContentSummary"],
+    resources: {
+      "wisdom:GetContentSummary": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContentSummary",
 }));
@@ -4567,6 +4869,14 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  iam: {
+    actions: ["wisdom:GetImportJob"],
+    resources: {
+      "wisdom:GetImportJob": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImportJob",
 }));
@@ -4597,6 +4907,14 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
+  iam: {
+    actions: ["wisdom:GetKnowledgeBase"],
+    resources: {
+      "wisdom:GetKnowledgeBase": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetKnowledgeBase",
 }));
@@ -4629,6 +4947,14 @@ export const getMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessageTemplate",
+  iam: {
+    actions: ["wisdom:GetMessageTemplate"],
+    resources: {
+      "wisdom:GetMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMessageTemplate",
 }));
@@ -4659,6 +4985,14 @@ export const getNextMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNextMessage",
+  iam: {
+    actions: ["wisdom:GetNextMessage"],
+    resources: {
+      "wisdom:GetNextMessage": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNextMessage",
 }));
@@ -4689,6 +5023,14 @@ export const getQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
+  iam: {
+    actions: ["wisdom:GetQuickResponse"],
+    resources: {
+      "wisdom:GetQuickResponse": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQuickResponse",
 }));
@@ -4715,6 +5057,14 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  iam: {
+    actions: ["wisdom:GetRecommendations"],
+    resources: {
+      "wisdom:GetRecommendations": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendations",
 }));
@@ -4745,6 +5095,14 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["wisdom:GetSession"],
+    resources: {
+      "wisdom:GetSession": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -4784,6 +5142,7 @@ export const listAIAgents: API.PaginatedOperationMethod<
     items: "aiAgentSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListAIAgents"] },
   telemetry: TELEMETRY,
   span: "ListAIAgents",
 })) as any;
@@ -4823,6 +5182,14 @@ export const listAIAgentVersions: API.PaginatedOperationMethod<
     items: "aiAgentVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListAIAgentVersions"],
+    resources: {
+      "wisdom:ListAIAgentVersions": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAIAgentVersions",
 })) as any;
@@ -4862,6 +5229,7 @@ export const listAIGuardrails: API.PaginatedOperationMethod<
     items: "aiGuardrailSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListAIGuardrails"] },
   telemetry: TELEMETRY,
   span: "ListAIGuardrails",
 })) as any;
@@ -4901,6 +5269,14 @@ export const listAIGuardrailVersions: API.PaginatedOperationMethod<
     items: "aiGuardrailVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListAIGuardrailVersions"],
+    resources: {
+      "wisdom:ListAIGuardrailVersions": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAIGuardrailVersions",
 })) as any;
@@ -4940,6 +5316,7 @@ export const listAIPrompts: API.PaginatedOperationMethod<
     items: "aiPromptSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListAIPrompts"] },
   telemetry: TELEMETRY,
   span: "ListAIPrompts",
 })) as any;
@@ -4979,6 +5356,14 @@ export const listAIPromptVersions: API.PaginatedOperationMethod<
     items: "aiPromptVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListAIPromptVersions"],
+    resources: {
+      "wisdom:ListAIPromptVersions": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAIPromptVersions",
 })) as any;
@@ -5010,6 +5395,7 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
     items: "assistantAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListAssistantAssociations"] },
   telemetry: TELEMETRY,
   span: "ListAssistantAssociations",
 })) as any;
@@ -5041,6 +5427,7 @@ export const listAssistants: API.PaginatedOperationMethod<
     items: "assistantSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListAssistants"] },
   telemetry: TELEMETRY,
   span: "ListAssistants",
 })) as any;
@@ -5080,6 +5467,14 @@ export const listContentAssociations: API.PaginatedOperationMethod<
     items: "contentAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListContentAssociations"],
+    resources: {
+      "wisdom:ListContentAssociations": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContentAssociations",
 })) as any;
@@ -5111,6 +5506,14 @@ export const listContents: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListContents"],
+    resources: {
+      "wisdom:ListContents": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListContents",
 })) as any;
@@ -5138,6 +5541,14 @@ export const listImportJobs: API.PaginatedOperationMethod<
     items: "importJobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListImportJobs"],
+    resources: {
+      "wisdom:ListImportJobs": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImportJobs",
 })) as any;
@@ -5165,6 +5576,7 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:ListKnowledgeBases"] },
   telemetry: TELEMETRY,
   span: "ListKnowledgeBases",
 })) as any;
@@ -5196,6 +5608,14 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListMessages"],
+    resources: {
+      "wisdom:ListMessages": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMessages",
 })) as any;
@@ -5233,6 +5653,14 @@ export const listMessageTemplates: API.PaginatedOperationMethod<
     items: "messageTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListMessageTemplates"],
+    resources: {
+      "wisdom:ListMessageTemplates": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMessageTemplates",
 })) as any;
@@ -5270,6 +5698,14 @@ export const listMessageTemplateVersions: API.PaginatedOperationMethod<
     items: "messageTemplateVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListMessageTemplateVersions"],
+    resources: {
+      "wisdom:ListMessageTemplateVersions": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMessageTemplateVersions",
 })) as any;
@@ -5311,6 +5747,14 @@ export const listModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListModels"],
+    resources: {
+      "wisdom:ListModels": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListModels",
 })) as any;
@@ -5342,6 +5786,14 @@ export const listQuickResponses: API.PaginatedOperationMethod<
     items: "quickResponseSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListQuickResponses"],
+    resources: {
+      "wisdom:ListQuickResponses": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQuickResponses",
 })) as any;
@@ -5373,6 +5825,14 @@ export const listSpans: API.PaginatedOperationMethod<
     items: "spans",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:ListSpans"],
+    resources: {
+      "wisdom:ListSpans": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSpans",
 })) as any;
@@ -5393,6 +5853,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["wisdom:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5417,6 +5878,14 @@ export const notifyRecommendationsReceived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
+  iam: {
+    actions: ["wisdom:NotifyRecommendationsReceived"],
+    resources: {
+      "wisdom:NotifyRecommendationsReceived": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "NotifyRecommendationsReceived",
 }));
@@ -5441,6 +5910,14 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  iam: {
+    actions: ["wisdom:PutFeedback"],
+    resources: {
+      "wisdom:PutFeedback": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutFeedback",
 }));
@@ -5480,6 +5957,14 @@ export const queryAssistant: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:QueryAssistant"],
+    resources: {
+      "wisdom:QueryAssistant": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "QueryAssistant",
 })) as any;
@@ -5510,6 +5995,14 @@ export const removeAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAssistantAIAgent",
+  iam: {
+    actions: ["wisdom:RemoveAssistantAIAgent"],
+    resources: {
+      "wisdom:RemoveAssistantAIAgent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveAssistantAIAgent",
 }));
@@ -5534,6 +6027,14 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
+  iam: {
+    actions: ["wisdom:RemoveKnowledgeBaseTemplateUri"],
+    resources: {
+      "wisdom:RemoveKnowledgeBaseTemplateUri": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveKnowledgeBaseTemplateUri",
 }));
@@ -5564,6 +6065,17 @@ export const renderMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenderMessageTemplate",
+  iam: {
+    actions: ["wisdom:GetMessageTemplate", "wisdom:RenderMessageTemplate"],
+    resources: {
+      "wisdom:GetMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+      "wisdom:RenderMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RenderMessageTemplate",
 }));
@@ -5602,6 +6114,12 @@ export const retrieve: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Retrieve",
+  iam: {
+    actions: ["wisdom:Retrieve"],
+    resources: {
+      "wisdom:Retrieve": ["arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Retrieve",
 }));
@@ -5639,6 +6157,14 @@ export const searchContent: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:SearchContent"],
+    resources: {
+      "wisdom:SearchContent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchContent",
 })) as any;
@@ -5678,6 +6204,14 @@ export const searchMessageTemplates: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:SearchMessageTemplates"],
+    resources: {
+      "wisdom:SearchMessageTemplates": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchMessageTemplates",
 })) as any;
@@ -5717,6 +6251,17 @@ export const searchQuickResponses: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wisdom:GetQuickResponse", "wisdom:SearchQuickResponses"],
+    resources: {
+      "wisdom:GetQuickResponse": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
+      ],
+      "wisdom:SearchQuickResponses": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchQuickResponses",
 })) as any;
@@ -5754,6 +6299,7 @@ export const searchSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wisdom:SearchSessions"] },
   telemetry: TELEMETRY,
   span: "SearchSessions",
 })) as any;
@@ -5792,6 +6338,14 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  iam: {
+    actions: ["wisdom:SendMessage"],
+    resources: {
+      "wisdom:SendMessage": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendMessage",
 }));
@@ -5822,6 +6376,14 @@ export const startContentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
+  iam: {
+    actions: ["wisdom:StartContentUpload"],
+    resources: {
+      "wisdom:StartContentUpload": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartContentUpload",
 }));
@@ -5858,6 +6420,14 @@ export const startImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportJob",
+  iam: {
+    actions: ["wisdom:StartImportJob"],
+    resources: {
+      "wisdom:StartImportJob": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartImportJob",
 }));
@@ -5878,6 +6448,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["wisdom:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5898,6 +6469,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["wisdom:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5932,6 +6504,14 @@ export const updateAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIAgent",
+  iam: {
+    actions: ["wisdom:UpdateAIAgent"],
+    resources: {
+      "wisdom:UpdateAIAgent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAIAgent",
 }));
@@ -5966,6 +6546,14 @@ export const updateAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIGuardrail",
+  iam: {
+    actions: ["wisdom:UpdateAIGuardrail"],
+    resources: {
+      "wisdom:UpdateAIGuardrail": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-guardrail/${AssistantId}/${AIGuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAIGuardrail",
 }));
@@ -6000,6 +6588,14 @@ export const updateAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIPrompt",
+  iam: {
+    actions: ["wisdom:UpdateAIPrompt"],
+    resources: {
+      "wisdom:UpdateAIPrompt": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:ai-prompt/${AssistantId}/${AIPromptId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAIPrompt",
 }));
@@ -6030,6 +6626,14 @@ export const updateAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssistantAIAgent",
+  iam: {
+    actions: ["wisdom:UpdateAssistantAIAgent"],
+    resources: {
+      "wisdom:UpdateAssistantAIAgent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssistantAIAgent",
 }));
@@ -6062,6 +6666,14 @@ export const updateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContent",
+  iam: {
+    actions: ["wisdom:UpdateContent"],
+    resources: {
+      "wisdom:UpdateContent": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContent",
 }));
@@ -6086,6 +6698,14 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",
+  iam: {
+    actions: ["wisdom:UpdateKnowledgeBaseTemplateUri"],
+    resources: {
+      "wisdom:UpdateKnowledgeBaseTemplateUri": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKnowledgeBaseTemplateUri",
 }));
@@ -6118,6 +6738,14 @@ export const updateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplate",
+  iam: {
+    actions: ["wisdom:UpdateMessageTemplate"],
+    resources: {
+      "wisdom:UpdateMessageTemplate": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMessageTemplate",
 }));
@@ -6150,6 +6778,14 @@ export const updateMessageTemplateMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplateMetadata",
+  iam: {
+    actions: ["wisdom:UpdateMessageTemplateMetadata"],
+    resources: {
+      "wisdom:UpdateMessageTemplateMetadata": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:message-template/${KnowledgeBaseId}/${MessageTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMessageTemplateMetadata",
 }));
@@ -6184,6 +6820,14 @@ export const updateQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickResponse",
+  iam: {
+    actions: ["wisdom:UpdateQuickResponse"],
+    resources: {
+      "wisdom:UpdateQuickResponse": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQuickResponse",
 }));
@@ -6214,6 +6858,14 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
+  iam: {
+    actions: ["wisdom:UpdateSession"],
+    resources: {
+      "wisdom:UpdateSession": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSession",
 }));
@@ -6244,6 +6896,14 @@ export const updateSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSessionData",
+  iam: {
+    actions: ["wisdom:UpdateSessionData"],
+    resources: {
+      "wisdom:UpdateSessionData": [
+        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSessionData",
 }));

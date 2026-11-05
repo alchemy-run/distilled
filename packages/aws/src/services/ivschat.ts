@@ -469,6 +469,14 @@ export const createChatToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChatToken",
+  iam: {
+    actions: ["ivschat:CreateChatToken"],
+    resources: {
+      "ivschat:CreateChatToken": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChatToken",
 }));
@@ -506,6 +514,15 @@ export const createLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggingConfiguration",
+  iam: {
+    actions: ["ivschat:CreateLoggingConfiguration", "ivschat:TagResource"],
+    resources: {
+      "ivschat:CreateLoggingConfiguration": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:logging-configuration/${ResourceId}",
+      ],
+    },
+    conditional: { "ivschat:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoggingConfiguration",
 }));
@@ -542,6 +559,13 @@ export const createRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoom",
+  iam: {
+    actions: ["ivschat:CreateRoom", "ivschat:TagResource"],
+    resources: {
+      "ivschat:CreateRoom": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+    conditional: { "ivschat:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoom",
 }));
@@ -576,6 +600,14 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  iam: {
+    actions: ["ivschat:DeleteLoggingConfiguration"],
+    resources: {
+      "ivschat:DeleteLoggingConfiguration": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:logging-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoggingConfiguration",
 }));
@@ -611,6 +643,12 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
+  iam: {
+    actions: ["ivschat:DeleteMessage"],
+    resources: {
+      "ivschat:DeleteMessage": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMessage",
 }));
@@ -643,6 +681,12 @@ export const deleteRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoom",
+  iam: {
+    actions: ["ivschat:DeleteRoom"],
+    resources: {
+      "ivschat:DeleteRoom": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoom",
 }));
@@ -677,6 +721,14 @@ export const disconnectUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectUser",
+  iam: {
+    actions: ["ivschat:DisconnectUser"],
+    resources: {
+      "ivschat:DisconnectUser": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisconnectUser",
 }));
@@ -707,6 +759,14 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  iam: {
+    actions: ["ivschat:GetLoggingConfiguration"],
+    resources: {
+      "ivschat:GetLoggingConfiguration": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:logging-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLoggingConfiguration",
 }));
@@ -737,6 +797,12 @@ export const getRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoom",
+  iam: {
+    actions: ["ivschat:GetRoom"],
+    resources: {
+      "ivschat:GetRoom": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRoom",
 }));
@@ -768,6 +834,14 @@ export const listLoggingConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivschat:ListLoggingConfigurations"],
+    resources: {
+      "ivschat:ListLoggingConfigurations": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:logging-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLoggingConfigurations",
 })) as any;
@@ -805,6 +879,12 @@ export const listRooms: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ivschat:ListRooms"],
+    resources: {
+      "ivschat:ListRooms": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRooms",
 })) as any;
@@ -835,6 +915,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ivschat:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -869,6 +950,12 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
+  iam: {
+    actions: ["ivschat:SendEvent"],
+    resources: {
+      "ivschat:SendEvent": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendEvent",
 }));
@@ -899,6 +986,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ivschat:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -929,6 +1017,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ivschat:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -963,6 +1052,14 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
+  iam: {
+    actions: ["ivschat:UpdateLoggingConfiguration"],
+    resources: {
+      "ivschat:UpdateLoggingConfiguration": [
+        "arn:${Partition}:ivschat:${Region}:${Account}:logging-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLoggingConfiguration",
 }));
@@ -995,6 +1092,12 @@ export const updateRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoom",
+  iam: {
+    actions: ["ivschat:UpdateRoom"],
+    resources: {
+      "ivschat:UpdateRoom": ["arn:${Partition}:ivschat:${Region}:${Account}:room/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoom",
 }));

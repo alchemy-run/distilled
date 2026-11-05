@@ -484,6 +484,14 @@ export const batchAddChannelRoleToAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddChannelRoleToAccessors",
+  iam: {
+    actions: ["repostspace:BatchAddChannelRoleToAccessors"],
+    resources: {
+      "repostspace:BatchAddChannelRoleToAccessors": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAddChannelRoleToAccessors",
 }));
@@ -516,6 +524,14 @@ export const batchAddRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddRole",
+  iam: {
+    actions: ["repostspace:BatchAddRole"],
+    resources: {
+      "repostspace:BatchAddRole": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAddRole",
 }));
@@ -548,6 +564,14 @@ export const batchRemoveChannelRoleFromAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveChannelRoleFromAccessors",
+  iam: {
+    actions: ["repostspace:BatchRemoveChannelRoleFromAccessors"],
+    resources: {
+      "repostspace:BatchRemoveChannelRoleFromAccessors": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchRemoveChannelRoleFromAccessors",
 }));
@@ -580,6 +604,14 @@ export const batchRemoveRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveRole",
+  iam: {
+    actions: ["repostspace:BatchRemoveRole"],
+    resources: {
+      "repostspace:BatchRemoveRole": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchRemoveRole",
 }));
@@ -616,6 +648,14 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  iam: {
+    actions: ["repostspace:CreateChannel"],
+    resources: {
+      "repostspace:CreateChannel": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -652,6 +692,16 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  iam: {
+    actions: ["repostspace:CreateSpace", "iam:PassRole", "repostspace:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "repostspace:TagResource": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn", "repostspace:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSpace",
 }));
@@ -684,6 +734,14 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  iam: {
+    actions: ["repostspace:DeleteSpace"],
+    resources: {
+      "repostspace:DeleteSpace": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSpace",
 }));
@@ -716,6 +774,14 @@ export const deregisterAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAdmin",
+  iam: {
+    actions: ["repostspace:DeregisterAdmin"],
+    resources: {
+      "repostspace:DeregisterAdmin": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterAdmin",
 }));
@@ -748,6 +814,14 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  iam: {
+    actions: ["repostspace:GetChannel"],
+    resources: {
+      "repostspace:GetChannel": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetChannel",
 }));
@@ -780,6 +854,14 @@ export const getSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
+  iam: {
+    actions: ["repostspace:GetSpace"],
+    resources: {
+      "repostspace:GetSpace": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSpace",
 }));
@@ -819,6 +901,14 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["repostspace:ListChannels"],
+    resources: {
+      "repostspace:ListChannels": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -856,6 +946,7 @@ export const listSpaces: API.PaginatedOperationMethod<
     items: "spaces",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["repostspace:ListSpaces"] },
   telemetry: TELEMETRY,
   span: "ListSpaces",
 })) as any;
@@ -888,6 +979,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["repostspace:ListTagsForResource"],
+    resources: {
+      "repostspace:ListTagsForResource": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -920,6 +1019,14 @@ export const registerAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAdmin",
+  iam: {
+    actions: ["repostspace:RegisterAdmin"],
+    resources: {
+      "repostspace:RegisterAdmin": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterAdmin",
 }));
@@ -952,6 +1059,14 @@ export const sendInvites: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendInvites",
+  iam: {
+    actions: ["repostspace:SendInvites"],
+    resources: {
+      "repostspace:SendInvites": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendInvites",
 }));
@@ -984,6 +1099,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["repostspace:TagResource"],
+    resources: {
+      "repostspace:TagResource": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1016,6 +1139,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["repostspace:UntagResource"],
+    resources: {
+      "repostspace:UntagResource": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1050,6 +1181,14 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  iam: {
+    actions: ["repostspace:UpdateChannel"],
+    resources: {
+      "repostspace:UpdateChannel": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -1084,6 +1223,16 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  iam: {
+    actions: ["iam:PassRole", "repostspace:UpdateSpace"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "repostspace:UpdateSpace": [
+        "arn:${Partition}:repostspace:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSpace",
 }));

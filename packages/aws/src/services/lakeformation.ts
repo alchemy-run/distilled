@@ -1293,6 +1293,7 @@ export const addLFTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLFTagsToResource",
+  iam: { actions: ["lakeformation:AddLFTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddLFTagsToResource",
 }));
@@ -1378,6 +1379,7 @@ export const attachRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRLSPolicy",
+  iam: { actions: ["lakeformation:AttachRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "AttachRLSPolicy",
 }));
@@ -1401,6 +1403,7 @@ export const batchGrantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGrantPermissions",
+  iam: { actions: ["lakeformation:BatchGrantPermissions"] },
   telemetry: TELEMETRY,
   span: "BatchGrantPermissions",
 }));
@@ -1424,6 +1427,7 @@ export const batchRevokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRevokePermissions",
+  iam: { actions: ["lakeformation:BatchRevokePermissions"] },
   telemetry: TELEMETRY,
   span: "BatchRevokePermissions",
 }));
@@ -1460,6 +1464,7 @@ export const cancelTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTransaction",
+  iam: { actions: ["lakeformation:CancelTransaction"] },
   telemetry: TELEMETRY,
   span: "CancelTransaction",
 }));
@@ -1494,6 +1499,7 @@ export const commitTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
+  iam: { actions: ["lakeformation:CommitTransaction"] },
   telemetry: TELEMETRY,
   span: "CommitTransaction",
 }));
@@ -1530,6 +1536,7 @@ export const createDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCellsFilter",
+  iam: { actions: ["lakeformation:CreateDataCellsFilter"] },
   telemetry: TELEMETRY,
   span: "CreateDataCellsFilter",
 }));
@@ -1572,6 +1579,7 @@ export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationIdentityCenterConfiguration",
+  iam: { actions: ["lakeformation:CreateLakeFormationIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateLakeFormationIdentityCenterConfiguration",
 }));
@@ -1610,6 +1618,7 @@ export const createLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationOptIn",
+  iam: { actions: ["lakeformation:CreateLakeFormationOptIn"] },
   telemetry: TELEMETRY,
   span: "CreateLakeFormationOptIn",
 }));
@@ -1644,6 +1653,7 @@ export const createLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTag",
+  iam: { actions: ["lakeformation:CreateLFTag"] },
   telemetry: TELEMETRY,
   span: "CreateLFTag",
 }));
@@ -1686,6 +1696,7 @@ export const createLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTagExpression",
+  iam: { actions: ["lakeformation:CreateLFTagExpression"] },
   telemetry: TELEMETRY,
   span: "CreateLFTagExpression",
 }));
@@ -1722,6 +1733,7 @@ export const createRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRLSPolicy",
+  iam: { actions: ["lakeformation:CreateRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateRLSPolicy",
 }));
@@ -1754,6 +1766,7 @@ export const deleteDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCellsFilter",
+  iam: { actions: ["lakeformation:DeleteDataCellsFilter"] },
   telemetry: TELEMETRY,
   span: "DeleteDataCellsFilter",
 }));
@@ -1796,6 +1809,7 @@ export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationIdentityCenterConfiguration",
+  iam: { actions: ["lakeformation:DeleteLakeFormationIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteLakeFormationIdentityCenterConfiguration",
 }));
@@ -1832,6 +1846,7 @@ export const deleteLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationOptIn",
+  iam: { actions: ["lakeformation:DeleteLakeFormationOptIn"] },
   telemetry: TELEMETRY,
   span: "DeleteLakeFormationOptIn",
 }));
@@ -1870,6 +1885,7 @@ export const deleteLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTag",
+  iam: { actions: ["lakeformation:DeleteLFTag"] },
   telemetry: TELEMETRY,
   span: "DeleteLFTag",
 }));
@@ -1903,6 +1919,7 @@ export const deleteLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTagExpression",
+  iam: { actions: ["lakeformation:DeleteLFTagExpression"] },
   telemetry: TELEMETRY,
   span: "DeleteLFTagExpression",
 }));
@@ -1946,6 +1963,7 @@ export const deleteObjectsOnCancel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectsOnCancel",
+  iam: { actions: ["lakeformation:DeleteObjectsOnCancel"] },
   telemetry: TELEMETRY,
   span: "DeleteObjectsOnCancel",
 }));
@@ -1980,6 +1998,7 @@ export const deleteRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRLSPolicy",
+  iam: { actions: ["lakeformation:DeleteRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteRLSPolicy",
 }));
@@ -2014,6 +2033,7 @@ export const deregisterResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterResource",
+  iam: { actions: ["lakeformation:DeregisterResource"] },
   telemetry: TELEMETRY,
   span: "DeregisterResource",
 }));
@@ -2054,6 +2074,7 @@ export const describeLakeFormationIdentityCenterConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLakeFormationIdentityCenterConfiguration",
+  iam: { actions: ["lakeformation:DescribeLakeFormationIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeLakeFormationIdentityCenterConfiguration",
 }));
@@ -2084,6 +2105,7 @@ export const describeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResource",
+  iam: { actions: ["lakeformation:DescribeResource"] },
   telemetry: TELEMETRY,
   span: "DescribeResource",
 }));
@@ -2114,6 +2136,7 @@ export const describeTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransaction",
+  iam: { actions: ["lakeformation:DescribeTransaction"] },
   telemetry: TELEMETRY,
   span: "DescribeTransaction",
 }));
@@ -2148,6 +2171,7 @@ export const detachRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRLSPolicy",
+  iam: { actions: ["lakeformation:DetachRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "DetachRLSPolicy",
 }));
@@ -2186,6 +2210,7 @@ export const extendTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendTransaction",
+  iam: { actions: ["lakeformation:ExtendTransaction"] },
   telemetry: TELEMETRY,
   span: "ExtendTransaction",
 }));
@@ -2218,6 +2243,7 @@ export const getDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCellsFilter",
+  iam: { actions: ["lakeformation:GetDataCellsFilter"] },
   telemetry: TELEMETRY,
   span: "GetDataCellsFilter",
 }));
@@ -2242,6 +2268,7 @@ export const getDataLakePrincipal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakePrincipal",
+  iam: { actions: ["lakeformation:GetDataLakePrincipal"] },
   telemetry: TELEMETRY,
   span: "GetDataLakePrincipal",
 }));
@@ -2266,6 +2293,7 @@ export const getDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeSettings",
+  iam: { actions: ["lakeformation:GetDataLakeSettings"] },
   telemetry: TELEMETRY,
   span: "GetDataLakeSettings",
 }));
@@ -2303,6 +2331,7 @@ export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:GetEffectivePermissionsForPath"] },
   telemetry: TELEMETRY,
   span: "GetEffectivePermissionsForPath",
 })) as any;
@@ -2335,6 +2364,7 @@ export const getLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTag",
+  iam: { actions: ["lakeformation:GetLFTag"] },
   telemetry: TELEMETRY,
   span: "GetLFTag",
 }));
@@ -2367,6 +2397,7 @@ export const getLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTagExpression",
+  iam: { actions: ["lakeformation:GetLFTagExpression"] },
   telemetry: TELEMETRY,
   span: "GetLFTagExpression",
 }));
@@ -2392,6 +2423,7 @@ export const getQueryState: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryState",
   endpointHostPrefix: "query-",
+  iam: { actions: ["lakeformation:GetQueryState"] },
   telemetry: TELEMETRY,
   span: "GetQueryState",
 }));
@@ -2427,6 +2459,7 @@ export const getQueryStatistics: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryStatistics",
   endpointHostPrefix: "query-",
+  iam: { actions: ["lakeformation:GetQueryStatistics"] },
   telemetry: TELEMETRY,
   span: "GetQueryStatistics",
 }));
@@ -2461,6 +2494,7 @@ export const getResourceLFTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceLFTags",
+  iam: { actions: ["lakeformation:GetResourceLFTags"] },
   telemetry: TELEMETRY,
   span: "GetResourceLFTags",
 }));
@@ -2493,6 +2527,7 @@ export const getRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRLSPolicy",
+  iam: { actions: ["lakeformation:GetRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "GetRLSPolicy",
 }));
@@ -2535,6 +2570,7 @@ export const getTableObjects: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:GetTableObjects"] },
   telemetry: TELEMETRY,
   span: "GetTableObjects",
 })) as any;
@@ -2590,6 +2626,7 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryDataLocationCredentials",
+  iam: { actions: ["lakeformation:GetDataAccess"] },
   telemetry: TELEMETRY,
   span: "GetTemporaryDataLocationCredentials",
 }));
@@ -2624,6 +2661,7 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGluePartitionCredentials",
+  iam: { actions: ["lakeformation:GetTemporaryGluePartitionCredentials"] },
   telemetry: TELEMETRY,
   span: "GetTemporaryGluePartitionCredentials",
 }));
@@ -2660,6 +2698,7 @@ export const getTemporaryGlueTableCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGlueTableCredentials",
+  iam: { actions: ["lakeformation:GetDataAccess"] },
   telemetry: TELEMETRY,
   span: "GetTemporaryGlueTableCredentials",
 }));
@@ -2693,6 +2732,7 @@ export const getWorkUnitResults: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkUnitResults",
   endpointHostPrefix: "data-",
+  iam: { actions: ["lakeformation:GetWorkUnitResults"] },
   telemetry: TELEMETRY,
   span: "GetWorkUnitResults",
 }));
@@ -2733,6 +2773,7 @@ export const getWorkUnits: API.PaginatedOperationMethod<
     items: "WorkUnitRanges",
     pageSize: "PageSize",
   } as const,
+  iam: { actions: ["lakeformation:GetWorkUnits"] },
   telemetry: TELEMETRY,
   span: "GetWorkUnits",
 })) as any;
@@ -2765,6 +2806,7 @@ export const grantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantPermissions",
+  iam: { actions: ["lakeformation:GrantPermissions"] },
   telemetry: TELEMETRY,
   span: "GrantPermissions",
 }));
@@ -2802,6 +2844,7 @@ export const listDataCellsFilter: API.PaginatedOperationMethod<
     items: "DataCellsFilters",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListDataCellsFilter"] },
   telemetry: TELEMETRY,
   span: "ListDataCellsFilter",
 })) as any;
@@ -2842,6 +2885,7 @@ export const listLakeFormationOptIns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListLakeFormationOptIns"] },
   telemetry: TELEMETRY,
   span: "ListLakeFormationOptIns",
 })) as any;
@@ -2881,6 +2925,7 @@ export const listLFTagExpressions: API.PaginatedOperationMethod<
     items: "LFTagExpressions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListLFTagExpressions"] },
   telemetry: TELEMETRY,
   span: "ListLFTagExpressions",
 })) as any;
@@ -2920,6 +2965,7 @@ export const listLFTags: API.PaginatedOperationMethod<
     items: "LFTags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListLFTags"] },
   telemetry: TELEMETRY,
   span: "ListLFTags",
 })) as any;
@@ -2962,6 +3008,7 @@ export const listPermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListPermissions"] },
   telemetry: TELEMETRY,
   span: "ListPermissions",
 })) as any;
@@ -2992,6 +3039,7 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListResources"] },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -3031,6 +3079,7 @@ export const listRLSPolicies: API.PaginatedOperationMethod<
     items: "RLSPolicies",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListRLSPolicies"] },
   telemetry: TELEMETRY,
   span: "ListRLSPolicies",
 })) as any;
@@ -3070,6 +3119,7 @@ export const listRLSPolicyAttachments: API.PaginatedOperationMethod<
     items: "RLSPolicyAttachments",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListRLSPolicyAttachments"] },
   telemetry: TELEMETRY,
   span: "ListRLSPolicyAttachments",
 })) as any;
@@ -3106,6 +3156,7 @@ export const listTableStorageOptimizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListTableStorageOptimizers"] },
   telemetry: TELEMETRY,
   span: "ListTableStorageOptimizers",
 })) as any;
@@ -3138,6 +3189,7 @@ export const listTransactions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:ListTransactions"] },
   telemetry: TELEMETRY,
   span: "ListTransactions",
 })) as any;
@@ -3164,6 +3216,7 @@ export const putDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataLakeSettings",
+  iam: { actions: ["lakeformation:PutDataLakeSettings"] },
   telemetry: TELEMETRY,
   span: "PutDataLakeSettings",
 }));
@@ -3211,6 +3264,7 @@ export const registerResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterResource",
+  iam: { actions: ["lakeformation:RegisterResource"] },
   telemetry: TELEMETRY,
   span: "RegisterResource",
 }));
@@ -3247,6 +3301,7 @@ export const removeLFTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLFTagsFromResource",
+  iam: { actions: ["lakeformation:RemoveLFTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveLFTagsFromResource",
 }));
@@ -3277,6 +3332,7 @@ export const revokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePermissions",
+  iam: { actions: ["lakeformation:RevokePermissions"] },
   telemetry: TELEMETRY,
   span: "RevokePermissions",
 }));
@@ -3318,6 +3374,7 @@ export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:SearchDatabasesByLFTags"] },
   telemetry: TELEMETRY,
   span: "SearchDatabasesByLFTags",
 })) as any;
@@ -3359,6 +3416,7 @@ export const searchTablesByLFTags: API.PaginatedOperationMethod<
     items: "TableList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lakeformation:SearchTablesByLFTags"] },
   telemetry: TELEMETRY,
   span: "SearchTablesByLFTags",
 })) as any;
@@ -3392,6 +3450,7 @@ export const startQueryPlanning: API.OperationMethod<
   retry: Retry,
   operationName: "StartQueryPlanning",
   endpointHostPrefix: "query-",
+  iam: { actions: ["lakeformation:StartQueryPlanning"] },
   telemetry: TELEMETRY,
   span: "StartQueryPlanning",
 }));
@@ -3415,6 +3474,7 @@ export const startTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTransaction",
+  iam: { actions: ["lakeformation:StartTransaction"] },
   telemetry: TELEMETRY,
   span: "StartTransaction",
 }));
@@ -3449,6 +3509,7 @@ export const updateDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCellsFilter",
+  iam: { actions: ["lakeformation:UpdateDataCellsFilter"] },
   telemetry: TELEMETRY,
   span: "UpdateDataCellsFilter",
 }));
@@ -3491,6 +3552,7 @@ export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLakeFormationIdentityCenterConfiguration",
+  iam: { actions: ["lakeformation:UpdateLakeFormationIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateLakeFormationIdentityCenterConfiguration",
 }));
@@ -3525,6 +3587,7 @@ export const updateLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTag",
+  iam: { actions: ["lakeformation:UpdateLFTag"] },
   telemetry: TELEMETRY,
   span: "UpdateLFTag",
 }));
@@ -3560,6 +3623,7 @@ export const updateLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTagExpression",
+  iam: { actions: ["lakeformation:UpdateLFTagExpression"] },
   telemetry: TELEMETRY,
   span: "UpdateLFTagExpression",
 }));
@@ -3590,6 +3654,7 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  iam: { actions: ["lakeformation:UpdateResource"] },
   telemetry: TELEMETRY,
   span: "UpdateResource",
 }));
@@ -3626,6 +3691,7 @@ export const updateRLSPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRLSPolicy",
+  iam: { actions: ["lakeformation:UpdateRLSPolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateRLSPolicy",
 }));
@@ -3666,6 +3732,7 @@ export const updateTableObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableObjects",
+  iam: { actions: ["lakeformation:UpdateTableObjects"] },
   telemetry: TELEMETRY,
   span: "UpdateTableObjects",
 }));
@@ -3696,6 +3763,7 @@ export const updateTableStorageOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableStorageOptimizer",
+  iam: { actions: ["lakeformation:UpdateTableStorageOptimizer"] },
   telemetry: TELEMETRY,
   span: "UpdateTableStorageOptimizer",
 }));

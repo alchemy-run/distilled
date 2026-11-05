@@ -556,6 +556,12 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  iam: {
+    actions: ["braket:CancelJob"],
+    resources: {
+      "braket:CancelJob": ["arn:${Partition}:braket:${Region}:${Account}:job/${RandomId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -590,6 +596,14 @@ export const cancelQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuantumTask",
+  iam: {
+    actions: ["braket:CancelQuantumTask"],
+    resources: {
+      "braket:CancelQuantumTask": [
+        "arn:${Partition}:braket:${Region}:${Account}:quantum-task/${RandomId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelQuantumTask",
 }));
@@ -628,6 +642,17 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  iam: {
+    actions: ["braket:CreateJob", "iam:PassRole", "braket:TagResource"],
+    resources: {
+      "braket:CreateJob": [
+        "arn:${Partition}:braket:*:*:device/${DeviceType}/${Provider}/${DeviceId}",
+        "arn:${Partition}:braket:${Region}:${Account}:job/${RandomId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "braket:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -664,6 +689,16 @@ export const createQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuantumTask",
+  iam: {
+    actions: ["braket:CreateQuantumTask", "braket:TagResource"],
+    resources: {
+      "braket:CreateQuantumTask": [
+        "arn:${Partition}:braket:*:*:device/${DeviceType}/${Provider}/${DeviceId}",
+        "arn:${Partition}:braket:${Region}:${Account}:quantum-task/${RandomId}",
+      ],
+    },
+    conditional: { "braket:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQuantumTask",
 }));
@@ -696,6 +731,16 @@ export const createSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpendingLimit",
+  iam: {
+    actions: ["braket:CreateSpendingLimit", "braket:TagResource"],
+    resources: {
+      "braket:CreateSpendingLimit": [
+        "arn:${Partition}:braket:*:*:device/${DeviceType}/${Provider}/${DeviceId}",
+        "arn:${Partition}:braket:${Region}:${Account}:spending-limit/${RandomId}",
+      ],
+    },
+    conditional: { "braket:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSpendingLimit",
 }));
@@ -728,6 +773,14 @@ export const deleteSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpendingLimit",
+  iam: {
+    actions: ["braket:DeleteSpendingLimit"],
+    resources: {
+      "braket:DeleteSpendingLimit": [
+        "arn:${Partition}:braket:${Region}:${Account}:spending-limit/${RandomId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSpendingLimit",
 }));
@@ -762,6 +815,14 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  iam: {
+    actions: ["braket:GetDevice"],
+    resources: {
+      "braket:GetDevice": [
+        "arn:${Partition}:braket:*:*:device/${DeviceType}/${Provider}/${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevice",
 }));
@@ -794,6 +855,12 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["braket:GetJob"],
+    resources: {
+      "braket:GetJob": ["arn:${Partition}:braket:${Region}:${Account}:job/${RandomId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -826,6 +893,14 @@ export const getQuantumTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuantumTask",
+  iam: {
+    actions: ["braket:GetQuantumTask"],
+    resources: {
+      "braket:GetQuantumTask": [
+        "arn:${Partition}:braket:${Region}:${Account}:quantum-task/${RandomId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQuantumTask",
 }));
@@ -850,6 +925,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["braket:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -887,6 +963,7 @@ export const searchDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["braket:SearchDevices"] },
   telemetry: TELEMETRY,
   span: "SearchDevices",
 })) as any;
@@ -924,6 +1001,7 @@ export const searchJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["braket:SearchJobs"] },
   telemetry: TELEMETRY,
   span: "SearchJobs",
 })) as any;
@@ -961,6 +1039,7 @@ export const searchQuantumTasks: API.PaginatedOperationMethod<
     items: "quantumTasks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["braket:SearchQuantumTasks"] },
   telemetry: TELEMETRY,
   span: "SearchQuantumTasks",
 })) as any;
@@ -998,6 +1077,7 @@ export const searchSpendingLimits: API.PaginatedOperationMethod<
     items: "spendingLimits",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["braket:SearchSpendingLimits"] },
   telemetry: TELEMETRY,
   span: "SearchSpendingLimits",
 })) as any;
@@ -1022,6 +1102,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["braket:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1046,6 +1127,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["braket:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1078,6 +1160,14 @@ export const updateSpendingLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpendingLimit",
+  iam: {
+    actions: ["braket:UpdateSpendingLimit"],
+    resources: {
+      "braket:UpdateSpendingLimit": [
+        "arn:${Partition}:braket:${Region}:${Account}:spending-limit/${RandomId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSpendingLimit",
 }));

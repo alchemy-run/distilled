@@ -1350,6 +1350,14 @@ export const addTagsToCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToCertificate",
+  iam: {
+    actions: ["acm:AddTagsToCertificate"],
+    resources: {
+      "acm:AddTagsToCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddTagsToCertificate",
 }));
@@ -1386,6 +1394,14 @@ export const createAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeDomainValidation",
+  iam: {
+    actions: ["acm:CreateAcmeDomainValidation"],
+    resources: {
+      "acm:CreateAcmeDomainValidation": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAcmeDomainValidation",
 }));
@@ -1420,6 +1436,7 @@ export const createAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeEndpoint",
+  iam: { actions: ["acm:CreateAcmeEndpoint"] },
   telemetry: TELEMETRY,
   span: "CreateAcmeEndpoint",
 }));
@@ -1456,6 +1473,14 @@ export const createAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeExternalAccountBinding",
+  iam: {
+    actions: ["acm:CreateAcmeExternalAccountBinding"],
+    resources: {
+      "acm:CreateAcmeExternalAccountBinding": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAcmeExternalAccountBinding",
 }));
@@ -1488,6 +1513,14 @@ export const deleteAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeDomainValidation",
+  iam: {
+    actions: ["acm:DeleteAcmeDomainValidation"],
+    resources: {
+      "acm:DeleteAcmeDomainValidation": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-domain-validation/${AcmeDomainValidationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAcmeDomainValidation",
 }));
@@ -1520,6 +1553,14 @@ export const deleteAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeEndpoint",
+  iam: {
+    actions: ["acm:DeleteAcmeEndpoint"],
+    resources: {
+      "acm:DeleteAcmeEndpoint": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAcmeEndpoint",
 }));
@@ -1550,6 +1591,14 @@ export const deleteAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeExternalAccountBinding",
+  iam: {
+    actions: ["acm:DeleteAcmeExternalAccountBinding"],
+    resources: {
+      "acm:DeleteAcmeExternalAccountBinding": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-external-account-binding/${ExternalAccountBindingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAcmeExternalAccountBinding",
 }));
@@ -1594,6 +1643,14 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  iam: {
+    actions: ["acm:DeleteCertificate"],
+    resources: {
+      "acm:DeleteCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificate",
 }));
@@ -1626,6 +1683,14 @@ export const describeAcmeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeAccount",
+  iam: {
+    actions: ["acm:DescribeAcmeAccount"],
+    resources: {
+      "acm:DescribeAcmeAccount": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAcmeAccount",
 }));
@@ -1658,6 +1723,14 @@ export const describeAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeDomainValidation",
+  iam: {
+    actions: ["acm:DescribeAcmeDomainValidation"],
+    resources: {
+      "acm:DescribeAcmeDomainValidation": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-domain-validation/${AcmeDomainValidationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAcmeDomainValidation",
 }));
@@ -1690,6 +1763,14 @@ export const describeAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeEndpoint",
+  iam: {
+    actions: ["acm:DescribeAcmeEndpoint"],
+    resources: {
+      "acm:DescribeAcmeEndpoint": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAcmeEndpoint",
 }));
@@ -1722,6 +1803,14 @@ export const describeAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeExternalAccountBinding",
+  iam: {
+    actions: ["acm:DescribeAcmeExternalAccountBinding"],
+    resources: {
+      "acm:DescribeAcmeExternalAccountBinding": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-external-account-binding/${ExternalAccountBindingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAcmeExternalAccountBinding",
 }));
@@ -1748,6 +1837,14 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  iam: {
+    actions: ["acm:DescribeCertificate"],
+    resources: {
+      "acm:DescribeCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificate",
 }));
@@ -1784,6 +1881,14 @@ export const exportCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportCertificate",
+  iam: {
+    actions: ["acm:ExportCertificate"],
+    resources: {
+      "acm:ExportCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportCertificate",
 }));
@@ -1807,6 +1912,7 @@ export const getAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountConfiguration",
+  iam: { actions: ["acm:GetAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetAccountConfiguration",
 }));
@@ -1839,6 +1945,14 @@ export const getAcmeExternalAccountBindingCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAcmeExternalAccountBindingCredentials",
+  iam: {
+    actions: ["acm:GetAcmeExternalAccountBindingCredentials"],
+    resources: {
+      "acm:GetAcmeExternalAccountBindingCredentials": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-external-account-binding/${ExternalAccountBindingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAcmeExternalAccountBindingCredentials",
 }));
@@ -1869,6 +1983,14 @@ export const getCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
+  iam: {
+    actions: ["acm:GetCertificate"],
+    resources: {
+      "acm:GetCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCertificate",
 }));
@@ -1937,6 +2059,18 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
+  iam: {
+    actions: ["acm:AddTagsToCertificate", "acm:ImportCertificate"],
+    resources: {
+      "acm:AddTagsToCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+      "acm:ImportCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+    conditional: { "acm:AddTagsToCertificate": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportCertificate",
 }));
@@ -1976,6 +2110,14 @@ export const listAcmeAccounts: API.PaginatedOperationMethod<
     items: "AcmeAccounts",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["acm:ListAcmeAccounts"],
+    resources: {
+      "acm:ListAcmeAccounts": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAcmeAccounts",
 })) as any;
@@ -2015,6 +2157,14 @@ export const listAcmeDomainValidations: API.PaginatedOperationMethod<
     items: "AcmeDomainValidations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["acm:ListAcmeDomainValidations"],
+    resources: {
+      "acm:ListAcmeDomainValidations": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAcmeDomainValidations",
 })) as any;
@@ -2052,6 +2202,7 @@ export const listAcmeEndpoints: API.PaginatedOperationMethod<
     items: "AcmeEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["acm:ListAcmeEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListAcmeEndpoints",
 })) as any;
@@ -2091,6 +2242,14 @@ export const listAcmeExternalAccountBindings: API.PaginatedOperationMethod<
     items: "ExternalAccountBindings",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["acm:ListAcmeExternalAccountBindings"],
+    resources: {
+      "acm:ListAcmeExternalAccountBindings": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAcmeExternalAccountBindings",
 })) as any;
@@ -2128,6 +2287,14 @@ export const listCertificateDomainValidations: API.PaginatedOperationMethod<
     items: "DomainValidationSummaryList",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["acm:ListCertificateDomainValidations"],
+    resources: {
+      "acm:ListCertificateDomainValidations": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCertificateDomainValidations",
 })) as any;
@@ -2157,6 +2324,7 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "CertificateSummaryList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["acm:ListCertificates"] },
   telemetry: TELEMETRY,
   span: "ListCertificates",
 })) as any;
@@ -2183,6 +2351,14 @@ export const listTagsForCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForCertificate",
+  iam: {
+    actions: ["acm:ListTagsForCertificate"],
+    resources: {
+      "acm:ListTagsForCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForCertificate",
 }));
@@ -2210,6 +2386,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["acm:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2237,6 +2414,7 @@ export const putAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountConfiguration",
+  iam: { actions: ["acm:PutAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutAccountConfiguration",
 }));
@@ -2277,6 +2455,14 @@ export const removeTagsFromCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromCertificate",
+  iam: {
+    actions: ["acm:RemoveTagsFromCertificate"],
+    resources: {
+      "acm:RemoveTagsFromCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromCertificate",
 }));
@@ -2307,6 +2493,14 @@ export const renewCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewCertificate",
+  iam: {
+    actions: ["acm:RenewCertificate"],
+    resources: {
+      "acm:RenewCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RenewCertificate",
 }));
@@ -2349,6 +2543,15 @@ export const requestCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCertificate",
+  iam: {
+    actions: ["acm:AddTagsToCertificate", "acm:RequestCertificate"],
+    resources: {
+      "acm:AddTagsToCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+    conditional: { "acm:AddTagsToCertificate": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RequestCertificate",
 }));
@@ -2381,6 +2584,14 @@ export const resendValidationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendValidationEmail",
+  iam: {
+    actions: ["acm:ResendValidationEmail"],
+    resources: {
+      "acm:ResendValidationEmail": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResendValidationEmail",
 }));
@@ -2415,6 +2626,14 @@ export const revokeAcmeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeAccount",
+  iam: {
+    actions: ["acm:RevokeAcmeAccount"],
+    resources: {
+      "acm:RevokeAcmeAccount": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeAcmeAccount",
 }));
@@ -2449,6 +2668,14 @@ export const revokeAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeExternalAccountBinding",
+  iam: {
+    actions: ["acm:RevokeAcmeExternalAccountBinding"],
+    resources: {
+      "acm:RevokeAcmeExternalAccountBinding": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-external-account-binding/${ExternalAccountBindingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeAcmeExternalAccountBinding",
 }));
@@ -2487,6 +2714,14 @@ export const revokeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
+  iam: {
+    actions: ["acm:RevokeCertificate"],
+    resources: {
+      "acm:RevokeCertificate": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeCertificate",
 }));
@@ -2518,6 +2753,7 @@ export const searchCertificates: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["acm:SearchCertificates"] },
   telemetry: TELEMETRY,
   span: "SearchCertificates",
 })) as any;
@@ -2546,6 +2782,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["acm:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2570,6 +2807,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["acm:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2604,6 +2842,14 @@ export const updateAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeDomainValidation",
+  iam: {
+    actions: ["acm:UpdateAcmeDomainValidation"],
+    resources: {
+      "acm:UpdateAcmeDomainValidation": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}/acme-domain-validation/${AcmeDomainValidationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAcmeDomainValidation",
 }));
@@ -2638,6 +2884,14 @@ export const updateAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeEndpoint",
+  iam: {
+    actions: ["acm:UpdateAcmeEndpoint"],
+    resources: {
+      "acm:UpdateAcmeEndpoint": [
+        "arn:${Partition}:acm:${Region}:${Account}:acme-endpoint/${AcmeEndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAcmeEndpoint",
 }));
@@ -2672,6 +2926,14 @@ export const updateCertificateOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateOptions",
+  iam: {
+    actions: ["acm:UpdateCertificateOptions"],
+    resources: {
+      "acm:UpdateCertificateOptions": [
+        "arn:${Partition}:acm:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCertificateOptions",
 }));

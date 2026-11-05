@@ -2010,6 +2010,14 @@ export const addInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceFleet",
+  iam: {
+    actions: ["elasticmapreduce:AddInstanceFleet"],
+    resources: {
+      "elasticmapreduce:AddInstanceFleet": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddInstanceFleet",
 }));
@@ -2030,6 +2038,14 @@ export const addInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceGroups",
+  iam: {
+    actions: ["elasticmapreduce:AddInstanceGroups"],
+    resources: {
+      "elasticmapreduce:AddInstanceGroups": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddInstanceGroups",
 }));
@@ -2071,6 +2087,14 @@ export const addJobFlowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddJobFlowSteps",
+  iam: {
+    actions: ["elasticmapreduce:AddJobFlowSteps"],
+    resources: {
+      "elasticmapreduce:AddJobFlowSteps": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddJobFlowSteps",
 }));
@@ -2095,6 +2119,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  iam: { actions: ["elasticmapreduce:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -2119,6 +2144,14 @@ export const cancelSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSteps",
+  iam: {
+    actions: ["elasticmapreduce:CancelSteps"],
+    resources: {
+      "elasticmapreduce:CancelSteps": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelSteps",
 }));
@@ -2142,6 +2175,22 @@ export const createPersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePersistentAppUI",
+  iam: {
+    actions: [
+      "elasticmapreduce:AccessAllEventLogs",
+      "elasticmapreduce:AddTags",
+      "elasticmapreduce:CreatePersistentAppUI",
+    ],
+    resources: {
+      "elasticmapreduce:AccessAllEventLogs": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+      "elasticmapreduce:CreatePersistentAppUI": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+    conditional: { "elasticmapreduce:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePersistentAppUI",
 }));
@@ -2167,6 +2216,7 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  iam: { actions: ["elasticmapreduce:CreateSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateSecurityConfiguration",
 }));
@@ -2197,6 +2247,11 @@ export const createStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudio",
+  iam: {
+    actions: ["elasticmapreduce:AddTags", "elasticmapreduce:CreateStudio", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "elasticmapreduce:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStudio",
 }));
@@ -2224,6 +2279,14 @@ export const createStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudioSessionMapping",
+  iam: {
+    actions: ["elasticmapreduce:CreateStudioSessionMapping"],
+    resources: {
+      "elasticmapreduce:CreateStudioSessionMapping": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStudioSessionMapping",
 }));
@@ -2248,6 +2311,7 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  iam: { actions: ["elasticmapreduce:DeleteSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSecurityConfiguration",
 }));
@@ -2272,6 +2336,14 @@ export const deleteStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudio",
+  iam: {
+    actions: ["elasticmapreduce:DeleteStudio"],
+    resources: {
+      "elasticmapreduce:DeleteStudio": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStudio",
 }));
@@ -2295,6 +2367,14 @@ export const deleteStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudioSessionMapping",
+  iam: {
+    actions: ["elasticmapreduce:DeleteStudioSessionMapping"],
+    resources: {
+      "elasticmapreduce:DeleteStudioSessionMapping": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStudioSessionMapping",
 }));
@@ -2320,6 +2400,14 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  iam: {
+    actions: ["elasticmapreduce:DescribeCluster"],
+    resources: {
+      "elasticmapreduce:DescribeCluster": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -2359,6 +2447,14 @@ export const describeJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobFlows",
+  iam: {
+    actions: ["elasticmapreduce:DescribeJobFlows"],
+    resources: {
+      "elasticmapreduce:DescribeJobFlows": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobFlows",
 }));
@@ -2382,6 +2478,14 @@ export const describeNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookExecution",
+  iam: {
+    actions: ["elasticmapreduce:DescribeNotebookExecution"],
+    resources: {
+      "elasticmapreduce:DescribeNotebookExecution": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:notebook-execution/${NotebookExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNotebookExecution",
 }));
@@ -2405,6 +2509,14 @@ export const describePersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePersistentAppUI",
+  iam: {
+    actions: ["elasticmapreduce:DescribePersistentAppUI"],
+    resources: {
+      "elasticmapreduce:DescribePersistentAppUI": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePersistentAppUI",
 }));
@@ -2430,6 +2542,7 @@ export const describeReleaseLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReleaseLabel",
+  iam: { actions: ["elasticmapreduce:DescribeReleaseLabel"] },
   telemetry: TELEMETRY,
   span: "DescribeReleaseLabel",
 }));
@@ -2455,6 +2568,7 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  iam: { actions: ["elasticmapreduce:DescribeSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityConfiguration",
 }));
@@ -2475,6 +2589,14 @@ export const describeStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStep",
+  iam: {
+    actions: ["elasticmapreduce:DescribeStep"],
+    resources: {
+      "elasticmapreduce:DescribeStep": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStep",
 }));
@@ -2500,6 +2622,14 @@ export const describeStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStudio",
+  iam: {
+    actions: ["elasticmapreduce:DescribeStudio"],
+    resources: {
+      "elasticmapreduce:DescribeStudio": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStudio",
 }));
@@ -2520,6 +2650,14 @@ export const getAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoTerminationPolicy",
+  iam: {
+    actions: ["elasticmapreduce:GetAutoTerminationPolicy"],
+    resources: {
+      "elasticmapreduce:GetAutoTerminationPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutoTerminationPolicy",
 }));
@@ -2545,6 +2683,7 @@ export const getBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlockPublicAccessConfiguration",
+  iam: { actions: ["elasticmapreduce:GetBlockPublicAccessConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetBlockPublicAccessConfiguration",
 }));
@@ -2571,6 +2710,14 @@ export const getClusterSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSessionCredentials",
+  iam: {
+    actions: ["elasticmapreduce:GetClusterSessionCredentials"],
+    resources: {
+      "elasticmapreduce:GetClusterSessionCredentials": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetClusterSessionCredentials",
 }));
@@ -2591,6 +2738,14 @@ export const getManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedScalingPolicy",
+  iam: {
+    actions: ["elasticmapreduce:GetManagedScalingPolicy"],
+    resources: {
+      "elasticmapreduce:GetManagedScalingPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedScalingPolicy",
 }));
@@ -2614,6 +2769,14 @@ export const getOnClusterAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnClusterAppUIPresignedURL",
+  iam: {
+    actions: ["elasticmapreduce:GetOnClusterAppUIPresignedURL"],
+    resources: {
+      "elasticmapreduce:GetOnClusterAppUIPresignedURL": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOnClusterAppUIPresignedURL",
 }));
@@ -2637,6 +2800,14 @@ export const getPersistentAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersistentAppUIPresignedURL",
+  iam: {
+    actions: ["elasticmapreduce:GetPersistentAppUIPresignedURL"],
+    resources: {
+      "elasticmapreduce:GetPersistentAppUIPresignedURL": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPersistentAppUIPresignedURL",
 }));
@@ -2657,6 +2828,14 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["elasticmapreduce:GetSession"],
+    resources: {
+      "elasticmapreduce:GetSession": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -2680,6 +2859,14 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  iam: {
+    actions: ["elasticmapreduce:GetSessionEndpoint"],
+    resources: {
+      "elasticmapreduce:GetSessionEndpoint": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionEndpoint",
 }));
@@ -2704,6 +2891,14 @@ export const getStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStudioSessionMapping",
+  iam: {
+    actions: ["elasticmapreduce:GetStudioSessionMapping"],
+    resources: {
+      "elasticmapreduce:GetStudioSessionMapping": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStudioSessionMapping",
 }));
@@ -2729,6 +2924,14 @@ export const listBootstrapActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBootstrapActions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "BootstrapActions" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListBootstrapActions"],
+    resources: {
+      "elasticmapreduce:ListBootstrapActions": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBootstrapActions",
 })) as any;
@@ -2755,6 +2958,7 @@ export const listClusters: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListClusters",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Clusters" } as const,
+  iam: { actions: ["elasticmapreduce:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -2783,6 +2987,14 @@ export const listInstanceFleets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceFleets",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceFleets" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListInstanceFleets"],
+    resources: {
+      "elasticmapreduce:ListInstanceFleets": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceFleets",
 })) as any;
@@ -2808,6 +3020,14 @@ export const listInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceGroups",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceGroups" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListInstanceGroups"],
+    resources: {
+      "elasticmapreduce:ListInstanceGroups": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceGroups",
 })) as any;
@@ -2833,6 +3053,14 @@ export const listInstances: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Instances" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListInstances"],
+    resources: {
+      "elasticmapreduce:ListInstances": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -2861,6 +3089,7 @@ export const listNotebookExecutions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotebookExecutions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "NotebookExecutions" } as const,
+  iam: { actions: ["elasticmapreduce:ListNotebookExecutions"] },
   telemetry: TELEMETRY,
   span: "ListNotebookExecutions",
 })) as any;
@@ -2891,6 +3120,7 @@ export const listReleaseLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["elasticmapreduce:ListReleaseLabels"] },
   telemetry: TELEMETRY,
   span: "ListReleaseLabels",
 })) as any;
@@ -2923,6 +3153,7 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     outputToken: "Marker",
     items: "SecurityConfigurations",
   } as const,
+  iam: { actions: ["elasticmapreduce:ListSecurityConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSecurityConfigurations",
 })) as any;
@@ -2945,6 +3176,14 @@ export const listSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSessions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Sessions" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListSessions"],
+    resources: {
+      "elasticmapreduce:ListSessions": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -2972,6 +3211,14 @@ export const listSteps: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSteps",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Steps" } as const,
+  iam: {
+    actions: ["elasticmapreduce:ListSteps"],
+    resources: {
+      "elasticmapreduce:ListSteps": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSteps",
 })) as any;
@@ -2995,6 +3242,7 @@ export const listStudios: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudios",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Studios" } as const,
+  iam: { actions: ["elasticmapreduce:ListStudios"] },
   telemetry: TELEMETRY,
   span: "ListStudios",
 })) as any;
@@ -3021,6 +3269,7 @@ export const listStudioSessionMappings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudioSessionMappings",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "SessionMappings" } as const,
+  iam: { actions: ["elasticmapreduce:ListStudioSessionMappings"] },
   telemetry: TELEMETRY,
   span: "ListStudioSessionMappings",
 })) as any;
@@ -3047,6 +3296,7 @@ export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSupportedInstanceTypes",
   pagination: { inputToken: "Marker", outputToken: "Marker" } as const,
+  iam: { actions: ["elasticmapreduce:ListSupportedInstanceTypes"] },
   telemetry: TELEMETRY,
   span: "ListSupportedInstanceTypes",
 })) as any;
@@ -3068,6 +3318,14 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  iam: {
+    actions: ["elasticmapreduce:ModifyCluster"],
+    resources: {
+      "elasticmapreduce:ModifyCluster": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyCluster",
 }));
@@ -3096,6 +3354,14 @@ export const modifyInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceFleet",
+  iam: {
+    actions: ["elasticmapreduce:ModifyInstanceFleet"],
+    resources: {
+      "elasticmapreduce:ModifyInstanceFleet": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceFleet",
 }));
@@ -3118,6 +3384,7 @@ export const modifyInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceGroups",
+  iam: { actions: ["elasticmapreduce:ModifyInstanceGroups"] },
   telemetry: TELEMETRY,
   span: "ModifyInstanceGroups",
 }));
@@ -3141,6 +3408,14 @@ export const putAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoScalingPolicy",
+  iam: {
+    actions: ["elasticmapreduce:PutAutoScalingPolicy"],
+    resources: {
+      "elasticmapreduce:PutAutoScalingPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAutoScalingPolicy",
 }));
@@ -3168,6 +3443,14 @@ export const putAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoTerminationPolicy",
+  iam: {
+    actions: ["elasticmapreduce:PutAutoTerminationPolicy"],
+    resources: {
+      "elasticmapreduce:PutAutoTerminationPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAutoTerminationPolicy",
 }));
@@ -3194,6 +3477,7 @@ export const putBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBlockPublicAccessConfiguration",
+  iam: { actions: ["elasticmapreduce:PutBlockPublicAccessConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutBlockPublicAccessConfiguration",
 }));
@@ -3217,6 +3501,14 @@ export const putManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedScalingPolicy",
+  iam: {
+    actions: ["elasticmapreduce:PutManagedScalingPolicy"],
+    resources: {
+      "elasticmapreduce:PutManagedScalingPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutManagedScalingPolicy",
 }));
@@ -3237,6 +3529,14 @@ export const removeAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoScalingPolicy",
+  iam: {
+    actions: ["elasticmapreduce:RemoveAutoScalingPolicy"],
+    resources: {
+      "elasticmapreduce:RemoveAutoScalingPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveAutoScalingPolicy",
 }));
@@ -3257,6 +3557,14 @@ export const removeAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoTerminationPolicy",
+  iam: {
+    actions: ["elasticmapreduce:RemoveAutoTerminationPolicy"],
+    resources: {
+      "elasticmapreduce:RemoveAutoTerminationPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveAutoTerminationPolicy",
 }));
@@ -3277,6 +3585,14 @@ export const removeManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveManagedScalingPolicy",
+  iam: {
+    actions: ["elasticmapreduce:RemoveManagedScalingPolicy"],
+    resources: {
+      "elasticmapreduce:RemoveManagedScalingPolicy": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveManagedScalingPolicy",
 }));
@@ -3302,6 +3618,7 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  iam: { actions: ["elasticmapreduce:RemoveTags"] },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -3346,6 +3663,11 @@ export const runJobFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunJobFlow",
+  iam: {
+    actions: ["elasticmapreduce:AddTags", "iam:PassRole", "elasticmapreduce:RunJobFlow"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "StepExecutionRoleArn", "elasticmapreduce:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RunJobFlow",
 }));
@@ -3370,6 +3692,14 @@ export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetKeepJobFlowAliveWhenNoSteps",
+  iam: {
+    actions: ["elasticmapreduce:SetKeepJobFlowAliveWhenNoSteps"],
+    resources: {
+      "elasticmapreduce:SetKeepJobFlowAliveWhenNoSteps": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetKeepJobFlowAliveWhenNoSteps",
 }));
@@ -3408,6 +3738,14 @@ export const setTerminationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTerminationProtection",
+  iam: {
+    actions: ["elasticmapreduce:SetTerminationProtection"],
+    resources: {
+      "elasticmapreduce:SetTerminationProtection": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetTerminationProtection",
 }));
@@ -3441,6 +3779,14 @@ export const setUnhealthyNodeReplacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUnhealthyNodeReplacement",
+  iam: {
+    actions: ["elasticmapreduce:SetUnhealthyNodeReplacement"],
+    resources: {
+      "elasticmapreduce:SetUnhealthyNodeReplacement": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetUnhealthyNodeReplacement",
 }));
@@ -3474,6 +3820,14 @@ export const setVisibleToAllUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVisibleToAllUsers",
+  iam: {
+    actions: ["elasticmapreduce:SetVisibleToAllUsers"],
+    resources: {
+      "elasticmapreduce:SetVisibleToAllUsers": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetVisibleToAllUsers",
 }));
@@ -3497,6 +3851,21 @@ export const startNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExecution",
+  iam: {
+    actions: [
+      "elasticmapreduce:AddTags",
+      "iam:PassRole",
+      "elasticmapreduce:StartNotebookExecution",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "elasticmapreduce:StartNotebookExecution": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:editor/${EditorId}",
+      ],
+    },
+    conditional: { "elasticmapreduce:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartNotebookExecution",
 }));
@@ -3517,6 +3886,16 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  iam: {
+    actions: ["elasticmapreduce:AddTags", "iam:PassRole", "elasticmapreduce:StartSession"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "elasticmapreduce:StartSession": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ExecutionRoleArn", "elasticmapreduce:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSession",
 }));
@@ -3540,6 +3919,14 @@ export const stopNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookExecution",
+  iam: {
+    actions: ["elasticmapreduce:StopNotebookExecution"],
+    resources: {
+      "elasticmapreduce:StopNotebookExecution": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:notebook-execution/${NotebookExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopNotebookExecution",
 }));
@@ -3567,6 +3954,14 @@ export const terminateJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJobFlows",
+  iam: {
+    actions: ["elasticmapreduce:TerminateJobFlows"],
+    resources: {
+      "elasticmapreduce:TerminateJobFlows": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateJobFlows",
 }));
@@ -3590,6 +3985,14 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  iam: {
+    actions: ["elasticmapreduce:TerminateSession"],
+    resources: {
+      "elasticmapreduce:TerminateSession": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:cluster/${ClusterId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateSession",
 }));
@@ -3615,6 +4018,16 @@ export const updateStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudio",
+  iam: {
+    actions: ["iam:PassRole", "elasticmapreduce:UpdateStudio"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "elasticmapreduce:UpdateStudio": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStudio",
 }));
@@ -3638,6 +4051,14 @@ export const updateStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudioSessionMapping",
+  iam: {
+    actions: ["elasticmapreduce:UpdateStudioSessionMapping"],
+    resources: {
+      "elasticmapreduce:UpdateStudioSessionMapping": [
+        "arn:${Partition}:elasticmapreduce:${Region}:${Account}:studio/${StudioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStudioSessionMapping",
 }));

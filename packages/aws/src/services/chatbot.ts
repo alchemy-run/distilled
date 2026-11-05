@@ -747,6 +747,15 @@ export const associateToConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateToConfiguration",
+  iam: {
+    actions: ["chatbot:AssociateToConfiguration"],
+    resources: {
+      "chatbot:AssociateToConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+        "arn:${Partition}:chatbot::${Account}:custom-action/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateToConfiguration",
 }));
@@ -779,6 +788,11 @@ export const createChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChimeWebhookConfiguration",
+  iam: {
+    actions: ["chatbot:CreateChimeWebhookConfiguration", "iam:PassRole", "chatbot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "chatbot:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateChimeWebhookConfiguration",
 }));
@@ -811,6 +825,10 @@ export const createCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomAction",
+  iam: {
+    actions: ["chatbot:CreateCustomAction", "chatbot:TagResource"],
+    conditional: { "chatbot:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomAction",
 }));
@@ -845,6 +863,15 @@ export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftTeamsChannelConfiguration",
+  iam: {
+    actions: [
+      "chatbot:CreateMicrosoftTeamsChannelConfiguration",
+      "iam:PassRole",
+      "chatbot:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "chatbot:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMicrosoftTeamsChannelConfiguration",
 }));
@@ -879,6 +906,11 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
+  iam: {
+    actions: ["chatbot:CreateSlackChannelConfiguration", "iam:PassRole", "chatbot:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "chatbot:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSlackChannelConfiguration",
 }));
@@ -909,6 +941,14 @@ export const deleteChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChimeWebhookConfiguration",
+  iam: {
+    actions: ["chatbot:DeleteChimeWebhookConfiguration"],
+    resources: {
+      "chatbot:DeleteChimeWebhookConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChimeWebhookConfiguration",
 }));
@@ -939,6 +979,14 @@ export const deleteCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomAction",
+  iam: {
+    actions: ["chatbot:DeleteCustomAction"],
+    resources: {
+      "chatbot:DeleteCustomAction": [
+        "arn:${Partition}:chatbot::${Account}:custom-action/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomAction",
 }));
@@ -969,6 +1017,14 @@ export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsChannelConfiguration",
+  iam: {
+    actions: ["chatbot:DeleteMicrosoftTeamsChannelConfiguration"],
+    resources: {
+      "chatbot:DeleteMicrosoftTeamsChannelConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMicrosoftTeamsChannelConfiguration",
 }));
@@ -997,6 +1053,7 @@ export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsConfiguredTeam",
+  iam: { actions: ["chatbot:DeleteMicrosoftTeamsConfiguredTeam"] },
   telemetry: TELEMETRY,
   span: "DeleteMicrosoftTeamsConfiguredTeam",
 }));
@@ -1025,6 +1082,7 @@ export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsUserIdentity",
+  iam: { actions: ["chatbot:DeleteMicrosoftTeamsUserIdentity"] },
   telemetry: TELEMETRY,
   span: "DeleteMicrosoftTeamsUserIdentity",
 }));
@@ -1055,6 +1113,14 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
+  iam: {
+    actions: ["chatbot:DeleteSlackChannelConfiguration"],
+    resources: {
+      "chatbot:DeleteSlackChannelConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSlackChannelConfiguration",
 }));
@@ -1079,6 +1145,7 @@ export const deleteSlackUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackUserIdentity",
+  iam: { actions: ["chatbot:DeleteSlackUserIdentity"] },
   telemetry: TELEMETRY,
   span: "DeleteSlackUserIdentity",
 }));
@@ -1102,6 +1169,7 @@ export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceAuthorization",
+  iam: { actions: ["chatbot:DeleteSlackWorkspaceAuthorization"] },
   telemetry: TELEMETRY,
   span: "DeleteSlackWorkspaceAuthorization",
 }));
@@ -1137,6 +1205,7 @@ export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
     items: "WebhookConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:DescribeChimeWebhookConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeChimeWebhookConfigurations",
 })) as any;
@@ -1172,6 +1241,7 @@ export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
     items: "SlackChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:DescribeSlackChannelConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeSlackChannelConfigurations",
 })) as any;
@@ -1207,6 +1277,7 @@ export const describeSlackUserIdentities: API.PaginatedOperationMethod<
     items: "SlackUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:DescribeSlackUserIdentities"] },
   telemetry: TELEMETRY,
   span: "DescribeSlackUserIdentities",
 })) as any;
@@ -1238,6 +1309,7 @@ export const describeSlackWorkspaces: API.PaginatedOperationMethod<
     items: "SlackWorkspaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:DescribeSlackWorkspaces"] },
   telemetry: TELEMETRY,
   span: "DescribeSlackWorkspaces",
 })) as any;
@@ -1268,6 +1340,15 @@ export const disassociateFromConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromConfiguration",
+  iam: {
+    actions: ["chatbot:DisassociateFromConfiguration"],
+    resources: {
+      "chatbot:DisassociateFromConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+        "arn:${Partition}:chatbot::${Account}:custom-action/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateFromConfiguration",
 }));
@@ -1291,6 +1372,7 @@ export const getAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPreferences",
+  iam: { actions: ["chatbot:GetAccountPreferences"] },
   telemetry: TELEMETRY,
   span: "GetAccountPreferences",
 }));
@@ -1321,6 +1403,14 @@ export const getCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomAction",
+  iam: {
+    actions: ["chatbot:GetCustomAction"],
+    resources: {
+      "chatbot:GetCustomAction": [
+        "arn:${Partition}:chatbot::${Account}:custom-action/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomAction",
 }));
@@ -1351,6 +1441,7 @@ export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrosoftTeamsChannelConfiguration",
+  iam: { actions: ["chatbot:GetMicrosoftTeamsChannelConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetMicrosoftTeamsChannelConfiguration",
 }));
@@ -1378,6 +1469,14 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["chatbot:ListAssociations"],
+    resources: {
+      "chatbot:ListAssociations": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociations",
 })) as any;
@@ -1409,6 +1508,7 @@ export const listCustomActions: API.PaginatedOperationMethod<
     items: "CustomActions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:ListCustomActions"] },
   telemetry: TELEMETRY,
   span: "ListCustomActions",
 })) as any;
@@ -1444,6 +1544,7 @@ export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMeth
     items: "TeamChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:ListMicrosoftTeamsChannelConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListMicrosoftTeamsChannelConfigurations",
 })) as any;
@@ -1479,6 +1580,7 @@ export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
     items: "ConfiguredTeams",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:ListMicrosoftTeamsConfiguredTeams"] },
   telemetry: TELEMETRY,
   span: "ListMicrosoftTeamsConfiguredTeams",
 })) as any;
@@ -1514,6 +1616,7 @@ export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
     items: "TeamsUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["chatbot:ListMicrosoftTeamsUserIdentities"] },
   telemetry: TELEMETRY,
   span: "ListMicrosoftTeamsUserIdentities",
 })) as any;
@@ -1538,6 +1641,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["chatbot:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1568,6 +1672,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["chatbot:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1592,6 +1697,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["chatbot:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1616,6 +1722,7 @@ export const updateAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPreferences",
+  iam: { actions: ["chatbot:UpdateAccountPreferences"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountPreferences",
 }));
@@ -1646,6 +1753,16 @@ export const updateChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChimeWebhookConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "chatbot:UpdateChimeWebhookConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "chatbot:UpdateChimeWebhookConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChimeWebhookConfiguration",
 }));
@@ -1676,6 +1793,14 @@ export const updateCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomAction",
+  iam: {
+    actions: ["chatbot:UpdateCustomAction"],
+    resources: {
+      "chatbot:UpdateCustomAction": [
+        "arn:${Partition}:chatbot::${Account}:custom-action/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomAction",
 }));
@@ -1706,6 +1831,16 @@ export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrosoftTeamsChannelConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "chatbot:UpdateMicrosoftTeamsChannelConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "chatbot:UpdateMicrosoftTeamsChannelConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMicrosoftTeamsChannelConfiguration",
 }));
@@ -1736,6 +1871,16 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "chatbot:UpdateSlackChannelConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "chatbot:UpdateSlackChannelConfiguration": [
+        "arn:${Partition}:chatbot::${Account}:chat-configuration/${ConfigurationType}/${ChatbotConfigurationName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSlackChannelConfiguration",
 }));

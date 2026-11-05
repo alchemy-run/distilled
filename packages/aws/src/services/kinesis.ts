@@ -1745,6 +1745,14 @@ export const addTagsToStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
+  iam: {
+    actions: ["kinesis:AddTagsToStream"],
+    resources: {
+      "kinesis:AddTagsToStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "AddTagsToStream",
@@ -1807,6 +1815,30 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  iam: {
+    actions: [
+      "kinesis:AssociateStreamsWithChannel",
+      "kinesis:CreateChannel",
+      "iam:PassRole",
+      "kinesis:TagResource",
+    ],
+    resources: {
+      "kinesis:AssociateStreamsWithChannel": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+      "kinesis:CreateChannel": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "kinesis:TagResource": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+    conditional: { "kinesis:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -1875,6 +1907,18 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  iam: {
+    actions: ["kinesis:AddTagsToStream", "kinesis:CreateStream"],
+    resources: {
+      "kinesis:AddTagsToStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+      "kinesis:CreateStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+    conditional: { "kinesis:AddTagsToStream": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateStream", input: { StreamName: [{ name: "aws.kinesis.stream_name" }] } },
 }));
@@ -1917,6 +1961,14 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
+  iam: {
+    actions: ["kinesis:DecreaseStreamRetentionPeriod"],
+    resources: {
+      "kinesis:DecreaseStreamRetentionPeriod": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DecreaseStreamRetentionPeriod",
@@ -1959,6 +2011,14 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  iam: {
+    actions: ["kinesis:DeleteChannel"],
+    resources: {
+      "kinesis:DeleteChannel": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -1995,6 +2055,15 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["kinesis:DeleteResourcePolicy"],
+    resources: {
+      "kinesis:DeleteResourcePolicy": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -2052,6 +2121,14 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  iam: {
+    actions: ["kinesis:DeleteStream"],
+    resources: {
+      "kinesis:DeleteStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteStream",
@@ -2090,6 +2167,14 @@ export const deregisterStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
+  iam: {
+    actions: ["kinesis:DeregisterStreamConsumer"],
+    resources: {
+      "kinesis:DeregisterStreamConsumer": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeregisterStreamConsumer",
@@ -2115,6 +2200,7 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  iam: { actions: ["kinesis:DescribeAccountSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountSettings",
 }));
@@ -2151,6 +2237,14 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  iam: {
+    actions: ["kinesis:DescribeChannel"],
+    resources: {
+      "kinesis:DescribeChannel": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -2176,6 +2270,7 @@ export const describeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
+  iam: { actions: ["kinesis:DescribeLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeLimits",
 }));
@@ -2232,6 +2327,14 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  iam: {
+    actions: ["kinesis:DescribeStream"],
+    resources: {
+      "kinesis:DescribeStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeStream",
@@ -2272,6 +2375,14 @@ export const describeStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
+  iam: {
+    actions: ["kinesis:DescribeStreamConsumer"],
+    resources: {
+      "kinesis:DescribeStreamConsumer": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeStreamConsumer",
@@ -2317,6 +2428,14 @@ export const describeStreamSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamSummary",
+  iam: {
+    actions: ["kinesis:DescribeStreamSummary"],
+    resources: {
+      "kinesis:DescribeStreamSummary": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeStreamSummary",
@@ -2359,6 +2478,7 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEnhancedMonitoring",
+  iam: { actions: ["kinesis:DisableEnhancedMonitoring"] },
   telemetry: TELEMETRY,
   span: {
     op: "DisableEnhancedMonitoring",
@@ -2401,6 +2521,7 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEnhancedMonitoring",
+  iam: { actions: ["kinesis:EnableEnhancedMonitoring"] },
   telemetry: TELEMETRY,
   span: {
     op: "EnableEnhancedMonitoring",
@@ -2516,6 +2637,12 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  iam: {
+    actions: ["kinesis:GetRecords"],
+    resources: {
+      "kinesis:GetRecords": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetRecords",
@@ -2555,6 +2682,15 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["kinesis:GetResourcePolicy"],
+    resources: {
+      "kinesis:GetResourcePolicy": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -2631,6 +2767,14 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  iam: {
+    actions: ["kinesis:GetShardIterator"],
+    resources: {
+      "kinesis:GetShardIterator": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetShardIterator",
@@ -2682,6 +2826,14 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
+  iam: {
+    actions: ["kinesis:IncreaseStreamRetentionPeriod"],
+    resources: {
+      "kinesis:IncreaseStreamRetentionPeriod": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "IncreaseStreamRetentionPeriod",
@@ -2731,6 +2883,7 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "ChannelSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kinesis:ListChannels"] },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -2779,6 +2932,12 @@ export const listShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShards",
+  iam: {
+    actions: ["kinesis:ListShards"],
+    resources: {
+      "kinesis:ListShards": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListShards",
@@ -2826,6 +2985,14 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kinesis:ListStreamConsumers"],
+    resources: {
+      "kinesis:ListStreamConsumers": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListStreamConsumers",
@@ -2872,6 +3039,7 @@ export const listStreams: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStreams",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: { actions: ["kinesis:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;
@@ -2906,6 +3074,16 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["kinesis:ListTagsForResource"],
+    resources: {
+      "kinesis:ListTagsForResource": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2941,6 +3119,14 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  iam: {
+    actions: ["kinesis:ListTagsForStream"],
+    resources: {
+      "kinesis:ListTagsForStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListTagsForStream",
@@ -3025,6 +3211,12 @@ export const mergeShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeShards",
+  iam: {
+    actions: ["kinesis:MergeShards"],
+    resources: {
+      "kinesis:MergeShards": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "MergeShards",
@@ -3122,6 +3314,12 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  iam: {
+    actions: ["kinesis:PutRecord"],
+    resources: {
+      "kinesis:PutRecord": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutRecord",
@@ -3242,6 +3440,12 @@ export const putRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecords",
+  iam: {
+    actions: ["kinesis:PutRecords"],
+    resources: {
+      "kinesis:PutRecords": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutRecords",
@@ -3292,6 +3496,15 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["kinesis:PutResourcePolicy"],
+    resources: {
+      "kinesis:PutResourcePolicy": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -3340,6 +3553,20 @@ export const registerStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterStreamConsumer",
+  iam: {
+    actions: ["kinesis:RegisterStreamConsumer", "kinesis:TagResource"],
+    resources: {
+      "kinesis:RegisterStreamConsumer": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+      "kinesis:TagResource": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+    conditional: { "kinesis:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RegisterStreamConsumer",
@@ -3385,6 +3612,14 @@ export const removeTagsFromStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromStream",
+  iam: {
+    actions: ["kinesis:RemoveTagsFromStream"],
+    resources: {
+      "kinesis:RemoveTagsFromStream": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RemoveTagsFromStream",
@@ -3475,6 +3710,12 @@ export const splitShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SplitShard",
+  iam: {
+    actions: ["kinesis:SplitShard"],
+    resources: {
+      "kinesis:SplitShard": ["arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SplitShard",
@@ -3547,6 +3788,15 @@ export const startStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamEncryption",
+  iam: {
+    actions: ["kinesis:StartStreamEncryption"],
+    resources: {
+      "kinesis:StartStreamEncryption": [
+        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StartStreamEncryption",
@@ -3606,6 +3856,15 @@ export const stopStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamEncryption",
+  iam: {
+    actions: ["kinesis:StopStreamEncryption"],
+    resources: {
+      "kinesis:StopStreamEncryption": [
+        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StopStreamEncryption",
@@ -3672,6 +3931,14 @@ export const subscribeToShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToShard",
+  iam: {
+    actions: ["kinesis:SubscribeToShard"],
+    resources: {
+      "kinesis:SubscribeToShard": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubscribeToShard",
 }));
@@ -3704,6 +3971,16 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["kinesis:TagResource"],
+    resources: {
+      "kinesis:TagResource": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3736,6 +4013,16 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["kinesis:UntagResource"],
+    resources: {
+      "kinesis:UntagResource": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:${StreamType}/${StreamName}/consumer/${ConsumerName}:${ConsumerCreationTimpstamp}",
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3768,6 +4055,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: { actions: ["kinesis:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -3806,6 +4094,14 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  iam: {
+    actions: ["kinesis:UpdateChannel"],
+    resources: {
+      "kinesis:UpdateChannel": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:channel/${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -3840,6 +4136,14 @@ export const updateMaxRecordSize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaxRecordSize",
+  iam: {
+    actions: ["kinesis:UpdateMaxRecordSize"],
+    resources: {
+      "kinesis:UpdateMaxRecordSize": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateMaxRecordSize",
@@ -3923,6 +4227,7 @@ export const updateShardCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShardCount",
+  iam: { actions: ["kinesis:UpdateShardCount"] },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateShardCount",
@@ -3965,6 +4270,7 @@ export const updateStreamMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
+  iam: { actions: ["kinesis:UpdateStreamMode"] },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateStreamMode",
@@ -4029,6 +4335,14 @@ export const updateStreamRecordDistributionStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamRecordDistributionStrategy",
+  iam: {
+    actions: ["kinesis:UpdateStreamRecordDistributionStrategy"],
+    resources: {
+      "kinesis:UpdateStreamRecordDistributionStrategy": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateStreamRecordDistributionStrategy",
@@ -4083,6 +4397,14 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamWarmThroughput",
+  iam: {
+    actions: ["kinesis:UpdateStreamWarmThroughput"],
+    resources: {
+      "kinesis:UpdateStreamWarmThroughput": [
+        "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateStreamWarmThroughput",

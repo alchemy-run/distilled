@@ -630,6 +630,7 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
+  iam: { actions: ["timestream:CancelQuery"] },
   telemetry: TELEMETRY,
   span: "CancelQuery",
 }));
@@ -670,6 +671,18 @@ export const createScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledQuery",
+  iam: {
+    actions: ["timestream:CreateScheduledQuery", "iam:PassRole", "timestream:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "timestream:TagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+    conditional: { "timestream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledQuery",
 }));
@@ -704,6 +717,14 @@ export const deleteScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledQuery",
+  iam: {
+    actions: ["timestream:DeleteScheduledQuery"],
+    resources: {
+      "timestream:DeleteScheduledQuery": [
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledQuery",
 }));
@@ -736,6 +757,7 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  iam: { actions: ["timestream:DescribeAccountSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountSettings",
 }));
@@ -781,6 +803,7 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  iam: { actions: ["timestream:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoints",
 }));
@@ -815,6 +838,14 @@ export const describeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScheduledQuery",
+  iam: {
+    actions: ["timestream:DescribeScheduledQuery"],
+    resources: {
+      "timestream:DescribeScheduledQuery": [
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeScheduledQuery",
 }));
@@ -851,6 +882,14 @@ export const executeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteScheduledQuery",
+  iam: {
+    actions: ["timestream:ExecuteScheduledQuery"],
+    resources: {
+      "timestream:ExecuteScheduledQuery": [
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecuteScheduledQuery",
 }));
@@ -891,6 +930,7 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
     items: "ScheduledQueries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["timestream:ListScheduledQueries"] },
   telemetry: TELEMETRY,
   span: "ListScheduledQueries",
 })) as any;
@@ -928,6 +968,16 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["timestream:ListTagsForResource"],
+    resources: {
+      "timestream:ListTagsForResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -962,6 +1012,14 @@ export const prepareQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareQuery",
+  iam: {
+    actions: ["timestream:Select"],
+    resources: {
+      "timestream:Select": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PrepareQuery",
 }));
@@ -1036,6 +1094,34 @@ export const query: API.PaginatedOperationMethod<
     items: "Rows",
     pageSize: "MaxRows",
   } as const,
+  iam: {
+    actions: [
+      "timestream:DescribeTable",
+      "timestream:ListDatabases",
+      "timestream:ListMeasures",
+      "timestream:ListTables",
+      "timestream:Select",
+      "timestream:SelectValues",
+      "timestream:Unload",
+    ],
+    resources: {
+      "timestream:DescribeTable": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+      "timestream:ListMeasures": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+      "timestream:ListTables": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+      ],
+      "timestream:Select": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+      "timestream:Unload": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Query",
 })) as any;
@@ -1070,6 +1156,16 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["timestream:TagResource"],
+    resources: {
+      "timestream:TagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1100,6 +1196,16 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["timestream:UntagResource"],
+    resources: {
+      "timestream:UntagResource": [
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+        "arn:${Partition}:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1134,6 +1240,11 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: {
+    actions: ["iam:PassRole", "timestream:UpdateAccountSettings"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -1168,6 +1279,14 @@ export const updateScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledQuery",
+  iam: {
+    actions: ["timestream:UpdateScheduledQuery"],
+    resources: {
+      "timestream:UpdateScheduledQuery": [
+        "arn:${Partition}:timestream:${Region}:${Account}:scheduled-query/${ScheduledQueryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledQuery",
 }));

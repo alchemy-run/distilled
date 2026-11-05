@@ -1200,6 +1200,18 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  iam: {
+    actions: ["network-security-manager:CreateDeployment", "network-security-manager:TagResource"],
+    resources: {
+      "network-security-manager:CreateDeployment": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}:${VersionNumber}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}:${VersionNumber}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -1236,6 +1248,18 @@ export const createDeploymentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentSnapshot",
+  iam: {
+    actions: [
+      "network-security-manager:CreateDeploymentSnapshot",
+      "network-security-manager:TagResource",
+    ],
+    resources: {
+      "network-security-manager:CreateDeploymentSnapshot": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeploymentSnapshot",
 }));
@@ -1274,6 +1298,10 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["network-security-manager:CreatePolicy", "network-security-manager:TagResource"],
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -1310,6 +1338,18 @@ export const createPolicySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicySnapshot",
+  iam: {
+    actions: [
+      "network-security-manager:CreatePolicySnapshot",
+      "network-security-manager:TagResource",
+    ],
+    resources: {
+      "network-security-manager:CreatePolicySnapshot": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicySnapshot",
 }));
@@ -1348,6 +1388,10 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: {
+    actions: ["network-security-manager:CreateRule", "network-security-manager:TagResource"],
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -1384,6 +1428,18 @@ export const createRuleSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSnapshot",
+  iam: {
+    actions: [
+      "network-security-manager:CreateRuleSnapshot",
+      "network-security-manager:TagResource",
+    ],
+    resources: {
+      "network-security-manager:CreateRuleSnapshot": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRuleSnapshot",
 }));
@@ -1422,6 +1478,10 @@ export const createScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScope",
+  iam: {
+    actions: ["network-security-manager:CreateScope", "network-security-manager:TagResource"],
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScope",
 }));
@@ -1458,6 +1518,18 @@ export const createScopeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScopeSnapshot",
+  iam: {
+    actions: [
+      "network-security-manager:CreateScopeSnapshot",
+      "network-security-manager:TagResource",
+    ],
+    resources: {
+      "network-security-manager:CreateScopeSnapshot": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScopeSnapshot",
 }));
@@ -1496,6 +1568,16 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  iam: {
+    actions: ["network-security-manager:CreateTemplate", "network-security-manager:TagResource"],
+    resources: {
+      "network-security-manager:CreateTemplate": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}:${VersionNumber}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -1532,6 +1614,18 @@ export const createTemplateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateSnapshot",
+  iam: {
+    actions: [
+      "network-security-manager:CreateTemplateSnapshot",
+      "network-security-manager:TagResource",
+    ],
+    resources: {
+      "network-security-manager:CreateTemplateSnapshot": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}",
+      ],
+    },
+    conditional: { "network-security-manager:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplateSnapshot",
 }));
@@ -1562,6 +1656,7 @@ export const deleteAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdminAccount",
+  iam: { actions: ["network-security-manager:DeleteAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DeleteAdminAccount",
 }));
@@ -1594,6 +1689,15 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  iam: {
+    actions: ["network-security-manager:DeleteDeployment"],
+    resources: {
+      "network-security-manager:DeleteDeployment": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeployment",
 }));
@@ -1626,6 +1730,15 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["network-security-manager:DeletePolicy"],
+    resources: {
+      "network-security-manager:DeletePolicy": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -1658,6 +1771,15 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: {
+    actions: ["network-security-manager:DeleteRule"],
+    resources: {
+      "network-security-manager:DeleteRule": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -1690,6 +1812,15 @@ export const deleteScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScope",
+  iam: {
+    actions: ["network-security-manager:DeleteScope"],
+    resources: {
+      "network-security-manager:DeleteScope": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScope",
 }));
@@ -1722,6 +1853,15 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  iam: {
+    actions: ["network-security-manager:DeleteTemplate"],
+    resources: {
+      "network-security-manager:DeleteTemplate": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -1752,6 +1892,7 @@ export const generateRuleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRuleConfiguration",
+  iam: { actions: ["network-security-manager:GenerateRuleConfiguration"] },
   telemetry: TELEMETRY,
   span: "GenerateRuleConfiguration",
 }));
@@ -1784,6 +1925,7 @@ export const getAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminAccount",
+  iam: { actions: ["network-security-manager:GetAdminAccount"] },
   telemetry: TELEMETRY,
   span: "GetAdminAccount",
 }));
@@ -1816,6 +1958,15 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  iam: {
+    actions: ["network-security-manager:GetDeployment"],
+    resources: {
+      "network-security-manager:GetDeployment": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -1848,6 +1999,15 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["network-security-manager:GetPolicy"],
+    resources: {
+      "network-security-manager:GetPolicy": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -1880,6 +2040,15 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  iam: {
+    actions: ["network-security-manager:GetRule"],
+    resources: {
+      "network-security-manager:GetRule": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRule",
 }));
@@ -1912,6 +2081,15 @@ export const getScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScope",
+  iam: {
+    actions: ["network-security-manager:GetScope"],
+    resources: {
+      "network-security-manager:GetScope": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetScope",
 }));
@@ -1944,6 +2122,15 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  iam: {
+    actions: ["network-security-manager:GetTemplate"],
+    resources: {
+      "network-security-manager:GetTemplate": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -1981,6 +2168,7 @@ export const listAdminAccounts: API.PaginatedOperationMethod<
     items: "adminAccounts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAdminAccounts",
 })) as any;
@@ -2022,6 +2210,7 @@ export const listAggregateResourceSynchronizationStatuses: API.PaginatedOperatio
     items: "resourceSynchronizationStatuses",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListAggregateResourceSynchronizationStatuses"] },
   telemetry: TELEMETRY,
   span: "ListAggregateResourceSynchronizationStatuses",
 })) as any;
@@ -2059,6 +2248,7 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListDeployments"] },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -2098,6 +2288,14 @@ export const listDeploymentSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListDeploymentSnapshots"],
+    resources: {
+      "network-security-manager:ListDeploymentSnapshots": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDeploymentSnapshots",
 })) as any;
@@ -2135,6 +2333,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -2174,6 +2373,14 @@ export const listPolicySnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListPolicySnapshots"],
+    resources: {
+      "network-security-manager:ListPolicySnapshots": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicySnapshots",
 })) as any;
@@ -2211,6 +2418,23 @@ export const listResourceAssociations: API.PaginatedOperationMethod<
     items: "resourceAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListResourceAssociations"],
+    resources: {
+      "network-security-manager:ListResourceAssociations": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}:${VersionNumber}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:policy:${PolicyId}:${VersionNumber}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}:${VersionNumber}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}:${VersionNumber}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResourceAssociations",
 })) as any;
@@ -2250,6 +2474,15 @@ export const listResourceSynchronizationStatuses: API.PaginatedOperationMethod<
     items: "resourceSynchronizationStatuses",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListResourceSynchronizationStatuses"],
+    resources: {
+      "network-security-manager:ListResourceSynchronizationStatuses": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}",
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:deployment:${DeploymentId}:${VersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResourceSynchronizationStatuses",
 })) as any;
@@ -2287,6 +2520,7 @@ export const listRules: API.PaginatedOperationMethod<
     items: "rules",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -2326,6 +2560,14 @@ export const listRuleSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListRuleSnapshots"],
+    resources: {
+      "network-security-manager:ListRuleSnapshots": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRuleSnapshots",
 })) as any;
@@ -2363,6 +2605,7 @@ export const listScopes: API.PaginatedOperationMethod<
     items: "scopes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListScopes"] },
   telemetry: TELEMETRY,
   span: "ListScopes",
 })) as any;
@@ -2402,6 +2645,14 @@ export const listScopeSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListScopeSnapshots"],
+    resources: {
+      "network-security-manager:ListScopeSnapshots": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListScopeSnapshots",
 })) as any;
@@ -2434,6 +2685,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["network-security-manager:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2471,6 +2723,7 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["network-security-manager:ListTemplates"] },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 })) as any;
@@ -2510,6 +2763,14 @@ export const listTemplateSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["network-security-manager:ListTemplateSnapshots"],
+    resources: {
+      "network-security-manager:ListTemplateSnapshots": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:template:${TemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateSnapshots",
 })) as any;
@@ -2548,6 +2809,7 @@ export const putAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAdminAccount",
+  iam: { actions: ["network-security-manager:PutAdminAccount"] },
   telemetry: TELEMETRY,
   span: "PutAdminAccount",
 }));
@@ -2582,6 +2844,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["network-security-manager:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2616,6 +2879,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["network-security-manager:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2652,6 +2916,7 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  iam: { actions: ["network-security-manager:UpdateDeployment"] },
   telemetry: TELEMETRY,
   span: "UpdateDeployment",
 }));
@@ -2688,6 +2953,7 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  iam: { actions: ["network-security-manager:UpdatePolicy"] },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -2724,6 +2990,14 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: {
+    actions: ["network-security-manager:UpdateRule"],
+    resources: {
+      "network-security-manager:UpdateRule": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:rule:${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));
@@ -2760,6 +3034,14 @@ export const updateScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScope",
+  iam: {
+    actions: ["network-security-manager:UpdateScope"],
+    resources: {
+      "network-security-manager:UpdateScope": [
+        "arn:${Partition}:network-security-manager:${Region}:${Account}:scope:${ScopeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScope",
 }));
@@ -2796,6 +3078,7 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  iam: { actions: ["network-security-manager:UpdateTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));

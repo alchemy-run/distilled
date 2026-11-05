@@ -2483,6 +2483,12 @@ export const calculateIsolines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateIsolines",
+  iam: {
+    actions: ["geo-routes:CalculateIsolines"],
+    resources: {
+      "geo-routes:CalculateIsolines": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CalculateIsolines",
 }));
@@ -2515,6 +2521,14 @@ export const calculateRouteMatrix: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateRouteMatrix",
+  iam: {
+    actions: ["geo-routes:CalculateRouteMatrix"],
+    resources: {
+      "geo-routes:CalculateRouteMatrix": [
+        "arn:${Partition}:geo-routes:${Region}::provider/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CalculateRouteMatrix",
 }));
@@ -2547,6 +2561,12 @@ export const calculateRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateRoutes",
+  iam: {
+    actions: ["geo-routes:CalculateRoutes"],
+    resources: {
+      "geo-routes:CalculateRoutes": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CalculateRoutes",
 }));
@@ -2579,6 +2599,12 @@ export const optimizeWaypoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptimizeWaypoints",
+  iam: {
+    actions: ["geo-routes:OptimizeWaypoints"],
+    resources: {
+      "geo-routes:OptimizeWaypoints": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "OptimizeWaypoints",
 }));
@@ -2611,6 +2637,12 @@ export const snapToRoads: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SnapToRoads",
+  iam: {
+    actions: ["geo-routes:SnapToRoads"],
+    resources: {
+      "geo-routes:SnapToRoads": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SnapToRoads",
 }));

@@ -10,6 +10,48 @@
           }
         }
       ]
+    },
+    "provisionProduct": {
+      "iam": {
+        "reason": "cloudformation:CreateStack: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStackEvents: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStacks: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:GetTemplateSummary: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:SetStackPolicy: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:ValidateTemplate: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. s3:GetObject: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
+    },
+    "terminateProvisionedProduct": {
+      "iam": {
+        "reason": "cloudformation:DeleteStack: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStackEvents: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStacks: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:DeleteStack",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks"
+        ]
+      }
+    },
+    "updateProvisionedProduct": {
+      "iam": {
+        "reason": "cloudformation:CreateChangeSet: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DeleteChangeSet: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeChangeSet: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStackEvents: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:DescribeStacks: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:ExecuteChangeSet: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:GetTemplateSummary: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:SetStackPolicy: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:UpdateStack: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. cloudformation:ValidateTemplate: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials. s3:GetObject: Without a launch constraint role, Service Catalog runs the product's CloudFormation stack (and reads its template) with the caller's credentials.",
+        "add": [
+          "cloudformation:CreateChangeSet",
+          "cloudformation:DeleteChangeSet",
+          "cloudformation:DescribeChangeSet",
+          "cloudformation:DescribeStackEvents",
+          "cloudformation:DescribeStacks",
+          "cloudformation:ExecuteChangeSet",
+          "cloudformation:GetTemplateSummary",
+          "cloudformation:SetStackPolicy",
+          "cloudformation:UpdateStack",
+          "cloudformation:ValidateTemplate",
+          "s3:GetObject"
+        ]
+      }
     }
   }
 }

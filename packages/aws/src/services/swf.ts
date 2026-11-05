@@ -1337,6 +1337,14 @@ export const countClosedWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountClosedWorkflowExecutions",
+  iam: {
+    actions: ["swf:CountClosedWorkflowExecutions"],
+    resources: {
+      "swf:CountClosedWorkflowExecutions": [
+        "arn:${Partition}:swf::${Account}:/domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CountClosedWorkflowExecutions",
 }));
@@ -1393,6 +1401,12 @@ export const countOpenWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountOpenWorkflowExecutions",
+  iam: {
+    actions: ["swf:CountOpenWorkflowExecutions"],
+    resources: {
+      "swf:CountOpenWorkflowExecutions": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CountOpenWorkflowExecutions",
 }));
@@ -1439,6 +1453,12 @@ export const countPendingActivityTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingActivityTasks",
+  iam: {
+    actions: ["swf:CountPendingActivityTasks"],
+    resources: {
+      "swf:CountPendingActivityTasks": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CountPendingActivityTasks",
 }));
@@ -1485,6 +1505,12 @@ export const countPendingDecisionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingDecisionTasks",
+  iam: {
+    actions: ["swf:CountPendingDecisionTasks"],
+    resources: {
+      "swf:CountPendingDecisionTasks": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CountPendingDecisionTasks",
 }));
@@ -1538,6 +1564,12 @@ export const deleteActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivityType",
+  iam: {
+    actions: ["swf:DeleteActivityType"],
+    resources: {
+      "swf:DeleteActivityType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteActivityType",
 }));
@@ -1592,6 +1624,12 @@ export const deleteWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowType",
+  iam: {
+    actions: ["swf:DeleteWorkflowType"],
+    resources: {
+      "swf:DeleteWorkflowType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowType",
 }));
@@ -1644,6 +1682,12 @@ export const deprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateActivityType",
+  iam: {
+    actions: ["swf:DeprecateActivityType"],
+    resources: {
+      "swf:DeprecateActivityType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprecateActivityType",
 }));
@@ -1694,6 +1738,12 @@ export const deprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateDomain",
+  iam: {
+    actions: ["swf:DeprecateDomain"],
+    resources: {
+      "swf:DeprecateDomain": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprecateDomain",
 }));
@@ -1750,6 +1800,12 @@ export const deprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWorkflowType",
+  iam: {
+    actions: ["swf:DeprecateWorkflowType"],
+    resources: {
+      "swf:DeprecateWorkflowType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeprecateWorkflowType",
 }));
@@ -1801,6 +1857,12 @@ export const describeActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivityType",
+  iam: {
+    actions: ["swf:DescribeActivityType"],
+    resources: {
+      "swf:DescribeActivityType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeActivityType",
 }));
@@ -1841,6 +1903,10 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  iam: {
+    actions: ["swf:DescribeDomain"],
+    resources: { "swf:DescribeDomain": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomain",
 }));
@@ -1887,6 +1953,12 @@ export const describeWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowExecution",
+  iam: {
+    actions: ["swf:DescribeWorkflowExecution"],
+    resources: {
+      "swf:DescribeWorkflowExecution": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkflowExecution",
 }));
@@ -1938,6 +2010,12 @@ export const describeWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowType",
+  iam: {
+    actions: ["swf:DescribeWorkflowType"],
+    resources: {
+      "swf:DescribeWorkflowType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkflowType",
 }));
@@ -1992,6 +2070,12 @@ export const getWorkflowExecutionHistory: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:GetWorkflowExecutionHistory"],
+    resources: {
+      "swf:GetWorkflowExecutionHistory": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowExecutionHistory",
 })) as any;
@@ -2045,6 +2129,12 @@ export const listActivityTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:ListActivityTypes"],
+    resources: {
+      "swf:ListActivityTypes": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListActivityTypes",
 })) as any;
@@ -2109,6 +2199,14 @@ export const listClosedWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:ListClosedWorkflowExecutions"],
+    resources: {
+      "swf:ListClosedWorkflowExecutions": [
+        "arn:${Partition}:swf::${Account}:/domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListClosedWorkflowExecutions",
 })) as any;
@@ -2162,6 +2260,7 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domainInfos",
     pageSize: "maximumPageSize",
   } as const,
+  iam: { actions: ["swf:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -2226,6 +2325,12 @@ export const listOpenWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:ListOpenWorkflowExecutions"],
+    resources: {
+      "swf:ListOpenWorkflowExecutions": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListOpenWorkflowExecutions",
 })) as any;
@@ -2250,6 +2355,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["swf:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2300,6 +2406,12 @@ export const listWorkflowTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:ListWorkflowTypes"],
+    resources: {
+      "swf:ListWorkflowTypes": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowTypes",
 })) as any;
@@ -2354,6 +2466,12 @@ export const pollForActivityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForActivityTask",
+  iam: {
+    actions: ["swf:PollForActivityTask"],
+    resources: {
+      "swf:PollForActivityTask": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PollForActivityTask",
 }));
@@ -2427,6 +2545,12 @@ export const pollForDecisionTask: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  iam: {
+    actions: ["swf:PollForDecisionTask"],
+    resources: {
+      "swf:PollForDecisionTask": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PollForDecisionTask",
 })) as any;
@@ -2492,6 +2616,12 @@ export const recordActivityTaskHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordActivityTaskHeartbeat",
+  iam: {
+    actions: ["swf:RecordActivityTaskHeartbeat"],
+    resources: {
+      "swf:RecordActivityTaskHeartbeat": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RecordActivityTaskHeartbeat",
 }));
@@ -2555,6 +2685,12 @@ export const registerActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterActivityType",
+  iam: {
+    actions: ["swf:RegisterActivityType"],
+    resources: {
+      "swf:RegisterActivityType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterActivityType",
 }));
@@ -2604,6 +2740,10 @@ export const registerDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDomain",
+  iam: {
+    actions: ["swf:RegisterDomain", "swf:TagResource"],
+    conditional: { "swf:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterDomain",
 }));
@@ -2669,6 +2809,14 @@ export const registerWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWorkflowType",
+  iam: {
+    actions: ["iam:PassRole", "swf:RegisterWorkflowType"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "swf:RegisterWorkflowType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+    conditional: { "iam:PassRole": "defaultLambdaRole" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterWorkflowType",
 }));
@@ -2722,6 +2870,14 @@ export const requestCancelWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCancelWorkflowExecution",
+  iam: {
+    actions: ["swf:RequestCancelWorkflowExecution"],
+    resources: {
+      "swf:RequestCancelWorkflowExecution": [
+        "arn:${Partition}:swf::${Account}:/domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RequestCancelWorkflowExecution",
 }));
@@ -2779,6 +2935,12 @@ export const respondActivityTaskCanceled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCanceled",
+  iam: {
+    actions: ["swf:RespondActivityTaskCanceled"],
+    resources: {
+      "swf:RespondActivityTaskCanceled": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RespondActivityTaskCanceled",
 }));
@@ -2834,6 +2996,14 @@ export const respondActivityTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCompleted",
+  iam: {
+    actions: ["swf:RespondActivityTaskCompleted"],
+    resources: {
+      "swf:RespondActivityTaskCompleted": [
+        "arn:${Partition}:swf::${Account}:/domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RespondActivityTaskCompleted",
 }));
@@ -2884,6 +3054,12 @@ export const respondActivityTaskFailed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskFailed",
+  iam: {
+    actions: ["swf:RespondActivityTaskFailed"],
+    resources: {
+      "swf:RespondActivityTaskFailed": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RespondActivityTaskFailed",
 }));
@@ -2924,6 +3100,16 @@ export const respondDecisionTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondDecisionTaskCompleted",
+  iam: {
+    actions: ["iam:PassRole", "swf:RespondDecisionTaskCompleted"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "swf:RespondDecisionTaskCompleted": [
+        "arn:${Partition}:swf::${Account}:/domain/${DomainName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "RespondDecisionTaskCompleted",
 }));
@@ -2976,6 +3162,12 @@ export const signalWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignalWorkflowExecution",
+  iam: {
+    actions: ["swf:SignalWorkflowExecution"],
+    resources: {
+      "swf:SignalWorkflowExecution": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SignalWorkflowExecution",
 }));
@@ -3052,6 +3244,14 @@ export const startWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowExecution",
+  iam: {
+    actions: ["iam:PassRole", "swf:StartWorkflowExecution"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "swf:StartWorkflowExecution": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+    conditional: { "iam:PassRole": "lambdaRole" },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkflowExecution",
 }));
@@ -3079,6 +3279,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["swf:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3134,6 +3335,12 @@ export const terminateWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkflowExecution",
+  iam: {
+    actions: ["swf:TerminateWorkflowExecution"],
+    resources: {
+      "swf:TerminateWorkflowExecution": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateWorkflowExecution",
 }));
@@ -3188,6 +3395,12 @@ export const undeprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateActivityType",
+  iam: {
+    actions: ["swf:UndeprecateActivityType"],
+    resources: {
+      "swf:UndeprecateActivityType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UndeprecateActivityType",
 }));
@@ -3235,6 +3448,12 @@ export const undeprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateDomain",
+  iam: {
+    actions: ["swf:UndeprecateDomain"],
+    resources: {
+      "swf:UndeprecateDomain": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UndeprecateDomain",
 }));
@@ -3289,6 +3508,12 @@ export const undeprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateWorkflowType",
+  iam: {
+    actions: ["swf:UndeprecateWorkflowType"],
+    resources: {
+      "swf:UndeprecateWorkflowType": ["arn:${Partition}:swf::${Account}:/domain/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UndeprecateWorkflowType",
 }));
@@ -3313,6 +3538,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["swf:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

@@ -598,6 +598,7 @@ export const associateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceQuotaTemplate",
+  iam: { actions: ["servicequotas:AssociateServiceQuotaTemplate"] },
   telemetry: TELEMETRY,
   span: "AssociateServiceQuotaTemplate",
 }));
@@ -637,6 +638,7 @@ export const createSupportCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportCase",
+  iam: { actions: ["servicequotas:CreateSupportCase"] },
   telemetry: TELEMETRY,
   span: "CreateSupportCase",
 }));
@@ -678,6 +680,7 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceQuotaIncreaseRequestFromTemplate",
+  iam: { actions: ["servicequotas:DeleteServiceQuotaIncreaseRequestFromTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteServiceQuotaIncreaseRequestFromTemplate",
 }));
@@ -718,6 +721,7 @@ export const disassociateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceQuotaTemplate",
+  iam: { actions: ["servicequotas:DisassociateServiceQuotaTemplate"] },
   telemetry: TELEMETRY,
   span: "DisassociateServiceQuotaTemplate",
 }));
@@ -756,6 +760,7 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociationForServiceQuotaTemplate",
+  iam: { actions: ["servicequotas:GetAssociationForServiceQuotaTemplate"] },
   telemetry: TELEMETRY,
   span: "GetAssociationForServiceQuotaTemplate",
 }));
@@ -789,6 +794,7 @@ export const getAutoManagementConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoManagementConfiguration",
+  iam: { actions: ["servicequotas:GetAutoManagementConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetAutoManagementConfiguration",
 }));
@@ -822,6 +828,7 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSDefaultServiceQuota",
+  iam: { actions: ["servicequotas:GetAWSDefaultServiceQuota"] },
   telemetry: TELEMETRY,
   span: "GetAWSDefaultServiceQuota",
 }));
@@ -867,6 +874,7 @@ export const getQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuotaUtilizationReport",
+  iam: { actions: ["servicequotas:GetQuotaUtilizationReport"] },
   telemetry: TELEMETRY,
   span: "GetQuotaUtilizationReport",
 }));
@@ -899,6 +907,7 @@ export const getRequestedServiceQuotaChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestedServiceQuotaChange",
+  iam: { actions: ["servicequotas:GetRequestedServiceQuotaChange"] },
   telemetry: TELEMETRY,
   span: "GetRequestedServiceQuotaChange",
 }));
@@ -933,6 +942,7 @@ export const getServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuota",
+  iam: { actions: ["servicequotas:GetServiceQuota"] },
   telemetry: TELEMETRY,
   span: "GetServiceQuota",
 }));
@@ -974,6 +984,7 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuotaIncreaseRequestFromTemplate",
+  iam: { actions: ["servicequotas:GetServiceQuotaIncreaseRequestFromTemplate"] },
   telemetry: TELEMETRY,
   span: "GetServiceQuotaIncreaseRequestFromTemplate",
 }));
@@ -1016,6 +1027,7 @@ export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListAWSDefaultServiceQuotas"] },
   telemetry: TELEMETRY,
   span: "ListAWSDefaultServiceQuotas",
 })) as any;
@@ -1059,6 +1071,7 @@ export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMetho
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListRequestedServiceQuotaChangeHistory"] },
   telemetry: TELEMETRY,
   span: "ListRequestedServiceQuotaChangeHistory",
 })) as any;
@@ -1109,6 +1122,7 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperati
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListRequestedServiceQuotaChangeHistoryByQuota"] },
   telemetry: TELEMETRY,
   span: "ListRequestedServiceQuotaChangeHistoryByQuota",
 })) as any;
@@ -1154,6 +1168,7 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationM
     items: "ServiceQuotaIncreaseRequestInTemplateList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListServiceQuotaIncreaseRequestsInTemplate"] },
   telemetry: TELEMETRY,
   span: "ListServiceQuotaIncreaseRequestsInTemplate",
 })) as any;
@@ -1198,6 +1213,7 @@ export const listServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListServiceQuotas"] },
   telemetry: TELEMETRY,
   span: "ListServiceQuotas",
 })) as any;
@@ -1237,6 +1253,7 @@ export const listServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["servicequotas:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -1269,6 +1286,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["servicequotas:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1311,6 +1329,7 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceQuotaIncreaseRequestIntoTemplate",
+  iam: { actions: ["servicequotas:PutServiceQuotaIncreaseRequestIntoTemplate"] },
   telemetry: TELEMETRY,
   span: "PutServiceQuotaIncreaseRequestIntoTemplate",
 }));
@@ -1352,6 +1371,7 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestServiceQuotaIncrease",
+  iam: { actions: ["servicequotas:RequestServiceQuotaIncrease"] },
   telemetry: TELEMETRY,
   span: "RequestServiceQuotaIncrease",
 }));
@@ -1386,6 +1406,7 @@ export const startAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutoManagement",
+  iam: { actions: ["servicequotas:StartAutoManagement"] },
   telemetry: TELEMETRY,
   span: "StartAutoManagement",
 }));
@@ -1426,6 +1447,7 @@ export const startQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuotaUtilizationReport",
+  iam: { actions: ["servicequotas:StartQuotaUtilizationReport"] },
   telemetry: TELEMETRY,
   span: "StartQuotaUtilizationReport",
 }));
@@ -1460,6 +1482,7 @@ export const stopAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutoManagement",
+  iam: { actions: ["servicequotas:StopAutoManagement"] },
   telemetry: TELEMETRY,
   span: "StopAutoManagement",
 }));
@@ -1497,6 +1520,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["servicequotas:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1530,6 +1554,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["servicequotas:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1564,6 +1589,7 @@ export const updateAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoManagement",
+  iam: { actions: ["servicequotas:UpdateAutoManagement"] },
   telemetry: TELEMETRY,
   span: "UpdateAutoManagement",
 }));

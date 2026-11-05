@@ -1,0 +1,18 @@
+{
+  "operations": {
+    "listConnections": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:codeconnections:${Region}:${Account}:connection/*), the call was denied live in the CodeConnections Bindings suite; the grant stays on *.",
+        "resources": {
+          "codeconnections:ListConnections": "*"
+        }
+      }
+    }
+  },
+  "allOperations": {
+    "iam": {
+      "reason": "codestar-connections is the legacy prefix of codeconnections; AWS authorizes either, and the CodeConnections Bindings suite passes with codeconnections: alone.",
+      "remove": ["codestar-connections:*"]
+    }
+  }
+}

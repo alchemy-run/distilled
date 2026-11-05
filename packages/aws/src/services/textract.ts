@@ -911,6 +911,7 @@ export const analyzeDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeDocument",
+  iam: { actions: ["textract:AnalyzeDocument"] },
   telemetry: TELEMETRY,
   span: "AnalyzeDocument",
 }));
@@ -962,6 +963,7 @@ export const analyzeExpense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeExpense",
+  iam: { actions: ["textract:AnalyzeExpense"] },
   telemetry: TELEMETRY,
   span: "AnalyzeExpense",
 }));
@@ -1005,6 +1007,7 @@ export const analyzeID: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeID",
+  iam: { actions: ["textract:AnalyzeID"] },
   telemetry: TELEMETRY,
   span: "AnalyzeID",
 }));
@@ -1051,6 +1054,10 @@ export const createAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdapter",
+  iam: {
+    actions: ["textract:CreateAdapter", "textract:TagResource"],
+    conditional: { "textract:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAdapter",
 }));
@@ -1102,6 +1109,15 @@ export const createAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdapterVersion",
+  iam: {
+    actions: ["textract:CreateAdapterVersion", "textract:TagResource"],
+    resources: {
+      "textract:CreateAdapterVersion": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}",
+      ],
+    },
+    conditional: { "textract:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAdapterVersion",
 }));
@@ -1140,6 +1156,14 @@ export const deleteAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdapter",
+  iam: {
+    actions: ["textract:DeleteAdapter"],
+    resources: {
+      "textract:DeleteAdapter": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAdapter",
 }));
@@ -1179,6 +1203,14 @@ export const deleteAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdapterVersion",
+  iam: {
+    actions: ["textract:DeleteAdapterVersion"],
+    resources: {
+      "textract:DeleteAdapterVersion": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}/versions/${AdapterVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAdapterVersion",
 }));
@@ -1231,6 +1263,7 @@ export const detectDocumentText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDocumentText",
+  iam: { actions: ["textract:DetectDocumentText"] },
   telemetry: TELEMETRY,
   span: "DetectDocumentText",
 }));
@@ -1268,6 +1301,14 @@ export const getAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdapter",
+  iam: {
+    actions: ["textract:GetAdapter"],
+    resources: {
+      "textract:GetAdapter": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAdapter",
 }));
@@ -1306,6 +1347,14 @@ export const getAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdapterVersion",
+  iam: {
+    actions: ["textract:GetAdapterVersion"],
+    resources: {
+      "textract:GetAdapterVersion": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}/versions/${AdapterVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAdapterVersion",
 }));
@@ -1400,6 +1449,7 @@ export const getDocumentAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentAnalysis",
+  iam: { actions: ["textract:GetDocumentAnalysis"] },
   telemetry: TELEMETRY,
   span: "GetDocumentAnalysis",
 }));
@@ -1465,6 +1515,7 @@ export const getDocumentTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentTextDetection",
+  iam: { actions: ["textract:GetDocumentTextDetection"] },
   telemetry: TELEMETRY,
   span: "GetDocumentTextDetection",
 }));
@@ -1522,6 +1573,7 @@ export const getExpenseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExpenseAnalysis",
+  iam: { actions: ["textract:GetExpenseAnalysis"] },
   telemetry: TELEMETRY,
   span: "GetExpenseAnalysis",
 }));
@@ -1572,6 +1624,7 @@ export const getLendingAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLendingAnalysis",
+  iam: { actions: ["textract:GetLendingAnalysis"] },
   telemetry: TELEMETRY,
   span: "GetLendingAnalysis",
 }));
@@ -1623,6 +1676,7 @@ export const getLendingAnalysisSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLendingAnalysisSummary",
+  iam: { actions: ["textract:GetLendingAnalysisSummary"] },
   telemetry: TELEMETRY,
   span: "GetLendingAnalysisSummary",
 }));
@@ -1664,6 +1718,7 @@ export const listAdapters: API.PaginatedOperationMethod<
     items: "Adapters",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["textract:ListAdapters"] },
   telemetry: TELEMETRY,
   span: "ListAdapters",
 })) as any;
@@ -1707,6 +1762,7 @@ export const listAdapterVersions: API.PaginatedOperationMethod<
     items: "AdapterVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["textract:ListAdapterVersions"] },
   telemetry: TELEMETRY,
   span: "ListAdapterVersions",
 })) as any;
@@ -1743,6 +1799,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["textract:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1805,6 +1862,11 @@ export const startDocumentAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentAnalysis",
+  iam: {
+    actions: ["iam:PassRole", "textract:StartDocumentAnalysis"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartDocumentAnalysis",
 }));
@@ -1867,6 +1929,11 @@ export const startDocumentTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentTextDetection",
+  iam: {
+    actions: ["iam:PassRole", "textract:StartDocumentTextDetection"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartDocumentTextDetection",
 }));
@@ -1928,6 +1995,11 @@ export const startExpenseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExpenseAnalysis",
+  iam: {
+    actions: ["iam:PassRole", "textract:StartExpenseAnalysis"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartExpenseAnalysis",
 }));
@@ -2000,6 +2072,11 @@ export const startLendingAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLendingAnalysis",
+  iam: {
+    actions: ["iam:PassRole", "textract:StartLendingAnalysis"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartLendingAnalysis",
 }));
@@ -2038,6 +2115,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["textract:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2074,6 +2152,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["textract:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2113,6 +2192,14 @@ export const updateAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdapter",
+  iam: {
+    actions: ["textract:UpdateAdapter"],
+    resources: {
+      "textract:UpdateAdapter": [
+        "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAdapter",
 }));

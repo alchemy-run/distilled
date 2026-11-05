@@ -370,6 +370,12 @@ export const getControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControl",
+  iam: {
+    actions: ["controltower:DescribeGuardrail", "controlcatalog:GetControl"],
+    resources: {
+      "controlcatalog:GetControl": ["arn:${Partition}:controlcatalog:::control/${ControlId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetControl",
 }));
@@ -409,6 +415,7 @@ export const listCommonControls: API.PaginatedOperationMethod<
     items: "CommonControls",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["controlcatalog:ListCommonControls"] },
   telemetry: TELEMETRY,
   span: "ListCommonControls",
 })) as any;
@@ -446,6 +453,7 @@ export const listControlMappings: API.PaginatedOperationMethod<
     items: "ControlMappings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["controlcatalog:ListControlMappings"] },
   telemetry: TELEMETRY,
   span: "ListControlMappings",
 })) as any;
@@ -483,6 +491,12 @@ export const listControls: API.PaginatedOperationMethod<
     items: "Controls",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["controlcatalog:ListControls", "controltower:ListGuardrails"],
+    resources: {
+      "controlcatalog:ListControls": ["arn:${Partition}:controlcatalog:::control/${ControlId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListControls",
 })) as any;
@@ -520,6 +534,7 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["controlcatalog:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -559,6 +574,7 @@ export const listObjectives: API.PaginatedOperationMethod<
     items: "Objectives",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["controlcatalog:ListObjectives"] },
   telemetry: TELEMETRY,
   span: "ListObjectives",
 })) as any;

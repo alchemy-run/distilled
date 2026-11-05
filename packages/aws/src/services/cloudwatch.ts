@@ -1663,6 +1663,7 @@ export const createResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceMetricsConfiguration",
+  iam: { actions: ["cloudwatch:CreateResourceMetricsConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateResourceMetricsConfiguration",
 }));
@@ -1695,6 +1696,14 @@ export const deleteAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarmMuteRule",
+  iam: {
+    actions: ["cloudwatch:DeleteAlarmMuteRule"],
+    resources: {
+      "cloudwatch:DeleteAlarmMuteRule": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAlarmMuteRule",
 }));
@@ -1736,6 +1745,14 @@ export const deleteAlarms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarms",
+  iam: {
+    actions: ["cloudwatch:DeleteAlarms"],
+    resources: {
+      "cloudwatch:DeleteAlarms": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAlarms",
 }));
@@ -1770,6 +1787,7 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
+  iam: { actions: ["cloudwatch:DeleteAnomalyDetector"] },
   telemetry: TELEMETRY,
   span: "DeleteAnomalyDetector",
 }));
@@ -1796,6 +1814,14 @@ export const deleteDashboards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboards",
+  iam: {
+    actions: ["cloudwatch:DeleteDashboards"],
+    resources: {
+      "cloudwatch:DeleteDashboards": [
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDashboards",
 }));
@@ -1822,6 +1848,14 @@ export const deleteInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsightRules",
+  iam: {
+    actions: ["cloudwatch:DeleteInsightRules"],
+    resources: {
+      "cloudwatch:DeleteInsightRules": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInsightRules",
 }));
@@ -1846,6 +1880,14 @@ export const deleteMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricStream",
+  iam: {
+    actions: ["cloudwatch:DeleteMetricStream"],
+    resources: {
+      "cloudwatch:DeleteMetricStream": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMetricStream",
 }));
@@ -1878,6 +1920,7 @@ export const deleteResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceMetricsConfiguration",
+  iam: { actions: ["cloudwatch:DeleteResourceMetricsConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteResourceMetricsConfiguration",
 }));
@@ -1904,6 +1947,7 @@ export const describeAlarmContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmContributors",
+  iam: { actions: ["cloudwatch:DescribeAlarmContributors"] },
   telemetry: TELEMETRY,
   span: "DescribeAlarmContributors",
 }));
@@ -1940,6 +1984,14 @@ export const describeAlarmHistory: API.PaginatedOperationMethod<
     items: "AlarmHistoryItems",
     pageSize: "MaxRecords",
   } as const,
+  iam: {
+    actions: ["cloudwatch:DescribeAlarmHistory"],
+    resources: {
+      "cloudwatch:DescribeAlarmHistory": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAlarmHistory",
 })) as any;
@@ -1972,6 +2024,14 @@ export const describeAlarms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: {
+    actions: ["cloudwatch:DescribeAlarms"],
+    resources: {
+      "cloudwatch:DescribeAlarms": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAlarms",
 })) as any;
@@ -1997,6 +2057,7 @@ export const describeAlarmsForMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmsForMetric",
+  iam: { actions: ["cloudwatch:DescribeAlarmsForMetric"] },
   telemetry: TELEMETRY,
   span: "DescribeAlarmsForMetric",
 }));
@@ -2039,6 +2100,7 @@ export const describeAnomalyDetectors: API.PaginatedOperationMethod<
     items: "AnomalyDetectors",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudwatch:DescribeAnomalyDetectors"] },
   telemetry: TELEMETRY,
   span: "DescribeAnomalyDetectors",
 })) as any;
@@ -2068,6 +2130,7 @@ export const describeInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudwatch:DescribeInsightRules"] },
   telemetry: TELEMETRY,
   span: "DescribeInsightRules",
 })) as any;
@@ -2089,6 +2152,14 @@ export const disableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAlarmActions",
+  iam: {
+    actions: ["cloudwatch:DisableAlarmActions"],
+    resources: {
+      "cloudwatch:DisableAlarmActions": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableAlarmActions",
 }));
@@ -2113,6 +2184,14 @@ export const disableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableInsightRules",
+  iam: {
+    actions: ["cloudwatch:DisableInsightRules"],
+    resources: {
+      "cloudwatch:DisableInsightRules": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableInsightRules",
 }));
@@ -2189,6 +2268,14 @@ export const enableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAlarmActions",
+  iam: {
+    actions: ["cloudwatch:EnableAlarmActions"],
+    resources: {
+      "cloudwatch:EnableAlarmActions": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableAlarmActions",
 }));
@@ -2218,6 +2305,14 @@ export const enableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableInsightRules",
+  iam: {
+    actions: ["cloudwatch:EnableInsightRules"],
+    resources: {
+      "cloudwatch:EnableInsightRules": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableInsightRules",
 }));
@@ -2258,6 +2353,14 @@ export const getAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlarmMuteRule",
+  iam: {
+    actions: ["cloudwatch:GetAlarmMuteRule"],
+    resources: {
+      "cloudwatch:GetAlarmMuteRule": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAlarmMuteRule",
 }));
@@ -2294,6 +2397,14 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  iam: {
+    actions: ["cloudwatch:GetDashboard"],
+    resources: {
+      "cloudwatch:GetDashboard": [
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDashboard",
 }));
@@ -2326,6 +2437,14 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  iam: {
+    actions: ["cloudwatch:GetDataset"],
+    resources: {
+      "cloudwatch:GetDataset": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataset",
 }));
@@ -2385,6 +2504,14 @@ export const getInsightRuleReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightRuleReport",
+  iam: {
+    actions: ["cloudwatch:GetInsightRuleReport"],
+    resources: {
+      "cloudwatch:GetInsightRuleReport": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInsightRuleReport",
 }));
@@ -2476,6 +2603,7 @@ export const getMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxDatapoints",
   } as const,
+  iam: { actions: ["cloudwatch:GetMetricData"] },
   telemetry: TELEMETRY,
   span: "GetMetricData",
 })) as any;
@@ -2560,6 +2688,7 @@ export const getMetricStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStatistics",
+  iam: { actions: ["cloudwatch:GetMetricStatistics"] },
   telemetry: TELEMETRY,
   span: "GetMetricStatistics",
 }));
@@ -2592,6 +2721,14 @@ export const getMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStream",
+  iam: {
+    actions: ["cloudwatch:GetMetricStream"],
+    resources: {
+      "cloudwatch:GetMetricStream": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMetricStream",
 }));
@@ -2632,6 +2769,7 @@ export const getMetricWidgetImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricWidgetImage",
+  iam: { actions: ["cloudwatch:GetMetricWidgetImage"] },
   telemetry: TELEMETRY,
   span: "GetMetricWidgetImage",
 }));
@@ -2654,6 +2792,7 @@ export const getOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOTelEnrichment",
+  iam: { actions: ["cloudwatch:GetOTelEnrichment"] },
   telemetry: TELEMETRY,
   span: "GetOTelEnrichment",
 }));
@@ -2684,6 +2823,7 @@ export const getResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceMetricsConfiguration",
+  iam: { actions: ["cloudwatch:GetResourceMetricsConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetResourceMetricsConfiguration",
 }));
@@ -2723,6 +2863,14 @@ export const listAlarmMuteRules: API.PaginatedOperationMethod<
     items: "AlarmMuteRuleSummaries",
     pageSize: "MaxRecords",
   } as const,
+  iam: {
+    actions: ["cloudwatch:ListAlarmMuteRules"],
+    resources: {
+      "cloudwatch:ListAlarmMuteRules": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAlarmMuteRules",
 })) as any;
@@ -2767,6 +2915,7 @@ export const listDashboards: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "DashboardEntries",
   } as const,
+  iam: { actions: ["cloudwatch:ListDashboards"] },
   telemetry: TELEMETRY,
   span: "ListDashboards",
 })) as any;
@@ -2798,6 +2947,7 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudwatch:ListManagedInsightRules"] },
   telemetry: TELEMETRY,
   span: "ListManagedInsightRules",
 })) as any;
@@ -2833,6 +2983,7 @@ export const listMetrics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListMetrics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["cloudwatch:ListMetrics"] },
   telemetry: TELEMETRY,
   span: "ListMetrics",
 })) as any;
@@ -2869,6 +3020,7 @@ export const listMetricStreams: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudwatch:ListMetricStreams"] },
   telemetry: TELEMETRY,
   span: "ListMetricStreams",
 })) as any;
@@ -2894,6 +3046,21 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["cloudwatch:ListTagsForResource"],
+    resources: {
+      "cloudwatch:ListTagsForResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2946,6 +3113,22 @@ export const putAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlarmMuteRule",
+  iam: {
+    actions: ["cloudwatch:PutAlarmMuteRule", "cloudwatch:TagResource"],
+    resources: {
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutAlarmMuteRule",
 }));
@@ -2986,6 +3169,7 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
+  iam: { actions: ["cloudwatch:PutAnomalyDetector"] },
   telemetry: TELEMETRY,
   span: "PutAnomalyDetector",
 }));
@@ -3061,6 +3245,39 @@ export const putCompositeAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCompositeAlarm",
+  iam: {
+    actions: [
+      "cloudwatch:ListTagsForResource",
+      "cloudwatch:PutCompositeAlarm",
+      "cloudwatch:TagResource",
+    ],
+    resources: {
+      "cloudwatch:ListTagsForResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+      "cloudwatch:PutCompositeAlarm": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutCompositeAlarm",
 }));
@@ -3103,6 +3320,25 @@ export const putDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDashboard",
+  iam: {
+    actions: ["cloudwatch:PutDashboard", "cloudwatch:TagResource"],
+    resources: {
+      "cloudwatch:PutDashboard": [
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDashboard",
 }));
@@ -3137,6 +3373,25 @@ export const putInsightRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightRule",
+  iam: {
+    actions: ["cloudwatch:PutInsightRule", "cloudwatch:TagResource"],
+    resources: {
+      "cloudwatch:PutInsightRule": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutInsightRule",
 }));
@@ -3167,6 +3422,41 @@ export const putLogAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogAlarm",
+  iam: {
+    actions: [
+      "cloudwatch:ListTagsForResource",
+      "iam:PassRole",
+      "cloudwatch:PutLogAlarm",
+      "cloudwatch:TagResource",
+    ],
+    resources: {
+      "cloudwatch:ListTagsForResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cloudwatch:PutLogAlarm": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ActionLogLineRoleArn", "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutLogAlarm",
 }));
@@ -3197,6 +3487,7 @@ export const putManagedInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedInsightRules",
+  iam: { actions: ["cloudwatch:PutManagedInsightRules"] },
   telemetry: TELEMETRY,
   span: "PutManagedInsightRules",
 }));
@@ -3265,6 +3556,36 @@ export const putMetricAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricAlarm",
+  iam: {
+    actions: [
+      "cloudwatch:ListTagsForResource",
+      "cloudwatch:PutMetricAlarm",
+      "cloudwatch:TagResource",
+    ],
+    resources: {
+      "cloudwatch:ListTagsForResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutMetricAlarm",
 }));
@@ -3347,6 +3668,7 @@ export const putMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricData",
+  iam: { actions: ["cloudwatch:PutMetricData"] },
   telemetry: TELEMETRY,
   span: "PutMetricData",
 }));
@@ -3413,6 +3735,26 @@ export const putMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricStream",
+  iam: {
+    actions: ["iam:PassRole", "cloudwatch:PutMetricStream", "cloudwatch:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cloudwatch:PutMetricStream": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+      ],
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+    conditional: { "cloudwatch:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutMetricStream",
 }));
@@ -3451,6 +3793,14 @@ export const setAlarmState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetAlarmState",
+  iam: {
+    actions: ["cloudwatch:SetAlarmState"],
+    resources: {
+      "cloudwatch:SetAlarmState": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetAlarmState",
 }));
@@ -3475,6 +3825,14 @@ export const startMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricStreams",
+  iam: {
+    actions: ["cloudwatch:StartMetricStreams"],
+    resources: {
+      "cloudwatch:StartMetricStreams": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMetricStreams",
 }));
@@ -3508,6 +3866,7 @@ export const startOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOTelEnrichment",
+  iam: { actions: ["cloudwatch:StartOTelEnrichment"] },
   telemetry: TELEMETRY,
   span: "StartOTelEnrichment",
 }));
@@ -3532,6 +3891,14 @@ export const stopMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMetricStreams",
+  iam: {
+    actions: ["cloudwatch:StopMetricStreams"],
+    resources: {
+      "cloudwatch:StopMetricStreams": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopMetricStreams",
 }));
@@ -3554,6 +3921,7 @@ export const stopOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopOTelEnrichment",
+  iam: { actions: ["cloudwatch:StopOTelEnrichment"] },
   telemetry: TELEMETRY,
   span: "StopOTelEnrichment",
 }));
@@ -3603,6 +3971,21 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["cloudwatch:TagResource", "oam:TagResource"],
+    resources: {
+      "cloudwatch:TagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3636,6 +4019,21 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["cloudwatch:UntagResource", "oam:UntagResource"],
+    resources: {
+      "cloudwatch:UntagResource": [
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm:${AlarmName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:alarm-mute-rule:${AlarmMuteRuleName}",
+        "arn:${Partition}:cloudwatch::${Account}:dashboard/${DashboardName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:dataset/${DatasetId}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:insight-rule/${InsightRuleName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:service/${ServiceName}-${UniqueAttributesHex}",
+        "arn:${Partition}:cloudwatch:${Region}:${Account}:slo/${SloName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3668,6 +4066,7 @@ export const updateOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOTelEnrichment",
+  iam: { actions: ["cloudwatch:UpdateOTelEnrichment"] },
   telemetry: TELEMETRY,
   span: "UpdateOTelEnrichment",
 }));
@@ -3703,6 +4102,7 @@ export const updateResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceMetricsConfiguration",
+  iam: { actions: ["cloudwatch:UpdateResourceMetricsConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateResourceMetricsConfiguration",
 }));

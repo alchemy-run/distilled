@@ -264,6 +264,7 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  iam: { actions: ["sms-voice:CreateConfigurationSet", "sms-voice:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateConfigurationSet",
 }));
@@ -298,6 +299,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  iam: { actions: ["sms-voice:CreateConfigurationSetEventDestination"] },
   telemetry: TELEMETRY,
   span: "CreateConfigurationSetEventDestination",
 }));
@@ -328,6 +330,7 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  iam: { actions: ["sms-voice:DeleteConfigurationSet"] },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
@@ -358,6 +361,7 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  iam: { actions: ["sms-voice:DeleteConfigurationSetEventDestination"] },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSetEventDestination",
 }));
@@ -388,6 +392,7 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSetEventDestinations",
+  iam: { actions: ["sms-voice:GetConfigurationSetEventDestinations"] },
   telemetry: TELEMETRY,
   span: "GetConfigurationSetEventDestinations",
 }));
@@ -412,6 +417,7 @@ export const listConfigurationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
+  iam: { actions: ["sms-voice:ListConfigurationSets"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationSets",
 }));
@@ -436,6 +442,7 @@ export const sendVoiceMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendVoiceMessage",
+  iam: { actions: ["sms-voice:SendVoiceMessage"] },
   telemetry: TELEMETRY,
   span: "SendVoiceMessage",
 }));
@@ -466,6 +473,7 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  iam: { actions: ["sms-voice:UpdateConfigurationSetEventDestination"] },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationSetEventDestination",
 }));

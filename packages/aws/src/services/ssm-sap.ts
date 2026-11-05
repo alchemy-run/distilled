@@ -676,6 +676,7 @@ export const deleteResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermission",
+  iam: { actions: ["ssm-sap:DeleteResourcePermission"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePermission",
 }));
@@ -700,6 +701,7 @@ export const deregisterApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterApplication",
+  iam: { actions: ["ssm-sap:DeregisterApplication"] },
   telemetry: TELEMETRY,
   span: "DeregisterApplication",
 }));
@@ -720,6 +722,7 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  iam: { actions: ["ssm-sap:GetApplication"] },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -744,6 +747,7 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  iam: { actions: ["ssm-sap:GetComponent"] },
   telemetry: TELEMETRY,
   span: "GetComponent",
 }));
@@ -767,6 +771,7 @@ export const getConfigurationCheckOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationCheckOperation",
+  iam: { actions: ["ssm-sap:GetConfigurationCheckOperation"] },
   telemetry: TELEMETRY,
   span: "GetConfigurationCheckOperation",
 }));
@@ -787,6 +792,7 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  iam: { actions: ["ssm-sap:GetDatabase"] },
   telemetry: TELEMETRY,
   span: "GetDatabase",
 }));
@@ -807,6 +813,7 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
+  iam: { actions: ["ssm-sap:GetOperation"] },
   telemetry: TELEMETRY,
   span: "GetOperation",
 }));
@@ -831,6 +838,7 @@ export const getResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePermission",
+  iam: { actions: ["ssm-sap:GetResourcePermission"] },
   telemetry: TELEMETRY,
   span: "GetResourcePermission",
 }));
@@ -862,6 +870,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -899,6 +908,7 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "Components",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListComponents"] },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -929,6 +939,7 @@ export const listConfigurationCheckDefinitions: API.PaginatedOperationMethod<
     items: "ConfigurationChecks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListConfigurationCheckDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationCheckDefinitions",
 })) as any;
@@ -960,6 +971,7 @@ export const listConfigurationCheckOperations: API.PaginatedOperationMethod<
     items: "ConfigurationCheckOperations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListConfigurationCheckOperations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationCheckOperations",
 })) as any;
@@ -991,6 +1003,7 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "Databases",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListDatabases"] },
   telemetry: TELEMETRY,
   span: "ListDatabases",
 })) as any;
@@ -1020,6 +1033,7 @@ export const listOperationEvents: API.PaginatedOperationMethod<
     items: "OperationEvents",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListOperationEvents"] },
   telemetry: TELEMETRY,
   span: "ListOperationEvents",
 })) as any;
@@ -1047,6 +1061,7 @@ export const listOperations: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListOperations"] },
   telemetry: TELEMETRY,
   span: "ListOperations",
 })) as any;
@@ -1074,6 +1089,7 @@ export const listSubCheckResults: API.PaginatedOperationMethod<
     items: "SubCheckResults",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListSubCheckResults"] },
   telemetry: TELEMETRY,
   span: "ListSubCheckResults",
 })) as any;
@@ -1104,6 +1120,7 @@ export const listSubCheckRuleResults: API.PaginatedOperationMethod<
     items: "RuleResults",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ssm-sap:ListSubCheckRuleResults"] },
   telemetry: TELEMETRY,
   span: "ListSubCheckRuleResults",
 })) as any;
@@ -1128,6 +1145,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ssm-sap:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1152,6 +1170,7 @@ export const putResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermission",
+  iam: { actions: ["ssm-sap:PutResourcePermission"] },
   telemetry: TELEMETRY,
   span: "PutResourcePermission",
 }));
@@ -1188,6 +1207,10 @@ export const registerApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterApplication",
+  iam: {
+    actions: ["ssm-sap:RegisterApplication", "ssm-sap:TagResource"],
+    conditional: { "ssm-sap:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterApplication",
 }));
@@ -1220,6 +1243,7 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  iam: { actions: ["ssm-sap:StartApplication"] },
   telemetry: TELEMETRY,
   span: "StartApplication",
 }));
@@ -1252,6 +1276,7 @@ export const startApplicationRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplicationRefresh",
+  iam: { actions: ["ssm-sap:StartApplicationRefresh"] },
   telemetry: TELEMETRY,
   span: "StartApplicationRefresh",
 }));
@@ -1282,6 +1307,7 @@ export const startConfigurationChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationChecks",
+  iam: { actions: ["ssm-sap:StartConfigurationChecks"] },
   telemetry: TELEMETRY,
   span: "StartConfigurationChecks",
 }));
@@ -1314,6 +1340,7 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  iam: { actions: ["ssm-sap:StopApplication"] },
   telemetry: TELEMETRY,
   span: "StopApplication",
 }));
@@ -1338,6 +1365,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ssm-sap:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1362,6 +1390,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ssm-sap:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1394,6 +1423,7 @@ export const updateApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationSettings",
+  iam: { actions: ["ssm-sap:UpdateApplicationSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateApplicationSettings",
 }));

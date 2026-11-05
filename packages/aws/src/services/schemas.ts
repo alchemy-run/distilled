@@ -571,6 +571,10 @@ export const createDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiscoverer",
+  iam: {
+    actions: ["schemas:CreateDiscoverer", "schemas:TagResource"],
+    conditional: { "schemas:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDiscoverer",
 }));
@@ -605,6 +609,15 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
+  iam: {
+    actions: ["schemas:CreateRegistry", "schemas:TagResource"],
+    resources: {
+      "schemas:CreateRegistry": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+    conditional: { "schemas:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegistry",
 }));
@@ -637,6 +650,15 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  iam: {
+    actions: ["schemas:CreateSchema", "schemas:TagResource"],
+    resources: {
+      "schemas:CreateSchema": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+    conditional: { "schemas:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSchema",
 }));
@@ -671,6 +693,14 @@ export const deleteDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDiscoverer",
+  iam: {
+    actions: ["schemas:DeleteDiscoverer"],
+    resources: {
+      "schemas:DeleteDiscoverer": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDiscoverer",
 }));
@@ -705,6 +735,14 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
+  iam: {
+    actions: ["schemas:DeleteRegistry"],
+    resources: {
+      "schemas:DeleteRegistry": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistry",
 }));
@@ -739,6 +777,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["schemas:DeleteResourcePolicy"],
+    resources: {
+      "schemas:DeleteResourcePolicy": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -773,6 +819,14 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  iam: {
+    actions: ["schemas:DeleteSchema"],
+    resources: {
+      "schemas:DeleteSchema": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchema",
 }));
@@ -807,6 +861,14 @@ export const deleteSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaVersion",
+  iam: {
+    actions: ["schemas:DeleteSchemaVersion"],
+    resources: {
+      "schemas:DeleteSchemaVersion": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchemaVersion",
 }));
@@ -841,6 +903,14 @@ export const describeCodeBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeBinding",
+  iam: {
+    actions: ["schemas:DescribeCodeBinding"],
+    resources: {
+      "schemas:DescribeCodeBinding": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCodeBinding",
 }));
@@ -875,6 +945,14 @@ export const describeDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDiscoverer",
+  iam: {
+    actions: ["schemas:DescribeDiscoverer"],
+    resources: {
+      "schemas:DescribeDiscoverer": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDiscoverer",
 }));
@@ -909,6 +987,14 @@ export const describeRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegistry",
+  iam: {
+    actions: ["schemas:DescribeRegistry"],
+    resources: {
+      "schemas:DescribeRegistry": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegistry",
 }));
@@ -943,6 +1029,14 @@ export const describeSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchema",
+  iam: {
+    actions: ["schemas:DescribeSchema"],
+    resources: {
+      "schemas:DescribeSchema": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSchema",
 }));
@@ -979,6 +1073,15 @@ export const exportSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSchema",
+  iam: {
+    actions: ["schemas:ExportSchema"],
+    resources: {
+      "schemas:ExportSchema": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportSchema",
 }));
@@ -1013,6 +1116,14 @@ export const getCodeBindingSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeBindingSource",
+  iam: {
+    actions: ["schemas:GetCodeBindingSource"],
+    resources: {
+      "schemas:GetCodeBindingSource": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCodeBindingSource",
 }));
@@ -1045,6 +1156,7 @@ export const getDiscoveredSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoveredSchema",
+  iam: { actions: ["schemas:GetDiscoveredSchema"] },
   telemetry: TELEMETRY,
   span: "GetDiscoveredSchema",
 }));
@@ -1079,6 +1191,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["schemas:GetResourcePolicy"],
+    resources: {
+      "schemas:GetResourcePolicy": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1118,6 +1238,14 @@ export const listDiscoverers: API.PaginatedOperationMethod<
     items: "Discoverers",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["schemas:ListDiscoverers"],
+    resources: {
+      "schemas:ListDiscoverers": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDiscoverers",
 })) as any;
@@ -1157,6 +1285,14 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "Registries",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["schemas:ListRegistries"],
+    resources: {
+      "schemas:ListRegistries": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRegistries",
 })) as any;
@@ -1196,6 +1332,14 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["schemas:ListSchemas"],
+    resources: {
+      "schemas:ListSchemas": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -1237,6 +1381,14 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
     items: "SchemaVersions",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["schemas:ListSchemaVersions"],
+    resources: {
+      "schemas:ListSchemaVersions": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemaVersions",
 })) as any;
@@ -1267,6 +1419,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["schemas:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1305,6 +1458,14 @@ export const putCodeBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCodeBinding",
+  iam: {
+    actions: ["schemas:PutCodeBinding"],
+    resources: {
+      "schemas:PutCodeBinding": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutCodeBinding",
 }));
@@ -1341,6 +1502,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["schemas:PutResourcePolicy"],
+    resources: {
+      "schemas:PutResourcePolicy": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1380,6 +1549,14 @@ export const searchSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["schemas:SearchSchemas"],
+    resources: {
+      "schemas:SearchSchemas": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchSchemas",
 })) as any;
@@ -1414,6 +1591,14 @@ export const startDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscoverer",
+  iam: {
+    actions: ["schemas:StartDiscoverer"],
+    resources: {
+      "schemas:StartDiscoverer": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDiscoverer",
 }));
@@ -1448,6 +1633,14 @@ export const stopDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDiscoverer",
+  iam: {
+    actions: ["schemas:StopDiscoverer"],
+    resources: {
+      "schemas:StopDiscoverer": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDiscoverer",
 }));
@@ -1478,6 +1671,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["schemas:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1508,6 +1702,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["schemas:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1542,6 +1737,14 @@ export const updateDiscoverer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDiscoverer",
+  iam: {
+    actions: ["schemas:UpdateDiscoverer"],
+    resources: {
+      "schemas:UpdateDiscoverer": [
+        "arn:${Partition}:schemas:${Region}:${Account}:discoverer/${DiscovererId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDiscoverer",
 }));
@@ -1576,6 +1779,14 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
+  iam: {
+    actions: ["schemas:UpdateRegistry"],
+    resources: {
+      "schemas:UpdateRegistry": [
+        "arn:${Partition}:schemas:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegistry",
 }));
@@ -1610,6 +1821,14 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  iam: {
+    actions: ["schemas:UpdateSchema"],
+    resources: {
+      "schemas:UpdateSchema": [
+        "arn:${Partition}:schemas:${Region}:${Account}:schema/${RegistryName}/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSchema",
 }));

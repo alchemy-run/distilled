@@ -1,44 +1,86 @@
 {
   "operations": {
-    "getComponent": { "errors": ["ResourceNotFoundException"] },
-    "getImage": { "errors": ["ResourceNotFoundException"] },
-    "deleteImage": { "errors": ["ResourceNotFoundException"] },
-    "cancelImageCreation": { "errors": ["ResourceNotFoundException"] },
-    "getImageRecipe": { "errors": ["ResourceNotFoundException"] },
-    "getImagePipeline": { "errors": ["ResourceNotFoundException"] },
+    "getComponent": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "getImage": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "deleteImage": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "cancelImageCreation": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "getImageRecipe": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "getImagePipeline": {
+      "errors": ["ResourceNotFoundException"]
+    },
     "getInfrastructureConfiguration": {
       "errors": ["ResourceNotFoundException"]
     },
     "getDistributionConfiguration": {
       "errors": ["ResourceNotFoundException"]
     },
-    "deleteComponent": { "errors": ["ResourceNotFoundException"] },
-    "deleteImageRecipe": { "errors": ["ResourceNotFoundException"] },
-    "deleteImagePipeline": { "errors": ["ResourceNotFoundException"] },
+    "deleteComponent": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "deleteImageRecipe": {
+      "errors": ["ResourceNotFoundException"]
+    },
+    "deleteImagePipeline": {
+      "errors": ["ResourceNotFoundException"]
+    },
     "deleteInfrastructureConfiguration": {
       "errors": ["ResourceNotFoundException"]
     },
     "deleteDistributionConfiguration": {
       "errors": ["ResourceNotFoundException"]
     },
-    "updateImagePipeline": { "errors": ["ResourceNotFoundException"] },
+    "updateImagePipeline": {
+      "errors": ["ResourceNotFoundException"]
+    },
     "updateDistributionConfiguration": {
       "errors": ["ResourceNotFoundException"]
     },
-    "listComponentBuildVersions": { "errors": ["ResourceNotFoundException"] },
+    "listComponentBuildVersions": {
+      "errors": ["ResourceNotFoundException"]
+    },
     "createInfrastructureConfiguration": {
       "errors": ["InvalidParameterValueException"]
     },
     "updateInfrastructureConfiguration": {
       "errors": ["ResourceNotFoundException", "InvalidParameterValueException"]
+    },
+    "listImageScanFindingAggregations": {
+      "iam": {
+        "reason": "inspector2:ListFindingAggregations: See the note: Image Builder serves scan aggregations from Amazon Inspector, so the API authorizes the dependent inspector2 action too — without it the call fails with AccessDeniedException even when the imagebuilder action is granted.",
+        "add": ["inspector2:ListFindingAggregations"]
+      }
+    },
+    "listImageScanFindings": {
+      "iam": {
+        "reason": "inspector2:ListFindings: See the note: Image Builder serves scan findings from Amazon Inspector, so the API authorizes the dependent inspector2 action too — without it the call fails with AccessDeniedException even when the imagebuilder action is granted.",
+        "add": ["inspector2:ListFindings"]
+      }
     }
   },
   "structures": {
     "DistributionConfiguration": {
-      "members": { "timeoutMinutes": { "optional": true } }
+      "members": {
+        "timeoutMinutes": {
+          "optional": true
+        }
+      }
     }
   },
   "errors": {
-    "InvalidParameterValueException": { "message": { "type": "string" } }
+    "InvalidParameterValueException": {
+      "message": {
+        "type": "string"
+      }
+    }
   }
 }

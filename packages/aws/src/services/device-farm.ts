@@ -1530,6 +1530,14 @@ export const createDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevicePool",
+  iam: {
+    actions: ["devicefarm:CreateDevicePool"],
+    resources: {
+      "devicefarm:CreateDevicePool": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDevicePool",
 }));
@@ -1556,6 +1564,7 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  iam: { actions: ["devicefarm:CreateInstanceProfile"] },
   telemetry: TELEMETRY,
   span: "CreateInstanceProfile",
 }));
@@ -1581,6 +1590,14 @@ export const createNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkProfile",
+  iam: {
+    actions: ["devicefarm:CreateNetworkProfile"],
+    resources: {
+      "devicefarm:CreateNetworkProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkProfile",
 }));
@@ -1613,6 +1630,11 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  iam: {
+    actions: ["devicefarm:CreateProject", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "executionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -1638,6 +1660,7 @@ export const createRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRemoteAccessSession",
+  iam: { actions: ["devicefarm:CreateRemoteAccessSession"] },
   telemetry: TELEMETRY,
   span: "CreateRemoteAccessSession",
 }));
@@ -1663,6 +1686,7 @@ export const createTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridProject",
+  iam: { actions: ["devicefarm:CreateTestGridProject"] },
   telemetry: TELEMETRY,
   span: "CreateTestGridProject",
 }));
@@ -1688,6 +1712,14 @@ export const createTestGridUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridUrl",
+  iam: {
+    actions: ["devicefarm:CreateTestGridUrl"],
+    resources: {
+      "devicefarm:CreateTestGridUrl": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTestGridUrl",
 }));
@@ -1713,6 +1745,14 @@ export const createUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpload",
+  iam: {
+    actions: ["devicefarm:CreateUpload"],
+    resources: {
+      "devicefarm:CreateUpload": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateUpload",
 }));
@@ -1738,6 +1778,7 @@ export const createVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCEConfiguration",
+  iam: { actions: ["devicefarm:CreateVPCEConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateVPCEConfiguration",
 }));
@@ -1764,6 +1805,14 @@ export const deleteDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevicePool",
+  iam: {
+    actions: ["devicefarm:DeleteDevicePool"],
+    resources: {
+      "devicefarm:DeleteDevicePool": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:devicepool:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDevicePool",
 }));
@@ -1789,6 +1838,14 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  iam: {
+    actions: ["devicefarm:DeleteInstanceProfile"],
+    resources: {
+      "devicefarm:DeleteInstanceProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:instanceprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceProfile",
 }));
@@ -1814,6 +1871,14 @@ export const deleteNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkProfile",
+  iam: {
+    actions: ["devicefarm:DeleteNetworkProfile"],
+    resources: {
+      "devicefarm:DeleteNetworkProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:networkprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkProfile",
 }));
@@ -1841,6 +1906,14 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  iam: {
+    actions: ["devicefarm:DeleteProject"],
+    resources: {
+      "devicefarm:DeleteProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -1868,6 +1941,14 @@ export const deleteRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemoteAccessSession",
+  iam: {
+    actions: ["devicefarm:DeleteRemoteAccessSession"],
+    resources: {
+      "devicefarm:DeleteRemoteAccessSession": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:session:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRemoteAccessSession",
 }));
@@ -1895,6 +1976,14 @@ export const deleteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRun",
+  iam: {
+    actions: ["devicefarm:DeleteRun"],
+    resources: {
+      "devicefarm:DeleteRun": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:run:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRun",
 }));
@@ -1922,6 +2011,14 @@ export const deleteTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestGridProject",
+  iam: {
+    actions: ["devicefarm:DeleteTestGridProject"],
+    resources: {
+      "devicefarm:DeleteTestGridProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTestGridProject",
 }));
@@ -1947,6 +2044,14 @@ export const deleteUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUpload",
+  iam: {
+    actions: ["devicefarm:DeleteUpload"],
+    resources: {
+      "devicefarm:DeleteUpload": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:upload:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUpload",
 }));
@@ -1977,6 +2082,14 @@ export const deleteVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCEConfiguration",
+  iam: {
+    actions: ["devicefarm:DeleteVPCEConfiguration"],
+    resources: {
+      "devicefarm:DeleteVPCEConfiguration": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:vpceconfiguration:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVPCEConfiguration",
 }));
@@ -2003,6 +2116,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["devicefarm:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -2028,6 +2142,12 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  iam: {
+    actions: ["devicefarm:GetDevice"],
+    resources: {
+      "devicefarm:GetDevice": ["arn:${Partition}:devicefarm:${Region}::device:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevice",
 }));
@@ -2053,6 +2173,14 @@ export const getDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceInstance",
+  iam: {
+    actions: ["devicefarm:GetDeviceInstance"],
+    resources: {
+      "devicefarm:GetDeviceInstance": [
+        "arn:${Partition}:devicefarm:${Region}::deviceinstance:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeviceInstance",
 }));
@@ -2078,6 +2206,14 @@ export const getDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePool",
+  iam: {
+    actions: ["devicefarm:GetDevicePool"],
+    resources: {
+      "devicefarm:GetDevicePool": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:devicepool:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevicePool",
 }));
@@ -2103,6 +2239,7 @@ export const getDevicePoolCompatibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePoolCompatibility",
+  iam: { actions: ["devicefarm:GetDevicePoolCompatibility"] },
   telemetry: TELEMETRY,
   span: "GetDevicePoolCompatibility",
 }));
@@ -2128,6 +2265,14 @@ export const getInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
+  iam: {
+    actions: ["devicefarm:GetInstanceProfile"],
+    resources: {
+      "devicefarm:GetInstanceProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:instanceprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceProfile",
 }));
@@ -2153,6 +2298,12 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["devicefarm:GetJob"],
+    resources: {
+      "devicefarm:GetJob": ["arn:${Partition}:devicefarm:${Region}:${Account}:job:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -2178,6 +2329,14 @@ export const getNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkProfile",
+  iam: {
+    actions: ["devicefarm:GetNetworkProfile"],
+    resources: {
+      "devicefarm:GetNetworkProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:networkprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkProfile",
 }));
@@ -2215,6 +2374,7 @@ export const getOfferingStatus: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetOfferingStatus",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["devicefarm:GetOfferingStatus"] },
   telemetry: TELEMETRY,
   span: "GetOfferingStatus",
 })) as any;
@@ -2240,6 +2400,14 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  iam: {
+    actions: ["devicefarm:GetProject"],
+    resources: {
+      "devicefarm:GetProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProject",
 }));
@@ -2265,6 +2433,14 @@ export const getRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemoteAccessSession",
+  iam: {
+    actions: ["devicefarm:GetRemoteAccessSession"],
+    resources: {
+      "devicefarm:GetRemoteAccessSession": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:session:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRemoteAccessSession",
 }));
@@ -2290,6 +2466,12 @@ export const getRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRun",
+  iam: {
+    actions: ["devicefarm:GetRun"],
+    resources: {
+      "devicefarm:GetRun": ["arn:${Partition}:devicefarm:${Region}:${Account}:run:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRun",
 }));
@@ -2315,6 +2497,14 @@ export const getSuite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuite",
+  iam: {
+    actions: ["devicefarm:GetSuite"],
+    resources: {
+      "devicefarm:GetSuite": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:suite:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSuite",
 }));
@@ -2340,6 +2530,12 @@ export const getTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
+  iam: {
+    actions: ["devicefarm:GetTest"],
+    resources: {
+      "devicefarm:GetTest": ["arn:${Partition}:devicefarm:${Region}:${Account}:test:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTest",
 }));
@@ -2364,6 +2560,14 @@ export const getTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridProject",
+  iam: {
+    actions: ["devicefarm:GetTestGridProject"],
+    resources: {
+      "devicefarm:GetTestGridProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTestGridProject",
 }));
@@ -2393,6 +2597,7 @@ export const getTestGridSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridSession",
+  iam: { actions: ["devicefarm:GetTestGridSession"] },
   telemetry: TELEMETRY,
   span: "GetTestGridSession",
 }));
@@ -2418,6 +2623,14 @@ export const getUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpload",
+  iam: {
+    actions: ["devicefarm:GetUpload"],
+    resources: {
+      "devicefarm:GetUpload": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:upload:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUpload",
 }));
@@ -2443,6 +2656,14 @@ export const getVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVPCEConfiguration",
+  iam: {
+    actions: ["devicefarm:GetVPCEConfiguration"],
+    resources: {
+      "devicefarm:GetVPCEConfiguration": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:vpceconfiguration:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVPCEConfiguration",
 }));
@@ -2470,6 +2691,15 @@ export const installToRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstallToRemoteAccessSession",
+  iam: {
+    actions: ["devicefarm:InstallToRemoteAccessSession"],
+    resources: {
+      "devicefarm:InstallToRemoteAccessSession": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:session:${ResourceId}",
+        "arn:${Partition}:devicefarm:${Region}:${Account}:upload:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InstallToRemoteAccessSession",
 }));
@@ -2497,6 +2727,7 @@ export const listArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  iam: { actions: ["devicefarm:ListArtifacts"] },
   telemetry: TELEMETRY,
   span: "ListArtifacts",
 })) as any;
@@ -2523,6 +2754,7 @@ export const listDeviceInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceInstances",
+  iam: { actions: ["devicefarm:ListDeviceInstances"] },
   telemetry: TELEMETRY,
   span: "ListDeviceInstances",
 }));
@@ -2550,6 +2782,14 @@ export const listDevicePools: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevicePools",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devicePools" } as const,
+  iam: {
+    actions: ["devicefarm:ListDevicePools"],
+    resources: {
+      "devicefarm:ListDevicePools": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDevicePools",
 })) as any;
@@ -2577,6 +2817,7 @@ export const listDevices: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevices",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devices" } as const,
+  iam: { actions: ["devicefarm:ListDevices"] },
   telemetry: TELEMETRY,
   span: "ListDevices",
 })) as any;
@@ -2602,6 +2843,7 @@ export const listInstanceProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfiles",
+  iam: { actions: ["devicefarm:ListInstanceProfiles"] },
   telemetry: TELEMETRY,
   span: "ListInstanceProfiles",
 }));
@@ -2629,6 +2871,12 @@ export const listJobs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListJobs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "jobs" } as const,
+  iam: {
+    actions: ["devicefarm:ListJobs"],
+    resources: {
+      "devicefarm:ListJobs": ["arn:${Partition}:devicefarm:${Region}:${Account}:run:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -2654,6 +2902,14 @@ export const listNetworkProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworkProfiles",
+  iam: {
+    actions: ["devicefarm:ListNetworkProfiles"],
+    resources: {
+      "devicefarm:ListNetworkProfiles": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkProfiles",
 }));
@@ -2688,6 +2944,7 @@ export const listOfferingPromotions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOfferingPromotions",
+  iam: { actions: ["devicefarm:ListOfferingPromotions"] },
   telemetry: TELEMETRY,
   span: "ListOfferingPromotions",
 }));
@@ -2725,6 +2982,7 @@ export const listOfferings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListOfferings",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "offerings" } as const,
+  iam: { actions: ["devicefarm:ListOfferings"] },
   telemetry: TELEMETRY,
   span: "ListOfferings",
 })) as any;
@@ -2766,6 +3024,7 @@ export const listOfferingTransactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "offeringTransactions",
   } as const,
+  iam: { actions: ["devicefarm:ListOfferingTransactions"] },
   telemetry: TELEMETRY,
   span: "ListOfferingTransactions",
 })) as any;
@@ -2793,6 +3052,7 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  iam: { actions: ["devicefarm:ListProjects"] },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -2818,6 +3078,14 @@ export const listRemoteAccessSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRemoteAccessSessions",
+  iam: {
+    actions: ["devicefarm:ListRemoteAccessSessions"],
+    resources: {
+      "devicefarm:ListRemoteAccessSessions": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRemoteAccessSessions",
 }));
@@ -2845,6 +3113,14 @@ export const listRuns: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRuns",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "runs" } as const,
+  iam: {
+    actions: ["devicefarm:ListRuns"],
+    resources: {
+      "devicefarm:ListRuns": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRuns",
 })) as any;
@@ -2874,6 +3150,14 @@ export const listSamples: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSamples",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "samples" } as const,
+  iam: {
+    actions: ["devicefarm:ListSamples"],
+    resources: {
+      "devicefarm:ListSamples": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:job:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSamples",
 })) as any;
@@ -2901,6 +3185,14 @@ export const listSuites: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSuites",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "suites" } as const,
+  iam: {
+    actions: ["devicefarm:ListSuites"],
+    resources: {
+      "devicefarm:ListSuites": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:job:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSuites",
 })) as any;
@@ -2925,6 +3217,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["devicefarm:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2947,6 +3240,7 @@ export const listTestGridProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  iam: { actions: ["devicefarm:ListTestGridProjects"] },
   telemetry: TELEMETRY,
   span: "ListTestGridProjects",
 })) as any;
@@ -2973,6 +3267,14 @@ export const listTestGridSessionActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionActions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  iam: {
+    actions: ["devicefarm:ListTestGridSessionActions"],
+    resources: {
+      "devicefarm:ListTestGridSessionActions": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-session:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTestGridSessionActions",
 })) as any;
@@ -2999,6 +3301,14 @@ export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  iam: {
+    actions: ["devicefarm:ListTestGridSessionArtifacts"],
+    resources: {
+      "devicefarm:ListTestGridSessionArtifacts": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-session:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTestGridSessionArtifacts",
 })) as any;
@@ -3025,6 +3335,14 @@ export const listTestGridSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  iam: {
+    actions: ["devicefarm:ListTestGridSessions"],
+    resources: {
+      "devicefarm:ListTestGridSessions": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTestGridSessions",
 })) as any;
@@ -3052,6 +3370,14 @@ export const listTests: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTests",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "tests" } as const,
+  iam: {
+    actions: ["devicefarm:ListTests"],
+    resources: {
+      "devicefarm:ListTests": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:suite:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTests",
 })) as any;
@@ -3088,6 +3414,14 @@ export const listUniqueProblems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "uniqueProblems",
   } as const,
+  iam: {
+    actions: ["devicefarm:ListUniqueProblems"],
+    resources: {
+      "devicefarm:ListUniqueProblems": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:run:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUniqueProblems",
 })) as any;
@@ -3115,6 +3449,14 @@ export const listUploads: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListUploads",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "uploads" } as const,
+  iam: {
+    actions: ["devicefarm:ListUploads"],
+    resources: {
+      "devicefarm:ListUploads": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUploads",
 })) as any;
@@ -3139,6 +3481,7 @@ export const listVPCEConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCEConfigurations",
+  iam: { actions: ["devicefarm:ListVPCEConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListVPCEConfigurations",
 }));
@@ -3174,6 +3517,7 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  iam: { actions: ["devicefarm:PurchaseOffering"] },
   telemetry: TELEMETRY,
   span: "PurchaseOffering",
 }));
@@ -3208,6 +3552,7 @@ export const renewOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewOffering",
+  iam: { actions: ["devicefarm:RenewOffering"] },
   telemetry: TELEMETRY,
   span: "RenewOffering",
 }));
@@ -3240,6 +3585,11 @@ export const scheduleRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleRun",
+  iam: {
+    actions: ["iam:PassRole", "devicefarm:ScheduleRun"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "configuration.executionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "ScheduleRun",
 }));
@@ -3268,6 +3618,12 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  iam: {
+    actions: ["devicefarm:StopJob"],
+    resources: {
+      "devicefarm:StopJob": ["arn:${Partition}:devicefarm:${Region}:${Account}:job:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopJob",
 }));
@@ -3293,6 +3649,14 @@ export const stopRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRemoteAccessSession",
+  iam: {
+    actions: ["devicefarm:StopRemoteAccessSession"],
+    resources: {
+      "devicefarm:StopRemoteAccessSession": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:session:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRemoteAccessSession",
 }));
@@ -3321,6 +3685,12 @@ export const stopRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRun",
+  iam: {
+    actions: ["devicefarm:StopRun"],
+    resources: {
+      "devicefarm:StopRun": ["arn:${Partition}:devicefarm:${Region}:${Account}:run:${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRun",
 }));
@@ -3355,6 +3725,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["devicefarm:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3379,6 +3750,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["devicefarm:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3404,6 +3776,7 @@ export const updateDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceInstance",
+  iam: { actions: ["devicefarm:UpdateDeviceInstance"] },
   telemetry: TELEMETRY,
   span: "UpdateDeviceInstance",
 }));
@@ -3431,6 +3804,14 @@ export const updateDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevicePool",
+  iam: {
+    actions: ["devicefarm:UpdateDevicePool"],
+    resources: {
+      "devicefarm:UpdateDevicePool": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:devicepool:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDevicePool",
 }));
@@ -3456,6 +3837,14 @@ export const updateInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceProfile",
+  iam: {
+    actions: ["devicefarm:UpdateInstanceProfile"],
+    resources: {
+      "devicefarm:UpdateInstanceProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:instanceprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceProfile",
 }));
@@ -3481,6 +3870,14 @@ export const updateNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkProfile",
+  iam: {
+    actions: ["devicefarm:UpdateNetworkProfile"],
+    resources: {
+      "devicefarm:UpdateNetworkProfile": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:networkprofile:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkProfile",
 }));
@@ -3507,6 +3904,16 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  iam: {
+    actions: ["iam:PassRole", "devicefarm:UpdateProject"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "devicefarm:UpdateProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:project:${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -3532,6 +3939,14 @@ export const updateTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestGridProject",
+  iam: {
+    actions: ["devicefarm:UpdateTestGridProject"],
+    resources: {
+      "devicefarm:UpdateTestGridProject": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:testgrid-project:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTestGridProject",
 }));
@@ -3557,6 +3972,14 @@ export const updateUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUpload",
+  iam: {
+    actions: ["devicefarm:UpdateUpload"],
+    resources: {
+      "devicefarm:UpdateUpload": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:upload:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUpload",
 }));
@@ -3587,6 +4010,14 @@ export const updateVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCEConfiguration",
+  iam: {
+    actions: ["devicefarm:UpdateVPCEConfiguration"],
+    resources: {
+      "devicefarm:UpdateVPCEConfiguration": [
+        "arn:${Partition}:devicefarm:${Region}:${Account}:vpceconfiguration:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVPCEConfiguration",
 }));

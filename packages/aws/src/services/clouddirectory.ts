@@ -1486,6 +1486,14 @@ export const addFacetToObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFacetToObject",
+  iam: {
+    actions: ["clouddirectory:AddFacetToObject"],
+    resources: {
+      "clouddirectory:AddFacetToObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddFacetToObject",
 }));
@@ -1527,6 +1535,15 @@ export const applySchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySchema",
+  iam: {
+    actions: ["clouddirectory:ApplySchema"],
+    resources: {
+      "clouddirectory:ApplySchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApplySchema",
 }));
@@ -1576,6 +1593,14 @@ export const attachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachObject",
+  iam: {
+    actions: ["clouddirectory:AttachObject"],
+    resources: {
+      "clouddirectory:AttachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachObject",
 }));
@@ -1617,6 +1642,14 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  iam: {
+    actions: ["clouddirectory:AttachPolicy"],
+    resources: {
+      "clouddirectory:AttachPolicy": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachPolicy",
 }));
@@ -1663,6 +1696,14 @@ export const attachToIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachToIndex",
+  iam: {
+    actions: ["clouddirectory:AttachToIndex"],
+    resources: {
+      "clouddirectory:AttachToIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachToIndex",
 }));
@@ -1705,6 +1746,14 @@ export const attachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTypedLink",
+  iam: {
+    actions: ["clouddirectory:AttachTypedLink"],
+    resources: {
+      "clouddirectory:AttachTypedLink": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachTypedLink",
 }));
@@ -1741,6 +1790,72 @@ export const batchRead: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRead",
+  iam: {
+    actions: [
+      "clouddirectory:BatchRead",
+      "clouddirectory:GetLinkAttributes",
+      "clouddirectory:GetObjectAttributes",
+      "clouddirectory:GetObjectInformation",
+      "clouddirectory:ListAttachedIndices",
+      "clouddirectory:ListIncomingTypedLinks",
+      "clouddirectory:ListIndex",
+      "clouddirectory:ListObjectAttributes",
+      "clouddirectory:ListObjectChildren",
+      "clouddirectory:ListObjectParentPaths",
+      "clouddirectory:ListObjectParents",
+      "clouddirectory:ListObjectPolicies",
+      "clouddirectory:ListOutgoingTypedLinks",
+      "clouddirectory:ListPolicyAttachments",
+      "clouddirectory:LookupPolicy",
+    ],
+    resources: {
+      "clouddirectory:BatchRead": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:GetLinkAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:GetObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:GetObjectInformation": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListAttachedIndices": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListIncomingTypedLinks": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListObjectChildren": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListObjectParentPaths": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListObjectParents": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListObjectPolicies": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListOutgoingTypedLinks": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:ListPolicyAttachments": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:LookupPolicy": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchRead",
 }));
@@ -1780,6 +1895,72 @@ export const batchWrite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWrite",
+  iam: {
+    actions: [
+      "clouddirectory:AddFacetToObject",
+      "clouddirectory:AttachObject",
+      "clouddirectory:AttachPolicy",
+      "clouddirectory:AttachToIndex",
+      "clouddirectory:AttachTypedLink",
+      "clouddirectory:BatchWrite",
+      "clouddirectory:CreateIndex",
+      "clouddirectory:CreateObject",
+      "clouddirectory:DeleteObject",
+      "clouddirectory:DetachFromIndex",
+      "clouddirectory:DetachObject",
+      "clouddirectory:DetachTypedLink",
+      "clouddirectory:RemoveFacetFromObject",
+      "clouddirectory:UpdateLinkAttributes",
+      "clouddirectory:UpdateObjectAttributes",
+    ],
+    resources: {
+      "clouddirectory:AddFacetToObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:AttachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:AttachPolicy": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:AttachToIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:AttachTypedLink": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:BatchWrite": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:CreateIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:CreateObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:DeleteObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:DetachFromIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:DetachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:DetachTypedLink": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:RemoveFacetFromObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:UpdateLinkAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:UpdateObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchWrite",
 }));
@@ -1822,6 +2003,14 @@ export const createDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectory",
+  iam: {
+    actions: ["clouddirectory:CreateDirectory"],
+    resources: {
+      "clouddirectory:CreateDirectory": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDirectory",
 }));
@@ -1865,6 +2054,15 @@ export const createFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFacet",
+  iam: {
+    actions: ["clouddirectory:CreateFacet"],
+    resources: {
+      "clouddirectory:CreateFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFacet",
 }));
@@ -1909,6 +2107,17 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  iam: {
+    actions: ["clouddirectory:AttachObject", "clouddirectory:CreateIndex"],
+    resources: {
+      "clouddirectory:AttachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:CreateIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -1956,6 +2165,17 @@ export const createObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObject",
+  iam: {
+    actions: ["clouddirectory:AttachObject", "clouddirectory:CreateObject"],
+    resources: {
+      "clouddirectory:AttachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "clouddirectory:CreateObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateObject",
 }));
@@ -2004,6 +2224,7 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  iam: { actions: ["clouddirectory:CreateSchema"] },
   telemetry: TELEMETRY,
   span: "CreateSchema",
 }));
@@ -2046,6 +2267,15 @@ export const createTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTypedLinkFacet",
+  iam: {
+    actions: ["clouddirectory:CreateTypedLinkFacet"],
+    resources: {
+      "clouddirectory:CreateTypedLinkFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTypedLinkFacet",
 }));
@@ -2088,6 +2318,14 @@ export const deleteDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectory",
+  iam: {
+    actions: ["clouddirectory:DeleteDirectory"],
+    resources: {
+      "clouddirectory:DeleteDirectory": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDirectory",
 }));
@@ -2130,6 +2368,14 @@ export const deleteFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFacet",
+  iam: {
+    actions: ["clouddirectory:DeleteFacet"],
+    resources: {
+      "clouddirectory:DeleteFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFacet",
 }));
@@ -2171,6 +2417,14 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  iam: {
+    actions: ["clouddirectory:DeleteObject"],
+    resources: {
+      "clouddirectory:DeleteObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteObject",
 }));
@@ -2209,6 +2463,15 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  iam: {
+    actions: ["clouddirectory:DeleteSchema"],
+    resources: {
+      "clouddirectory:DeleteSchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchema",
 }));
@@ -2247,6 +2510,14 @@ export const deleteTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTypedLinkFacet",
+  iam: {
+    actions: ["clouddirectory:DeleteTypedLinkFacet"],
+    resources: {
+      "clouddirectory:DeleteTypedLinkFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTypedLinkFacet",
 }));
@@ -2289,6 +2560,14 @@ export const detachFromIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachFromIndex",
+  iam: {
+    actions: ["clouddirectory:DetachFromIndex"],
+    resources: {
+      "clouddirectory:DetachFromIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachFromIndex",
 }));
@@ -2330,6 +2609,14 @@ export const detachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachObject",
+  iam: {
+    actions: ["clouddirectory:DetachObject"],
+    resources: {
+      "clouddirectory:DetachObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachObject",
 }));
@@ -2370,6 +2657,14 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  iam: {
+    actions: ["clouddirectory:DetachPolicy"],
+    resources: {
+      "clouddirectory:DetachPolicy": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachPolicy",
 }));
@@ -2410,6 +2705,14 @@ export const detachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTypedLink",
+  iam: {
+    actions: ["clouddirectory:DetachTypedLink"],
+    resources: {
+      "clouddirectory:DetachTypedLink": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachTypedLink",
 }));
@@ -2449,6 +2752,14 @@ export const disableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDirectory",
+  iam: {
+    actions: ["clouddirectory:DisableDirectory"],
+    resources: {
+      "clouddirectory:DisableDirectory": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableDirectory",
 }));
@@ -2488,6 +2799,14 @@ export const enableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDirectory",
+  iam: {
+    actions: ["clouddirectory:EnableDirectory"],
+    resources: {
+      "clouddirectory:EnableDirectory": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableDirectory",
 }));
@@ -2524,6 +2843,14 @@ export const getAppliedSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppliedSchemaVersion",
+  iam: {
+    actions: ["clouddirectory:GetAppliedSchemaVersion"],
+    resources: {
+      "clouddirectory:GetAppliedSchemaVersion": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppliedSchemaVersion",
 }));
@@ -2558,6 +2885,14 @@ export const getDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectory",
+  iam: {
+    actions: ["clouddirectory:GetDirectory"],
+    resources: {
+      "clouddirectory:GetDirectory": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDirectory",
 }));
@@ -2597,6 +2932,16 @@ export const getFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFacet",
+  iam: {
+    actions: ["clouddirectory:GetFacet"],
+    resources: {
+      "clouddirectory:GetFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFacet",
 }));
@@ -2637,6 +2982,14 @@ export const getLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkAttributes",
+  iam: {
+    actions: ["clouddirectory:GetLinkAttributes"],
+    resources: {
+      "clouddirectory:GetLinkAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLinkAttributes",
 }));
@@ -2677,6 +3030,14 @@ export const getObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
+  iam: {
+    actions: ["clouddirectory:GetObjectAttributes"],
+    resources: {
+      "clouddirectory:GetObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetObjectAttributes",
 }));
@@ -2715,6 +3076,14 @@ export const getObjectInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectInformation",
+  iam: {
+    actions: ["clouddirectory:GetObjectInformation"],
+    resources: {
+      "clouddirectory:GetObjectInformation": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetObjectInformation",
 }));
@@ -2751,6 +3120,16 @@ export const getSchemaAsJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAsJson",
+  iam: {
+    actions: ["clouddirectory:GetSchemaAsJson"],
+    resources: {
+      "clouddirectory:GetSchemaAsJson": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchemaAsJson",
 }));
@@ -2791,6 +3170,16 @@ export const getTypedLinkFacetInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTypedLinkFacetInformation",
+  iam: {
+    actions: ["clouddirectory:GetTypedLinkFacetInformation"],
+    resources: {
+      "clouddirectory:GetTypedLinkFacetInformation": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTypedLinkFacetInformation",
 }));
@@ -2835,6 +3224,14 @@ export const listAppliedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListAppliedSchemaArns"],
+    resources: {
+      "clouddirectory:ListAppliedSchemaArns": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAppliedSchemaArns",
 })) as any;
@@ -2879,6 +3276,14 @@ export const listAttachedIndices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListAttachedIndices"],
+    resources: {
+      "clouddirectory:ListAttachedIndices": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedIndices",
 })) as any;
@@ -2924,6 +3329,7 @@ export const listDevelopmentSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["clouddirectory:ListDevelopmentSchemaArns"] },
   telemetry: TELEMETRY,
   span: "ListDevelopmentSchemaArns",
 })) as any;
@@ -2966,6 +3372,7 @@ export const listDirectories: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["clouddirectory:ListDirectories"] },
   telemetry: TELEMETRY,
   span: "ListDirectories",
 })) as any;
@@ -3012,6 +3419,16 @@ export const listFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListFacetAttributes"],
+    resources: {
+      "clouddirectory:ListFacetAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFacetAttributes",
 })) as any;
@@ -3056,6 +3473,16 @@ export const listFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListFacetNames"],
+    resources: {
+      "clouddirectory:ListFacetNames": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFacetNames",
 })) as any;
@@ -3100,6 +3527,14 @@ export const listIncomingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIncomingTypedLinks",
+  iam: {
+    actions: ["clouddirectory:ListIncomingTypedLinks"],
+    resources: {
+      "clouddirectory:ListIncomingTypedLinks": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIncomingTypedLinks",
 }));
@@ -3150,6 +3585,14 @@ export const listIndex: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListIndex"],
+    resources: {
+      "clouddirectory:ListIndex": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIndex",
 })) as any;
@@ -3190,6 +3633,7 @@ export const listManagedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["clouddirectory:ListManagedSchemaArns"] },
   telemetry: TELEMETRY,
   span: "ListManagedSchemaArns",
 })) as any;
@@ -3238,6 +3682,14 @@ export const listObjectAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListObjectAttributes"],
+    resources: {
+      "clouddirectory:ListObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectAttributes",
 })) as any;
@@ -3287,6 +3739,14 @@ export const listObjectChildren: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListObjectChildren"],
+    resources: {
+      "clouddirectory:ListObjectChildren": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectChildren",
 })) as any;
@@ -3341,6 +3801,14 @@ export const listObjectParentPaths: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListObjectParentPaths"],
+    resources: {
+      "clouddirectory:ListObjectParentPaths": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectParentPaths",
 })) as any;
@@ -3390,6 +3858,14 @@ export const listObjectParents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListObjectParents"],
+    resources: {
+      "clouddirectory:ListObjectParents": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectParents",
 })) as any;
@@ -3436,6 +3912,14 @@ export const listObjectPolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListObjectPolicies"],
+    resources: {
+      "clouddirectory:ListObjectPolicies": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectPolicies",
 })) as any;
@@ -3480,6 +3964,14 @@ export const listOutgoingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutgoingTypedLinks",
+  iam: {
+    actions: ["clouddirectory:ListOutgoingTypedLinks"],
+    resources: {
+      "clouddirectory:ListOutgoingTypedLinks": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListOutgoingTypedLinks",
 }));
@@ -3528,6 +4020,14 @@ export const listPolicyAttachments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListPolicyAttachments"],
+    resources: {
+      "clouddirectory:ListPolicyAttachments": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyAttachments",
 })) as any;
@@ -3572,6 +4072,7 @@ export const listPublishedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["clouddirectory:ListPublishedSchemaArns"] },
   telemetry: TELEMETRY,
   span: "ListPublishedSchemaArns",
 })) as any;
@@ -3618,6 +4119,14 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListTagsForResource"],
+    resources: {
+      "clouddirectory:ListTagsForResource": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3664,6 +4173,16 @@ export const listTypedLinkFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListTypedLinkFacetAttributes"],
+    resources: {
+      "clouddirectory:ListTypedLinkFacetAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTypedLinkFacetAttributes",
 })) as any;
@@ -3709,6 +4228,16 @@ export const listTypedLinkFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:ListTypedLinkFacetNames"],
+    resources: {
+      "clouddirectory:ListTypedLinkFacetNames": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTypedLinkFacetNames",
 })) as any;
@@ -3760,6 +4289,14 @@ export const lookupPolicy: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["clouddirectory:LookupPolicy"],
+    resources: {
+      "clouddirectory:LookupPolicy": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "LookupPolicy",
 })) as any;
@@ -3798,6 +4335,14 @@ export const publishSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishSchema",
+  iam: {
+    actions: ["clouddirectory:PublishSchema"],
+    resources: {
+      "clouddirectory:PublishSchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishSchema",
 }));
@@ -3836,6 +4381,7 @@ export const putSchemaFromJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchemaFromJson",
+  iam: { actions: ["clouddirectory:PutSchemaFromJson"] },
   telemetry: TELEMETRY,
   span: "PutSchemaFromJson",
 }));
@@ -3876,6 +4422,14 @@ export const removeFacetFromObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFacetFromObject",
+  iam: {
+    actions: ["clouddirectory:RemoveFacetFromObject"],
+    resources: {
+      "clouddirectory:RemoveFacetFromObject": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFacetFromObject",
 }));
@@ -3914,6 +4468,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["clouddirectory:TagResource"],
+    resources: {
+      "clouddirectory:TagResource": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3952,6 +4514,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["clouddirectory:UntagResource"],
+    resources: {
+      "clouddirectory:UntagResource": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4002,6 +4572,15 @@ export const updateFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFacet",
+  iam: {
+    actions: ["clouddirectory:UpdateFacet"],
+    resources: {
+      "clouddirectory:UpdateFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}/schema/${SchemaName}/${Version}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFacet",
 }));
@@ -4042,6 +4621,14 @@ export const updateLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkAttributes",
+  iam: {
+    actions: ["clouddirectory:UpdateLinkAttributes"],
+    resources: {
+      "clouddirectory:UpdateLinkAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLinkAttributes",
 }));
@@ -4084,6 +4671,14 @@ export const updateObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectAttributes",
+  iam: {
+    actions: ["clouddirectory:UpdateObjectAttributes"],
+    resources: {
+      "clouddirectory:UpdateObjectAttributes": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateObjectAttributes",
 }));
@@ -4121,6 +4716,14 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  iam: {
+    actions: ["clouddirectory:UpdateSchema"],
+    resources: {
+      "clouddirectory:UpdateSchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSchema",
 }));
@@ -4165,6 +4768,14 @@ export const updateTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTypedLinkFacet",
+  iam: {
+    actions: ["clouddirectory:UpdateTypedLinkFacet"],
+    resources: {
+      "clouddirectory:UpdateTypedLinkFacet": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTypedLinkFacet",
 }));
@@ -4205,6 +4816,15 @@ export const upgradeAppliedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAppliedSchema",
+  iam: {
+    actions: ["clouddirectory:UpgradeAppliedSchema"],
+    resources: {
+      "clouddirectory:UpgradeAppliedSchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpgradeAppliedSchema",
 }));
@@ -4245,6 +4865,15 @@ export const upgradePublishedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradePublishedSchema",
+  iam: {
+    actions: ["clouddirectory:UpgradePublishedSchema"],
+    resources: {
+      "clouddirectory:UpgradePublishedSchema": [
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/development/${SchemaName}",
+        "arn:${Partition}:clouddirectory:${Region}:${Account}:schema/published/${SchemaName}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpgradePublishedSchema",
 }));

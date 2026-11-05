@@ -755,6 +755,7 @@ export const describeEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitiesDetectionV2Job",
+  iam: { actions: ["comprehendmedical:DescribeEntitiesDetectionV2Job"] },
   telemetry: TELEMETRY,
   span: "DescribeEntitiesDetectionV2Job",
 }));
@@ -786,6 +787,7 @@ export const describeICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeICD10CMInferenceJob",
+  iam: { actions: ["comprehendmedical:DescribeICD10CMInferenceJob"] },
   telemetry: TELEMETRY,
   span: "DescribeICD10CMInferenceJob",
 }));
@@ -817,6 +819,7 @@ export const describePHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePHIDetectionJob",
+  iam: { actions: ["comprehendmedical:DescribePHIDetectionJob"] },
   telemetry: TELEMETRY,
   span: "DescribePHIDetectionJob",
 }));
@@ -848,6 +851,7 @@ export const describeRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRxNormInferenceJob",
+  iam: { actions: ["comprehendmedical:DescribeRxNormInferenceJob"] },
   telemetry: TELEMETRY,
   span: "DescribeRxNormInferenceJob",
 }));
@@ -878,6 +882,7 @@ export const describeSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSNOMEDCTInferenceJob",
+  iam: { actions: ["comprehendmedical:DescribeSNOMEDCTInferenceJob"] },
   telemetry: TELEMETRY,
   span: "DescribeSNOMEDCTInferenceJob",
 }));
@@ -961,6 +966,7 @@ export const detectEntitiesV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntitiesV2",
+  iam: { actions: ["comprehendmedical:DetectEntitiesV2"] },
   telemetry: TELEMETRY,
   span: "DetectEntitiesV2",
 }));
@@ -997,6 +1003,7 @@ export const detectPHI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectPHI",
+  iam: { actions: ["comprehendmedical:DetectPHI"] },
   telemetry: TELEMETRY,
   span: "DetectPHI",
 }));
@@ -1034,6 +1041,7 @@ export const inferICD10CM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferICD10CM",
+  iam: { actions: ["comprehendmedical:InferICD10CM"] },
   telemetry: TELEMETRY,
   span: "InferICD10CM",
 }));
@@ -1070,6 +1078,7 @@ export const inferRxNorm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferRxNorm",
+  iam: { actions: ["comprehendmedical:InferRxNorm"] },
   telemetry: TELEMETRY,
   span: "InferRxNorm",
 }));
@@ -1104,6 +1113,7 @@ export const inferSNOMEDCT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferSNOMEDCT",
+  iam: { actions: ["comprehendmedical:InferSNOMEDCT"] },
   telemetry: TELEMETRY,
   span: "InferSNOMEDCT",
 }));
@@ -1134,6 +1144,7 @@ export const listEntitiesDetectionV2Jobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitiesDetectionV2Jobs",
+  iam: { actions: ["comprehendmedical:ListEntitiesDetectionV2Jobs"] },
   telemetry: TELEMETRY,
   span: "ListEntitiesDetectionV2Jobs",
 }));
@@ -1164,6 +1175,7 @@ export const listICD10CMInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListICD10CMInferenceJobs",
+  iam: { actions: ["comprehendmedical:ListICD10CMInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListICD10CMInferenceJobs",
 }));
@@ -1195,6 +1207,7 @@ export const listPHIDetectionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPHIDetectionJobs",
+  iam: { actions: ["comprehendmedical:ListPHIDetectionJobs"] },
   telemetry: TELEMETRY,
   span: "ListPHIDetectionJobs",
 }));
@@ -1225,6 +1238,7 @@ export const listRxNormInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRxNormInferenceJobs",
+  iam: { actions: ["comprehendmedical:ListRxNormInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListRxNormInferenceJobs",
 }));
@@ -1255,6 +1269,7 @@ export const listSNOMEDCTInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSNOMEDCTInferenceJobs",
+  iam: { actions: ["comprehendmedical:ListSNOMEDCTInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListSNOMEDCTInferenceJobs",
 }));
@@ -1286,6 +1301,10 @@ export const startEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEntitiesDetectionV2Job",
+  iam: {
+    actions: ["iam:PassRole", "comprehendmedical:StartEntitiesDetectionV2Job"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartEntitiesDetectionV2Job",
 }));
@@ -1318,6 +1337,10 @@ export const startICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartICD10CMInferenceJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehendmedical:StartICD10CMInferenceJob"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartICD10CMInferenceJob",
 }));
@@ -1349,6 +1372,10 @@ export const startPHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPHIDetectionJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehendmedical:StartPHIDetectionJob"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartPHIDetectionJob",
 }));
@@ -1381,6 +1408,10 @@ export const startRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRxNormInferenceJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehendmedical:StartRxNormInferenceJob"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartRxNormInferenceJob",
 }));
@@ -1411,6 +1442,10 @@ export const startSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSNOMEDCTInferenceJob",
+  iam: {
+    actions: ["iam:PassRole", "comprehendmedical:StartSNOMEDCTInferenceJob"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartSNOMEDCTInferenceJob",
 }));
@@ -1435,6 +1470,7 @@ export const stopEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionV2Job",
+  iam: { actions: ["comprehendmedical:StopEntitiesDetectionV2Job"] },
   telemetry: TELEMETRY,
   span: "StopEntitiesDetectionV2Job",
 }));
@@ -1459,6 +1495,7 @@ export const stopICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopICD10CMInferenceJob",
+  iam: { actions: ["comprehendmedical:StopICD10CMInferenceJob"] },
   telemetry: TELEMETRY,
   span: "StopICD10CMInferenceJob",
 }));
@@ -1483,6 +1520,7 @@ export const stopPHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPHIDetectionJob",
+  iam: { actions: ["comprehendmedical:StopPHIDetectionJob"] },
   telemetry: TELEMETRY,
   span: "StopPHIDetectionJob",
 }));
@@ -1507,6 +1545,7 @@ export const stopRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRxNormInferenceJob",
+  iam: { actions: ["comprehendmedical:StopRxNormInferenceJob"] },
   telemetry: TELEMETRY,
   span: "StopRxNormInferenceJob",
 }));
@@ -1537,6 +1576,7 @@ export const stopSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSNOMEDCTInferenceJob",
+  iam: { actions: ["comprehendmedical:StopSNOMEDCTInferenceJob"] },
   telemetry: TELEMETRY,
   span: "StopSNOMEDCTInferenceJob",
 }));

@@ -1430,6 +1430,14 @@ export const approvePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePlanExecutionStep",
+  iam: {
+    actions: ["arc-region-switch:ApprovePlanExecutionStep"],
+    resources: {
+      "arc-region-switch:ApprovePlanExecutionStep": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApprovePlanExecutionStep",
 }));
@@ -1455,6 +1463,14 @@ export const cancelPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPlanExecution",
+  iam: {
+    actions: ["arc-region-switch:CancelPlanExecution"],
+    resources: {
+      "arc-region-switch:CancelPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelPlanExecution",
 }));
@@ -1477,6 +1493,27 @@ export const createPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlan",
+  iam: {
+    actions: [
+      "arc-region-switch:CreatePlan",
+      "arc-region-switch:GetPlan",
+      "iam:PassRole",
+      "arc-region-switch:TagResource",
+    ],
+    resources: {
+      "arc-region-switch:CreatePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "arc-region-switch:TagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+    conditional: { "arc-region-switch:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlan",
 }));
@@ -1499,6 +1536,14 @@ export const deletePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlan",
+  iam: {
+    actions: ["arc-region-switch:DeletePlan"],
+    resources: {
+      "arc-region-switch:DeletePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlan",
 }));
@@ -1519,6 +1564,14 @@ export const getPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlan",
+  iam: {
+    actions: ["arc-region-switch:GetPlan"],
+    resources: {
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlan",
 }));
@@ -1549,6 +1602,14 @@ export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
     items: "warnings",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:GetPlanEvaluationStatus"],
+    resources: {
+      "arc-region-switch:GetPlanEvaluationStatus": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanEvaluationStatus",
 })) as any;
@@ -1579,6 +1640,14 @@ export const getPlanExecution: API.PaginatedOperationMethod<
     items: "stepStates",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:GetPlanExecution"],
+    resources: {
+      "arc-region-switch:GetPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanExecution",
 })) as any;
@@ -1599,6 +1668,14 @@ export const getPlanInRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlanInRegion",
+  iam: {
+    actions: ["arc-region-switch:GetPlanInRegion"],
+    resources: {
+      "arc-region-switch:GetPlanInRegion": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanInRegion",
 }));
@@ -1629,6 +1706,14 @@ export const listPlanExecutionEvents: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListPlanExecutionEvents"],
+    resources: {
+      "arc-region-switch:ListPlanExecutionEvents": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlanExecutionEvents",
 })) as any;
@@ -1659,6 +1744,14 @@ export const listPlanExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListPlanExecutions"],
+    resources: {
+      "arc-region-switch:ListPlanExecutions": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlanExecutions",
 })) as any;
@@ -1686,6 +1779,7 @@ export const listPlans: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListPlans"] },
   telemetry: TELEMETRY,
   span: "ListPlans",
 })) as any;
@@ -1713,6 +1807,7 @@ export const listPlansInRegion: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListPlansInRegion"] },
   telemetry: TELEMETRY,
   span: "ListPlansInRegion",
 })) as any;
@@ -1750,6 +1845,14 @@ export const listRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListRoute53HealthChecks"],
+    resources: {
+      "arc-region-switch:ListRoute53HealthChecks": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoute53HealthChecks",
 })) as any;
@@ -1787,6 +1890,14 @@ export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListRoute53HealthChecksInRegion"],
+    resources: {
+      "arc-region-switch:ListRoute53HealthChecksInRegion": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoute53HealthChecksInRegion",
 })) as any;
@@ -1819,6 +1930,7 @@ export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
     items: "serviceQuotaWarningSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListServiceQuotaWarnings"] },
   telemetry: TELEMETRY,
   span: "ListServiceQuotaWarnings",
 })) as any;
@@ -1842,6 +1954,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["arc-region-switch:ListTagsForResource"],
+    resources: {
+      "arc-region-switch:ListTagsForResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1876,6 +1996,14 @@ export const startPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPlanExecution",
+  iam: {
+    actions: ["arc-region-switch:StartPlanExecution"],
+    resources: {
+      "arc-region-switch:StartPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPlanExecution",
 }));
@@ -1896,6 +2024,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["arc-region-switch:TagResource"],
+    resources: {
+      "arc-region-switch:TagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1916,6 +2052,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["arc-region-switch:UntagResource"],
+    resources: {
+      "arc-region-switch:UntagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1936,6 +2080,18 @@ export const updatePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlan",
+  iam: {
+    actions: ["arc-region-switch:GetPlan", "iam:PassRole", "arc-region-switch:UpdatePlan"],
+    resources: {
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "arc-region-switch:UpdatePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlan",
 }));
@@ -1960,6 +2116,14 @@ export const updatePlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecution",
+  iam: {
+    actions: ["arc-region-switch:UpdatePlanExecution"],
+    resources: {
+      "arc-region-switch:UpdatePlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlanExecution",
 }));
@@ -1983,6 +2147,14 @@ export const updatePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecutionStep",
+  iam: {
+    actions: ["arc-region-switch:UpdatePlanExecutionStep"],
+    resources: {
+      "arc-region-switch:UpdatePlanExecutionStep": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlanExecutionStep",
 }));

@@ -605,6 +605,14 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCheckLayerAvailability",
+  iam: {
+    actions: ["ecr-public:BatchCheckLayerAvailability"],
+    resources: {
+      "ecr-public:BatchCheckLayerAvailability": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCheckLayerAvailability",
 }));
@@ -643,6 +651,14 @@ export const batchDeleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImage",
+  iam: {
+    actions: ["ecr-public:BatchDeleteImage"],
+    resources: {
+      "ecr-public:BatchDeleteImage": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteImage",
 }));
@@ -692,6 +708,14 @@ export const completeLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLayerUpload",
+  iam: {
+    actions: ["ecr-public:CompleteLayerUpload"],
+    resources: {
+      "ecr-public:CompleteLayerUpload": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteLayerUpload",
 }));
@@ -729,6 +753,18 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  iam: {
+    actions: ["ecr-public:CreateRepository", "ecr-public:TagResource"],
+    resources: {
+      "ecr-public:CreateRepository": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+      "ecr-public:TagResource": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+    conditional: { "ecr-public:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRepository",
 }));
@@ -763,6 +799,14 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  iam: {
+    actions: ["ecr-public:DeleteRepository"],
+    resources: {
+      "ecr-public:DeleteRepository": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepository",
 }));
@@ -795,6 +839,14 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPolicy",
+  iam: {
+    actions: ["ecr-public:DeleteRepositoryPolicy"],
+    resources: {
+      "ecr-public:DeleteRepositoryPolicy": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepositoryPolicy",
 }));
@@ -840,6 +892,14 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "imageDetails",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ecr-public:DescribeImages"],
+    resources: {
+      "ecr-public:DescribeImages": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImages",
 })) as any;
@@ -877,6 +937,14 @@ export const describeImageTags: API.PaginatedOperationMethod<
     items: "imageTagDetails",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ecr-public:DescribeImageTags"],
+    resources: {
+      "ecr-public:DescribeImageTags": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImageTags",
 })) as any;
@@ -908,6 +976,14 @@ export const describeRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ecr-public:DescribeRegistries"],
+    resources: {
+      "ecr-public:DescribeRegistries": [
+        "arn:${Partition}:ecr-public::${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegistries",
 })) as any;
@@ -945,6 +1021,7 @@ export const describeRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ecr-public:DescribeRepositories"] },
   telemetry: TELEMETRY,
   span: "DescribeRepositories",
 })) as any;
@@ -973,6 +1050,7 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  iam: { actions: ["ecr-public:GetAuthorizationToken", "sts:GetServiceBearerToken"] },
   telemetry: TELEMETRY,
   span: "GetAuthorizationToken",
 }));
@@ -996,6 +1074,14 @@ export const getRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryCatalogData",
+  iam: {
+    actions: ["ecr-public:GetRegistryCatalogData"],
+    resources: {
+      "ecr-public:GetRegistryCatalogData": [
+        "arn:${Partition}:ecr-public::${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegistryCatalogData",
 }));
@@ -1029,6 +1115,14 @@ export const getRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryCatalogData",
+  iam: {
+    actions: ["ecr-public:GetRepositoryCatalogData"],
+    resources: {
+      "ecr-public:GetRepositoryCatalogData": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryCatalogData",
 }));
@@ -1061,6 +1155,14 @@ export const getRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPolicy",
+  iam: {
+    actions: ["ecr-public:GetRepositoryPolicy"],
+    resources: {
+      "ecr-public:GetRepositoryPolicy": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryPolicy",
 }));
@@ -1099,6 +1201,14 @@ export const initiateLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateLayerUpload",
+  iam: {
+    actions: ["ecr-public:InitiateLayerUpload"],
+    resources: {
+      "ecr-public:InitiateLayerUpload": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InitiateLayerUpload",
 }));
@@ -1129,6 +1239,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["ecr-public:ListTagsForResource"],
+    resources: {
+      "ecr-public:ListTagsForResource": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1179,6 +1297,14 @@ export const putImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImage",
+  iam: {
+    actions: ["ecr-public:PutImage"],
+    resources: {
+      "ecr-public:PutImage": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutImage",
 }));
@@ -1203,6 +1329,14 @@ export const putRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryCatalogData",
+  iam: {
+    actions: ["ecr-public:PutRegistryCatalogData"],
+    resources: {
+      "ecr-public:PutRegistryCatalogData": [
+        "arn:${Partition}:ecr-public::${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRegistryCatalogData",
 }));
@@ -1233,6 +1367,14 @@ export const putRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryCatalogData",
+  iam: {
+    actions: ["ecr-public:PutRepositoryCatalogData"],
+    resources: {
+      "ecr-public:PutRepositoryCatalogData": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRepositoryCatalogData",
 }));
@@ -1265,6 +1407,14 @@ export const setRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRepositoryPolicy",
+  iam: {
+    actions: ["ecr-public:SetRepositoryPolicy"],
+    resources: {
+      "ecr-public:SetRepositoryPolicy": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetRepositoryPolicy",
 }));
@@ -1302,6 +1452,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["ecr-public:TagResource"],
+    resources: {
+      "ecr-public:TagResource": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1336,6 +1494,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["ecr-public:UntagResource"],
+    resources: {
+      "ecr-public:UntagResource": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1380,6 +1546,14 @@ export const uploadLayerPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadLayerPart",
+  iam: {
+    actions: ["ecr-public:UploadLayerPart"],
+    resources: {
+      "ecr-public:UploadLayerPart": [
+        "arn:${Partition}:ecr-public::${Account}:repository/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UploadLayerPart",
 }));

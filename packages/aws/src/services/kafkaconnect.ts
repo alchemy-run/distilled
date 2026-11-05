@@ -726,6 +726,11 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["kafkaconnect:CreateConnector", "iam:PassRole", "kafkaconnect:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -764,6 +769,10 @@ export const createCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:CreateCustomPlugin", "kafkaconnect:TagResource"],
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomPlugin",
 }));
@@ -802,6 +811,10 @@ export const createWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:CreateWorkerConfiguration", "kafkaconnect:TagResource"],
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkerConfiguration",
 }));
@@ -838,6 +851,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["kafkaconnect:DeleteConnector"],
+    resources: {
+      "kafkaconnect:DeleteConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -874,6 +895,14 @@ export const deleteCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:DeleteCustomPlugin"],
+    resources: {
+      "kafkaconnect:DeleteCustomPlugin": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:custom-plugin/${CustomPluginName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomPlugin",
 }));
@@ -910,6 +939,14 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:DeleteWorkerConfiguration"],
+    resources: {
+      "kafkaconnect:DeleteWorkerConfiguration": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:worker-configuration/${WorkerConfigurationName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkerConfiguration",
 }));
@@ -946,6 +983,14 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  iam: {
+    actions: ["kafkaconnect:DescribeConnector"],
+    resources: {
+      "kafkaconnect:DescribeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnector",
 }));
@@ -982,6 +1027,17 @@ export const describeConnectorOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorOperation",
+  iam: {
+    actions: ["kafkaconnect:DescribeConnector", "kafkaconnect:DescribeConnectorOperation"],
+    resources: {
+      "kafkaconnect:DescribeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+      "kafkaconnect:DescribeConnectorOperation": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector-operation/${ConnectorName}/${ConnectorUUID}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectorOperation",
 }));
@@ -1018,6 +1074,14 @@ export const describeCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:DescribeCustomPlugin"],
+    resources: {
+      "kafkaconnect:DescribeCustomPlugin": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:custom-plugin/${CustomPluginName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCustomPlugin",
 }));
@@ -1054,6 +1118,14 @@ export const describeWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:DescribeWorkerConfiguration"],
+    resources: {
+      "kafkaconnect:DescribeWorkerConfiguration": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:worker-configuration/${WorkerConfigurationName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkerConfiguration",
 }));
@@ -1097,6 +1169,14 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
     items: "connectorOperations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["kafkaconnect:ListConnectorOperations"],
+    resources: {
+      "kafkaconnect:ListConnectorOperations": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConnectorOperations",
 })) as any;
@@ -1140,6 +1220,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -1183,6 +1264,7 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
     items: "customPlugins",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListCustomPlugins"] },
   telemetry: TELEMETRY,
   span: "ListCustomPlugins",
 })) as any;
@@ -1219,6 +1301,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["kafkaconnect:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1262,6 +1345,7 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
     items: "workerConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListWorkerConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListWorkerConfigurations",
 })) as any;
@@ -1300,6 +1384,14 @@ export const pauseConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseConnector",
+  iam: {
+    actions: ["kafkaconnect:PauseConnector"],
+    resources: {
+      "kafkaconnect:PauseConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PauseConnector",
 }));
@@ -1336,6 +1428,14 @@ export const restartConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartConnector",
+  iam: {
+    actions: ["kafkaconnect:RestartConnector"],
+    resources: {
+      "kafkaconnect:RestartConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartConnector",
 }));
@@ -1374,6 +1474,14 @@ export const resumeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeConnector",
+  iam: {
+    actions: ["kafkaconnect:ResumeConnector"],
+    resources: {
+      "kafkaconnect:ResumeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeConnector",
 }));
@@ -1412,6 +1520,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["kafkaconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1448,6 +1557,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["kafkaconnect:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1484,6 +1594,14 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["kafkaconnect:UpdateConnector"],
+    resources: {
+      "kafkaconnect:UpdateConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));

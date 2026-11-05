@@ -1,28 +1,124 @@
 {
   "operations": {
-    "createLandingZone": { "errors": ["UnauthorizedException"] },
-    "getLandingZone": { "errors": ["UnauthorizedException"] },
-    "updateLandingZone": { "errors": ["UnauthorizedException"] },
-    "deleteLandingZone": { "errors": ["UnauthorizedException"] },
-    "resetLandingZone": { "errors": ["UnauthorizedException"] },
-    "getLandingZoneOperation": { "errors": ["UnauthorizedException"] },
-    "listLandingZoneOperations": { "errors": ["UnauthorizedException"] },
-    "listLandingZones": { "errors": ["UnauthorizedException"] },
-    "getBaseline": { "errors": ["UnauthorizedException"] },
-    "listBaselines": { "errors": ["UnauthorizedException"] },
-    "getBaselineOperation": { "errors": ["UnauthorizedException"] },
-    "enableBaseline": { "errors": ["UnauthorizedException"] },
-    "disableBaseline": { "errors": ["UnauthorizedException"] },
-    "updateEnabledBaseline": { "errors": ["UnauthorizedException"] },
-    "resetEnabledBaseline": { "errors": ["UnauthorizedException"] },
-    "getEnabledBaseline": { "errors": ["UnauthorizedException"] },
-    "listEnabledBaselines": { "errors": ["UnauthorizedException"] },
-    "listTagsForResource": { "errors": ["BadRequestException"] },
-    "tagResource": { "errors": ["BadRequestException"] },
-    "untagResource": { "errors": ["BadRequestException"] }
+    "createLandingZone": {
+      "errors": ["UnauthorizedException"]
+    },
+    "getLandingZone": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:DescribeLandingZoneConfiguration: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:GetAvailableUpdates: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:GetLandingZoneDriftStatus: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": [
+          "controltower:DescribeLandingZoneConfiguration",
+          "controltower:GetAvailableUpdates",
+          "controltower:GetLandingZoneDriftStatus"
+        ]
+      }
+    },
+    "updateLandingZone": {
+      "errors": ["UnauthorizedException"]
+    },
+    "deleteLandingZone": {
+      "errors": ["UnauthorizedException"]
+    },
+    "resetLandingZone": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:SetupLandingZone: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:SetupLandingZone"]
+      }
+    },
+    "getLandingZoneOperation": {
+      "errors": ["UnauthorizedException"]
+    },
+    "listLandingZoneOperations": {
+      "errors": ["UnauthorizedException"]
+    },
+    "listLandingZones": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:GetHomeRegion: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:GetHomeRegion"]
+      }
+    },
+    "getBaseline": {
+      "errors": ["UnauthorizedException"]
+    },
+    "listBaselines": {
+      "errors": ["UnauthorizedException"]
+    },
+    "getBaselineOperation": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:DescribeRegisterOrganizationalUnitOperation: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:DescribeRegisterOrganizationalUnitOperation"]
+      }
+    },
+    "enableBaseline": {
+      "errors": ["UnauthorizedException"]
+    },
+    "disableBaseline": {
+      "errors": ["UnauthorizedException"]
+    },
+    "updateEnabledBaseline": {
+      "errors": ["UnauthorizedException"]
+    },
+    "resetEnabledBaseline": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:ManageOrganizationalUnit: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:ManageOrganizationalUnit"]
+      }
+    },
+    "getEnabledBaseline": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:DescribeManagedAccount: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs. controltower:DescribeManagedOrganizationalUnit: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": [
+          "controltower:DescribeManagedAccount",
+          "controltower:DescribeManagedOrganizationalUnit"
+        ]
+      }
+    },
+    "listEnabledBaselines": {
+      "errors": ["UnauthorizedException"],
+      "iam": {
+        "reason": "controltower:ListManagedAccounts: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it. controltower:ListManagedOrganizationalUnits: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": [
+          "controltower:ListManagedAccounts",
+          "controltower:ListManagedOrganizationalUnits"
+        ]
+      }
+    },
+    "listTagsForResource": {
+      "errors": ["BadRequestException"]
+    },
+    "tagResource": {
+      "errors": ["BadRequestException"]
+    },
+    "untagResource": {
+      "errors": ["BadRequestException"]
+    },
+    "getEnabledControl": {
+      "iam": {
+        "reason": "controltower:DescribeGuardrailForTarget: A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:DescribeGuardrailForTarget"]
+      }
+    },
+    "listEnabledControls": {
+      "iam": {
+        "reason": "controltower:ListGuardrailsForTarget: AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:ListGuardrailsForTarget"]
+      }
+    }
   },
   "errorCategories": {
     "UnauthorizedException": ["AuthError"],
     "BadRequestException": ["BadRequestError"]
+  },
+  "allOperations": {
+    "iam": {
+      "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+      "remove": ["controltower:GetLandingZoneStatus"]
+    }
   }
 }

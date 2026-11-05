@@ -832,6 +832,14 @@ export const addStreamGroupLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddStreamGroupLocations",
+  iam: {
+    actions: ["gameliftstreams:AddStreamGroupLocations"],
+    resources: {
+      "gameliftstreams:AddStreamGroupLocations": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddStreamGroupLocations",
 }));
@@ -868,6 +876,15 @@ export const associateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplications",
+  iam: {
+    actions: ["gameliftstreams:AssociateApplications"],
+    resources: {
+      "gameliftstreams:AssociateApplications": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApplications",
 }));
@@ -910,6 +927,10 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["gameliftstreams:CreateApplication", "gameliftstreams:TagResource"],
+    conditional: { "gameliftstreams:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -962,6 +983,20 @@ export const createStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamGroup",
+  iam: {
+    actions: [
+      "gameliftstreams:AssociateApplications",
+      "gameliftstreams:CreateStreamGroup",
+      "gameliftstreams:TagResource",
+    ],
+    resources: {
+      "gameliftstreams:AssociateApplications": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+    conditional: { "gameliftstreams:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamGroup",
 }));
@@ -1002,6 +1037,14 @@ export const createStreamSessionAdminShell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamSessionAdminShell",
+  iam: {
+    actions: ["gameliftstreams:CreateStreamSessionAdminShell"],
+    resources: {
+      "gameliftstreams:CreateStreamSessionAdminShell": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamSessionAdminShell",
 }));
@@ -1062,6 +1105,14 @@ export const createStreamSessionConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamSessionConnection",
+  iam: {
+    actions: ["gameliftstreams:CreateStreamSessionConnection"],
+    resources: {
+      "gameliftstreams:CreateStreamSessionConnection": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamSessionConnection",
 }));
@@ -1102,6 +1153,24 @@ export const createStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamUrl",
+  iam: {
+    actions: [
+      "gameliftstreams:CreateStreamUrl",
+      "iam:PassRole",
+      "gameliftstreams:StartStreamSession",
+    ],
+    resources: {
+      "gameliftstreams:CreateStreamUrl": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "gameliftstreams:StartStreamSession": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamUrl",
 }));
@@ -1148,6 +1217,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["gameliftstreams:DeleteApplication"],
+    resources: {
+      "gameliftstreams:DeleteApplication": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1182,6 +1259,14 @@ export const deleteStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamGroup",
+  iam: {
+    actions: ["gameliftstreams:DeleteStreamGroup"],
+    resources: {
+      "gameliftstreams:DeleteStreamGroup": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStreamGroup",
 }));
@@ -1216,6 +1301,15 @@ export const disassociateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplications",
+  iam: {
+    actions: ["gameliftstreams:DisassociateApplications"],
+    resources: {
+      "gameliftstreams:DisassociateApplications": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApplications",
 }));
@@ -1262,6 +1356,14 @@ export const exportStreamSessionFiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportStreamSessionFiles",
+  iam: {
+    actions: ["gameliftstreams:ExportStreamSessionFiles"],
+    resources: {
+      "gameliftstreams:ExportStreamSessionFiles": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportStreamSessionFiles",
 }));
@@ -1294,6 +1396,14 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  iam: {
+    actions: ["gameliftstreams:GetApplication"],
+    resources: {
+      "gameliftstreams:GetApplication": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -1326,6 +1436,14 @@ export const getStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamGroup",
+  iam: {
+    actions: ["gameliftstreams:GetStreamGroup"],
+    resources: {
+      "gameliftstreams:GetStreamGroup": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamGroup",
 }));
@@ -1358,6 +1476,14 @@ export const getStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamSession",
+  iam: {
+    actions: ["gameliftstreams:GetStreamSession"],
+    resources: {
+      "gameliftstreams:GetStreamSession": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamSession",
 }));
@@ -1392,6 +1518,14 @@ export const getStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamUrl",
+  iam: {
+    actions: ["gameliftstreams:GetStreamUrl"],
+    resources: {
+      "gameliftstreams:GetStreamUrl": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamUrl",
 }));
@@ -1429,6 +1563,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["gameliftstreams:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1463,6 +1598,14 @@ export const listApplicationShaderCaches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplicationShaderCaches",
+  iam: {
+    actions: ["gameliftstreams:ListApplicationShaderCaches"],
+    resources: {
+      "gameliftstreams:ListApplicationShaderCaches": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationShaderCaches",
 }));
@@ -1500,6 +1643,7 @@ export const listStreamGroups: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["gameliftstreams:ListStreamGroups"] },
   telemetry: TELEMETRY,
   span: "ListStreamGroups",
 })) as any;
@@ -1543,6 +1687,14 @@ export const listStreamSessions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["gameliftstreams:ListStreamSessions"],
+    resources: {
+      "gameliftstreams:ListStreamSessions": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStreamSessions",
 })) as any;
@@ -1584,6 +1736,7 @@ export const listStreamSessionsByAccount: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["gameliftstreams:ListStreamSessionsByAccount"] },
   telemetry: TELEMETRY,
   span: "ListStreamSessionsByAccount",
 })) as any;
@@ -1621,6 +1774,7 @@ export const listStreamUrls: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["gameliftstreams:ListStreamUrls"] },
   telemetry: TELEMETRY,
   span: "ListStreamUrls",
 })) as any;
@@ -1657,6 +1811,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["gameliftstreams:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1691,6 +1846,14 @@ export const removeStreamGroupLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveStreamGroupLocations",
+  iam: {
+    actions: ["gameliftstreams:RemoveStreamGroupLocations"],
+    resources: {
+      "gameliftstreams:RemoveStreamGroupLocations": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveStreamGroupLocations",
 }));
@@ -1725,6 +1888,14 @@ export const revokeStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeStreamUrl",
+  iam: {
+    actions: ["gameliftstreams:RevokeStreamUrl"],
+    resources: {
+      "gameliftstreams:RevokeStreamUrl": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeStreamUrl",
 }));
@@ -1813,6 +1984,16 @@ export const startStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamSession",
+  iam: {
+    actions: ["iam:PassRole", "gameliftstreams:StartStreamSession"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "gameliftstreams:StartStreamSession": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartStreamSession",
 }));
@@ -1853,6 +2034,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["gameliftstreams:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1885,6 +2067,14 @@ export const terminateStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateStreamSession",
+  iam: {
+    actions: ["gameliftstreams:TerminateStreamSession"],
+    resources: {
+      "gameliftstreams:TerminateStreamSession": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateStreamSession",
 }));
@@ -1915,6 +2105,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["gameliftstreams:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1949,6 +2140,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["gameliftstreams:UpdateApplication"],
+    resources: {
+      "gameliftstreams:UpdateApplication": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -1997,6 +2196,14 @@ export const updateStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamGroup",
+  iam: {
+    actions: ["gameliftstreams:UpdateStreamGroup"],
+    resources: {
+      "gameliftstreams:UpdateStreamGroup": [
+        "arn:${Partition}:gameliftstreams:${Region}:${Account}:streamgroup/${StreamGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStreamGroup",
 }));

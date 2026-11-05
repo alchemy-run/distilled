@@ -788,6 +788,15 @@ export const addKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddKeyReplicationRegions",
+  iam: {
+    actions: ["payment-cryptography:AddKeyReplicationRegions"],
+    resources: {
+      "payment-cryptography:AddKeyReplicationRegions": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddKeyReplicationRegions",
 }));
@@ -834,6 +843,14 @@ export const associateMpaTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMpaTeam",
+  iam: {
+    actions: ["payment-cryptography:AssociateMpaTeam"],
+    resources: {
+      "payment-cryptography:AssociateMpaTeam": [
+        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMpaTeam",
 }));
@@ -888,6 +905,15 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  iam: {
+    actions: ["payment-cryptography:CreateAlias"],
+    resources: {
+      "payment-cryptography:CreateAlias": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAlias",
 }));
@@ -946,6 +972,15 @@ export const createKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKey",
+  iam: {
+    actions: ["payment-cryptography:CreateKey", "payment-cryptography:TagResource"],
+    resources: {
+      "payment-cryptography:TagResource": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+    conditional: { "payment-cryptography:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKey",
 }));
@@ -996,6 +1031,14 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  iam: {
+    actions: ["payment-cryptography:DeleteAlias"],
+    resources: {
+      "payment-cryptography:DeleteAlias": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAlias",
 }));
@@ -1046,6 +1089,14 @@ export const deleteKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKey",
+  iam: {
+    actions: ["payment-cryptography:DeleteKey"],
+    resources: {
+      "payment-cryptography:DeleteKey": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKey",
 }));
@@ -1090,6 +1141,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["payment-cryptography:DeleteResourcePolicy"],
+    resources: {
+      "payment-cryptography:DeleteResourcePolicy": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1138,6 +1197,7 @@ export const disableDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDefaultKeyReplicationRegions",
+  iam: { actions: ["payment-cryptography:DisableDefaultKeyReplicationRegions"] },
   telemetry: TELEMETRY,
   span: "DisableDefaultKeyReplicationRegions",
 }));
@@ -1184,6 +1244,14 @@ export const disassociateMpaTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMpaTeam",
+  iam: {
+    actions: ["payment-cryptography:DisassociateMpaTeam"],
+    resources: {
+      "payment-cryptography:DisassociateMpaTeam": [
+        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMpaTeam",
 }));
@@ -1232,6 +1300,7 @@ export const enableDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDefaultKeyReplicationRegions",
+  iam: { actions: ["payment-cryptography:EnableDefaultKeyReplicationRegions"] },
   telemetry: TELEMETRY,
   span: "EnableDefaultKeyReplicationRegions",
 }));
@@ -1356,6 +1425,14 @@ export const exportKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportKey",
+  iam: {
+    actions: ["payment-cryptography:ExportKey"],
+    resources: {
+      "payment-cryptography:ExportKey": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportKey",
 }));
@@ -1402,6 +1479,15 @@ export const getAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlias",
+  iam: {
+    actions: ["payment-cryptography:GetAlias"],
+    resources: {
+      "payment-cryptography:GetAlias": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAlias",
 }));
@@ -1436,6 +1522,15 @@ export const getCertificateSigningRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateSigningRequest",
+  iam: {
+    actions: ["payment-cryptography:GetCertificateSigningRequest"],
+    resources: {
+      "payment-cryptography:GetCertificateSigningRequest": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCertificateSigningRequest",
 }));
@@ -1482,6 +1577,7 @@ export const getDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultKeyReplicationRegions",
+  iam: { actions: ["payment-cryptography:GetDefaultKeyReplicationRegions"] },
   telemetry: TELEMETRY,
   span: "GetDefaultKeyReplicationRegions",
 }));
@@ -1526,6 +1622,14 @@ export const getKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKey",
+  iam: {
+    actions: ["payment-cryptography:GetKey"],
+    resources: {
+      "payment-cryptography:GetKey": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetKey",
 }));
@@ -1572,6 +1676,14 @@ export const getMpaTeamAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMpaTeamAssociation",
+  iam: {
+    actions: ["payment-cryptography:GetMpaTeamAssociation"],
+    resources: {
+      "payment-cryptography:GetMpaTeamAssociation": [
+        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMpaTeamAssociation",
 }));
@@ -1622,6 +1734,7 @@ export const getParametersForExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForExport",
+  iam: { actions: ["payment-cryptography:GetParametersForExport"] },
   telemetry: TELEMETRY,
   span: "GetParametersForExport",
 }));
@@ -1672,6 +1785,7 @@ export const getParametersForImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForImport",
+  iam: { actions: ["payment-cryptography:GetParametersForImport"] },
   telemetry: TELEMETRY,
   span: "GetParametersForImport",
 }));
@@ -1710,6 +1824,14 @@ export const getPublicKeyCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyCertificate",
+  iam: {
+    actions: ["payment-cryptography:GetPublicKeyCertificate"],
+    resources: {
+      "payment-cryptography:GetPublicKeyCertificate": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPublicKeyCertificate",
 }));
@@ -1752,6 +1874,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["payment-cryptography:GetResourcePolicy"],
+    resources: {
+      "payment-cryptography:GetResourcePolicy": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1884,6 +2014,15 @@ export const importKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKey",
+  iam: {
+    actions: ["payment-cryptography:ImportKey", "payment-cryptography:TagResource"],
+    resources: {
+      "payment-cryptography:TagResource": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+    conditional: { "payment-cryptography:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportKey",
 }));
@@ -1939,6 +2078,7 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["payment-cryptography:ListAliases"] },
   telemetry: TELEMETRY,
   span: "ListAliases",
 })) as any;
@@ -1992,6 +2132,7 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Keys",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["payment-cryptography:ListKeys"] },
   telemetry: TELEMETRY,
   span: "ListKeys",
 })) as any;
@@ -2043,6 +2184,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["payment-cryptography:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -2095,6 +2237,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["payment-cryptography:PutResourcePolicy"],
+    resources: {
+      "payment-cryptography:PutResourcePolicy": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2143,6 +2293,15 @@ export const removeKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKeyReplicationRegions",
+  iam: {
+    actions: ["payment-cryptography:RemoveKeyReplicationRegions"],
+    resources: {
+      "payment-cryptography:RemoveKeyReplicationRegions": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveKeyReplicationRegions",
 }));
@@ -2193,6 +2352,14 @@ export const restoreKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreKey",
+  iam: {
+    actions: ["payment-cryptography:RestoreKey"],
+    resources: {
+      "payment-cryptography:RestoreKey": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreKey",
 }));
@@ -2237,6 +2404,14 @@ export const startKeyUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartKeyUsage",
+  iam: {
+    actions: ["payment-cryptography:StartKeyUsage"],
+    resources: {
+      "payment-cryptography:StartKeyUsage": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartKeyUsage",
 }));
@@ -2285,6 +2460,14 @@ export const stopKeyUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyUsage",
+  iam: {
+    actions: ["payment-cryptography:StopKeyUsage"],
+    resources: {
+      "payment-cryptography:StopKeyUsage": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopKeyUsage",
 }));
@@ -2335,6 +2518,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["payment-cryptography:TagResource"],
+    resources: {
+      "payment-cryptography:TagResource": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2381,6 +2572,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["payment-cryptography:UntagResource"],
+    resources: {
+      "payment-cryptography:UntagResource": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2429,6 +2628,15 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  iam: {
+    actions: ["payment-cryptography:UpdateAlias"],
+    resources: {
+      "payment-cryptography:UpdateAlias": [
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:alias/${Alias}",
+        "arn:${Partition}:payment-cryptography:${Region}:${Account}:key/${KeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAlias",
 }));

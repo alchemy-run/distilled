@@ -2278,6 +2278,10 @@ export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsAccountWithPartnerAccount",
+  iam: {
+    actions: ["iotwireless:AssociateAwsAccountWithPartnerAccount", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAwsAccountWithPartnerAccount",
 }));
@@ -2312,6 +2316,15 @@ export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMulticastGroupWithFuotaTask",
+  iam: {
+    actions: ["iotwireless:AssociateMulticastGroupWithFuotaTask"],
+    resources: {
+      "iotwireless:AssociateMulticastGroupWithFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateMulticastGroupWithFuotaTask",
 }));
@@ -2346,6 +2359,15 @@ export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithFuotaTask",
+  iam: {
+    actions: ["iotwireless:AssociateWirelessDeviceWithFuotaTask"],
+    resources: {
+      "iotwireless:AssociateWirelessDeviceWithFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWirelessDeviceWithFuotaTask",
 }));
@@ -2384,6 +2406,15 @@ export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithMulticastGroup",
+  iam: {
+    actions: ["iotwireless:AssociateWirelessDeviceWithMulticastGroup"],
+    resources: {
+      "iotwireless:AssociateWirelessDeviceWithMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWirelessDeviceWithMulticastGroup",
 }));
@@ -2418,6 +2449,15 @@ export const associateWirelessDeviceWithThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithThing",
+  iam: {
+    actions: ["iotwireless:AssociateWirelessDeviceWithThing"],
+    resources: {
+      "iotwireless:AssociateWirelessDeviceWithThing": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWirelessDeviceWithThing",
 }));
@@ -2452,6 +2492,15 @@ export const associateWirelessGatewayWithCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessGatewayWithCertificate",
+  iam: {
+    actions: ["iotwireless:AssociateWirelessGatewayWithCertificate"],
+    resources: {
+      "iotwireless:AssociateWirelessGatewayWithCertificate": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+        "arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWirelessGatewayWithCertificate",
 }));
@@ -2486,6 +2535,15 @@ export const associateWirelessGatewayWithThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessGatewayWithThing",
+  iam: {
+    actions: ["iotwireless:AssociateWirelessGatewayWithThing"],
+    resources: {
+      "iotwireless:AssociateWirelessGatewayWithThing": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWirelessGatewayWithThing",
 }));
@@ -2520,6 +2578,14 @@ export const cancelMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMulticastGroupSession",
+  iam: {
+    actions: ["iotwireless:CancelMulticastGroupSession"],
+    resources: {
+      "iotwireless:CancelMulticastGroupSession": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMulticastGroupSession",
 }));
@@ -2554,6 +2620,11 @@ export const createDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDestination",
+  iam: {
+    actions: ["iotwireless:CreateDestination", "iam:PassRole", "iotwireless:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDestination",
 }));
@@ -2586,6 +2657,10 @@ export const createDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceProfile",
+  iam: {
+    actions: ["iotwireless:CreateDeviceProfile", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeviceProfile",
 }));
@@ -2620,6 +2695,11 @@ export const createFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFuotaTask",
+  iam: {
+    actions: ["iotwireless:CreateFuotaTask", "iam:PassRole", "iotwireless:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFuotaTask",
 }));
@@ -2654,6 +2734,10 @@ export const createMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMulticastGroup",
+  iam: {
+    actions: ["iotwireless:CreateMulticastGroup", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMulticastGroup",
 }));
@@ -2688,6 +2772,17 @@ export const createNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkAnalyzerConfiguration",
+  iam: {
+    actions: ["iotwireless:CreateNetworkAnalyzerConfiguration", "iotwireless:TagResource"],
+    resources: {
+      "iotwireless:CreateNetworkAnalyzerConfiguration": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkAnalyzerConfiguration",
 }));
@@ -2720,6 +2815,10 @@ export const createServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceProfile",
+  iam: {
+    actions: ["iotwireless:CreateServiceProfile", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceProfile",
 }));
@@ -2754,6 +2853,10 @@ export const createWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessDevice",
+  iam: {
+    actions: ["iotwireless:CreateWirelessDevice", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWirelessDevice",
 }));
@@ -2797,6 +2900,10 @@ export const createWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGateway",
+  iam: {
+    actions: ["iotwireless:CreateWirelessGateway", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWirelessGateway",
 }));
@@ -2831,6 +2938,14 @@ export const createWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGatewayTask",
+  iam: {
+    actions: ["iotwireless:CreateWirelessGatewayTask"],
+    resources: {
+      "iotwireless:CreateWirelessGatewayTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWirelessGatewayTask",
 }));
@@ -2865,6 +2980,15 @@ export const createWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGatewayTaskDefinition",
+  iam: {
+    actions: [
+      "iotwireless:CreateWirelessGatewayTaskDefinition",
+      "iam:PassRole",
+      "iotwireless:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "Update.UpdateDataRole", "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWirelessGatewayTaskDefinition",
 }));
@@ -2899,6 +3023,14 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
+  iam: {
+    actions: ["iotwireless:DeleteDestination"],
+    resources: {
+      "iotwireless:DeleteDestination": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:Destination/${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDestination",
 }));
@@ -2933,6 +3065,14 @@ export const deleteDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceProfile",
+  iam: {
+    actions: ["iotwireless:DeleteDeviceProfile"],
+    resources: {
+      "iotwireless:DeleteDeviceProfile": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:DeviceProfile/${DeviceProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeviceProfile",
 }));
@@ -2965,6 +3105,14 @@ export const deleteFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFuotaTask",
+  iam: {
+    actions: ["iotwireless:DeleteFuotaTask"],
+    resources: {
+      "iotwireless:DeleteFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFuotaTask",
 }));
@@ -2999,6 +3147,14 @@ export const deleteMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMulticastGroup",
+  iam: {
+    actions: ["iotwireless:DeleteMulticastGroup"],
+    resources: {
+      "iotwireless:DeleteMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMulticastGroup",
 }));
@@ -3033,6 +3189,14 @@ export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkAnalyzerConfiguration",
+  iam: {
+    actions: ["iotwireless:DeleteNetworkAnalyzerConfiguration"],
+    resources: {
+      "iotwireless:DeleteNetworkAnalyzerConfiguration": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:NetworkAnalyzerConfiguration/${NetworkAnalyzerConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkAnalyzerConfiguration",
 }));
@@ -3065,6 +3229,7 @@ export const deleteQueuedMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueuedMessages",
+  iam: { actions: ["iotwireless:DeleteQueuedMessages"] },
   telemetry: TELEMETRY,
   span: "DeleteQueuedMessages",
 }));
@@ -3099,6 +3264,14 @@ export const deleteServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceProfile",
+  iam: {
+    actions: ["iotwireless:DeleteServiceProfile"],
+    resources: {
+      "iotwireless:DeleteServiceProfile": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ServiceProfile/${ServiceProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceProfile",
 }));
@@ -3131,6 +3304,14 @@ export const deleteWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessDevice",
+  iam: {
+    actions: ["iotwireless:DeleteWirelessDevice"],
+    resources: {
+      "iotwireless:DeleteWirelessDevice": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWirelessDevice",
 }));
@@ -3165,6 +3346,14 @@ export const deleteWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessDeviceImportTask",
+  iam: {
+    actions: ["iotwireless:DeleteWirelessDeviceImportTask"],
+    resources: {
+      "iotwireless:DeleteWirelessDeviceImportTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ImportTask/${ImportTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWirelessDeviceImportTask",
 }));
@@ -3208,6 +3397,14 @@ export const deleteWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGateway",
+  iam: {
+    actions: ["iotwireless:DeleteWirelessGateway"],
+    resources: {
+      "iotwireless:DeleteWirelessGateway": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWirelessGateway",
 }));
@@ -3240,6 +3437,14 @@ export const deleteWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGatewayTask",
+  iam: {
+    actions: ["iotwireless:DeleteWirelessGatewayTask"],
+    resources: {
+      "iotwireless:DeleteWirelessGatewayTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWirelessGatewayTask",
 }));
@@ -3273,6 +3478,14 @@ export const deleteWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGatewayTaskDefinition",
+  iam: {
+    actions: ["iotwireless:DeleteWirelessGatewayTaskDefinition"],
+    resources: {
+      "iotwireless:DeleteWirelessGatewayTaskDefinition": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGatewayTaskDefinition/${WirelessGatewayTaskDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWirelessGatewayTaskDefinition",
 }));
@@ -3303,6 +3516,14 @@ export const deregisterWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterWirelessDevice",
+  iam: {
+    actions: ["iotwireless:DeregisterWirelessDevice"],
+    resources: {
+      "iotwireless:DeregisterWirelessDevice": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterWirelessDevice",
 }));
@@ -3335,6 +3556,14 @@ export const disassociateAwsAccountFromPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsAccountFromPartnerAccount",
+  iam: {
+    actions: ["iotwireless:DisassociateAwsAccountFromPartnerAccount"],
+    resources: {
+      "iotwireless:DisassociateAwsAccountFromPartnerAccount": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:SidewalkAccount/${SidewalkAccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAwsAccountFromPartnerAccount",
 }));
@@ -3367,6 +3596,15 @@ export const disassociateMulticastGroupFromFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMulticastGroupFromFuotaTask",
+  iam: {
+    actions: ["iotwireless:DisassociateMulticastGroupFromFuotaTask"],
+    resources: {
+      "iotwireless:DisassociateMulticastGroupFromFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMulticastGroupFromFuotaTask",
 }));
@@ -3401,6 +3639,15 @@ export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromFuotaTask",
+  iam: {
+    actions: ["iotwireless:DisassociateWirelessDeviceFromFuotaTask"],
+    resources: {
+      "iotwireless:DisassociateWirelessDeviceFromFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWirelessDeviceFromFuotaTask",
 }));
@@ -3441,6 +3688,15 @@ export const disassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromMulticastGroup",
+  iam: {
+    actions: ["iotwireless:DisassociateWirelessDeviceFromMulticastGroup"],
+    resources: {
+      "iotwireless:DisassociateWirelessDeviceFromMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWirelessDeviceFromMulticastGroup",
 }));
@@ -3475,6 +3731,15 @@ export const disassociateWirelessDeviceFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromThing",
+  iam: {
+    actions: ["iotwireless:DisassociateWirelessDeviceFromThing"],
+    resources: {
+      "iotwireless:DisassociateWirelessDeviceFromThing": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWirelessDeviceFromThing",
 }));
@@ -3511,6 +3776,15 @@ export const disassociateWirelessGatewayFromCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessGatewayFromCertificate",
+  iam: {
+    actions: ["iotwireless:DisassociateWirelessGatewayFromCertificate"],
+    resources: {
+      "iotwireless:DisassociateWirelessGatewayFromCertificate": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+        "arn:${Partition}:iot:${Region}:${Account}:cert/${Certificate}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWirelessGatewayFromCertificate",
 }));
@@ -3545,6 +3819,15 @@ export const disassociateWirelessGatewayFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessGatewayFromThing",
+  iam: {
+    actions: ["iotwireless:DisassociateWirelessGatewayFromThing"],
+    resources: {
+      "iotwireless:DisassociateWirelessGatewayFromThing": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWirelessGatewayFromThing",
 }));
@@ -3577,6 +3860,14 @@ export const getDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDestination",
+  iam: {
+    actions: ["iotwireless:GetDestination"],
+    resources: {
+      "iotwireless:GetDestination": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:Destination/${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDestination",
 }));
@@ -3609,6 +3900,14 @@ export const getDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceProfile",
+  iam: {
+    actions: ["iotwireless:GetDeviceProfile"],
+    resources: {
+      "iotwireless:GetDeviceProfile": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:DeviceProfile/${DeviceProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeviceProfile",
 }));
@@ -3633,6 +3932,7 @@ export const getEventConfigurationByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventConfigurationByResourceTypes",
+  iam: { actions: ["iotwireless:GetEventConfigurationByResourceTypes"] },
   telemetry: TELEMETRY,
   span: "GetEventConfigurationByResourceTypes",
 }));
@@ -3665,6 +3965,14 @@ export const getFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFuotaTask",
+  iam: {
+    actions: ["iotwireless:GetFuotaTask"],
+    resources: {
+      "iotwireless:GetFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFuotaTask",
 }));
@@ -3699,6 +4007,7 @@ export const getLogLevelsByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogLevelsByResourceTypes",
+  iam: { actions: ["iotwireless:GetLogLevelsByResourceTypes"] },
   telemetry: TELEMETRY,
   span: "GetLogLevelsByResourceTypes",
 }));
@@ -3733,6 +4042,7 @@ export const getMetricConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricConfiguration",
+  iam: { actions: ["iotwireless:GetMetricConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetMetricConfiguration",
 }));
@@ -3767,6 +4077,7 @@ export const getMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetrics",
+  iam: { actions: ["iotwireless:GetMetrics"] },
   telemetry: TELEMETRY,
   span: "GetMetrics",
 }));
@@ -3799,6 +4110,14 @@ export const getMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMulticastGroup",
+  iam: {
+    actions: ["iotwireless:GetMulticastGroup"],
+    resources: {
+      "iotwireless:GetMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMulticastGroup",
 }));
@@ -3831,6 +4150,14 @@ export const getMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMulticastGroupSession",
+  iam: {
+    actions: ["iotwireless:GetMulticastGroupSession"],
+    resources: {
+      "iotwireless:GetMulticastGroupSession": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMulticastGroupSession",
 }));
@@ -3863,6 +4190,14 @@ export const getNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkAnalyzerConfiguration",
+  iam: {
+    actions: ["iotwireless:GetNetworkAnalyzerConfiguration"],
+    resources: {
+      "iotwireless:GetNetworkAnalyzerConfiguration": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:NetworkAnalyzerConfiguration/${NetworkAnalyzerConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkAnalyzerConfiguration",
 }));
@@ -3894,6 +4229,14 @@ export const getPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartnerAccount",
+  iam: {
+    actions: ["iotwireless:GetPartnerAccount"],
+    resources: {
+      "iotwireless:GetPartnerAccount": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:SidewalkAccount/${SidewalkAccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPartnerAccount",
 }));
@@ -3929,6 +4272,7 @@ export const getPosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPosition",
+  iam: { actions: ["iotwireless:GetPosition"] },
   telemetry: TELEMETRY,
   span: "GetPosition",
 }));
@@ -3964,6 +4308,7 @@ export const getPositionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPositionConfiguration",
+  iam: { actions: ["iotwireless:GetPositionConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetPositionConfiguration",
 }));
@@ -3998,6 +4343,7 @@ export const getPositionEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPositionEstimate",
+  iam: { actions: ["iotwireless:GetPositionEstimate"] },
   telemetry: TELEMETRY,
   span: "GetPositionEstimate",
 }));
@@ -4030,6 +4376,7 @@ export const getResourceEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEventConfiguration",
+  iam: { actions: ["iotwireless:GetResourceEventConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetResourceEventConfiguration",
 }));
@@ -4063,6 +4410,7 @@ export const getResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceLogLevel",
+  iam: { actions: ["iotwireless:GetResourceLogLevel"] },
   telemetry: TELEMETRY,
   span: "GetResourceLogLevel",
 }));
@@ -4097,6 +4445,7 @@ export const getResourcePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePosition",
+  iam: { actions: ["iotwireless:GetResourcePosition"] },
   telemetry: TELEMETRY,
   span: "GetResourcePosition",
 }));
@@ -4128,6 +4477,7 @@ export const getServiceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceEndpoint",
+  iam: { actions: ["iotwireless:GetServiceEndpoint"] },
   telemetry: TELEMETRY,
   span: "GetServiceEndpoint",
 }));
@@ -4160,6 +4510,14 @@ export const getServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceProfile",
+  iam: {
+    actions: ["iotwireless:GetServiceProfile"],
+    resources: {
+      "iotwireless:GetServiceProfile": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ServiceProfile/${ServiceProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceProfile",
 }));
@@ -4192,6 +4550,14 @@ export const getWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDevice",
+  iam: {
+    actions: ["iotwireless:GetWirelessDevice"],
+    resources: {
+      "iotwireless:GetWirelessDevice": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessDevice",
 }));
@@ -4227,6 +4593,14 @@ export const getWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDeviceImportTask",
+  iam: {
+    actions: ["iotwireless:GetWirelessDeviceImportTask"],
+    resources: {
+      "iotwireless:GetWirelessDeviceImportTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ImportTask/${ImportTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessDeviceImportTask",
 }));
@@ -4259,6 +4633,14 @@ export const getWirelessDeviceStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDeviceStatistics",
+  iam: {
+    actions: ["iotwireless:GetWirelessDeviceStatistics"],
+    resources: {
+      "iotwireless:GetWirelessDeviceStatistics": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessDeviceStatistics",
 }));
@@ -4291,6 +4673,14 @@ export const getWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGateway",
+  iam: {
+    actions: ["iotwireless:GetWirelessGateway"],
+    resources: {
+      "iotwireless:GetWirelessGateway": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGateway",
 }));
@@ -4324,6 +4714,14 @@ export const getWirelessGatewayCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayCertificate",
+  iam: {
+    actions: ["iotwireless:GetWirelessGatewayCertificate"],
+    resources: {
+      "iotwireless:GetWirelessGatewayCertificate": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGatewayCertificate",
 }));
@@ -4356,6 +4754,14 @@ export const getWirelessGatewayFirmwareInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayFirmwareInformation",
+  iam: {
+    actions: ["iotwireless:GetWirelessGatewayFirmwareInformation"],
+    resources: {
+      "iotwireless:GetWirelessGatewayFirmwareInformation": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGatewayFirmwareInformation",
 }));
@@ -4388,6 +4794,14 @@ export const getWirelessGatewayStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayStatistics",
+  iam: {
+    actions: ["iotwireless:GetWirelessGatewayStatistics"],
+    resources: {
+      "iotwireless:GetWirelessGatewayStatistics": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGatewayStatistics",
 }));
@@ -4420,6 +4834,14 @@ export const getWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayTask",
+  iam: {
+    actions: ["iotwireless:GetWirelessGatewayTask"],
+    resources: {
+      "iotwireless:GetWirelessGatewayTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGatewayTask",
 }));
@@ -4452,6 +4874,14 @@ export const getWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayTaskDefinition",
+  iam: {
+    actions: ["iotwireless:GetWirelessGatewayTaskDefinition"],
+    resources: {
+      "iotwireless:GetWirelessGatewayTaskDefinition": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGatewayTaskDefinition/${WirelessGatewayTaskDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWirelessGatewayTaskDefinition",
 }));
@@ -4488,6 +4918,7 @@ export const listDestinations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListDestinations"] },
   telemetry: TELEMETRY,
   span: "ListDestinations",
 })) as any;
@@ -4524,6 +4955,7 @@ export const listDeviceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListDeviceProfiles"] },
   telemetry: TELEMETRY,
   span: "ListDeviceProfiles",
 })) as any;
@@ -4558,6 +4990,14 @@ export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevicesForWirelessDeviceImportTask",
+  iam: {
+    actions: ["iotwireless:ListDevicesForWirelessDeviceImportTask"],
+    resources: {
+      "iotwireless:ListDevicesForWirelessDeviceImportTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ImportTask/${ImportTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDevicesForWirelessDeviceImportTask",
 }));
@@ -4588,6 +5028,7 @@ export const listEventConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventConfigurations",
+  iam: { actions: ["iotwireless:ListEventConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListEventConfigurations",
 }));
@@ -4624,6 +5065,7 @@ export const listFuotaTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListFuotaTasks"] },
   telemetry: TELEMETRY,
   span: "ListFuotaTasks",
 })) as any;
@@ -4660,6 +5102,7 @@ export const listMulticastGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListMulticastGroups"] },
   telemetry: TELEMETRY,
   span: "ListMulticastGroups",
 })) as any;
@@ -4698,6 +5141,14 @@ export const listMulticastGroupsByFuotaTask: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["iotwireless:ListMulticastGroupsByFuotaTask"],
+    resources: {
+      "iotwireless:ListMulticastGroupsByFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMulticastGroupsByFuotaTask",
 })) as any;
@@ -4734,6 +5185,7 @@ export const listNetworkAnalyzerConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListNetworkAnalyzerConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListNetworkAnalyzerConfigurations",
 })) as any;
@@ -4764,6 +5216,7 @@ export const listPartnerAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerAccounts",
+  iam: { actions: ["iotwireless:ListPartnerAccounts"] },
   telemetry: TELEMETRY,
   span: "ListPartnerAccounts",
 }));
@@ -4803,6 +5256,7 @@ export const listPositionConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListPositionConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListPositionConfigurations",
 })) as any;
@@ -4841,6 +5295,7 @@ export const listQueuedMessages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListQueuedMessages"] },
   telemetry: TELEMETRY,
   span: "ListQueuedMessages",
 })) as any;
@@ -4877,6 +5332,7 @@ export const listServiceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListServiceProfiles"] },
   telemetry: TELEMETRY,
   span: "ListServiceProfiles",
 })) as any;
@@ -4909,6 +5365,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["iotwireless:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4944,6 +5401,7 @@ export const listWirelessDeviceImportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWirelessDeviceImportTasks",
+  iam: { actions: ["iotwireless:ListWirelessDeviceImportTasks"] },
   telemetry: TELEMETRY,
   span: "ListWirelessDeviceImportTasks",
 }));
@@ -4980,6 +5438,7 @@ export const listWirelessDevices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListWirelessDevices"] },
   telemetry: TELEMETRY,
   span: "ListWirelessDevices",
 })) as any;
@@ -5016,6 +5475,7 @@ export const listWirelessGateways: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["iotwireless:ListWirelessGateways"] },
   telemetry: TELEMETRY,
   span: "ListWirelessGateways",
 })) as any;
@@ -5046,6 +5506,7 @@ export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWirelessGatewayTaskDefinitions",
+  iam: { actions: ["iotwireless:ListWirelessGatewayTaskDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListWirelessGatewayTaskDefinitions",
 }));
@@ -5081,6 +5542,7 @@ export const putPositionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPositionConfiguration",
+  iam: { actions: ["iotwireless:PutPositionConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutPositionConfiguration",
 }));
@@ -5114,6 +5576,7 @@ export const putResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceLogLevel",
+  iam: { actions: ["iotwireless:PutResourceLogLevel"] },
   telemetry: TELEMETRY,
   span: "PutResourceLogLevel",
 }));
@@ -5147,6 +5610,7 @@ export const resetAllResourceLogLevels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetAllResourceLogLevels",
+  iam: { actions: ["iotwireless:ResetAllResourceLogLevels"] },
   telemetry: TELEMETRY,
   span: "ResetAllResourceLogLevels",
 }));
@@ -5180,6 +5644,7 @@ export const resetResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetResourceLogLevel",
+  iam: { actions: ["iotwireless:ResetResourceLogLevel"] },
   telemetry: TELEMETRY,
   span: "ResetResourceLogLevel",
 }));
@@ -5214,6 +5679,14 @@ export const sendDataToMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataToMulticastGroup",
+  iam: {
+    actions: ["iotwireless:SendDataToMulticastGroup"],
+    resources: {
+      "iotwireless:SendDataToMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDataToMulticastGroup",
 }));
@@ -5244,6 +5717,14 @@ export const sendDataToWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataToWirelessDevice",
+  iam: {
+    actions: ["iotwireless:SendDataToWirelessDevice"],
+    resources: {
+      "iotwireless:SendDataToWirelessDevice": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDataToWirelessDevice",
 }));
@@ -5285,6 +5766,14 @@ export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkAssociateWirelessDeviceWithMulticastGroup",
+  iam: {
+    actions: ["iotwireless:StartBulkAssociateWirelessDeviceWithMulticastGroup"],
+    resources: {
+      "iotwireless:StartBulkAssociateWirelessDeviceWithMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartBulkAssociateWirelessDeviceWithMulticastGroup",
 }));
@@ -5326,6 +5815,14 @@ export const startBulkDisassociateWirelessDeviceFromMulticastGroup: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDisassociateWirelessDeviceFromMulticastGroup",
+  iam: {
+    actions: ["iotwireless:StartBulkDisassociateWirelessDeviceFromMulticastGroup"],
+    resources: {
+      "iotwireless:StartBulkDisassociateWirelessDeviceFromMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartBulkDisassociateWirelessDeviceFromMulticastGroup",
 }));
@@ -5360,6 +5857,14 @@ export const startFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFuotaTask",
+  iam: {
+    actions: ["iotwireless:StartFuotaTask"],
+    resources: {
+      "iotwireless:StartFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFuotaTask",
 }));
@@ -5394,6 +5899,14 @@ export const startMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMulticastGroupSession",
+  iam: {
+    actions: ["iotwireless:StartMulticastGroupSession"],
+    resources: {
+      "iotwireless:StartMulticastGroupSession": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMulticastGroupSession",
 }));
@@ -5428,6 +5941,10 @@ export const startSingleWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSingleWirelessDeviceImportTask",
+  iam: {
+    actions: ["iotwireless:StartSingleWirelessDeviceImportTask", "iotwireless:TagResource"],
+    conditional: { "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSingleWirelessDeviceImportTask",
 }));
@@ -5463,6 +5980,15 @@ export const startWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWirelessDeviceImportTask",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "iotwireless:StartWirelessDeviceImportTask",
+      "iotwireless:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "Sidewalk.Role", "iotwireless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartWirelessDeviceImportTask",
 }));
@@ -5497,6 +6023,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["iotwireless:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5528,6 +6055,14 @@ export const testWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestWirelessDevice",
+  iam: {
+    actions: ["iotwireless:TestWirelessDevice"],
+    resources: {
+      "iotwireless:TestWirelessDevice": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestWirelessDevice",
 }));
@@ -5560,6 +6095,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["iotwireless:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5592,6 +6128,16 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  iam: {
+    actions: ["iam:PassRole", "iotwireless:UpdateDestination"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotwireless:UpdateDestination": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:Destination/${DestinationName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDestination",
 }));
@@ -5622,6 +6168,7 @@ export const updateEventConfigurationByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventConfigurationByResourceTypes",
+  iam: { actions: ["iotwireless:UpdateEventConfigurationByResourceTypes"] },
   telemetry: TELEMETRY,
   span: "UpdateEventConfigurationByResourceTypes",
 }));
@@ -5656,6 +6203,16 @@ export const updateFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFuotaTask",
+  iam: {
+    actions: ["iam:PassRole", "iotwireless:UpdateFuotaTask"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iotwireless:UpdateFuotaTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:FuotaTask/${FuotaTaskId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "FirmwareUpdateRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFuotaTask",
 }));
@@ -5692,6 +6249,7 @@ export const updateLogLevelsByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogLevelsByResourceTypes",
+  iam: { actions: ["iotwireless:UpdateLogLevelsByResourceTypes"] },
   telemetry: TELEMETRY,
   span: "UpdateLogLevelsByResourceTypes",
 }));
@@ -5726,6 +6284,7 @@ export const updateMetricConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricConfiguration",
+  iam: { actions: ["iotwireless:UpdateMetricConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateMetricConfiguration",
 }));
@@ -5760,6 +6319,14 @@ export const updateMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMulticastGroup",
+  iam: {
+    actions: ["iotwireless:UpdateMulticastGroup"],
+    resources: {
+      "iotwireless:UpdateMulticastGroup": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMulticastGroup",
 }));
@@ -5792,6 +6359,17 @@ export const updateNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkAnalyzerConfiguration",
+  iam: {
+    actions: ["iotwireless:UpdateNetworkAnalyzerConfiguration"],
+    resources: {
+      "iotwireless:UpdateNetworkAnalyzerConfiguration": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:MulticastGroup/${MulticastGroupId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:NetworkAnalyzerConfiguration/${NetworkAnalyzerConfigurationName}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessDevice/${WirelessDeviceId}",
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkAnalyzerConfiguration",
 }));
@@ -5822,6 +6400,14 @@ export const updatePartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerAccount",
+  iam: {
+    actions: ["iotwireless:UpdatePartnerAccount"],
+    resources: {
+      "iotwireless:UpdatePartnerAccount": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:SidewalkAccount/${SidewalkAccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePartnerAccount",
 }));
@@ -5857,6 +6443,7 @@ export const updatePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePosition",
+  iam: { actions: ["iotwireless:UpdatePosition"] },
   telemetry: TELEMETRY,
   span: "UpdatePosition",
 }));
@@ -5891,6 +6478,7 @@ export const updateResourceEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceEventConfiguration",
+  iam: { actions: ["iotwireless:UpdateResourceEventConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateResourceEventConfiguration",
 }));
@@ -5925,6 +6513,7 @@ export const updateResourcePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourcePosition",
+  iam: { actions: ["iotwireless:UpdateResourcePosition"] },
   telemetry: TELEMETRY,
   span: "UpdateResourcePosition",
 }));
@@ -5957,6 +6546,7 @@ export const updateWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessDevice",
+  iam: { actions: ["iotwireless:UpdateWirelessDevice"] },
   telemetry: TELEMETRY,
   span: "UpdateWirelessDevice",
 }));
@@ -5991,6 +6581,14 @@ export const updateWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessDeviceImportTask",
+  iam: {
+    actions: ["iotwireless:UpdateWirelessDeviceImportTask"],
+    resources: {
+      "iotwireless:UpdateWirelessDeviceImportTask": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:ImportTask/${ImportTaskId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWirelessDeviceImportTask",
 }));
@@ -6023,6 +6621,14 @@ export const updateWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessGateway",
+  iam: {
+    actions: ["iotwireless:UpdateWirelessGateway"],
+    resources: {
+      "iotwireless:UpdateWirelessGateway": [
+        "arn:${Partition}:iotwireless:${Region}:${Account}:WirelessGateway/${WirelessGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWirelessGateway",
 }));

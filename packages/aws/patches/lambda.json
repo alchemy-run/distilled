@@ -263,6 +263,12 @@
           }
         }
       ]
+    },
+    "getFunction": {
+      "iam": {
+        "reason": "lambda:ListTags: AWS lists it for the operation, but the Lambda Bindings suite calls it successfully without it.",
+        "remove": ["lambda:ListTags"]
+      }
     }
   }
 }

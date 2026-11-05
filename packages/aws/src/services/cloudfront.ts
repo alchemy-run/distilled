@@ -3859,6 +3859,17 @@ export const associateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAlias",
+  iam: {
+    actions: ["cloudfront:AssociateAlias", "cloudfront:UpdateDistribution"],
+    resources: {
+      "cloudfront:AssociateAlias": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:UpdateDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAlias",
 }));
@@ -3893,6 +3904,14 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionTenantWebACL",
+  iam: {
+    actions: ["cloudfront:AssociateDistributionTenantWebACL"],
+    resources: {
+      "cloudfront:AssociateDistributionTenantWebACL": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDistributionTenantWebACL",
 }));
@@ -3927,6 +3946,15 @@ export const associateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionWebACL",
+  iam: {
+    actions: ["cloudfront:AssociateDistributionWebACL", "cloudfront:GetVpcOrigin"],
+    resources: {
+      "cloudfront:AssociateDistributionWebACL": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDistributionWebACL",
 }));
@@ -4087,6 +4115,23 @@ export const copyDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDistribution",
+  iam: {
+    actions: [
+      "cloudfront:CopyDistribution",
+      "cloudfront:CreateDistribution",
+      "cloudfront:GetDistribution",
+      "cloudfront:GetVpcOrigin",
+    ],
+    resources: {
+      "cloudfront:CopyDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:GetDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyDistribution",
 }));
@@ -4121,6 +4166,10 @@ export const createAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnycastIpList",
+  iam: {
+    actions: ["cloudfront:CreateAnycastIpList", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnycastIpList",
 }));
@@ -4171,6 +4220,7 @@ export const createCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachePolicy",
+  iam: { actions: ["cloudfront:CreateCachePolicy"] },
   telemetry: TELEMETRY,
   span: "CreateCachePolicy",
 }));
@@ -4203,6 +4253,7 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFrontOriginAccessIdentity",
+  iam: { actions: ["cloudfront:CreateCloudFrontOriginAccessIdentity"] },
   telemetry: TELEMETRY,
   span: "CreateCloudFrontOriginAccessIdentity",
 }));
@@ -4239,6 +4290,10 @@ export const createConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionFunction",
+  iam: {
+    actions: ["cloudfront:CreateConnectionFunction", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectionFunction",
 }));
@@ -4273,6 +4328,10 @@ export const createConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionGroup",
+  iam: {
+    actions: ["cloudfront:CreateConnectionGroup", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectionGroup",
 }));
@@ -4311,6 +4370,7 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContinuousDeploymentPolicy",
+  iam: { actions: ["cloudfront:CreateContinuousDeploymentPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateContinuousDeploymentPolicy",
 }));
@@ -4467,6 +4527,16 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
+  iam: {
+    actions: [
+      "cloudfront:CreateConnectionGroup",
+      "cloudfront:CreateDistribution",
+      "cloudfront:GetVpcOrigin",
+    ],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDistribution",
 }));
@@ -4505,6 +4575,17 @@ export const createDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionTenant",
+  iam: {
+    actions: [
+      "cloudfront:CreateDistributionTenant",
+      "cloudfront:GetVpcOrigin",
+      "cloudfront:TagResource",
+    ],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDistributionTenant",
 }));
@@ -4665,6 +4746,17 @@ export const createDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionWithTags",
+  iam: {
+    actions: [
+      "cloudfront:CreateConnectionGroup",
+      "cloudfront:CreateDistribution",
+      "cloudfront:GetVpcOrigin",
+      "cloudfront:TagResource",
+    ],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDistributionWithTags",
 }));
@@ -4703,6 +4795,7 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionConfig",
+  iam: { actions: ["cloudfront:CreateFieldLevelEncryptionConfig"] },
   telemetry: TELEMETRY,
   span: "CreateFieldLevelEncryptionConfig",
 }));
@@ -4741,6 +4834,7 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionProfile",
+  iam: { actions: ["cloudfront:CreateFieldLevelEncryptionProfile"] },
   telemetry: TELEMETRY,
   span: "CreateFieldLevelEncryptionProfile",
 }));
@@ -4779,6 +4873,10 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  iam: {
+    actions: ["cloudfront:CreateFunction", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFunction",
 }));
@@ -4815,6 +4913,14 @@ export const createInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidation",
+  iam: {
+    actions: ["cloudfront:CreateInvalidation"],
+    resources: {
+      "cloudfront:CreateInvalidation": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateInvalidation",
 }));
@@ -4851,6 +4957,14 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidationForDistributionTenant",
+  iam: {
+    actions: ["cloudfront:CreateInvalidationForDistributionTenant"],
+    resources: {
+      "cloudfront:CreateInvalidationForDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateInvalidationForDistributionTenant",
 }));
@@ -4878,6 +4992,7 @@ export const createKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyGroup",
+  iam: { actions: ["cloudfront:CreateKeyGroup"] },
   telemetry: TELEMETRY,
   span: "CreateKeyGroup",
 }));
@@ -4912,6 +5027,10 @@ export const createKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyValueStore",
+  iam: {
+    actions: ["cloudfront:CreateKeyValueStore", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKeyValueStore",
 }));
@@ -4944,6 +5063,7 @@ export const createMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSubscription",
+  iam: { actions: ["cloudfront:CreateMonitoringSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateMonitoringSubscription",
 }));
@@ -4972,6 +5092,7 @@ export const createOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginAccessControl",
+  iam: { actions: ["cloudfront:CreateOriginAccessControl"] },
   telemetry: TELEMETRY,
   span: "CreateOriginAccessControl",
 }));
@@ -5022,6 +5143,7 @@ export const createOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginRequestPolicy",
+  iam: { actions: ["cloudfront:CreateOriginRequestPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateOriginRequestPolicy",
 }));
@@ -5046,6 +5168,7 @@ export const createPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicKey",
+  iam: { actions: ["cloudfront:CreatePublicKey"] },
   telemetry: TELEMETRY,
   span: "CreatePublicKey",
 }));
@@ -5080,6 +5203,11 @@ export const createRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeLogConfig",
+  iam: {
+    actions: ["cloudfront:CreateRealtimeLogConfig", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRealtimeLogConfig",
 }));
@@ -5124,6 +5252,7 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponseHeadersPolicy",
+  iam: { actions: ["cloudfront:CreateResponseHeadersPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateResponseHeadersPolicy",
 }));
@@ -5172,6 +5301,7 @@ export const createStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistribution",
+  iam: { actions: ["cloudfront:CreateStreamingDistribution"] },
   telemetry: TELEMETRY,
   span: "CreateStreamingDistribution",
 }));
@@ -5222,6 +5352,7 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistributionWithTags",
+  iam: { actions: ["cloudfront:CreateStreamingDistributionWithTags"] },
   telemetry: TELEMETRY,
   span: "CreateStreamingDistributionWithTags",
 }));
@@ -5256,6 +5387,10 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  iam: {
+    actions: ["cloudfront:CreateTrustStore", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrustStore",
 }));
@@ -5292,6 +5427,10 @@ export const createVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcOrigin",
+  iam: {
+    actions: ["cloudfront:CreateVpcOrigin", "cloudfront:TagResource"],
+    conditional: { "cloudfront:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcOrigin",
 }));
@@ -5330,6 +5469,14 @@ export const deleteAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnycastIpList",
+  iam: {
+    actions: ["cloudfront:DeleteAnycastIpList"],
+    resources: {
+      "cloudfront:DeleteAnycastIpList": [
+        "arn:${Partition}:cloudfront::${Account}:anycast-ip-list/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnycastIpList",
 }));
@@ -5368,6 +5515,14 @@ export const deleteCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCachePolicy",
+  iam: {
+    actions: ["cloudfront:DeleteCachePolicy"],
+    resources: {
+      "cloudfront:DeleteCachePolicy": [
+        "arn:${Partition}:cloudfront::${Account}:cache-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCachePolicy",
 }));
@@ -5400,6 +5555,14 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudFrontOriginAccessIdentity",
+  iam: {
+    actions: ["cloudfront:DeleteCloudFrontOriginAccessIdentity"],
+    resources: {
+      "cloudfront:DeleteCloudFrontOriginAccessIdentity": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-identity/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCloudFrontOriginAccessIdentity",
 }));
@@ -5436,6 +5599,14 @@ export const deleteConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionFunction",
+  iam: {
+    actions: ["cloudfront:DeleteConnectionFunction"],
+    resources: {
+      "cloudfront:DeleteConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectionFunction",
 }));
@@ -5470,6 +5641,14 @@ export const deleteConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionGroup",
+  iam: {
+    actions: ["cloudfront:DeleteConnectionGroup"],
+    resources: {
+      "cloudfront:DeleteConnectionGroup": [
+        "arn:${Partition}:cloudfront::${Account}:connection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectionGroup",
 }));
@@ -5506,6 +5685,14 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContinuousDeploymentPolicy",
+  iam: {
+    actions: ["cloudfront:DeleteContinuousDeploymentPolicy"],
+    resources: {
+      "cloudfront:DeleteContinuousDeploymentPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:continuous-deployment-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContinuousDeploymentPolicy",
 }));
@@ -5542,6 +5729,14 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
+  iam: {
+    actions: ["cloudfront:DeleteDistribution"],
+    resources: {
+      "cloudfront:DeleteDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDistribution",
 }));
@@ -5576,6 +5771,14 @@ export const deleteDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionTenant",
+  iam: {
+    actions: ["cloudfront:DeleteDistributionTenant"],
+    resources: {
+      "cloudfront:DeleteDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDistributionTenant",
 }));
@@ -5608,6 +5811,14 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionConfig",
+  iam: {
+    actions: ["cloudfront:DeleteFieldLevelEncryptionConfig"],
+    resources: {
+      "cloudfront:DeleteFieldLevelEncryptionConfig": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-config/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFieldLevelEncryptionConfig",
 }));
@@ -5640,6 +5851,14 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionProfile",
+  iam: {
+    actions: ["cloudfront:DeleteFieldLevelEncryptionProfile"],
+    resources: {
+      "cloudfront:DeleteFieldLevelEncryptionProfile": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-profile/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFieldLevelEncryptionProfile",
 }));
@@ -5676,6 +5895,12 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  iam: {
+    actions: ["cloudfront:DeleteFunction"],
+    resources: {
+      "cloudfront:DeleteFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFunction",
 }));
@@ -5705,6 +5930,7 @@ export const deleteKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyGroup",
+  iam: { actions: ["cloudfront:DeleteKeyGroup"] },
   telemetry: TELEMETRY,
   span: "DeleteKeyGroup",
 }));
@@ -5739,6 +5965,14 @@ export const deleteKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyValueStore",
+  iam: {
+    actions: ["cloudfront:DeleteKeyValueStore"],
+    resources: {
+      "cloudfront:DeleteKeyValueStore": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKeyValueStore",
 }));
@@ -5764,6 +5998,7 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSubscription",
+  iam: { actions: ["cloudfront:DeleteMonitoringSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteMonitoringSubscription",
 }));
@@ -5798,6 +6033,14 @@ export const deleteOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginAccessControl",
+  iam: {
+    actions: ["cloudfront:DeleteOriginAccessControl"],
+    resources: {
+      "cloudfront:DeleteOriginAccessControl": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-control/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOriginAccessControl",
 }));
@@ -5836,6 +6079,14 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginRequestPolicy",
+  iam: {
+    actions: ["cloudfront:DeleteOriginRequestPolicy"],
+    resources: {
+      "cloudfront:DeleteOriginRequestPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:origin-request-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOriginRequestPolicy",
 }));
@@ -5868,6 +6119,7 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
+  iam: { actions: ["cloudfront:DeletePublicKey"] },
   telemetry: TELEMETRY,
   span: "DeletePublicKey",
 }));
@@ -5897,6 +6149,14 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeLogConfig",
+  iam: {
+    actions: ["cloudfront:DeleteRealtimeLogConfig"],
+    resources: {
+      "cloudfront:DeleteRealtimeLogConfig": [
+        "arn:${Partition}:cloudfront::${Account}:realtime-log-config/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRealtimeLogConfig",
 }));
@@ -5931,6 +6191,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["cloudfront:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -5969,6 +6230,14 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponseHeadersPolicy",
+  iam: {
+    actions: ["cloudfront:DeleteResponseHeadersPolicy"],
+    resources: {
+      "cloudfront:DeleteResponseHeadersPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:response-headers-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResponseHeadersPolicy",
 }));
@@ -6021,6 +6290,14 @@ export const deleteStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamingDistribution",
+  iam: {
+    actions: ["cloudfront:DeleteStreamingDistribution"],
+    resources: {
+      "cloudfront:DeleteStreamingDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:streaming-distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStreamingDistribution",
 }));
@@ -6055,6 +6332,12 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  iam: {
+    actions: ["cloudfront:DeleteTrustStore"],
+    resources: {
+      "cloudfront:DeleteTrustStore": ["arn:${Partition}:cloudfront::${Account}:trust-store/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrustStore",
 }));
@@ -6093,6 +6376,12 @@ export const deleteVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcOrigin",
+  iam: {
+    actions: ["cloudfront:DeleteVpcOrigin"],
+    resources: {
+      "cloudfront:DeleteVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcOrigin",
 }));
@@ -6118,6 +6407,14 @@ export const describeConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionFunction",
+  iam: {
+    actions: ["cloudfront:DescribeConnectionFunction"],
+    resources: {
+      "cloudfront:DescribeConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectionFunction",
 }));
@@ -6140,6 +6437,12 @@ export const describeFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFunction",
+  iam: {
+    actions: ["cloudfront:DescribeFunction"],
+    resources: {
+      "cloudfront:DescribeFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFunction",
 }));
@@ -6165,6 +6468,14 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
+  iam: {
+    actions: ["cloudfront:DescribeKeyValueStore"],
+    resources: {
+      "cloudfront:DescribeKeyValueStore": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKeyValueStore",
 }));
@@ -6197,6 +6508,14 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionTenantWebACL",
+  iam: {
+    actions: ["cloudfront:DisassociateDistributionTenantWebACL"],
+    resources: {
+      "cloudfront:DisassociateDistributionTenantWebACL": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateDistributionTenantWebACL",
 }));
@@ -6229,6 +6548,14 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionWebACL",
+  iam: {
+    actions: ["cloudfront:DisassociateDistributionWebACL"],
+    resources: {
+      "cloudfront:DisassociateDistributionWebACL": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateDistributionWebACL",
 }));
@@ -6254,6 +6581,14 @@ export const getAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnycastIpList",
+  iam: {
+    actions: ["cloudfront:GetAnycastIpList"],
+    resources: {
+      "cloudfront:GetAnycastIpList": [
+        "arn:${Partition}:cloudfront::${Account}:anycast-ip-list/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnycastIpList",
 }));
@@ -6280,6 +6615,12 @@ export const getCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicy",
+  iam: {
+    actions: ["cloudfront:GetCachePolicy"],
+    resources: {
+      "cloudfront:GetCachePolicy": ["arn:${Partition}:cloudfront::${Account}:cache-policy/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCachePolicy",
 }));
@@ -6302,6 +6643,14 @@ export const getCachePolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicyConfig",
+  iam: {
+    actions: ["cloudfront:GetCachePolicyConfig"],
+    resources: {
+      "cloudfront:GetCachePolicyConfig": [
+        "arn:${Partition}:cloudfront::${Account}:cache-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCachePolicyConfig",
 }));
@@ -6325,6 +6674,14 @@ export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentity",
+  iam: {
+    actions: ["cloudfront:GetCloudFrontOriginAccessIdentity"],
+    resources: {
+      "cloudfront:GetCloudFrontOriginAccessIdentity": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-identity/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCloudFrontOriginAccessIdentity",
 }));
@@ -6348,6 +6705,14 @@ export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentityConfig",
+  iam: {
+    actions: ["cloudfront:GetCloudFrontOriginAccessIdentityConfig"],
+    resources: {
+      "cloudfront:GetCloudFrontOriginAccessIdentityConfig": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-identity/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCloudFrontOriginAccessIdentityConfig",
 }));
@@ -6372,6 +6737,14 @@ export const getConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionFunction",
+  iam: {
+    actions: ["cloudfront:GetConnectionFunction"],
+    resources: {
+      "cloudfront:GetConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectionFunction",
 }));
@@ -6392,6 +6765,14 @@ export const getConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroup",
+  iam: {
+    actions: ["cloudfront:GetConnectionGroup"],
+    resources: {
+      "cloudfront:GetConnectionGroup": [
+        "arn:${Partition}:cloudfront::${Account}:connection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectionGroup",
 }));
@@ -6412,6 +6793,14 @@ export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroupByRoutingEndpoint",
+  iam: {
+    actions: ["cloudfront:GetConnectionGroupByRoutingEndpoint"],
+    resources: {
+      "cloudfront:GetConnectionGroupByRoutingEndpoint": [
+        "arn:${Partition}:cloudfront::${Account}:connection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectionGroupByRoutingEndpoint",
 }));
@@ -6435,6 +6824,14 @@ export const getContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicy",
+  iam: {
+    actions: ["cloudfront:GetContinuousDeploymentPolicy"],
+    resources: {
+      "cloudfront:GetContinuousDeploymentPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:continuous-deployment-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContinuousDeploymentPolicy",
 }));
@@ -6458,6 +6855,14 @@ export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicyConfig",
+  iam: {
+    actions: ["cloudfront:GetContinuousDeploymentPolicyConfig"],
+    resources: {
+      "cloudfront:GetContinuousDeploymentPolicyConfig": [
+        "arn:${Partition}:cloudfront::${Account}:continuous-deployment-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContinuousDeploymentPolicyConfig",
 }));
@@ -6478,6 +6883,14 @@ export const getDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistribution",
+  iam: {
+    actions: ["cloudfront:GetDistribution"],
+    resources: {
+      "cloudfront:GetDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDistribution",
 }));
@@ -6498,6 +6911,14 @@ export const getDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfig",
+  iam: {
+    actions: ["cloudfront:GetDistributionConfig"],
+    resources: {
+      "cloudfront:GetDistributionConfig": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDistributionConfig",
 }));
@@ -6518,6 +6939,14 @@ export const getDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenant",
+  iam: {
+    actions: ["cloudfront:GetDistributionTenant"],
+    resources: {
+      "cloudfront:GetDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDistributionTenant",
 }));
@@ -6538,6 +6967,14 @@ export const getDistributionTenantByDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenantByDomain",
+  iam: {
+    actions: ["cloudfront:GetDistributionTenantByDomain"],
+    resources: {
+      "cloudfront:GetDistributionTenantByDomain": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDistributionTenantByDomain",
 }));
@@ -6561,6 +6998,14 @@ export const getFieldLevelEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryption",
+  iam: {
+    actions: ["cloudfront:GetFieldLevelEncryption"],
+    resources: {
+      "cloudfront:GetFieldLevelEncryption": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-config/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFieldLevelEncryption",
 }));
@@ -6584,6 +7029,14 @@ export const getFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionConfig",
+  iam: {
+    actions: ["cloudfront:GetFieldLevelEncryptionConfig"],
+    resources: {
+      "cloudfront:GetFieldLevelEncryptionConfig": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-config/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFieldLevelEncryptionConfig",
 }));
@@ -6607,6 +7060,14 @@ export const getFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfile",
+  iam: {
+    actions: ["cloudfront:GetFieldLevelEncryptionProfile"],
+    resources: {
+      "cloudfront:GetFieldLevelEncryptionProfile": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-profile/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFieldLevelEncryptionProfile",
 }));
@@ -6630,6 +7091,14 @@ export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfileConfig",
+  iam: {
+    actions: ["cloudfront:GetFieldLevelEncryptionProfileConfig"],
+    resources: {
+      "cloudfront:GetFieldLevelEncryptionProfileConfig": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-profile/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFieldLevelEncryptionProfileConfig",
 }));
@@ -6652,6 +7121,12 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  iam: {
+    actions: ["cloudfront:GetFunction"],
+    resources: {
+      "cloudfront:GetFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFunction",
 }));
@@ -6676,6 +7151,14 @@ export const getInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidation",
+  iam: {
+    actions: ["cloudfront:GetInvalidation"],
+    resources: {
+      "cloudfront:GetInvalidation": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvalidation",
 }));
@@ -6700,6 +7183,14 @@ export const getInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidationForDistributionTenant",
+  iam: {
+    actions: ["cloudfront:GetInvalidationForDistributionTenant"],
+    resources: {
+      "cloudfront:GetInvalidationForDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvalidationForDistributionTenant",
 }));
@@ -6722,6 +7213,7 @@ export const getKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroup",
+  iam: { actions: ["cloudfront:GetKeyGroup"] },
   telemetry: TELEMETRY,
   span: "GetKeyGroup",
 }));
@@ -6744,6 +7236,7 @@ export const getKeyGroupConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroupConfig",
+  iam: { actions: ["cloudfront:GetKeyGroupConfig"] },
   telemetry: TELEMETRY,
   span: "GetKeyGroupConfig",
 }));
@@ -6764,6 +7257,14 @@ export const getManagedCertificateDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedCertificateDetails",
+  iam: {
+    actions: ["cloudfront:GetManagedCertificateDetails"],
+    resources: {
+      "cloudfront:GetManagedCertificateDetails": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedCertificateDetails",
 }));
@@ -6789,6 +7290,7 @@ export const getMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitoringSubscription",
+  iam: { actions: ["cloudfront:GetMonitoringSubscription"] },
   telemetry: TELEMETRY,
   span: "GetMonitoringSubscription",
 }));
@@ -6809,6 +7311,14 @@ export const getOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControl",
+  iam: {
+    actions: ["cloudfront:GetOriginAccessControl"],
+    resources: {
+      "cloudfront:GetOriginAccessControl": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-control/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOriginAccessControl",
 }));
@@ -6832,6 +7342,14 @@ export const getOriginAccessControlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControlConfig",
+  iam: {
+    actions: ["cloudfront:GetOriginAccessControlConfig"],
+    resources: {
+      "cloudfront:GetOriginAccessControlConfig": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-control/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOriginAccessControlConfig",
 }));
@@ -6858,6 +7376,14 @@ export const getOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicy",
+  iam: {
+    actions: ["cloudfront:GetOriginRequestPolicy"],
+    resources: {
+      "cloudfront:GetOriginRequestPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:origin-request-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOriginRequestPolicy",
 }));
@@ -6883,6 +7409,14 @@ export const getOriginRequestPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicyConfig",
+  iam: {
+    actions: ["cloudfront:GetOriginRequestPolicyConfig"],
+    resources: {
+      "cloudfront:GetOriginRequestPolicyConfig": [
+        "arn:${Partition}:cloudfront::${Account}:origin-request-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOriginRequestPolicyConfig",
 }));
@@ -6903,6 +7437,7 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  iam: { actions: ["cloudfront:GetPublicKey"] },
   telemetry: TELEMETRY,
   span: "GetPublicKey",
 }));
@@ -6923,6 +7458,7 @@ export const getPublicKeyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyConfig",
+  iam: { actions: ["cloudfront:GetPublicKeyConfig"] },
   telemetry: TELEMETRY,
   span: "GetPublicKeyConfig",
 }));
@@ -6949,6 +7485,14 @@ export const getRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRealtimeLogConfig",
+  iam: {
+    actions: ["cloudfront:GetRealtimeLogConfig"],
+    resources: {
+      "cloudfront:GetRealtimeLogConfig": [
+        "arn:${Partition}:cloudfront::${Account}:realtime-log-config/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRealtimeLogConfig",
 }));
@@ -6974,6 +7518,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["cloudfront:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -6999,6 +7544,14 @@ export const getResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicy",
+  iam: {
+    actions: ["cloudfront:GetResponseHeadersPolicy"],
+    resources: {
+      "cloudfront:GetResponseHeadersPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:response-headers-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResponseHeadersPolicy",
 }));
@@ -7024,6 +7577,14 @@ export const getResponseHeadersPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicyConfig",
+  iam: {
+    actions: ["cloudfront:GetResponseHeadersPolicyConfig"],
+    resources: {
+      "cloudfront:GetResponseHeadersPolicyConfig": [
+        "arn:${Partition}:cloudfront::${Account}:response-headers-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResponseHeadersPolicyConfig",
 }));
@@ -7047,6 +7608,14 @@ export const getStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistribution",
+  iam: {
+    actions: ["cloudfront:GetStreamingDistribution"],
+    resources: {
+      "cloudfront:GetStreamingDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:streaming-distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamingDistribution",
 }));
@@ -7070,6 +7639,14 @@ export const getStreamingDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistributionConfig",
+  iam: {
+    actions: ["cloudfront:GetStreamingDistributionConfig"],
+    resources: {
+      "cloudfront:GetStreamingDistributionConfig": [
+        "arn:${Partition}:cloudfront::${Account}:streaming-distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamingDistributionConfig",
 }));
@@ -7090,6 +7667,12 @@ export const getTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
+  iam: {
+    actions: ["cloudfront:GetTrustStore"],
+    resources: {
+      "cloudfront:GetTrustStore": ["arn:${Partition}:cloudfront::${Account}:trust-store/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrustStore",
 }));
@@ -7115,6 +7698,12 @@ export const getVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcOrigin",
+  iam: {
+    actions: ["cloudfront:GetVpcOrigin"],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetVpcOrigin",
 }));
@@ -7140,6 +7729,7 @@ export const listAnycastIpLists: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnycastIpLists",
+  iam: { actions: ["cloudfront:ListAnycastIpLists"] },
   telemetry: TELEMETRY,
   span: "ListAnycastIpLists",
 }));
@@ -7168,6 +7758,7 @@ export const listCachePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCachePolicies",
+  iam: { actions: ["cloudfront:ListCachePolicies"] },
   telemetry: TELEMETRY,
   span: "ListCachePolicies",
 }));
@@ -7195,6 +7786,7 @@ export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
     items: "CloudFrontOriginAccessIdentityList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListCloudFrontOriginAccessIdentities"] },
   telemetry: TELEMETRY,
   span: "ListCloudFrontOriginAccessIdentities",
 })) as any;
@@ -7225,6 +7817,17 @@ export const listConflictingAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConflictingAliases",
+  iam: {
+    actions: ["cloudfront:GetDistribution", "cloudfront:ListConflictingAliases"],
+    resources: {
+      "cloudfront:GetDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:ListConflictingAliases": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConflictingAliases",
 }));
@@ -7256,6 +7859,7 @@ export const listConnectionFunctions: API.PaginatedOperationMethod<
     items: "ConnectionFunctions",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListConnectionFunctions"] },
   telemetry: TELEMETRY,
   span: "ListConnectionFunctions",
 })) as any;
@@ -7287,6 +7891,7 @@ export const listConnectionGroups: API.PaginatedOperationMethod<
     items: "ConnectionGroups",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListConnectionGroups"] },
   telemetry: TELEMETRY,
   span: "ListConnectionGroups",
 })) as any;
@@ -7313,6 +7918,7 @@ export const listContinuousDeploymentPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContinuousDeploymentPolicies",
+  iam: { actions: ["cloudfront:ListContinuousDeploymentPolicies"] },
   telemetry: TELEMETRY,
   span: "ListContinuousDeploymentPolicies",
 }));
@@ -7340,6 +7946,7 @@ export const listDistributions: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListDistributions"] },
   telemetry: TELEMETRY,
   span: "ListDistributions",
 })) as any;
@@ -7365,6 +7972,7 @@ export const listDistributionsByAnycastIpListId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByAnycastIpListId",
+  iam: { actions: ["cloudfront:ListDistributionsByAnycastIpListId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByAnycastIpListId",
 }));
@@ -7391,6 +7999,7 @@ export const listDistributionsByCachePolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByCachePolicyId",
+  iam: { actions: ["cloudfront:ListDistributionsByCachePolicyId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByCachePolicyId",
 }));
@@ -7422,6 +8031,14 @@ export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["cloudfront:ListDistributionsByConnectionFunction"],
+    resources: {
+      "cloudfront:ListDistributionsByConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDistributionsByConnectionFunction",
 })) as any;
@@ -7449,6 +8066,7 @@ export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListDistributionsByConnectionMode"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByConnectionMode",
 })) as any;
@@ -7471,6 +8089,7 @@ export const listDistributionsByKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByKeyGroup",
+  iam: { actions: ["cloudfront:ListDistributionsByKeyGroup"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByKeyGroup",
 }));
@@ -7497,6 +8116,7 @@ export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOriginRequestPolicyId",
+  iam: { actions: ["cloudfront:ListDistributionsByOriginRequestPolicyId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByOriginRequestPolicyId",
 }));
@@ -7546,6 +8166,7 @@ export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByRealtimeLogConfig",
+  iam: { actions: ["cloudfront:ListDistributionsByRealtimeLogConfig"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByRealtimeLogConfig",
 }));
@@ -7572,6 +8193,7 @@ export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByResponseHeadersPolicyId",
+  iam: { actions: ["cloudfront:ListDistributionsByResponseHeadersPolicyId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByResponseHeadersPolicyId",
 }));
@@ -7603,6 +8225,14 @@ export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["cloudfront:ListDistributionsByTrustStore"],
+    resources: {
+      "cloudfront:ListDistributionsByTrustStore": [
+        "arn:${Partition}:cloudfront::${Account}:trust-store/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDistributionsByTrustStore",
 })) as any;
@@ -7628,6 +8258,7 @@ export const listDistributionsByVpcOriginId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByVpcOriginId",
+  iam: { actions: ["cloudfront:ListDistributionsByVpcOriginId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByVpcOriginId",
 }));
@@ -7648,6 +8279,7 @@ export const listDistributionsByWebACLId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByWebACLId",
+  iam: { actions: ["cloudfront:ListDistributionsByWebACLId"] },
   telemetry: TELEMETRY,
   span: "ListDistributionsByWebACLId",
 }));
@@ -7679,6 +8311,7 @@ export const listDistributionTenants: API.PaginatedOperationMethod<
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListDistributionTenants"] },
   telemetry: TELEMETRY,
   span: "ListDistributionTenants",
 })) as any;
@@ -7712,6 +8345,7 @@ export const listDistributionTenantsByCustomization: API.PaginatedOperationMetho
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListDistributionTenantsByCustomization"] },
   telemetry: TELEMETRY,
   span: "ListDistributionTenantsByCustomization",
 })) as any;
@@ -7759,6 +8393,21 @@ export const listDomainConflicts: API.PaginatedOperationMethod<
     items: "DomainConflicts",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: [
+      "cloudfront:GetDistribution",
+      "cloudfront:GetDistributionTenant",
+      "cloudfront:ListDomainConflicts",
+    ],
+    resources: {
+      "cloudfront:GetDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:GetDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDomainConflicts",
 })) as any;
@@ -7779,6 +8428,7 @@ export const listFieldLevelEncryptionConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionConfigs",
+  iam: { actions: ["cloudfront:ListFieldLevelEncryptionConfigs"] },
   telemetry: TELEMETRY,
   span: "ListFieldLevelEncryptionConfigs",
 }));
@@ -7799,6 +8449,7 @@ export const listFieldLevelEncryptionProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionProfiles",
+  iam: { actions: ["cloudfront:ListFieldLevelEncryptionProfiles"] },
   telemetry: TELEMETRY,
   span: "ListFieldLevelEncryptionProfiles",
 }));
@@ -7823,6 +8474,7 @@ export const listFunctions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
+  iam: { actions: ["cloudfront:ListFunctions"] },
   telemetry: TELEMETRY,
   span: "ListFunctions",
 }));
@@ -7854,6 +8506,14 @@ export const listInvalidations: API.PaginatedOperationMethod<
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["cloudfront:ListInvalidations"],
+    resources: {
+      "cloudfront:ListInvalidations": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvalidations",
 })) as any;
@@ -7885,6 +8545,14 @@ export const listInvalidationsForDistributionTenant: API.PaginatedOperationMetho
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["cloudfront:ListInvalidationsForDistributionTenant"],
+    resources: {
+      "cloudfront:ListInvalidationsForDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvalidationsForDistributionTenant",
 })) as any;
@@ -7907,6 +8575,7 @@ export const listKeyGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyGroups",
+  iam: { actions: ["cloudfront:ListKeyGroups"] },
   telemetry: TELEMETRY,
   span: "ListKeyGroups",
 }));
@@ -7938,6 +8607,7 @@ export const listKeyValueStores: API.PaginatedOperationMethod<
     items: "KeyValueStoreList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListKeyValueStores"] },
   telemetry: TELEMETRY,
   span: "ListKeyValueStores",
 })) as any;
@@ -7969,6 +8639,7 @@ export const listOriginAccessControls: API.PaginatedOperationMethod<
     items: "OriginAccessControlList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListOriginAccessControls"] },
   telemetry: TELEMETRY,
   span: "ListOriginAccessControls",
 })) as any;
@@ -7997,6 +8668,7 @@ export const listOriginRequestPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginRequestPolicies",
+  iam: { actions: ["cloudfront:ListOriginRequestPolicies"] },
   telemetry: TELEMETRY,
   span: "ListOriginRequestPolicies",
 }));
@@ -8024,6 +8696,7 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "PublicKeyList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListPublicKeys"] },
   telemetry: TELEMETRY,
   span: "ListPublicKeys",
 })) as any;
@@ -8050,6 +8723,7 @@ export const listRealtimeLogConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeLogConfigs",
+  iam: { actions: ["cloudfront:ListRealtimeLogConfigs"] },
   telemetry: TELEMETRY,
   span: "ListRealtimeLogConfigs",
 }));
@@ -8078,6 +8752,7 @@ export const listResponseHeadersPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponseHeadersPolicies",
+  iam: { actions: ["cloudfront:ListResponseHeadersPolicies"] },
   telemetry: TELEMETRY,
   span: "ListResponseHeadersPolicies",
 }));
@@ -8105,6 +8780,7 @@ export const listStreamingDistributions: API.PaginatedOperationMethod<
     items: "StreamingDistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListStreamingDistributions"] },
   telemetry: TELEMETRY,
   span: "ListStreamingDistributions",
 })) as any;
@@ -8130,6 +8806,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["cloudfront:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -8157,6 +8834,7 @@ export const listTrustStores: API.PaginatedOperationMethod<
     items: "TrustStoreList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["cloudfront:ListTrustStores"] },
   telemetry: TELEMETRY,
   span: "ListTrustStores",
 })) as any;
@@ -8182,6 +8860,7 @@ export const listVpcOrigins: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcOrigins",
+  iam: { actions: ["cloudfront:ListVpcOrigins"] },
   telemetry: TELEMETRY,
   span: "ListVpcOrigins",
 }));
@@ -8216,6 +8895,14 @@ export const publishConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishConnectionFunction",
+  iam: {
+    actions: ["cloudfront:PublishConnectionFunction"],
+    resources: {
+      "cloudfront:PublishConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishConnectionFunction",
 }));
@@ -8252,6 +8939,12 @@ export const publishFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishFunction",
+  iam: {
+    actions: ["cloudfront:PublishFunction"],
+    resources: {
+      "cloudfront:PublishFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishFunction",
 }));
@@ -8286,6 +8979,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["cloudfront:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -8311,6 +9005,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["cloudfront:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -8345,6 +9040,14 @@ export const testConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnectionFunction",
+  iam: {
+    actions: ["cloudfront:TestConnectionFunction"],
+    resources: {
+      "cloudfront:TestConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestConnectionFunction",
 }));
@@ -8381,6 +9084,12 @@ export const testFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFunction",
+  iam: {
+    actions: ["cloudfront:TestFunction"],
+    resources: {
+      "cloudfront:TestFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestFunction",
 }));
@@ -8406,6 +9115,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["cloudfront:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -8440,6 +9150,14 @@ export const updateAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnycastIpList",
+  iam: {
+    actions: ["cloudfront:UpdateAnycastIpList"],
+    resources: {
+      "cloudfront:UpdateAnycastIpList": [
+        "arn:${Partition}:cloudfront::${Account}:anycast-ip-list/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnycastIpList",
 }));
@@ -8494,6 +9212,14 @@ export const updateCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCachePolicy",
+  iam: {
+    actions: ["cloudfront:UpdateCachePolicy"],
+    resources: {
+      "cloudfront:UpdateCachePolicy": [
+        "arn:${Partition}:cloudfront::${Account}:cache-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCachePolicy",
 }));
@@ -8532,6 +9258,14 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudFrontOriginAccessIdentity",
+  iam: {
+    actions: ["cloudfront:UpdateCloudFrontOriginAccessIdentity"],
+    resources: {
+      "cloudfront:UpdateCloudFrontOriginAccessIdentity": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-identity/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCloudFrontOriginAccessIdentity",
 }));
@@ -8568,6 +9302,14 @@ export const updateConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionFunction",
+  iam: {
+    actions: ["cloudfront:UpdateConnectionFunction"],
+    resources: {
+      "cloudfront:UpdateConnectionFunction": [
+        "arn:${Partition}:cloudfront::${Account}:connection-function/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectionFunction",
 }));
@@ -8606,6 +9348,14 @@ export const updateConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionGroup",
+  iam: {
+    actions: ["cloudfront:UpdateConnectionGroup"],
+    resources: {
+      "cloudfront:UpdateConnectionGroup": [
+        "arn:${Partition}:cloudfront::${Account}:connection-group/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectionGroup",
 }));
@@ -8650,6 +9400,14 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousDeploymentPolicy",
+  iam: {
+    actions: ["cloudfront:UpdateContinuousDeploymentPolicy"],
+    resources: {
+      "cloudfront:UpdateContinuousDeploymentPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:continuous-deployment-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateContinuousDeploymentPolicy",
 }));
@@ -8820,6 +9578,15 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
+  iam: {
+    actions: ["cloudfront:GetVpcOrigin", "cloudfront:UpdateDistribution"],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+      "cloudfront:UpdateDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistribution",
 }));
@@ -8860,6 +9627,15 @@ export const updateDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionTenant",
+  iam: {
+    actions: ["cloudfront:GetVpcOrigin", "cloudfront:UpdateDistributionTenant"],
+    resources: {
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+      "cloudfront:UpdateDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistributionTenant",
 }));
@@ -9016,6 +9792,22 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionWithStagingConfig",
+  iam: {
+    actions: [
+      "cloudfront:GetDistribution",
+      "cloudfront:GetVpcOrigin",
+      "cloudfront:UpdateDistribution",
+    ],
+    resources: {
+      "cloudfront:GetDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:GetVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+      "cloudfront:UpdateDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistributionWithStagingConfig",
 }));
@@ -9056,6 +9848,21 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  iam: {
+    actions: [
+      "cloudfront:UpdateDistribution",
+      "cloudfront:UpdateDistributionTenant",
+      "cloudfront:UpdateDomainAssociation",
+    ],
+    resources: {
+      "cloudfront:UpdateDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:distribution/${DistributionId}",
+      ],
+      "cloudfront:UpdateDistributionTenant": [
+        "arn:${Partition}:cloudfront::${Account}:distribution-tenant/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainAssociation",
 }));
@@ -9100,6 +9907,7 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionConfig",
+  iam: { actions: ["cloudfront:UpdateFieldLevelEncryptionConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateFieldLevelEncryptionConfig",
 }));
@@ -9146,6 +9954,14 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionProfile",
+  iam: {
+    actions: ["cloudfront:UpdateFieldLevelEncryptionProfile"],
+    resources: {
+      "cloudfront:UpdateFieldLevelEncryptionProfile": [
+        "arn:${Partition}:cloudfront::${Account}:field-level-encryption-profile/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFieldLevelEncryptionProfile",
 }));
@@ -9184,6 +10000,12 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
+  iam: {
+    actions: ["cloudfront:UpdateFunction"],
+    resources: {
+      "cloudfront:UpdateFunction": ["arn:${Partition}:cloudfront::${Account}:function/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFunction",
 }));
@@ -9226,6 +10048,7 @@ export const updateKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyGroup",
+  iam: { actions: ["cloudfront:UpdateKeyGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateKeyGroup",
 }));
@@ -9260,6 +10083,14 @@ export const updateKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyValueStore",
+  iam: {
+    actions: ["cloudfront:UpdateKeyValueStore"],
+    resources: {
+      "cloudfront:UpdateKeyValueStore": [
+        "arn:${Partition}:cloudfront::${Account}:key-value-store/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKeyValueStore",
 }));
@@ -9296,6 +10127,14 @@ export const updateOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginAccessControl",
+  iam: {
+    actions: ["cloudfront:UpdateOriginAccessControl"],
+    resources: {
+      "cloudfront:UpdateOriginAccessControl": [
+        "arn:${Partition}:cloudfront::${Account}:origin-access-control/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOriginAccessControl",
 }));
@@ -9348,6 +10187,14 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginRequestPolicy",
+  iam: {
+    actions: ["cloudfront:UpdateOriginRequestPolicy"],
+    resources: {
+      "cloudfront:UpdateOriginRequestPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:origin-request-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOriginRequestPolicy",
 }));
@@ -9384,6 +10231,7 @@ export const updatePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicKey",
+  iam: { actions: ["cloudfront:UpdatePublicKey"] },
   telemetry: TELEMETRY,
   span: "UpdatePublicKey",
 }));
@@ -9418,6 +10266,16 @@ export const updateRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRealtimeLogConfig",
+  iam: {
+    actions: ["iam:PassRole", "cloudfront:UpdateRealtimeLogConfig"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cloudfront:UpdateRealtimeLogConfig": [
+        "arn:${Partition}:cloudfront::${Account}:realtime-log-config/${Name}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRealtimeLogConfig",
 }));
@@ -9470,6 +10328,14 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponseHeadersPolicy",
+  iam: {
+    actions: ["cloudfront:UpdateResponseHeadersPolicy"],
+    resources: {
+      "cloudfront:UpdateResponseHeadersPolicy": [
+        "arn:${Partition}:cloudfront::${Account}:response-headers-policy/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResponseHeadersPolicy",
 }));
@@ -9520,6 +10386,14 @@ export const updateStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamingDistribution",
+  iam: {
+    actions: ["cloudfront:UpdateStreamingDistribution"],
+    resources: {
+      "cloudfront:UpdateStreamingDistribution": [
+        "arn:${Partition}:cloudfront::${Account}:streaming-distribution/${DistributionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStreamingDistribution",
 }));
@@ -9552,6 +10426,12 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
+  iam: {
+    actions: ["cloudfront:UpdateTrustStore"],
+    resources: {
+      "cloudfront:UpdateTrustStore": ["arn:${Partition}:cloudfront::${Account}:trust-store/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrustStore",
 }));
@@ -9596,6 +10476,12 @@ export const updateVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcOrigin",
+  iam: {
+    actions: ["cloudfront:UpdateVpcOrigin"],
+    resources: {
+      "cloudfront:UpdateVpcOrigin": ["arn:${Partition}:cloudfront::${Account}:vpcorigin/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVpcOrigin",
 }));
@@ -9620,6 +10506,7 @@ export const verifyDnsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDnsConfiguration",
+  iam: { actions: ["cloudfront:VerifyDnsConfiguration"] },
   telemetry: TELEMETRY,
   span: "VerifyDnsConfiguration",
 }));

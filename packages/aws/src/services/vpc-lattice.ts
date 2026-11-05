@@ -1537,6 +1537,14 @@ export const batchUpdateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRule",
+  iam: {
+    actions: ["vpc-lattice:UpdateRule"],
+    resources: {
+      "vpc-lattice:UpdateRule": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateRule",
 }));
@@ -1571,6 +1579,10 @@ export const createAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessLogSubscription",
+  iam: {
+    actions: ["vpc-lattice:CreateAccessLogSubscription", "vpc-lattice:TagResource"],
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessLogSubscription",
 }));
@@ -1607,6 +1619,15 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  iam: {
+    actions: ["vpc-lattice:CreateListener", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateListener": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateListener",
 }));
@@ -1643,6 +1664,10 @@ export const createResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceConfiguration",
+  iam: {
+    actions: ["vpc-lattice:CreateResourceConfiguration", "vpc-lattice:TagResource"],
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResourceConfiguration",
 }));
@@ -1679,6 +1704,15 @@ export const createResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGateway",
+  iam: {
+    actions: ["vpc-lattice:CreateResourceGateway", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateResourceGateway": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourcegateway/${ResourceGatewayId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResourceGateway",
 }));
@@ -1715,6 +1749,15 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: {
+    actions: ["vpc-lattice:CreateRule", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateRule": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}/rule/${RuleId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -1753,6 +1796,15 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  iam: {
+    actions: ["vpc-lattice:CreateService", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateService": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -1791,6 +1843,15 @@ export const createServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetwork",
+  iam: {
+    actions: ["vpc-lattice:CreateServiceNetwork", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateServiceNetwork": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceNetwork",
 }));
@@ -1827,6 +1888,22 @@ export const createServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkResourceAssociation",
+  iam: {
+    actions: [
+      "vpc-lattice:AssociateViaAWSService",
+      "vpc-lattice:AssociateViaAWSService-EventsAndStates",
+      "vpc-lattice:CreateServiceNetworkResourceAssociation",
+      "vpc-lattice:TagResource",
+    ],
+    resources: {
+      "vpc-lattice:CreateServiceNetworkResourceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourceconfiguration/${ResourceConfigurationId}",
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkresourceassociation/${ServiceNetworkResourceAssociationId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceNetworkResourceAssociation",
 }));
@@ -1869,6 +1946,17 @@ export const createServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkServiceAssociation",
+  iam: {
+    actions: ["vpc-lattice:CreateServiceNetworkServiceAssociation", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateServiceNetworkServiceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}",
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkserviceassociation/${ServiceNetworkServiceAssociationId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceNetworkServiceAssociation",
 }));
@@ -1911,6 +1999,20 @@ export const createServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkVpcAssociation",
+  iam: {
+    actions: [
+      "vpc-lattice:AssociateViaAWSService",
+      "vpc-lattice:CreateServiceNetworkVpcAssociation",
+      "vpc-lattice:TagResource",
+    ],
+    resources: {
+      "vpc-lattice:CreateServiceNetworkVpcAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkvpcassociation/${ServiceNetworkVpcAssociationId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceNetworkVpcAssociation",
 }));
@@ -1949,6 +2051,15 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
+  iam: {
+    actions: ["vpc-lattice:CreateTargetGroup", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:CreateTargetGroup": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTargetGroup",
 }));
@@ -1981,6 +2092,14 @@ export const deleteAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessLogSubscription",
+  iam: {
+    actions: ["vpc-lattice:DeleteAccessLogSubscription"],
+    resources: {
+      "vpc-lattice:DeleteAccessLogSubscription": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:accesslogsubscription/${AccessLogSubscriptionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessLogSubscription",
 }));
@@ -2013,6 +2132,7 @@ export const deleteAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthPolicy",
+  iam: { actions: ["vpc-lattice:DeleteAuthPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteAuthPolicy",
 }));
@@ -2045,6 +2165,14 @@ export const deleteDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainVerification",
+  iam: {
+    actions: ["vpc-lattice:DeleteDomainVerification"],
+    resources: {
+      "vpc-lattice:DeleteDomainVerification": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:domainverification/${DomainVerificationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainVerification",
 }));
@@ -2079,6 +2207,14 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  iam: {
+    actions: ["vpc-lattice:DeleteListener"],
+    resources: {
+      "vpc-lattice:DeleteListener": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteListener",
 }));
@@ -2113,6 +2249,14 @@ export const deleteResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfiguration",
+  iam: {
+    actions: ["vpc-lattice:DeleteResourceConfiguration"],
+    resources: {
+      "vpc-lattice:DeleteResourceConfiguration": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourceconfiguration/${ResourceConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourceConfiguration",
 }));
@@ -2145,6 +2289,14 @@ export const deleteResourceEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceEndpointAssociation",
+  iam: {
+    actions: ["vpc-lattice:DeleteResourceEndpointAssociation"],
+    resources: {
+      "vpc-lattice:DeleteResourceEndpointAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourceendpointassociation/${ResourceEndpointAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourceEndpointAssociation",
 }));
@@ -2179,6 +2331,14 @@ export const deleteResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceGateway",
+  iam: {
+    actions: ["vpc-lattice:DeleteResourceGateway"],
+    resources: {
+      "vpc-lattice:DeleteResourceGateway": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourcegateway/${ResourceGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourceGateway",
 }));
@@ -2211,6 +2371,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["vpc-lattice:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -2247,6 +2408,14 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: {
+    actions: ["vpc-lattice:DeleteRule"],
+    resources: {
+      "vpc-lattice:DeleteRule": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -2281,6 +2450,14 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  iam: {
+    actions: ["vpc-lattice:DeleteService"],
+    resources: {
+      "vpc-lattice:DeleteService": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -2315,6 +2492,14 @@ export const deleteServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetwork",
+  iam: {
+    actions: ["vpc-lattice:DeleteServiceNetwork"],
+    resources: {
+      "vpc-lattice:DeleteServiceNetwork": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceNetwork",
 }));
@@ -2349,6 +2534,14 @@ export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkResourceAssociation",
+  iam: {
+    actions: ["vpc-lattice:DeleteServiceNetworkResourceAssociation"],
+    resources: {
+      "vpc-lattice:DeleteServiceNetworkResourceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkresourceassociation/${ServiceNetworkResourceAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceNetworkResourceAssociation",
 }));
@@ -2383,6 +2576,14 @@ export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkServiceAssociation",
+  iam: {
+    actions: ["vpc-lattice:DeleteServiceNetworkServiceAssociation"],
+    resources: {
+      "vpc-lattice:DeleteServiceNetworkServiceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkserviceassociation/${ServiceNetworkServiceAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceNetworkServiceAssociation",
 }));
@@ -2417,6 +2618,14 @@ export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkVpcAssociation",
+  iam: {
+    actions: ["vpc-lattice:DeleteServiceNetworkVpcAssociation"],
+    resources: {
+      "vpc-lattice:DeleteServiceNetworkVpcAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkvpcassociation/${ServiceNetworkVpcAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceNetworkVpcAssociation",
 }));
@@ -2449,6 +2658,14 @@ export const deleteTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
+  iam: {
+    actions: ["vpc-lattice:DeleteTargetGroup"],
+    resources: {
+      "vpc-lattice:DeleteTargetGroup": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTargetGroup",
 }));
@@ -2483,6 +2700,14 @@ export const deregisterTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
+  iam: {
+    actions: ["vpc-lattice:DeregisterTargets"],
+    resources: {
+      "vpc-lattice:DeregisterTargets": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterTargets",
 }));
@@ -2515,6 +2740,14 @@ export const getAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessLogSubscription",
+  iam: {
+    actions: ["vpc-lattice:GetAccessLogSubscription"],
+    resources: {
+      "vpc-lattice:GetAccessLogSubscription": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:accesslogsubscription/${AccessLogSubscriptionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessLogSubscription",
 }));
@@ -2547,6 +2780,7 @@ export const getAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthPolicy",
+  iam: { actions: ["vpc-lattice:GetAuthPolicy"] },
   telemetry: TELEMETRY,
   span: "GetAuthPolicy",
 }));
@@ -2579,6 +2813,14 @@ export const getDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainVerification",
+  iam: {
+    actions: ["vpc-lattice:GetDomainVerification"],
+    resources: {
+      "vpc-lattice:GetDomainVerification": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:domainverification/${DomainVerificationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainVerification",
 }));
@@ -2611,6 +2853,14 @@ export const getListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListener",
+  iam: {
+    actions: ["vpc-lattice:GetListener"],
+    resources: {
+      "vpc-lattice:GetListener": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetListener",
 }));
@@ -2643,6 +2893,14 @@ export const getResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceConfiguration",
+  iam: {
+    actions: ["vpc-lattice:GetResourceConfiguration"],
+    resources: {
+      "vpc-lattice:GetResourceConfiguration": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourceconfiguration/${ResourceConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourceConfiguration",
 }));
@@ -2675,6 +2933,14 @@ export const getResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceGateway",
+  iam: {
+    actions: ["vpc-lattice:GetResourceGateway"],
+    resources: {
+      "vpc-lattice:GetResourceGateway": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourcegateway/${ResourceGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourceGateway",
 }));
@@ -2707,6 +2973,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["vpc-lattice:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -2739,6 +3006,14 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  iam: {
+    actions: ["vpc-lattice:GetRule"],
+    resources: {
+      "vpc-lattice:GetRule": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRule",
 }));
@@ -2771,6 +3046,14 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  iam: {
+    actions: ["vpc-lattice:GetService"],
+    resources: {
+      "vpc-lattice:GetService": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -2803,6 +3086,14 @@ export const getServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetwork",
+  iam: {
+    actions: ["vpc-lattice:GetServiceNetwork"],
+    resources: {
+      "vpc-lattice:GetServiceNetwork": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceNetwork",
 }));
@@ -2835,6 +3126,14 @@ export const getServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkResourceAssociation",
+  iam: {
+    actions: ["vpc-lattice:GetServiceNetworkResourceAssociation"],
+    resources: {
+      "vpc-lattice:GetServiceNetworkResourceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkresourceassociation/${ServiceNetworkResourceAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceNetworkResourceAssociation",
 }));
@@ -2867,6 +3166,14 @@ export const getServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkServiceAssociation",
+  iam: {
+    actions: ["vpc-lattice:GetServiceNetworkServiceAssociation"],
+    resources: {
+      "vpc-lattice:GetServiceNetworkServiceAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkserviceassociation/${ServiceNetworkServiceAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceNetworkServiceAssociation",
 }));
@@ -2899,6 +3206,14 @@ export const getServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkVpcAssociation",
+  iam: {
+    actions: ["vpc-lattice:GetServiceNetworkVpcAssociation"],
+    resources: {
+      "vpc-lattice:GetServiceNetworkVpcAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkvpcassociation/${ServiceNetworkVpcAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceNetworkVpcAssociation",
 }));
@@ -2931,6 +3246,14 @@ export const getTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetGroup",
+  iam: {
+    actions: ["vpc-lattice:GetTargetGroup"],
+    resources: {
+      "vpc-lattice:GetTargetGroup": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTargetGroup",
 }));
@@ -2970,6 +3293,7 @@ export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListAccessLogSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListAccessLogSubscriptions",
 })) as any;
@@ -3009,6 +3333,7 @@ export const listDomainVerifications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListDomainVerifications"] },
   telemetry: TELEMETRY,
   span: "ListDomainVerifications",
 })) as any;
@@ -3048,6 +3373,7 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListListeners"] },
   telemetry: TELEMETRY,
   span: "ListListeners",
 })) as any;
@@ -3085,6 +3411,7 @@ export const listResourceConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListResourceConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListResourceConfigurations",
 })) as any;
@@ -3122,6 +3449,7 @@ export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListResourceEndpointAssociations"] },
   telemetry: TELEMETRY,
   span: "ListResourceEndpointAssociations",
 })) as any;
@@ -3159,6 +3487,7 @@ export const listResourceGateways: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListResourceGateways"] },
   telemetry: TELEMETRY,
   span: "ListResourceGateways",
 })) as any;
@@ -3198,6 +3527,7 @@ export const listRules: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -3235,6 +3565,7 @@ export const listServiceNetworkResourceAssociations: API.PaginatedOperationMetho
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServiceNetworkResourceAssociations"] },
   telemetry: TELEMETRY,
   span: "ListServiceNetworkResourceAssociations",
 })) as any;
@@ -3272,6 +3603,7 @@ export const listServiceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServiceNetworks"] },
   telemetry: TELEMETRY,
   span: "ListServiceNetworks",
 })) as any;
@@ -3311,6 +3643,7 @@ export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServiceNetworkServiceAssociations"] },
   telemetry: TELEMETRY,
   span: "ListServiceNetworkServiceAssociations",
 })) as any;
@@ -3348,6 +3681,7 @@ export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServiceNetworkVpcAssociations"] },
   telemetry: TELEMETRY,
   span: "ListServiceNetworkVpcAssociations",
 })) as any;
@@ -3385,6 +3719,7 @@ export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServiceNetworkVpcEndpointAssociations"] },
   telemetry: TELEMETRY,
   span: "ListServiceNetworkVpcEndpointAssociations",
 })) as any;
@@ -3422,6 +3757,7 @@ export const listServices: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -3452,6 +3788,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["vpc-lattice:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3489,6 +3826,7 @@ export const listTargetGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["vpc-lattice:ListTargetGroups"] },
   telemetry: TELEMETRY,
   span: "ListTargetGroups",
 })) as any;
@@ -3528,6 +3866,14 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["vpc-lattice:ListTargets"],
+    resources: {
+      "vpc-lattice:ListTargets": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTargets",
 })) as any;
@@ -3562,6 +3908,7 @@ export const putAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAuthPolicy",
+  iam: { actions: ["vpc-lattice:PutAuthPolicy"] },
   telemetry: TELEMETRY,
   span: "PutAuthPolicy",
 }));
@@ -3594,6 +3941,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["vpc-lattice:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -3630,6 +3978,14 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
+  iam: {
+    actions: ["vpc-lattice:RegisterTargets"],
+    resources: {
+      "vpc-lattice:RegisterTargets": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterTargets",
 }));
@@ -3664,6 +4020,15 @@ export const startDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainVerification",
+  iam: {
+    actions: ["vpc-lattice:StartDomainVerification", "vpc-lattice:TagResource"],
+    resources: {
+      "vpc-lattice:StartDomainVerification": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:domainverification/${DomainVerificationId}",
+      ],
+    },
+    conditional: { "vpc-lattice:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartDomainVerification",
 }));
@@ -3696,6 +4061,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["vpc-lattice:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3726,6 +4092,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["vpc-lattice:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3760,6 +4127,14 @@ export const updateAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessLogSubscription",
+  iam: {
+    actions: ["vpc-lattice:UpdateAccessLogSubscription"],
+    resources: {
+      "vpc-lattice:UpdateAccessLogSubscription": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:accesslogsubscription/${AccessLogSubscriptionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccessLogSubscription",
 }));
@@ -3796,6 +4171,14 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
+  iam: {
+    actions: ["vpc-lattice:UpdateListener"],
+    resources: {
+      "vpc-lattice:UpdateListener": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateListener",
 }));
@@ -3830,6 +4213,14 @@ export const updateResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceConfiguration",
+  iam: {
+    actions: ["vpc-lattice:UpdateResourceConfiguration"],
+    resources: {
+      "vpc-lattice:UpdateResourceConfiguration": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourceconfiguration/${ResourceConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResourceConfiguration",
 }));
@@ -3864,6 +4255,14 @@ export const updateResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceGateway",
+  iam: {
+    actions: ["vpc-lattice:UpdateResourceGateway"],
+    resources: {
+      "vpc-lattice:UpdateResourceGateway": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:resourcegateway/${ResourceGatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResourceGateway",
 }));
@@ -3900,6 +4299,14 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: {
+    actions: ["vpc-lattice:UpdateRule"],
+    resources: {
+      "vpc-lattice:UpdateRule": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/listener/${ListenerId}/rule/${RuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));
@@ -3936,6 +4343,14 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  iam: {
+    actions: ["vpc-lattice:UpdateService"],
+    resources: {
+      "vpc-lattice:UpdateService": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -3970,6 +4385,14 @@ export const updateServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetwork",
+  iam: {
+    actions: ["vpc-lattice:UpdateServiceNetwork"],
+    resources: {
+      "vpc-lattice:UpdateServiceNetwork": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetwork/${ServiceNetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServiceNetwork",
 }));
@@ -4004,6 +4427,14 @@ export const updateServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetworkVpcAssociation",
+  iam: {
+    actions: ["vpc-lattice:UpdateServiceNetworkVpcAssociation"],
+    resources: {
+      "vpc-lattice:UpdateServiceNetworkVpcAssociation": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:servicenetworkvpcassociation/${ServiceNetworkVpcAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServiceNetworkVpcAssociation",
 }));
@@ -4040,6 +4471,14 @@ export const updateTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetGroup",
+  iam: {
+    actions: ["vpc-lattice:UpdateTargetGroup"],
+    resources: {
+      "vpc-lattice:UpdateTargetGroup": [
+        "arn:${Partition}:vpc-lattice:${Region}:${Account}:targetgroup/${TargetGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTargetGroup",
 }));

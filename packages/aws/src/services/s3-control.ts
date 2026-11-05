@@ -2864,6 +2864,30 @@ export const associateAccessGrantsIdentityCenter: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateAccessGrantsIdentityCenter",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: [
+      "s3:AssociateAccessGrantsIdentityCenter",
+      "sso:CreateApplication",
+      "sso:PutApplicationAuthenticationMethod",
+      "sso:PutApplicationGrant",
+    ],
+    resources: {
+      "s3:AssociateAccessGrantsIdentityCenter": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+      "sso:CreateApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+      "sso:PutApplicationAuthenticationMethod": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+      "sso:PutApplicationGrant": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAccessGrantsIdentityCenter",
 }));
@@ -2897,6 +2921,27 @@ export const createAccessGrant: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessGrant",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: [
+      "s3:CreateAccessGrant",
+      "sso:DescribeApplication",
+      "sso:DescribeInstance",
+      "identitystore:DescribeUser",
+    ],
+    resources: {
+      "s3:CreateAccessGrant": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/grant/${Token}",
+      ],
+      "sso:DescribeApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+      "sso:DescribeInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+      "identitystore:DescribeUser": [
+        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
+        "arn:${Partition}:identitystore:::user/${UserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessGrant",
 }));
@@ -2926,6 +2971,32 @@ export const createAccessGrantsInstance: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessGrantsInstance",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: [
+      "s3:CreateAccessGrantsInstance",
+      "sso:CreateApplication",
+      "sso:DescribeInstance",
+      "sso:PutApplicationAuthenticationMethod",
+      "sso:PutApplicationGrant",
+    ],
+    resources: {
+      "s3:CreateAccessGrantsInstance": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+      "sso:CreateApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+      "sso:DescribeInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+      "sso:PutApplicationAuthenticationMethod": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+      "sso:PutApplicationGrant": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessGrantsInstance",
 }));
@@ -2963,6 +3034,15 @@ export const createAccessGrantsLocation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessGrantsLocation",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:CreateAccessGrantsLocation", "iam:PassRole"],
+    resources: {
+      "s3:CreateAccessGrantsLocation": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/location/${Token}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessGrantsLocation",
 }));
@@ -3009,6 +3089,14 @@ export const createAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:CreateAccessPoint"],
+    resources: {
+      "s3:CreateAccessPoint": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessPoint",
 }));
@@ -3052,6 +3140,14 @@ export const createAccessPointForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPointForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:CreateAccessPointForObjectLambda"],
+    resources: {
+      "s3:CreateAccessPointForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessPointForObjectLambda",
 }));
@@ -3108,6 +3204,22 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
+  iam: {
+    actions: [
+      "s3:CreateBucket",
+      "s3:PutBucketAcl",
+      "s3:PutBucketObjectLockConfiguration",
+      "s3:PutBucketOwnershipControls",
+      "s3:PutBucketVersioning",
+    ],
+    resources: {
+      "s3:CreateBucket": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3:PutBucketAcl": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3:PutBucketObjectLockConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3:PutBucketOwnershipControls": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3:PutBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBucket",
 }));
@@ -3162,6 +3274,7 @@ export const createJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateJob",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:CreateJob"] },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -3205,6 +3318,14 @@ export const createMultiRegionAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMultiRegionAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:CreateMultiRegionAccessPoint"],
+    resources: {
+      "s3:CreateMultiRegionAccessPoint": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMultiRegionAccessPoint",
 }));
@@ -3240,6 +3361,10 @@ export const createStorageLensGroup: API.OperationMethod<
   retry: Retry,
   operationName: "CreateStorageLensGroup",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:CreateStorageLensGroup", "s3:TagResource"],
+    conditional: { "s3:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStorageLensGroup",
 }));
@@ -3265,6 +3390,14 @@ export const deleteAccessGrant: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessGrant",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessGrant"],
+    resources: {
+      "s3:DeleteAccessGrant": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/grant/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessGrant",
 }));
@@ -3290,6 +3423,14 @@ export const deleteAccessGrantsInstance: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessGrantsInstance",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessGrantsInstance"],
+    resources: {
+      "s3:DeleteAccessGrantsInstance": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessGrantsInstance",
 }));
@@ -3315,6 +3456,14 @@ export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessGrantsInstanceResourcePolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessGrantsInstanceResourcePolicy"],
+    resources: {
+      "s3:DeleteAccessGrantsInstanceResourcePolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessGrantsInstanceResourcePolicy",
 }));
@@ -3340,6 +3489,14 @@ export const deleteAccessGrantsLocation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessGrantsLocation",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessGrantsLocation"],
+    resources: {
+      "s3:DeleteAccessGrantsLocation": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/location/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessGrantsLocation",
 }));
@@ -3371,6 +3528,14 @@ export const deleteAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessPoint"],
+    resources: {
+      "s3:DeleteAccessPoint": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPoint",
 }));
@@ -3403,6 +3568,14 @@ export const deleteAccessPointForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPointForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessPointForObjectLambda"],
+    resources: {
+      "s3:DeleteAccessPointForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPointForObjectLambda",
 }));
@@ -3435,6 +3608,14 @@ export const deleteAccessPointPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPointPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessPointPolicy"],
+    resources: {
+      "s3:DeleteAccessPointPolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPointPolicy",
 }));
@@ -3468,6 +3649,14 @@ export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPointPolicyForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteAccessPointPolicyForObjectLambda"],
+    resources: {
+      "s3:DeleteAccessPointPolicyForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPointPolicyForObjectLambda",
 }));
@@ -3531,6 +3720,10 @@ export const deleteBucket: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBucket",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteBucket"],
+    resources: { "s3:DeleteBucket": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucket",
 }));
@@ -3625,6 +3818,10 @@ export const deleteBucketPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBucketPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteBucketPolicy"],
+    resources: { "s3:DeleteBucketPolicy": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucketPolicy",
 }));
@@ -3674,6 +3871,10 @@ export const deleteBucketReplication: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBucketReplication",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutReplicationConfiguration"],
+    resources: { "s3:PutReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucketReplication",
 }));
@@ -3711,6 +3912,10 @@ export const deleteBucketTagging: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBucketTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketTagging"],
+    resources: { "s3:PutBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBucketTagging",
 }));
@@ -3752,6 +3957,10 @@ export const deleteJobTagging: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteJobTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteJobTagging"],
+    resources: { "s3:DeleteJobTagging": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobTagging",
 }));
@@ -3798,6 +4007,14 @@ export const deleteMultiRegionAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMultiRegionAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteMultiRegionAccessPoint"],
+    resources: {
+      "s3:DeleteMultiRegionAccessPoint": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMultiRegionAccessPoint",
 }));
@@ -3833,6 +4050,10 @@ export const deletePublicAccessBlock: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketPublicAccessBlock"],
+    resources: { "s3:PutBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeletePublicAccessBlock",
 }));
@@ -3863,6 +4084,14 @@ export const deleteStorageLensConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageLensConfiguration",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteStorageLensConfiguration"],
+    resources: {
+      "s3:DeleteStorageLensConfiguration": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStorageLensConfiguration",
 }));
@@ -3894,6 +4123,14 @@ export const deleteStorageLensConfigurationTagging: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageLensConfigurationTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteStorageLensConfigurationTagging"],
+    resources: {
+      "s3:DeleteStorageLensConfigurationTagging": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStorageLensConfigurationTagging",
 }));
@@ -3922,6 +4159,14 @@ export const deleteStorageLensGroup: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageLensGroup",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DeleteStorageLensGroup"],
+    resources: {
+      "s3:DeleteStorageLensGroup": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens-group/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStorageLensGroup",
 }));
@@ -3968,6 +4213,10 @@ export const describeJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeJob",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DescribeJob"],
+    resources: { "s3:DescribeJob": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -4002,6 +4251,14 @@ export const describeMultiRegionAccessPointOperation: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeMultiRegionAccessPointOperation",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:DescribeMultiRegionAccessPointOperation"],
+    resources: {
+      "s3:DescribeMultiRegionAccessPointOperation": [
+        "arn:${Partition}:s3:us-west-2:${Account}:async-request/mrap/${Operation}/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMultiRegionAccessPointOperation",
 }));
@@ -4031,6 +4288,17 @@ export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
   retry: Retry,
   operationName: "DissociateAccessGrantsIdentityCenter",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["sso:DeleteApplication", "s3:DissociateAccessGrantsIdentityCenter"],
+    resources: {
+      "sso:DeleteApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+      "s3:DissociateAccessGrantsIdentityCenter": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DissociateAccessGrantsIdentityCenter",
 }));
@@ -4056,6 +4324,14 @@ export const getAccessGrant: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessGrant",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessGrant"],
+    resources: {
+      "s3:GetAccessGrant": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/grant/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessGrant",
 }));
@@ -4083,6 +4359,14 @@ export const getAccessGrantsInstance: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessGrantsInstance",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessGrantsInstance"],
+    resources: {
+      "s3:GetAccessGrantsInstance": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessGrantsInstance",
 }));
@@ -4112,6 +4396,14 @@ export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessGrantsInstanceForPrefix",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessGrantsInstanceForPrefix"],
+    resources: {
+      "s3:GetAccessGrantsInstanceForPrefix": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessGrantsInstanceForPrefix",
 }));
@@ -4137,6 +4429,14 @@ export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessGrantsInstanceResourcePolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessGrantsInstanceResourcePolicy"],
+    resources: {
+      "s3:GetAccessGrantsInstanceResourcePolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessGrantsInstanceResourcePolicy",
 }));
@@ -4162,6 +4462,14 @@ export const getAccessGrantsLocation: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessGrantsLocation",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessGrantsLocation"],
+    resources: {
+      "s3:GetAccessGrantsLocation": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/location/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessGrantsLocation",
 }));
@@ -4193,6 +4501,7 @@ export const getAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:GetAccessPoint"] },
   telemetry: TELEMETRY,
   span: "GetAccessPoint",
 }));
@@ -4221,6 +4530,14 @@ export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointConfigurationForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointConfigurationForObjectLambda"],
+    resources: {
+      "s3:GetAccessPointConfigurationForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointConfigurationForObjectLambda",
 }));
@@ -4252,6 +4569,14 @@ export const getAccessPointForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointForObjectLambda"],
+    resources: {
+      "s3:GetAccessPointForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointForObjectLambda",
 }));
@@ -4279,6 +4604,14 @@ export const getAccessPointPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointPolicy"],
+    resources: {
+      "s3:GetAccessPointPolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointPolicy",
 }));
@@ -4312,6 +4645,14 @@ export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointPolicyForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointPolicyForObjectLambda"],
+    resources: {
+      "s3:GetAccessPointPolicyForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointPolicyForObjectLambda",
 }));
@@ -4340,6 +4681,14 @@ export const getAccessPointPolicyStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointPolicyStatus",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointPolicyStatus"],
+    resources: {
+      "s3:GetAccessPointPolicyStatus": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointPolicyStatus",
 }));
@@ -4363,6 +4712,14 @@ export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccessPointPolicyStatusForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetAccessPointPolicyStatusForObjectLambda"],
+    resources: {
+      "s3:GetAccessPointPolicyStatusForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessPointPolicyStatusForObjectLambda",
 }));
@@ -4482,6 +4839,15 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "GetBucketLifecycleConfiguration",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetLifecycleConfiguration", "s3express:GetLifecycleConfiguration"],
+    resources: {
+      "s3:GetLifecycleConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3express:GetLifecycleConfiguration": [
+        "arn:${Partition}:s3express:${Region}:${Account}:bucket/${BucketName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBucketLifecycleConfiguration",
 }));
@@ -4535,6 +4901,7 @@ export const getBucketPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetBucketPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:GetBucketPolicy"] },
   telemetry: TELEMETRY,
   span: "GetBucketPolicy",
 }));
@@ -4592,6 +4959,10 @@ export const getBucketReplication: API.OperationMethod<
   retry: Retry,
   operationName: "GetBucketReplication",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetReplicationConfiguration"],
+    resources: { "s3:GetReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetBucketReplication",
 }));
@@ -4636,6 +5007,10 @@ export const getBucketTagging: API.OperationMethod<
   retry: Retry,
   operationName: "GetBucketTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetBucketTagging"],
+    resources: { "s3:GetBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetBucketTagging",
 }));
@@ -4686,6 +5061,10 @@ export const getBucketVersioning: API.OperationMethod<
   retry: Retry,
   operationName: "GetBucketVersioning",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetBucketVersioning"],
+    resources: { "s3:GetBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetBucketVersioning",
 }));
@@ -4715,6 +5094,12 @@ export const getDataAccess: API.OperationMethod<
   retry: Retry,
   operationName: "GetDataAccess",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetDataAccess"],
+    resources: {
+      "s3:GetDataAccess": ["arn:${Partition}:s3:${Region}:${Account}:access-grants/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataAccess",
 }));
@@ -4756,6 +5141,10 @@ export const getJobTagging: API.OperationMethod<
   retry: Retry,
   operationName: "GetJobTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetJobTagging"],
+    resources: { "s3:GetJobTagging": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetJobTagging",
 }));
@@ -4793,6 +5182,14 @@ export const getMultiRegionAccessPoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetMultiRegionAccessPoint",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetMultiRegionAccessPoint"],
+    resources: {
+      "s3:GetMultiRegionAccessPoint": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMultiRegionAccessPoint",
 }));
@@ -4827,6 +5224,14 @@ export const getMultiRegionAccessPointPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetMultiRegionAccessPointPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetMultiRegionAccessPointPolicy"],
+    resources: {
+      "s3:GetMultiRegionAccessPointPolicy": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMultiRegionAccessPointPolicy",
 }));
@@ -4862,6 +5267,14 @@ export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetMultiRegionAccessPointPolicyStatus",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetMultiRegionAccessPointPolicyStatus"],
+    resources: {
+      "s3:GetMultiRegionAccessPointPolicyStatus": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMultiRegionAccessPointPolicyStatus",
 }));
@@ -4899,6 +5312,14 @@ export const getMultiRegionAccessPointRoutes: API.OperationMethod<
   retry: Retry,
   operationName: "GetMultiRegionAccessPointRoutes",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetMultiRegionAccessPointRoutes"],
+    resources: {
+      "s3:GetMultiRegionAccessPointRoutes": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMultiRegionAccessPointRoutes",
 }));
@@ -4931,6 +5352,10 @@ export const getPublicAccessBlock: API.OperationMethod<
   retry: Retry,
   operationName: "GetPublicAccessBlock",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetBucketPublicAccessBlock"],
+    resources: { "s3:GetBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetPublicAccessBlock",
 }));
@@ -4960,6 +5385,14 @@ export const getStorageLensConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageLensConfiguration",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetStorageLensConfiguration"],
+    resources: {
+      "s3:GetStorageLensConfiguration": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStorageLensConfiguration",
 }));
@@ -4991,6 +5424,14 @@ export const getStorageLensConfigurationTagging: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageLensConfigurationTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetStorageLensConfigurationTagging"],
+    resources: {
+      "s3:GetStorageLensConfigurationTagging": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStorageLensConfigurationTagging",
 }));
@@ -5019,6 +5460,14 @@ export const getStorageLensGroup: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageLensGroup",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:GetStorageLensGroup"],
+    resources: {
+      "s3:GetStorageLensGroup": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens-group/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStorageLensGroup",
 }));
@@ -5050,6 +5499,12 @@ export const listAccessGrants: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["s3:ListAccessGrants"],
+    resources: {
+      "s3:ListAccessGrants": ["arn:${Partition}:s3:${Region}:${Account}:access-grants/default"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccessGrants",
 })) as any;
@@ -5081,6 +5536,7 @@ export const listAccessGrantsInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["s3:ListAccessGrantsInstances"] },
   telemetry: TELEMETRY,
   span: "ListAccessGrantsInstances",
 })) as any;
@@ -5112,6 +5568,14 @@ export const listAccessGrantsLocations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["s3:ListAccessGrantsLocations"],
+    resources: {
+      "s3:ListAccessGrantsLocations": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccessGrantsLocations",
 })) as any;
@@ -5157,6 +5621,7 @@ export const listAccessPoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["s3:ListAccessPoints"] },
   telemetry: TELEMETRY,
   span: "ListAccessPoints",
 })) as any;
@@ -5232,6 +5697,7 @@ export const listAccessPointsForObjectLambda: API.PaginatedOperationMethod<
     items: "ObjectLambdaAccessPointList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["s3:ListAccessPointsForObjectLambda"] },
   telemetry: TELEMETRY,
   span: "ListAccessPointsForObjectLambda",
 })) as any;
@@ -5264,6 +5730,14 @@ export const listCallerAccessGrants: API.PaginatedOperationMethod<
     items: "CallerAccessGrantsList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["s3:ListCallerAccessGrants"],
+    resources: {
+      "s3:ListCallerAccessGrants": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCallerAccessGrants",
 })) as any;
@@ -5312,6 +5786,7 @@ export const listJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["s3:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -5357,6 +5832,7 @@ export const listMultiRegionAccessPoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["s3:ListMultiRegionAccessPoints"] },
   telemetry: TELEMETRY,
   span: "ListMultiRegionAccessPoints",
 })) as any;
@@ -5424,6 +5900,7 @@ export const listStorageLensConfigurations: API.PaginatedOperationMethod<
   operationName: "ListStorageLensConfigurations",
   endpointHostPrefix: "{AccountId}.",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["s3:ListStorageLensConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListStorageLensConfigurations",
 })) as any;
@@ -5454,6 +5931,7 @@ export const listStorageLensGroups: API.PaginatedOperationMethod<
   operationName: "ListStorageLensGroups",
   endpointHostPrefix: "{AccountId}.",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  iam: { actions: ["s3:ListStorageLensGroups"] },
   telemetry: TELEMETRY,
   span: "ListStorageLensGroups",
 })) as any;
@@ -5503,6 +5981,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5528,6 +6007,14 @@ export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutAccessGrantsInstanceResourcePolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutAccessGrantsInstanceResourcePolicy"],
+    resources: {
+      "s3:PutAccessGrantsInstanceResourcePolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAccessGrantsInstanceResourcePolicy",
 }));
@@ -5563,6 +6050,14 @@ export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "PutAccessPointConfigurationForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutAccessPointConfigurationForObjectLambda"],
+    resources: {
+      "s3:PutAccessPointConfigurationForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAccessPointConfigurationForObjectLambda",
 }));
@@ -5594,6 +6089,14 @@ export const putAccessPointPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutAccessPointPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutAccessPointPolicy"],
+    resources: {
+      "s3:PutAccessPointPolicy": [
+        "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAccessPointPolicy",
 }));
@@ -5627,6 +6130,14 @@ export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
   retry: Retry,
   operationName: "PutAccessPointPolicyForObjectLambda",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutAccessPointPolicyForObjectLambda"],
+    resources: {
+      "s3:PutAccessPointPolicyForObjectLambda": [
+        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAccessPointPolicyForObjectLambda",
 }));
@@ -5690,6 +6201,15 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutBucketLifecycleConfiguration",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutLifecycleConfiguration", "s3express:PutLifecycleConfiguration"],
+    resources: {
+      "s3:PutLifecycleConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
+      "s3express:PutLifecycleConfiguration": [
+        "arn:${Partition}:s3express:${Region}:${Account}:bucket/${BucketName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBucketLifecycleConfiguration",
 }));
@@ -5741,6 +6261,10 @@ export const putBucketPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutBucketPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketPolicy"],
+    resources: { "s3:PutBucketPolicy": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutBucketPolicy",
 }));
@@ -5834,6 +6358,13 @@ export const putBucketReplication: API.OperationMethod<
   retry: Retry,
   operationName: "PutBucketReplication",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["iam:PassRole", "s3:PutReplicationConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "s3:PutReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBucketReplication",
 }));
@@ -5909,6 +6440,10 @@ export const putBucketTagging: API.OperationMethod<
   retry: Retry,
   operationName: "PutBucketTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketTagging"],
+    resources: { "s3:PutBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutBucketTagging",
 }));
@@ -5979,6 +6514,10 @@ export const putBucketVersioning: API.OperationMethod<
   retry: Retry,
   operationName: "PutBucketVersioning",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketVersioning"],
+    resources: { "s3:PutBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutBucketVersioning",
 }));
@@ -6053,6 +6592,10 @@ export const putJobTagging: API.OperationMethod<
   retry: Retry,
   operationName: "PutJobTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutJobTagging"],
+    resources: { "s3:PutJobTagging": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutJobTagging",
 }));
@@ -6092,6 +6635,14 @@ export const putMultiRegionAccessPointPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutMultiRegionAccessPointPolicy",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutMultiRegionAccessPointPolicy"],
+    resources: {
+      "s3:PutMultiRegionAccessPointPolicy": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMultiRegionAccessPointPolicy",
 }));
@@ -6128,6 +6679,10 @@ export const putPublicAccessBlock: API.OperationMethod<
   retry: Retry,
   operationName: "PutPublicAccessBlock",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutBucketPublicAccessBlock"],
+    resources: { "s3:PutBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutPublicAccessBlock",
 }));
@@ -6159,6 +6714,7 @@ export const putStorageLensConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageLensConfiguration",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:PutStorageLensConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutStorageLensConfiguration",
 }));
@@ -6189,6 +6745,14 @@ export const putStorageLensConfigurationTagging: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageLensConfigurationTagging",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:PutStorageLensConfigurationTagging"],
+    resources: {
+      "s3:PutStorageLensConfigurationTagging": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutStorageLensConfigurationTagging",
 }));
@@ -6238,6 +6802,14 @@ export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
   retry: Retry,
   operationName: "SubmitMultiRegionAccessPointRoutes",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:SubmitMultiRegionAccessPointRoutes"],
+    resources: {
+      "s3:SubmitMultiRegionAccessPointRoutes": [
+        "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubmitMultiRegionAccessPointRoutes",
 }));
@@ -6287,6 +6859,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6337,6 +6910,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "{AccountId}.",
+  iam: { actions: ["s3:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6366,6 +6940,14 @@ export const updateAccessGrantsLocation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAccessGrantsLocation",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:UpdateAccessGrantsLocation"],
+    resources: {
+      "s3:UpdateAccessGrantsLocation": [
+        "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/location/${Token}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccessGrantsLocation",
 }));
@@ -6417,6 +6999,12 @@ export const updateJobPriority: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJobPriority",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:UpdateJobPriority"],
+    resources: {
+      "s3:UpdateJobPriority": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJobPriority",
 }));
@@ -6471,6 +7059,10 @@ export const updateJobStatus: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJobStatus",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:UpdateJobStatus"],
+    resources: { "s3:UpdateJobStatus": ["arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJobStatus",
 }));
@@ -6499,6 +7091,14 @@ export const updateStorageLensGroup: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStorageLensGroup",
   endpointHostPrefix: "{AccountId}.",
+  iam: {
+    actions: ["s3:UpdateStorageLensGroup"],
+    resources: {
+      "s3:UpdateStorageLensGroup": [
+        "arn:${Partition}:s3:${Region}:${Account}:storage-lens-group/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStorageLensGroup",
 }));

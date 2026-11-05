@@ -1115,6 +1115,15 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  iam: {
+    actions: ["lookoutequipment:CreateDataset", "lookoutequipment:TagResource"],
+    resources: {
+      "lookoutequipment:CreateDataset": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+    conditional: { "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -1155,6 +1164,21 @@ export const createInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceScheduler",
+  iam: {
+    actions: [
+      "lookoutequipment:CreateInferenceScheduler",
+      "iam:PassRole",
+      "lookoutequipment:TagResource",
+    ],
+    resources: {
+      "lookoutequipment:CreateInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInferenceScheduler",
 }));
@@ -1191,6 +1215,14 @@ export const createLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabel",
+  iam: {
+    actions: ["lookoutequipment:CreateLabel"],
+    resources: {
+      "lookoutequipment:CreateLabel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLabel",
 }));
@@ -1225,6 +1257,15 @@ export const createLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelGroup",
+  iam: {
+    actions: ["lookoutequipment:CreateLabelGroup", "lookoutequipment:TagResource"],
+    resources: {
+      "lookoutequipment:CreateLabelGroup": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+    conditional: { "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLabelGroup",
 }));
@@ -1271,6 +1312,11 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  iam: {
+    actions: ["lookoutequipment:CreateModel", "iam:PassRole", "lookoutequipment:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn", "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateModel",
 }));
@@ -1305,6 +1351,14 @@ export const createRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:CreateRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:CreateRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRetrainingScheduler",
 }));
@@ -1343,6 +1397,14 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  iam: {
+    actions: ["lookoutequipment:DeleteDataset"],
+    resources: {
+      "lookoutequipment:DeleteDataset": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -1378,6 +1440,14 @@ export const deleteInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceScheduler",
+  iam: {
+    actions: ["lookoutequipment:DeleteInferenceScheduler"],
+    resources: {
+      "lookoutequipment:DeleteInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInferenceScheduler",
 }));
@@ -1412,6 +1482,14 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
+  iam: {
+    actions: ["lookoutequipment:DeleteLabel"],
+    resources: {
+      "lookoutequipment:DeleteLabel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLabel",
 }));
@@ -1446,6 +1524,14 @@ export const deleteLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabelGroup",
+  iam: {
+    actions: ["lookoutequipment:DeleteLabelGroup"],
+    resources: {
+      "lookoutequipment:DeleteLabelGroup": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLabelGroup",
 }));
@@ -1481,6 +1567,14 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  iam: {
+    actions: ["lookoutequipment:DeleteModel"],
+    resources: {
+      "lookoutequipment:DeleteModel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteModel",
 }));
@@ -1515,6 +1609,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["lookoutequipment:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1550,6 +1645,14 @@ export const deleteRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:DeleteRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:DeleteRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRetrainingScheduler",
 }));
@@ -1583,6 +1686,7 @@ export const describeDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataIngestionJob",
+  iam: { actions: ["lookoutequipment:DescribeDataIngestionJob"] },
   telemetry: TELEMETRY,
   span: "DescribeDataIngestionJob",
 }));
@@ -1616,6 +1720,14 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  iam: {
+    actions: ["lookoutequipment:DescribeDataset"],
+    resources: {
+      "lookoutequipment:DescribeDataset": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -1649,6 +1761,14 @@ export const describeInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceScheduler",
+  iam: {
+    actions: ["lookoutequipment:DescribeInferenceScheduler"],
+    resources: {
+      "lookoutequipment:DescribeInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInferenceScheduler",
 }));
@@ -1681,6 +1801,14 @@ export const describeLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabel",
+  iam: {
+    actions: ["lookoutequipment:Describelabel"],
+    resources: {
+      "lookoutequipment:Describelabel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLabel",
 }));
@@ -1713,6 +1841,14 @@ export const describeLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelGroup",
+  iam: {
+    actions: ["lookoutequipment:DescribeLabelGroup"],
+    resources: {
+      "lookoutequipment:DescribeLabelGroup": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLabelGroup",
 }));
@@ -1747,6 +1883,14 @@ export const describeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
+  iam: {
+    actions: ["lookoutequipment:DescribeModel"],
+    resources: {
+      "lookoutequipment:DescribeModel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeModel",
 }));
@@ -1779,6 +1923,14 @@ export const describeModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelVersion",
+  iam: {
+    actions: ["lookoutequipment:DescribeModelVersion"],
+    resources: {
+      "lookoutequipment:DescribeModelVersion": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}/model-version/${ModelVersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeModelVersion",
 }));
@@ -1811,6 +1963,7 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  iam: { actions: ["lookoutequipment:DescribeResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicy",
 }));
@@ -1844,6 +1997,14 @@ export const describeRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:DescribeRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:DescribeRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRetrainingScheduler",
 }));
@@ -1880,6 +2041,15 @@ export const importDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDataset",
+  iam: {
+    actions: ["lookoutequipment:ImportDataset", "lookoutequipment:TagResource"],
+    resources: {
+      "lookoutequipment:ImportDataset": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+    conditional: { "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportDataset",
 }));
@@ -1916,6 +2086,15 @@ export const importModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModelVersion",
+  iam: {
+    actions: [
+      "lookoutequipment:ImportModelVersion",
+      "iam:PassRole",
+      "lookoutequipment:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn", "lookoutequipment:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportModelVersion",
 }));
@@ -1953,6 +2132,14 @@ export const listDataIngestionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListDataIngestionJobs"],
+    resources: {
+      "lookoutequipment:ListDataIngestionJobs": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataIngestionJobs",
 })) as any;
@@ -1989,6 +2176,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lookoutequipment:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -2027,6 +2215,14 @@ export const listInferenceEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListInferenceEvents"],
+    resources: {
+      "lookoutequipment:ListInferenceEvents": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInferenceEvents",
 })) as any;
@@ -2066,6 +2262,14 @@ export const listInferenceExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListInferenceExecutions"],
+    resources: {
+      "lookoutequipment:ListInferenceExecutions": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInferenceExecutions",
 })) as any;
@@ -2102,6 +2306,7 @@ export const listInferenceSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lookoutequipment:ListInferenceSchedulers"] },
   telemetry: TELEMETRY,
   span: "ListInferenceSchedulers",
 })) as any;
@@ -2138,6 +2343,14 @@ export const listLabelGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListLabelGroups"],
+    resources: {
+      "lookoutequipment:ListLabelGroups": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLabelGroups",
 })) as any;
@@ -2174,6 +2387,14 @@ export const listLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListLabels"],
+    resources: {
+      "lookoutequipment:ListLabels": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLabels",
 })) as any;
@@ -2211,6 +2432,7 @@ export const listModels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lookoutequipment:ListModels"] },
   telemetry: TELEMETRY,
   span: "ListModels",
 })) as any;
@@ -2251,6 +2473,14 @@ export const listModelVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListModelVersions"],
+    resources: {
+      "lookoutequipment:ListModelVersions": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListModelVersions",
 })) as any;
@@ -2288,6 +2518,7 @@ export const listRetrainingSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["lookoutequipment:ListRetrainingSchedulers"] },
   telemetry: TELEMETRY,
   span: "ListRetrainingSchedulers",
 })) as any;
@@ -2328,6 +2559,14 @@ export const listSensorStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["lookoutequipment:ListSensorStatistics"],
+    resources: {
+      "lookoutequipment:ListSensorStatistics": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSensorStatistics",
 })) as any;
@@ -2360,6 +2599,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["lookoutequipment:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2396,6 +2636,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["lookoutequipment:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2432,6 +2673,15 @@ export const startDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataIngestionJob",
+  iam: {
+    actions: ["iam:PassRole", "lookoutequipment:StartDataIngestionJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lookoutequipment:StartDataIngestionJob": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:dataset/${DatasetName}/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDataIngestionJob",
 }));
@@ -2466,6 +2716,14 @@ export const startInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceScheduler",
+  iam: {
+    actions: ["lookoutequipment:StartInferenceScheduler"],
+    resources: {
+      "lookoutequipment:StartInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInferenceScheduler",
 }));
@@ -2500,6 +2758,14 @@ export const startRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:StartRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:StartRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRetrainingScheduler",
 }));
@@ -2534,6 +2800,14 @@ export const stopInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceScheduler",
+  iam: {
+    actions: ["lookoutequipment:StopInferenceScheduler"],
+    resources: {
+      "lookoutequipment:StopInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopInferenceScheduler",
 }));
@@ -2568,6 +2842,14 @@ export const stopRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:StopRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:StopRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRetrainingScheduler",
 }));
@@ -2606,6 +2888,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["lookoutequipment:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2638,6 +2921,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["lookoutequipment:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2672,6 +2956,15 @@ export const updateActiveModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActiveModelVersion",
+  iam: {
+    actions: ["lookoutequipment:UpdateActiveModelVersion"],
+    resources: {
+      "lookoutequipment:UpdateActiveModelVersion": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}/model-version/${ModelVersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateActiveModelVersion",
 }));
@@ -2706,6 +2999,16 @@ export const updateInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceScheduler",
+  iam: {
+    actions: ["iam:PassRole", "lookoutequipment:UpdateInferenceScheduler"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lookoutequipment:UpdateInferenceScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:inference-scheduler/${InferenceSchedulerName}/${InferenceSchedulerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInferenceScheduler",
 }));
@@ -2740,6 +3043,14 @@ export const updateLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLabelGroup",
+  iam: {
+    actions: ["lookoutequipment:UpdateLabelGroup"],
+    resources: {
+      "lookoutequipment:UpdateLabelGroup": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:label-group/${LabelGroupName}/${LabelGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLabelGroup",
 }));
@@ -2774,6 +3085,16 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  iam: {
+    actions: ["iam:PassRole", "lookoutequipment:UpdateModel"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lookoutequipment:UpdateModel": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateModel",
 }));
@@ -2808,6 +3129,14 @@ export const updateRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetrainingScheduler",
+  iam: {
+    actions: ["lookoutequipment:UpdateRetrainingScheduler"],
+    resources: {
+      "lookoutequipment:UpdateRetrainingScheduler": [
+        "arn:${Partition}:lookoutequipment:${Region}:${Account}:model/${ModelName}/${ModelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRetrainingScheduler",
 }));

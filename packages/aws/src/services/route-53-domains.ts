@@ -1011,6 +1011,7 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDomainTransferFromAnotherAwsAccount",
+  iam: { actions: ["route53domains:AcceptDomainTransferFromAnotherAwsAccount"] },
   telemetry: TELEMETRY,
   span: "AcceptDomainTransferFromAnotherAwsAccount",
 }));
@@ -1053,6 +1054,7 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegationSignerToDomain",
+  iam: { actions: ["route53domains:AssociateDelegationSignerToDomain"] },
   telemetry: TELEMETRY,
   span: "AssociateDelegationSignerToDomain",
 }));
@@ -1084,6 +1086,7 @@ export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainTransferToAnotherAwsAccount",
+  iam: { actions: ["route53domains:CancelDomainTransferToAnotherAwsAccount"] },
   telemetry: TELEMETRY,
   span: "CancelDomainTransferToAnotherAwsAccount",
 }));
@@ -1110,6 +1113,7 @@ export const checkDomainAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDomainAvailability",
+  iam: { actions: ["route53domains:CheckDomainAvailability"] },
   telemetry: TELEMETRY,
   span: "CheckDomainAvailability",
 }));
@@ -1134,6 +1138,7 @@ export const checkDomainTransferability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDomainTransferability",
+  iam: { actions: ["route53domains:CheckDomainTransferability"] },
   telemetry: TELEMETRY,
   span: "CheckDomainTransferability",
 }));
@@ -1176,6 +1181,7 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: { actions: ["route53domains:DeleteDomain"] },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -1203,6 +1209,7 @@ export const deleteTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagsForDomain",
+  iam: { actions: ["route53domains:DeleteTagsForDomain"] },
   telemetry: TELEMETRY,
   span: "DeleteTagsForDomain",
 }));
@@ -1224,6 +1231,7 @@ export const disableDomainAutoRenew: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDomainAutoRenew",
+  iam: { actions: ["route53domains:DisableDomainAutoRenew"] },
   telemetry: TELEMETRY,
   span: "DisableDomainAutoRenew",
 }));
@@ -1261,6 +1269,7 @@ export const disableDomainTransferLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDomainTransferLock",
+  iam: { actions: ["route53domains:DisableDomainTransferLock"] },
   telemetry: TELEMETRY,
   span: "DisableDomainTransferLock",
 }));
@@ -1294,6 +1303,7 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDelegationSignerFromDomain",
+  iam: { actions: ["route53domains:DisassociateDelegationSignerFromDomain"] },
   telemetry: TELEMETRY,
   span: "DisassociateDelegationSignerFromDomain",
 }));
@@ -1326,6 +1336,7 @@ export const enableDomainAutoRenew: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDomainAutoRenew",
+  iam: { actions: ["route53domains:EnableDomainAutoRenew"] },
   telemetry: TELEMETRY,
   span: "EnableDomainAutoRenew",
 }));
@@ -1362,6 +1373,7 @@ export const enableDomainTransferLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDomainTransferLock",
+  iam: { actions: ["route53domains:EnableDomainTransferLock"] },
   telemetry: TELEMETRY,
   span: "EnableDomainTransferLock",
 }));
@@ -1391,6 +1403,7 @@ export const getContactReachabilityStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactReachabilityStatus",
+  iam: { actions: ["route53domains:GetContactReachabilityStatus"] },
   telemetry: TELEMETRY,
   span: "GetContactReachabilityStatus",
 }));
@@ -1413,6 +1426,7 @@ export const getDomainDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainDetail",
+  iam: { actions: ["route53domains:GetDomainDetail"] },
   telemetry: TELEMETRY,
   span: "GetDomainDetail",
 }));
@@ -1447,6 +1461,7 @@ export const getDomainPrices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainPrices",
+  iam: { actions: ["route53domains:GetDomainPrices"] },
   telemetry: TELEMETRY,
   span: "GetDomainPrices",
 }));
@@ -1471,6 +1486,7 @@ export const getDomainSuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainSuggestions",
+  iam: { actions: ["route53domains:GetDomainSuggestions"] },
   telemetry: TELEMETRY,
   span: "GetDomainSuggestions",
 }));
@@ -1492,6 +1508,7 @@ export const getOperationDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperationDetail",
+  iam: { actions: ["route53domains:GetOperationDetail"] },
   telemetry: TELEMETRY,
   span: "GetOperationDetail",
 }));
@@ -1520,6 +1537,7 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["route53domains:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -1550,6 +1568,7 @@ export const listOperations: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["route53domains:ListOperations"] },
   telemetry: TELEMETRY,
   span: "ListOperations",
 })) as any;
@@ -1593,6 +1612,7 @@ export const listPrices: API.PaginatedOperationMethod<
     items: "Prices",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["route53domains:ListPrices"] },
   telemetry: TELEMETRY,
   span: "ListPrices",
 })) as any;
@@ -1621,6 +1641,7 @@ export const listTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDomain",
+  iam: { actions: ["route53domains:ListTagsForDomain"] },
   telemetry: TELEMETRY,
   span: "ListTagsForDomain",
 }));
@@ -1651,6 +1672,7 @@ export const pushDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PushDomain",
+  iam: { actions: ["route53domains:PushDomain"] },
   telemetry: TELEMETRY,
   span: "PushDomain",
 }));
@@ -1712,6 +1734,7 @@ export const registerDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDomain",
+  iam: { actions: ["route53:CreateHostedZone", "route53domains:RegisterDomain"] },
   telemetry: TELEMETRY,
   span: "RegisterDomain",
 }));
@@ -1740,6 +1763,7 @@ export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDomainTransferFromAnotherAwsAccount",
+  iam: { actions: ["route53domains:RejectDomainTransferFromAnotherAwsAccount"] },
   telemetry: TELEMETRY,
   span: "RejectDomainTransferFromAnotherAwsAccount",
 }));
@@ -1781,6 +1805,7 @@ export const renewDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewDomain",
+  iam: { actions: ["route53domains:RenewDomain"] },
   telemetry: TELEMETRY,
   span: "RenewDomain",
 }));
@@ -1808,6 +1833,7 @@ export const resendContactReachabilityEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendContactReachabilityEmail",
+  iam: { actions: ["route53domains:ResendContactReachabilityEmail"] },
   telemetry: TELEMETRY,
   span: "ResendContactReachabilityEmail",
 }));
@@ -1828,6 +1854,7 @@ export const resendOperationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendOperationAuthorization",
+  iam: { actions: ["route53domains:ResendOperationAuthorization"] },
   telemetry: TELEMETRY,
   span: "ResendOperationAuthorization",
 }));
@@ -1854,6 +1881,7 @@ export const retrieveDomainAuthCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveDomainAuthCode",
+  iam: { actions: ["route53domains:RetrieveDomainAuthCode"] },
   telemetry: TELEMETRY,
   span: "RetrieveDomainAuthCode",
 }));
@@ -1921,6 +1949,7 @@ export const transferDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferDomain",
+  iam: { actions: ["route53domains:TransferDomain"] },
   telemetry: TELEMETRY,
   span: "TransferDomain",
 }));
@@ -1965,6 +1994,7 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferDomainToAnotherAwsAccount",
+  iam: { actions: ["route53domains:TransferDomainToAnotherAwsAccount"] },
   telemetry: TELEMETRY,
   span: "TransferDomainToAnotherAwsAccount",
 }));
@@ -2003,6 +2033,7 @@ export const updateDomainContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainContact",
+  iam: { actions: ["route53domains:UpdateDomainContact"] },
   telemetry: TELEMETRY,
   span: "UpdateDomainContact",
 }));
@@ -2055,6 +2086,7 @@ export const updateDomainContactPrivacy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainContactPrivacy",
+  iam: { actions: ["route53domains:UpdateDomainContactPrivacy"] },
   telemetry: TELEMETRY,
   span: "UpdateDomainContactPrivacy",
 }));
@@ -2095,6 +2127,7 @@ export const updateDomainNameservers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainNameservers",
+  iam: { actions: ["route53domains:UpdateDomainNameservers"] },
   telemetry: TELEMETRY,
   span: "UpdateDomainNameservers",
 }));
@@ -2122,6 +2155,7 @@ export const updateTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForDomain",
+  iam: { actions: ["route53domains:UpdateTagsForDomain"] },
   telemetry: TELEMETRY,
   span: "UpdateTagsForDomain",
 }));
@@ -2149,6 +2183,7 @@ export const viewBilling: API.PaginatedOperationMethod<
     items: "BillingRecords",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["route53domains:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "ViewBilling",
 })) as any;

@@ -826,6 +826,14 @@ export const associateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomDomain",
+  iam: {
+    actions: ["apprunner:AssociateCustomDomain"],
+    resources: {
+      "apprunner:AssociateCustomDomain": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateCustomDomain",
 }));
@@ -861,6 +869,15 @@ export const createAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingConfiguration",
+  iam: {
+    actions: ["apprunner:CreateAutoScalingConfiguration", "apprunner:TagResource"],
+    resources: {
+      "apprunner:CreateAutoScalingConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:autoscalingconfiguration/${AutoscalingConfigurationName}/${AutoscalingConfigurationVersion}/${AutoscalingConfigurationId}",
+      ],
+    },
+    conditional: { "apprunner:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutoScalingConfiguration",
 }));
@@ -890,6 +907,15 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: ["apprunner:CreateConnection", "apprunner:TagResource"],
+    resources: {
+      "apprunner:CreateConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:connection/${ConnectionName}/${ConnectionId}",
+      ],
+    },
+    conditional: { "apprunner:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -924,6 +950,15 @@ export const createObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObservabilityConfiguration",
+  iam: {
+    actions: ["apprunner:CreateObservabilityConfiguration", "apprunner:TagResource"],
+    resources: {
+      "apprunner:CreateObservabilityConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:observabilityconfiguration/${ObservabilityConfigurationName}/${ObservabilityConfigurationVersion}/${ObservabilityConfigurationId}",
+      ],
+    },
+    conditional: { "apprunner:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateObservabilityConfiguration",
 }));
@@ -950,6 +985,14 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  iam: {
+    actions: ["apprunner:CreateService", "iam:PassRole", "apprunner:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "InstanceConfiguration.InstanceRoleArn",
+      "apprunner:TagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -975,6 +1018,15 @@ export const createVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnector",
+  iam: {
+    actions: ["apprunner:CreateVpcConnector", "apprunner:TagResource"],
+    resources: {
+      "apprunner:CreateVpcConnector": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcconnector/${VpcConnectorName}/${VpcConnectorVersion}/${VpcConnectorId}",
+      ],
+    },
+    conditional: { "apprunner:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcConnector",
 }));
@@ -1005,6 +1057,15 @@ export const createVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcIngressConnection",
+  iam: {
+    actions: ["apprunner:CreateVpcIngressConnection", "apprunner:TagResource"],
+    resources: {
+      "apprunner:CreateVpcIngressConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcingressconnection/${VpcIngressConnectionName}/${VpcIngressConnectionId}",
+      ],
+    },
+    conditional: { "apprunner:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVpcIngressConnection",
 }));
@@ -1031,6 +1092,14 @@ export const deleteAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingConfiguration",
+  iam: {
+    actions: ["apprunner:DeleteAutoScalingConfiguration"],
+    resources: {
+      "apprunner:DeleteAutoScalingConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:autoscalingconfiguration/${AutoscalingConfigurationName}/${AutoscalingConfigurationVersion}/${AutoscalingConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutoScalingConfiguration",
 }));
@@ -1056,6 +1125,14 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: {
+    actions: ["apprunner:DeleteConnection"],
+    resources: {
+      "apprunner:DeleteConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:connection/${ConnectionName}/${ConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -1081,6 +1158,14 @@ export const deleteObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObservabilityConfiguration",
+  iam: {
+    actions: ["apprunner:DeleteObservabilityConfiguration"],
+    resources: {
+      "apprunner:DeleteObservabilityConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:observabilityconfiguration/${ObservabilityConfigurationName}/${ObservabilityConfigurationVersion}/${ObservabilityConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteObservabilityConfiguration",
 }));
@@ -1116,6 +1201,17 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  iam: {
+    actions: ["apprunner:DeleteService", "apprunner:DisassociateCustomDomain"],
+    resources: {
+      "apprunner:DeleteService": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+      "apprunner:DisassociateCustomDomain": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -1141,6 +1237,14 @@ export const deleteVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnector",
+  iam: {
+    actions: ["apprunner:DeleteVpcConnector"],
+    resources: {
+      "apprunner:DeleteVpcConnector": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcconnector/${VpcConnectorName}/${VpcConnectorVersion}/${VpcConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcConnector",
 }));
@@ -1179,6 +1283,14 @@ export const deleteVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcIngressConnection",
+  iam: {
+    actions: ["apprunner:DeleteVpcIngressConnection"],
+    resources: {
+      "apprunner:DeleteVpcIngressConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcingressconnection/${VpcIngressConnectionName}/${VpcIngressConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVpcIngressConnection",
 }));
@@ -1203,6 +1315,14 @@ export const describeAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingConfiguration",
+  iam: {
+    actions: ["apprunner:DescribeAutoScalingConfiguration"],
+    resources: {
+      "apprunner:DescribeAutoScalingConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:autoscalingconfiguration/${AutoscalingConfigurationName}/${AutoscalingConfigurationVersion}/${AutoscalingConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingConfiguration",
 }));
@@ -1233,6 +1353,14 @@ export const describeCustomDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["apprunner:DescribeCustomDomains"],
+    resources: {
+      "apprunner:DescribeCustomDomains": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCustomDomains",
 })) as any;
@@ -1257,6 +1385,14 @@ export const describeObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservabilityConfiguration",
+  iam: {
+    actions: ["apprunner:DescribeObservabilityConfiguration"],
+    resources: {
+      "apprunner:DescribeObservabilityConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:observabilityconfiguration/${ObservabilityConfigurationName}/${ObservabilityConfigurationVersion}/${ObservabilityConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeObservabilityConfiguration",
 }));
@@ -1281,6 +1417,14 @@ export const describeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeService",
+  iam: {
+    actions: ["apprunner:DescribeService"],
+    resources: {
+      "apprunner:DescribeService": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeService",
 }));
@@ -1305,6 +1449,14 @@ export const describeVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnector",
+  iam: {
+    actions: ["apprunner:DescribeVpcConnector"],
+    resources: {
+      "apprunner:DescribeVpcConnector": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcconnector/${VpcConnectorName}/${VpcConnectorVersion}/${VpcConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVpcConnector",
 }));
@@ -1329,6 +1481,14 @@ export const describeVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcIngressConnection",
+  iam: {
+    actions: ["apprunner:DescribeVpcIngressConnection"],
+    resources: {
+      "apprunner:DescribeVpcIngressConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcingressconnection/${VpcIngressConnectionName}/${VpcIngressConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVpcIngressConnection",
 }));
@@ -1363,6 +1523,14 @@ export const disassociateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomDomain",
+  iam: {
+    actions: ["apprunner:DisassociateCustomDomain"],
+    resources: {
+      "apprunner:DisassociateCustomDomain": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateCustomDomain",
 }));
@@ -1397,6 +1565,7 @@ export const listAutoScalingConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListAutoScalingConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListAutoScalingConfigurations",
 })) as any;
@@ -1426,6 +1595,7 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -1460,6 +1630,7 @@ export const listObservabilityConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListObservabilityConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListObservabilityConfigurations",
 })) as any;
@@ -1493,6 +1664,14 @@ export const listOperations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["apprunner:ListOperations"],
+    resources: {
+      "apprunner:ListOperations": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListOperations",
 })) as any;
@@ -1522,6 +1701,7 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -1552,6 +1732,14 @@ export const listServicesForAutoScalingConfiguration: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["apprunner:ListServicesForAutoScalingConfiguration"],
+    resources: {
+      "apprunner:ListServicesForAutoScalingConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:autoscalingconfiguration/${AutoscalingConfigurationName}/${AutoscalingConfigurationVersion}/${AutoscalingConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListServicesForAutoScalingConfiguration",
 })) as any;
@@ -1582,6 +1770,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["apprunner:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1611,6 +1800,7 @@ export const listVpcConnectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListVpcConnectors"] },
   telemetry: TELEMETRY,
   span: "ListVpcConnectors",
 })) as any;
@@ -1640,6 +1830,7 @@ export const listVpcIngressConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["apprunner:ListVpcIngressConnections"] },
   telemetry: TELEMETRY,
   span: "ListVpcIngressConnections",
 })) as any;
@@ -1674,6 +1865,14 @@ export const pauseService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseService",
+  iam: {
+    actions: ["apprunner:PauseService"],
+    resources: {
+      "apprunner:PauseService": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PauseService",
 }));
@@ -1707,6 +1906,14 @@ export const resumeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeService",
+  iam: {
+    actions: ["apprunner:ResumeService"],
+    resources: {
+      "apprunner:ResumeService": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeService",
 }));
@@ -1738,6 +1945,14 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  iam: {
+    actions: ["apprunner:StartDeployment"],
+    resources: {
+      "apprunner:StartDeployment": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:service/${ServiceName}/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDeployment",
 }));
@@ -1768,6 +1983,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["apprunner:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1798,6 +2014,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["apprunner:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1823,6 +2040,14 @@ export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultAutoScalingConfiguration",
+  iam: {
+    actions: ["apprunner:UpdateDefaultAutoScalingConfiguration"],
+    resources: {
+      "apprunner:UpdateDefaultAutoScalingConfiguration": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:autoscalingconfiguration/${AutoscalingConfigurationName}/${AutoscalingConfigurationVersion}/${AutoscalingConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDefaultAutoScalingConfiguration",
 }));
@@ -1860,6 +2085,11 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  iam: {
+    actions: ["iam:PassRole", "apprunner:UpdateService"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "InstanceConfiguration.InstanceRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -1896,6 +2126,14 @@ export const updateVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcIngressConnection",
+  iam: {
+    actions: ["apprunner:UpdateVpcIngressConnection"],
+    resources: {
+      "apprunner:UpdateVpcIngressConnection": [
+        "arn:${Partition}:apprunner:${Region}:${Account}:vpcingressconnection/${VpcIngressConnectionName}/${VpcIngressConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVpcIngressConnection",
 }));

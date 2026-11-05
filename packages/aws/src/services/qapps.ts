@@ -941,6 +941,14 @@ export const associateLibraryItemReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLibraryItemReview",
+  iam: {
+    actions: ["qapps:AssociateLibraryItemReview"],
+    resources: {
+      "qapps:AssociateLibraryItemReview": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLibraryItemReview",
 }));
@@ -977,6 +985,7 @@ export const associateQAppWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQAppWithUser",
+  iam: { actions: ["qapps:AssociateQAppWithUser"] },
   telemetry: TELEMETRY,
   span: "AssociateQAppWithUser",
 }));
@@ -1013,6 +1022,14 @@ export const batchCreateCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateCategory",
+  iam: {
+    actions: ["qapps:BatchCreateCategory"],
+    resources: {
+      "qapps:BatchCreateCategory": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateCategory",
 }));
@@ -1049,6 +1066,14 @@ export const batchDeleteCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCategory",
+  iam: {
+    actions: ["qapps:BatchDeleteCategory"],
+    resources: {
+      "qapps:BatchDeleteCategory": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteCategory",
 }));
@@ -1085,6 +1110,14 @@ export const batchUpdateCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCategory",
+  iam: {
+    actions: ["qapps:BatchUpdateCategory"],
+    resources: {
+      "qapps:BatchUpdateCategory": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateCategory",
 }));
@@ -1121,6 +1154,7 @@ export const createLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLibraryItem",
+  iam: { actions: ["qapps:CreateLibraryItem"] },
   telemetry: TELEMETRY,
   span: "CreateLibraryItem",
 }));
@@ -1155,6 +1189,7 @@ export const createPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedUrl",
+  iam: { actions: ["qapps:ImportDocument", "qapps:CreatePresignedUrl"] },
   telemetry: TELEMETRY,
   span: "CreatePresignedUrl",
 }));
@@ -1193,6 +1228,14 @@ export const createQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQApp",
+  iam: {
+    actions: ["qapps:CreateQApp"],
+    resources: {
+      "qapps:CreateQApp": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateQApp",
 }));
@@ -1229,6 +1272,7 @@ export const deleteLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLibraryItem",
+  iam: { actions: ["qapps:DeleteLibraryItem"] },
   telemetry: TELEMETRY,
   span: "DeleteLibraryItem",
 }));
@@ -1263,6 +1307,7 @@ export const deleteQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQApp",
+  iam: { actions: ["qapps:DeleteQApp"] },
   telemetry: TELEMETRY,
   span: "DeleteQApp",
 }));
@@ -1297,6 +1342,7 @@ export const describeQAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQAppPermissions",
+  iam: { actions: ["qapps:DescribeQAppPermissions"] },
   telemetry: TELEMETRY,
   span: "DescribeQAppPermissions",
 }));
@@ -1335,6 +1381,14 @@ export const disassociateLibraryItemReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLibraryItemReview",
+  iam: {
+    actions: ["qapps:DisassociateLibraryItemReview"],
+    resources: {
+      "qapps:DisassociateLibraryItemReview": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLibraryItemReview",
 }));
@@ -1369,6 +1423,7 @@ export const disassociateQAppFromUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQAppFromUser",
+  iam: { actions: ["qapps:DisassociateQAppFromUser"] },
   telemetry: TELEMETRY,
   span: "DisassociateQAppFromUser",
 }));
@@ -1407,6 +1462,14 @@ export const exportQAppSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportQAppSessionData",
+  iam: {
+    actions: ["qapps:ExportQAppSessionData"],
+    resources: {
+      "qapps:ExportQAppSessionData": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportQAppSessionData",
 }));
@@ -1441,6 +1504,7 @@ export const getLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLibraryItem",
+  iam: { actions: ["qapps:GetLibraryItem"] },
   telemetry: TELEMETRY,
   span: "GetLibraryItem",
 }));
@@ -1475,6 +1539,7 @@ export const getQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQApp",
+  iam: { actions: ["qapps:GetQApp"] },
   telemetry: TELEMETRY,
   span: "GetQApp",
 }));
@@ -1511,6 +1576,14 @@ export const getQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQAppSession",
+  iam: {
+    actions: ["qapps:GetQAppSession"],
+    resources: {
+      "qapps:GetQAppSession": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQAppSession",
 }));
@@ -1547,6 +1620,14 @@ export const getQAppSessionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQAppSessionMetadata",
+  iam: {
+    actions: ["qapps:GetQAppSessionMetadata"],
+    resources: {
+      "qapps:GetQAppSessionMetadata": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQAppSessionMetadata",
 }));
@@ -1585,6 +1666,7 @@ export const importDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDocument",
+  iam: { actions: ["qapps:ImportDocument"] },
   telemetry: TELEMETRY,
   span: "ImportDocument",
 }));
@@ -1619,6 +1701,14 @@ export const listCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCategories",
+  iam: {
+    actions: ["qapps:ListCategories"],
+    resources: {
+      "qapps:ListCategories": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCategories",
 }));
@@ -1660,6 +1750,14 @@ export const listLibraryItems: API.PaginatedOperationMethod<
     items: "libraryItems",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["qapps:ListLibraryItems"],
+    resources: {
+      "qapps:ListLibraryItems": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLibraryItems",
 })) as any;
@@ -1699,6 +1797,14 @@ export const listQApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["qapps:ListQApps"],
+    resources: {
+      "qapps:ListQApps": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQApps",
 })) as any;
@@ -1735,6 +1841,14 @@ export const listQAppSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQAppSessionData",
+  iam: {
+    actions: ["qapps:ListQAppSessionData"],
+    resources: {
+      "qapps:ListQAppSessionData": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQAppSessionData",
 }));
@@ -1767,6 +1881,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["qapps:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1799,6 +1914,14 @@ export const predictQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PredictQApp",
+  iam: {
+    actions: ["qapps:PredictQApp"],
+    resources: {
+      "qapps:PredictQApp": [
+        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PredictQApp",
 }));
@@ -1837,6 +1960,7 @@ export const startQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQAppSession",
+  iam: { actions: ["qapps:StartQAppSession"] },
   telemetry: TELEMETRY,
   span: "StartQAppSession",
 }));
@@ -1873,6 +1997,7 @@ export const stopQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQAppSession",
+  iam: { actions: ["qapps:StopQAppSession"] },
   telemetry: TELEMETRY,
   span: "StopQAppSession",
 }));
@@ -1907,6 +2032,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["qapps:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1939,6 +2065,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["qapps:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1975,6 +2102,7 @@ export const updateLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLibraryItem",
+  iam: { actions: ["qapps:UpdateLibraryItem"] },
   telemetry: TELEMETRY,
   span: "UpdateLibraryItem",
 }));
@@ -2011,6 +2139,14 @@ export const updateLibraryItemMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLibraryItemMetadata",
+  iam: {
+    actions: ["qapps:UpdateLibraryItemMetadata"],
+    resources: {
+      "qapps:UpdateLibraryItemMetadata": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLibraryItemMetadata",
 }));
@@ -2047,6 +2183,7 @@ export const updateQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQApp",
+  iam: { actions: ["qapps:UpdateQApp"] },
   telemetry: TELEMETRY,
   span: "UpdateQApp",
 }));
@@ -2081,6 +2218,7 @@ export const updateQAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppPermissions",
+  iam: { actions: ["qapps:UpdateQAppPermissions"] },
   telemetry: TELEMETRY,
   span: "UpdateQAppPermissions",
 }));
@@ -2117,6 +2255,14 @@ export const updateQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppSession",
+  iam: {
+    actions: ["qapps:UpdateQAppSession"],
+    resources: {
+      "qapps:UpdateQAppSession": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQAppSession",
 }));
@@ -2153,6 +2299,14 @@ export const updateQAppSessionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppSessionMetadata",
+  iam: {
+    actions: ["qapps:UpdateQAppSessionMetadata"],
+    resources: {
+      "qapps:UpdateQAppSessionMetadata": [
+        "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQAppSessionMetadata",
 }));

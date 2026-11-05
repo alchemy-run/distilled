@@ -1026,6 +1026,14 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  iam: {
+    actions: ["cassandra:GetRecords"],
+    resources: {
+      "cassandra:GetRecords": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}/stream/${StreamLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecords",
 }));
@@ -1058,6 +1066,14 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  iam: {
+    actions: ["cassandra:GetShardIterator"],
+    resources: {
+      "cassandra:GetShardIterator": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}/stream/${StreamLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetShardIterator",
 }));
@@ -1097,6 +1113,14 @@ export const getStream: API.PaginatedOperationMethod<
     items: "shards",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cassandra:GetStream"],
+    resources: {
+      "cassandra:GetStream": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}/stream/${StreamLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStream",
 })) as any;
@@ -1136,6 +1160,7 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "streams",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cassandra:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;

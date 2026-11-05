@@ -1,0 +1,9 @@
+{
+  "operations": {},
+  "allOperations": {
+    "iam": {
+      "reason": "The es:*Elasticsearch* actions are the legacy Elasticsearch Service names; the OpenSearch API authorizes its own (OpenSearch Bindings suite).",
+      "remove": ["es:*Elasticsearch*"]
+    }
+  }
+}

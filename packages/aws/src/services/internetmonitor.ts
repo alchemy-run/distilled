@@ -522,6 +522,18 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  iam: {
+    actions: ["internetmonitor:CreateMonitor", "internetmonitor:TagResource"],
+    resources: {
+      "internetmonitor:CreateMonitor": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+      "internetmonitor:TagResource": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+    conditional: { "internetmonitor:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMonitor",
 }));
@@ -554,6 +566,14 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  iam: {
+    actions: ["internetmonitor:DeleteMonitor"],
+    resources: {
+      "internetmonitor:DeleteMonitor": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
 }));
@@ -590,6 +610,14 @@ export const getHealthEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthEvent",
+  iam: {
+    actions: ["internetmonitor:GetHealthEvent"],
+    resources: {
+      "internetmonitor:GetHealthEvent": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHealthEvent",
 }));
@@ -626,6 +654,7 @@ export const getInternetEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInternetEvent",
+  iam: { actions: ["internetmonitor:GetInternetEvent"] },
   telemetry: TELEMETRY,
   span: "GetInternetEvent",
 }));
@@ -659,6 +688,14 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  iam: {
+    actions: ["internetmonitor:GetMonitor"],
+    resources: {
+      "internetmonitor:GetMonitor": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMonitor",
 }));
@@ -702,6 +739,14 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["internetmonitor:GetQueryResults"],
+    resources: {
+      "internetmonitor:GetQueryResults": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 })) as any;
@@ -745,6 +790,14 @@ export const getQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatus",
+  iam: {
+    actions: ["internetmonitor:GetQueryStatus"],
+    resources: {
+      "internetmonitor:GetQueryStatus": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryStatus",
 }));
@@ -785,6 +838,14 @@ export const listHealthEvents: API.PaginatedOperationMethod<
     items: "HealthEvents",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["internetmonitor:ListHealthEvents"],
+    resources: {
+      "internetmonitor:ListHealthEvents": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListHealthEvents",
 })) as any;
@@ -831,6 +892,7 @@ export const listInternetEvents: API.PaginatedOperationMethod<
     items: "InternetEvents",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["internetmonitor:ListInternetEvents"] },
   telemetry: TELEMETRY,
   span: "ListInternetEvents",
 })) as any;
@@ -868,6 +930,7 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "Monitors",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["internetmonitor:ListMonitors"] },
   telemetry: TELEMETRY,
   span: "ListMonitors",
 })) as any;
@@ -900,6 +963,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["internetmonitor:ListTagsForResource"],
+    resources: {
+      "internetmonitor:ListTagsForResource": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -938,6 +1009,14 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  iam: {
+    actions: ["internetmonitor:StartQuery"],
+    resources: {
+      "internetmonitor:StartQuery": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQuery",
 }));
@@ -970,6 +1049,14 @@ export const stopQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQuery",
+  iam: {
+    actions: ["internetmonitor:StopQuery"],
+    resources: {
+      "internetmonitor:StopQuery": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopQuery",
 }));
@@ -1004,6 +1091,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["internetmonitor:TagResource"],
+    resources: {
+      "internetmonitor:TagResource": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1036,6 +1131,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["internetmonitor:UntagResource"],
+    resources: {
+      "internetmonitor:UntagResource": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1074,6 +1177,14 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  iam: {
+    actions: ["internetmonitor:UpdateMonitor"],
+    resources: {
+      "internetmonitor:UpdateMonitor": [
+        "arn:${Partition}:internetmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMonitor",
 }));

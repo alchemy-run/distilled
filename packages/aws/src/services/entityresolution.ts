@@ -963,6 +963,7 @@ export const addPolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyStatement",
+  iam: { actions: ["entityresolution:AddPolicyStatement"] },
   telemetry: TELEMETRY,
   span: "AddPolicyStatement",
 }));
@@ -987,6 +988,14 @@ export const batchDeleteUniqueId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteUniqueId",
+  iam: {
+    actions: ["entityresolution:BatchDeleteUniqueId"],
+    resources: {
+      "entityresolution:BatchDeleteUniqueId": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteUniqueId",
 }));
@@ -1023,6 +1032,15 @@ export const createIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingWorkflow",
+  iam: {
+    actions: [
+      "entityresolution:CreateIdMappingWorkflow",
+      "iam:PassRole",
+      "entityresolution:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn", "entityresolution:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdMappingWorkflow",
 }));
@@ -1057,6 +1075,11 @@ export const createIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespace",
+  iam: {
+    actions: ["entityresolution:CreateIdNamespace", "iam:PassRole", "entityresolution:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn", "entityresolution:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdNamespace",
 }));
@@ -1093,6 +1116,15 @@ export const createMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchingWorkflow",
+  iam: {
+    actions: [
+      "entityresolution:CreateMatchingWorkflow",
+      "iam:PassRole",
+      "entityresolution:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "entityresolution:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMatchingWorkflow",
 }));
@@ -1127,6 +1159,10 @@ export const createSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchemaMapping",
+  iam: {
+    actions: ["entityresolution:CreateSchemaMapping", "entityresolution:TagResource"],
+    conditional: { "entityresolution:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSchemaMapping",
 }));
@@ -1161,6 +1197,14 @@ export const deleteIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingWorkflow",
+  iam: {
+    actions: ["entityresolution:DeleteIdMappingWorkflow"],
+    resources: {
+      "entityresolution:DeleteIdMappingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdMappingWorkflow",
 }));
@@ -1195,6 +1239,14 @@ export const deleteIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespace",
+  iam: {
+    actions: ["entityresolution:DeleteIdNamespace"],
+    resources: {
+      "entityresolution:DeleteIdNamespace": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idnamespace/${IdNamespaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdNamespace",
 }));
@@ -1229,6 +1281,14 @@ export const deleteMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchingWorkflow",
+  iam: {
+    actions: ["entityresolution:DeleteMatchingWorkflow"],
+    resources: {
+      "entityresolution:DeleteMatchingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMatchingWorkflow",
 }));
@@ -1263,6 +1323,7 @@ export const deletePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStatement",
+  iam: { actions: ["entityresolution:DeletePolicyStatement"] },
   telemetry: TELEMETRY,
   span: "DeletePolicyStatement",
 }));
@@ -1297,6 +1358,14 @@ export const deleteSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaMapping",
+  iam: {
+    actions: ["entityresolution:DeleteSchemaMapping"],
+    resources: {
+      "entityresolution:DeleteSchemaMapping": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:schemamapping/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchemaMapping",
 }));
@@ -1331,6 +1400,14 @@ export const generateMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMatchId",
+  iam: {
+    actions: ["entityresolution:GenerateMatchId"],
+    resources: {
+      "entityresolution:GenerateMatchId": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateMatchId",
 }));
@@ -1363,6 +1440,14 @@ export const getIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingJob",
+  iam: {
+    actions: ["entityresolution:GetIdMappingJob"],
+    resources: {
+      "entityresolution:GetIdMappingJob": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdMappingJob",
 }));
@@ -1395,6 +1480,14 @@ export const getIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingWorkflow",
+  iam: {
+    actions: ["entityresolution:GetIdMappingWorkflow"],
+    resources: {
+      "entityresolution:GetIdMappingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdMappingWorkflow",
 }));
@@ -1427,6 +1520,14 @@ export const getIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespace",
+  iam: {
+    actions: ["entityresolution:GetIdNamespace"],
+    resources: {
+      "entityresolution:GetIdNamespace": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idnamespace/${IdNamespaceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdNamespace",
 }));
@@ -1461,6 +1562,14 @@ export const getMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchId",
+  iam: {
+    actions: ["entityresolution:GetMatchId"],
+    resources: {
+      "entityresolution:GetMatchId": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMatchId",
 }));
@@ -1493,6 +1602,14 @@ export const getMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingJob",
+  iam: {
+    actions: ["entityresolution:GetMatchingJob"],
+    resources: {
+      "entityresolution:GetMatchingJob": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMatchingJob",
 }));
@@ -1525,6 +1642,14 @@ export const getMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingWorkflow",
+  iam: {
+    actions: ["entityresolution:GetMatchingWorkflow"],
+    resources: {
+      "entityresolution:GetMatchingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMatchingWorkflow",
 }));
@@ -1557,6 +1682,7 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: { actions: ["entityresolution:GetPolicy"] },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -1589,6 +1715,14 @@ export const getProviderService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProviderService",
+  iam: {
+    actions: ["entityresolution:GetProviderService"],
+    resources: {
+      "entityresolution:GetProviderService": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:providerservice/${ProviderName}/${ProviderServiceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProviderService",
 }));
@@ -1621,6 +1755,14 @@ export const getSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaMapping",
+  iam: {
+    actions: ["entityresolution:GetSchemaMapping"],
+    resources: {
+      "entityresolution:GetSchemaMapping": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:schemamapping/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchemaMapping",
 }));
@@ -1660,6 +1802,14 @@ export const listIdMappingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["entityresolution:ListIdMappingJobs"],
+    resources: {
+      "entityresolution:ListIdMappingJobs": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdMappingJobs",
 })) as any;
@@ -1697,6 +1847,7 @@ export const listIdMappingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["entityresolution:ListIdMappingWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListIdMappingWorkflows",
 })) as any;
@@ -1734,6 +1885,7 @@ export const listIdNamespaces: API.PaginatedOperationMethod<
     items: "idNamespaceSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["entityresolution:ListIdNamespaces"] },
   telemetry: TELEMETRY,
   span: "ListIdNamespaces",
 })) as any;
@@ -1773,6 +1925,14 @@ export const listMatchingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["entityresolution:ListMatchingJobs"],
+    resources: {
+      "entityresolution:ListMatchingJobs": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMatchingJobs",
 })) as any;
@@ -1810,6 +1970,7 @@ export const listMatchingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["entityresolution:ListMatchingWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListMatchingWorkflows",
 })) as any;
@@ -1847,6 +2008,7 @@ export const listProviderServices: API.PaginatedOperationMethod<
     items: "providerServiceSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["entityresolution:ListProviderServices"] },
   telemetry: TELEMETRY,
   span: "ListProviderServices",
 })) as any;
@@ -1884,6 +2046,7 @@ export const listSchemaMappings: API.PaginatedOperationMethod<
     items: "schemaList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["entityresolution:ListSchemaMappings"] },
   telemetry: TELEMETRY,
   span: "ListSchemaMappings",
 })) as any;
@@ -1908,6 +2071,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["entityresolution:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1942,6 +2106,7 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  iam: { actions: ["entityresolution:PutPolicy"] },
   telemetry: TELEMETRY,
   span: "PutPolicy",
 }));
@@ -1978,6 +2143,24 @@ export const startIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIdMappingJob",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "entityresolution:StartIdMappingJob",
+      "entityresolution:UseIdNamespace",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "entityresolution:StartIdMappingJob": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "entityresolution:UseIdNamespace":
+        "Needed only when the job reads an ID namespace; not granted unless asked.",
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartIdMappingJob",
 }));
@@ -2014,6 +2197,14 @@ export const startMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchingJob",
+  iam: {
+    actions: ["entityresolution:StartMatchingJob"],
+    resources: {
+      "entityresolution:StartMatchingJob": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMatchingJob",
 }));
@@ -2038,6 +2229,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["entityresolution:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2058,6 +2250,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["entityresolution:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2092,6 +2285,16 @@ export const updateIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingWorkflow",
+  iam: {
+    actions: ["iam:PassRole", "entityresolution:UpdateIdMappingWorkflow"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "entityresolution:UpdateIdMappingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idmappingworkflow/${WorkflowName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdMappingWorkflow",
 }));
@@ -2124,6 +2327,16 @@ export const updateIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespace",
+  iam: {
+    actions: ["iam:PassRole", "entityresolution:UpdateIdNamespace"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "entityresolution:UpdateIdNamespace": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:idnamespace/${IdNamespaceName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdNamespace",
 }));
@@ -2158,6 +2371,15 @@ export const updateMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchingWorkflow",
+  iam: {
+    actions: ["iam:PassRole", "entityresolution:UpdateMatchingWorkflow"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "entityresolution:UpdateMatchingWorkflow": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:matchingworkflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMatchingWorkflow",
 }));
@@ -2194,6 +2416,14 @@ export const updateSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchemaMapping",
+  iam: {
+    actions: ["entityresolution:UpdateSchemaMapping"],
+    resources: {
+      "entityresolution:UpdateSchemaMapping": [
+        "arn:${Partition}:entityresolution:${Region}:${Account}:schemamapping/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSchemaMapping",
 }));

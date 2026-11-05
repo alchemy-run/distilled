@@ -919,6 +919,17 @@ export const createExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentTemplate",
+  iam: {
+    actions: ["fis:CreateExperimentTemplate", "iam:PassRole", "fis:TagResource"],
+    resources: {
+      "fis:CreateExperimentTemplate": [
+        "arn:${Partition}:fis:${Region}:${Account}:action/${Id}",
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "fis:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateExperimentTemplate",
 }));
@@ -952,6 +963,14 @@ export const createTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetAccountConfiguration",
+  iam: {
+    actions: ["fis:CreateTargetAccountConfiguration"],
+    resources: {
+      "fis:CreateTargetAccountConfiguration": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTargetAccountConfiguration",
 }));
@@ -975,6 +994,14 @@ export const deleteExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentTemplate",
+  iam: {
+    actions: ["fis:DeleteExperimentTemplate"],
+    resources: {
+      "fis:DeleteExperimentTemplate": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExperimentTemplate",
 }));
@@ -998,6 +1025,14 @@ export const deleteTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetAccountConfiguration",
+  iam: {
+    actions: ["fis:DeleteTargetAccountConfiguration"],
+    resources: {
+      "fis:DeleteTargetAccountConfiguration": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTargetAccountConfiguration",
 }));
@@ -1018,6 +1053,10 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  iam: {
+    actions: ["fis:GetAction"],
+    resources: { "fis:GetAction": ["arn:${Partition}:fis:${Region}:${Account}:action/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetAction",
 }));
@@ -1038,6 +1077,12 @@ export const getExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperiment",
+  iam: {
+    actions: ["fis:GetExperiment"],
+    resources: {
+      "fis:GetExperiment": ["arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExperiment",
 }));
@@ -1061,6 +1106,14 @@ export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTargetAccountConfiguration",
+  iam: {
+    actions: ["fis:GetExperimentTargetAccountConfiguration"],
+    resources: {
+      "fis:GetExperimentTargetAccountConfiguration": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExperimentTargetAccountConfiguration",
 }));
@@ -1084,6 +1137,14 @@ export const getExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTemplate",
+  iam: {
+    actions: ["fis:GetExperimentTemplate"],
+    resources: {
+      "fis:GetExperimentTemplate": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExperimentTemplate",
 }));
@@ -1104,6 +1165,12 @@ export const getSafetyLever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSafetyLever",
+  iam: {
+    actions: ["fis:GetSafetyLever"],
+    resources: {
+      "fis:GetSafetyLever": ["arn:${Partition}:fis:${Region}:${Account}:safety-lever/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSafetyLever",
 }));
@@ -1127,6 +1194,14 @@ export const getTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetAccountConfiguration",
+  iam: {
+    actions: ["fis:GetTargetAccountConfiguration"],
+    resources: {
+      "fis:GetTargetAccountConfiguration": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTargetAccountConfiguration",
 }));
@@ -1150,6 +1225,7 @@ export const getTargetResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetResourceType",
+  iam: { actions: ["fis:GetTargetResourceType"] },
   telemetry: TELEMETRY,
   span: "GetTargetResourceType",
 }));
@@ -1177,6 +1253,7 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["fis:ListActions"] },
   telemetry: TELEMETRY,
   span: "ListActions",
 })) as any;
@@ -1207,6 +1284,14 @@ export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
     items: "resolvedTargets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["fis:ListExperimentResolvedTargets"],
+    resources: {
+      "fis:ListExperimentResolvedTargets": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExperimentResolvedTargets",
 })) as any;
@@ -1234,6 +1319,7 @@ export const listExperiments: API.PaginatedOperationMethod<
     items: "experiments",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["fis:ListExperiments"] },
   telemetry: TELEMETRY,
   span: "ListExperiments",
 })) as any;
@@ -1257,6 +1343,14 @@ export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentTargetAccountConfigurations",
+  iam: {
+    actions: ["fis:ListExperimentTargetAccountConfigurations"],
+    resources: {
+      "fis:ListExperimentTargetAccountConfigurations": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExperimentTargetAccountConfigurations",
 }));
@@ -1284,6 +1378,7 @@ export const listExperimentTemplates: API.PaginatedOperationMethod<
     items: "experimentTemplates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["fis:ListExperimentTemplates"] },
   telemetry: TELEMETRY,
   span: "ListExperimentTemplates",
 })) as any;
@@ -1304,6 +1399,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["fis:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1334,6 +1430,14 @@ export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
     items: "targetAccountConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["fis:ListTargetAccountConfigurations"],
+    resources: {
+      "fis:ListTargetAccountConfigurations": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTargetAccountConfigurations",
 })) as any;
@@ -1361,6 +1465,7 @@ export const listTargetResourceTypes: API.PaginatedOperationMethod<
     items: "targetResourceTypes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["fis:ListTargetResourceTypes"] },
   telemetry: TELEMETRY,
   span: "ListTargetResourceTypes",
 })) as any;
@@ -1391,6 +1496,16 @@ export const startExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperiment",
+  iam: {
+    actions: ["fis:StartExperiment", "fis:TagResource"],
+    resources: {
+      "fis:StartExperiment": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}",
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+    conditional: { "fis:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartExperiment",
 }));
@@ -1411,6 +1526,12 @@ export const stopExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperiment",
+  iam: {
+    actions: ["fis:StopExperiment"],
+    resources: {
+      "fis:StopExperiment": ["arn:${Partition}:fis:${Region}:${Account}:experiment/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopExperiment",
 }));
@@ -1431,6 +1552,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["fis:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1451,6 +1573,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["fis:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1475,6 +1598,11 @@ export const updateExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentTemplate",
+  iam: {
+    actions: ["iam:PassRole", "fis:UpdateExperimentTemplate"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExperimentTemplate",
 }));
@@ -1499,6 +1627,14 @@ export const updateSafetyLeverState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyLeverState",
+  iam: {
+    actions: ["fis:UpdateSafetyLeverState"],
+    resources: {
+      "fis:UpdateSafetyLeverState": [
+        "arn:${Partition}:fis:${Region}:${Account}:safety-lever/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSafetyLeverState",
 }));
@@ -1522,6 +1658,14 @@ export const updateTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetAccountConfiguration",
+  iam: {
+    actions: ["fis:UpdateTargetAccountConfiguration"],
+    resources: {
+      "fis:UpdateTargetAccountConfiguration": [
+        "arn:${Partition}:fis:${Region}:${Account}:experiment-template/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTargetAccountConfiguration",
 }));

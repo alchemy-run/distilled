@@ -771,6 +771,7 @@ export const batchGetInvoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetInvoiceProfile",
+  iam: { actions: ["invoicing:BatchGetInvoiceProfile"] },
   telemetry: TELEMETRY,
   span: "BatchGetInvoiceProfile",
 }));
@@ -801,6 +802,16 @@ export const createInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvoiceUnit",
+  iam: {
+    actions: ["invoicing:CreateInvoiceUnit", "invoicing:TagResource"],
+    resources: {
+      "invoicing:TagResource": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+        "arn:${Partition}:invoicing::${Account}:procurement-portal-preference/${Identifier}",
+      ],
+    },
+    conditional: { "invoicing:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInvoiceUnit",
 }));
@@ -837,6 +848,16 @@ export const createProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProcurementPortalPreference",
+  iam: {
+    actions: ["invoicing:CreateProcurementPortalPreference", "invoicing:TagResource"],
+    resources: {
+      "invoicing:TagResource": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+        "arn:${Partition}:invoicing::${Account}:procurement-portal-preference/${Identifier}",
+      ],
+    },
+    conditional: { "invoicing:TagResource": "ResourceTags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProcurementPortalPreference",
 }));
@@ -869,6 +890,14 @@ export const deleteInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvoiceUnit",
+  iam: {
+    actions: ["invoicing:DeleteInvoiceUnit"],
+    resources: {
+      "invoicing:DeleteInvoiceUnit": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInvoiceUnit",
 }));
@@ -907,6 +936,7 @@ export const deleteProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProcurementPortalPreference",
+  iam: { actions: ["invoicing:DeleteProcurementPortalPreference"] },
   telemetry: TELEMETRY,
   span: "DeleteProcurementPortalPreference",
 }));
@@ -939,6 +969,7 @@ export const getInvoicePDF: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoicePDF",
+  iam: { actions: ["invoicing:GetInvoicePDF", "aws-portal:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "GetInvoicePDF",
 }));
@@ -971,6 +1002,14 @@ export const getInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoiceUnit",
+  iam: {
+    actions: ["invoicing:GetInvoiceUnit"],
+    resources: {
+      "invoicing:GetInvoiceUnit": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvoiceUnit",
 }));
@@ -1009,6 +1048,7 @@ export const getProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProcurementPortalPreference",
+  iam: { actions: ["invoicing:GetProcurementPortalPreference"] },
   telemetry: TELEMETRY,
   span: "GetProcurementPortalPreference",
 }));
@@ -1048,6 +1088,7 @@ export const listInvoiceSummaries: API.PaginatedOperationMethod<
     items: "InvoiceSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["invoicing:ListInvoiceSummaries", "aws-portal:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "ListInvoiceSummaries",
 })) as any;
@@ -1085,6 +1126,7 @@ export const listInvoiceUnits: API.PaginatedOperationMethod<
     items: "InvoiceUnits",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["invoicing:ListInvoiceUnits"] },
   telemetry: TELEMETRY,
   span: "ListInvoiceUnits",
 })) as any;
@@ -1128,6 +1170,7 @@ export const listProcurementPortalPreferences: API.PaginatedOperationMethod<
     items: "ProcurementPortalPreferences",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["invoicing:ListProcurementPortalPreferences"] },
   telemetry: TELEMETRY,
   span: "ListProcurementPortalPreferences",
 })) as any;
@@ -1165,6 +1208,7 @@ export const listProcurementPortals: API.PaginatedOperationMethod<
     items: "ProcurementPortals",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["invoicing:ListProcurementPortals"] },
   telemetry: TELEMETRY,
   span: "ListProcurementPortals",
 })) as any;
@@ -1204,6 +1248,7 @@ export const listProcurementPortalSuppliers: API.PaginatedOperationMethod<
     items: "ProcurementPortalSuppliers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["invoicing:ListProcurementPortalSuppliers"] },
   telemetry: TELEMETRY,
   span: "ListProcurementPortalSuppliers",
 })) as any;
@@ -1236,6 +1281,15 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["invoicing:ListTagsForResource"],
+    resources: {
+      "invoicing:ListTagsForResource": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+        "arn:${Partition}:invoicing::${Account}:procurement-portal-preference/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1274,6 +1328,7 @@ export const putProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProcurementPortalPreference",
+  iam: { actions: ["invoicing:PutProcurementPortalPreference"] },
   telemetry: TELEMETRY,
   span: "PutProcurementPortalPreference",
 }));
@@ -1308,6 +1363,7 @@ export const sendProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProcurementPortalValidation",
+  iam: { actions: ["invoicing:SendProcurementPortalValidation"] },
   telemetry: TELEMETRY,
   span: "SendProcurementPortalValidation",
 }));
@@ -1342,6 +1398,15 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["invoicing:TagResource"],
+    resources: {
+      "invoicing:TagResource": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+        "arn:${Partition}:invoicing::${Account}:procurement-portal-preference/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1374,6 +1439,15 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["invoicing:UntagResource"],
+    resources: {
+      "invoicing:UntagResource": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+        "arn:${Partition}:invoicing::${Account}:procurement-portal-preference/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1406,6 +1480,14 @@ export const updateInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvoiceUnit",
+  iam: {
+    actions: ["invoicing:UpdateInvoiceUnit"],
+    resources: {
+      "invoicing:UpdateInvoiceUnit": [
+        "arn:${Partition}:invoicing::${Account}:invoice-unit/${Identifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInvoiceUnit",
 }));
@@ -1444,6 +1526,7 @@ export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProcurementPortalPreferenceStatus",
+  iam: { actions: ["invoicing:UpdateProcurementPortalPreferenceStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateProcurementPortalPreferenceStatus",
 }));
@@ -1478,6 +1561,7 @@ export const verifyProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyProcurementPortalValidation",
+  iam: { actions: ["invoicing:VerifyProcurementPortalValidation"] },
   telemetry: TELEMETRY,
   span: "VerifyProcurementPortalValidation",
 }));

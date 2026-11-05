@@ -2606,6 +2606,25 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
+  iam: {
+    actions: [
+      "dynamodb:PartiQLDelete",
+      "dynamodb:PartiQLInsert",
+      "dynamodb:PartiQLSelect",
+      "dynamodb:PartiQLUpdate",
+    ],
+    resources: {
+      "dynamodb:PartiQLDelete": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLInsert": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLUpdate": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "BatchExecuteStatement",
@@ -2701,6 +2720,14 @@ export const batchGetItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetItem",
+  iam: {
+    actions: ["dynamodb:BatchGetItem"],
+    resources: {
+      "dynamodb:BatchGetItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "BatchGetItem",
@@ -2828,6 +2855,14 @@ export const batchWriteItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteItem",
+  iam: {
+    actions: ["dynamodb:BatchWriteItem"],
+    resources: {
+      "dynamodb:BatchWriteItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "BatchWriteItem",
@@ -2860,6 +2895,14 @@ export const cancelBulkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBulkOperation",
+  iam: {
+    actions: ["dynamodb:CancelBulkOperation"],
+    resources: {
+      "dynamodb:CancelBulkOperation": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:bulk-operation/${BulkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "CancelBulkOperation", attributes: { "db.operation.name": "CancelBulkOperation" } },
 }));
@@ -2925,6 +2968,14 @@ export const createBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackup",
+  iam: {
+    actions: ["dynamodb:CreateBackup"],
+    resources: {
+      "dynamodb:CreateBackup": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "CreateBackup",
@@ -3009,6 +3060,15 @@ export const createGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalTable",
+  iam: {
+    actions: ["dynamodb:CreateGlobalTable"],
+    resources: {
+      "dynamodb:CreateGlobalTable": [
+        "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateGlobalTable", attributes: { "db.operation.name": "CreateGlobalTable" } },
 }));
@@ -3053,6 +3113,47 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  iam: {
+    actions: [
+      "dynamodb:AssociateTableReplica",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:CreateTable",
+      "dynamodb:CreateTableReplica",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:PutResourcePolicy",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:TagResource",
+      "dynamodb:UpdateItem",
+    ],
+    resources: {
+      "dynamodb:AssociateTableReplica": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:BatchWriteItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:CreateTable": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:CreateTableReplica": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutResourcePolicy": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:TagResource": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+    conditional: { "dynamodb:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "CreateTable",
@@ -3097,6 +3198,14 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
+  iam: {
+    actions: ["dynamodb:DeleteBackup"],
+    resources: {
+      "dynamodb:DeleteBackup": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/backup/${BackupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteBackup", attributes: { "db.operation.name": "DeleteBackup" } },
 }));
@@ -3152,6 +3261,15 @@ export const deleteItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteItem",
+  iam: {
+    actions: ["dynamodb:DeleteItem", "dynamodb:WriteDataForReplication"],
+    resources: {
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:WriteDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteItem",
@@ -3216,6 +3334,15 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["dynamodb:DeleteResourcePolicy"],
+    resources: {
+      "dynamodb:DeleteResourcePolicy": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteResourcePolicy", attributes: { "db.operation.name": "DeleteResourcePolicy" } },
 }));
@@ -3268,6 +3395,12 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  iam: {
+    actions: ["dynamodb:DeleteTable"],
+    resources: {
+      "dynamodb:DeleteTable": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteTable",
@@ -3304,6 +3437,14 @@ export const describeBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackup",
+  iam: {
+    actions: ["dynamodb:DescribeBackup"],
+    resources: {
+      "dynamodb:DescribeBackup": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/backup/${BackupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DescribeBackup", attributes: { "db.operation.name": "DescribeBackup" } },
 }));
@@ -3327,6 +3468,14 @@ export const describeBulkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBulkOperation",
+  iam: {
+    actions: ["dynamodb:DescribeBulkOperation"],
+    resources: {
+      "dynamodb:DescribeBulkOperation": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:bulk-operation/${BulkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeBulkOperation",
@@ -3368,6 +3517,14 @@ export const describeContinuousBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContinuousBackups",
+  iam: {
+    actions: ["dynamodb:DescribeContinuousBackups"],
+    resources: {
+      "dynamodb:DescribeContinuousBackups": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeContinuousBackups",
@@ -3401,6 +3558,7 @@ export const describeContributorInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContributorInsights",
+  iam: { actions: ["dynamodb:DescribeContributorInsights"] },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeContributorInsights",
@@ -3432,6 +3590,7 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  iam: { actions: ["dynamodb:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: { op: "DescribeEndpoints", attributes: { "db.operation.name": "DescribeEndpoints" } },
 }));
@@ -3456,6 +3615,14 @@ export const describeExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExport",
+  iam: {
+    actions: ["dynamodb:DescribeExport"],
+    resources: {
+      "dynamodb:DescribeExport": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/export/${ExportName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DescribeExport", attributes: { "db.operation.name": "DescribeExport" } },
 }));
@@ -3484,6 +3651,14 @@ export const describeGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalTable",
+  iam: {
+    actions: ["dynamodb:DescribeGlobalTable"],
+    resources: {
+      "dynamodb:DescribeGlobalTable": [
+        "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DescribeGlobalTable", attributes: { "db.operation.name": "DescribeGlobalTable" } },
 }));
@@ -3512,6 +3687,14 @@ export const describeGlobalTableSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalTableSettings",
+  iam: {
+    actions: ["dynamodb:DescribeGlobalTableSettings"],
+    resources: {
+      "dynamodb:DescribeGlobalTableSettings": [
+        "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeGlobalTableSettings",
@@ -3535,6 +3718,14 @@ export const describeImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImport",
+  iam: {
+    actions: ["dynamodb:DescribeImport"],
+    resources: {
+      "dynamodb:DescribeImport": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/import/${ImportName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DescribeImport", attributes: { "db.operation.name": "DescribeImport" } },
 }));
@@ -3559,6 +3750,14 @@ export const describeKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKinesisStreamingDestination",
+  iam: {
+    actions: ["dynamodb:DescribeKinesisStreamingDestination"],
+    resources: {
+      "dynamodb:DescribeKinesisStreamingDestination": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeKinesisStreamingDestination",
@@ -3650,6 +3849,7 @@ export const describeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
+  iam: { actions: ["dynamodb:DescribeLimits"] },
   telemetry: TELEMETRY,
   span: { op: "DescribeLimits", attributes: { "db.operation.name": "DescribeLimits" } },
 }));
@@ -3682,6 +3882,24 @@ export const describeTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
+  iam: {
+    actions: [
+      "dynamodb:DescribeTable",
+      "dynamodb:ReadDataForReplication",
+      "dynamodb:ReplicateSettings",
+    ],
+    resources: {
+      "dynamodb:DescribeTable": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:ReplicateSettings": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeTable",
@@ -3714,6 +3932,14 @@ export const describeTableReplicaAutoScaling: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTableReplicaAutoScaling",
+  iam: {
+    actions: ["dynamodb:DescribeTableReplicaAutoScaling"],
+    resources: {
+      "dynamodb:DescribeTableReplicaAutoScaling": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeTableReplicaAutoScaling",
@@ -3747,6 +3973,17 @@ export const describeTimeToLive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTimeToLive",
+  iam: {
+    actions: ["dynamodb:DescribeTimeToLive", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:DescribeTimeToLive": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeTimeToLive",
@@ -3789,6 +4026,14 @@ export const disableKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKinesisStreamingDestination",
+  iam: {
+    actions: ["dynamodb:DisableKinesisStreamingDestination"],
+    resources: {
+      "dynamodb:DisableKinesisStreamingDestination": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DisableKinesisStreamingDestination",
@@ -3833,6 +4078,14 @@ export const enableKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKinesisStreamingDestination",
+  iam: {
+    actions: ["dynamodb:EnableKinesisStreamingDestination"],
+    resources: {
+      "dynamodb:EnableKinesisStreamingDestination": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "EnableKinesisStreamingDestination",
@@ -3896,6 +4149,25 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
+  iam: {
+    actions: [
+      "dynamodb:PartiQLDelete",
+      "dynamodb:PartiQLInsert",
+      "dynamodb:PartiQLSelect",
+      "dynamodb:PartiQLUpdate",
+    ],
+    resources: {
+      "dynamodb:PartiQLDelete": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLInsert": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLUpdate": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ExecuteStatement",
@@ -3950,6 +4222,25 @@ export const executeTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteTransaction",
+  iam: {
+    actions: [
+      "dynamodb:PartiQLDelete",
+      "dynamodb:PartiQLInsert",
+      "dynamodb:PartiQLSelect",
+      "dynamodb:PartiQLUpdate",
+    ],
+    resources: {
+      "dynamodb:PartiQLDelete": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLInsert": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:PartiQLUpdate": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ExecuteTransaction",
@@ -3992,6 +4283,14 @@ export const exportTableToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportTableToPointInTime",
+  iam: {
+    actions: ["dynamodb:ExportTableToPointInTime"],
+    resources: {
+      "dynamodb:ExportTableToPointInTime": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ExportTableToPointInTime",
@@ -4036,6 +4335,15 @@ export const getItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetItem",
+  iam: {
+    actions: ["dynamodb:GetItem", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetItem",
@@ -4113,6 +4421,15 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["dynamodb:GetResourcePolicy"],
+    resources: {
+      "dynamodb:GetResourcePolicy": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "GetResourcePolicy", attributes: { "db.operation.name": "GetResourcePolicy" } },
 }));
@@ -4137,6 +4454,12 @@ export const importTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportTable",
+  iam: {
+    actions: ["dynamodb:ImportTable"],
+    resources: {
+      "dynamodb:ImportTable": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "ImportTable", attributes: { "db.operation.name": "ImportTable" } },
 }));
@@ -4170,6 +4493,7 @@ export const listBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackups",
+  iam: { actions: ["dynamodb:ListBackups"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListBackups",
@@ -4209,6 +4533,7 @@ export const listBulkOperations: API.PaginatedOperationMethod<
     items: "BulkOperationsSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["dynamodb:ListBulkOperations"] },
   telemetry: TELEMETRY,
   span: { op: "ListBulkOperations", attributes: { "db.operation.name": "ListBulkOperations" } },
 })) as any;
@@ -4239,6 +4564,7 @@ export const listContributorInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["dynamodb:ListContributorInsights"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListContributorInsights",
@@ -4274,6 +4600,7 @@ export const listExports: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["dynamodb:ListExports"] },
   telemetry: TELEMETRY,
   span: { op: "ListExports", attributes: { "db.operation.name": "ListExports" } },
 })) as any;
@@ -4298,6 +4625,7 @@ export const listGlobalTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGlobalTables",
+  iam: { actions: ["dynamodb:ListGlobalTables"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListGlobalTables",
@@ -4324,6 +4652,7 @@ export const listImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  iam: { actions: ["dynamodb:ListImports"] },
   telemetry: TELEMETRY,
   span: { op: "ListImports", attributes: { "db.operation.name": "ListImports" } },
 })) as any;
@@ -4353,6 +4682,7 @@ export const listTables: API.PaginatedOperationMethod<
     items: "TableNames",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["dynamodb:ListTables"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListTables",
@@ -4388,6 +4718,15 @@ export const listTagsOfResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsOfResource",
+  iam: {
+    actions: ["dynamodb:ListTagsOfResource"],
+    resources: {
+      "dynamodb:ListTagsOfResource": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "ListTagsOfResource", attributes: { "db.operation.name": "ListTagsOfResource" } },
 }));
@@ -4457,6 +4796,15 @@ export const putItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItem",
+  iam: {
+    actions: ["dynamodb:PutItem", "dynamodb:WriteDataForReplication"],
+    resources: {
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:WriteDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutItem",
@@ -4522,6 +4870,15 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["dynamodb:PutResourcePolicy"],
+    resources: {
+      "dynamodb:PutResourcePolicy": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "PutResourcePolicy", attributes: { "db.operation.name": "PutResourcePolicy" } },
 }));
@@ -4614,6 +4971,7 @@ export const query: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["dynamodb:Query"] },
   telemetry: TELEMETRY,
   span: {
     op: "Query",
@@ -4689,6 +5047,31 @@ export const restoreTableFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromBackup",
+  iam: {
+    actions: [
+      "dynamodb:BatchWriteItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:Query",
+      "dynamodb:RestoreTableFromBackup",
+      "dynamodb:Scan",
+      "dynamodb:UpdateItem",
+    ],
+    resources: {
+      "dynamodb:BatchWriteItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:RestoreTableFromBackup": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/backup/${BackupName}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RestoreTableFromBackup",
@@ -4767,6 +5150,34 @@ export const restoreTableToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableToPointInTime",
+  iam: {
+    actions: [
+      "dynamodb:AssociateTableReplica",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:CreateTableReplica",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:UpdateItem",
+    ],
+    resources: {
+      "dynamodb:AssociateTableReplica": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:BatchWriteItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:CreateTableReplica": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RestoreTableToPointInTime",
@@ -4853,6 +5264,14 @@ export const scan: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["dynamodb:ReadDataForReplication", "dynamodb:Scan"],
+    resources: {
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "Scan",
@@ -4920,6 +5339,15 @@ export const searchVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchVectors",
+  iam: {
+    actions: ["dynamodb:SearchVectors"],
+    resources: {
+      "dynamodb:SearchVectors": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/index/${IndexName}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SearchVectors",
@@ -4968,6 +5396,17 @@ export const startBulkPutItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkPutItems",
+  iam: {
+    actions: ["dynamodb:BulkPutItems", "dynamodb:StartBulkOperation"],
+    resources: {
+      "dynamodb:BulkPutItems": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:StartBulkOperation": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:bulk-operation/${BulkOperationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StartBulkPutItems",
@@ -5028,6 +5467,15 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["dynamodb:TagResource"],
+    resources: {
+      "dynamodb:TagResource": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "TagResource", attributes: { "db.operation.name": "TagResource" } },
 }));
@@ -5084,6 +5532,12 @@ export const transactGetItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransactGetItems",
+  iam: {
+    actions: ["dynamodb:GetItem"],
+    resources: {
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "TransactGetItems",
@@ -5185,6 +5639,22 @@ export const transactWriteItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransactWriteItems",
+  iam: {
+    actions: [
+      "dynamodb:ConditionCheckItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+    ],
+    resources: {
+      "dynamodb:ConditionCheckItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "TransactWriteItems",
@@ -5240,6 +5710,15 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["dynamodb:UntagResource"],
+    resources: {
+      "dynamodb:UntagResource": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "UntagResource", attributes: { "db.operation.name": "UntagResource" } },
 }));
@@ -5282,6 +5761,14 @@ export const updateContinuousBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousBackups",
+  iam: {
+    actions: ["dynamodb:UpdateContinuousBackups"],
+    resources: {
+      "dynamodb:UpdateContinuousBackups": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateContinuousBackups",
@@ -5320,6 +5807,7 @@ export const updateContributorInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContributorInsights",
+  iam: { actions: ["dynamodb:UpdateContributorInsights"] },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateContributorInsights",
@@ -5389,6 +5877,15 @@ export const updateGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalTable",
+  iam: {
+    actions: ["dynamodb:UpdateGlobalTable"],
+    resources: {
+      "dynamodb:UpdateGlobalTable": [
+        "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "UpdateGlobalTable", attributes: { "db.operation.name": "UpdateGlobalTable" } },
 }));
@@ -5429,6 +5926,15 @@ export const updateGlobalTableSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalTableSettings",
+  iam: {
+    actions: ["dynamodb:UpdateGlobalTableSettings"],
+    resources: {
+      "dynamodb:UpdateGlobalTableSettings": [
+        "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateGlobalTableSettings",
@@ -5481,6 +5987,12 @@ export const updateItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateItem",
+  iam: {
+    actions: ["dynamodb:UpdateItem"],
+    resources: {
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateItem",
@@ -5525,6 +6037,14 @@ export const updateKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKinesisStreamingDestination",
+  iam: {
+    actions: ["dynamodb:UpdateKinesisStreamingDestination"],
+    resources: {
+      "dynamodb:UpdateKinesisStreamingDestination": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateKinesisStreamingDestination",
@@ -5606,6 +6126,55 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  iam: {
+    actions: [
+      "dynamodb:BatchWriteItem",
+      "dynamodb:CreateGlobalTableWitness",
+      "dynamodb:CreateTable",
+      "dynamodb:CreateTableReplica",
+      "dynamodb:DeleteGlobalTableWitness",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:Query",
+      "dynamodb:ReplicateSettings",
+      "dynamodb:Scan",
+      "dynamodb:TagResource",
+      "dynamodb:UpdateItem",
+      "dynamodb:UpdateTable",
+      "dynamodb:WriteDataForReplication",
+    ],
+    resources: {
+      "dynamodb:BatchWriteItem": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:CreateGlobalTableWitness": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:CreateTable": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:CreateTableReplica": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteGlobalTableWitness": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:DeleteItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:GetItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:PutItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:ReplicateSettings": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:TagResource": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:UpdateItem": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:UpdateTable": ["arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"],
+      "dynamodb:WriteDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateTable",
@@ -5645,6 +6214,14 @@ export const updateTableReplicaAutoScaling: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableReplicaAutoScaling",
+  iam: {
+    actions: ["dynamodb:UpdateTableReplicaAutoScaling"],
+    resources: {
+      "dynamodb:UpdateTableReplicaAutoScaling": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateTableReplicaAutoScaling",
@@ -5712,6 +6289,24 @@ export const updateTimeToLive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTimeToLive",
+  iam: {
+    actions: [
+      "dynamodb:ReplicateSettings",
+      "dynamodb:UpdateTimeToLive",
+      "dynamodb:WriteDataForReplication",
+    ],
+    resources: {
+      "dynamodb:ReplicateSettings": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:UpdateTimeToLive": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+      "dynamodb:WriteDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateTimeToLive",

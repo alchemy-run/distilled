@@ -854,6 +854,10 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  iam: {
+    actions: ["sns:AddPermission"],
+    resources: { "sns:AddPermission": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "AddPermission",
@@ -897,6 +901,7 @@ export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIfPhoneNumberIsOptedOut",
+  iam: { actions: ["sns:CheckIfPhoneNumberIsOptedOut", "sms-voice:DescribeOptedOutNumbers"] },
   telemetry: TELEMETRY,
   span: "CheckIfPhoneNumberIsOptedOut",
 }));
@@ -937,6 +942,12 @@ export const confirmSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSubscription",
+  iam: {
+    actions: ["sns:ConfirmSubscription"],
+    resources: {
+      "sns:ConfirmSubscription": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ConfirmSubscription",
@@ -1006,6 +1017,11 @@ export const createPlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformApplication",
+  iam: {
+    actions: ["sns:CreatePlatformApplication", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlatformApplication",
 }));
@@ -1054,6 +1070,7 @@ export const createPlatformEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformEndpoint",
+  iam: { actions: ["sns:CreatePlatformEndpoint"] },
   telemetry: TELEMETRY,
   span: "CreatePlatformEndpoint",
 }));
@@ -1098,6 +1115,14 @@ export const createSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSMSSandboxPhoneNumber",
+  iam: {
+    actions: [
+      "sns:CreateSMSSandboxPhoneNumber",
+      "sms-voice:CreateVerifiedDestinationNumber",
+      "sms-voice:SendDestinationNumberVerificationCode",
+      "sms-voice:SendTextMessage",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "CreateSMSSandboxPhoneNumber",
 }));
@@ -1142,6 +1167,15 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  iam: {
+    actions: ["sns:CreateTopic", "iam:PassRole", "sns:PutDataProtectionPolicy", "sns:TagResource"],
+    resources: {
+      "sns:CreateTopic": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "sns:PutDataProtectionPolicy": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "sns:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopic",
 }));
@@ -1179,6 +1213,7 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  iam: { actions: ["sns:DeleteEndpoint"] },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -1214,6 +1249,7 @@ export const deletePlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformApplication",
+  iam: { actions: ["sns:DeletePlatformApplication"] },
   telemetry: TELEMETRY,
   span: "DeletePlatformApplication",
 }));
@@ -1258,6 +1294,9 @@ export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSMSSandboxPhoneNumber",
+  iam: {
+    actions: ["sns:DeleteSMSSandboxPhoneNumber", "sms-voice:DeleteVerifiedDestinationNumber"],
+  },
   telemetry: TELEMETRY,
   span: "DeleteSMSSandboxPhoneNumber",
 }));
@@ -1303,6 +1342,10 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  iam: {
+    actions: ["sns:DeleteTopic"],
+    resources: { "sns:DeleteTopic": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteTopic",
@@ -1356,6 +1399,12 @@ export const getDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionPolicy",
+  iam: {
+    actions: ["sns:GetDataProtectionPolicy"],
+    resources: {
+      "sns:GetDataProtectionPolicy": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataProtectionPolicy",
 }));
@@ -1392,6 +1441,7 @@ export const getEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpointAttributes",
+  iam: { actions: ["sns:GetEndpointAttributes"] },
   telemetry: TELEMETRY,
   span: "GetEndpointAttributes",
 }));
@@ -1428,6 +1478,7 @@ export const getPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlatformApplicationAttributes",
+  iam: { actions: ["sns:GetPlatformApplicationAttributes"] },
   telemetry: TELEMETRY,
   span: "GetPlatformApplicationAttributes",
 }));
@@ -1460,6 +1511,7 @@ export const getSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSAttributes",
+  iam: { actions: ["sns:GetSMSAttributes", "sms-voice:DescribeSpendLimits"] },
   telemetry: TELEMETRY,
   span: "GetSMSAttributes",
 }));
@@ -1494,6 +1546,7 @@ export const getSMSSandboxAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSSandboxAccountStatus",
+  iam: { actions: ["sns:GetSMSSandboxAccountStatus", "sms-voice:DescribeAccountAttributes"] },
   telemetry: TELEMETRY,
   span: "GetSMSSandboxAccountStatus",
 }));
@@ -1524,6 +1577,7 @@ export const getSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionAttributes",
+  iam: { actions: ["sns:GetSubscriptionAttributes"] },
   telemetry: TELEMETRY,
   span: "GetSubscriptionAttributes",
 }));
@@ -1561,6 +1615,12 @@ export const getTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopicAttributes",
+  iam: {
+    actions: ["sns:GetTopicAttributes"],
+    resources: {
+      "sns:GetTopicAttributes": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetTopicAttributes",
@@ -1615,6 +1675,7 @@ export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEndpointsByPlatformApplication",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Endpoints" } as const,
+  iam: { actions: ["sns:ListEndpointsByPlatformApplication"] },
   telemetry: TELEMETRY,
   span: "ListEndpointsByPlatformApplication",
 })) as any;
@@ -1656,6 +1717,7 @@ export const listOriginationNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["sns:ListOriginationNumbers", "sms-voice:DescribePhoneNumbers"] },
   telemetry: TELEMETRY,
   span: "ListOriginationNumbers",
 })) as any;
@@ -1696,6 +1758,7 @@ export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPhoneNumbersOptedOut",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "phoneNumbers" } as const,
+  iam: { actions: ["sns:ListPhoneNumbersOptedOut", "sms-voice:DescribeOptedOutNumbers"] },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbersOptedOut",
 })) as any;
@@ -1736,6 +1799,7 @@ export const listPlatformApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PlatformApplications",
   } as const,
+  iam: { actions: ["sns:ListPlatformApplications"] },
   telemetry: TELEMETRY,
   span: "ListPlatformApplications",
 })) as any;
@@ -1785,6 +1849,9 @@ export const listSMSSandboxPhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sns:ListSMSSandboxPhoneNumbers", "sms-voice:DescribeVerifiedDestinationNumbers"],
+  },
   telemetry: TELEMETRY,
   span: "ListSMSSandboxPhoneNumbers",
 })) as any;
@@ -1820,6 +1887,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  iam: { actions: ["sns:ListSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
 })) as any;
@@ -1865,6 +1933,12 @@ export const listSubscriptionsByTopic: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  iam: {
+    actions: ["sns:ListSubscriptionsByTopic"],
+    resources: {
+      "sns:ListSubscriptionsByTopic": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListSubscriptionsByTopic",
@@ -1910,6 +1984,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["sns:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1941,6 +2016,7 @@ export const listTopics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTopics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Topics" } as const,
+  iam: { actions: ["sns:ListTopics"] },
   telemetry: TELEMETRY,
   span: "ListTopics",
 })) as any;
@@ -1974,6 +2050,7 @@ export const optInPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptInPhoneNumber",
+  iam: { actions: ["sns:OptInPhoneNumber", "sms-voice:DeleteOptedOutNumber"] },
   telemetry: TELEMETRY,
   span: "OptInPhoneNumber",
 }));
@@ -2050,6 +2127,11 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
+  iam: {
+    actions: ["sns:Publish", "sms-voice:SendTextMessage"],
+    resources: { "sns:Publish": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"] },
+    conditional: { "sms-voice:SendTextMessage": "PhoneNumber" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "Publish",
@@ -2170,6 +2252,10 @@ export const publishBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishBatch",
+  iam: {
+    actions: ["sns:Publish"],
+    resources: { "sns:Publish": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"] },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PublishBatch",
@@ -2231,6 +2317,12 @@ export const putDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataProtectionPolicy",
+  iam: {
+    actions: ["sns:PutDataProtectionPolicy"],
+    resources: {
+      "sns:PutDataProtectionPolicy": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDataProtectionPolicy",
 }));
@@ -2269,6 +2361,12 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  iam: {
+    actions: ["sns:RemovePermission"],
+    resources: {
+      "sns:RemovePermission": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RemovePermission",
@@ -2313,6 +2411,7 @@ export const setEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetEndpointAttributes",
+  iam: { actions: ["sns:SetEndpointAttributes"] },
   telemetry: TELEMETRY,
   span: "SetEndpointAttributes",
 }));
@@ -2351,6 +2450,11 @@ export const setPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPlatformApplicationAttributes",
+  iam: {
+    actions: ["iam:PassRole", "sns:SetPlatformApplicationAttributes"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "SetPlatformApplicationAttributes",
 }));
@@ -2391,6 +2495,16 @@ export const setSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSMSAttributes",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "sns:SetSMSAttributes",
+      "sms-voice:DescribeSpendLimits",
+      "sms-voice:SetTextMessageSpendLimitOverride",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "SetSMSAttributes",
 }));
@@ -2426,6 +2540,11 @@ export const setSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubscriptionAttributes",
+  iam: {
+    actions: ["iam:PassRole", "sns:SetSubscriptionAttributes"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "SetSubscriptionAttributes",
 }));
@@ -2466,6 +2585,14 @@ export const setTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTopicAttributes",
+  iam: {
+    actions: ["iam:PassRole", "sns:SetTopicAttributes"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "sns:SetTopicAttributes": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "SetTopicAttributes",
@@ -2523,6 +2650,14 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  iam: {
+    actions: ["iam:PassRole", "sns:Subscribe"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "sns:Subscribe": ["arn:${Partition}:sns:${Region}:${Account}:${TopicName}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "Subscribe",
@@ -2587,6 +2722,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["sns:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2626,6 +2762,7 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  iam: { actions: ["sns:Unsubscribe"] },
   telemetry: TELEMETRY,
   span: "Unsubscribe",
 }));
@@ -2667,6 +2804,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["sns:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2711,6 +2849,7 @@ export const verifySMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySMSSandboxPhoneNumber",
+  iam: { actions: ["sns:VerifySMSSandboxPhoneNumber", "sms-voice:VerifyDestinationNumber"] },
   telemetry: TELEMETRY,
   span: "VerifySMSSandboxPhoneNumber",
 }));

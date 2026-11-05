@@ -677,6 +677,14 @@ export const associateEipToVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEipToVlan",
+  iam: {
+    actions: ["evs:AssociateEipToVlan"],
+    resources: {
+      "evs:AssociateEipToVlan": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEipToVlan",
 }));
@@ -701,6 +709,14 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  iam: {
+    actions: ["evs:CreateEntitlement"],
+    resources: {
+      "evs:CreateEntitlement": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEntitlement",
 }));
@@ -729,6 +745,15 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  iam: {
+    actions: ["evs:CreateEnvironment", "evs:TagResource"],
+    resources: {
+      "evs:TagResource": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+    conditional: { "evs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -757,6 +782,14 @@ export const createEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentConnector",
+  iam: {
+    actions: ["evs:CreateEnvironmentConnector"],
+    resources: {
+      "evs:CreateEnvironmentConnector": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentConnector",
 }));
@@ -787,6 +820,14 @@ export const createEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentHost",
+  iam: {
+    actions: ["evs:CreateEnvironmentHost"],
+    resources: {
+      "evs:CreateEnvironmentHost": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentHost",
 }));
@@ -811,6 +852,14 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  iam: {
+    actions: ["evs:DeleteEntitlement"],
+    resources: {
+      "evs:DeleteEntitlement": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEntitlement",
 }));
@@ -835,6 +884,14 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  iam: {
+    actions: ["evs:DeleteEnvironment"],
+    resources: {
+      "evs:DeleteEnvironment": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -861,6 +918,14 @@ export const deleteEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConnector",
+  iam: {
+    actions: ["evs:DeleteEnvironmentConnector"],
+    resources: {
+      "evs:DeleteEnvironmentConnector": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentConnector",
 }));
@@ -886,6 +951,14 @@ export const deleteEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentHost",
+  iam: {
+    actions: ["evs:DeleteEnvironmentHost"],
+    resources: {
+      "evs:DeleteEnvironmentHost": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentHost",
 }));
@@ -910,6 +983,14 @@ export const disassociateEipFromVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEipFromVlan",
+  iam: {
+    actions: ["evs:DisassociateEipFromVlan"],
+    resources: {
+      "evs:DisassociateEipFromVlan": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateEipFromVlan",
 }));
@@ -934,6 +1015,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["evs:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -960,6 +1042,14 @@ export const getDepotUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDepotUrl",
+  iam: {
+    actions: ["evs:GetDepotUrl"],
+    resources: {
+      "evs:GetDepotUrl": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDepotUrl",
 }));
@@ -980,6 +1070,14 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  iam: {
+    actions: ["evs:GetEnvironment"],
+    resources: {
+      "evs:GetEnvironment": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -1000,6 +1098,7 @@ export const getVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVersions",
+  iam: { actions: ["evs:GetVersions"] },
   telemetry: TELEMETRY,
   span: "GetVersions",
 }));
@@ -1030,6 +1129,14 @@ export const listEnvironmentConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["evs:ListEnvironmentConnectors"],
+    resources: {
+      "evs:ListEnvironmentConnectors": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentConnectors",
 })) as any;
@@ -1060,6 +1167,14 @@ export const listEnvironmentHosts: API.PaginatedOperationMethod<
     items: "environmentHosts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["evs:ListEnvironmentHosts"],
+    resources: {
+      "evs:ListEnvironmentHosts": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentHosts",
 })) as any;
@@ -1087,6 +1202,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environmentSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["evs:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -1117,6 +1233,14 @@ export const listEnvironmentVlans: API.PaginatedOperationMethod<
     items: "environmentVlans",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["evs:ListEnvironmentVlans"],
+    resources: {
+      "evs:ListEnvironmentVlans": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentVlans",
 })) as any;
@@ -1137,6 +1261,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["evs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1167,6 +1292,14 @@ export const listVmEntitlements: API.PaginatedOperationMethod<
     items: "entitlements",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["evs:ListVmEntitlements"],
+    resources: {
+      "evs:ListVmEntitlements": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVmEntitlements",
 })) as any;
@@ -1193,6 +1326,7 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
+  iam: { actions: ["evs:PutAccountSettings"] },
   telemetry: TELEMETRY,
   span: "PutAccountSettings",
 }));
@@ -1223,6 +1357,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["evs:TagResource"],
+    resources: {
+      "evs:TagResource": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1243,6 +1385,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["evs:UntagResource"],
+    resources: {
+      "evs:UntagResource": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1269,6 +1419,14 @@ export const updateEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentConnector",
+  iam: {
+    actions: ["evs:UpdateEnvironmentConnector"],
+    resources: {
+      "evs:UpdateEnvironmentConnector": [
+        "arn:${Partition}:evs:${Region}:${Account}:environment/${EnvironmentIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentConnector",
 }));

@@ -524,6 +524,14 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  iam: {
+    actions: ["osis:CreatePipeline", "iam:PassRole", "osis:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "osis:TagResource": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+    conditional: { "iam:PassRole": "PipelineRoleArn", "osis:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePipeline",
 }));
@@ -559,6 +567,14 @@ export const createPipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipelineEndpoint",
+  iam: {
+    actions: ["osis:CreatePipelineEndpoint"],
+    resources: {
+      "osis:CreatePipelineEndpoint": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePipelineEndpoint",
 }));
@@ -594,6 +610,14 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  iam: {
+    actions: ["osis:DeletePipeline"],
+    resources: {
+      "osis:DeletePipeline": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePipeline",
 }));
@@ -624,6 +648,14 @@ export const deletePipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipelineEndpoint",
+  iam: {
+    actions: ["osis:DeletePipelineEndpoint"],
+    resources: {
+      "osis:DeletePipelineEndpoint": [
+        "arn:${Partition}:osis:${Region}:${Account}:endpoint/${EndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePipelineEndpoint",
 }));
@@ -658,6 +690,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["osis:DeleteResourcePolicy"],
+    resources: {
+      "osis:DeleteResourcePolicy": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -690,6 +730,12 @@ export const getPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
+  iam: {
+    actions: ["osis:GetPipeline"],
+    resources: {
+      "osis:GetPipeline": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPipeline",
 }));
@@ -725,6 +771,7 @@ export const getPipelineBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineBlueprint",
+  iam: { actions: ["osis:GetPipelineBlueprint"] },
   telemetry: TELEMETRY,
   span: "GetPipelineBlueprint",
 }));
@@ -761,6 +808,14 @@ export const getPipelineChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineChangeProgress",
+  iam: {
+    actions: ["osis:GetPipelineChangeProgress"],
+    resources: {
+      "osis:GetPipelineChangeProgress": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPipelineChangeProgress",
 }));
@@ -795,6 +850,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["osis:GetResourcePolicy"],
+    resources: {
+      "osis:GetResourcePolicy": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -829,6 +892,7 @@ export const listPipelineBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPipelineBlueprints",
+  iam: { actions: ["osis:ListPipelineBlueprints"] },
   telemetry: TELEMETRY,
   span: "ListPipelineBlueprints",
 }));
@@ -868,6 +932,7 @@ export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
     items: "PipelineEndpointConnections",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["osis:ListPipelineEndpointConnections"] },
   telemetry: TELEMETRY,
   span: "ListPipelineEndpointConnections",
 })) as any;
@@ -907,6 +972,7 @@ export const listPipelineEndpoints: API.PaginatedOperationMethod<
     items: "PipelineEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["osis:ListPipelineEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListPipelineEndpoints",
 })) as any;
@@ -947,6 +1013,7 @@ export const listPipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["osis:ListPipelines"] },
   telemetry: TELEMETRY,
   span: "ListPipelines",
 })) as any;
@@ -980,6 +1047,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["osis:ListTagsForResource"],
+    resources: {
+      "osis:ListTagsForResource": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1015,6 +1090,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["osis:PutResourcePolicy"],
+    resources: {
+      "osis:PutResourcePolicy": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1047,6 +1130,14 @@ export const revokePipelineEndpointConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePipelineEndpointConnections",
+  iam: {
+    actions: ["osis:RevokePipelineEndpointConnections"],
+    resources: {
+      "osis:RevokePipelineEndpointConnections": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokePipelineEndpointConnections",
 }));
@@ -1081,6 +1172,12 @@ export const startPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipeline",
+  iam: {
+    actions: ["osis:StartPipeline"],
+    resources: {
+      "osis:StartPipeline": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPipeline",
 }));
@@ -1116,6 +1213,12 @@ export const stopPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipeline",
+  iam: {
+    actions: ["osis:StopPipeline"],
+    resources: {
+      "osis:StopPipeline": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopPipeline",
 }));
@@ -1151,6 +1254,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["osis:TagResource"],
+    resources: {
+      "osis:TagResource": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1184,6 +1293,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["osis:UntagResource"],
+    resources: {
+      "osis:UntagResource": ["arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1219,6 +1334,16 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  iam: {
+    actions: ["iam:PassRole", "osis:UpdatePipeline"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "osis:UpdatePipeline": [
+        "arn:${Partition}:osis:${Region}:${Account}:pipeline/${PipelineName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "PipelineRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePipeline",
 }));
@@ -1251,6 +1376,7 @@ export const validatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipeline",
+  iam: { actions: ["osis:ValidatePipeline"] },
   telemetry: TELEMETRY,
   span: "ValidatePipeline",
 }));

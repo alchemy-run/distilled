@@ -8089,6 +8089,7 @@ export const acceptAdministratorInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAdministratorInvitation",
+  iam: { actions: ["securityhub:AcceptAdministratorInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptAdministratorInvitation",
 }));
@@ -8132,6 +8133,7 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  iam: { actions: ["securityhub:AcceptInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptInvitation",
 }));
@@ -8164,6 +8166,14 @@ export const batchDeleteAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAutomationRules",
+  iam: {
+    actions: ["securityhub:BatchDeleteAutomationRules"],
+    resources: {
+      "securityhub:BatchDeleteAutomationRules": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rule/${AutomationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteAutomationRules",
 }));
@@ -8200,6 +8210,7 @@ export const batchDisableStandards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisableStandards",
+  iam: { actions: ["securityhub:BatchDisableStandards"] },
   telemetry: TELEMETRY,
   span: "BatchDisableStandards",
 }));
@@ -8237,6 +8248,7 @@ export const batchEnableStandards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchEnableStandards",
+  iam: { actions: ["securityhub:BatchEnableStandards"] },
   telemetry: TELEMETRY,
   span: "BatchEnableStandards",
 }));
@@ -8272,6 +8284,14 @@ export const batchGetAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAutomationRules",
+  iam: {
+    actions: ["securityhub:BatchGetAutomationRules"],
+    resources: {
+      "securityhub:BatchGetAutomationRules": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rule/${AutomationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetAutomationRules",
 }));
@@ -8308,6 +8328,7 @@ export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetConfigurationPolicyAssociations",
+  iam: { actions: ["securityhub:BatchGetConfigurationPolicyAssociations"] },
   telemetry: TELEMETRY,
   span: "BatchGetConfigurationPolicyAssociations",
 }));
@@ -8338,6 +8359,7 @@ export const batchGetSecurityControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityControls",
+  iam: { actions: ["securityhub:BatchGetSecurityControls"] },
   telemetry: TELEMETRY,
   span: "BatchGetSecurityControls",
 }));
@@ -8370,6 +8392,7 @@ export const batchGetStandardsControlAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStandardsControlAssociations",
+  iam: { actions: ["securityhub:BatchGetStandardsControlAssociations"] },
   telemetry: TELEMETRY,
   span: "BatchGetStandardsControlAssociations",
 }));
@@ -8443,6 +8466,14 @@ export const batchImportFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchImportFindings",
+  iam: {
+    actions: ["securityhub:BatchImportFindings"],
+    resources: {
+      "securityhub:BatchImportFindings": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:product/${Company}/${ProductId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchImportFindings",
 }));
@@ -8476,6 +8507,14 @@ export const batchUpdateAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomationRules",
+  iam: {
+    actions: ["securityhub:BatchUpdateAutomationRules"],
+    resources: {
+      "securityhub:BatchUpdateAutomationRules": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rule/${AutomationRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateAutomationRules",
 }));
@@ -8535,6 +8574,7 @@ export const batchUpdateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindings",
+  iam: { actions: ["securityhub:BatchUpdateFindings"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateFindings",
 }));
@@ -8576,6 +8616,7 @@ export const batchUpdateFindingsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindingsV2",
+  iam: { actions: ["securityhub:BatchUpdateFindings"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateFindingsV2",
 }));
@@ -8608,6 +8649,7 @@ export const batchUpdateStandardsControlAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateStandardsControlAssociations",
+  iam: { actions: ["securityhub:BatchUpdateStandardsControlAssociations"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateStandardsControlAssociations",
 }));
@@ -8646,6 +8688,7 @@ export const cancelExportJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportJobV2",
+  iam: { actions: ["securityhub:CancelExportJobV2"] },
   telemetry: TELEMETRY,
   span: "CancelExportJobV2",
 }));
@@ -8681,6 +8724,7 @@ export const createActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActionTarget",
+  iam: { actions: ["securityhub:CreateActionTarget"] },
   telemetry: TELEMETRY,
   span: "CreateActionTarget",
 }));
@@ -8717,6 +8761,10 @@ export const createAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAggregatorV2",
+  iam: {
+    actions: ["securityhub:CreateAggregatorV2", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAggregatorV2",
 }));
@@ -8749,6 +8797,10 @@ export const createAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
+  iam: {
+    actions: ["securityhub:CreateAutomationRule", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomationRule",
 }));
@@ -8783,6 +8835,10 @@ export const createAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRuleV2",
+  iam: {
+    actions: ["securityhub:CreateAutomationRuleV2", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomationRuleV2",
 }));
@@ -8818,6 +8874,10 @@ export const createConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationPolicy",
+  iam: {
+    actions: ["securityhub:CreateConfigurationPolicy", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationPolicy",
 }));
@@ -8856,6 +8916,10 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["securityhub:CreateConnector", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -8892,6 +8956,10 @@ export const createConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorV2",
+  iam: {
+    actions: ["securityhub:CreateConnectorV2", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectorV2",
 }));
@@ -8928,6 +8996,7 @@ export const createFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingAggregator",
+  iam: { actions: ["securityhub:CreateFindingAggregator"] },
   telemetry: TELEMETRY,
   span: "CreateFindingAggregator",
 }));
@@ -8964,6 +9033,7 @@ export const createInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInsight",
+  iam: { actions: ["securityhub:CreateInsight"] },
   telemetry: TELEMETRY,
   span: "CreateInsight",
 }));
@@ -9030,6 +9100,7 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  iam: { actions: ["securityhub:CreateMembers"] },
   telemetry: TELEMETRY,
   span: "CreateMembers",
 }));
@@ -9064,6 +9135,7 @@ export const createTicketV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTicketV2",
+  iam: { actions: ["securityhub:CreateTicketV2"] },
   telemetry: TELEMETRY,
   span: "CreateTicketV2",
 }));
@@ -9103,6 +9175,7 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  iam: { actions: ["securityhub:DeclineInvitations"] },
   telemetry: TELEMETRY,
   span: "DeclineInvitations",
 }));
@@ -9136,6 +9209,7 @@ export const deleteActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActionTarget",
+  iam: { actions: ["securityhub:DeleteActionTarget"] },
   telemetry: TELEMETRY,
   span: "DeleteActionTarget",
 }));
@@ -9170,6 +9244,14 @@ export const deleteAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregatorV2",
+  iam: {
+    actions: ["securityhub:DeleteAggregatorV2"],
+    resources: {
+      "securityhub:DeleteAggregatorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:aggregatorv2/${AggregatorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAggregatorV2",
 }));
@@ -9204,6 +9286,14 @@ export const deleteAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRuleV2",
+  iam: {
+    actions: ["securityhub:DeleteAutomationRuleV2"],
+    resources: {
+      "securityhub:DeleteAutomationRuleV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rulev2/${AutomationRuleV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomationRuleV2",
 }));
@@ -9242,6 +9332,14 @@ export const deleteConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationPolicy",
+  iam: {
+    actions: ["securityhub:DeleteConfigurationPolicy"],
+    resources: {
+      "securityhub:DeleteConfigurationPolicy": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:configuration-policy/${ConfigurationPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationPolicy",
 }));
@@ -9278,6 +9376,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["securityhub:DeleteConnector"],
+    resources: {
+      "securityhub:DeleteConnector": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -9312,6 +9418,14 @@ export const deleteConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorV2",
+  iam: {
+    actions: ["securityhub:DeleteConnectorV2"],
+    resources: {
+      "securityhub:DeleteConnectorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connectorv2/${ConnectorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectorV2",
 }));
@@ -9352,6 +9466,14 @@ export const deleteFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingAggregator",
+  iam: {
+    actions: ["securityhub:DeleteFindingAggregator"],
+    resources: {
+      "securityhub:DeleteFindingAggregator": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:finding-aggregator/${FindingAggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFindingAggregator",
 }));
@@ -9384,6 +9506,7 @@ export const deleteInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
+  iam: { actions: ["securityhub:DeleteInsight"] },
   telemetry: TELEMETRY,
   span: "DeleteInsight",
 }));
@@ -9425,6 +9548,7 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  iam: { actions: ["securityhub:DeleteInvitations"] },
   telemetry: TELEMETRY,
   span: "DeleteInvitations",
 }));
@@ -9460,6 +9584,7 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  iam: { actions: ["securityhub:DeleteMembers"] },
   telemetry: TELEMETRY,
   span: "DeleteMembers",
 }));
@@ -9497,6 +9622,7 @@ export const describeActionTargets: API.PaginatedOperationMethod<
     items: "ActionTargets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:DescribeActionTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeActionTargets",
 })) as any;
@@ -9530,6 +9656,7 @@ export const describeHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHub",
+  iam: { actions: ["securityhub:DescribeHub"] },
   telemetry: TELEMETRY,
   span: "DescribeHub",
 }));
@@ -9561,6 +9688,7 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  iam: { actions: ["securityhub:DescribeOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 }));
@@ -9604,6 +9732,7 @@ export const describeProducts: API.PaginatedOperationMethod<
     items: "Products",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:DescribeProducts"] },
   telemetry: TELEMETRY,
   span: "DescribeProducts",
 })) as any;
@@ -9643,6 +9772,7 @@ export const describeProductsV2: API.PaginatedOperationMethod<
     items: "ProductsV2",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:DescribeProductsV2"] },
   telemetry: TELEMETRY,
   span: "DescribeProductsV2",
 })) as any;
@@ -9673,6 +9803,7 @@ export const describeSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityHubV2",
+  iam: { actions: ["securityhub:DescribeSecurityHubV2"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityHubV2",
 }));
@@ -9706,6 +9837,7 @@ export const describeStandards: API.PaginatedOperationMethod<
     items: "Standards",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:DescribeStandards"] },
   telemetry: TELEMETRY,
   span: "DescribeStandards",
 })) as any;
@@ -9748,6 +9880,7 @@ export const describeStandardsControls: API.PaginatedOperationMethod<
     items: "Controls",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:DescribeStandardsControls"] },
   telemetry: TELEMETRY,
   span: "DescribeStandardsControls",
 })) as any;
@@ -9781,6 +9914,7 @@ export const disableImportFindingsForProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImportFindingsForProduct",
+  iam: { actions: ["securityhub:DisableImportFindingsForProduct"] },
   telemetry: TELEMETRY,
   span: "DisableImportFindingsForProduct",
 }));
@@ -9814,6 +9948,7 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  iam: { actions: ["securityhub:DisableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationAdminAccount",
 }));
@@ -9856,6 +9991,7 @@ export const disableSecurityHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHub",
+  iam: { actions: ["securityhub:DisableSecurityHub"] },
   telemetry: TELEMETRY,
   span: "DisableSecurityHub",
 }));
@@ -9888,6 +10024,14 @@ export const disableSecurityHubFeatureV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubFeatureV2",
+  iam: {
+    actions: ["securityhub:DisableSecurityHubFeatureV2"],
+    resources: {
+      "securityhub:DisableSecurityHubFeatureV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableSecurityHubFeatureV2",
 }));
@@ -9918,6 +10062,7 @@ export const disableSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubV2",
+  iam: { actions: ["securityhub:DisableSecurityHubV2"] },
   telemetry: TELEMETRY,
   span: "DisableSecurityHubV2",
 }));
@@ -9955,6 +10100,7 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  iam: { actions: ["securityhub:DisassociateFromAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromAdministratorAccount",
 }));
@@ -9996,6 +10142,7 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  iam: { actions: ["securityhub:DisassociateFromMasterAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromMasterAccount",
 }));
@@ -10033,6 +10180,7 @@ export const disassociateMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembers",
+  iam: { actions: ["securityhub:DisassociateMembers"] },
   telemetry: TELEMETRY,
   span: "DisassociateMembers",
 }));
@@ -10069,6 +10217,7 @@ export const enableImportFindingsForProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImportFindingsForProduct",
+  iam: { actions: ["securityhub:EnableImportFindingsForProduct"] },
   telemetry: TELEMETRY,
   span: "EnableImportFindingsForProduct",
 }));
@@ -10102,6 +10251,7 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  iam: { actions: ["securityhub:EnableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableOrganizationAdminAccount",
 }));
@@ -10155,6 +10305,10 @@ export const enableSecurityHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHub",
+  iam: {
+    actions: ["securityhub:EnableSecurityHub", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "EnableSecurityHub",
 }));
@@ -10187,6 +10341,14 @@ export const enableSecurityHubFeatureV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubFeatureV2",
+  iam: {
+    actions: ["securityhub:EnableSecurityHubFeatureV2"],
+    resources: {
+      "securityhub:EnableSecurityHubFeatureV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableSecurityHubFeatureV2",
 }));
@@ -10217,6 +10379,10 @@ export const enableSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubV2",
+  iam: {
+    actions: ["securityhub:EnableSecurityHubV2", "securityhub:TagResource"],
+    conditional: { "securityhub:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "EnableSecurityHubV2",
 }));
@@ -10252,6 +10418,14 @@ export const generateRecommendedPolicyV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRecommendedPolicyV2",
+  iam: {
+    actions: ["securityhub:GenerateRecommendedPolicyV2"],
+    resources: {
+      "securityhub:GenerateRecommendedPolicyV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateRecommendedPolicyV2",
 }));
@@ -10287,6 +10461,7 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  iam: { actions: ["securityhub:GetAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "GetAdministratorAccount",
 }));
@@ -10321,6 +10496,14 @@ export const getAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregatorV2",
+  iam: {
+    actions: ["securityhub:GetAggregatorV2"],
+    resources: {
+      "securityhub:GetAggregatorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:aggregatorv2/${AggregatorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregatorV2",
 }));
@@ -10355,6 +10538,14 @@ export const getAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRuleV2",
+  iam: {
+    actions: ["securityhub:GetAutomationRuleV2"],
+    resources: {
+      "securityhub:GetAutomationRuleV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rulev2/${AutomationRuleV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomationRuleV2",
 }));
@@ -10390,6 +10581,14 @@ export const getConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicy",
+  iam: {
+    actions: ["securityhub:GetConfigurationPolicy"],
+    resources: {
+      "securityhub:GetConfigurationPolicy": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:configuration-policy/${ConfigurationPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationPolicy",
 }));
@@ -10426,6 +10625,7 @@ export const getConfigurationPolicyAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicyAssociation",
+  iam: { actions: ["securityhub:GetConfigurationPolicyAssociation"] },
   telemetry: TELEMETRY,
   span: "GetConfigurationPolicyAssociation",
 }));
@@ -10462,6 +10662,14 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  iam: {
+    actions: ["securityhub:GetConnector"],
+    resources: {
+      "securityhub:GetConnector": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnector",
 }));
@@ -10496,6 +10704,14 @@ export const getConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorV2",
+  iam: {
+    actions: ["securityhub:GetConnectorV2"],
+    resources: {
+      "securityhub:GetConnectorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connectorv2/${ConnectorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnectorV2",
 }));
@@ -10533,6 +10749,7 @@ export const getEnabledStandards: API.PaginatedOperationMethod<
     items: "StandardsSubscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetEnabledStandards"] },
   telemetry: TELEMETRY,
   span: "GetEnabledStandards",
 })) as any;
@@ -10567,6 +10784,7 @@ export const getExportJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJobV2",
+  iam: { actions: ["securityhub:GetExportJobV2"] },
   telemetry: TELEMETRY,
   span: "GetExportJobV2",
 }));
@@ -10604,6 +10822,14 @@ export const getFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingAggregator",
+  iam: {
+    actions: ["securityhub:GetFindingAggregator"],
+    resources: {
+      "securityhub:GetFindingAggregator": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:finding-aggregator/${FindingAggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFindingAggregator",
 }));
@@ -10649,6 +10875,7 @@ export const getFindingHistory: API.PaginatedOperationMethod<
     items: "Records",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetFindingHistory"] },
   telemetry: TELEMETRY,
   span: "GetFindingHistory",
 })) as any;
@@ -10688,6 +10915,7 @@ export const getFindings: API.PaginatedOperationMethod<
     items: "Findings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetFindings"] },
   telemetry: TELEMETRY,
   span: "GetFindings",
 })) as any;
@@ -10729,6 +10957,7 @@ export const getFindingStatisticsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatisticsV2",
+  iam: { actions: ["securityhub:GetAdhocInsightResults"] },
   telemetry: TELEMETRY,
   span: "GetFindingStatisticsV2",
 }));
@@ -10766,6 +10995,7 @@ export const getFindingsTrendsV2: API.PaginatedOperationMethod<
     items: "TrendsMetrics",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetFindingsTrendsV2"] },
   telemetry: TELEMETRY,
   span: "GetFindingsTrendsV2",
 })) as any;
@@ -10816,6 +11046,7 @@ export const getFindingsV2: API.PaginatedOperationMethod<
     items: "Findings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetFindings"] },
   telemetry: TELEMETRY,
   span: "GetFindingsV2",
 })) as any;
@@ -10848,6 +11079,7 @@ export const getInsightResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightResults",
+  iam: { actions: ["securityhub:GetInsightResults"] },
   telemetry: TELEMETRY,
   span: "GetInsightResults",
 }));
@@ -10887,6 +11119,7 @@ export const getInsights: API.PaginatedOperationMethod<
     items: "Insights",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetInsights"] },
   telemetry: TELEMETRY,
   span: "GetInsights",
 })) as any;
@@ -10922,6 +11155,7 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  iam: { actions: ["securityhub:GetInvitationsCount"] },
   telemetry: TELEMETRY,
   span: "GetInvitationsCount",
 }));
@@ -10961,6 +11195,7 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  iam: { actions: ["securityhub:GetMasterAccount"] },
   telemetry: TELEMETRY,
   span: "GetMasterAccount",
 }));
@@ -10999,6 +11234,7 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  iam: { actions: ["securityhub:GetMembers"] },
   telemetry: TELEMETRY,
   span: "GetMembers",
 }));
@@ -11041,6 +11277,14 @@ export const getRecommendedPolicyV2: API.PaginatedOperationMethod<
     items: "RecommendationSteps",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["securityhub:GetRecommendedPolicyV2"],
+    resources: {
+      "securityhub:GetRecommendedPolicyV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendedPolicyV2",
 })) as any;
@@ -11083,6 +11327,14 @@ export const getRemediationsV2: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["securityhub:GetRemediationsV2"],
+    resources: {
+      "securityhub:GetRemediationsV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRemediationsV2",
 })) as any;
@@ -11125,6 +11377,7 @@ export const getResourcesStatisticsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesStatisticsV2",
+  iam: { actions: ["securityhub:GetResourcesStatisticsV2"] },
   telemetry: TELEMETRY,
   span: "GetResourcesStatisticsV2",
 }));
@@ -11162,6 +11415,7 @@ export const getResourcesTrendsV2: API.PaginatedOperationMethod<
     items: "TrendsMetrics",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetResourcesTrendsV2"] },
   telemetry: TELEMETRY,
   span: "GetResourcesTrendsV2",
 })) as any;
@@ -11215,6 +11469,7 @@ export const getResourcesV2: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetResourcesV2"] },
   telemetry: TELEMETRY,
   span: "GetResourcesV2",
 })) as any;
@@ -11247,6 +11502,7 @@ export const getSecurityControlDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityControlDefinition",
+  iam: { actions: ["securityhub:GetSecurityControlDefinition"] },
   telemetry: TELEMETRY,
   span: "GetSecurityControlDefinition",
 }));
@@ -11296,6 +11552,7 @@ export const getSoftwareResourcesV2: API.PaginatedOperationMethod<
     items: "SoftwareResources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetSoftwareResourcesV2"] },
   telemetry: TELEMETRY,
   span: "GetSoftwareResourcesV2",
 })) as any;
@@ -11340,6 +11597,7 @@ export const getSoftwareStatisticsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareStatisticsV2",
+  iam: { actions: ["securityhub:GetSoftwareStatisticsV2"] },
   telemetry: TELEMETRY,
   span: "GetSoftwareStatisticsV2",
 }));
@@ -11391,6 +11649,7 @@ export const getSoftwareV2: API.PaginatedOperationMethod<
     items: "Software",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:GetSoftwareV2"] },
   telemetry: TELEMETRY,
   span: "GetSoftwareV2",
 })) as any;
@@ -11436,6 +11695,7 @@ export const inviteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteMembers",
+  iam: { actions: ["securityhub:InviteMembers"] },
   telemetry: TELEMETRY,
   span: "InviteMembers",
 }));
@@ -11477,6 +11737,7 @@ export const listAggregatorsV2: API.PaginatedOperationMethod<
     items: "AggregatorsV2",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListAggregatorsV2"] },
   telemetry: TELEMETRY,
   span: "ListAggregatorsV2",
 })) as any;
@@ -11509,6 +11770,7 @@ export const listAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRules",
+  iam: { actions: ["securityhub:ListAutomationRules"] },
   telemetry: TELEMETRY,
   span: "ListAutomationRules",
 }));
@@ -11541,6 +11803,7 @@ export const listAutomationRulesV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRulesV2",
+  iam: { actions: ["securityhub:ListAutomationRulesV2"] },
   telemetry: TELEMETRY,
   span: "ListAutomationRulesV2",
 }));
@@ -11581,6 +11844,7 @@ export const listConfigurationPolicies: API.PaginatedOperationMethod<
     items: "ConfigurationPolicySummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListConfigurationPolicies"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationPolicies",
 })) as any;
@@ -11621,6 +11885,7 @@ export const listConfigurationPolicyAssociations: API.PaginatedOperationMethod<
     items: "ConfigurationPolicyAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListConfigurationPolicyAssociations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationPolicyAssociations",
 })) as any;
@@ -11657,6 +11922,7 @@ export const listConnectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectors",
+  iam: { actions: ["securityhub:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 }));
@@ -11691,6 +11957,7 @@ export const listConnectorsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorsV2",
+  iam: { actions: ["securityhub:ListConnectorsV2"] },
   telemetry: TELEMETRY,
   span: "ListConnectorsV2",
 }));
@@ -11723,6 +11990,7 @@ export const listEnabledProductsForImport: API.PaginatedOperationMethod<
     items: "ProductSubscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListEnabledProductsForImport"] },
   telemetry: TELEMETRY,
   span: "ListEnabledProductsForImport",
 })) as any;
@@ -11764,6 +12032,7 @@ export const listExportJobsV2: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListExportJobsV2"] },
   telemetry: TELEMETRY,
   span: "ListExportJobsV2",
 })) as any;
@@ -11804,6 +12073,14 @@ export const listExposuresByRemediationV2: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["securityhub:ListExposuresByRemediationV2"],
+    resources: {
+      "securityhub:ListExposuresByRemediationV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExposuresByRemediationV2",
 })) as any;
@@ -11844,6 +12121,7 @@ export const listFindingAggregators: API.PaginatedOperationMethod<
     items: "FindingAggregators",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListFindingAggregators"] },
   telemetry: TELEMETRY,
   span: "ListFindingAggregators",
 })) as any;
@@ -11883,6 +12161,14 @@ export const listFreeTrialStatusesV2: API.PaginatedOperationMethod<
     items: "AccountFreeTrialStatuses",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["securityhub:ListFreeTrialStatusesV2"],
+    resources: {
+      "securityhub:ListFreeTrialStatusesV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:hubv2/${HubV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFreeTrialStatusesV2",
 })) as any;
@@ -11927,6 +12213,7 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "Invitations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListInvitations"] },
   telemetry: TELEMETRY,
   span: "ListInvitations",
 })) as any;
@@ -11968,6 +12255,7 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListMembers"] },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -12006,6 +12294,7 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListOrganizationAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationAdminAccounts",
 })) as any;
@@ -12043,6 +12332,7 @@ export const listSecurityControlDefinitions: API.PaginatedOperationMethod<
     items: "SecurityControlDefinitions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListSecurityControlDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListSecurityControlDefinitions",
 })) as any;
@@ -12082,6 +12372,7 @@ export const listStandardsControlAssociations: API.PaginatedOperationMethod<
     items: "StandardsControlAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["securityhub:ListStandardsControlAssociations"] },
   telemetry: TELEMETRY,
   span: "ListStandardsControlAssociations",
 })) as any;
@@ -12106,6 +12397,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["securityhub:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -12176,6 +12468,7 @@ export const startConfigurationPolicyAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyAssociation",
+  iam: { actions: ["securityhub:StartConfigurationPolicyAssociation"] },
   telemetry: TELEMETRY,
   span: "StartConfigurationPolicyAssociation",
 }));
@@ -12214,6 +12507,7 @@ export const startConfigurationPolicyDisassociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyDisassociation",
+  iam: { actions: ["securityhub:StartConfigurationPolicyDisassociation"] },
   telemetry: TELEMETRY,
   span: "StartConfigurationPolicyDisassociation",
 }));
@@ -12262,6 +12556,7 @@ export const startExportJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportJobV2",
+  iam: { actions: ["securityhub:GetFindings", "securityhub:StartExportJobV2"] },
   telemetry: TELEMETRY,
   span: "StartExportJobV2",
 }));
@@ -12286,6 +12581,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["securityhub:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -12310,6 +12606,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["securityhub:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -12340,6 +12637,7 @@ export const updateActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionTarget",
+  iam: { actions: ["securityhub:UpdateActionTarget"] },
   telemetry: TELEMETRY,
   span: "UpdateActionTarget",
 }));
@@ -12374,6 +12672,14 @@ export const updateAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAggregatorV2",
+  iam: {
+    actions: ["securityhub:UpdateAggregatorV2"],
+    resources: {
+      "securityhub:UpdateAggregatorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:aggregatorv2/${AggregatorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAggregatorV2",
 }));
@@ -12408,6 +12714,14 @@ export const updateAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRuleV2",
+  iam: {
+    actions: ["securityhub:UpdateAutomationRuleV2"],
+    resources: {
+      "securityhub:UpdateAutomationRuleV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:automation-rulev2/${AutomationRuleV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomationRuleV2",
 }));
@@ -12445,6 +12759,14 @@ export const updateConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationPolicy",
+  iam: {
+    actions: ["securityhub:UpdateConfigurationPolicy"],
+    resources: {
+      "securityhub:UpdateConfigurationPolicy": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:configuration-policy/${ConfigurationPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationPolicy",
 }));
@@ -12481,6 +12803,14 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["securityhub:UpdateConnector"],
+    resources: {
+      "securityhub:UpdateConnector": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -12515,6 +12845,14 @@ export const updateConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorV2",
+  iam: {
+    actions: ["securityhub:UpdateConnectorV2"],
+    resources: {
+      "securityhub:UpdateConnectorV2": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:connectorv2/${ConnectorV2Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectorV2",
 }));
@@ -12554,6 +12892,14 @@ export const updateFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingAggregator",
+  iam: {
+    actions: ["securityhub:UpdateFindingAggregator"],
+    resources: {
+      "securityhub:UpdateFindingAggregator": [
+        "arn:${Partition}:securityhub:${Region}:${Account}:finding-aggregator/${FindingAggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFindingAggregator",
 }));
@@ -12595,6 +12941,7 @@ export const updateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
+  iam: { actions: ["securityhub:UpdateFindings"] },
   telemetry: TELEMETRY,
   span: "UpdateFindings",
 }));
@@ -12627,6 +12974,7 @@ export const updateInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInsight",
+  iam: { actions: ["securityhub:UpdateInsight"] },
   telemetry: TELEMETRY,
   span: "UpdateInsight",
 }));
@@ -12664,6 +13012,7 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  iam: { actions: ["securityhub:UpdateOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));
@@ -12700,6 +13049,7 @@ export const updateSecurityControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityControl",
+  iam: { actions: ["securityhub:UpdateSecurityControl"] },
   telemetry: TELEMETRY,
   span: "UpdateSecurityControl",
 }));
@@ -12734,6 +13084,7 @@ export const updateSecurityHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityHubConfiguration",
+  iam: { actions: ["securityhub:UpdateSecurityHubConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateSecurityHubConfiguration",
 }));
@@ -12769,6 +13120,7 @@ export const updateStandardsControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStandardsControl",
+  iam: { actions: ["securityhub:UpdateStandardsControl"] },
   telemetry: TELEMETRY,
   span: "UpdateStandardsControl",
 }));

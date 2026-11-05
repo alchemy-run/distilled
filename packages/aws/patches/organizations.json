@@ -1,0 +1,45 @@
+{
+  "operations": {
+    "acceptHandshake": {
+      "iam": {
+        "reason": "organizations:LeaveOrganization: AWS lists it because accepting an invitation can move an account out of its current organization; not granted to a runtime. Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "remove": ["organizations:LeaveOrganization"],
+        "resources": {
+          "organizations:AcceptHandshake": "*"
+        }
+      }
+    },
+    "cancelHandshake": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "resources": {
+          "organizations:CancelHandshake": "*"
+        }
+      }
+    },
+    "declineHandshake": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "resources": {
+          "organizations:DeclineHandshake": "*"
+        }
+      }
+    },
+    "describeHandshake": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:handshake/o-*/*/h-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "resources": {
+          "organizations:DescribeHandshake": "*"
+        }
+      }
+    },
+    "listTargetsForPolicy": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:organizations::${Account}:policy/o-*/*/p-*), the call was denied live in the Organizations Bindings suite; the grant stays on *.",
+        "resources": {
+          "organizations:ListTargetsForPolicy": "*"
+        }
+      }
+    }
+  }
+}

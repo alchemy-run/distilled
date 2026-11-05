@@ -2920,6 +2920,16 @@ export const associateService: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:AssociateService", "iam:PassRole"],
+    resources: {
+      "aidevops:AssociateService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateService",
 }));
@@ -2953,6 +2963,15 @@ export const createAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:CreateAgentSpace", "aidevops:TagResource"],
+    resources: {
+      "aidevops:CreateAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+    conditional: { "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentSpace",
 }));
@@ -2986,6 +3005,14 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateAsset"],
+    resources: {
+      "aidevops:CreateAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAsset",
 }));
@@ -3023,6 +3050,14 @@ export const createAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateAssetFile"],
+    resources: {
+      "aidevops:CreateAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssetFile",
 }));
@@ -3058,6 +3093,14 @@ export const createBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateBacklogTask"],
+    resources: {
+      "aidevops:CreateBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBacklogTask",
 }));
@@ -3089,6 +3132,14 @@ export const createChat: API.OperationMethod<
   retry: Retry,
   operationName: "CreateChat",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateChat"],
+    resources: {
+      "aidevops:CreateChat": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChat",
 }));
@@ -3120,6 +3171,15 @@ export const createPrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:CreatePrivateConnection", "aidevops:TagResource"],
+    resources: {
+      "aidevops:CreatePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+    conditional: { "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePrivateConnection",
 }));
@@ -3155,6 +3215,14 @@ export const createTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateTrigger"],
+    resources: {
+      "aidevops:CreateTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrigger",
 }));
@@ -3186,6 +3254,14 @@ export const deleteAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeleteAgentSpace"],
+    resources: {
+      "aidevops:DeleteAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentSpace",
 }));
@@ -3221,6 +3297,14 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteAsset"],
+    resources: {
+      "aidevops:DeleteAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -3254,6 +3338,14 @@ export const deleteAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteAssetFile"],
+    resources: {
+      "aidevops:DeleteAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssetFile",
 }));
@@ -3285,6 +3377,14 @@ export const deletePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeletePrivateConnection"],
+    resources: {
+      "aidevops:DeletePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePrivateConnection",
 }));
@@ -3320,6 +3420,14 @@ export const deleteTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteTrigger"],
+    resources: {
+      "aidevops:DeleteTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrigger",
 }));
@@ -3351,6 +3459,14 @@ export const deregisterService: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeregisterService"],
+    resources: {
+      "aidevops:DeregisterService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterService",
 }));
@@ -3382,6 +3498,14 @@ export const describePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DescribePrivateConnection"],
+    resources: {
+      "aidevops:DescribePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePrivateConnection",
 }));
@@ -3407,6 +3531,14 @@ export const disableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "DisableOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DisableOperatorApp"],
+    resources: {
+      "aidevops:DisableOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableOperatorApp",
 }));
@@ -3432,6 +3564,15 @@ export const disassociateService: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DisassociateService"],
+    resources: {
+      "aidevops:DisassociateService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateService",
 }));
@@ -3457,6 +3598,15 @@ export const enableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "EnableOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:EnableOperatorApp", "iam:PassRole"],
+    resources: {
+      "aidevops:EnableOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableOperatorApp",
 }));
@@ -3490,6 +3640,7 @@ export const getAccountUsage: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccountUsage",
   endpointHostPrefix: "dp.",
+  iam: { actions: ["aidevops:GetAccountUsage"] },
   telemetry: TELEMETRY,
   span: "GetAccountUsage",
 }));
@@ -3515,6 +3666,14 @@ export const getAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "GetAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetAgentSpace"],
+    resources: {
+      "aidevops:GetAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentSpace",
 }));
@@ -3548,6 +3707,14 @@ export const getAsset: API.OperationMethod<
   retry: Retry,
   operationName: "GetAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAsset"],
+    resources: {
+      "aidevops:GetAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAsset",
 }));
@@ -3581,6 +3748,14 @@ export const getAssetContent: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetContent",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAssetContent"],
+    resources: {
+      "aidevops:GetAssetContent": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssetContent",
 }));
@@ -3614,6 +3789,14 @@ export const getAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAssetFile"],
+    resources: {
+      "aidevops:GetAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssetFile",
 }));
@@ -3639,6 +3822,15 @@ export const getAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssociation",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetAssociation"],
+    resources: {
+      "aidevops:GetAssociation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssociation",
 }));
@@ -3674,6 +3866,14 @@ export const getBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetBacklogTask"],
+    resources: {
+      "aidevops:GetBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBacklogTask",
 }));
@@ -3695,6 +3895,14 @@ export const getOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "GetOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetOperatorApp"],
+    resources: {
+      "aidevops:GetOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOperatorApp",
 }));
@@ -3728,6 +3936,14 @@ export const getRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "GetRecommendation",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetRecommendation"],
+    resources: {
+      "aidevops:GetRecommendation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendation",
 }));
@@ -3753,6 +3969,14 @@ export const getService: API.OperationMethod<
   retry: Retry,
   operationName: "GetService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetService"],
+    resources: {
+      "aidevops:GetService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -3786,6 +4010,14 @@ export const getTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "GetTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetTrigger"],
+    resources: {
+      "aidevops:GetTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrigger",
 }));
@@ -3814,6 +4046,7 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaces",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListAgentSpaces"] },
   telemetry: TELEMETRY,
   span: "ListAgentSpaces",
 })) as any;
@@ -3854,6 +4087,14 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssetFiles"],
+    resources: {
+      "aidevops:ListAssetFiles": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetFiles",
 })) as any;
@@ -3892,6 +4133,14 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssets"],
+    resources: {
+      "aidevops:ListAssets": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssets",
 })) as any;
@@ -3930,6 +4179,7 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListAssetTypes"] },
   telemetry: TELEMETRY,
   span: "ListAssetTypes",
 })) as any;
@@ -3970,6 +4220,14 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssetVersions"],
+    resources: {
+      "aidevops:ListAssetVersions": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetVersions",
 })) as any;
@@ -4002,6 +4260,14 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssociations"],
+    resources: {
+      "aidevops:ListAssociations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociations",
 })) as any;
@@ -4040,6 +4306,14 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListBacklogTasks"],
+    resources: {
+      "aidevops:ListBacklogTasks": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBacklogTasks",
 })) as any;
@@ -4071,6 +4345,14 @@ export const listChats: API.OperationMethod<
   retry: Retry,
   operationName: "ListChats",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListChats"],
+    resources: {
+      "aidevops:ListChats": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChats",
 }));
@@ -4111,6 +4393,14 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListExecutions"],
+    resources: {
+      "aidevops:ListExecutions": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -4149,6 +4439,14 @@ export const listGoals: API.PaginatedOperationMethod<
     items: "goals",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListGoals"],
+    resources: {
+      "aidevops:ListGoals": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGoals",
 })) as any;
@@ -4189,6 +4487,14 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListJournalRecords"],
+    resources: {
+      "aidevops:ListJournalRecords": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJournalRecords",
 })) as any;
@@ -4222,6 +4528,14 @@ export const listPendingMessages: API.OperationMethod<
   retry: Retry,
   operationName: "ListPendingMessages",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListPendingMessages"],
+    resources: {
+      "aidevops:ListPendingMessages": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPendingMessages",
 }));
@@ -4247,6 +4561,7 @@ export const listPrivateConnections: API.OperationMethod<
   retry: Retry,
   operationName: "ListPrivateConnections",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:ListPrivateConnections"] },
   telemetry: TELEMETRY,
   span: "ListPrivateConnections",
 }));
@@ -4278,6 +4593,14 @@ export const listRecommendations: API.OperationMethod<
   retry: Retry,
   operationName: "ListRecommendations",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListRecommendations"],
+    resources: {
+      "aidevops:ListRecommendations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 }));
@@ -4306,6 +4629,7 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -4337,6 +4661,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4377,6 +4702,14 @@ export const listTriggers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListTriggers"],
+    resources: {
+      "aidevops:ListTriggers": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTriggers",
 })) as any;
@@ -4402,6 +4735,15 @@ export const listWebhooks: API.OperationMethod<
   retry: Retry,
   operationName: "ListWebhooks",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:ListWebhooks"],
+    resources: {
+      "aidevops:ListWebhooks": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebhooks",
 }));
@@ -4433,6 +4775,16 @@ export const registerService: API.OperationMethod<
   retry: Retry,
   operationName: "RegisterService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["iam:PassRole", "aidevops:RegisterService", "aidevops:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aidevops:RegisterService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterService",
 }));
@@ -4468,6 +4820,14 @@ export const sendMessage: API.OperationMethod<
   retry: Retry,
   operationName: "SendMessage",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:SendMessage"],
+    resources: {
+      "aidevops:SendMessage": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendMessage",
 }));
@@ -4499,6 +4859,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4530,6 +4891,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4561,6 +4923,14 @@ export const updateAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdateAgentSpace"],
+    resources: {
+      "aidevops:UpdateAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentSpace",
 }));
@@ -4598,6 +4968,14 @@ export const updateApprovalAction: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateApprovalAction",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateApprovalAction"],
+    resources: {
+      "aidevops:UpdateApprovalAction": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApprovalAction",
 }));
@@ -4633,6 +5011,14 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateAsset"],
+    resources: {
+      "aidevops:UpdateAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAsset",
 }));
@@ -4670,6 +5056,14 @@ export const updateAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateAssetFile"],
+    resources: {
+      "aidevops:UpdateAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssetFile",
 }));
@@ -4703,6 +5097,17 @@ export const updateAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssociation",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["iam:PassRole", "aidevops:UpdateAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aidevops:UpdateAssociation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssociation",
 }));
@@ -4738,6 +5143,14 @@ export const updateBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateBacklogTask"],
+    resources: {
+      "aidevops:UpdateBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBacklogTask",
 }));
@@ -4773,6 +5186,14 @@ export const updateGoal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGoal",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateGoal"],
+    resources: {
+      "aidevops:UpdateGoal": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGoal",
 }));
@@ -4798,6 +5219,14 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdateOperatorAppIdpConfig"],
+    resources: {
+      "aidevops:UpdateOperatorAppIdpConfig": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOperatorAppIdpConfig",
 }));
@@ -4829,6 +5258,14 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdatePrivateConnectionCertificate"],
+    resources: {
+      "aidevops:UpdatePrivateConnectionCertificate": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePrivateConnectionCertificate",
 }));
@@ -4864,6 +5301,14 @@ export const updateRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRecommendation",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateRecommendation"],
+    resources: {
+      "aidevops:UpdateRecommendation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecommendation",
 }));
@@ -4897,6 +5342,14 @@ export const updateTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateTrigger"],
+    resources: {
+      "aidevops:UpdateTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrigger",
 }));
@@ -4922,6 +5375,14 @@ export const validateAwsAssociations: API.OperationMethod<
   retry: Retry,
   operationName: "ValidateAwsAssociations",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:ValidateAwsAssociations"],
+    resources: {
+      "aidevops:ValidateAwsAssociations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateAwsAssociations",
 }));

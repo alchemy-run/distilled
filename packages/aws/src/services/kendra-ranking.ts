@@ -315,6 +315,10 @@ export const createRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRescoreExecutionPlan",
+  iam: {
+    actions: ["kendra-ranking:CreateRescoreExecutionPlan", "kendra-ranking:TagResource"],
+    conditional: { "kendra-ranking:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRescoreExecutionPlan",
 }));
@@ -351,6 +355,14 @@ export const deleteRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRescoreExecutionPlan",
+  iam: {
+    actions: ["kendra-ranking:DeleteRescoreExecutionPlan"],
+    resources: {
+      "kendra-ranking:DeleteRescoreExecutionPlan": [
+        "arn:${Partition}:kendra-ranking:${Region}:${Account}:rescore-execution-plan/${RescoreExecutionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRescoreExecutionPlan",
 }));
@@ -385,6 +397,14 @@ export const describeRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRescoreExecutionPlan",
+  iam: {
+    actions: ["kendra-ranking:DescribeRescoreExecutionPlan"],
+    resources: {
+      "kendra-ranking:DescribeRescoreExecutionPlan": [
+        "arn:${Partition}:kendra-ranking:${Region}:${Account}:rescore-execution-plan/${RescoreExecutionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRescoreExecutionPlan",
 }));
@@ -423,6 +443,7 @@ export const listRescoreExecutionPlans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kendra-ranking:ListRescoreExecutionPlans"] },
   telemetry: TELEMETRY,
   span: "ListRescoreExecutionPlans",
 })) as any;
@@ -457,6 +478,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["kendra-ranking:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: { op: "ListTagsForResource", template: false },
 }));
@@ -494,6 +516,14 @@ export const rescore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Rescore",
+  iam: {
+    actions: ["kendra-ranking:Rescore"],
+    resources: {
+      "kendra-ranking:Rescore": [
+        "arn:${Partition}:kendra-ranking:${Region}:${Account}:rescore-execution-plan/${RescoreExecutionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Rescore",
 }));
@@ -530,6 +560,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["kendra-ranking:TagResource"] },
   telemetry: TELEMETRY,
   span: { op: "TagResource", template: false },
 }));
@@ -565,6 +596,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["kendra-ranking:UntagResource"] },
   telemetry: TELEMETRY,
   span: { op: "UntagResource", template: false },
 }));
@@ -606,6 +638,14 @@ export const updateRescoreExecutionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRescoreExecutionPlan",
+  iam: {
+    actions: ["kendra-ranking:UpdateRescoreExecutionPlan"],
+    resources: {
+      "kendra-ranking:UpdateRescoreExecutionPlan": [
+        "arn:${Partition}:kendra-ranking:${Region}:${Account}:rescore-execution-plan/${RescoreExecutionPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRescoreExecutionPlan",
 }));

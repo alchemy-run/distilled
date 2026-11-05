@@ -875,6 +875,15 @@ export const createPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipe",
+  iam: {
+    actions: ["pipes:CreatePipe", "iam:PassRole", "pipes:TagResource"],
+    resources: {
+      "pipes:CreatePipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "pipes:TagResource": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+    conditional: { "pipes:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePipe",
 }));
@@ -907,6 +916,10 @@ export const deletePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipe",
+  iam: {
+    actions: ["pipes:DeletePipe"],
+    resources: { "pipes:DeletePipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeletePipe",
 }));
@@ -932,6 +945,12 @@ export const describePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipe",
+  iam: {
+    actions: ["pipes:DescribePipe"],
+    resources: {
+      "pipes:DescribePipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePipe",
 }));
@@ -963,6 +982,7 @@ export const listPipes: API.PaginatedOperationMethod<
     items: "Pipes",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["pipes:ListPipes"] },
   telemetry: TELEMETRY,
   span: "ListPipes",
 })) as any;
@@ -987,6 +1007,12 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["pipes:ListTagsForResource"],
+    resources: {
+      "pipes:ListTagsForResource": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1019,6 +1045,10 @@ export const startPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipe",
+  iam: {
+    actions: ["pipes:StartPipe"],
+    resources: { "pipes:StartPipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"] },
+  },
   telemetry: TELEMETRY,
   span: "StartPipe",
 }));
@@ -1051,6 +1081,10 @@ export const stopPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipe",
+  iam: {
+    actions: ["pipes:StopPipe"],
+    resources: { "pipes:StopPipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"] },
+  },
   telemetry: TELEMETRY,
   span: "StopPipe",
 }));
@@ -1088,6 +1122,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["pipes:TagResource"],
+    resources: {
+      "pipes:TagResource": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1112,6 +1152,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["pipes:UntagResource"],
+    resources: {
+      "pipes:UntagResource": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1156,6 +1202,13 @@ export const updatePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipe",
+  iam: {
+    actions: ["iam:PassRole", "pipes:UpdatePipe"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "pipes:UpdatePipe": ["arn:${Partition}:pipes:${Region}:${Account}:pipe/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePipe",
 }));

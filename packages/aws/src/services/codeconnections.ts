@@ -620,6 +620,10 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: ["codeconnections:CreateConnection", "codeconnections:TagResource"],
+    conditional: { "codeconnections:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -646,6 +650,10 @@ export const createHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHost",
+  iam: {
+    actions: ["codeconnections:CreateHost", "codeconnections:TagResource"],
+    conditional: { "codeconnections:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateHost",
 }));
@@ -682,6 +690,26 @@ export const createRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryLink",
+  iam: {
+    actions: [
+      "codeconnections:CreateRepositoryLink",
+      "codeconnections:PassConnection",
+      "codeconnections:TagResource",
+      "codeconnections:UseConnection",
+    ],
+    resources: {
+      "codeconnections:CreateRepositoryLink": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "codeconnections:PassConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "codeconnections:UseConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+    conditional: { "codeconnections:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRepositoryLink",
 }));
@@ -720,6 +748,22 @@ export const createSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSyncConfiguration",
+  iam: {
+    actions: [
+      "codeconnections:CreateSyncConfiguration",
+      "codeconnections:PassRepository",
+      "iam:PassRole",
+    ],
+    resources: {
+      "codeconnections:CreateSyncConfiguration": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+      "codeconnections:PassRepository": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSyncConfiguration",
 }));
@@ -740,6 +784,14 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: {
+    actions: ["codeconnections:DeleteConnection"],
+    resources: {
+      "codeconnections:DeleteConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -765,6 +817,14 @@ export const deleteHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHost",
+  iam: {
+    actions: ["codeconnections:DeleteHost"],
+    resources: {
+      "codeconnections:DeleteHost": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHost",
 }));
@@ -803,6 +863,14 @@ export const deleteRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryLink",
+  iam: {
+    actions: ["codeconnections:DeleteRepositoryLink"],
+    resources: {
+      "codeconnections:DeleteRepositoryLink": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepositoryLink",
 }));
@@ -837,6 +905,7 @@ export const deleteSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
+  iam: { actions: ["codeconnections:DeleteSyncConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSyncConfiguration",
 }));
@@ -860,6 +929,14 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: {
+    actions: ["codeconnections:GetConnection"],
+    resources: {
+      "codeconnections:GetConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -881,6 +958,14 @@ export const getHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHost",
+  iam: {
+    actions: ["codeconnections:GetHost"],
+    resources: {
+      "codeconnections:GetHost": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHost",
 }));
@@ -916,6 +1001,14 @@ export const getRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryLink",
+  iam: {
+    actions: ["codeconnections:GetRepositoryLink"],
+    resources: {
+      "codeconnections:GetRepositoryLink": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryLink",
 }));
@@ -949,6 +1042,14 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
+  iam: {
+    actions: ["codeconnections:GetRepositorySyncStatus"],
+    resources: {
+      "codeconnections:GetRepositorySyncStatus": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositorySyncStatus",
 }));
@@ -982,6 +1083,7 @@ export const getResourceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
+  iam: { actions: ["codeconnections:GetResourceSyncStatus"] },
   telemetry: TELEMETRY,
   span: "GetResourceSyncStatus",
 }));
@@ -1014,6 +1116,7 @@ export const getSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
+  iam: { actions: ["codeconnections:GetSyncBlockerSummary"] },
   telemetry: TELEMETRY,
   span: "GetSyncBlockerSummary",
 }));
@@ -1046,6 +1149,7 @@ export const getSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
+  iam: { actions: ["codeconnections:GetSyncConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetSyncConfiguration",
 }));
@@ -1072,6 +1176,7 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeconnections:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -1098,6 +1203,7 @@ export const listHosts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeconnections:ListHosts"] },
   telemetry: TELEMETRY,
   span: "ListHosts",
 })) as any;
@@ -1138,6 +1244,7 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeconnections:ListRepositoryLinks"] },
   telemetry: TELEMETRY,
   span: "ListRepositoryLinks",
 })) as any;
@@ -1170,6 +1277,7 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
+  iam: { actions: ["codeconnections:ListRepositorySyncDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListRepositorySyncDefinitions",
 }));
@@ -1208,6 +1316,7 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeconnections:ListSyncConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSyncConfigurations",
 })) as any;
@@ -1228,6 +1337,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["codeconnections:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1249,6 +1359,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["codeconnections:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1269,6 +1380,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["codeconnections:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1299,6 +1411,14 @@ export const updateHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHost",
+  iam: {
+    actions: ["codeconnections:UpdateHost"],
+    resources: {
+      "codeconnections:UpdateHost": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:host/${HostId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHost",
 }));
@@ -1337,6 +1457,24 @@ export const updateRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryLink",
+  iam: {
+    actions: [
+      "codeconnections:PassConnection",
+      "codeconnections:UpdateRepositoryLink",
+      "codeconnections:UseConnection",
+    ],
+    resources: {
+      "codeconnections:PassConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "codeconnections:UpdateRepositoryLink": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+      "codeconnections:UseConnection": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRepositoryLink",
 }));
@@ -1373,6 +1511,7 @@ export const updateSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
+  iam: { actions: ["codeconnections:UpdateSyncBlocker"] },
   telemetry: TELEMETRY,
   span: "UpdateSyncBlocker",
 }));
@@ -1409,6 +1548,20 @@ export const updateSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncConfiguration",
+  iam: {
+    actions: [
+      "codeconnections:PassRepository",
+      "iam:PassRole",
+      "codeconnections:UpdateSyncConfiguration",
+    ],
+    resources: {
+      "codeconnections:PassRepository": [
+        "arn:${Partition}:codeconnections:${Region}:${Account}:repository-link/${RepositoryLinkId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSyncConfiguration",
 }));

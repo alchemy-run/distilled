@@ -1636,6 +1636,14 @@ export const addSourceIdentifierToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddSourceIdentifierToSubscription",
+  iam: {
+    actions: ["rds:AddSourceIdentifierToSubscription"],
+    resources: {
+      "rds:AddSourceIdentifierToSubscription": [
+        "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddSourceIdentifierToSubscription",
 }));
@@ -1663,6 +1671,7 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  iam: { actions: ["rds:AddTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -1688,6 +1697,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  iam: { actions: ["rds:ApplyPendingMaintenanceAction"] },
   telemetry: TELEMETRY,
   span: "ApplyPendingMaintenanceAction",
 }));
@@ -1716,6 +1726,15 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterParameterGroup",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CopyDBClusterParameterGroup"],
+    resources: {
+      "rds:CopyDBClusterParameterGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CopyDBClusterParameterGroup",
 }));
@@ -1761,6 +1780,15 @@ export const copyDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterSnapshot",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CopyDBClusterSnapshot"],
+    resources: {
+      "rds:CopyDBClusterSnapshot": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CopyDBClusterSnapshot",
 }));
@@ -1819,6 +1847,22 @@ export const createDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBCluster",
+  iam: {
+    actions: [
+      "rds:AddRoleToDBCluster",
+      "rds:AddTagsToResource",
+      "rds:CreateDBCluster",
+      "rds:CreateDBInstance",
+      "iam:PassRole",
+    ],
+    resources: {
+      "rds:AddRoleToDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDBCluster",
 }));
@@ -1861,6 +1905,15 @@ export const createDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterParameterGroup",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CreateDBClusterParameterGroup"],
+    resources: {
+      "rds:CreateDBClusterParameterGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDBClusterParameterGroup",
 }));
@@ -1893,6 +1946,16 @@ export const createDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterSnapshot",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CreateDBClusterSnapshot"],
+    resources: {
+      "rds:CreateDBClusterSnapshot": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDBClusterSnapshot",
 }));
@@ -1945,6 +2008,22 @@ export const createDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstance",
+  iam: {
+    actions: [
+      "rds:AddTagsToResource",
+      "rds:CreateDBInstance",
+      "rds:CreateTenantDatabase",
+      "iam:PassRole",
+    ],
+    resources: {
+      "rds:CreateTenantDatabase": [
+        "arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:tenant-database:${TenantResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDBInstance",
 }));
@@ -1978,6 +2057,15 @@ export const createDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSubnetGroup",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CreateDBSubnetGroup"],
+    resources: {
+      "rds:CreateDBSubnetGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:subgrp:${SubnetGroupName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDBSubnetGroup",
 }));
@@ -2018,6 +2106,15 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CreateEventSubscription"],
+    resources: {
+      "rds:CreateEventSubscription": [
+        "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}",
+      ],
+    },
+    conditional: { "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventSubscription",
 }));
@@ -2054,6 +2151,15 @@ export const createGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalCluster",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:CreateGlobalCluster"],
+    resources: {
+      "rds:CreateGlobalCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGlobalCluster",
 }));
@@ -2086,6 +2192,25 @@ export const deleteDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBCluster",
+  iam: {
+    actions: [
+      "rds:AddTagsToResource",
+      "rds:CreateDBClusterSnapshot",
+      "rds:DeleteDBCluster",
+      "rds:DeleteDBInstance",
+    ],
+    resources: {
+      "rds:CreateDBClusterSnapshot": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+      "rds:DeleteDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+      "rds:DeleteDBInstance": ["arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDBCluster",
 }));
@@ -2109,6 +2234,14 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterParameterGroup",
+  iam: {
+    actions: ["rds:DeleteDBClusterParameterGroup"],
+    resources: {
+      "rds:DeleteDBClusterParameterGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDBClusterParameterGroup",
 }));
@@ -2134,6 +2267,14 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterSnapshot",
+  iam: {
+    actions: ["rds:DeleteDBClusterSnapshot"],
+    resources: {
+      "rds:DeleteDBClusterSnapshot": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDBClusterSnapshot",
 }));
@@ -2166,6 +2307,25 @@ export const deleteDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstance",
+  iam: {
+    actions: [
+      "rds:AddTagsToResource",
+      "rds:CreateDBSnapshot",
+      "rds:DeleteDBInstance",
+      "rds:DeleteTenantDatabase",
+    ],
+    resources: {
+      "rds:CreateDBSnapshot": [
+        "arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:snapshot:${SnapshotName}",
+      ],
+      "rds:DeleteDBInstance": ["arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}"],
+      "rds:DeleteTenantDatabase": [
+        "arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}",
+        "arn:${Partition}:rds:${Region}:${Account}:tenant-database:${TenantResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDBInstance",
 }));
@@ -2193,6 +2353,14 @@ export const deleteDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSubnetGroup",
+  iam: {
+    actions: ["rds:DeleteDBSubnetGroup"],
+    resources: {
+      "rds:DeleteDBSubnetGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:subgrp:${SubnetGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDBSubnetGroup",
 }));
@@ -2216,6 +2384,14 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
+  iam: {
+    actions: ["rds:DeleteEventSubscription"],
+    resources: {
+      "rds:DeleteEventSubscription": [
+        "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventSubscription",
 }));
@@ -2241,6 +2417,14 @@ export const deleteGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalCluster",
+  iam: {
+    actions: ["rds:DeleteGlobalCluster"],
+    resources: {
+      "rds:DeleteGlobalCluster": [
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGlobalCluster",
 }));
@@ -2268,6 +2452,7 @@ export const describeCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeCertificates"] },
   telemetry: TELEMETRY,
   span: "DescribeCertificates",
 })) as any;
@@ -2295,6 +2480,7 @@ export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
     items: "DBClusterParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBClusterParameterGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeDBClusterParameterGroups",
 })) as any;
@@ -2323,6 +2509,14 @@ export const describeDBClusterParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  iam: {
+    actions: ["rds:DescribeDBClusterParameters"],
+    resources: {
+      "rds:DescribeDBClusterParameters": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDBClusterParameters",
 })) as any;
@@ -2355,6 +2549,7 @@ export const describeDBClusters: API.PaginatedOperationMethod<
     items: "DBClusters",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBClusters"] },
   telemetry: TELEMETRY,
   span: "DescribeDBClusters",
 })) as any;
@@ -2381,6 +2576,14 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterSnapshotAttributes",
+  iam: {
+    actions: ["rds:DescribeDBClusterSnapshotAttributes"],
+    resources: {
+      "rds:DescribeDBClusterSnapshotAttributes": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDBClusterSnapshotAttributes",
 }));
@@ -2408,6 +2611,7 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
     items: "DBClusterSnapshots",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBClusterSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeDBClusterSnapshots",
 })) as any;
@@ -2435,6 +2639,7 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
     items: "DBEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBEngineVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeDBEngineVersions",
 })) as any;
@@ -2462,6 +2667,7 @@ export const describeDBInstances: API.PaginatedOperationMethod<
     items: "DBInstances",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeDBInstances",
 })) as any;
@@ -2490,6 +2696,7 @@ export const describeDBSubnetGroups: API.PaginatedOperationMethod<
     items: "DBSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeDBSubnetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeDBSubnetGroups",
 })) as any;
@@ -2511,6 +2718,7 @@ export const describeEngineDefaultClusterParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngineDefaultClusterParameters",
+  iam: { actions: ["rds:DescribeEngineDefaultClusterParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeEngineDefaultClusterParameters",
 }));
@@ -2532,6 +2740,7 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
+  iam: { actions: ["rds:DescribeEventCategories"] },
   telemetry: TELEMETRY,
   span: "DescribeEventCategories",
 }));
@@ -2559,6 +2768,7 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -2588,6 +2798,7 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
     items: "EventSubscriptionsList",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeEventSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeEventSubscriptions",
 })) as any;
@@ -2617,6 +2828,7 @@ export const describeGlobalClusters: API.PaginatedOperationMethod<
     items: "GlobalClusters",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeGlobalClusters"] },
   telemetry: TELEMETRY,
   span: "DescribeGlobalClusters",
 })) as any;
@@ -2644,6 +2856,7 @@ export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
     items: "OrderableDBInstanceOptions",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribeOrderableDBInstanceOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeOrderableDBInstanceOptions",
 })) as any;
@@ -2672,6 +2885,7 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "PendingMaintenanceActions",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["rds:DescribePendingMaintenanceActions"] },
   telemetry: TELEMETRY,
   span: "DescribePendingMaintenanceActions",
 })) as any;
@@ -2727,6 +2941,7 @@ export const failoverDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverDBCluster",
+  iam: { actions: ["rds:FailoverDBCluster"] },
   telemetry: TELEMETRY,
   span: "FailoverDBCluster",
 }));
@@ -2761,6 +2976,15 @@ export const failoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalCluster",
+  iam: {
+    actions: ["rds:FailoverGlobalCluster"],
+    resources: {
+      "rds:FailoverGlobalCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "FailoverGlobalCluster",
 }));
@@ -2785,6 +3009,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["rds:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2833,6 +3058,11 @@ export const modifyDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBCluster",
+  iam: {
+    actions: ["rds:ModifyDBCluster", "rds:ModifyDBInstance", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "ModifyDBCluster",
 }));
@@ -2872,6 +3102,14 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterParameterGroup",
+  iam: {
+    actions: ["rds:ModifyDBClusterParameterGroup"],
+    resources: {
+      "rds:ModifyDBClusterParameterGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyDBClusterParameterGroup",
 }));
@@ -2902,6 +3140,14 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterSnapshotAttribute",
+  iam: {
+    actions: ["rds:ModifyDBClusterSnapshotAttribute"],
+    resources: {
+      "rds:ModifyDBClusterSnapshotAttribute": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyDBClusterSnapshotAttribute",
 }));
@@ -2950,6 +3196,11 @@ export const modifyDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBInstance",
+  iam: {
+    actions: ["rds:AddTagsToResource", "rds:ModifyDBInstance", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "ModifyDBInstance",
 }));
@@ -2982,6 +3233,14 @@ export const modifyDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSubnetGroup",
+  iam: {
+    actions: ["rds:ModifyDBSubnetGroup"],
+    resources: {
+      "rds:ModifyDBSubnetGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:subgrp:${SubnetGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyDBSubnetGroup",
 }));
@@ -3016,6 +3275,14 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
+  iam: {
+    actions: ["rds:ModifyEventSubscription"],
+    resources: {
+      "rds:ModifyEventSubscription": [
+        "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyEventSubscription",
 }));
@@ -3041,6 +3308,14 @@ export const modifyGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalCluster",
+  iam: {
+    actions: ["rds:ModifyGlobalCluster"],
+    resources: {
+      "rds:ModifyGlobalCluster": [
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyGlobalCluster",
 }));
@@ -3071,6 +3346,12 @@ export const rebootDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBInstance",
+  iam: {
+    actions: ["rds:RebootDBInstance"],
+    resources: {
+      "rds:RebootDBInstance": ["arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootDBInstance",
 }));
@@ -3097,6 +3378,15 @@ export const removeFromGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFromGlobalCluster",
+  iam: {
+    actions: ["rds:RemoveFromGlobalCluster"],
+    resources: {
+      "rds:RemoveFromGlobalCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveFromGlobalCluster",
 }));
@@ -3121,6 +3411,14 @@ export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceIdentifierFromSubscription",
+  iam: {
+    actions: ["rds:RemoveSourceIdentifierFromSubscription"],
+    resources: {
+      "rds:RemoveSourceIdentifierFromSubscription": [
+        "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveSourceIdentifierFromSubscription",
 }));
@@ -3145,6 +3443,7 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  iam: { actions: ["rds:RemoveTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -3176,6 +3475,14 @@ export const resetDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBClusterParameterGroup",
+  iam: {
+    actions: ["rds:ResetDBClusterParameterGroup"],
+    resources: {
+      "rds:ResetDBClusterParameterGroup": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetDBClusterParameterGroup",
 }));
@@ -3232,6 +3539,22 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromSnapshot",
+  iam: {
+    actions: [
+      "rds:AddRoleToDBCluster",
+      "rds:AddTagsToResource",
+      "rds:CreateDBInstance",
+      "iam:PassRole",
+      "rds:RestoreDBClusterFromSnapshot",
+    ],
+    resources: {
+      "rds:AddRoleToDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RestoreDBClusterFromSnapshot",
 }));
@@ -3290,6 +3613,22 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterToPointInTime",
+  iam: {
+    actions: [
+      "rds:AddRoleToDBCluster",
+      "rds:AddTagsToResource",
+      "rds:CreateDBInstance",
+      "iam:PassRole",
+      "rds:RestoreDBClusterToPointInTime",
+    ],
+    resources: {
+      "rds:AddRoleToDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "rds:AddTagsToResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RestoreDBClusterToPointInTime",
 }));
@@ -3316,6 +3655,14 @@ export const startDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBCluster",
+  iam: {
+    actions: ["rds:StartDBCluster"],
+    resources: {
+      "rds:StartDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDBCluster",
 }));
@@ -3343,6 +3690,14 @@ export const stopDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBCluster",
+  iam: {
+    actions: ["rds:StopDBCluster"],
+    resources: {
+      "rds:StopDBCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDBCluster",
 }));
@@ -3373,6 +3728,15 @@ export const switchoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverGlobalCluster",
+  iam: {
+    actions: ["rds:SwitchoverGlobalCluster"],
+    resources: {
+      "rds:SwitchoverGlobalCluster": [
+        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
+        "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SwitchoverGlobalCluster",
 }));

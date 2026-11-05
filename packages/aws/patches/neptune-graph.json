@@ -1,0 +1,10 @@
+{
+  "operations": {
+    "getQuery": {
+      "iam": {
+        "reason": "Neptune Analytics authorizes GetQuery as neptune-graph:GetQueryStatus (Neptune Analytics API reference); not verified live.",
+        "actions": ["neptune-graph:GetQueryStatus"]
+      }
+    }
+  }
+}

@@ -2814,6 +2814,14 @@ export const acceptDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDelegationRequest",
+  iam: {
+    actions: ["iam:AcceptDelegationRequest"],
+    resources: {
+      "iam:AcceptDelegationRequest": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptDelegationRequest",
 }));
@@ -2864,6 +2872,30 @@ export const acquireRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcquireRole",
+  iam: {
+    actions: [
+      "iam:AttachRolePolicy",
+      "iam:CreateRole",
+      "iam:GetRole",
+      "iam:GetRoleTemplateVersion",
+      "iam:PutRolePermissionsBoundary",
+      "iam:PutRolePolicy",
+      "iam:TagRole",
+    ],
+    resources: {
+      "iam:AttachRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:CreateRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:GetRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:GetRoleTemplateVersion": [
+        "arn:${Partition}:iam::aws:role-template/${AWSServicePrincipal}/${RoleTemplateName}:${RoleTemplateMajorVersion}",
+      ],
+      "iam:PutRolePermissionsBoundary": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+      "iam:PutRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:TagRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcquireRole",
 }));
@@ -2900,6 +2932,14 @@ export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddClientIDToOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:AddClientIDToOpenIDConnectProvider"],
+    resources: {
+      "iam:AddClientIDToOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddClientIDToOpenIDConnectProvider",
 }));
@@ -2951,6 +2991,15 @@ export const addRoleToInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToInstanceProfile",
+  iam: {
+    actions: ["iam:AddRoleToInstanceProfile", "iam:PassRole"],
+    resources: {
+      "iam:AddRoleToInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddRoleToInstanceProfile",
 }));
@@ -2975,6 +3024,12 @@ export const addUserToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserToGroup",
+  iam: {
+    actions: ["iam:AddUserToGroup"],
+    resources: {
+      "iam:AddUserToGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddUserToGroup",
 }));
@@ -3024,6 +3079,14 @@ export const associateDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegationRequest",
+  iam: {
+    actions: ["iam:AssociateDelegationRequest"],
+    resources: {
+      "iam:AssociateDelegationRequest": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDelegationRequest",
 }));
@@ -3068,6 +3131,12 @@ export const attachGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachGroupPolicy",
+  iam: {
+    actions: ["iam:AttachGroupPolicy"],
+    resources: {
+      "iam:AttachGroupPolicy": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachGroupPolicy",
 }));
@@ -3123,6 +3192,12 @@ export const attachRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRolePolicy",
+  iam: {
+    actions: ["iam:AttachRolePolicy"],
+    resources: {
+      "iam:AttachRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachRolePolicy",
 }));
@@ -3167,6 +3242,12 @@ export const attachUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachUserPolicy",
+  iam: {
+    actions: ["iam:AttachUserPolicy"],
+    resources: {
+      "iam:AttachUserPolicy": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachUserPolicy",
 }));
@@ -3210,6 +3291,12 @@ export const changePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
+  iam: {
+    actions: ["iam:ChangePassword"],
+    resources: {
+      "iam:ChangePassword": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ChangePassword",
 }));
@@ -3248,6 +3335,12 @@ export const createAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessKey",
+  iam: {
+    actions: ["iam:CreateAccessKey"],
+    resources: {
+      "iam:CreateAccessKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessKey",
 }));
@@ -3281,6 +3374,7 @@ export const createAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAlias",
+  iam: { actions: ["iam:CreateAccountAlias"] },
   telemetry: TELEMETRY,
   span: "CreateAccountAlias",
 }));
@@ -3317,6 +3411,14 @@ export const createDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelegationRequest",
+  iam: {
+    actions: ["iam:CreateDelegationRequest"],
+    resources: {
+      "iam:CreateDelegationRequest": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDelegationRequest",
 }));
@@ -3350,6 +3452,12 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  iam: {
+    actions: ["iam:CreateGroup"],
+    resources: {
+      "iam:CreateGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -3387,6 +3495,18 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  iam: {
+    actions: ["iam:CreateInstanceProfile", "iam:TagInstanceProfile"],
+    resources: {
+      "iam:CreateInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+      "iam:TagInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+    conditional: { "iam:TagInstanceProfile": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceProfile",
 }));
@@ -3426,6 +3546,12 @@ export const createLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoginProfile",
+  iam: {
+    actions: ["iam:CreateLoginProfile"],
+    resources: {
+      "iam:CreateLoginProfile": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoginProfile",
 }));
@@ -3496,6 +3622,18 @@ export const createOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:CreateOpenIDConnectProvider", "iam:TagOpenIDConnectProvider"],
+    resources: {
+      "iam:CreateOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+      "iam:TagOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+    conditional: { "iam:TagOpenIDConnectProvider": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOpenIDConnectProvider",
 }));
@@ -3543,6 +3681,14 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["iam:CreatePolicy", "iam:TagPolicy"],
+    resources: {
+      "iam:CreatePolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+      "iam:TagPolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+    conditional: { "iam:TagPolicy": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -3584,6 +3730,12 @@ export const createPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyVersion",
+  iam: {
+    actions: ["iam:CreatePolicyVersion"],
+    resources: {
+      "iam:CreatePolicyVersion": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicyVersion",
 }));
@@ -3623,6 +3775,14 @@ export const createRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRole",
+  iam: {
+    actions: ["iam:CreateRole", "iam:TagRole"],
+    resources: {
+      "iam:CreateRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:TagRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:TagRole": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRole",
 }));
@@ -3674,6 +3834,16 @@ export const createSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSAMLProvider",
+  iam: {
+    actions: ["iam:CreateSAMLProvider", "iam:TagSAMLProvider"],
+    resources: {
+      "iam:CreateSAMLProvider": [
+        "arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}",
+      ],
+      "iam:TagSAMLProvider": ["arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}"],
+    },
+    conditional: { "iam:TagSAMLProvider": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSAMLProvider",
 }));
@@ -3713,6 +3883,13 @@ export const createServiceLinkedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedRole",
+  iam: {
+    actions: ["iam:CreateServiceLinkedRole", "iam:PutRolePolicy"],
+    resources: {
+      "iam:CreateServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:PutRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceLinkedRole",
 }));
@@ -3758,6 +3935,14 @@ export const createServiceSpecificCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSpecificCredential",
+  iam: {
+    actions: ["iam:CreateServiceSpecificCredential"],
+    resources: {
+      "iam:CreateServiceSpecificCredential": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateServiceSpecificCredential",
 }));
@@ -3795,6 +3980,14 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: {
+    actions: ["iam:CreateUser", "iam:TagUser"],
+    resources: {
+      "iam:CreateUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+      "iam:TagUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+    conditional: { "iam:TagUser": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -3840,6 +4033,14 @@ export const createVirtualMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualMFADevice",
+  iam: {
+    actions: ["iam:CreateVirtualMFADevice", "iam:TagMFADevice"],
+    resources: {
+      "iam:CreateVirtualMFADevice": ["arn:${Partition}:iam::${Account}:mfa/${MfaTokenIdWithPath}"],
+      "iam:TagMFADevice": ["arn:${Partition}:iam::${Account}:mfa/${MfaTokenIdWithPath}"],
+    },
+    conditional: { "iam:TagMFADevice": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualMFADevice",
 }));
@@ -3877,6 +4078,12 @@ export const deactivateMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMFADevice",
+  iam: {
+    actions: ["iam:DeactivateMFADevice"],
+    resources: {
+      "iam:DeactivateMFADevice": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeactivateMFADevice",
 }));
@@ -3906,6 +4113,12 @@ export const deleteAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessKey",
+  iam: {
+    actions: ["iam:DeleteAccessKey"],
+    resources: {
+      "iam:DeleteAccessKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessKey",
 }));
@@ -3939,6 +4152,7 @@ export const deleteAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
+  iam: { actions: ["iam:DeleteAccountAlias"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountAlias",
 }));
@@ -3963,6 +4177,7 @@ export const deleteAccountPasswordPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPasswordPolicy",
+  iam: { actions: ["iam:DeleteAccountPasswordPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountPasswordPolicy",
 }));
@@ -3994,6 +4209,12 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  iam: {
+    actions: ["iam:DeleteGroup"],
+    resources: {
+      "iam:DeleteGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -4024,6 +4245,12 @@ export const deleteGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupPolicy",
+  iam: {
+    actions: ["iam:DeleteGroupPolicy"],
+    resources: {
+      "iam:DeleteGroupPolicy": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGroupPolicy",
 }));
@@ -4063,6 +4290,14 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  iam: {
+    actions: ["iam:DeleteInstanceProfile"],
+    resources: {
+      "iam:DeleteInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceProfile",
 }));
@@ -4106,6 +4341,12 @@ export const deleteLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoginProfile",
+  iam: {
+    actions: ["iam:DeleteLoginProfile"],
+    resources: {
+      "iam:DeleteLoginProfile": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoginProfile",
 }));
@@ -4137,6 +4378,14 @@ export const deleteOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:DeleteOpenIDConnectProvider"],
+    resources: {
+      "iam:DeleteOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOpenIDConnectProvider",
 }));
@@ -4188,6 +4437,12 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["iam:DeletePolicy"],
+    resources: {
+      "iam:DeletePolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -4227,6 +4482,12 @@ export const deletePolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyVersion",
+  iam: {
+    actions: ["iam:DeletePolicyVersion"],
+    resources: {
+      "iam:DeletePolicyVersion": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyVersion",
 }));
@@ -4277,6 +4538,10 @@ export const deleteRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRole",
+  iam: {
+    actions: ["iam:DeleteRole"],
+    resources: { "iam:DeleteRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRole",
 }));
@@ -4307,6 +4572,14 @@ export const deleteRolePermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePermissionsBoundary",
+  iam: {
+    actions: ["iam:DeleteRolePermissionsBoundary"],
+    resources: {
+      "iam:DeleteRolePermissionsBoundary": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRolePermissionsBoundary",
 }));
@@ -4343,6 +4616,12 @@ export const deleteRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePolicy",
+  iam: {
+    actions: ["iam:DeleteRolePolicy"],
+    resources: {
+      "iam:DeleteRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRolePolicy",
 }));
@@ -4379,6 +4658,14 @@ export const deleteSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSAMLProvider",
+  iam: {
+    actions: ["iam:DeleteSAMLProvider"],
+    resources: {
+      "iam:DeleteSAMLProvider": [
+        "arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSAMLProvider",
 }));
@@ -4423,6 +4710,14 @@ export const deleteServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerCertificate",
+  iam: {
+    actions: ["iam:DeleteServerCertificate"],
+    resources: {
+      "iam:DeleteServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServerCertificate",
 }));
@@ -4465,6 +4760,12 @@ export const deleteServiceLinkedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedRole",
+  iam: {
+    actions: ["iam:DeleteServiceLinkedRole"],
+    resources: {
+      "iam:DeleteServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceLinkedRole",
 }));
@@ -4485,6 +4786,14 @@ export const deleteServiceSpecificCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSpecificCredential",
+  iam: {
+    actions: ["iam:DeleteServiceSpecificCredential"],
+    resources: {
+      "iam:DeleteServiceSpecificCredential": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceSpecificCredential",
 }));
@@ -4520,6 +4829,12 @@ export const deleteSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSigningCertificate",
+  iam: {
+    actions: ["iam:DeleteSigningCertificate"],
+    resources: {
+      "iam:DeleteSigningCertificate": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSigningCertificate",
 }));
@@ -4545,6 +4860,12 @@ export const deleteSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSSHPublicKey",
+  iam: {
+    actions: ["iam:DeleteSSHPublicKey"],
+    resources: {
+      "iam:DeleteSSHPublicKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSSHPublicKey",
 }));
@@ -4598,6 +4919,10 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: {
+    actions: ["iam:DeleteUser"],
+    resources: { "iam:DeleteUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -4624,6 +4949,14 @@ export const deleteUserPermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPermissionsBoundary",
+  iam: {
+    actions: ["iam:DeleteUserPermissionsBoundary"],
+    resources: {
+      "iam:DeleteUserPermissionsBoundary": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserPermissionsBoundary",
 }));
@@ -4654,6 +4987,12 @@ export const deleteUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPolicy",
+  iam: {
+    actions: ["iam:DeleteUserPolicy"],
+    resources: {
+      "iam:DeleteUserPolicy": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserPolicy",
 }));
@@ -4689,6 +5028,7 @@ export const deleteVirtualMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualMFADevice",
+  iam: { actions: ["iam:DeleteVirtualMFADevice"] },
   telemetry: TELEMETRY,
   span: "DeleteVirtualMFADevice",
 }));
@@ -4724,6 +5064,12 @@ export const detachGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachGroupPolicy",
+  iam: {
+    actions: ["iam:DetachGroupPolicy"],
+    resources: {
+      "iam:DetachGroupPolicy": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachGroupPolicy",
 }));
@@ -4761,6 +5107,12 @@ export const detachRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRolePolicy",
+  iam: {
+    actions: ["iam:DetachRolePolicy"],
+    resources: {
+      "iam:DetachRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachRolePolicy",
 }));
@@ -4796,6 +5148,12 @@ export const detachUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachUserPolicy",
+  iam: {
+    actions: ["iam:DetachUserPolicy"],
+    resources: {
+      "iam:DetachUserPolicy": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachUserPolicy",
 }));
@@ -4837,6 +5195,7 @@ export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootCredentialsManagement",
+  iam: { actions: ["iam:DisableOrganizationsRootCredentialsManagement"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationsRootCredentialsManagement",
 }));
@@ -4870,6 +5229,7 @@ export const disableOrganizationsRootSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootSessions",
+  iam: { actions: ["iam:DisableOrganizationsRootSessions"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationsRootSessions",
 }));
@@ -4892,6 +5252,7 @@ export const disableOutboundWebIdentityFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOutboundWebIdentityFederation",
+  iam: { actions: ["iam:DisableOutboundWebIdentityFederation"] },
   telemetry: TELEMETRY,
   span: "DisableOutboundWebIdentityFederation",
 }));
@@ -4930,6 +5291,12 @@ export const enableMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMFADevice",
+  iam: {
+    actions: ["iam:EnableMFADevice"],
+    resources: {
+      "iam:EnableMFADevice": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableMFADevice",
 }));
@@ -4982,6 +5349,7 @@ export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootCredentialsManagement",
+  iam: { actions: ["iam:EnableOrganizationsRootCredentialsManagement"] },
   telemetry: TELEMETRY,
   span: "EnableOrganizationsRootCredentialsManagement",
 }));
@@ -5025,6 +5393,7 @@ export const enableOrganizationsRootSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootSessions",
+  iam: { actions: ["iam:EnableOrganizationsRootSessions"] },
   telemetry: TELEMETRY,
   span: "EnableOrganizationsRootSessions",
 }));
@@ -5047,6 +5416,7 @@ export const enableOutboundWebIdentityFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOutboundWebIdentityFederation",
+  iam: { actions: ["iam:EnableOutboundWebIdentityFederation"] },
   telemetry: TELEMETRY,
   span: "EnableOutboundWebIdentityFederation",
 }));
@@ -5072,6 +5442,7 @@ export const generateCredentialReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateCredentialReport",
+  iam: { actions: ["iam:GenerateCredentialReport"] },
   telemetry: TELEMETRY,
   span: "GenerateCredentialReport",
 }));
@@ -5210,6 +5581,14 @@ export const generateOrganizationsAccessReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateOrganizationsAccessReport",
+  iam: {
+    actions: ["iam:GenerateOrganizationsAccessReport"],
+    resources: {
+      "iam:GenerateOrganizationsAccessReport": [
+        "arn:${Partition}:iam::${Account}:access-report/${EntityPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateOrganizationsAccessReport",
 }));
@@ -5284,6 +5663,17 @@ export const generateServiceLastAccessedDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateServiceLastAccessedDetails",
+  iam: {
+    actions: ["iam:GenerateServiceLastAccessedDetails"],
+    resources: {
+      "iam:GenerateServiceLastAccessedDetails": [
+        "arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}",
+        "arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}",
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateServiceLastAccessedDetails",
 }));
@@ -5306,6 +5696,12 @@ export const getAccessKeyLastUsed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyLastUsed",
+  iam: {
+    actions: ["iam:GetAccessKeyLastUsed"],
+    resources: {
+      "iam:GetAccessKeyLastUsed": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAccessKeyLastUsed",
 }));
@@ -5342,6 +5738,7 @@ export const getAccountAuthorizationDetails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetAccountAuthorizationDetails",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxItems" } as const,
+  iam: { actions: ["iam:GetAccountAuthorizationDetails"] },
   telemetry: TELEMETRY,
   span: "GetAccountAuthorizationDetails",
 })) as any;
@@ -5368,6 +5765,7 @@ export const getAccountPasswordPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPasswordPolicy",
+  iam: { actions: ["iam:GetAccountPasswordPolicy"] },
   telemetry: TELEMETRY,
   span: "GetAccountPasswordPolicy",
 }));
@@ -5397,6 +5795,7 @@ export const getAccountProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountProperties",
+  iam: { actions: ["iam:GetAccountProperties"] },
   telemetry: TELEMETRY,
   span: "GetAccountProperties",
 }));
@@ -5421,6 +5820,7 @@ export const getAccountSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSummary",
+  iam: { actions: ["iam:GetAccountSummary"] },
   telemetry: TELEMETRY,
   span: "GetAccountSummary",
 }));
@@ -5451,6 +5851,7 @@ export const getContextKeysForCustomPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForCustomPolicy",
+  iam: { actions: ["iam:GetContextKeysForCustomPolicy"] },
   telemetry: TELEMETRY,
   span: "GetContextKeysForCustomPolicy",
 }));
@@ -5493,6 +5894,7 @@ export const getContextKeysForPrincipalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForPrincipalPolicy",
+  iam: { actions: ["iam:GetContextKeysForPrincipalPolicy"] },
   telemetry: TELEMETRY,
   span: "GetContextKeysForPrincipalPolicy",
 }));
@@ -5525,6 +5927,7 @@ export const getCredentialReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialReport",
+  iam: { actions: ["iam:GetCredentialReport"] },
   telemetry: TELEMETRY,
   span: "GetCredentialReport",
 }));
@@ -5556,6 +5959,14 @@ export const getDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegationRequest",
+  iam: {
+    actions: ["iam:GetDelegationRequest"],
+    resources: {
+      "iam:GetDelegationRequest": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDelegationRequest",
 }));
@@ -5584,6 +5995,10 @@ export const getGroup: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:GetGroup"],
+    resources: { "iam:GetGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 })) as any;
@@ -5620,6 +6035,12 @@ export const getGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupPolicy",
+  iam: {
+    actions: ["iam:GetGroupPolicy"],
+    resources: {
+      "iam:GetGroupPolicy": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGroupPolicy",
 }));
@@ -5659,6 +6080,14 @@ export const getHumanReadableSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHumanReadableSummary",
+  iam: {
+    actions: ["iam:GetHumanReadableSummary"],
+    resources: {
+      "iam:GetHumanReadableSummary": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHumanReadableSummary",
 }));
@@ -5685,6 +6114,14 @@ export const getInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
+  iam: {
+    actions: ["iam:GetInstanceProfile"],
+    resources: {
+      "iam:GetInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstanceProfile",
 }));
@@ -5716,6 +6153,12 @@ export const getLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoginProfile",
+  iam: {
+    actions: ["iam:GetLoginProfile"],
+    resources: {
+      "iam:GetLoginProfile": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLoginProfile",
 }));
@@ -5736,6 +6179,12 @@ export const getMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMFADevice",
+  iam: {
+    actions: ["iam:GetMFADevice"],
+    resources: {
+      "iam:GetMFADevice": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMFADevice",
 }));
@@ -5761,6 +6210,14 @@ export const getOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:GetOpenIDConnectProvider"],
+    resources: {
+      "iam:GetOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOpenIDConnectProvider",
 }));
@@ -5802,6 +6259,7 @@ export const getOrganizationsAccessReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationsAccessReport",
+  iam: { actions: ["iam:GetOrganizationsAccessReport"] },
   telemetry: TELEMETRY,
   span: "GetOrganizationsAccessReport",
 }));
@@ -5823,6 +6281,7 @@ export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundWebIdentityFederationInfo",
+  iam: { actions: ["iam:GetOutboundWebIdentityFederationInfo"] },
   telemetry: TELEMETRY,
   span: "GetOutboundWebIdentityFederationInfo",
 }));
@@ -5858,6 +6317,12 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["iam:GetPolicy"],
+    resources: {
+      "iam:GetPolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -5902,6 +6367,12 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
+  iam: {
+    actions: ["iam:GetPolicyVersion"],
+    resources: {
+      "iam:GetPolicyVersion": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyVersion",
 }));
@@ -5932,6 +6403,10 @@ export const getRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRole",
+  iam: {
+    actions: ["iam:GetRole"],
+    resources: { "iam:GetRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRole",
 }));
@@ -5971,6 +6446,12 @@ export const getRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRolePolicy",
+  iam: {
+    actions: ["iam:GetRolePolicy"],
+    resources: {
+      "iam:GetRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRolePolicy",
 }));
@@ -6001,6 +6482,14 @@ export const getRoleTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoleTemplateVersion",
+  iam: {
+    actions: ["iam:GetRoleTemplateVersion"],
+    resources: {
+      "iam:GetRoleTemplateVersion": [
+        "arn:${Partition}:iam::aws:role-template/${AWSServicePrincipal}/${RoleTemplateName}:${RoleTemplateMajorVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRoleTemplateVersion",
 }));
@@ -6028,6 +6517,12 @@ export const getSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSAMLProvider",
+  iam: {
+    actions: ["iam:GetSAMLProvider"],
+    resources: {
+      "iam:GetSAMLProvider": ["arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSAMLProvider",
 }));
@@ -6056,6 +6551,14 @@ export const getServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerCertificate",
+  iam: {
+    actions: ["iam:GetServerCertificate"],
+    resources: {
+      "iam:GetServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServerCertificate",
 }));
@@ -6124,6 +6627,7 @@ export const getServiceLastAccessedDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetails",
+  iam: { actions: ["iam:GetServiceLastAccessedDetails"] },
   telemetry: TELEMETRY,
   span: "GetServiceLastAccessedDetails",
 }));
@@ -6169,6 +6673,7 @@ export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetailsWithEntities",
+  iam: { actions: ["iam:GetServiceLastAccessedDetailsWithEntities"] },
   telemetry: TELEMETRY,
   span: "GetServiceLastAccessedDetailsWithEntities",
 }));
@@ -6197,6 +6702,14 @@ export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLinkedRoleDeletionStatus",
+  iam: {
+    actions: ["iam:GetServiceLinkedRoleDeletionStatus"],
+    resources: {
+      "iam:GetServiceLinkedRoleDeletionStatus": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetServiceLinkedRoleDeletionStatus",
 }));
@@ -6225,6 +6738,12 @@ export const getSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSSHPublicKey",
+  iam: {
+    actions: ["iam:GetSSHPublicKey"],
+    resources: {
+      "iam:GetSSHPublicKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSSHPublicKey",
 }));
@@ -6249,6 +6768,10 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  iam: {
+    actions: ["iam:GetUser"],
+    resources: { "iam:GetUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetUser",
 }));
@@ -6285,6 +6808,12 @@ export const getUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPolicy",
+  iam: {
+    actions: ["iam:GetUserPolicy"],
+    resources: {
+      "iam:GetUserPolicy": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUserPolicy",
 }));
@@ -6328,6 +6857,12 @@ export const listAccessKeys: API.PaginatedOperationMethod<
     items: "AccessKeyMetadata",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListAccessKeys"],
+    resources: {
+      "iam:ListAccessKeys": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccessKeys",
 })) as any;
@@ -6358,6 +6893,7 @@ export const listAccountAliases: API.PaginatedOperationMethod<
     items: "AccountAliases",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListAccountAliases"] },
   telemetry: TELEMETRY,
   span: "ListAccountAliases",
 })) as any;
@@ -6400,6 +6936,14 @@ export const listAttachedGroupPolicies: API.PaginatedOperationMethod<
     items: "AttachedPolicies",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListAttachedGroupPolicies"],
+    resources: {
+      "iam:ListAttachedGroupPolicies": [
+        "arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedGroupPolicies",
 })) as any;
@@ -6442,6 +6986,12 @@ export const listAttachedRolePolicies: API.PaginatedOperationMethod<
     items: "AttachedPolicies",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListAttachedRolePolicies"],
+    resources: {
+      "iam:ListAttachedRolePolicies": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedRolePolicies",
 })) as any;
@@ -6484,6 +7034,12 @@ export const listAttachedUserPolicies: API.PaginatedOperationMethod<
     items: "AttachedPolicies",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListAttachedUserPolicies"],
+    resources: {
+      "iam:ListAttachedUserPolicies": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAttachedUserPolicies",
 })) as any;
@@ -6515,6 +7071,7 @@ export const listDelegationRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDelegationRequests",
+  iam: { actions: ["iam:ListDelegationRequests"] },
   telemetry: TELEMETRY,
   span: "ListDelegationRequests",
 }));
@@ -6550,6 +7107,14 @@ export const listEntitiesForPolicy: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEntitiesForPolicy",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxItems" } as const,
+  iam: {
+    actions: ["iam:ListEntitiesForPolicy"],
+    resources: {
+      "iam:ListEntitiesForPolicy": [
+        "arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEntitiesForPolicy",
 })) as any;
@@ -6587,6 +7152,12 @@ export const listGroupPolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListGroupPolicies"],
+    resources: {
+      "iam:ListGroupPolicies": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroupPolicies",
 })) as any;
@@ -6617,6 +7188,7 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListGroups"] },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -6647,6 +7219,12 @@ export const listGroupsForUser: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListGroupsForUser"],
+    resources: {
+      "iam:ListGroupsForUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroupsForUser",
 })) as any;
@@ -6684,6 +7262,7 @@ export const listInstanceProfiles: API.PaginatedOperationMethod<
     items: "InstanceProfiles",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListInstanceProfiles"] },
   telemetry: TELEMETRY,
   span: "ListInstanceProfiles",
 })) as any;
@@ -6720,6 +7299,14 @@ export const listInstanceProfilesForRole: API.PaginatedOperationMethod<
     items: "InstanceProfiles",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListInstanceProfilesForRole"],
+    resources: {
+      "iam:ListInstanceProfilesForRole": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceProfilesForRole",
 })) as any;
@@ -6752,6 +7339,14 @@ export const listInstanceProfileTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListInstanceProfileTags"],
+    resources: {
+      "iam:ListInstanceProfileTags": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstanceProfileTags",
 })) as any;
@@ -6785,6 +7380,7 @@ export const listMFADevices: API.PaginatedOperationMethod<
     items: "MFADevices",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListMFADevices"] },
   telemetry: TELEMETRY,
   span: "ListMFADevices",
 })) as any;
@@ -6818,6 +7414,12 @@ export const listMFADeviceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListMFADeviceTags"],
+    resources: {
+      "iam:ListMFADeviceTags": ["arn:${Partition}:iam::${Account}:mfa/${MfaTokenIdWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMFADeviceTags",
 })) as any;
@@ -6842,6 +7444,7 @@ export const listOpenIDConnectProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenIDConnectProviders",
+  iam: { actions: ["iam:ListOpenIDConnectProviders"] },
   telemetry: TELEMETRY,
   span: "ListOpenIDConnectProviders",
 }));
@@ -6878,6 +7481,14 @@ export const listOpenIDConnectProviderTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListOpenIDConnectProviderTags"],
+    resources: {
+      "iam:ListOpenIDConnectProviderTags": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListOpenIDConnectProviderTags",
 })) as any;
@@ -6909,6 +7520,7 @@ export const listOrganizationsFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationsFeatures",
+  iam: { actions: ["iam:ListOrganizationsFeatures"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationsFeatures",
 }));
@@ -6953,6 +7565,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -7009,6 +7622,16 @@ export const listPoliciesGrantingServiceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPoliciesGrantingServiceAccess",
+  iam: {
+    actions: ["iam:ListPoliciesGrantingServiceAccess"],
+    resources: {
+      "iam:ListPoliciesGrantingServiceAccess": [
+        "arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}",
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPoliciesGrantingServiceAccess",
 }));
@@ -7042,6 +7665,12 @@ export const listPolicyTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListPolicyTags"],
+    resources: {
+      "iam:ListPolicyTags": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyTags",
 })) as any;
@@ -7077,6 +7706,12 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListPolicyVersions"],
+    resources: {
+      "iam:ListPolicyVersions": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyVersions",
 })) as any;
@@ -7114,6 +7749,12 @@ export const listRolePolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListRolePolicies"],
+    resources: {
+      "iam:ListRolePolicies": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRolePolicies",
 })) as any;
@@ -7157,6 +7798,7 @@ export const listRoles: API.PaginatedOperationMethod<
     items: "Roles",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListRoles"] },
   telemetry: TELEMETRY,
   span: "ListRoles",
 })) as any;
@@ -7186,6 +7828,12 @@ export const listRoleTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListRoleTags"],
+    resources: {
+      "iam:ListRoleTags": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoleTags",
 })) as any;
@@ -7210,6 +7858,7 @@ export const listSAMLProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSAMLProviders",
+  iam: { actions: ["iam:ListSAMLProviders"] },
   telemetry: TELEMETRY,
   span: "ListSAMLProviders",
 }));
@@ -7246,6 +7895,14 @@ export const listSAMLProviderTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListSAMLProviderTags"],
+    resources: {
+      "iam:ListSAMLProviderTags": [
+        "arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSAMLProviderTags",
 })) as any;
@@ -7286,6 +7943,7 @@ export const listServerCertificates: API.PaginatedOperationMethod<
     items: "ServerCertificateMetadataList",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListServerCertificates"] },
   telemetry: TELEMETRY,
   span: "ListServerCertificates",
 })) as any;
@@ -7324,6 +7982,14 @@ export const listServerCertificateTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListServerCertificateTags"],
+    resources: {
+      "iam:ListServerCertificateTags": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListServerCertificateTags",
 })) as any;
@@ -7364,6 +8030,14 @@ export const listServiceSpecificCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceSpecificCredentials",
+  iam: {
+    actions: ["iam:ListServiceSpecificCredentials"],
+    resources: {
+      "iam:ListServiceSpecificCredentials": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListServiceSpecificCredentials",
 }));
@@ -7405,6 +8079,12 @@ export const listSigningCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListSigningCertificates"],
+    resources: {
+      "iam:ListSigningCertificates": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSigningCertificates",
 })) as any;
@@ -7441,6 +8121,12 @@ export const listSSHPublicKeys: API.PaginatedOperationMethod<
     items: "SSHPublicKeys",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListSSHPublicKeys"],
+    resources: {
+      "iam:ListSSHPublicKeys": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSSHPublicKeys",
 })) as any;
@@ -7477,6 +8163,12 @@ export const listUserPolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListUserPolicies"],
+    resources: {
+      "iam:ListUserPolicies": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserPolicies",
 })) as any;
@@ -7518,6 +8210,7 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListUsers"] },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -7546,6 +8239,12 @@ export const listUserTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["iam:ListUserTags"],
+    resources: {
+      "iam:ListUserTags": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserTags",
 })) as any;
@@ -7582,6 +8281,7 @@ export const listVirtualMFADevices: API.PaginatedOperationMethod<
     items: "VirtualMFADevices",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:ListVirtualMFADevices"] },
   telemetry: TELEMETRY,
   span: "ListVirtualMFADevices",
 })) as any;
@@ -7612,6 +8312,12 @@ export const putAccountProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountProperties",
+  iam: {
+    actions: ["iam:CreateServiceLinkedRole", "iam:PutAccountProperties"],
+    resources: {
+      "iam:CreateServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAccountProperties",
 }));
@@ -7661,6 +8367,12 @@ export const putGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupPolicy",
+  iam: {
+    actions: ["iam:PutGroupPolicy"],
+    resources: {
+      "iam:PutGroupPolicy": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutGroupPolicy",
 }));
@@ -7704,6 +8416,14 @@ export const putRolePermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePermissionsBoundary",
+  iam: {
+    actions: ["iam:PutRolePermissionsBoundary"],
+    resources: {
+      "iam:PutRolePermissionsBoundary": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRolePermissionsBoundary",
 }));
@@ -7766,6 +8486,12 @@ export const putRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePolicy",
+  iam: {
+    actions: ["iam:PutRolePolicy"],
+    resources: {
+      "iam:PutRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRolePolicy",
 }));
@@ -7805,6 +8531,14 @@ export const putUserPermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPermissionsBoundary",
+  iam: {
+    actions: ["iam:PutUserPermissionsBoundary"],
+    resources: {
+      "iam:PutUserPermissionsBoundary": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutUserPermissionsBoundary",
 }));
@@ -7854,6 +8588,12 @@ export const putUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPolicy",
+  iam: {
+    actions: ["iam:PutUserPolicy"],
+    resources: {
+      "iam:PutUserPolicy": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutUserPolicy",
 }));
@@ -7892,6 +8632,14 @@ export const rejectDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDelegationRequest",
+  iam: {
+    actions: ["iam:RejectDelegationRequest"],
+    resources: {
+      "iam:RejectDelegationRequest": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectDelegationRequest",
 }));
@@ -7927,6 +8675,14 @@ export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveClientIDFromOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:RemoveClientIDFromOpenIDConnectProvider"],
+    resources: {
+      "iam:RemoveClientIDFromOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveClientIDFromOpenIDConnectProvider",
 }));
@@ -7967,6 +8723,14 @@ export const removeRoleFromInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromInstanceProfile",
+  iam: {
+    actions: ["iam:RemoveRoleFromInstanceProfile"],
+    resources: {
+      "iam:RemoveRoleFromInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveRoleFromInstanceProfile",
 }));
@@ -7991,6 +8755,12 @@ export const removeUserFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveUserFromGroup",
+  iam: {
+    actions: ["iam:RemoveUserFromGroup"],
+    resources: {
+      "iam:RemoveUserFromGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveUserFromGroup",
 }));
@@ -8014,6 +8784,14 @@ export const resetServiceSpecificCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSpecificCredential",
+  iam: {
+    actions: ["iam:ResetServiceSpecificCredential"],
+    resources: {
+      "iam:ResetServiceSpecificCredential": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetServiceSpecificCredential",
 }));
@@ -8050,6 +8828,12 @@ export const resyncMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResyncMFADevice",
+  iam: {
+    actions: ["iam:ResyncMFADevice"],
+    resources: {
+      "iam:ResyncMFADevice": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResyncMFADevice",
 }));
@@ -8091,6 +8875,14 @@ export const sendDelegationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDelegationToken",
+  iam: {
+    actions: ["iam:SendDelegationToken"],
+    resources: {
+      "iam:SendDelegationToken": [
+        "arn:${Partition}:iam::${Account}:delegation-request/${DelegationRequestId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDelegationToken",
 }));
@@ -8128,6 +8920,14 @@ export const setDefaultPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPolicyVersion",
+  iam: {
+    actions: ["iam:SetDefaultPolicyVersion"],
+    resources: {
+      "iam:SetDefaultPolicyVersion": [
+        "arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultPolicyVersion",
 }));
@@ -8169,6 +8969,7 @@ export const setSecurityTokenServicePreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityTokenServicePreferences",
+  iam: { actions: ["iam:SetSecurityTokenServicePreferences"] },
   telemetry: TELEMETRY,
   span: "SetSecurityTokenServicePreferences",
 }));
@@ -8226,6 +9027,7 @@ export const simulateCustomPolicy: API.PaginatedOperationMethod<
     items: "EvaluationResults",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:SimulateCustomPolicy"] },
   telemetry: TELEMETRY,
   span: "SimulateCustomPolicy",
 })) as any;
@@ -8298,6 +9100,7 @@ export const simulatePrincipalPolicy: API.PaginatedOperationMethod<
     items: "EvaluationResults",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["iam:SimulatePrincipalPolicy"] },
   telemetry: TELEMETRY,
   span: "SimulatePrincipalPolicy",
 })) as any;
@@ -8354,6 +9157,14 @@ export const tagInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagInstanceProfile",
+  iam: {
+    actions: ["iam:TagInstanceProfile"],
+    resources: {
+      "iam:TagInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagInstanceProfile",
 }));
@@ -8411,6 +9222,12 @@ export const tagMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagMFADevice",
+  iam: {
+    actions: ["iam:TagMFADevice"],
+    resources: {
+      "iam:TagMFADevice": ["arn:${Partition}:iam::${Account}:mfa/${MfaTokenIdWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagMFADevice",
 }));
@@ -8469,6 +9286,14 @@ export const tagOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:TagOpenIDConnectProvider"],
+    resources: {
+      "iam:TagOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagOpenIDConnectProvider",
 }));
@@ -8525,6 +9350,12 @@ export const tagPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagPolicy",
+  iam: {
+    actions: ["iam:TagPolicy"],
+    resources: {
+      "iam:TagPolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagPolicy",
 }));
@@ -8589,6 +9420,10 @@ export const tagRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagRole",
+  iam: {
+    actions: ["iam:TagRole"],
+    resources: { "iam:TagRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "TagRole",
 }));
@@ -8647,6 +9482,12 @@ export const tagSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagSAMLProvider",
+  iam: {
+    actions: ["iam:TagSAMLProvider"],
+    resources: {
+      "iam:TagSAMLProvider": ["arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagSAMLProvider",
 }));
@@ -8712,6 +9553,14 @@ export const tagServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagServerCertificate",
+  iam: {
+    actions: ["iam:TagServerCertificate"],
+    resources: {
+      "iam:TagServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagServerCertificate",
 }));
@@ -8775,6 +9624,10 @@ export const tagUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagUser",
+  iam: {
+    actions: ["iam:TagUser"],
+    resources: { "iam:TagUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "TagUser",
 }));
@@ -8806,6 +9659,14 @@ export const untagInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagInstanceProfile",
+  iam: {
+    actions: ["iam:UntagInstanceProfile"],
+    resources: {
+      "iam:UntagInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagInstanceProfile",
 }));
@@ -8838,6 +9699,12 @@ export const untagMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagMFADevice",
+  iam: {
+    actions: ["iam:UntagMFADevice"],
+    resources: {
+      "iam:UntagMFADevice": ["arn:${Partition}:iam::${Account}:mfa/${MfaTokenIdWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagMFADevice",
 }));
@@ -8871,6 +9738,14 @@ export const untagOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagOpenIDConnectProvider",
+  iam: {
+    actions: ["iam:UntagOpenIDConnectProvider"],
+    resources: {
+      "iam:UntagOpenIDConnectProvider": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagOpenIDConnectProvider",
 }));
@@ -8902,6 +9777,12 @@ export const untagPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagPolicy",
+  iam: {
+    actions: ["iam:UntagPolicy"],
+    resources: {
+      "iam:UntagPolicy": ["arn:${Partition}:iam::${Account}:policy/${PolicyNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagPolicy",
 }));
@@ -8927,6 +9808,10 @@ export const untagRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagRole",
+  iam: {
+    actions: ["iam:UntagRole"],
+    resources: { "iam:UntagRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "UntagRole",
 }));
@@ -8960,6 +9845,14 @@ export const untagSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagSAMLProvider",
+  iam: {
+    actions: ["iam:UntagSAMLProvider"],
+    resources: {
+      "iam:UntagSAMLProvider": [
+        "arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagSAMLProvider",
 }));
@@ -8998,6 +9891,14 @@ export const untagServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagServerCertificate",
+  iam: {
+    actions: ["iam:UntagServerCertificate"],
+    resources: {
+      "iam:UntagServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagServerCertificate",
 }));
@@ -9023,6 +9924,10 @@ export const untagUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagUser",
+  iam: {
+    actions: ["iam:UntagUser"],
+    resources: { "iam:UntagUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "UntagUser",
 }));
@@ -9065,6 +9970,12 @@ export const updateAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessKey",
+  iam: {
+    actions: ["iam:UpdateAccessKey"],
+    resources: {
+      "iam:UpdateAccessKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccessKey",
 }));
@@ -9105,6 +10016,7 @@ export const updateAccountPasswordPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPasswordPolicy",
+  iam: { actions: ["iam:UpdateAccountPasswordPolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountPasswordPolicy",
 }));
@@ -9140,6 +10052,12 @@ export const updateAssumeRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssumeRolePolicy",
+  iam: {
+    actions: ["iam:UpdateAssumeRolePolicy"],
+    resources: {
+      "iam:UpdateAssumeRolePolicy": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssumeRolePolicy",
 }));
@@ -9217,6 +10135,12 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  iam: {
+    actions: ["iam:UpdateGroup"],
+    resources: {
+      "iam:UpdateGroup": ["arn:${Partition}:iam::${Account}:group/${GroupNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -9256,6 +10180,12 @@ export const updateLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoginProfile",
+  iam: {
+    actions: ["iam:UpdateLoginProfile"],
+    resources: {
+      "iam:UpdateLoginProfile": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLoginProfile",
 }));
@@ -9307,6 +10237,14 @@ export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpenIDConnectProviderThumbprint",
+  iam: {
+    actions: ["iam:UpdateOpenIDConnectProviderThumbprint"],
+    resources: {
+      "iam:UpdateOpenIDConnectProviderThumbprint": [
+        "arn:${Partition}:iam::${Account}:oidc-provider/${OidcProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOpenIDConnectProviderThumbprint",
 }));
@@ -9331,6 +10269,10 @@ export const updateRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRole",
+  iam: {
+    actions: ["iam:UpdateRole"],
+    resources: { "iam:UpdateRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRole",
 }));
@@ -9358,6 +10300,12 @@ export const updateRoleDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleDescription",
+  iam: {
+    actions: ["iam:UpdateRoleDescription"],
+    resources: {
+      "iam:UpdateRoleDescription": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRoleDescription",
 }));
@@ -9392,6 +10340,14 @@ export const updateSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSAMLProvider",
+  iam: {
+    actions: ["iam:UpdateSAMLProvider"],
+    resources: {
+      "iam:UpdateSAMLProvider": [
+        "arn:${Partition}:iam::${Account}:saml-provider/${SamlProviderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSAMLProvider",
 }));
@@ -9440,6 +10396,14 @@ export const updateServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerCertificate",
+  iam: {
+    actions: ["iam:UpdateServerCertificate"],
+    resources: {
+      "iam:UpdateServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServerCertificate",
 }));
@@ -9463,6 +10427,14 @@ export const updateServiceSpecificCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSpecificCredential",
+  iam: {
+    actions: ["iam:UpdateServiceSpecificCredential"],
+    resources: {
+      "iam:UpdateServiceSpecificCredential": [
+        "arn:${Partition}:iam::${Account}:user/${UserNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServiceSpecificCredential",
 }));
@@ -9501,6 +10473,12 @@ export const updateSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSigningCertificate",
+  iam: {
+    actions: ["iam:UpdateSigningCertificate"],
+    resources: {
+      "iam:UpdateSigningCertificate": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSigningCertificate",
 }));
@@ -9528,6 +10506,12 @@ export const updateSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSSHPublicKey",
+  iam: {
+    actions: ["iam:UpdateSSHPublicKey"],
+    resources: {
+      "iam:UpdateSSHPublicKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSSHPublicKey",
 }));
@@ -9572,6 +10556,10 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: {
+    actions: ["iam:UpdateUser"],
+    resources: { "iam:UpdateUser": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));
@@ -9633,6 +10621,18 @@ export const uploadServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadServerCertificate",
+  iam: {
+    actions: ["iam:TagServerCertificate", "iam:UploadServerCertificate"],
+    resources: {
+      "iam:TagServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+      "iam:UploadServerCertificate": [
+        "arn:${Partition}:iam::${Account}:server-certificate/${CertificateNameWithPath}",
+      ],
+    },
+    conditional: { "iam:TagServerCertificate": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "UploadServerCertificate",
 }));
@@ -9691,6 +10691,12 @@ export const uploadSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSigningCertificate",
+  iam: {
+    actions: ["iam:UploadSigningCertificate"],
+    resources: {
+      "iam:UploadSigningCertificate": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UploadSigningCertificate",
 }));
@@ -9728,6 +10734,12 @@ export const uploadSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSSHPublicKey",
+  iam: {
+    actions: ["iam:UploadSSHPublicKey"],
+    resources: {
+      "iam:UploadSSHPublicKey": ["arn:${Partition}:iam::${Account}:user/${UserNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UploadSSHPublicKey",
 }));

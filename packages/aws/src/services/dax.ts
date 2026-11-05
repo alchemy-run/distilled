@@ -710,6 +710,15 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  iam: {
+    actions: ["dax:CreateCluster", "iam:PassRole", "dax:TagResource"],
+    resources: {
+      "dax:CreateCluster": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "dax:TagResource": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+    conditional: { "dax:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -745,6 +754,7 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
+  iam: { actions: ["dax:CreateParameterGroup"] },
   telemetry: TELEMETRY,
   span: "CreateParameterGroup",
 }));
@@ -779,6 +789,7 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
+  iam: { actions: ["dax:CreateSubnetGroup"] },
   telemetry: TELEMETRY,
   span: "CreateSubnetGroup",
 }));
@@ -817,6 +828,14 @@ export const decreaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicationFactor",
+  iam: {
+    actions: ["dax:DecreaseReplicationFactor"],
+    resources: {
+      "dax:DecreaseReplicationFactor": [
+        "arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DecreaseReplicationFactor",
 }));
@@ -853,6 +872,12 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  iam: {
+    actions: ["dax:DeleteCluster"],
+    resources: {
+      "dax:DeleteCluster": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -886,6 +911,7 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
+  iam: { actions: ["dax:DeleteParameterGroup"] },
   telemetry: TELEMETRY,
   span: "DeleteParameterGroup",
 }));
@@ -913,6 +939,7 @@ export const deleteSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
+  iam: { actions: ["dax:DeleteSubnetGroup"] },
   telemetry: TELEMETRY,
   span: "DeleteSubnetGroup",
 }));
@@ -959,6 +986,7 @@ export const describeClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusters",
+  iam: { actions: ["dax:DescribeClusters"] },
   telemetry: TELEMETRY,
   span: "DescribeClusters",
 }));
@@ -988,6 +1016,7 @@ export const describeDefaultParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultParameters",
+  iam: { actions: ["dax:DescribeDefaultParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeDefaultParameters",
 }));
@@ -1021,6 +1050,7 @@ export const describeEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
+  iam: { actions: ["dax:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 }));
@@ -1052,6 +1082,7 @@ export const describeParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameterGroups",
+  iam: { actions: ["dax:DescribeParameterGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeParameterGroups",
 }));
@@ -1082,6 +1113,7 @@ export const describeParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameters",
+  iam: { actions: ["dax:DescribeParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeParameters",
 }));
@@ -1106,6 +1138,7 @@ export const describeSubnetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubnetGroups",
+  iam: { actions: ["dax:DescribeSubnetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeSubnetGroups",
 }));
@@ -1146,6 +1179,14 @@ export const increaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicationFactor",
+  iam: {
+    actions: ["dax:IncreaseReplicationFactor"],
+    resources: {
+      "dax:IncreaseReplicationFactor": [
+        "arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IncreaseReplicationFactor",
 }));
@@ -1181,6 +1222,12 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  iam: {
+    actions: ["dax:ListTags"],
+    resources: {
+      "dax:ListTags": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -1220,6 +1267,12 @@ export const rebootNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootNode",
+  iam: {
+    actions: ["dax:RebootNode"],
+    resources: {
+      "dax:RebootNode": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootNode",
 }));
@@ -1258,6 +1311,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["dax:TagResource"],
+    resources: {
+      "dax:TagResource": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1295,6 +1354,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["dax:UntagResource"],
+    resources: {
+      "dax:UntagResource": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1333,6 +1398,12 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  iam: {
+    actions: ["dax:UpdateCluster"],
+    resources: {
+      "dax:UpdateCluster": ["arn:${Partition}:dax:${Region}:${Account}:cache/${ClusterName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -1366,6 +1437,7 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
+  iam: { actions: ["dax:UpdateParameterGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateParameterGroup",
 }));
@@ -1400,6 +1472,7 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
+  iam: { actions: ["dax:UpdateSubnetGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateSubnetGroup",
 }));

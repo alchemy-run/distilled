@@ -1815,6 +1815,14 @@ export const cancelFlowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelFlowExecutions",
+  iam: {
+    actions: ["appflow:CancelFlowExecutions"],
+    resources: {
+      "appflow:CancelFlowExecutions": [
+        "arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelFlowExecutions",
 }));
@@ -1853,6 +1861,16 @@ export const createConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorProfile",
+  iam: {
+    actions: ["appflow:CreateConnectorProfile", "appflow:DescribeConnector", "iam:PassRole"],
+    resources: {
+      "appflow:DescribeConnector": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connector/${ConnectorLabel}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectorProfile",
 }));
@@ -1895,6 +1913,21 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  iam: {
+    actions: [
+      "appflow:CreateFlow",
+      "iam:PassRole",
+      "appflow:TagResource",
+      "appflow:UseConnectorProfile",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appflow:UseConnectorProfile": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "appflow:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFlow",
 }));
@@ -1919,6 +1952,14 @@ export const deleteConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorProfile",
+  iam: {
+    actions: ["appflow:DeleteConnectorProfile"],
+    resources: {
+      "appflow:DeleteConnectorProfile": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectorProfile",
 }));
@@ -1944,6 +1985,12 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  iam: {
+    actions: ["appflow:DeleteFlow"],
+    resources: {
+      "appflow:DeleteFlow": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFlow",
 }));
@@ -1970,6 +2017,14 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  iam: {
+    actions: ["appflow:DescribeConnector"],
+    resources: {
+      "appflow:DescribeConnector": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connector/${ConnectorLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnector",
 }));
@@ -2003,6 +2058,14 @@ export const describeConnectorEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorEntity",
+  iam: {
+    actions: ["appflow:DescribeConnectorEntity"],
+    resources: {
+      "appflow:DescribeConnectorEntity": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectorEntity",
 }));
@@ -2037,6 +2100,7 @@ export const describeConnectorProfiles: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["appflow:DescribeConnectorProfiles"] },
   telemetry: TELEMETRY,
   span: "DescribeConnectorProfiles",
 })) as any;
@@ -2066,6 +2130,7 @@ export const describeConnectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["appflow:DescribeConnectors"] },
   telemetry: TELEMETRY,
   span: "DescribeConnectors",
 })) as any;
@@ -2086,6 +2151,12 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  iam: {
+    actions: ["appflow:DescribeFlow"],
+    resources: {
+      "appflow:DescribeFlow": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlow",
 }));
@@ -2116,6 +2187,14 @@ export const describeFlowExecutionRecords: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appflow:DescribeFlowExecutionRecords"],
+    resources: {
+      "appflow:DescribeFlowExecutionRecords": [
+        "arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlowExecutionRecords",
 })) as any;
@@ -2151,6 +2230,14 @@ export const listConnectorEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorEntities",
+  iam: {
+    actions: ["appflow:ListConnectorEntities"],
+    resources: {
+      "appflow:ListConnectorEntities": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConnectorEntities",
 }));
@@ -2179,6 +2266,14 @@ export const listConnectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appflow:ListConnectors"],
+    resources: {
+      "appflow:ListConnectors": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connector/${ConnectorLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -2205,6 +2300,12 @@ export const listFlows: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["appflow:ListFlows"],
+    resources: {
+      "appflow:ListFlows": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFlows",
 })) as any;
@@ -2229,6 +2330,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["appflow:ListTagsForResource"],
+    resources: {
+      "appflow:ListTagsForResource": [
+        "arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2271,6 +2380,7 @@ export const registerConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterConnector",
+  iam: { actions: ["appflow:RegisterConnector"] },
   telemetry: TELEMETRY,
   span: "RegisterConnector",
 }));
@@ -2308,6 +2418,14 @@ export const resetConnectorMetadataCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetConnectorMetadataCache",
+  iam: {
+    actions: ["appflow:ResetConnectorMetadataCache"],
+    resources: {
+      "appflow:ResetConnectorMetadataCache": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetConnectorMetadataCache",
 }));
@@ -2339,6 +2457,12 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
+  iam: {
+    actions: ["appflow:StartFlow"],
+    resources: {
+      "appflow:StartFlow": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFlow",
 }));
@@ -2371,6 +2495,12 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
+  iam: {
+    actions: ["appflow:StopFlow"],
+    resources: {
+      "appflow:StopFlow": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopFlow",
 }));
@@ -2395,6 +2525,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["appflow:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2420,6 +2551,14 @@ export const unregisterConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnregisterConnector",
+  iam: {
+    actions: ["appflow:UnRegisterConnector"],
+    resources: {
+      "appflow:UnRegisterConnector": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connector/${ConnectorLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnregisterConnector",
 }));
@@ -2444,6 +2583,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["appflow:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2478,6 +2618,16 @@ export const updateConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorProfile",
+  iam: {
+    actions: ["iam:PassRole", "appflow:UpdateConnectorProfile"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appflow:UpdateConnectorProfile": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectorProfile",
 }));
@@ -2523,6 +2673,14 @@ export const updateConnectorRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorRegistration",
+  iam: {
+    actions: ["appflow:UpdateConnectorRegistration"],
+    resources: {
+      "appflow:UpdateConnectorRegistration": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connector/${ConnectorLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectorRegistration",
 }));
@@ -2561,6 +2719,17 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  iam: {
+    actions: ["iam:PassRole", "appflow:UpdateFlow", "appflow:UseConnectorProfile"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appflow:UpdateFlow": ["arn:${Partition}:appflow:${Region}:${Account}:flow/${FlowName}"],
+      "appflow:UseConnectorProfile": [
+        "arn:${Partition}:appflow:${Region}:${Account}:connectorprofile/${ProfileName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlow",
 }));

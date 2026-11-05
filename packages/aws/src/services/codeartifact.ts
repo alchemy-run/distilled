@@ -1043,6 +1043,14 @@ export const associateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateExternalConnection",
+  iam: {
+    actions: ["codeartifact:AssociateExternalConnection"],
+    resources: {
+      "codeartifact:AssociateExternalConnection": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateExternalConnection",
 }));
@@ -1081,6 +1089,15 @@ export const copyPackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyPackageVersions",
+  iam: {
+    actions: ["codeartifact:CopyPackageVersions"],
+    resources: {
+      "codeartifact:CopyPackageVersions": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyPackageVersions",
 }));
@@ -1124,6 +1141,7 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  iam: { actions: ["codeartifact:CreateDomain"] },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -1160,6 +1178,7 @@ export const createPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackageGroup",
+  iam: { actions: ["codeartifact:CreatePackageGroup"] },
   telemetry: TELEMETRY,
   span: "CreatePackageGroup",
 }));
@@ -1196,6 +1215,7 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  iam: { actions: ["codeartifact:CreateRepository"] },
   telemetry: TELEMETRY,
   span: "CreateRepository",
 }));
@@ -1229,6 +1249,14 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: {
+    actions: ["codeartifact:DeleteDomain"],
+    resources: {
+      "codeartifact:DeleteDomain": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -1263,6 +1291,14 @@ export const deleteDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:DeleteDomainPermissionsPolicy"],
+    resources: {
+      "codeartifact:DeleteDomainPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainPermissionsPolicy",
 }));
@@ -1298,6 +1334,14 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  iam: {
+    actions: ["codeartifact:DeletePackage"],
+    resources: {
+      "codeartifact:DeletePackage": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePackage",
 }));
@@ -1338,6 +1382,14 @@ export const deletePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageGroup",
+  iam: {
+    actions: ["codeartifact:DeletePackageGroup"],
+    resources: {
+      "codeartifact:DeletePackageGroup": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePackageGroup",
 }));
@@ -1376,6 +1428,14 @@ export const deletePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageVersions",
+  iam: {
+    actions: ["codeartifact:DeletePackageVersions"],
+    resources: {
+      "codeartifact:DeletePackageVersions": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePackageVersions",
 }));
@@ -1410,6 +1470,14 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  iam: {
+    actions: ["codeartifact:DeleteRepository"],
+    resources: {
+      "codeartifact:DeleteRepository": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepository",
 }));
@@ -1448,6 +1516,14 @@ export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:DeleteRepositoryPermissionsPolicy"],
+    resources: {
+      "codeartifact:DeleteRepositoryPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepositoryPermissionsPolicy",
 }));
@@ -1482,6 +1558,14 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  iam: {
+    actions: ["codeartifact:DescribeDomain"],
+    resources: {
+      "codeartifact:DescribeDomain": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomain",
 }));
@@ -1516,6 +1600,14 @@ export const describePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackage",
+  iam: {
+    actions: ["codeartifact:DescribePackage"],
+    resources: {
+      "codeartifact:DescribePackage": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePackage",
 }));
@@ -1549,6 +1641,14 @@ export const describePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageGroup",
+  iam: {
+    actions: ["codeartifact:DescribePackageGroup"],
+    resources: {
+      "codeartifact:DescribePackageGroup": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePackageGroup",
 }));
@@ -1585,6 +1685,14 @@ export const describePackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageVersion",
+  iam: {
+    actions: ["codeartifact:DescribePackageVersion"],
+    resources: {
+      "codeartifact:DescribePackageVersion": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePackageVersion",
 }));
@@ -1618,6 +1726,14 @@ export const describeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepository",
+  iam: {
+    actions: ["codeartifact:DescribeRepository"],
+    resources: {
+      "codeartifact:DescribeRepository": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRepository",
 }));
@@ -1654,6 +1770,14 @@ export const disassociateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateExternalConnection",
+  iam: {
+    actions: ["codeartifact:DisassociateExternalConnection"],
+    resources: {
+      "codeartifact:DisassociateExternalConnection": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateExternalConnection",
 }));
@@ -1695,6 +1819,14 @@ export const disposePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisposePackageVersions",
+  iam: {
+    actions: ["codeartifact:DisposePackageVersions"],
+    resources: {
+      "codeartifact:DisposePackageVersions": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisposePackageVersions",
 }));
@@ -1731,6 +1863,14 @@ export const getAssociatedPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedPackageGroup",
+  iam: {
+    actions: ["codeartifact:GetAssociatedPackageGroup"],
+    resources: {
+      "codeartifact:GetAssociatedPackageGroup": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssociatedPackageGroup",
 }));
@@ -1782,6 +1922,14 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  iam: {
+    actions: ["codeartifact:GetAuthorizationToken"],
+    resources: {
+      "codeartifact:GetAuthorizationToken": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAuthorizationToken",
 }));
@@ -1818,6 +1966,14 @@ export const getDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:GetDomainPermissionsPolicy"],
+    resources: {
+      "codeartifact:GetDomainPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainPermissionsPolicy",
 }));
@@ -1854,6 +2010,14 @@ export const getPackageVersionAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionAsset",
+  iam: {
+    actions: ["codeartifact:GetPackageVersionAsset"],
+    resources: {
+      "codeartifact:GetPackageVersionAsset": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPackageVersionAsset",
 }));
@@ -1888,6 +2052,14 @@ export const getPackageVersionReadme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionReadme",
+  iam: {
+    actions: ["codeartifact:GetPackageVersionReadme"],
+    resources: {
+      "codeartifact:GetPackageVersionReadme": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPackageVersionReadme",
 }));
@@ -1937,6 +2109,14 @@ export const getRepositoryEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryEndpoint",
+  iam: {
+    actions: ["codeartifact:GetRepositoryEndpoint"],
+    resources: {
+      "codeartifact:GetRepositoryEndpoint": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryEndpoint",
 }));
@@ -1969,6 +2149,14 @@ export const getRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:GetRepositoryPermissionsPolicy"],
+    resources: {
+      "codeartifact:GetRepositoryPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryPermissionsPolicy",
 }));
@@ -2011,6 +2199,14 @@ export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
     items: "allowedRepositories",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListAllowedRepositoriesForGroup"],
+    resources: {
+      "codeartifact:ListAllowedRepositoriesForGroup": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAllowedRepositoriesForGroup",
 })) as any;
@@ -2050,6 +2246,14 @@ export const listAssociatedPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListAssociatedPackages"],
+    resources: {
+      "codeartifact:ListAssociatedPackages": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedPackages",
 })) as any;
@@ -2089,6 +2293,7 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codeartifact:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -2128,6 +2333,14 @@ export const listPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListPackageGroups"],
+    resources: {
+      "codeartifact:ListPackageGroups": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPackageGroups",
 })) as any;
@@ -2169,6 +2382,14 @@ export const listPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListPackages"],
+    resources: {
+      "codeartifact:ListPackages": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPackages",
 })) as any;
@@ -2210,6 +2431,14 @@ export const listPackageVersionAssets: API.PaginatedOperationMethod<
     items: "assets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListPackageVersionAssets"],
+    resources: {
+      "codeartifact:ListPackageVersionAssets": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPackageVersionAssets",
 })) as any;
@@ -2246,6 +2475,14 @@ export const listPackageVersionDependencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPackageVersionDependencies",
+  iam: {
+    actions: ["codeartifact:ListPackageVersionDependencies"],
+    resources: {
+      "codeartifact:ListPackageVersionDependencies": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPackageVersionDependencies",
 }));
@@ -2287,6 +2524,14 @@ export const listPackageVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListPackageVersions"],
+    resources: {
+      "codeartifact:ListPackageVersions": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPackageVersions",
 })) as any;
@@ -2327,6 +2572,7 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codeartifact:ListRepositories"] },
   telemetry: TELEMETRY,
   span: "ListRepositories",
 })) as any;
@@ -2369,6 +2615,14 @@ export const listRepositoriesInDomain: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListRepositoriesInDomain"],
+    resources: {
+      "codeartifact:ListRepositoriesInDomain": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRepositoriesInDomain",
 })) as any;
@@ -2412,6 +2666,14 @@ export const listSubPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeartifact:ListSubPackageGroups"],
+    resources: {
+      "codeartifact:ListSubPackageGroups": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSubPackageGroups",
 })) as any;
@@ -2442,6 +2704,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["codeartifact:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2487,6 +2750,14 @@ export const publishPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishPackageVersion",
+  iam: {
+    actions: ["codeartifact:PublishPackageVersion"],
+    resources: {
+      "codeartifact:PublishPackageVersion": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishPackageVersion",
 }));
@@ -2527,6 +2798,14 @@ export const putDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:PutDomainPermissionsPolicy"],
+    resources: {
+      "codeartifact:PutDomainPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDomainPermissionsPolicy",
 }));
@@ -2568,6 +2847,14 @@ export const putPackageOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPackageOriginConfiguration",
+  iam: {
+    actions: ["codeartifact:PutPackageOriginConfiguration"],
+    resources: {
+      "codeartifact:PutPackageOriginConfiguration": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutPackageOriginConfiguration",
 }));
@@ -2608,6 +2895,14 @@ export const putRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryPermissionsPolicy",
+  iam: {
+    actions: ["codeartifact:PutRepositoryPermissionsPolicy"],
+    resources: {
+      "codeartifact:PutRepositoryPermissionsPolicy": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRepositoryPermissionsPolicy",
 }));
@@ -2640,6 +2935,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["codeartifact:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2670,6 +2966,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["codeartifact:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2705,6 +3002,14 @@ export const updatePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroup",
+  iam: {
+    actions: ["codeartifact:UpdatePackageGroup"],
+    resources: {
+      "codeartifact:UpdatePackageGroup": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackageGroup",
 }));
@@ -2745,6 +3050,14 @@ export const updatePackageGroupOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroupOriginConfiguration",
+  iam: {
+    actions: ["codeartifact:UpdatePackageGroupOriginConfiguration"],
+    resources: {
+      "codeartifact:UpdatePackageGroupOriginConfiguration": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package-group/${DomainName}${EncodedPackageGroupPattern}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackageGroupOriginConfiguration",
 }));
@@ -2782,6 +3095,14 @@ export const updatePackageVersionsStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageVersionsStatus",
+  iam: {
+    actions: ["codeartifact:UpdatePackageVersionsStatus"],
+    resources: {
+      "codeartifact:UpdatePackageVersionsStatus": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:package/${DomainName}/${RepositoryName}/${PackageFormat}/${PackageNamespace}/${PackageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePackageVersionsStatus",
 }));
@@ -2818,6 +3139,14 @@ export const updateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepository",
+  iam: {
+    actions: ["codeartifact:UpdateRepository"],
+    resources: {
+      "codeartifact:UpdateRepository": [
+        "arn:${Partition}:codeartifact:${Region}:${Account}:repository/${DomainName}/${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRepository",
 }));

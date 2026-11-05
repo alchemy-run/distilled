@@ -1137,6 +1137,7 @@ export const batchGetCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollection",
+  iam: { actions: ["aoss:BatchGetCollection"] },
   telemetry: TELEMETRY,
   span: "BatchGetCollection",
 }));
@@ -1160,6 +1161,7 @@ export const batchGetCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollectionGroup",
+  iam: { actions: ["aoss:BatchGetCollectionGroup"] },
   telemetry: TELEMETRY,
   span: "BatchGetCollectionGroup",
 }));
@@ -1183,6 +1185,7 @@ export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetEffectiveLifecyclePolicy",
+  iam: { actions: ["aoss:BatchGetEffectiveLifecyclePolicy"] },
   telemetry: TELEMETRY,
   span: "BatchGetEffectiveLifecyclePolicy",
 }));
@@ -1206,6 +1209,7 @@ export const batchGetLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetLifecyclePolicy",
+  iam: { actions: ["aoss:BatchGetLifecyclePolicy"] },
   telemetry: TELEMETRY,
   span: "BatchGetLifecyclePolicy",
 }));
@@ -1226,6 +1230,7 @@ export const batchGetVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVpcEndpoint",
+  iam: { actions: ["aoss:BatchGetVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "BatchGetVpcEndpoint",
 }));
@@ -1256,6 +1261,14 @@ export const cancelIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelIngestionJob",
+  iam: {
+    actions: ["aoss:CancelIngestionJob"],
+    resources: {
+      "aoss:CancelIngestionJob": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelIngestionJob",
 }));
@@ -1286,6 +1299,7 @@ export const createAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPolicy",
+  iam: { actions: ["aoss:CreateAccessPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateAccessPolicy",
 }));
@@ -1318,6 +1332,21 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
+  iam: {
+    actions: ["aoss:AddCollectionToCollectionGroup", "aoss:CreateCollection", "aoss:TagResource"],
+    resources: {
+      "aoss:AddCollectionToCollectionGroup": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+      ],
+      "aoss:TagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+    conditional: { "aoss:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCollection",
 }));
@@ -1350,6 +1379,18 @@ export const createCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollectionGroup",
+  iam: {
+    actions: ["aoss:CreateCollectionGroup", "aoss:TagResource"],
+    resources: {
+      "aoss:TagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+    conditional: { "aoss:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCollectionGroup",
 }));
@@ -1380,6 +1421,14 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  iam: {
+    actions: ["aoss:CreateIndex", "aoss:APIAccessAll"],
+    resources: {
+      "aoss:APIAccessAll": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -1412,6 +1461,21 @@ export const createIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestionJob",
+  iam: {
+    actions: ["aoss:CreateIngestionJob", "aoss:TagResource"],
+    resources: {
+      "aoss:CreateIngestionJob": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+      "aoss:TagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+    conditional: { "aoss:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIngestionJob",
 }));
@@ -1444,6 +1508,22 @@ export const createIngestionStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestionStream",
+  iam: {
+    actions: ["aoss:CreateIngestionStream", "iam:PassRole", "aoss:TagResource"],
+    resources: {
+      "aoss:CreateIngestionStream": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aoss:TagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+    conditional: { "aoss:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIngestionStream",
 }));
@@ -1474,6 +1554,7 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  iam: { actions: ["aoss:CreateLifecyclePolicy"] },
   telemetry: TELEMETRY,
   span: "CreateLifecyclePolicy",
 }));
@@ -1504,6 +1585,7 @@ export const createSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfig",
+  iam: { actions: ["aoss:CreateSecurityConfig"] },
   telemetry: TELEMETRY,
   span: "CreateSecurityConfig",
 }));
@@ -1534,6 +1616,7 @@ export const createSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityPolicy",
+  iam: { actions: ["aoss:CreateSecurityPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateSecurityPolicy",
 }));
@@ -1564,6 +1647,7 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  iam: { actions: ["aoss:CreateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpoint",
 }));
@@ -1594,6 +1678,7 @@ export const deleteAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPolicy",
+  iam: { actions: ["aoss:DeleteAccessPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteAccessPolicy",
 }));
@@ -1624,6 +1709,14 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
+  iam: {
+    actions: ["aoss:DeleteCollection"],
+    resources: {
+      "aoss:DeleteCollection": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCollection",
 }));
@@ -1654,6 +1747,14 @@ export const deleteCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollectionGroup",
+  iam: {
+    actions: ["aoss:DeleteCollectionGroup"],
+    resources: {
+      "aoss:DeleteCollectionGroup": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCollectionGroup",
 }));
@@ -1678,6 +1779,14 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  iam: {
+    actions: ["aoss:DeleteIndex", "aoss:APIAccessAll"],
+    resources: {
+      "aoss:APIAccessAll": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -1708,6 +1817,14 @@ export const deleteIngestionStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestionStream",
+  iam: {
+    actions: ["aoss:DeleteIngestionStream"],
+    resources: {
+      "aoss:DeleteIngestionStream": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIngestionStream",
 }));
@@ -1738,6 +1855,7 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  iam: { actions: ["aoss:DeleteLifecyclePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteLifecyclePolicy",
 }));
@@ -1768,6 +1886,7 @@ export const deleteSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfig",
+  iam: { actions: ["aoss:DeleteSecurityConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteSecurityConfig",
 }));
@@ -1798,6 +1917,7 @@ export const deleteSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityPolicy",
+  iam: { actions: ["aoss:DeleteSecurityPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteSecurityPolicy",
 }));
@@ -1828,6 +1948,7 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  iam: { actions: ["aoss:DeleteVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpoint",
 }));
@@ -1852,6 +1973,7 @@ export const getAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPolicy",
+  iam: { actions: ["aoss:GetAccessPolicy"] },
   telemetry: TELEMETRY,
   span: "GetAccessPolicy",
 }));
@@ -1872,6 +1994,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["aoss:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -1896,6 +2019,14 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  iam: {
+    actions: ["aoss:GetIndex", "aoss:APIAccessAll"],
+    resources: {
+      "aoss:APIAccessAll": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIndex",
 }));
@@ -1920,6 +2051,14 @@ export const getIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestionJob",
+  iam: {
+    actions: ["aoss:GetIngestionJob"],
+    resources: {
+      "aoss:GetIngestionJob": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIngestionJob",
 }));
@@ -1944,6 +2083,14 @@ export const getIngestionStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestionStream",
+  iam: {
+    actions: ["aoss:GetIngestionStream"],
+    resources: {
+      "aoss:GetIngestionStream": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIngestionStream",
 }));
@@ -1964,6 +2111,7 @@ export const getPoliciesStats: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPoliciesStats",
+  iam: { actions: ["aoss:GetPoliciesStats"] },
   telemetry: TELEMETRY,
   span: "GetPoliciesStats",
 }));
@@ -1988,6 +2136,7 @@ export const getSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityConfig",
+  iam: { actions: ["aoss:GetSecurityConfig"] },
   telemetry: TELEMETRY,
   span: "GetSecurityConfig",
 }));
@@ -2012,6 +2161,7 @@ export const getSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityPolicy",
+  iam: { actions: ["aoss:GetSecurityPolicy"] },
   telemetry: TELEMETRY,
   span: "GetSecurityPolicy",
 }));
@@ -2034,6 +2184,7 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListAccessPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListAccessPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAccessPolicies",
 })) as any;
@@ -2059,6 +2210,7 @@ export const listCollectionGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCollectionGroups",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListCollectionGroups"] },
   telemetry: TELEMETRY,
   span: "ListCollectionGroups",
 })) as any;
@@ -2083,6 +2235,7 @@ export const listCollections: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCollections",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListCollections"] },
   telemetry: TELEMETRY,
   span: "ListCollections",
 })) as any;
@@ -2113,6 +2266,14 @@ export const listIngestionJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "ingestionJobSummaries",
   } as const,
+  iam: {
+    actions: ["aoss:ListIngestionJobs"],
+    resources: {
+      "aoss:ListIngestionJobs": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIngestionJobs",
 })) as any;
@@ -2143,6 +2304,14 @@ export const listIngestionStreams: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "ingestionStreamSummaries",
   } as const,
+  iam: {
+    actions: ["aoss:ListIngestionStreams"],
+    resources: {
+      "aoss:ListIngestionStreams": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIngestionStreams",
 })) as any;
@@ -2168,6 +2337,7 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListLifecyclePolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListLifecyclePolicies"] },
   telemetry: TELEMETRY,
   span: "ListLifecyclePolicies",
 })) as any;
@@ -2190,6 +2360,7 @@ export const listSecurityConfigs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSecurityConfigs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListSecurityConfigs"] },
   telemetry: TELEMETRY,
   span: "ListSecurityConfigs",
 })) as any;
@@ -2215,6 +2386,7 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSecurityPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListSecurityPolicies"] },
   telemetry: TELEMETRY,
   span: "ListSecurityPolicies",
 })) as any;
@@ -2239,6 +2411,17 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["aoss:ListTagsForResource"],
+    resources: {
+      "aoss:ListTagsForResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2261,6 +2444,7 @@ export const listVpcEndpoints: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListVpcEndpoints",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  iam: { actions: ["aoss:ListVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpoints",
 })) as any;
@@ -2293,6 +2477,17 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["aoss:TagResource"],
+    resources: {
+      "aoss:TagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2323,6 +2518,17 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["aoss:UntagResource"],
+    resources: {
+      "aoss:UntagResource": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}/ingestion-stream/${IngestionStreamId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2353,6 +2559,7 @@ export const updateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessPolicy",
+  iam: { actions: ["aoss:UpdateAccessPolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateAccessPolicy",
 }));
@@ -2377,6 +2584,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: { actions: ["aoss:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -2401,6 +2609,14 @@ export const updateCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollection",
+  iam: {
+    actions: ["aoss:UpdateCollection"],
+    resources: {
+      "aoss:UpdateCollection": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCollection",
 }));
@@ -2431,6 +2647,14 @@ export const updateCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollectionGroup",
+  iam: {
+    actions: ["aoss:UpdateCollectionGroup"],
+    resources: {
+      "aoss:UpdateCollectionGroup": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection-group/${CollectionGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCollectionGroup",
 }));
@@ -2455,6 +2679,14 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  iam: {
+    actions: ["aoss:UpdateIndex", "aoss:APIAccessAll"],
+    resources: {
+      "aoss:APIAccessAll": [
+        "arn:${Partition}:aoss:${Region}:${Account}:collection/${CollectionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIndex",
 }));
@@ -2487,6 +2719,7 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  iam: { actions: ["aoss:UpdateLifecyclePolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateLifecyclePolicy",
 }));
@@ -2517,6 +2750,7 @@ export const updateSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityConfig",
+  iam: { actions: ["aoss:UpdateSecurityConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateSecurityConfig",
 }));
@@ -2549,6 +2783,7 @@ export const updateSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityPolicy",
+  iam: { actions: ["aoss:UpdateSecurityPolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateSecurityPolicy",
 }));
@@ -2573,6 +2808,7 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  iam: { actions: ["aoss:UpdateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "UpdateVpcEndpoint",
 }));

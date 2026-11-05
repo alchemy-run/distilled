@@ -182,6 +182,14 @@ export const putAuditEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAuditEvents",
+  iam: {
+    actions: ["cloudtrail-data:PutAuditEvents"],
+    resources: {
+      "cloudtrail-data:PutAuditEvents": [
+        "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAuditEvents",
 }));

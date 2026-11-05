@@ -2,17 +2,98 @@
   "structures": {
     "ImportAssetFromApiGatewayApiRequestDetails": {
       "members": {
-        "ApiKey": { "sensitive": true }
+        "ApiKey": {
+          "sensitive": true
+        }
       }
     },
     "ImportAssetFromApiGatewayApiResponseDetails": {
       "members": {
-        "ApiKey": { "sensitive": true }
+        "ApiKey": {
+          "sensitive": true
+        }
       }
     },
     "ApiGatewayApiAsset": {
       "members": {
-        "ApiKey": { "sensitive": true }
+        "ApiKey": {
+          "sensitive": true
+        }
+      }
+    }
+  },
+  "operations": {
+    "acceptDataGrant": {
+      "iam": {
+        "reason": "aws-marketplace:Subscribe: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "aws-marketplace:Subscribe": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    "createDataGrant": {
+      "iam": {
+        "reason": "dataexchange:CreateJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:PublishDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:PublishToDataGrant: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:StartJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:PublishDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:PublishToDataGrant": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:StartJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    "createJob": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:dataexchange:${Region}:${Account}:jobs/*), the call was denied live in the DataExchange Bindings suite; the grant stays on *.",
+        "resources": {
+          "dataexchange:CreateJob": "*"
+        }
+      }
+    },
+    "deleteDataGrant": {
+      "iam": {
+        "reason": "dataexchange:CreateJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:DeleteDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked. dataexchange:StartJob: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:CreateJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:DeleteDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+          "dataexchange:StartJob": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    "getDataGrant": {
+      "iam": {
+        "reason": "dataexchange:GetDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    "getJob": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:dataexchange:${Region}:${Account}:jobs/*), the call was denied live in the DataExchange Bindings suite; the grant stays on *.",
+        "resources": {
+          "dataexchange:GetJob": "*"
+        }
+      }
+    },
+    "getReceivedDataGrant": {
+      "iam": {
+        "reason": "dataexchange:GetDataSet: Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
+        "conditional": {
+          "dataexchange:GetDataSet": "Authorized for the data-grant flows that publish or subscribe; not granted unless asked."
+        }
+      }
+    },
+    "listDataGrants": {
+      "iam": {
+        "reason": "dataexchange:ListDataSets: AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "remove": ["dataexchange:ListDataSets"]
+      }
+    },
+    "listReceivedDataGrants": {
+      "iam": {
+        "reason": "dataexchange:ListDataSets: AWS lists it for the operation, but the DataExchange Bindings suite calls it successfully without it.",
+        "remove": ["dataexchange:ListDataSets"]
       }
     }
   }

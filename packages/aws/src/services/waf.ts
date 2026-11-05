@@ -1513,6 +1513,12 @@ export const createByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateByteMatchSet",
+  iam: {
+    actions: ["waf:CreateByteMatchSet"],
+    resources: {
+      "waf:CreateByteMatchSet": ["arn:${Partition}:waf::${Account}:bytematchset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateByteMatchSet",
 }));
@@ -1570,6 +1576,10 @@ export const createGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGeoMatchSet",
+  iam: {
+    actions: ["waf:CreateGeoMatchSet"],
+    resources: { "waf:CreateGeoMatchSet": ["arn:${Partition}:waf::${Account}:geomatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateGeoMatchSet",
 }));
@@ -1632,6 +1642,10 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  iam: {
+    actions: ["waf:CreateIPSet"],
+    resources: { "waf:CreateIPSet": ["arn:${Partition}:waf::${Account}:ipset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateIPSet",
 }));
@@ -1744,6 +1758,13 @@ export const createRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRateBasedRule",
+  iam: {
+    actions: ["waf:CreateRateBasedRule", "waf:TagResource"],
+    resources: {
+      "waf:CreateRateBasedRule": ["arn:${Partition}:waf::${Account}:ratebasedrule/${Id}"],
+    },
+    conditional: { "waf:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRateBasedRule",
 }));
@@ -1800,6 +1821,10 @@ export const createRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexMatchSet",
+  iam: {
+    actions: ["waf:CreateRegexMatchSet"],
+    resources: { "waf:CreateRegexMatchSet": ["arn:${Partition}:waf::${Account}:regexmatch/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegexMatchSet",
 }));
@@ -1852,6 +1877,12 @@ export const createRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
+  iam: {
+    actions: ["waf:CreateRegexPatternSet"],
+    resources: {
+      "waf:CreateRegexPatternSet": ["arn:${Partition}:waf::${Account}:regexpatternset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegexPatternSet",
 }));
@@ -1930,6 +1961,11 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: {
+    actions: ["waf:CreateRule", "waf:TagResource"],
+    resources: { "waf:CreateRule": ["arn:${Partition}:waf::${Account}:rule/${Id}"] },
+    conditional: { "waf:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -1984,6 +2020,11 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  iam: {
+    actions: ["waf:CreateRuleGroup", "waf:TagResource"],
+    resources: { "waf:CreateRuleGroup": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+    conditional: { "waf:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRuleGroup",
 }));
@@ -2044,6 +2085,12 @@ export const createSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSizeConstraintSet",
+  iam: {
+    actions: ["waf:CreateSizeConstraintSet"],
+    resources: {
+      "waf:CreateSizeConstraintSet": ["arn:${Partition}:waf::${Account}:sizeconstraintset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSizeConstraintSet",
 }));
@@ -2102,6 +2149,12 @@ export const createSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSqlInjectionMatchSet",
+  iam: {
+    actions: ["waf:CreateSqlInjectionMatchSet"],
+    resources: {
+      "waf:CreateSqlInjectionMatchSet": ["arn:${Partition}:waf::${Account}:sqlinjectionset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSqlInjectionMatchSet",
 }));
@@ -2175,6 +2228,11 @@ export const createWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
+  iam: {
+    actions: ["waf:CreateWebACL", "waf:TagResource"],
+    resources: { "waf:CreateWebACL": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+    conditional: { "waf:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebACL",
 }));
@@ -2215,6 +2273,12 @@ export const createWebACLMigrationStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACLMigrationStack",
+  iam: {
+    actions: ["waf:CreateWebACLMigrationStack"],
+    resources: {
+      "waf:CreateWebACLMigrationStack": ["arn:${Partition}:waf::${Account}:webacl/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebACLMigrationStack",
 }));
@@ -2273,6 +2337,10 @@ export const createXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateXssMatchSet",
+  iam: {
+    actions: ["waf:CreateXssMatchSet"],
+    resources: { "waf:CreateXssMatchSet": ["arn:${Partition}:waf::${Account}:xssmatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateXssMatchSet",
 }));
@@ -2326,6 +2394,12 @@ export const deleteByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteByteMatchSet",
+  iam: {
+    actions: ["waf:DeleteByteMatchSet"],
+    resources: {
+      "waf:DeleteByteMatchSet": ["arn:${Partition}:waf::${Account}:bytematchset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteByteMatchSet",
 }));
@@ -2379,6 +2453,10 @@ export const deleteGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeoMatchSet",
+  iam: {
+    actions: ["waf:DeleteGeoMatchSet"],
+    resources: { "waf:DeleteGeoMatchSet": ["arn:${Partition}:waf::${Account}:geomatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGeoMatchSet",
 }));
@@ -2432,6 +2510,10 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  iam: {
+    actions: ["waf:DeleteIPSet"],
+    resources: { "waf:DeleteIPSet": ["arn:${Partition}:waf::${Account}:ipset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIPSet",
 }));
@@ -2464,6 +2546,12 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  iam: {
+    actions: ["waf:DeleteLoggingConfiguration"],
+    resources: {
+      "waf:DeleteLoggingConfiguration": ["arn:${Partition}:waf::${Account}:webacl/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoggingConfiguration",
 }));
@@ -2497,6 +2585,12 @@ export const deletePermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
+  iam: {
+    actions: ["waf:DeletePermissionPolicy"],
+    resources: {
+      "waf:DeletePermissionPolicy": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermissionPolicy",
 }));
@@ -2558,6 +2652,12 @@ export const deleteRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRateBasedRule",
+  iam: {
+    actions: ["waf:DeleteRateBasedRule"],
+    resources: {
+      "waf:DeleteRateBasedRule": ["arn:${Partition}:waf::${Account}:ratebasedrule/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRateBasedRule",
 }));
@@ -2611,6 +2711,10 @@ export const deleteRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexMatchSet",
+  iam: {
+    actions: ["waf:DeleteRegexMatchSet"],
+    resources: { "waf:DeleteRegexMatchSet": ["arn:${Partition}:waf::${Account}:regexmatch/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegexMatchSet",
 }));
@@ -2653,6 +2757,12 @@ export const deleteRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
+  iam: {
+    actions: ["waf:DeleteRegexPatternSet"],
+    resources: {
+      "waf:DeleteRegexPatternSet": ["arn:${Partition}:waf::${Account}:regexpatternset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegexPatternSet",
 }));
@@ -2710,6 +2820,10 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: {
+    actions: ["waf:DeleteRule"],
+    resources: { "waf:DeleteRule": ["arn:${Partition}:waf::${Account}:rule/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -2767,6 +2881,10 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  iam: {
+    actions: ["waf:DeleteRuleGroup"],
+    resources: { "waf:DeleteRuleGroup": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRuleGroup",
 }));
@@ -2820,6 +2938,12 @@ export const deleteSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSizeConstraintSet",
+  iam: {
+    actions: ["waf:DeleteSizeConstraintSet"],
+    resources: {
+      "waf:DeleteSizeConstraintSet": ["arn:${Partition}:waf::${Account}:sizeconstraintset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSizeConstraintSet",
 }));
@@ -2874,6 +2998,12 @@ export const deleteSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSqlInjectionMatchSet",
+  iam: {
+    actions: ["waf:DeleteSqlInjectionMatchSet"],
+    resources: {
+      "waf:DeleteSqlInjectionMatchSet": ["arn:${Partition}:waf::${Account}:sqlinjectionset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSqlInjectionMatchSet",
 }));
@@ -2928,6 +3058,10 @@ export const deleteWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
+  iam: {
+    actions: ["waf:DeleteWebACL"],
+    resources: { "waf:DeleteWebACL": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebACL",
 }));
@@ -2982,6 +3116,10 @@ export const deleteXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteXssMatchSet",
+  iam: {
+    actions: ["waf:DeleteXssMatchSet"],
+    resources: { "waf:DeleteXssMatchSet": ["arn:${Partition}:waf::${Account}:xssmatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteXssMatchSet",
 }));
@@ -3013,6 +3151,10 @@ export const getByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetByteMatchSet",
+  iam: {
+    actions: ["waf:GetByteMatchSet"],
+    resources: { "waf:GetByteMatchSet": ["arn:${Partition}:waf::${Account}:bytematchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetByteMatchSet",
 }));
@@ -3048,6 +3190,7 @@ export const getChangeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeToken",
+  iam: { actions: ["waf:GetChangeToken"] },
   telemetry: TELEMETRY,
   span: "GetChangeToken",
 }));
@@ -3086,6 +3229,7 @@ export const getChangeTokenStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeTokenStatus",
+  iam: { actions: ["waf:GetChangeTokenStatus"] },
   telemetry: TELEMETRY,
   span: "GetChangeTokenStatus",
 }));
@@ -3117,6 +3261,10 @@ export const getGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeoMatchSet",
+  iam: {
+    actions: ["waf:GetGeoMatchSet"],
+    resources: { "waf:GetGeoMatchSet": ["arn:${Partition}:waf::${Account}:geomatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetGeoMatchSet",
 }));
@@ -3148,6 +3296,10 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  iam: {
+    actions: ["waf:GetIPSet"],
+    resources: { "waf:GetIPSet": ["arn:${Partition}:waf::${Account}:ipset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetIPSet",
 }));
@@ -3178,6 +3330,10 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  iam: {
+    actions: ["waf:GetLoggingConfiguration"],
+    resources: { "waf:GetLoggingConfiguration": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetLoggingConfiguration",
 }));
@@ -3208,6 +3364,10 @@ export const getPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
+  iam: {
+    actions: ["waf:GetPermissionPolicy"],
+    resources: { "waf:GetPermissionPolicy": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetPermissionPolicy",
 }));
@@ -3241,6 +3401,10 @@ export const getRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRule",
+  iam: {
+    actions: ["waf:GetRateBasedRule"],
+    resources: { "waf:GetRateBasedRule": ["arn:${Partition}:waf::${Account}:ratebasedrule/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRateBasedRule",
 }));
@@ -3280,6 +3444,12 @@ export const getRateBasedRuleManagedKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRuleManagedKeys",
+  iam: {
+    actions: ["waf:GetRateBasedRuleManagedKeys"],
+    resources: {
+      "waf:GetRateBasedRuleManagedKeys": ["arn:${Partition}:waf::${Account}:ratebasedrule/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRateBasedRuleManagedKeys",
 }));
@@ -3311,6 +3481,10 @@ export const getRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexMatchSet",
+  iam: {
+    actions: ["waf:GetRegexMatchSet"],
+    resources: { "waf:GetRegexMatchSet": ["arn:${Partition}:waf::${Account}:regexmatch/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRegexMatchSet",
 }));
@@ -3342,6 +3516,12 @@ export const getRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
+  iam: {
+    actions: ["waf:GetRegexPatternSet"],
+    resources: {
+      "waf:GetRegexPatternSet": ["arn:${Partition}:waf::${Account}:regexpatternset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegexPatternSet",
 }));
@@ -3373,6 +3553,10 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  iam: {
+    actions: ["waf:GetRule"],
+    resources: { "waf:GetRule": ["arn:${Partition}:waf::${Account}:rule/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRule",
 }));
@@ -3405,6 +3589,10 @@ export const getRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
+  iam: {
+    actions: ["waf:GetRuleGroup"],
+    resources: { "waf:GetRuleGroup": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetRuleGroup",
 }));
@@ -3439,6 +3627,7 @@ export const getSampledRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
+  iam: { actions: ["waf:GetSampledRequests"] },
   telemetry: TELEMETRY,
   span: "GetSampledRequests",
 }));
@@ -3470,6 +3659,12 @@ export const getSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSizeConstraintSet",
+  iam: {
+    actions: ["waf:GetSizeConstraintSet"],
+    resources: {
+      "waf:GetSizeConstraintSet": ["arn:${Partition}:waf::${Account}:sizeconstraintset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSizeConstraintSet",
 }));
@@ -3501,6 +3696,12 @@ export const getSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSqlInjectionMatchSet",
+  iam: {
+    actions: ["waf:GetSqlInjectionMatchSet"],
+    resources: {
+      "waf:GetSqlInjectionMatchSet": ["arn:${Partition}:waf::${Account}:sqlinjectionset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSqlInjectionMatchSet",
 }));
@@ -3532,6 +3733,10 @@ export const getWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
+  iam: {
+    actions: ["waf:GetWebACL"],
+    resources: { "waf:GetWebACL": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetWebACL",
 }));
@@ -3563,6 +3768,10 @@ export const getXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetXssMatchSet",
+  iam: {
+    actions: ["waf:GetXssMatchSet"],
+    resources: { "waf:GetXssMatchSet": ["arn:${Partition}:waf::${Account}:xssmatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetXssMatchSet",
 }));
@@ -3594,6 +3803,7 @@ export const listActivatedRulesInRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListActivatedRulesInRuleGroup",
+  iam: { actions: ["waf:ListActivatedRulesInRuleGroup"] },
   telemetry: TELEMETRY,
   span: "ListActivatedRulesInRuleGroup",
 }));
@@ -3624,6 +3834,7 @@ export const listByteMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListByteMatchSets",
+  iam: { actions: ["waf:ListByteMatchSets"] },
   telemetry: TELEMETRY,
   span: "ListByteMatchSets",
 }));
@@ -3654,6 +3865,7 @@ export const listGeoMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGeoMatchSets",
+  iam: { actions: ["waf:ListGeoMatchSets"] },
   telemetry: TELEMETRY,
   span: "ListGeoMatchSets",
 }));
@@ -3681,6 +3893,7 @@ export const listIPSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
+  iam: { actions: ["waf:ListIPSets"] },
   telemetry: TELEMETRY,
   span: "ListIPSets",
 }));
@@ -3712,6 +3925,7 @@ export const listLoggingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
+  iam: { actions: ["waf:ListLoggingConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListLoggingConfigurations",
 }));
@@ -3742,6 +3956,7 @@ export const listRateBasedRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRateBasedRules",
+  iam: { actions: ["waf:ListRateBasedRules"] },
   telemetry: TELEMETRY,
   span: "ListRateBasedRules",
 }));
@@ -3772,6 +3987,7 @@ export const listRegexMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexMatchSets",
+  iam: { actions: ["waf:ListRegexMatchSets"] },
   telemetry: TELEMETRY,
   span: "ListRegexMatchSets",
 }));
@@ -3802,6 +4018,7 @@ export const listRegexPatternSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
+  iam: { actions: ["waf:ListRegexPatternSets"] },
   telemetry: TELEMETRY,
   span: "ListRegexPatternSets",
 }));
@@ -3829,6 +4046,7 @@ export const listRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
+  iam: { actions: ["waf:ListRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListRuleGroups",
 }));
@@ -3856,6 +4074,7 @@ export const listRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
+  iam: { actions: ["waf:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 }));
@@ -3886,6 +4105,7 @@ export const listSizeConstraintSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSizeConstraintSets",
+  iam: { actions: ["waf:ListSizeConstraintSets"] },
   telemetry: TELEMETRY,
   span: "ListSizeConstraintSets",
 }));
@@ -3916,6 +4136,7 @@ export const listSqlInjectionMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSqlInjectionMatchSets",
+  iam: { actions: ["waf:ListSqlInjectionMatchSets"] },
   telemetry: TELEMETRY,
   span: "ListSqlInjectionMatchSets",
 }));
@@ -3946,6 +4167,7 @@ export const listSubscribedRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscribedRuleGroups",
+  iam: { actions: ["waf:ListSubscribedRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListSubscribedRuleGroups",
 }));
@@ -3989,6 +4211,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["waf:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4019,6 +4242,7 @@ export const listWebACLs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
+  iam: { actions: ["waf:ListWebACLs"] },
   telemetry: TELEMETRY,
   span: "ListWebACLs",
 }));
@@ -4049,6 +4273,7 @@ export const listXssMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListXssMatchSets",
+  iam: { actions: ["waf:ListXssMatchSets"] },
   telemetry: TELEMETRY,
   span: "ListXssMatchSets",
 }));
@@ -4100,6 +4325,10 @@ export const putLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
+  iam: {
+    actions: ["waf:PutLoggingConfiguration"],
+    resources: { "waf:PutLoggingConfiguration": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutLoggingConfiguration",
 }));
@@ -4159,6 +4388,10 @@ export const putPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
+  iam: {
+    actions: ["waf:PutPermissionPolicy"],
+    resources: { "waf:PutPermissionPolicy": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "PutPermissionPolicy",
 }));
@@ -4204,6 +4437,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["waf:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4243,6 +4477,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["waf:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4317,6 +4552,12 @@ export const updateByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateByteMatchSet",
+  iam: {
+    actions: ["waf:UpdateByteMatchSet"],
+    resources: {
+      "waf:UpdateByteMatchSet": ["arn:${Partition}:waf::${Account}:bytematchset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateByteMatchSet",
 }));
@@ -4386,6 +4627,10 @@ export const updateGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeoMatchSet",
+  iam: {
+    actions: ["waf:UpdateGeoMatchSet"],
+    resources: { "waf:UpdateGeoMatchSet": ["arn:${Partition}:waf::${Account}:geomatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGeoMatchSet",
 }));
@@ -4489,6 +4734,10 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  iam: {
+    actions: ["waf:UpdateIPSet"],
+    resources: { "waf:UpdateIPSet": ["arn:${Partition}:waf::${Account}:ipset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIPSet",
 }));
@@ -4573,6 +4822,12 @@ export const updateRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRateBasedRule",
+  iam: {
+    actions: ["waf:UpdateRateBasedRule"],
+    resources: {
+      "waf:UpdateRateBasedRule": ["arn:${Partition}:waf::${Account}:ratebasedrule/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRateBasedRule",
 }));
@@ -4644,6 +4899,10 @@ export const updateRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexMatchSet",
+  iam: {
+    actions: ["waf:UpdateRegexMatchSet"],
+    resources: { "waf:UpdateRegexMatchSet": ["arn:${Partition}:waf::${Account}:regexmatch/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegexMatchSet",
 }));
@@ -4716,6 +4975,12 @@ export const updateRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
+  iam: {
+    actions: ["waf:UpdateRegexPatternSet"],
+    resources: {
+      "waf:UpdateRegexPatternSet": ["arn:${Partition}:waf::${Account}:regexpatternset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegexPatternSet",
 }));
@@ -4796,6 +5061,10 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: {
+    actions: ["waf:UpdateRule"],
+    resources: { "waf:UpdateRule": ["arn:${Partition}:waf::${Account}:rule/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));
@@ -4860,6 +5129,10 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  iam: {
+    actions: ["waf:UpdateRuleGroup"],
+    resources: { "waf:UpdateRuleGroup": ["arn:${Partition}:waf::${Account}:rulegroup/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRuleGroup",
 }));
@@ -4941,6 +5214,12 @@ export const updateSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSizeConstraintSet",
+  iam: {
+    actions: ["waf:UpdateSizeConstraintSet"],
+    resources: {
+      "waf:UpdateSizeConstraintSet": ["arn:${Partition}:waf::${Account}:sizeconstraintset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSizeConstraintSet",
 }));
@@ -5018,6 +5297,12 @@ export const updateSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSqlInjectionMatchSet",
+  iam: {
+    actions: ["waf:UpdateSqlInjectionMatchSet"],
+    resources: {
+      "waf:UpdateSqlInjectionMatchSet": ["arn:${Partition}:waf::${Account}:sqlinjectionset/${Id}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSqlInjectionMatchSet",
 }));
@@ -5128,6 +5413,10 @@ export const updateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
+  iam: {
+    actions: ["waf:UpdateWebACL"],
+    resources: { "waf:UpdateWebACL": ["arn:${Partition}:waf::${Account}:webacl/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWebACL",
 }));
@@ -5207,6 +5496,10 @@ export const updateXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateXssMatchSet",
+  iam: {
+    actions: ["waf:UpdateXssMatchSet"],
+    resources: { "waf:UpdateXssMatchSet": ["arn:${Partition}:waf::${Account}:xssmatchset/${Id}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateXssMatchSet",
 }));

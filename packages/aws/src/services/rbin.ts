@@ -353,6 +353,15 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  iam: {
+    actions: ["rbin:CreateRule", "rbin:LockRule", "rbin:TagResource"],
+    resources: {
+      "rbin:CreateRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+      "rbin:LockRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+      "rbin:TagResource": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+    conditional: { "rbin:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -384,6 +393,12 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  iam: {
+    actions: ["rbin:DeleteRule"],
+    resources: {
+      "rbin:DeleteRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -408,6 +423,12 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  iam: {
+    actions: ["rbin:GetRule"],
+    resources: {
+      "rbin:GetRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRule",
 }));
@@ -435,6 +456,7 @@ export const listRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["rbin:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -459,6 +481,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["rbin:ListTagsForResource"],
+    resources: {
+      "rbin:ListTagsForResource": [
+        "arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -493,6 +523,12 @@ export const lockRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LockRule",
+  iam: {
+    actions: ["rbin:LockRule"],
+    resources: {
+      "rbin:LockRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "LockRule",
 }));
@@ -523,6 +559,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["rbin:TagResource"],
+    resources: {
+      "rbin:TagResource": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -554,6 +596,12 @@ export const unlockRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlockRule",
+  iam: {
+    actions: ["rbin:UnlockRule"],
+    resources: {
+      "rbin:UnlockRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnlockRule",
 }));
@@ -578,6 +626,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["rbin:UntagResource"],
+    resources: {
+      "rbin:UntagResource": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -613,6 +667,12 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  iam: {
+    actions: ["rbin:UpdateRule"],
+    resources: {
+      "rbin:UpdateRule": ["arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRule",
 }));

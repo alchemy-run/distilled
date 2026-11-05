@@ -2366,6 +2366,14 @@ export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApprovalRuleTemplateWithRepository",
+  iam: {
+    actions: ["codecommit:AssociateApprovalRuleTemplateWithRepository"],
+    resources: {
+      "codecommit:AssociateApprovalRuleTemplateWithRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApprovalRuleTemplateWithRepository",
 }));
@@ -2416,6 +2424,14 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateApprovalRuleTemplateWithRepositories",
+  iam: {
+    actions: ["codecommit:BatchAssociateApprovalRuleTemplateWithRepositories"],
+    resources: {
+      "codecommit:BatchAssociateApprovalRuleTemplateWithRepositories": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateApprovalRuleTemplateWithRepositories",
 }));
@@ -2480,6 +2496,14 @@ export const batchDescribeMergeConflicts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeMergeConflicts",
+  iam: {
+    actions: ["codecommit:BatchDescribeMergeConflicts"],
+    resources: {
+      "codecommit:BatchDescribeMergeConflicts": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDescribeMergeConflicts",
 }));
@@ -2530,6 +2554,14 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateApprovalRuleTemplateFromRepositories",
+  iam: {
+    actions: ["codecommit:BatchDisassociateApprovalRuleTemplateFromRepositories"],
+    resources: {
+      "codecommit:BatchDisassociateApprovalRuleTemplateFromRepositories": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateApprovalRuleTemplateFromRepositories",
 }));
@@ -2572,6 +2604,14 @@ export const batchGetCommits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommits",
+  iam: {
+    actions: ["codecommit:BatchGetCommits"],
+    resources: {
+      "codecommit:BatchGetCommits": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetCommits",
 }));
@@ -2616,6 +2656,14 @@ export const batchGetRepositories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRepositories",
+  iam: {
+    actions: ["codecommit:BatchGetRepositories"],
+    resources: {
+      "codecommit:BatchGetRepositories": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetRepositories",
 }));
@@ -2656,6 +2704,7 @@ export const createApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalRuleTemplate",
+  iam: { actions: ["codecommit:CreateApprovalRuleTemplate"] },
   telemetry: TELEMETRY,
   span: "CreateApprovalRuleTemplate",
 }));
@@ -2708,6 +2757,14 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  iam: {
+    actions: ["codecommit:CreateBranch"],
+    resources: {
+      "codecommit:CreateBranch": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBranch",
 }));
@@ -2806,6 +2863,14 @@ export const createCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCommit",
+  iam: {
+    actions: ["codecommit:CreateCommit"],
+    resources: {
+      "codecommit:CreateCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCommit",
 }));
@@ -2878,6 +2943,14 @@ export const createPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequest",
+  iam: {
+    actions: ["codecommit:CreatePullRequest"],
+    resources: {
+      "codecommit:CreatePullRequest": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePullRequest",
 }));
@@ -2930,6 +3003,14 @@ export const createPullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequestApprovalRule",
+  iam: {
+    actions: ["codecommit:CreatePullRequestApprovalRule"],
+    resources: {
+      "codecommit:CreatePullRequestApprovalRule": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePullRequestApprovalRule",
 }));
@@ -2986,6 +3067,15 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  iam: {
+    actions: ["codecommit:CreateRepository", "codecommit:TagResource"],
+    resources: {
+      "codecommit:CreateRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+    conditional: { "codecommit:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRepository",
 }));
@@ -3086,6 +3176,14 @@ export const createUnreferencedMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUnreferencedMergeCommit",
+  iam: {
+    actions: ["codecommit:CreateUnreferencedMergeCommit"],
+    resources: {
+      "codecommit:CreateUnreferencedMergeCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateUnreferencedMergeCommit",
 }));
@@ -3114,6 +3212,7 @@ export const deleteApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApprovalRuleTemplate",
+  iam: { actions: ["codecommit:DeleteApprovalRuleTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteApprovalRuleTemplate",
 }));
@@ -3158,6 +3257,14 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  iam: {
+    actions: ["codecommit:DeleteBranch"],
+    resources: {
+      "codecommit:DeleteBranch": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBranch",
 }));
@@ -3188,6 +3295,14 @@ export const deleteCommentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCommentContent",
+  iam: {
+    actions: ["codecommit:DeleteCommentContent"],
+    resources: {
+      "codecommit:DeleteCommentContent": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCommentContent",
 }));
@@ -3256,6 +3371,14 @@ export const deleteFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFile",
+  iam: {
+    actions: ["codecommit:DeleteFile"],
+    resources: {
+      "codecommit:DeleteFile": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFile",
 }));
@@ -3304,6 +3427,14 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePullRequestApprovalRule",
+  iam: {
+    actions: ["codecommit:DeletePullRequestApprovalRule"],
+    resources: {
+      "codecommit:DeletePullRequestApprovalRule": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePullRequestApprovalRule",
 }));
@@ -3344,6 +3475,14 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  iam: {
+    actions: ["codecommit:DeleteRepository"],
+    resources: {
+      "codecommit:DeleteRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRepository",
 }));
@@ -3420,6 +3559,14 @@ export const describeMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxMergeHunks",
   } as const,
+  iam: {
+    actions: ["codecommit:DescribeMergeConflicts"],
+    resources: {
+      "codecommit:DescribeMergeConflicts": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMergeConflicts",
 })) as any;
@@ -3474,6 +3621,14 @@ export const describePullRequestEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:DescribePullRequestEvents"],
+    resources: {
+      "codecommit:DescribePullRequestEvents": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePullRequestEvents",
 })) as any;
@@ -3525,6 +3680,14 @@ export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApprovalRuleTemplateFromRepository",
+  iam: {
+    actions: ["codecommit:DisassociateApprovalRuleTemplateFromRepository"],
+    resources: {
+      "codecommit:DisassociateApprovalRuleTemplateFromRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApprovalRuleTemplateFromRepository",
 }));
@@ -3569,6 +3732,14 @@ export const evaluatePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluatePullRequestApprovalRules",
+  iam: {
+    actions: ["codecommit:EvaluatePullRequestApprovalRules"],
+    resources: {
+      "codecommit:EvaluatePullRequestApprovalRules": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EvaluatePullRequestApprovalRules",
 }));
@@ -3597,6 +3768,7 @@ export const getApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalRuleTemplate",
+  iam: { actions: ["codecommit:GetApprovalRuleTemplate"] },
   telemetry: TELEMETRY,
   span: "GetApprovalRuleTemplate",
 }));
@@ -3643,6 +3815,12 @@ export const getBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlob",
+  iam: {
+    actions: ["codecommit:GetBlob"],
+    resources: {
+      "codecommit:GetBlob": ["arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBlob",
 }));
@@ -3709,6 +3887,14 @@ export const getBlobDifferences: API.PaginatedOperationMethod<
     items: "hunks",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:GetBlobDifferences"],
+    resources: {
+      "codecommit:GetBlobDifferences": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBlobDifferences",
 })) as any;
@@ -3753,6 +3939,14 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  iam: {
+    actions: ["codecommit:GetBranch"],
+    resources: {
+      "codecommit:GetBranch": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBranch",
 }));
@@ -3796,6 +3990,14 @@ export const getComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComment",
+  iam: {
+    actions: ["codecommit:GetComment"],
+    resources: {
+      "codecommit:GetComment": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComment",
 }));
@@ -3838,6 +4040,14 @@ export const getCommentReactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:GetCommentReactions"],
+    resources: {
+      "codecommit:GetCommentReactions": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCommentReactions",
 })) as any;
@@ -3895,6 +4105,14 @@ export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:GetCommentsForComparedCommit"],
+    resources: {
+      "codecommit:GetCommentsForComparedCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCommentsForComparedCommit",
 })) as any;
@@ -3960,6 +4178,14 @@ export const getCommentsForPullRequest: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:GetCommentsForPullRequest"],
+    resources: {
+      "codecommit:GetCommentsForPullRequest": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCommentsForPullRequest",
 })) as any;
@@ -4004,6 +4230,14 @@ export const getCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommit",
+  iam: {
+    actions: ["codecommit:GetCommit"],
+    resources: {
+      "codecommit:GetCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCommit",
 }));
@@ -4069,6 +4303,14 @@ export const getDifferences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:GetDifferences"],
+    resources: {
+      "codecommit:GetDifferences": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDifferences",
 })) as any;
@@ -4119,6 +4361,12 @@ export const getFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFile",
+  iam: {
+    actions: ["codecommit:GetFile"],
+    resources: {
+      "codecommit:GetFile": ["arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFile",
 }));
@@ -4167,6 +4415,14 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  iam: {
+    actions: ["codecommit:GetFolder"],
+    resources: {
+      "codecommit:GetFolder": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFolder",
 }));
@@ -4215,6 +4471,14 @@ export const getMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeCommit",
+  iam: {
+    actions: ["codecommit:GetMergeCommit"],
+    resources: {
+      "codecommit:GetMergeCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMergeCommit",
 }));
@@ -4287,6 +4551,14 @@ export const getMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxConflictFiles",
   } as const,
+  iam: {
+    actions: ["codecommit:GetMergeConflicts"],
+    resources: {
+      "codecommit:GetMergeConflicts": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMergeConflicts",
 })) as any;
@@ -4343,6 +4615,14 @@ export const getMergeOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeOptions",
+  iam: {
+    actions: ["codecommit:GetMergeOptions"],
+    resources: {
+      "codecommit:GetMergeOptions": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMergeOptions",
 }));
@@ -4381,6 +4661,14 @@ export const getPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequest",
+  iam: {
+    actions: ["codecommit:GetPullRequest"],
+    resources: {
+      "codecommit:GetPullRequest": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPullRequest",
 }));
@@ -4424,6 +4712,14 @@ export const getPullRequestApprovalStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestApprovalStates",
+  iam: {
+    actions: ["codecommit:GetPullRequestApprovalStates"],
+    resources: {
+      "codecommit:GetPullRequestApprovalStates": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPullRequestApprovalStates",
 }));
@@ -4467,6 +4763,14 @@ export const getPullRequestOverrideState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestOverrideState",
+  iam: {
+    actions: ["codecommit:GetPullRequestOverrideState"],
+    resources: {
+      "codecommit:GetPullRequestOverrideState": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPullRequestOverrideState",
 }));
@@ -4511,6 +4815,14 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
+  iam: {
+    actions: ["codecommit:GetRepository"],
+    resources: {
+      "codecommit:GetRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepository",
 }));
@@ -4549,6 +4861,14 @@ export const getRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryTriggers",
+  iam: {
+    actions: ["codecommit:GetRepositoryTriggers"],
+    resources: {
+      "codecommit:GetRepositoryTriggers": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRepositoryTriggers",
 }));
@@ -4579,6 +4899,7 @@ export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codecommit:ListApprovalRuleTemplates"] },
   telemetry: TELEMETRY,
   span: "ListApprovalRuleTemplates",
 })) as any;
@@ -4635,6 +4956,14 @@ export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOper
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:ListAssociatedApprovalRuleTemplatesForRepository"],
+    resources: {
+      "codecommit:ListAssociatedApprovalRuleTemplatesForRepository": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedApprovalRuleTemplatesForRepository",
 })) as any;
@@ -4677,6 +5006,14 @@ export const listBranches: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBranches",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "branches" } as const,
+  iam: {
+    actions: ["codecommit:ListBranches"],
+    resources: {
+      "codecommit:ListBranches": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBranches",
 })) as any;
@@ -4733,6 +5070,14 @@ export const listFileCommitHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:ListFileCommitHistory"],
+    resources: {
+      "codecommit:ListFileCommitHistory": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFileCommitHistory",
 })) as any;
@@ -4788,6 +5133,14 @@ export const listPullRequests: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codecommit:ListPullRequests"],
+    resources: {
+      "codecommit:ListPullRequests": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPullRequests",
 })) as any;
@@ -4814,6 +5167,7 @@ export const listRepositories: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRepositories",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "repositories" } as const,
+  iam: { actions: ["codecommit:ListRepositories"] },
   telemetry: TELEMETRY,
   span: "ListRepositories",
 })) as any;
@@ -4862,6 +5216,7 @@ export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMeth
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codecommit:ListRepositoriesForApprovalRuleTemplate"] },
   telemetry: TELEMETRY,
   span: "ListRepositoriesForApprovalRuleTemplate",
 })) as any;
@@ -4895,6 +5250,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["codecommit:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4955,6 +5311,14 @@ export const mergeBranchesByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByFastForward",
+  iam: {
+    actions: ["codecommit:MergeBranchesByFastForward"],
+    resources: {
+      "codecommit:MergeBranchesByFastForward": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergeBranchesByFastForward",
 }));
@@ -5055,6 +5419,14 @@ export const mergeBranchesBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesBySquash",
+  iam: {
+    actions: ["codecommit:MergeBranchesBySquash"],
+    resources: {
+      "codecommit:MergeBranchesBySquash": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergeBranchesBySquash",
 }));
@@ -5155,6 +5527,14 @@ export const mergeBranchesByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByThreeWay",
+  iam: {
+    actions: ["codecommit:MergeBranchesByThreeWay"],
+    resources: {
+      "codecommit:MergeBranchesByThreeWay": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergeBranchesByThreeWay",
 }));
@@ -5216,6 +5596,14 @@ export const mergePullRequestByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByFastForward",
+  iam: {
+    actions: ["codecommit:MergePullRequestByFastForward"],
+    resources: {
+      "codecommit:MergePullRequestByFastForward": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergePullRequestByFastForward",
 }));
@@ -5315,6 +5703,14 @@ export const mergePullRequestBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestBySquash",
+  iam: {
+    actions: ["codecommit:MergePullRequestBySquash"],
+    resources: {
+      "codecommit:MergePullRequestBySquash": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergePullRequestBySquash",
 }));
@@ -5414,6 +5810,14 @@ export const mergePullRequestByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByThreeWay",
+  iam: {
+    actions: ["codecommit:MergePullRequestByThreeWay"],
+    resources: {
+      "codecommit:MergePullRequestByThreeWay": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergePullRequestByThreeWay",
 }));
@@ -5466,6 +5870,14 @@ export const overridePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OverridePullRequestApprovalRules",
+  iam: {
+    actions: ["codecommit:OverridePullRequestApprovalRules"],
+    resources: {
+      "codecommit:OverridePullRequestApprovalRules": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "OverridePullRequestApprovalRules",
 }));
@@ -5534,6 +5946,14 @@ export const postCommentForComparedCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForComparedCommit",
+  iam: {
+    actions: ["codecommit:PostCommentForComparedCommit"],
+    resources: {
+      "codecommit:PostCommentForComparedCommit": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PostCommentForComparedCommit",
 }));
@@ -5610,6 +6030,14 @@ export const postCommentForPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForPullRequest",
+  iam: {
+    actions: ["codecommit:PostCommentForPullRequest"],
+    resources: {
+      "codecommit:PostCommentForPullRequest": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PostCommentForPullRequest",
 }));
@@ -5648,6 +6076,14 @@ export const postCommentReply: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentReply",
+  iam: {
+    actions: ["codecommit:PostCommentReply"],
+    resources: {
+      "codecommit:PostCommentReply": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PostCommentReply",
 }));
@@ -5685,6 +6121,14 @@ export const putCommentReaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCommentReaction",
+  iam: {
+    actions: ["codecommit:PutCommentReaction"],
+    resources: {
+      "codecommit:PutCommentReaction": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutCommentReaction",
 }));
@@ -5767,6 +6211,12 @@ export const putFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFile",
+  iam: {
+    actions: ["codecommit:PutFile"],
+    resources: {
+      "codecommit:PutFile": ["arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutFile",
 }));
@@ -5831,6 +6281,14 @@ export const putRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryTriggers",
+  iam: {
+    actions: ["codecommit:PutRepositoryTriggers"],
+    resources: {
+      "codecommit:PutRepositoryTriggers": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRepositoryTriggers",
 }));
@@ -5875,6 +6333,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["codecommit:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5941,6 +6400,14 @@ export const testRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRepositoryTriggers",
+  iam: {
+    actions: ["codecommit:TestRepositoryTriggers"],
+    resources: {
+      "codecommit:TestRepositoryTriggers": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestRepositoryTriggers",
 }));
@@ -5984,6 +6451,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["codecommit:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6020,6 +6488,7 @@ export const updateApprovalRuleTemplateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateContent",
+  iam: { actions: ["codecommit:UpdateApprovalRuleTemplateContent"] },
   telemetry: TELEMETRY,
   span: "UpdateApprovalRuleTemplateContent",
 }));
@@ -6050,6 +6519,7 @@ export const updateApprovalRuleTemplateDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateDescription",
+  iam: { actions: ["codecommit:UpdateApprovalRuleTemplateDescription"] },
   telemetry: TELEMETRY,
   span: "UpdateApprovalRuleTemplateDescription",
 }));
@@ -6080,6 +6550,7 @@ export const updateApprovalRuleTemplateName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateName",
+  iam: { actions: ["codecommit:UpdateApprovalRuleTemplateName"] },
   telemetry: TELEMETRY,
   span: "UpdateApprovalRuleTemplateName",
 }));
@@ -6116,6 +6587,14 @@ export const updateComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComment",
+  iam: {
+    actions: ["codecommit:UpdateComment"],
+    resources: {
+      "codecommit:UpdateComment": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateComment",
 }));
@@ -6162,6 +6641,14 @@ export const updateDefaultBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultBranch",
+  iam: {
+    actions: ["codecommit:UpdateDefaultBranch"],
+    resources: {
+      "codecommit:UpdateDefaultBranch": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDefaultBranch",
 }));
@@ -6217,6 +6704,14 @@ export const updatePullRequestApprovalRuleContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalRuleContent",
+  iam: {
+    actions: ["codecommit:UpdatePullRequestApprovalRuleContent"],
+    resources: {
+      "codecommit:UpdatePullRequestApprovalRuleContent": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePullRequestApprovalRuleContent",
 }));
@@ -6271,6 +6766,14 @@ export const updatePullRequestApprovalState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalState",
+  iam: {
+    actions: ["codecommit:UpdatePullRequestApprovalState"],
+    resources: {
+      "codecommit:UpdatePullRequestApprovalState": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePullRequestApprovalState",
 }));
@@ -6303,6 +6806,14 @@ export const updatePullRequestDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestDescription",
+  iam: {
+    actions: ["codecommit:UpdatePullRequestDescription"],
+    resources: {
+      "codecommit:UpdatePullRequestDescription": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePullRequestDescription",
 }));
@@ -6347,6 +6858,14 @@ export const updatePullRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestStatus",
+  iam: {
+    actions: ["codecommit:UpdatePullRequestStatus"],
+    resources: {
+      "codecommit:UpdatePullRequestStatus": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePullRequestStatus",
 }));
@@ -6381,6 +6900,14 @@ export const updatePullRequestTitle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestTitle",
+  iam: {
+    actions: ["codecommit:UpdatePullRequestTitle"],
+    resources: {
+      "codecommit:UpdatePullRequestTitle": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePullRequestTitle",
 }));
@@ -6427,6 +6954,14 @@ export const updateRepositoryDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryDescription",
+  iam: {
+    actions: ["codecommit:UpdateRepositoryDescription"],
+    resources: {
+      "codecommit:UpdateRepositoryDescription": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRepositoryDescription",
 }));
@@ -6471,6 +7006,14 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryEncryptionKey",
+  iam: {
+    actions: ["codecommit:UpdateRepositoryEncryptionKey"],
+    resources: {
+      "codecommit:UpdateRepositoryEncryptionKey": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRepositoryEncryptionKey",
 }));
@@ -6505,6 +7048,14 @@ export const updateRepositoryName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryName",
+  iam: {
+    actions: ["codecommit:TagResource", "codecommit:UpdateRepositoryName"],
+    resources: {
+      "codecommit:UpdateRepositoryName": [
+        "arn:${Partition}:codecommit:${Region}:${Account}:${RepositoryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRepositoryName",
 }));

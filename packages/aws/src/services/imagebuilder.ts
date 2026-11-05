@@ -2214,6 +2214,14 @@ export const cancelImageCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImageCreation",
+  iam: {
+    actions: ["imagebuilder:CancelImageCreation"],
+    resources: {
+      "imagebuilder:CancelImageCreation": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelImageCreation",
 }));
@@ -2256,6 +2264,14 @@ export const cancelLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLifecycleExecution",
+  iam: {
+    actions: ["imagebuilder:CancelLifecycleExecution"],
+    resources: {
+      "imagebuilder:CancelLifecycleExecution": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-execution/${LifecycleExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelLifecycleExecution",
 }));
@@ -2313,6 +2329,15 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  iam: {
+    actions: ["imagebuilder:CreateComponent", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:CreateComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateComponent",
 }));
@@ -2360,6 +2385,26 @@ export const createContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerRecipe",
+  iam: {
+    actions: [
+      "imagebuilder:CreateContainerRecipe",
+      "imagebuilder:GetComponent",
+      "imagebuilder:GetImage",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+      "imagebuilder:GetComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+      "imagebuilder:GetImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateContainerRecipe",
 }));
@@ -2408,6 +2453,20 @@ export const createDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionConfiguration",
+  iam: {
+    actions: [
+      "imagebuilder:CreateDistributionConfiguration",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDistributionConfiguration",
 }));
@@ -2454,6 +2513,40 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
+  iam: {
+    actions: [
+      "imagebuilder:CreateImage",
+      "imagebuilder:GetContainerRecipe",
+      "imagebuilder:GetDistributionConfiguration",
+      "imagebuilder:GetImageRecipe",
+      "imagebuilder:GetInfrastructureConfiguration",
+      "imagebuilder:GetWorkflow",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+      "imagebuilder:GetContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+      "imagebuilder:GetDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+      "imagebuilder:GetImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+      "imagebuilder:GetInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+      "imagebuilder:GetWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "executionRole", "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImage",
 }));
@@ -2501,6 +2594,40 @@ export const createImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImagePipeline",
+  iam: {
+    actions: [
+      "imagebuilder:CreateImagePipeline",
+      "imagebuilder:GetContainerRecipe",
+      "imagebuilder:GetDistributionConfiguration",
+      "imagebuilder:GetImageRecipe",
+      "imagebuilder:GetInfrastructureConfiguration",
+      "imagebuilder:GetWorkflow",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateImagePipeline": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+      "imagebuilder:GetContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+      "imagebuilder:GetDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+      "imagebuilder:GetImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+      "imagebuilder:GetInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+      "imagebuilder:GetWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "executionRole", "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImagePipeline",
 }));
@@ -2548,6 +2675,26 @@ export const createImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageRecipe",
+  iam: {
+    actions: [
+      "imagebuilder:CreateImageRecipe",
+      "imagebuilder:GetComponent",
+      "imagebuilder:GetImage",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+      "imagebuilder:GetComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+      "imagebuilder:GetImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImageRecipe",
 }));
@@ -2595,6 +2742,27 @@ export const createInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInfrastructureConfiguration",
+  iam: {
+    actions: [
+      "imagebuilder:CreateInfrastructureConfiguration",
+      "iam:GetInstanceProfile",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:CreateInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+      "iam:GetInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "imagebuilder:TagResource": "resourceTags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateInfrastructureConfiguration",
 }));
@@ -2639,6 +2807,16 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  iam: {
+    actions: ["imagebuilder:CreateLifecyclePolicy", "iam:PassRole", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:CreateLifecyclePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-policy/${LifecyclePolicyName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLifecyclePolicy",
 }));
@@ -2689,6 +2867,15 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  iam: {
+    actions: ["imagebuilder:CreateWorkflow", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:CreateWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -2730,6 +2917,14 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  iam: {
+    actions: ["imagebuilder:DeleteComponent"],
+    resources: {
+      "imagebuilder:DeleteComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteComponent",
 }));
@@ -2768,6 +2963,14 @@ export const deleteContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerRecipe",
+  iam: {
+    actions: ["imagebuilder:DeleteContainerRecipe"],
+    resources: {
+      "imagebuilder:DeleteContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteContainerRecipe",
 }));
@@ -2809,6 +3012,14 @@ export const deleteDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionConfiguration",
+  iam: {
+    actions: ["imagebuilder:DeleteDistributionConfiguration"],
+    resources: {
+      "imagebuilder:DeleteDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDistributionConfiguration",
 }));
@@ -2868,6 +3079,14 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  iam: {
+    actions: ["imagebuilder:DeleteImage"],
+    resources: {
+      "imagebuilder:DeleteImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImage",
 }));
@@ -2909,6 +3128,14 @@ export const deleteImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePipeline",
+  iam: {
+    actions: ["imagebuilder:DeleteImagePipeline"],
+    resources: {
+      "imagebuilder:DeleteImagePipeline": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImagePipeline",
 }));
@@ -2947,6 +3174,14 @@ export const deleteImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageRecipe",
+  iam: {
+    actions: ["imagebuilder:DeleteImageRecipe"],
+    resources: {
+      "imagebuilder:DeleteImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImageRecipe",
 }));
@@ -2988,6 +3223,14 @@ export const deleteInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInfrastructureConfiguration",
+  iam: {
+    actions: ["imagebuilder:DeleteInfrastructureConfiguration"],
+    resources: {
+      "imagebuilder:DeleteInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInfrastructureConfiguration",
 }));
@@ -3028,6 +3271,14 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  iam: {
+    actions: ["imagebuilder:DeleteLifecyclePolicy"],
+    resources: {
+      "imagebuilder:DeleteLifecyclePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-policy/${LifecyclePolicyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLifecyclePolicy",
 }));
@@ -3066,6 +3317,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["imagebuilder:DeleteWorkflow"],
+    resources: {
+      "imagebuilder:DeleteWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -3114,6 +3373,28 @@ export const distributeImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeImage",
+  iam: {
+    actions: [
+      "imagebuilder:DistributeImage",
+      "imagebuilder:GetDistributionConfiguration",
+      "imagebuilder:GetImage",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:DistributeImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+      "imagebuilder:GetDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+      "imagebuilder:GetImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "DistributeImage",
 }));
@@ -3150,6 +3431,14 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  iam: {
+    actions: ["imagebuilder:GetComponent"],
+    resources: {
+      "imagebuilder:GetComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComponent",
 }));
@@ -3184,6 +3473,14 @@ export const getComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentPolicy",
+  iam: {
+    actions: ["imagebuilder:GetComponentPolicy"],
+    resources: {
+      "imagebuilder:GetComponentPolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComponentPolicy",
 }));
@@ -3218,6 +3515,14 @@ export const getContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipe",
+  iam: {
+    actions: ["imagebuilder:GetContainerRecipe"],
+    resources: {
+      "imagebuilder:GetContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContainerRecipe",
 }));
@@ -3252,6 +3557,14 @@ export const getContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipePolicy",
+  iam: {
+    actions: ["imagebuilder:GetContainerRecipePolicy"],
+    resources: {
+      "imagebuilder:GetContainerRecipePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetContainerRecipePolicy",
 }));
@@ -3288,6 +3601,14 @@ export const getDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfiguration",
+  iam: {
+    actions: ["imagebuilder:GetDistributionConfiguration"],
+    resources: {
+      "imagebuilder:GetDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDistributionConfiguration",
 }));
@@ -3324,6 +3645,14 @@ export const getImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImage",
+  iam: {
+    actions: ["imagebuilder:GetImage"],
+    resources: {
+      "imagebuilder:GetImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImage",
 }));
@@ -3360,6 +3689,14 @@ export const getImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePipeline",
+  iam: {
+    actions: ["imagebuilder:GetImagePipeline"],
+    resources: {
+      "imagebuilder:GetImagePipeline": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImagePipeline",
 }));
@@ -3394,6 +3731,14 @@ export const getImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePolicy",
+  iam: {
+    actions: ["imagebuilder:GetImagePolicy"],
+    resources: {
+      "imagebuilder:GetImagePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImagePolicy",
 }));
@@ -3430,6 +3775,14 @@ export const getImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipe",
+  iam: {
+    actions: ["imagebuilder:GetImageRecipe"],
+    resources: {
+      "imagebuilder:GetImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImageRecipe",
 }));
@@ -3464,6 +3817,14 @@ export const getImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipePolicy",
+  iam: {
+    actions: ["imagebuilder:GetImageRecipePolicy"],
+    resources: {
+      "imagebuilder:GetImageRecipePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImageRecipePolicy",
 }));
@@ -3500,6 +3861,14 @@ export const getInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInfrastructureConfiguration",
+  iam: {
+    actions: ["imagebuilder:GetInfrastructureConfiguration"],
+    resources: {
+      "imagebuilder:GetInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInfrastructureConfiguration",
 }));
@@ -3536,6 +3905,14 @@ export const getLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecycleExecution",
+  iam: {
+    actions: ["imagebuilder:GetLifecycleExecution"],
+    resources: {
+      "imagebuilder:GetLifecycleExecution": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-execution/${LifecycleExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLifecycleExecution",
 }));
@@ -3570,6 +3947,14 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  iam: {
+    actions: ["imagebuilder:GetLifecyclePolicy"],
+    resources: {
+      "imagebuilder:GetLifecyclePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-policy/${LifecyclePolicyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicy",
 }));
@@ -3607,6 +3992,14 @@ export const getMarketplaceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMarketplaceResource",
+  iam: {
+    actions: ["imagebuilder:GetMarketplaceResource"],
+    resources: {
+      "imagebuilder:GetMarketplaceResource": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMarketplaceResource",
 }));
@@ -3641,6 +4034,14 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  iam: {
+    actions: ["imagebuilder:GetWorkflow"],
+    resources: {
+      "imagebuilder:GetWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -3676,6 +4077,14 @@ export const getWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowExecution",
+  iam: {
+    actions: ["imagebuilder:GetWorkflowExecution"],
+    resources: {
+      "imagebuilder:GetWorkflowExecution": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow-execution/${WorkflowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowExecution",
 }));
@@ -3711,6 +4120,14 @@ export const getWorkflowStepExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStepExecution",
+  iam: {
+    actions: ["imagebuilder:GetWorkflowStepExecution"],
+    resources: {
+      "imagebuilder:GetWorkflowStepExecution": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow-step-execution/${WorkflowStepExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowStepExecution",
 }));
@@ -3755,6 +4172,15 @@ export const importComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportComponent",
+  iam: {
+    actions: ["imagebuilder:ImportComponent", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:ImportComponent": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportComponent",
 }));
@@ -3795,6 +4221,24 @@ export const importDiskImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDiskImage",
+  iam: {
+    actions: [
+      "imagebuilder:GetInfrastructureConfiguration",
+      "imagebuilder:ImportDiskImage",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+    ],
+    resources: {
+      "imagebuilder:GetInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+      "imagebuilder:ImportDiskImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "executionRole", "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportDiskImage",
 }));
@@ -3829,6 +4273,15 @@ export const importVmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportVmImage",
+  iam: {
+    actions: ["imagebuilder:ImportVmImage", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:ImportVmImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportVmImage",
 }));
@@ -3877,6 +4330,14 @@ export const listComponentBuildVersions: API.PaginatedOperationMethod<
     items: "componentSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListComponentBuildVersions"],
+    resources: {
+      "imagebuilder:ListComponentBuildVersions": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListComponentBuildVersions",
 })) as any;
@@ -3930,6 +4391,7 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "componentVersionList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListComponents"] },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -3973,6 +4435,7 @@ export const listContainerRecipes: API.PaginatedOperationMethod<
     items: "containerRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListContainerRecipes"] },
   telemetry: TELEMETRY,
   span: "ListContainerRecipes",
 })) as any;
@@ -4016,6 +4479,7 @@ export const listDistributionConfigurations: API.PaginatedOperationMethod<
     items: "distributionConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListDistributionConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListDistributionConfigurations",
 })) as any;
@@ -4059,6 +4523,14 @@ export const listImageBuildVersions: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListImageBuildVersions"],
+    resources: {
+      "imagebuilder:ListImageBuildVersions": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImageBuildVersions",
 })) as any;
@@ -4105,6 +4577,14 @@ export const listImagePackages: API.PaginatedOperationMethod<
     items: "imagePackageList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListImagePackages"],
+    resources: {
+      "imagebuilder:ListImagePackages": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImagePackages",
 })) as any;
@@ -4150,6 +4630,14 @@ export const listImagePipelineImages: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListImagePipelineImages"],
+    resources: {
+      "imagebuilder:ListImagePipelineImages": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImagePipelineImages",
 })) as any;
@@ -4193,6 +4681,7 @@ export const listImagePipelines: API.PaginatedOperationMethod<
     items: "imagePipelineList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListImagePipelines"] },
   telemetry: TELEMETRY,
   span: "ListImagePipelines",
 })) as any;
@@ -4236,6 +4725,7 @@ export const listImageRecipes: API.PaginatedOperationMethod<
     items: "imageRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListImageRecipes"] },
   telemetry: TELEMETRY,
   span: "ListImageRecipes",
 })) as any;
@@ -4279,6 +4769,7 @@ export const listImages: API.PaginatedOperationMethod<
     items: "imageVersionList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListImages"] },
   telemetry: TELEMETRY,
   span: "ListImages",
 })) as any;
@@ -4329,6 +4820,12 @@ export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImageScanFindingAggregations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "responses" } as const,
+  iam: {
+    actions: [
+      "imagebuilder:ListImageScanFindingAggregations",
+      "inspector2:ListFindingAggregations",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "ListImageScanFindingAggregations",
 })) as any;
@@ -4373,6 +4870,7 @@ export const listImageScanFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListImageScanFindings", "inspector2:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListImageScanFindings",
 })) as any;
@@ -4416,6 +4914,7 @@ export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
     items: "infrastructureConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListInfrastructureConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListInfrastructureConfigurations",
 })) as any;
@@ -4459,6 +4958,14 @@ export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListLifecycleExecutionResources"],
+    resources: {
+      "imagebuilder:ListLifecycleExecutionResources": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-execution/${LifecycleExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLifecycleExecutionResources",
 })) as any;
@@ -4502,6 +5009,7 @@ export const listLifecycleExecutions: API.PaginatedOperationMethod<
     items: "lifecycleExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListLifecycleExecutions"] },
   telemetry: TELEMETRY,
   span: "ListLifecycleExecutions",
 })) as any;
@@ -4545,6 +5053,7 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
     items: "lifecyclePolicySummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListLifecyclePolicies"] },
   telemetry: TELEMETRY,
   span: "ListLifecyclePolicies",
 })) as any;
@@ -4569,6 +5078,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["imagebuilder:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4614,6 +5124,7 @@ export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListWaitingWorkflowSteps"] },
   telemetry: TELEMETRY,
   span: "ListWaitingWorkflowSteps",
 })) as any;
@@ -4657,6 +5168,14 @@ export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
     items: "workflowSummaryList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListWorkflowBuildVersions"],
+    resources: {
+      "imagebuilder:ListWorkflowBuildVersions": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowBuildVersions",
 })) as any;
@@ -4701,6 +5220,14 @@ export const listWorkflowExecutions: API.PaginatedOperationMethod<
     items: "workflowExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListWorkflowExecutions"],
+    resources: {
+      "imagebuilder:ListWorkflowExecutions": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowExecutions",
 })) as any;
@@ -4746,6 +5273,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "workflowVersionList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["imagebuilder:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -4790,6 +5318,14 @@ export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["imagebuilder:ListWorkflowStepExecutions"],
+    resources: {
+      "imagebuilder:ListWorkflowStepExecutions": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow-execution/${WorkflowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowStepExecutions",
 })) as any;
@@ -4831,6 +5367,14 @@ export const putComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComponentPolicy",
+  iam: {
+    actions: ["imagebuilder:PutComponentPolicy"],
+    resources: {
+      "imagebuilder:PutComponentPolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:component/${ComponentName}/${ComponentVersion}/${ComponentBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutComponentPolicy",
 }));
@@ -4872,6 +5416,14 @@ export const putContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerRecipePolicy",
+  iam: {
+    actions: ["imagebuilder:PutContainerRecipePolicy"],
+    resources: {
+      "imagebuilder:PutContainerRecipePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutContainerRecipePolicy",
 }));
@@ -4913,6 +5465,14 @@ export const putImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImagePolicy",
+  iam: {
+    actions: ["imagebuilder:PutImagePolicy"],
+    resources: {
+      "imagebuilder:PutImagePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutImagePolicy",
 }));
@@ -4954,6 +5514,14 @@ export const putImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageRecipePolicy",
+  iam: {
+    actions: ["imagebuilder:PutImageRecipePolicy"],
+    resources: {
+      "imagebuilder:PutImageRecipePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutImageRecipePolicy",
 }));
@@ -4996,6 +5564,14 @@ export const retryImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryImage",
+  iam: {
+    actions: ["imagebuilder:RetryImage"],
+    resources: {
+      "imagebuilder:RetryImage": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryImage",
 }));
@@ -5041,6 +5617,15 @@ export const sendWorkflowStepAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWorkflowStepAction",
+  iam: {
+    actions: ["imagebuilder:SendWorkflowStepAction"],
+    resources: {
+      "imagebuilder:SendWorkflowStepAction": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow-step-execution/${WorkflowStepExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendWorkflowStepAction",
 }));
@@ -5085,6 +5670,15 @@ export const startImagePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImagePipelineExecution",
+  iam: {
+    actions: ["imagebuilder:StartImagePipelineExecution", "imagebuilder:TagResource"],
+    resources: {
+      "imagebuilder:StartImagePipelineExecution": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+    },
+    conditional: { "imagebuilder:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartImagePipelineExecution",
 }));
@@ -5133,6 +5727,16 @@ export const startResourceStateUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceStateUpdate",
+  iam: {
+    actions: ["iam:PassRole", "imagebuilder:StartResourceStateUpdate"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "imagebuilder:StartResourceStateUpdate": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image/${ImageName}/${ImageVersion}/${ImageBuildVersion}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRole" },
+  },
   telemetry: TELEMETRY,
   span: "StartResourceStateUpdate",
 }));
@@ -5157,6 +5761,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["imagebuilder:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5181,6 +5786,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["imagebuilder:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5229,6 +5835,16 @@ export const updateDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "imagebuilder:UpdateDistributionConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "imagebuilder:UpdateDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDistributionConfiguration",
 }));
@@ -5278,6 +5894,40 @@ export const updateImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePipeline",
+  iam: {
+    actions: [
+      "imagebuilder:GetContainerRecipe",
+      "imagebuilder:GetDistributionConfiguration",
+      "imagebuilder:GetImageRecipe",
+      "imagebuilder:GetInfrastructureConfiguration",
+      "imagebuilder:GetWorkflow",
+      "iam:PassRole",
+      "imagebuilder:TagResource",
+      "imagebuilder:UpdateImagePipeline",
+    ],
+    resources: {
+      "imagebuilder:GetContainerRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:container-recipe/${ContainerRecipeName}/${ContainerRecipeVersion}",
+      ],
+      "imagebuilder:GetDistributionConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:distribution-configuration/${DistributionConfigurationName}",
+      ],
+      "imagebuilder:GetImageRecipe": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-recipe/${ImageRecipeName}/${ImageRecipeVersion}",
+      ],
+      "imagebuilder:GetInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+      "imagebuilder:GetWorkflow": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:workflow/${WorkflowType}/${WorkflowName}/${WorkflowVersion}/${WorkflowBuildVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "imagebuilder:UpdateImagePipeline": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:image-pipeline/${ImagePipelineName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateImagePipeline",
 }));
@@ -5325,6 +5975,23 @@ export const updateInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInfrastructureConfiguration",
+  iam: {
+    actions: [
+      "iam:GetInstanceProfile",
+      "iam:PassRole",
+      "imagebuilder:UpdateInfrastructureConfiguration",
+    ],
+    resources: {
+      "iam:GetInstanceProfile": [
+        "arn:${Partition}:iam::${Account}:instance-profile/${InstanceProfileNameWithPath}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "imagebuilder:UpdateInfrastructureConfiguration": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:infrastructure-configuration/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInfrastructureConfiguration",
 }));
@@ -5368,6 +6035,15 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  iam: {
+    actions: ["iam:PassRole", "imagebuilder:UpdateLifecyclePolicy"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "imagebuilder:UpdateLifecyclePolicy": [
+        "arn:${Partition}:imagebuilder:${Region}:${Account}:lifecycle-policy/${LifecyclePolicyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLifecyclePolicy",
 }));

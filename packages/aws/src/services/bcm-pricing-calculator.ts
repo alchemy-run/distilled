@@ -1077,6 +1077,14 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioCommitmentModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:CreateBillScenarioCommitmentModification"],
+    resources: {
+      "bcm-pricing-calculator:CreateBillScenarioCommitmentModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateBillScenarioCommitmentModification",
 }));
@@ -1109,6 +1117,14 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioUsageModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:CreateBillScenarioUsageModification"],
+    resources: {
+      "bcm-pricing-calculator:CreateBillScenarioUsageModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateBillScenarioUsageModification",
 }));
@@ -1141,6 +1157,14 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateWorkloadEstimateUsage",
+  iam: {
+    actions: ["bcm-pricing-calculator:CreateWorkloadEstimateUsage"],
+    resources: {
+      "bcm-pricing-calculator:CreateWorkloadEstimateUsage": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateWorkloadEstimateUsage",
 }));
@@ -1175,6 +1199,14 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioCommitmentModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteBillScenarioCommitmentModification"],
+    resources: {
+      "bcm-pricing-calculator:DeleteBillScenarioCommitmentModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteBillScenarioCommitmentModification",
 }));
@@ -1207,6 +1239,14 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioUsageModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteBillScenarioUsageModification"],
+    resources: {
+      "bcm-pricing-calculator:DeleteBillScenarioUsageModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteBillScenarioUsageModification",
 }));
@@ -1233,6 +1273,14 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteWorkloadEstimateUsage",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteWorkloadEstimateUsage"],
+    resources: {
+      "bcm-pricing-calculator:DeleteWorkloadEstimateUsage": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteWorkloadEstimateUsage",
 }));
@@ -1259,6 +1307,14 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioCommitmentModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateBillScenarioCommitmentModification"],
+    resources: {
+      "bcm-pricing-calculator:UpdateBillScenarioCommitmentModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateBillScenarioCommitmentModification",
 }));
@@ -1291,6 +1347,14 @@ export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioUsageModification",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateBillScenarioUsageModification"],
+    resources: {
+      "bcm-pricing-calculator:UpdateBillScenarioUsageModification": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateBillScenarioUsageModification",
 }));
@@ -1317,6 +1381,14 @@ export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateWorkloadEstimateUsage",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateWorkloadEstimateUsage"],
+    resources: {
+      "bcm-pricing-calculator:UpdateWorkloadEstimateUsage": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateWorkloadEstimateUsage",
 }));
@@ -1341,6 +1413,10 @@ export const createBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:CreateBillEstimate", "bcm-pricing-calculator:TagResource"],
+    conditional: { "bcm-pricing-calculator:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBillEstimate",
 }));
@@ -1365,6 +1441,10 @@ export const createBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillScenario",
+  iam: {
+    actions: ["bcm-pricing-calculator:CreateBillScenario", "bcm-pricing-calculator:TagResource"],
+    conditional: { "bcm-pricing-calculator:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBillScenario",
 }));
@@ -1389,6 +1469,13 @@ export const createWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadEstimate",
+  iam: {
+    actions: [
+      "bcm-pricing-calculator:CreateWorkloadEstimate",
+      "bcm-pricing-calculator:TagResource",
+    ],
+    conditional: { "bcm-pricing-calculator:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkloadEstimate",
 }));
@@ -1409,6 +1496,14 @@ export const deleteBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteBillEstimate"],
+    resources: {
+      "bcm-pricing-calculator:DeleteBillEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBillEstimate",
 }));
@@ -1429,6 +1524,14 @@ export const deleteBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillScenario",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteBillScenario"],
+    resources: {
+      "bcm-pricing-calculator:DeleteBillScenario": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBillScenario",
 }));
@@ -1449,6 +1552,14 @@ export const deleteWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:DeleteWorkloadEstimate"],
+    resources: {
+      "bcm-pricing-calculator:DeleteWorkloadEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkloadEstimate",
 }));
@@ -1472,6 +1583,14 @@ export const getBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:GetBillEstimate"],
+    resources: {
+      "bcm-pricing-calculator:GetBillEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBillEstimate",
 }));
@@ -1495,6 +1614,14 @@ export const getBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillScenario",
+  iam: {
+    actions: ["bcm-pricing-calculator:GetBillScenario"],
+    resources: {
+      "bcm-pricing-calculator:GetBillScenario": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBillScenario",
 }));
@@ -1515,6 +1642,7 @@ export const getPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreferences",
+  iam: { actions: ["bcm-pricing-calculator:GetPreferences"] },
   telemetry: TELEMETRY,
   span: "GetPreferences",
 }));
@@ -1538,6 +1666,14 @@ export const getWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:GetWorkloadEstimate"],
+    resources: {
+      "bcm-pricing-calculator:GetWorkloadEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkloadEstimate",
 }));
@@ -1568,6 +1704,14 @@ export const listBillEstimateCommitments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillEstimateCommitments"],
+    resources: {
+      "bcm-pricing-calculator:ListBillEstimateCommitments": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillEstimateCommitments",
 })) as any;
@@ -1602,6 +1746,14 @@ export const listBillEstimateInputCommitmentModifications: API.PaginatedOperatio
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillEstimateInputCommitmentModifications"],
+    resources: {
+      "bcm-pricing-calculator:ListBillEstimateInputCommitmentModifications": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillEstimateInputCommitmentModifications",
 })) as any;
@@ -1632,6 +1784,14 @@ export const listBillEstimateInputUsageModifications: API.PaginatedOperationMeth
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillEstimateInputUsageModifications"],
+    resources: {
+      "bcm-pricing-calculator:ListBillEstimateInputUsageModifications": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillEstimateInputUsageModifications",
 })) as any;
@@ -1662,6 +1822,14 @@ export const listBillEstimateLineItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillEstimateLineItems"],
+    resources: {
+      "bcm-pricing-calculator:ListBillEstimateLineItems": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillEstimateLineItems",
 })) as any;
@@ -1689,6 +1857,7 @@ export const listBillEstimates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-pricing-calculator:ListBillEstimates"] },
   telemetry: TELEMETRY,
   span: "ListBillEstimates",
 })) as any;
@@ -1719,6 +1888,14 @@ export const listBillScenarioCommitmentModifications: API.PaginatedOperationMeth
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillScenarioCommitmentModifications"],
+    resources: {
+      "bcm-pricing-calculator:ListBillScenarioCommitmentModifications": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillScenarioCommitmentModifications",
 })) as any;
@@ -1746,6 +1923,7 @@ export const listBillScenarios: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-pricing-calculator:ListBillScenarios"] },
   telemetry: TELEMETRY,
   span: "ListBillScenarios",
 })) as any;
@@ -1776,6 +1954,14 @@ export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListBillScenarioUsageModifications"],
+    resources: {
+      "bcm-pricing-calculator:ListBillScenarioUsageModifications": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBillScenarioUsageModifications",
 })) as any;
@@ -1796,6 +1982,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["bcm-pricing-calculator:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1823,6 +2010,7 @@ export const listWorkloadEstimates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bcm-pricing-calculator:ListWorkloadEstimates"] },
   telemetry: TELEMETRY,
   span: "ListWorkloadEstimates",
 })) as any;
@@ -1853,6 +2041,14 @@ export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bcm-pricing-calculator:ListWorkloadEstimateUsage"],
+    resources: {
+      "bcm-pricing-calculator:ListWorkloadEstimateUsage": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkloadEstimateUsage",
 })) as any;
@@ -1876,6 +2072,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["bcm-pricing-calculator:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1896,6 +2093,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["bcm-pricing-calculator:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1920,6 +2118,14 @@ export const updateBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateBillEstimate"],
+    resources: {
+      "bcm-pricing-calculator:UpdateBillEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-estimate/${BillEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBillEstimate",
 }));
@@ -1944,6 +2150,14 @@ export const updateBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillScenario",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateBillScenario"],
+    resources: {
+      "bcm-pricing-calculator:UpdateBillScenario": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:bill-scenario/${BillScenarioId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBillScenario",
 }));
@@ -1967,6 +2181,7 @@ export const updatePreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreferences",
+  iam: { actions: ["bcm-pricing-calculator:UpdatePreferences"] },
   telemetry: TELEMETRY,
   span: "UpdatePreferences",
 }));
@@ -1991,6 +2206,14 @@ export const updateWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadEstimate",
+  iam: {
+    actions: ["bcm-pricing-calculator:UpdateWorkloadEstimate"],
+    resources: {
+      "bcm-pricing-calculator:UpdateWorkloadEstimate": [
+        "arn:${Partition}:bcm-pricing-calculator::${Account}:workload-estimate/${WorkloadEstimateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkloadEstimate",
 }));

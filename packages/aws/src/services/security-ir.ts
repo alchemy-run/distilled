@@ -653,6 +653,14 @@ export const batchGetMemberAccountDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberAccountDetails",
+  iam: {
+    actions: ["security-ir:BatchGetMemberAccountDetails"],
+    resources: {
+      "security-ir:BatchGetMemberAccountDetails": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetMemberAccountDetails",
 }));
@@ -673,6 +681,14 @@ export const cancelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMembership",
+  iam: {
+    actions: ["security-ir:CancelMembership"],
+    resources: {
+      "security-ir:CancelMembership": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMembership",
 }));
@@ -693,6 +709,12 @@ export const closeCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseCase",
+  iam: {
+    actions: ["security-ir:CloseCase"],
+    resources: {
+      "security-ir:CloseCase": ["arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CloseCase",
 }));
@@ -713,6 +735,15 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  iam: {
+    actions: ["security-ir:CreateCase", "security-ir:TagResource"],
+    resources: {
+      "security-ir:CreateCase": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+    conditional: { "security-ir:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCase",
 }));
@@ -733,6 +764,14 @@ export const createCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseComment",
+  iam: {
+    actions: ["security-ir:CreateCaseComment"],
+    resources: {
+      "security-ir:CreateCaseComment": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCaseComment",
 }));
@@ -753,6 +792,15 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  iam: {
+    actions: ["security-ir:CreateMembership", "security-ir:TagResource"],
+    resources: {
+      "security-ir:CreateMembership": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+    conditional: { "security-ir:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMembership",
 }));
@@ -773,6 +821,12 @@ export const getCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCase",
+  iam: {
+    actions: ["security-ir:GetCase"],
+    resources: {
+      "security-ir:GetCase": ["arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCase",
 }));
@@ -793,6 +847,14 @@ export const getCaseAttachmentDownloadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentDownloadUrl",
+  iam: {
+    actions: ["security-ir:GetCaseAttachmentDownloadUrl"],
+    resources: {
+      "security-ir:GetCaseAttachmentDownloadUrl": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCaseAttachmentDownloadUrl",
 }));
@@ -813,6 +875,14 @@ export const getCaseAttachmentUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentUploadUrl",
+  iam: {
+    actions: ["security-ir:GetCaseAttachmentUploadUrl"],
+    resources: {
+      "security-ir:GetCaseAttachmentUploadUrl": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCaseAttachmentUploadUrl",
 }));
@@ -833,6 +903,14 @@ export const getFindingMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingMetrics",
+  iam: {
+    actions: ["security-ir:GetFindingMetrics"],
+    resources: {
+      "security-ir:GetFindingMetrics": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFindingMetrics",
 }));
@@ -853,6 +931,14 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
+  iam: {
+    actions: ["security-ir:GetMembership"],
+    resources: {
+      "security-ir:GetMembership": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMembership",
 }));
@@ -880,6 +966,14 @@ export const listCaseEdits: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["security-ir:ListCaseEdits"],
+    resources: {
+      "security-ir:ListCaseEdits": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCaseEdits",
 })) as any;
@@ -907,6 +1001,7 @@ export const listCases: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["security-ir:ListCases"] },
   telemetry: TELEMETRY,
   span: "ListCases",
 })) as any;
@@ -934,6 +1029,14 @@ export const listComments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["security-ir:ListComments"],
+    resources: {
+      "security-ir:ListComments": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListComments",
 })) as any;
@@ -961,6 +1064,14 @@ export const listInvestigations: API.PaginatedOperationMethod<
     items: "investigationActions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["security-ir:ListInvestigations"],
+    resources: {
+      "security-ir:ListInvestigations": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvestigations",
 })) as any;
@@ -988,6 +1099,7 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["security-ir:ListMemberships"] },
   telemetry: TELEMETRY,
   span: "ListMemberships",
 })) as any;
@@ -1012,6 +1124,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["security-ir:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1032,6 +1145,14 @@ export const sendFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendFeedback",
+  iam: {
+    actions: ["security-ir:SendFeedback"],
+    resources: {
+      "security-ir:SendFeedback": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendFeedback",
 }));
@@ -1056,6 +1177,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["security-ir:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1080,6 +1202,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["security-ir:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1100,6 +1223,14 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
+  iam: {
+    actions: ["security-ir:UpdateCase"],
+    resources: {
+      "security-ir:UpdateCase": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCase",
 }));
@@ -1120,6 +1251,14 @@ export const updateCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseComment",
+  iam: {
+    actions: ["security-ir:UpdateCaseComment"],
+    resources: {
+      "security-ir:UpdateCaseComment": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCaseComment",
 }));
@@ -1160,6 +1299,14 @@ export const updateCaseStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseStatus",
+  iam: {
+    actions: ["security-ir:UpdateCaseStatus"],
+    resources: {
+      "security-ir:UpdateCaseStatus": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCaseStatus",
 }));
@@ -1180,6 +1327,14 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
+  iam: {
+    actions: ["security-ir:UpdateMembership"],
+    resources: {
+      "security-ir:UpdateMembership": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMembership",
 }));
@@ -1202,6 +1357,14 @@ export const updateResolverType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverType",
+  iam: {
+    actions: ["security-ir:UpdateResolverType"],
+    resources: {
+      "security-ir:UpdateResolverType": [
+        "arn:${Partition}:security-ir:${Region}:${Account}:case/${CaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResolverType",
 }));

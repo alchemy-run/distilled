@@ -382,6 +382,16 @@ export const createNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkConnector",
+  iam: {
+    actions: ["lambda:CreateNetworkConnector", "iam:PassRole", "lambda:TagResource"],
+    resources: {
+      "lambda:CreateNetworkConnector": [
+        "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "OperatorRole", "lambda:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkConnector",
 }));
@@ -418,6 +428,14 @@ export const deleteNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkConnector",
+  iam: {
+    actions: ["lambda:DeleteNetworkConnector"],
+    resources: {
+      "lambda:DeleteNetworkConnector": [
+        "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkConnector",
 }));
@@ -450,6 +468,14 @@ export const getNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkConnector",
+  iam: {
+    actions: ["lambda:GetNetworkConnector"],
+    resources: {
+      "lambda:GetNetworkConnector": [
+        "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkConnector",
 }));
@@ -483,6 +509,7 @@ export const listNetworkConnectors: API.PaginatedOperationMethod<
     items: "NetworkConnectors",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["lambda:ListNetworkConnectors"] },
   telemetry: TELEMETRY,
   span: "ListNetworkConnectors",
 })) as any;
@@ -522,6 +549,14 @@ export const listNetworkConnectorVersions: API.PaginatedOperationMethod<
     items: "NetworkConnectorVersions",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["lambda:ListNetworkConnectorVersions"],
+    resources: {
+      "lambda:ListNetworkConnectorVersions": [
+        "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkConnectorVersions",
 })) as any;
@@ -562,6 +597,16 @@ export const updateNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkConnector",
+  iam: {
+    actions: ["iam:PassRole", "lambda:UpdateNetworkConnector"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lambda:UpdateNetworkConnector": [
+        "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "OperatorRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkConnector",
 }));
