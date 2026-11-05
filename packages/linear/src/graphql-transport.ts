@@ -4,6 +4,8 @@ import {
   type CompiledOperation,
   type RawGraphQLError,
 } from "@distilled.cloud/core/graphql";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
+import type * as Context from "effect/Context";
 /**
  * Linear {@link GqlTransport}: POST /graphql with an API key or OAuth token.
  *
@@ -17,6 +19,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
+import { TELEMETRY } from "./graphql-telemetry.ts";
 
 export type GraphQLRequirements = Credentials | HttpClient.HttpClient;
 
@@ -27,7 +30,9 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
   execute: (request: CompiledOperation) =>
     Effect.gen(function* () {
       const resolve = yield* Credentials;
-      const credentials = yield* resolve;
+      const credentials = yield* resolve.pipe(
+        Effect.mapError((cause) => new GraphQLTransportError({ message: cause.message, cause })),
+      );
       const token = Redacted.value(credentials.token).trim();
       const auth =
         token.length === 0
@@ -36,30 +41,33 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
             ? { Authorization: `Bearer ${token}` }
             : { Authorization: token };
       const http = yield* HttpClient.HttpClient;
+      const context = yield* Effect.withFiber((fiber) =>
+        Effect.succeed(fiber.context as Context.Context<any>),
+      );
       const url = `${credentials.apiBaseUrl.replace(/\/$/, "")}/graphql`;
-      const response = yield* http
-        .execute(
-          HttpClientRequest.post(url).pipe(
-            HttpClientRequest.setHeaders({
-              ...auth,
-              Accept: "application/graphql-response+json, application/json",
+      const response = yield* Telemetry.execute(
+        context,
+        http,
+        HttpClientRequest.post(url).pipe(
+          HttpClientRequest.setHeaders({
+            ...auth,
+            Accept: "application/graphql-response+json, application/json",
+          }),
+          HttpClientRequest.bodyJsonUnsafe({
+            query: request.document,
+            variables: request.variables,
+            operationName: request.operationName,
+          }),
+        ),
+      ).pipe(
+        Effect.mapError(
+          (cause) =>
+            new GraphQLTransportError({
+              message: "Linear GraphQL HTTP request failed",
+              cause,
             }),
-            HttpClientRequest.bodyJsonUnsafe({
-              query: request.document,
-              variables: request.variables,
-              operationName: request.operationName,
-            }),
-          ),
-        )
-        .pipe(
-          Effect.mapError(
-            (cause) =>
-              new GraphQLTransportError({
-                message: "Linear GraphQL HTTP request failed",
-                cause,
-              }),
-          ),
-        );
+        ),
+      );
       const status = response.status;
       const retryAfter = retryAfterSeconds(response.headers["retry-after"]);
       const text = yield* response.text.pipe(
@@ -105,4 +113,5 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
         headers: response.headers,
       };
     }),
+  telemetry: TELEMETRY,
 });

@@ -45,7 +45,7 @@ export const toConfig = (config: {
 });
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "LinearCredentials",
   ) {}
 
@@ -101,5 +101,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       tokenKind: apiKey !== undefined ? "apiKey" : "oauth",
       apiBaseUrl: config.apiBaseUrl,
     } satisfies Config;
-  }).pipe(Effect.orDie),
+  }),
 );

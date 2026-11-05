@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/linear",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -34,12 +34,13 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-23"
+    "generatedAt": "2026-11-05"
   }
 }
