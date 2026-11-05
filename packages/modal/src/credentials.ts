@@ -126,7 +126,9 @@ export const withTaskCommandRouter =
     access: { readonly url: string; readonly jwt: string | Redacted.Redacted<string> },
     options: { readonly deadline?: number } = {},
   ) =>
-  <A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> =>
+  <A, E, R>(
+    effect: Effect.Effect<A, E, R>,
+  ): Effect.Effect<A, E, Exclude<R, Credentials | HttpClient.HttpClient>> =>
     Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
       Effect.provideService(
         effect.pipe(
@@ -164,4 +166,4 @@ export const withTaskCommandRouter =
           }),
         ),
       ),
-    ) as Effect.Effect<A, E, R>;
+    ) as Effect.Effect<A, E, Exclude<R, Credentials | HttpClient.HttpClient>>;
