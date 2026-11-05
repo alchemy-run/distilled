@@ -1259,20 +1259,21 @@ if (childOf) {
 } else {
   const core = corePlan();
   const coreBuilt = await buildPackage(core, core, undefined);
-  // A package's workspace dependencies build first: alias modules read the
-  // facades of the package they re-export (see facadeOf).
+  // A package's workspace dependencies build first, named on the command
+  // line or not: alias modules read the facades of the package they
+  // re-export (see facadeOf), so `bundle-lib packages/aws` also bundles
+  // packages/s3.
   const deps = (d: string) =>
     Object.keys(JSON.parse(readFileSync(join(d, "package.json"), "utf8")).dependencies ?? {});
   const sdks: string[] = [];
   const seen = new Set<string>();
   const visit = (d: string) => {
-    if (seen.has(d) || !sdkPlan(d)) return;
+    if (seen.has(d) || !existsSync(join(d, "lib")) || !sdkPlan(d)) return;
     seen.add(d);
     for (const name of deps(d)) {
-      const dep = dirs.find((x) =>
-        x.endsWith(join("packages", name.replace("@distilled.cloud/", ""))),
-      );
-      if (dep) visit(dep);
+      if (!name.startsWith("@distilled.cloud/") || name === "@distilled.cloud/core") continue;
+      const dep = join(ROOT, "packages", name.slice("@distilled.cloud/".length));
+      if (existsSync(join(dep, "package.json"))) visit(dep);
     }
     sdks.push(d);
   };
