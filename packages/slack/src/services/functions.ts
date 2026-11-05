@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Functions",
+  propagate: "w3c",
+} as const;
+
 /** List of encoded user IDs */
 export type AddDistributionsPermissionsRequestUserIdsList = Array<string>;
 export interface AddDistributionsPermissionsRequest {
@@ -215,6 +228,8 @@ export const addDistributionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDistributionsPermissions",
 }));
 
 export type CompleteErrorError = SlackOpError;
@@ -230,6 +245,8 @@ export const completeError: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteError",
 }));
 
 export type CompleteSuccessError = SlackOpError;
@@ -245,6 +262,8 @@ export const completeSuccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteSuccess",
 }));
 
 export type ExportWorkflowsStepsResponseError = SlackOpError;
@@ -260,6 +279,8 @@ export const exportWorkflowsStepsResponse: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportWorkflowsStepsResponse",
 }));
 
 export type ListDistributionsPermissionsError = SlackOpError;
@@ -275,6 +296,8 @@ export const listDistributionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsPermissions",
 }));
 
 export type ListWorkflowsStepsError = SlackOpError;
@@ -290,6 +313,8 @@ export const listWorkflowsSteps: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowsSteps",
 }));
 
 export type RemoveDistributionsPermissionsError = SlackOpError;
@@ -305,6 +330,8 @@ export const removeDistributionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDistributionsPermissions",
 }));
 
 export type SetDistributionsPermissionsError = SlackOpError;
@@ -320,6 +347,8 @@ export const setDistributionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDistributionsPermissions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "translation" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Translate",
+  service: "translate",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -573,6 +592,8 @@ export const batchTranslateDocumentProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchTranslateDocumentProjectsLocations",
 }));
 
 export type BatchTranslateTextProjectsLocationsError =
@@ -593,6 +614,8 @@ export const batchTranslateTextProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchTranslateTextProjectsLocations",
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -613,6 +636,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsLocationsOperations",
 }));
 
 export type CreateProjectsLocationsGlossariesError =
@@ -633,6 +658,8 @@ export const createProjectsLocationsGlossaries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsGlossaries",
 }));
 
 export type DeleteProjectsLocationsGlossariesError =
@@ -653,6 +680,8 @@ export const deleteProjectsLocationsGlossaries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsGlossaries",
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -673,6 +702,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsOperations",
 }));
 
 export type DetectLanguageProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -688,6 +719,8 @@ export const detectLanguageProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetectLanguageProjects",
 }));
 
 export type DetectLanguageProjectsLocationsError =
@@ -708,6 +741,8 @@ export const detectLanguageProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetectLanguageProjectsLocations",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -723,6 +758,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsGlossariesError = NotFound | Forbidden | GcpOpError;
@@ -738,6 +775,8 @@ export const getProjectsLocationsGlossaries: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlossaries",
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -753,6 +792,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsOperations",
 }));
 
 export type GetSupportedLanguagesProjectsError = NotFound | Forbidden | GcpOpError;
@@ -768,6 +809,8 @@ export const getSupportedLanguagesProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportedLanguagesProjects",
 }));
 
 export type GetSupportedLanguagesProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -783,6 +826,8 @@ export const getSupportedLanguagesProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportedLanguagesProjectsLocations",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -799,6 +844,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -816,6 +863,8 @@ export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlossaries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -833,6 +882,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -854,6 +905,8 @@ export const refineTextProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefineTextProjectsLocations",
 }));
 
 export type TranslateDocumentProjectsLocationsError =
@@ -874,6 +927,8 @@ export const translateDocumentProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TranslateDocumentProjectsLocations",
 }));
 
 export type TranslateTextProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -889,6 +944,8 @@ export const translateTextProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TranslateTextProjects",
 }));
 
 export type TranslateTextProjectsLocationsError =
@@ -909,6 +966,8 @@ export const translateTextProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TranslateTextProjectsLocations",
 }));
 
 export type WaitProjectsLocationsOperationsError =
@@ -929,6 +988,8 @@ export const waitProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitProjectsLocationsOperations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

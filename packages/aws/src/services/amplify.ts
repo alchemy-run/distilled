@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplify.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Amplify",
+  service: "Amplify",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -858,7 +874,7 @@ export type CreateAppError =
  * Creates a new Amplify app.
  */
 export const createApp: API.OperationMethod<
-  CreateAppRequest,
+  CreateAppRequest & RegionInput,
   CreateAppResult,
   CreateAppError,
   Credentials | HttpClient.HttpClient
@@ -876,6 +892,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateBackendEnvironmentError =
@@ -896,7 +914,7 @@ export type CreateBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const createBackendEnvironment: API.OperationMethod<
-  CreateBackendEnvironmentRequest,
+  CreateBackendEnvironmentRequest & RegionInput,
   CreateBackendEnvironmentResult,
   CreateBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -914,6 +932,8 @@ export const createBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateBackendEnvironment",
 }));
 
 export type CreateBranchError =
@@ -929,7 +949,7 @@ export type CreateBranchError =
  * Creates a new branch for an Amplify app.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchRequest,
+  CreateBranchRequest & RegionInput,
   CreateBranchResult,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -948,6 +968,8 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateDeploymentError =
@@ -967,7 +989,7 @@ export type CreateDeploymentError =
  * fail.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResult,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -984,6 +1006,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDomainAssociationError =
@@ -1000,7 +1024,7 @@ export type CreateDomainAssociationError =
  * domain with the Amplify app
  */
 export const createDomainAssociation: API.OperationMethod<
-  CreateDomainAssociationRequest,
+  CreateDomainAssociationRequest & RegionInput,
   CreateDomainAssociationResult,
   CreateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1019,6 +1043,8 @@ export const createDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDomainAssociation",
 }));
 
 export type CreateWebhookError =
@@ -1034,7 +1060,7 @@ export type CreateWebhookError =
  * Creates a new webhook on an Amplify app.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookRequest,
+  CreateWebhookRequest & RegionInput,
   CreateWebhookResult,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1053,6 +1079,8 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteAppError =
@@ -1067,7 +1095,7 @@ export type DeleteAppError =
  * Deletes an existing Amplify app specified by an app ID.
  */
 export const deleteApp: API.OperationMethod<
-  DeleteAppRequest,
+  DeleteAppRequest & RegionInput,
   DeleteAppResult,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
@@ -1085,6 +1113,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteBackendEnvironmentError =
@@ -1105,7 +1135,7 @@ export type DeleteBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const deleteBackendEnvironment: API.OperationMethod<
-  DeleteBackendEnvironmentRequest,
+  DeleteBackendEnvironmentRequest & RegionInput,
   DeleteBackendEnvironmentResult,
   DeleteBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1123,6 +1153,8 @@ export const deleteBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendEnvironment",
 }));
 
 export type DeleteBranchError =
@@ -1137,7 +1169,7 @@ export type DeleteBranchError =
  * Deletes a branch for an Amplify app.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchRequest,
+  DeleteBranchRequest & RegionInput,
   DeleteBranchResult,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -1155,6 +1187,8 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteDomainAssociationError =
@@ -1169,7 +1203,7 @@ export type DeleteDomainAssociationError =
  * Deletes a domain association for an Amplify app.
  */
 export const deleteDomainAssociation: API.OperationMethod<
-  DeleteDomainAssociationRequest,
+  DeleteDomainAssociationRequest & RegionInput,
   DeleteDomainAssociationResult,
   DeleteDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1187,6 +1221,8 @@ export const deleteDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainAssociation",
 }));
 
 export type DeleteJobError =
@@ -1201,7 +1237,7 @@ export type DeleteJobError =
  * Deletes a job for a branch of an Amplify app.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResult,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1219,6 +1255,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteWebhookError =
@@ -1233,7 +1271,7 @@ export type DeleteWebhookError =
  * Deletes a webhook.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookRequest,
+  DeleteWebhookRequest & RegionInput,
   DeleteWebhookResult,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1251,6 +1289,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type GenerateAccessLogsError =
@@ -1264,7 +1304,7 @@ export type GenerateAccessLogsError =
  * Returns the website access logs for a specific time range using a presigned URL.
  */
 export const generateAccessLogs: API.OperationMethod<
-  GenerateAccessLogsRequest,
+  GenerateAccessLogsRequest & RegionInput,
   GenerateAccessLogsResult,
   GenerateAccessLogsError,
   Credentials | HttpClient.HttpClient
@@ -1281,6 +1321,8 @@ export const generateAccessLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAccessLogs",
+  telemetry: TELEMETRY,
+  span: "GenerateAccessLogs",
 }));
 
 export type GetAppError =
@@ -1294,7 +1336,7 @@ export type GetAppError =
  * Returns an existing Amplify app specified by an app ID.
  */
 export const getApp: API.OperationMethod<
-  GetAppRequest,
+  GetAppRequest & RegionInput,
   GetAppResult,
   GetAppError,
   Credentials | HttpClient.HttpClient
@@ -1311,6 +1353,8 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetArtifactUrlError =
@@ -1325,7 +1369,7 @@ export type GetArtifactUrlError =
  * Returns the artifact info that corresponds to an artifact id.
  */
 export const getArtifactUrl: API.OperationMethod<
-  GetArtifactUrlRequest,
+  GetArtifactUrlRequest & RegionInput,
   GetArtifactUrlResult,
   GetArtifactUrlError,
   Credentials | HttpClient.HttpClient
@@ -1343,6 +1387,8 @@ export const getArtifactUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifactUrl",
+  telemetry: TELEMETRY,
+  span: "GetArtifactUrl",
 }));
 
 export type GetBackendEnvironmentError =
@@ -1362,7 +1408,7 @@ export type GetBackendEnvironmentError =
  * backend infrastructure using Typescript code.
  */
 export const getBackendEnvironment: API.OperationMethod<
-  GetBackendEnvironmentRequest,
+  GetBackendEnvironmentRequest & RegionInput,
   GetBackendEnvironmentResult,
   GetBackendEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1425,8 @@ export const getBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetBackendEnvironment",
 }));
 
 export type GetBranchError =
@@ -1392,7 +1440,7 @@ export type GetBranchError =
  * Returns a branch for an Amplify app.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchRequest,
+  GetBranchRequest & RegionInput,
   GetBranchResult,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -1409,6 +1457,8 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetDomainAssociationError =
@@ -1422,7 +1472,7 @@ export type GetDomainAssociationError =
  * Returns the domain information for an Amplify app.
  */
 export const getDomainAssociation: API.OperationMethod<
-  GetDomainAssociationRequest,
+  GetDomainAssociationRequest & RegionInput,
   GetDomainAssociationResult,
   GetDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1489,8 @@ export const getDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "GetDomainAssociation",
 }));
 
 export type GetJobError =
@@ -1453,7 +1505,7 @@ export type GetJobError =
  * Returns a job for a branch of an Amplify app.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResult,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1471,6 +1523,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetWebhookError =
@@ -1485,7 +1539,7 @@ export type GetWebhookError =
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
 export const getWebhook: API.OperationMethod<
-  GetWebhookRequest,
+  GetWebhookRequest & RegionInput,
   GetWebhookResult,
   GetWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1503,6 +1557,8 @@ export const getWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebhook",
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListAppsError =
@@ -1515,7 +1571,7 @@ export type ListAppsError =
  * Returns a list of the existing Amplify apps.
  */
 export const listApps: API.PaginatedOperationMethod<
-  ListAppsRequest,
+  ListAppsRequest & RegionInput,
   ListAppsResult,
   ListAppsError,
   Credentials | HttpClient.HttpClient,
@@ -1533,6 +1589,8 @@ export const listApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListArtifactsError =
@@ -1553,7 +1611,7 @@ export type ListArtifactsError =
  * *Amplify Hosting User Guide*.
  */
 export const listArtifacts: API.OperationMethod<
-  ListArtifactsRequest,
+  ListArtifactsRequest & RegionInput,
   ListArtifactsResult,
   ListArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -1570,6 +1628,8 @@ export const listArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArtifacts",
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 }));
 
 export type ListBackendEnvironmentsError =
@@ -1588,7 +1648,7 @@ export type ListBackendEnvironmentsError =
  * backend infrastructure using Typescript code.
  */
 export const listBackendEnvironments: API.OperationMethod<
-  ListBackendEnvironmentsRequest,
+  ListBackendEnvironmentsRequest & RegionInput,
   ListBackendEnvironmentsResult,
   ListBackendEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1659,8 @@ export const listBackendEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
+  telemetry: TELEMETRY,
+  span: "ListBackendEnvironments",
 }));
 
 export type ListBranchesError =
@@ -1611,7 +1673,7 @@ export type ListBranchesError =
  * Lists the branches of an Amplify app.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesRequest,
+  ListBranchesRequest & RegionInput,
   ListBranchesResult,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -1629,6 +1691,8 @@ export const listBranches: API.PaginatedOperationMethod<
     items: "branches",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 })) as any;
 
 export type ListDomainAssociationsError =
@@ -1641,7 +1705,7 @@ export type ListDomainAssociationsError =
  * Returns the domain associations for an Amplify app.
  */
 export const listDomainAssociations: API.PaginatedOperationMethod<
-  ListDomainAssociationsRequest,
+  ListDomainAssociationsRequest & RegionInput,
   ListDomainAssociationsResult,
   ListDomainAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1659,6 +1723,8 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
     items: "domainAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainAssociations",
 })) as any;
 
 export type ListJobsError =
@@ -1672,7 +1738,7 @@ export type ListJobsError =
  * Lists the jobs for a branch of an Amplify app.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResult,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1696,6 +1762,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1708,7 +1776,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1724,6 +1792,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebhooksError =
@@ -1737,7 +1807,7 @@ export type ListWebhooksError =
  * Returns a list of webhooks for an Amplify app.
  */
 export const listWebhooks: API.OperationMethod<
-  ListWebhooksRequest,
+  ListWebhooksRequest & RegionInput,
   ListWebhooksResult,
   ListWebhooksError,
   Credentials | HttpClient.HttpClient
@@ -1754,6 +1824,8 @@ export const listWebhooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type StartDeploymentError =
@@ -1774,7 +1846,7 @@ export type StartDeploymentError =
  * fail.
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   StartDeploymentResult,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1792,6 +1864,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StartJobError =
@@ -1806,7 +1880,7 @@ export type StartJobError =
  * Starts a new job for a branch of an Amplify app.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResult,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -1824,6 +1898,8 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type StopJobError =
@@ -1838,7 +1914,7 @@ export type StopJobError =
  * Stops a job that is in progress for a branch of an Amplify app.
  */
 export const stopJob: API.OperationMethod<
-  StopJobRequest,
+  StopJobRequest & RegionInput,
   StopJobResult,
   StopJobError,
   Credentials | HttpClient.HttpClient
@@ -1856,6 +1932,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type TagResourceError =
@@ -1868,7 +1946,7 @@ export type TagResourceError =
  * Tags the resource with a tag key and value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1962,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1896,7 +1976,7 @@ export type UntagResourceError =
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1912,6 +1992,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppError =
@@ -1925,7 +2007,7 @@ export type UpdateAppError =
  * Updates an existing Amplify app.
  */
 export const updateApp: API.OperationMethod<
-  UpdateAppRequest,
+  UpdateAppRequest & RegionInput,
   UpdateAppResult,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
@@ -1942,6 +2024,8 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateBranchError =
@@ -1956,7 +2040,7 @@ export type UpdateBranchError =
  * Updates a branch for an Amplify app.
  */
 export const updateBranch: API.OperationMethod<
-  UpdateBranchRequest,
+  UpdateBranchRequest & RegionInput,
   UpdateBranchResult,
   UpdateBranchError,
   Credentials | HttpClient.HttpClient
@@ -1974,6 +2058,8 @@ export const updateBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBranch",
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateDomainAssociationError =
@@ -1988,7 +2074,7 @@ export type UpdateDomainAssociationError =
  * Creates a new domain association for an Amplify app.
  */
 export const updateDomainAssociation: API.OperationMethod<
-  UpdateDomainAssociationRequest,
+  UpdateDomainAssociationRequest & RegionInput,
   UpdateDomainAssociationResult,
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2006,6 +2092,8 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAssociation",
 }));
 
 export type UpdateWebhookError =
@@ -2020,7 +2108,7 @@ export type UpdateWebhookError =
  * Updates a webhook.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookRequest,
+  UpdateWebhookRequest & RegionInput,
   UpdateWebhookResult,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2038,6 +2126,8 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

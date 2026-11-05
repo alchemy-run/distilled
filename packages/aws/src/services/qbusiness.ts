@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -81,6 +83,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QBusiness",
+  service: "QBusiness",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2335,7 +2351,7 @@ export type AssociatePermissionError =
  * Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
  */
 export const associatePermission: API.OperationMethod<
-  AssociatePermissionRequest,
+  AssociatePermissionRequest & RegionInput,
   AssociatePermissionResponse,
   AssociatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2354,6 +2370,8 @@ export const associatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePermission",
+  telemetry: TELEMETRY,
+  span: "AssociatePermission",
 }));
 
 export type BatchDeleteDocumentError =
@@ -2370,7 +2388,7 @@ export type BatchDeleteDocumentError =
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
 export const batchDeleteDocument: API.OperationMethod<
-  BatchDeleteDocumentRequest,
+  BatchDeleteDocumentRequest & RegionInput,
   BatchDeleteDocumentResponse,
   BatchDeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2388,6 +2406,8 @@ export const batchDeleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDocument",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDocument",
 }));
 
 export type BatchPutDocumentError =
@@ -2413,7 +2433,7 @@ export type BatchPutDocumentError =
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
 export const batchPutDocument: API.OperationMethod<
-  BatchPutDocumentRequest,
+  BatchPutDocumentRequest & RegionInput,
   BatchPutDocumentResponse,
   BatchPutDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2432,6 +2452,8 @@ export const batchPutDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDocument",
+  telemetry: TELEMETRY,
+  span: "BatchPutDocument",
 }));
 
 export type CancelSubscriptionError =
@@ -2445,7 +2467,7 @@ export type CancelSubscriptionError =
  * Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
  */
 export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionRequest,
+  CancelSubscriptionRequest & RegionInput,
   CancelSubscriptionResponse,
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2462,6 +2484,8 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type ChatError =
@@ -2478,7 +2502,7 @@ export type ChatError =
  * Starts or continues a streaming Amazon Q Business conversation.
  */
 export const chat: API.OperationMethod<
-  ChatInput,
+  ChatInput & RegionInput,
   ChatOutput,
   ChatError,
   Credentials | HttpClient.HttpClient
@@ -2498,6 +2522,8 @@ export const chat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Chat",
+  telemetry: TELEMETRY,
+  span: "Chat",
 }));
 
 export type ChatSyncError =
@@ -2514,7 +2540,7 @@ export type ChatSyncError =
  * Starts or continues a non-streaming Amazon Q Business conversation.
  */
 export const chatSync: API.OperationMethod<
-  ChatSyncInput,
+  ChatSyncInput & RegionInput,
   ChatSyncOutput,
   ChatSyncError,
   Credentials | HttpClient.HttpClient
@@ -2534,6 +2560,8 @@ export const chatSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChatSync",
+  telemetry: TELEMETRY,
+  span: "ChatSync",
 }));
 
 export type CheckDocumentAccessError =
@@ -2547,7 +2575,7 @@ export type CheckDocumentAccessError =
  * Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
  */
 export const checkDocumentAccess: API.OperationMethod<
-  CheckDocumentAccessRequest,
+  CheckDocumentAccessRequest & RegionInput,
   CheckDocumentAccessResponse,
   CheckDocumentAccessError,
   Credentials | HttpClient.HttpClient
@@ -2564,6 +2592,8 @@ export const checkDocumentAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDocumentAccess",
+  telemetry: TELEMETRY,
+  span: "CheckDocumentAccess",
 }));
 
 export type CreateAnonymousWebExperienceUrlError =
@@ -2578,7 +2608,7 @@ export type CreateAnonymousWebExperienceUrlError =
  * Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
  */
 export const createAnonymousWebExperienceUrl: API.OperationMethod<
-  CreateAnonymousWebExperienceUrlRequest,
+  CreateAnonymousWebExperienceUrlRequest & RegionInput,
   CreateAnonymousWebExperienceUrlResponse,
   CreateAnonymousWebExperienceUrlError,
   Credentials | HttpClient.HttpClient
@@ -2596,6 +2626,8 @@ export const createAnonymousWebExperienceUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnonymousWebExperienceUrl",
+  telemetry: TELEMETRY,
+  span: "CreateAnonymousWebExperienceUrl",
 }));
 
 export type CreateApplicationError =
@@ -2617,7 +2649,7 @@ export type CreateApplicationError =
  * When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2636,6 +2668,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateChatResponseConfigurationError =
@@ -2651,7 +2685,7 @@ export type CreateChatResponseConfigurationError =
  * Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
  */
 export const createChatResponseConfiguration: API.OperationMethod<
-  CreateChatResponseConfigurationRequest,
+  CreateChatResponseConfigurationRequest & RegionInput,
   CreateChatResponseConfigurationResponse,
   CreateChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2670,6 +2704,8 @@ export const createChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateChatResponseConfiguration",
 }));
 
 export type CreateDataAccessorError =
@@ -2685,7 +2721,7 @@ export type CreateDataAccessorError =
  * Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
  */
 export const createDataAccessor: API.OperationMethod<
-  CreateDataAccessorRequest,
+  CreateDataAccessorRequest & RegionInput,
   CreateDataAccessorResponse,
   CreateDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -2704,6 +2740,8 @@ export const createDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAccessor",
+  telemetry: TELEMETRY,
+  span: "CreateDataAccessor",
 }));
 
 export type CreateDataSourceError =
@@ -2721,7 +2759,7 @@ export type CreateDataSourceError =
  * `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2740,6 +2778,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateIndexError =
@@ -2759,7 +2799,7 @@ export type CreateIndexError =
  * Once the index is active, you can index your documents using the `BatchPutDocument` API or the `CreateDataSource` API.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2778,6 +2818,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreatePluginError =
@@ -2793,7 +2835,7 @@ export type CreatePluginError =
  * Creates an Amazon Q Business plugin.
  */
 export const createPlugin: API.OperationMethod<
-  CreatePluginRequest,
+  CreatePluginRequest & RegionInput,
   CreatePluginResponse,
   CreatePluginError,
   Credentials | HttpClient.HttpClient
@@ -2812,6 +2854,8 @@ export const createPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlugin",
+  telemetry: TELEMETRY,
+  span: "CreatePlugin",
 }));
 
 export type CreateRetrieverError =
@@ -2827,7 +2871,7 @@ export type CreateRetrieverError =
  * Adds a retriever to your Amazon Q Business application.
  */
 export const createRetriever: API.OperationMethod<
-  CreateRetrieverRequest,
+  CreateRetrieverRequest & RegionInput,
   CreateRetrieverResponse,
   CreateRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -2846,6 +2890,8 @@ export const createRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetriever",
+  telemetry: TELEMETRY,
+  span: "CreateRetriever",
 }));
 
 export type CreateSubscriptionError =
@@ -2864,7 +2910,7 @@ export type CreateSubscriptionError =
  * For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionRequest,
+  CreateSubscriptionRequest & RegionInput,
   CreateSubscriptionResponse,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2882,6 +2928,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateUserError =
@@ -2897,7 +2945,7 @@ export type CreateUserError =
  * Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2916,6 +2964,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateWebExperienceError =
@@ -2931,7 +2981,7 @@ export type CreateWebExperienceError =
  * Creates an Amazon Q Business web experience.
  */
 export const createWebExperience: API.OperationMethod<
-  CreateWebExperienceRequest,
+  CreateWebExperienceRequest & RegionInput,
   CreateWebExperienceResponse,
   CreateWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -2950,6 +3000,8 @@ export const createWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebExperience",
+  telemetry: TELEMETRY,
+  span: "CreateWebExperience",
 }));
 
 export type DeleteApplicationError =
@@ -2964,7 +3016,7 @@ export type DeleteApplicationError =
  * Deletes an Amazon Q Business application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2982,6 +3034,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAttachmentError =
@@ -2996,7 +3050,7 @@ export type DeleteAttachmentError =
  * Deletes an attachment associated with a specific Amazon Q Business conversation.
  */
 export const deleteAttachment: API.OperationMethod<
-  DeleteAttachmentRequest,
+  DeleteAttachmentRequest & RegionInput,
   DeleteAttachmentResponse,
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3014,6 +3068,8 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteChatControlsConfigurationError =
@@ -3027,7 +3083,7 @@ export type DeleteChatControlsConfigurationError =
  * Deletes chat controls configured for an existing Amazon Q Business application.
  */
 export const deleteChatControlsConfiguration: API.OperationMethod<
-  DeleteChatControlsConfigurationRequest,
+  DeleteChatControlsConfigurationRequest & RegionInput,
   DeleteChatControlsConfigurationResponse,
   DeleteChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3044,6 +3100,8 @@ export const deleteChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatControlsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChatControlsConfiguration",
 }));
 
 export type DeleteChatResponseConfigurationError =
@@ -3058,7 +3116,7 @@ export type DeleteChatResponseConfigurationError =
  * Deletes a specified chat response configuration from an Amazon Q Business application.
  */
 export const deleteChatResponseConfiguration: API.OperationMethod<
-  DeleteChatResponseConfigurationRequest,
+  DeleteChatResponseConfigurationRequest & RegionInput,
   DeleteChatResponseConfigurationResponse,
   DeleteChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3076,6 +3134,8 @@ export const deleteChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChatResponseConfiguration",
 }));
 
 export type DeleteConversationError =
@@ -3091,7 +3151,7 @@ export type DeleteConversationError =
  * Deletes an Amazon Q Business web experience conversation.
  */
 export const deleteConversation: API.OperationMethod<
-  DeleteConversationRequest,
+  DeleteConversationRequest & RegionInput,
   DeleteConversationResponse,
   DeleteConversationError,
   Credentials | HttpClient.HttpClient
@@ -3110,6 +3170,8 @@ export const deleteConversation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConversation",
+  telemetry: TELEMETRY,
+  span: "DeleteConversation",
 }));
 
 export type DeleteDataAccessorError =
@@ -3124,7 +3186,7 @@ export type DeleteDataAccessorError =
  * Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
  */
 export const deleteDataAccessor: API.OperationMethod<
-  DeleteDataAccessorRequest,
+  DeleteDataAccessorRequest & RegionInput,
   DeleteDataAccessorResponse,
   DeleteDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -3142,6 +3204,8 @@ export const deleteDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAccessor",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAccessor",
 }));
 
 export type DeleteDataSourceError =
@@ -3156,7 +3220,7 @@ export type DeleteDataSourceError =
  * Deletes an Amazon Q Business data source connector. While the data source is being deleted, the `Status` field returned by a call to the `DescribeDataSource` API is set to `DELETING`.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3174,6 +3238,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteGroupError =
@@ -3190,7 +3256,7 @@ export type DeleteGroupError =
  * If you want to delete, update, or replace users or sub groups of a group, you need to use the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -3208,6 +3274,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteIndexError =
@@ -3222,7 +3290,7 @@ export type DeleteIndexError =
  * Deletes an Amazon Q Business index.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3240,6 +3308,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeletePluginError =
@@ -3254,7 +3324,7 @@ export type DeletePluginError =
  * Deletes an Amazon Q Business plugin.
  */
 export const deletePlugin: API.OperationMethod<
-  DeletePluginRequest,
+  DeletePluginRequest & RegionInput,
   DeletePluginResponse,
   DeletePluginError,
   Credentials | HttpClient.HttpClient
@@ -3272,6 +3342,8 @@ export const deletePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlugin",
+  telemetry: TELEMETRY,
+  span: "DeletePlugin",
 }));
 
 export type DeleteRetrieverError =
@@ -3286,7 +3358,7 @@ export type DeleteRetrieverError =
  * Deletes the retriever used by an Amazon Q Business application.
  */
 export const deleteRetriever: API.OperationMethod<
-  DeleteRetrieverRequest,
+  DeleteRetrieverRequest & RegionInput,
   DeleteRetrieverResponse,
   DeleteRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -3304,6 +3376,8 @@ export const deleteRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetriever",
+  telemetry: TELEMETRY,
+  span: "DeleteRetriever",
 }));
 
 export type DeleteUserError =
@@ -3318,7 +3392,7 @@ export type DeleteUserError =
  * Deletes a user by email id.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3336,6 +3410,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteWebExperienceError =
@@ -3350,7 +3426,7 @@ export type DeleteWebExperienceError =
  * Deletes an Amazon Q Business web experience.
  */
 export const deleteWebExperience: API.OperationMethod<
-  DeleteWebExperienceRequest,
+  DeleteWebExperienceRequest & RegionInput,
   DeleteWebExperienceResponse,
   DeleteWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3368,6 +3444,8 @@ export const deleteWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebExperience",
+  telemetry: TELEMETRY,
+  span: "DeleteWebExperience",
 }));
 
 export type DisassociatePermissionError =
@@ -3382,7 +3460,7 @@ export type DisassociatePermissionError =
  * Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
  */
 export const disassociatePermission: API.OperationMethod<
-  DisassociatePermissionRequest,
+  DisassociatePermissionRequest & RegionInput,
   DisassociatePermissionResponse,
   DisassociatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -3400,6 +3478,8 @@ export const disassociatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePermission",
+  telemetry: TELEMETRY,
+  span: "DisassociatePermission",
 }));
 
 export type GetApplicationError =
@@ -3413,7 +3493,7 @@ export type GetApplicationError =
  * Gets information about an existing Amazon Q Business application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3430,6 +3510,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetChatControlsConfigurationError =
@@ -3443,7 +3525,7 @@ export type GetChatControlsConfigurationError =
  * Gets information about chat controls configured for an existing Amazon Q Business application.
  */
 export const getChatControlsConfiguration: API.PaginatedOperationMethod<
-  GetChatControlsConfigurationRequest,
+  GetChatControlsConfigurationRequest & RegionInput,
   GetChatControlsConfigurationResponse,
   GetChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -3467,6 +3549,8 @@ export const getChatControlsConfiguration: API.PaginatedOperationMethod<
     items: "topicConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetChatControlsConfiguration",
 })) as any;
 
 export type GetChatResponseConfigurationError =
@@ -3480,7 +3564,7 @@ export type GetChatResponseConfigurationError =
  * Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
  */
 export const getChatResponseConfiguration: API.OperationMethod<
-  GetChatResponseConfigurationRequest,
+  GetChatResponseConfigurationRequest & RegionInput,
   GetChatResponseConfigurationResponse,
   GetChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3497,6 +3581,8 @@ export const getChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetChatResponseConfiguration",
 }));
 
 export type GetDataAccessorError =
@@ -3510,7 +3596,7 @@ export type GetDataAccessorError =
  * Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
  */
 export const getDataAccessor: API.OperationMethod<
-  GetDataAccessorRequest,
+  GetDataAccessorRequest & RegionInput,
   GetDataAccessorResponse,
   GetDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -3527,6 +3613,8 @@ export const getDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAccessor",
+  telemetry: TELEMETRY,
+  span: "GetDataAccessor",
 }));
 
 export type GetDataSourceError =
@@ -3540,7 +3628,7 @@ export type GetDataSourceError =
  * Gets information about an existing Amazon Q Business data source connector.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3557,6 +3645,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDocumentContentError =
@@ -3570,7 +3660,7 @@ export type GetDocumentContentError =
  * Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
  */
 export const getDocumentContent: API.OperationMethod<
-  GetDocumentContentRequest,
+  GetDocumentContentRequest & RegionInput,
   GetDocumentContentResponse,
   GetDocumentContentError,
   Credentials | HttpClient.HttpClient
@@ -3587,6 +3677,8 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
+  telemetry: TELEMETRY,
+  span: "GetDocumentContent",
 }));
 
 export type GetGroupError =
@@ -3601,7 +3693,7 @@ export type GetGroupError =
  * Describes a group by group name.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResponse,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3619,6 +3711,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetIndexError =
@@ -3632,7 +3726,7 @@ export type GetIndexError =
  * Gets information about an existing Amazon Q Business index.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -3649,6 +3743,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetMediaError =
@@ -3666,7 +3762,7 @@ export type GetMediaError =
  * For more information, see Extracting semantic meaning from images and visuals.
  */
 export const getMedia: API.OperationMethod<
-  GetMediaRequest,
+  GetMediaRequest & RegionInput,
   GetMediaResponse,
   GetMediaError,
   Credentials | HttpClient.HttpClient
@@ -3685,6 +3781,8 @@ export const getMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedia",
+  telemetry: TELEMETRY,
+  span: "GetMedia",
 }));
 
 export type GetPluginError =
@@ -3698,7 +3796,7 @@ export type GetPluginError =
  * Gets information about an existing Amazon Q Business plugin.
  */
 export const getPlugin: API.OperationMethod<
-  GetPluginRequest,
+  GetPluginRequest & RegionInput,
   GetPluginResponse,
   GetPluginError,
   Credentials | HttpClient.HttpClient
@@ -3715,6 +3813,8 @@ export const getPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlugin",
+  telemetry: TELEMETRY,
+  span: "GetPlugin",
 }));
 
 export type GetPolicyError =
@@ -3728,7 +3828,7 @@ export type GetPolicyError =
  * Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3745,6 +3845,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetRetrieverError =
@@ -3758,7 +3860,7 @@ export type GetRetrieverError =
  * Gets information about an existing retriever used by an Amazon Q Business application.
  */
 export const getRetriever: API.OperationMethod<
-  GetRetrieverRequest,
+  GetRetrieverRequest & RegionInput,
   GetRetrieverResponse,
   GetRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -3775,6 +3877,8 @@ export const getRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetriever",
+  telemetry: TELEMETRY,
+  span: "GetRetriever",
 }));
 
 export type GetUserError =
@@ -3789,7 +3893,7 @@ export type GetUserError =
  * Describes the universally unique identifier (UUID) associated with a local user in a data source.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -3807,6 +3911,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetWebExperienceError =
@@ -3820,7 +3926,7 @@ export type GetWebExperienceError =
  * Gets information about an existing Amazon Q Business web experience.
  */
 export const getWebExperience: API.OperationMethod<
-  GetWebExperienceRequest,
+  GetWebExperienceRequest & RegionInput,
   GetWebExperienceResponse,
   GetWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3837,6 +3943,8 @@ export const getWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebExperience",
+  telemetry: TELEMETRY,
+  span: "GetWebExperience",
 }));
 
 export type ListApplicationsError =
@@ -3851,7 +3959,7 @@ export type ListApplicationsError =
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3874,6 +3982,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAttachmentsError =
@@ -3888,7 +3998,7 @@ export type ListAttachmentsError =
  * Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
  */
 export const listAttachments: API.PaginatedOperationMethod<
-  ListAttachmentsRequest,
+  ListAttachmentsRequest & RegionInput,
   ListAttachmentsResponse,
   ListAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3913,6 +4023,8 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "attachments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachments",
 })) as any;
 
 export type ListChatResponseConfigurationsError =
@@ -3926,7 +4038,7 @@ export type ListChatResponseConfigurationsError =
  * Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
  */
 export const listChatResponseConfigurations: API.PaginatedOperationMethod<
-  ListChatResponseConfigurationsRequest,
+  ListChatResponseConfigurationsRequest & RegionInput,
   ListChatResponseConfigurationsResponse,
   ListChatResponseConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3950,6 +4062,8 @@ export const listChatResponseConfigurations: API.PaginatedOperationMethod<
     items: "chatResponseConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChatResponseConfigurations",
 })) as any;
 
 export type ListConversationsError =
@@ -3964,7 +4078,7 @@ export type ListConversationsError =
  * Lists one or more Amazon Q Business conversations.
  */
 export const listConversations: API.PaginatedOperationMethod<
-  ListConversationsRequest,
+  ListConversationsRequest & RegionInput,
   ListConversationsResponse,
   ListConversationsError,
   Credentials | HttpClient.HttpClient,
@@ -3989,6 +4103,8 @@ export const listConversations: API.PaginatedOperationMethod<
     items: "conversations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConversations",
 })) as any;
 
 export type ListDataAccessorsError =
@@ -4002,7 +4118,7 @@ export type ListDataAccessorsError =
  * Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
  */
 export const listDataAccessors: API.PaginatedOperationMethod<
-  ListDataAccessorsRequest,
+  ListDataAccessorsRequest & RegionInput,
   ListDataAccessorsResponse,
   ListDataAccessorsError,
   Credentials | HttpClient.HttpClient,
@@ -4026,6 +4142,8 @@ export const listDataAccessors: API.PaginatedOperationMethod<
     items: "dataAccessors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAccessors",
 })) as any;
 
 export type ListDataSourcesError =
@@ -4039,7 +4157,7 @@ export type ListDataSourcesError =
  * Lists the Amazon Q Business data source connectors that you have created.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4063,6 +4181,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDataSourceSyncJobsError =
@@ -4077,7 +4197,7 @@ export type ListDataSourceSyncJobsError =
  * Get information about an Amazon Q Business data source connector synchronization.
  */
 export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
-  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsRequest & RegionInput,
   ListDataSourceSyncJobsResponse,
   ListDataSourceSyncJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4102,6 +4222,8 @@ export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
     items: "history",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSourceSyncJobs",
 })) as any;
 
 export type ListDocumentsError =
@@ -4115,7 +4237,7 @@ export type ListDocumentsError =
  * A list of documents attached to an index.
  */
 export const listDocuments: API.PaginatedOperationMethod<
-  ListDocumentsRequest,
+  ListDocumentsRequest & RegionInput,
   ListDocumentsResponse,
   ListDocumentsError,
   Credentials | HttpClient.HttpClient,
@@ -4139,6 +4261,8 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "documentDetailList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocuments",
 })) as any;
 
 export type ListGroupsError =
@@ -4153,7 +4277,7 @@ export type ListGroupsError =
  * Provides a list of groups that are mapped to users.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4178,6 +4302,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIndicesError =
@@ -4191,7 +4317,7 @@ export type ListIndicesError =
  * Lists the Amazon Q Business indices you have created.
  */
 export const listIndices: API.PaginatedOperationMethod<
-  ListIndicesRequest,
+  ListIndicesRequest & RegionInput,
   ListIndicesResponse,
   ListIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -4215,6 +4341,8 @@ export const listIndices: API.PaginatedOperationMethod<
     items: "indices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndices",
 })) as any;
 
 export type ListMessagesError =
@@ -4229,7 +4357,7 @@ export type ListMessagesError =
  * Gets a list of messages associated with an Amazon Q Business web experience.
  */
 export const listMessages: API.PaginatedOperationMethod<
-  ListMessagesRequest,
+  ListMessagesRequest & RegionInput,
   ListMessagesResponse,
   ListMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -4254,6 +4382,8 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 })) as any;
 
 export type ListPluginActionsError =
@@ -4267,7 +4397,7 @@ export type ListPluginActionsError =
  * Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
  */
 export const listPluginActions: API.PaginatedOperationMethod<
-  ListPluginActionsRequest,
+  ListPluginActionsRequest & RegionInput,
   ListPluginActionsResponse,
   ListPluginActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4291,6 +4421,8 @@ export const listPluginActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginActions",
 })) as any;
 
 export type ListPluginsError =
@@ -4304,7 +4436,7 @@ export type ListPluginsError =
  * Lists configured Amazon Q Business plugins.
  */
 export const listPlugins: API.PaginatedOperationMethod<
-  ListPluginsRequest,
+  ListPluginsRequest & RegionInput,
   ListPluginsResponse,
   ListPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -4328,6 +4460,8 @@ export const listPlugins: API.PaginatedOperationMethod<
     items: "plugins",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlugins",
 })) as any;
 
 export type ListPluginTypeActionsError =
@@ -4340,7 +4474,7 @@ export type ListPluginTypeActionsError =
  * Lists configured Amazon Q Business actions for any plugin type--both built-in and custom.
  */
 export const listPluginTypeActions: API.PaginatedOperationMethod<
-  ListPluginTypeActionsRequest,
+  ListPluginTypeActionsRequest & RegionInput,
   ListPluginTypeActionsResponse,
   ListPluginTypeActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4363,6 +4497,8 @@ export const listPluginTypeActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginTypeActions",
 })) as any;
 
 export type ListPluginTypeMetadataError =
@@ -4375,7 +4511,7 @@ export type ListPluginTypeMetadataError =
  * Lists metadata for all Amazon Q Business plugin types.
  */
 export const listPluginTypeMetadata: API.PaginatedOperationMethod<
-  ListPluginTypeMetadataRequest,
+  ListPluginTypeMetadataRequest & RegionInput,
   ListPluginTypeMetadataResponse,
   ListPluginTypeMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -4398,6 +4534,8 @@ export const listPluginTypeMetadata: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginTypeMetadata",
 })) as any;
 
 export type ListRetrieversError =
@@ -4411,7 +4549,7 @@ export type ListRetrieversError =
  * Lists the retriever used by an Amazon Q Business application.
  */
 export const listRetrievers: API.PaginatedOperationMethod<
-  ListRetrieversRequest,
+  ListRetrieversRequest & RegionInput,
   ListRetrieversResponse,
   ListRetrieversError,
   Credentials | HttpClient.HttpClient,
@@ -4435,6 +4573,8 @@ export const listRetrievers: API.PaginatedOperationMethod<
     items: "retrievers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrievers",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -4449,7 +4589,7 @@ export type ListSubscriptionsError =
  * Lists all subscriptions created in an Amazon Q Business application.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsRequest,
+  ListSubscriptionsRequest & RegionInput,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4474,6 +4614,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4487,7 +4629,7 @@ export type ListTagsForResourceError =
  * Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4504,6 +4646,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebExperiencesError =
@@ -4517,7 +4661,7 @@ export type ListWebExperiencesError =
  * Lists one or more Amazon Q Business Web Experiences.
  */
 export const listWebExperiences: API.PaginatedOperationMethod<
-  ListWebExperiencesRequest,
+  ListWebExperiencesRequest & RegionInput,
   ListWebExperiencesResponse,
   ListWebExperiencesError,
   Credentials | HttpClient.HttpClient,
@@ -4541,6 +4685,8 @@ export const listWebExperiences: API.PaginatedOperationMethod<
     items: "webExperiences",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebExperiences",
 })) as any;
 
 export type PutFeedbackError =
@@ -4554,7 +4700,7 @@ export type PutFeedbackError =
  * Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
  */
 export const putFeedback: API.OperationMethod<
-  PutFeedbackRequest,
+  PutFeedbackRequest & RegionInput,
   PutFeedbackResponse,
   PutFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4571,6 +4717,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type PutGroupError =
@@ -4590,7 +4738,7 @@ export type PutGroupError =
  * There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
  */
 export const putGroup: API.OperationMethod<
-  PutGroupRequest,
+  PutGroupRequest & RegionInput,
   PutGroupResponse,
   PutGroupError,
   Credentials | HttpClient.HttpClient
@@ -4609,6 +4757,8 @@ export const putGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroup",
+  telemetry: TELEMETRY,
+  span: "PutGroup",
 }));
 
 export type SearchRelevantContentError =
@@ -4623,7 +4773,7 @@ export type SearchRelevantContentError =
  * Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
  */
 export const searchRelevantContent: API.PaginatedOperationMethod<
-  SearchRelevantContentRequest,
+  SearchRelevantContentRequest & RegionInput,
   SearchRelevantContentResponse,
   SearchRelevantContentError,
   Credentials | HttpClient.HttpClient,
@@ -4648,6 +4798,8 @@ export const searchRelevantContent: API.PaginatedOperationMethod<
     items: "relevantContent",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRelevantContent",
 })) as any;
 
 export type StartDataSourceSyncJobError =
@@ -4663,7 +4815,7 @@ export type StartDataSourceSyncJobError =
  * Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a `ConflictException`.
  */
 export const startDataSourceSyncJob: API.OperationMethod<
-  StartDataSourceSyncJobRequest,
+  StartDataSourceSyncJobRequest & RegionInput,
   StartDataSourceSyncJobResponse,
   StartDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4682,6 +4834,8 @@ export const startDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StartDataSourceSyncJob",
 }));
 
 export type StopDataSourceSyncJobError =
@@ -4696,7 +4850,7 @@ export type StopDataSourceSyncJobError =
  * Stops an Amazon Q Business data source connector synchronization job already in progress.
  */
 export const stopDataSourceSyncJob: API.OperationMethod<
-  StopDataSourceSyncJobRequest,
+  StopDataSourceSyncJobRequest & RegionInput,
   StopDataSourceSyncJobResponse,
   StopDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4714,6 +4868,8 @@ export const stopDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StopDataSourceSyncJob",
 }));
 
 export type TagResourceError =
@@ -4728,7 +4884,7 @@ export type TagResourceError =
  * Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4746,6 +4902,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4759,7 +4917,7 @@ export type UntagResourceError =
  * Removes a tag from an Amazon Q Business application or a data source.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4776,6 +4934,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -4794,7 +4954,7 @@ export type UpdateApplicationError =
  * An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4812,6 +4972,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateChatControlsConfigurationError =
@@ -4827,7 +4989,7 @@ export type UpdateChatControlsConfigurationError =
  * Updates a set of chat controls configured for an existing Amazon Q Business application.
  */
 export const updateChatControlsConfiguration: API.OperationMethod<
-  UpdateChatControlsConfigurationRequest,
+  UpdateChatControlsConfigurationRequest & RegionInput,
   UpdateChatControlsConfigurationResponse,
   UpdateChatControlsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4846,6 +5008,8 @@ export const updateChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatControlsConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChatControlsConfiguration",
 }));
 
 export type UpdateChatResponseConfigurationError =
@@ -4860,7 +5024,7 @@ export type UpdateChatResponseConfigurationError =
  * Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
  */
 export const updateChatResponseConfiguration: API.OperationMethod<
-  UpdateChatResponseConfigurationRequest,
+  UpdateChatResponseConfigurationRequest & RegionInput,
   UpdateChatResponseConfigurationResponse,
   UpdateChatResponseConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4878,6 +5042,8 @@ export const updateChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChatResponseConfiguration",
 }));
 
 export type UpdateDataAccessorError =
@@ -4892,7 +5058,7 @@ export type UpdateDataAccessorError =
  * Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
  */
 export const updateDataAccessor: API.OperationMethod<
-  UpdateDataAccessorRequest,
+  UpdateDataAccessorRequest & RegionInput,
   UpdateDataAccessorResponse,
   UpdateDataAccessorError,
   Credentials | HttpClient.HttpClient
@@ -4910,6 +5076,8 @@ export const updateDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAccessor",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAccessor",
 }));
 
 export type UpdateDataSourceError =
@@ -4924,7 +5092,7 @@ export type UpdateDataSourceError =
  * Updates an existing Amazon Q Business data source connector.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4942,6 +5110,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateIndexError =
@@ -4957,7 +5127,7 @@ export type UpdateIndexError =
  * Updates an Amazon Q Business index.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -4976,6 +5146,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdatePluginError =
@@ -4991,7 +5163,7 @@ export type UpdatePluginError =
  * Updates an Amazon Q Business plugin.
  */
 export const updatePlugin: API.OperationMethod<
-  UpdatePluginRequest,
+  UpdatePluginRequest & RegionInput,
   UpdatePluginResponse,
   UpdatePluginError,
   Credentials | HttpClient.HttpClient
@@ -5010,6 +5182,8 @@ export const updatePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlugin",
+  telemetry: TELEMETRY,
+  span: "UpdatePlugin",
 }));
 
 export type UpdateRetrieverError =
@@ -5025,7 +5199,7 @@ export type UpdateRetrieverError =
  * Updates the retriever used for your Amazon Q Business application.
  */
 export const updateRetriever: API.OperationMethod<
-  UpdateRetrieverRequest,
+  UpdateRetrieverRequest & RegionInput,
   UpdateRetrieverResponse,
   UpdateRetrieverError,
   Credentials | HttpClient.HttpClient
@@ -5044,6 +5218,8 @@ export const updateRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetriever",
+  telemetry: TELEMETRY,
+  span: "UpdateRetriever",
 }));
 
 export type UpdateSubscriptionError =
@@ -5058,7 +5234,7 @@ export type UpdateSubscriptionError =
  * Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionRequest,
+  UpdateSubscriptionRequest & RegionInput,
   UpdateSubscriptionResponse,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -5076,6 +5252,8 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateUserError =
@@ -5091,7 +5269,7 @@ export type UpdateUserError =
  * Updates a information associated with a user id.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -5110,6 +5288,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateWebExperienceError =
@@ -5124,7 +5304,7 @@ export type UpdateWebExperienceError =
  * Updates an Amazon Q Business web experience.
  */
 export const updateWebExperience: API.OperationMethod<
-  UpdateWebExperienceRequest,
+  UpdateWebExperienceRequest & RegionInput,
   UpdateWebExperienceResponse,
   UpdateWebExperienceError,
   Credentials | HttpClient.HttpClient
@@ -5142,6 +5322,8 @@ export const updateWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebExperience",
+  telemetry: TELEMETRY,
+  span: "UpdateWebExperience",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

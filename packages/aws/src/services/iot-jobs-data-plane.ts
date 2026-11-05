@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://data.jobs.iot.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTJobsDataPlane",
+  service: "IoTJobsDataPlane",
+  propagate: TxXray.propagate,
+} as const;
 
 export class CertificateValidationException
   extends /*@__PURE__*/ S.TaggedError<CertificateValidationException>()(
@@ -291,7 +307,7 @@ export type DescribeJobExecutionError =
  * Requires permission to access the DescribeJobExecution action.
  */
 export const describeJobExecution: API.OperationMethod<
-  DescribeJobExecutionRequest,
+  DescribeJobExecutionRequest & RegionInput,
   DescribeJobExecutionResponse,
   DescribeJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -309,6 +325,8 @@ export const describeJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeJobExecution",
 }));
 
 export type GetPendingJobExecutionsError =
@@ -324,7 +342,7 @@ export type GetPendingJobExecutionsError =
  * Requires permission to access the GetPendingJobExecutions action.
  */
 export const getPendingJobExecutions: API.OperationMethod<
-  GetPendingJobExecutionsRequest,
+  GetPendingJobExecutionsRequest & RegionInput,
   GetPendingJobExecutionsResponse,
   GetPendingJobExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -341,6 +359,8 @@ export const getPendingJobExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingJobExecutions",
+  telemetry: TELEMETRY,
+  span: "GetPendingJobExecutions",
 }));
 
 export type StartCommandExecutionError =
@@ -356,7 +376,7 @@ export type StartCommandExecutionError =
  * execution on a specific device.
  */
 export const startCommandExecution: API.OperationMethod<
-  StartCommandExecutionRequest,
+  StartCommandExecutionRequest & RegionInput,
   StartCommandExecutionResponse,
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -374,6 +394,8 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
+  telemetry: TELEMETRY,
+  span: "StartCommandExecution",
 }));
 
 export type StartNextPendingJobExecutionError =
@@ -390,7 +412,7 @@ export type StartNextPendingJobExecutionError =
  * Requires permission to access the StartNextPendingJobExecution action.
  */
 export const startNextPendingJobExecution: API.OperationMethod<
-  StartNextPendingJobExecutionRequest,
+  StartNextPendingJobExecutionRequest & RegionInput,
   StartNextPendingJobExecutionResponse,
   StartNextPendingJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -407,6 +429,8 @@ export const startNextPendingJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNextPendingJobExecution",
+  telemetry: TELEMETRY,
+  span: "StartNextPendingJobExecution",
 }));
 
 export type UpdateJobExecutionError =
@@ -423,7 +447,7 @@ export type UpdateJobExecutionError =
  * Requires permission to access the UpdateJobExecution action.
  */
 export const updateJobExecution: API.OperationMethod<
-  UpdateJobExecutionRequest,
+  UpdateJobExecutionRequest & RegionInput,
   UpdateJobExecutionResponse,
   UpdateJobExecutionError,
   Credentials | HttpClient.HttpClient
@@ -441,6 +465,8 @@ export const updateJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobExecution",
+  telemetry: TELEMETRY,
+  span: "UpdateJobExecution",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

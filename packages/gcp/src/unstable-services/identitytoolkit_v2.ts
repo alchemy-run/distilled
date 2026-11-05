@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "identitytoolkit" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Identitytoolkit",
+  service: "identitytoolkit",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1429,6 +1448,8 @@ export const createProjectsDefaultSupportedIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDefaultSupportedIdpConfigs",
 }));
 
 export type CreateProjectsInboundSamlConfigsError =
@@ -1453,6 +1474,8 @@ export const createProjectsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsInboundSamlConfigs",
 }));
 
 export type CreateProjectsOauthIdpConfigsError =
@@ -1473,6 +1496,8 @@ export const createProjectsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsOauthIdpConfigs",
 }));
 
 export type CreateProjectsTenantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1488,6 +1513,8 @@ export const createProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenants",
 }));
 
 export type CreateProjectsTenantsDefaultSupportedIdpConfigsError =
@@ -1516,6 +1543,8 @@ export const createProjectsTenantsDefaultSupportedIdpConfigs: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsDefaultSupportedIdpConfigs",
 }));
 
 export type CreateProjectsTenantsInboundSamlConfigsError =
@@ -1540,6 +1569,8 @@ export const createProjectsTenantsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsInboundSamlConfigs",
 }));
 
 export type CreateProjectsTenantsOauthIdpConfigsError =
@@ -1560,6 +1591,8 @@ export const createProjectsTenantsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTenantsOauthIdpConfigs",
 }));
 
 export type DeleteProjectsDefaultSupportedIdpConfigsError =
@@ -1580,6 +1613,8 @@ export const deleteProjectsDefaultSupportedIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDefaultSupportedIdpConfigs",
 }));
 
 export type DeleteProjectsInboundSamlConfigsError =
@@ -1600,6 +1635,8 @@ export const deleteProjectsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsInboundSamlConfigs",
 }));
 
 export type DeleteProjectsOauthIdpConfigsError =
@@ -1620,6 +1657,8 @@ export const deleteProjectsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsOauthIdpConfigs",
 }));
 
 export type DeleteProjectsTenantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1635,6 +1674,8 @@ export const deleteProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenants",
 }));
 
 export type DeleteProjectsTenantsDefaultSupportedIdpConfigsError =
@@ -1659,6 +1700,8 @@ export const deleteProjectsTenantsDefaultSupportedIdpConfigs: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsDefaultSupportedIdpConfigs",
 }));
 
 export type DeleteProjectsTenantsInboundSamlConfigsError =
@@ -1679,6 +1722,8 @@ export const deleteProjectsTenantsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsInboundSamlConfigs",
 }));
 
 export type DeleteProjectsTenantsOauthIdpConfigsError =
@@ -1699,6 +1744,8 @@ export const deleteProjectsTenantsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTenantsOauthIdpConfigs",
 }));
 
 export type FinalizeAccountsMfaEnrollmentError =
@@ -1723,6 +1770,8 @@ export const finalizeAccountsMfaEnrollment: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeAccountsMfaEnrollment",
 }));
 
 export type FinalizeAccountsMfaSignInError =
@@ -1747,6 +1796,8 @@ export const finalizeAccountsMfaSignIn: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeAccountsMfaSignIn",
 }));
 
 export type GetConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1762,6 +1813,8 @@ export const getConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigProjects",
 }));
 
 export type GetIamPolicyProjectsTenantsError =
@@ -1782,6 +1835,8 @@ export const getIamPolicyProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsTenants",
 }));
 
 export type GetPasswordPolicyV2Error = NotFound | Forbidden | GcpOpError;
@@ -1797,6 +1852,8 @@ export const getPasswordPolicyV2: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPasswordPolicyV2",
 }));
 
 export type GetProjectsDefaultSupportedIdpConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1816,6 +1873,8 @@ export const getProjectsDefaultSupportedIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDefaultSupportedIdpConfigs",
 }));
 
 export type GetProjectsInboundSamlConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1835,6 +1894,8 @@ export const getProjectsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsInboundSamlConfigs",
 }));
 
 export type GetProjectsOauthIdpConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1850,6 +1911,8 @@ export const getProjectsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsOauthIdpConfigs",
 }));
 
 export type GetProjectsTenantsError = NotFound | Forbidden | GcpOpError;
@@ -1865,6 +1928,8 @@ export const getProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenants",
 }));
 
 export type GetProjectsTenantsDefaultSupportedIdpConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1884,6 +1949,8 @@ export const getProjectsTenantsDefaultSupportedIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenantsDefaultSupportedIdpConfigs",
 }));
 
 export type GetProjectsTenantsInboundSamlConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1903,6 +1970,8 @@ export const getProjectsTenantsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenantsInboundSamlConfigs",
 }));
 
 export type GetProjectsTenantsOauthIdpConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1918,6 +1987,8 @@ export const getProjectsTenantsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTenantsOauthIdpConfigs",
 }));
 
 export type GetRecaptchaConfigV2Error = NotFound | Forbidden | GcpOpError;
@@ -1933,6 +2004,8 @@ export const getRecaptchaConfigV2: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecaptchaConfigV2",
 }));
 
 export type InitializeAuthProjectsIdentityPlatformError =
@@ -1957,6 +2030,8 @@ export const initializeAuthProjectsIdentityPlatform: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InitializeAuthProjectsIdentityPlatform",
 }));
 
 export type ListDefaultSupportedIdpsError = NotFound | Forbidden | GcpOpError;
@@ -1977,6 +2052,8 @@ export const listDefaultSupportedIdps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDefaultSupportedIdps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1998,6 +2075,8 @@ export const listProjectsDefaultSupportedIdpConfigs: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDefaultSupportedIdpConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2019,6 +2098,8 @@ export const listProjectsInboundSamlConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsInboundSamlConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2040,6 +2121,8 @@ export const listProjectsOauthIdpConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsOauthIdpConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2061,6 +2144,8 @@ export const listProjectsTenants: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenants",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2086,6 +2171,8 @@ export const listProjectsTenantsDefaultSupportedIdpConfigs: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenantsDefaultSupportedIdpConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2107,6 +2194,8 @@ export const listProjectsTenantsInboundSamlConfigs: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenantsInboundSamlConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2128,6 +2217,8 @@ export const listProjectsTenantsOauthIdpConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTenantsOauthIdpConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2153,6 +2244,8 @@ export const patchProjectsDefaultSupportedIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDefaultSupportedIdpConfigs",
 }));
 
 export type PatchProjectsInboundSamlConfigsError =
@@ -2177,6 +2270,8 @@ export const patchProjectsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsInboundSamlConfigs",
 }));
 
 export type PatchProjectsOauthIdpConfigsError =
@@ -2197,6 +2292,8 @@ export const patchProjectsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsOauthIdpConfigs",
 }));
 
 export type PatchProjectsTenantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2212,6 +2309,8 @@ export const patchProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenants",
 }));
 
 export type PatchProjectsTenantsDefaultSupportedIdpConfigsError =
@@ -2240,6 +2339,8 @@ export const patchProjectsTenantsDefaultSupportedIdpConfigs: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenantsDefaultSupportedIdpConfigs",
 }));
 
 export type PatchProjectsTenantsInboundSamlConfigsError =
@@ -2264,6 +2365,8 @@ export const patchProjectsTenantsInboundSamlConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenantsInboundSamlConfigs",
 }));
 
 export type PatchProjectsTenantsOauthIdpConfigsError =
@@ -2284,6 +2387,8 @@ export const patchProjectsTenantsOauthIdpConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTenantsOauthIdpConfigs",
 }));
 
 export type RevokeTokenAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2299,6 +2404,8 @@ export const revokeTokenAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokenAccounts",
 }));
 
 export type SetIamPolicyProjectsTenantsError =
@@ -2319,6 +2426,8 @@ export const setIamPolicyProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsTenants",
 }));
 
 export type StartAccountsMfaEnrollmentError =
@@ -2343,6 +2452,8 @@ export const startAccountsMfaEnrollment: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAccountsMfaEnrollment",
 }));
 
 export type StartAccountsMfaSignInError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2362,6 +2473,8 @@ export const startAccountsMfaSignIn: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAccountsMfaSignIn",
 }));
 
 export type TestIamPermissionsProjectsTenantsError =
@@ -2382,6 +2495,8 @@ export const testIamPermissionsProjectsTenants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsTenants",
 }));
 
 export type UpdateConfigProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2397,6 +2512,8 @@ export const updateConfigProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigProjects",
 }));
 
 export type WithdrawAccountsMfaEnrollmentError =
@@ -2417,6 +2534,8 @@ export const withdrawAccountsMfaEnrollment: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithdrawAccountsMfaEnrollment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

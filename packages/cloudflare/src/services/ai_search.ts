@@ -121,6 +121,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workerDomain: "worker_domain",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AiSearch",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AiSearchInstanceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AiSearchInstanceNotFound>()("AiSearchInstanceNotFound", {
@@ -946,11 +960,18 @@ export interface NamespacesInstancesItemsChunksResultItemItem {
   metadata?: NamespacesInstancesItemsChunksResultItemItemMetadataMap | null;
   timestamp?: number | null;
 }
+export type NamespacesInstancesItemsChunksResultItemSourceMediaType = "audio" | "video";
 export interface NamespacesInstancesItemsChunksResultItem {
   id: string;
   item: NamespacesInstancesItemsChunksResultItemItem;
   text: string;
   endByte?: number | null;
+  /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the chunk covers. */
+  mediaEndMs?: number | null;
+  /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the chunk begins in. */
+  mediaStartMs?: number | null;
+  /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
+  sourceMediaType?: NamespacesInstancesItemsChunksResultItemSourceMediaType | null;
   startByte?: number | null;
 }
 export type NamespacesInstancesItemsChunksResultList =
@@ -5365,6 +5386,8 @@ export const chatCompletionsInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChatCompletionsInstance",
 }));
 
 export type ChatCompletionsNamespaceError = CloudflareOpError;
@@ -5380,6 +5403,8 @@ export const chatCompletionsNamespace: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChatCompletionsNamespace",
 }));
 
 export type ChatCompletionsNamespaceInstanceError = CloudflareOpError;
@@ -5395,6 +5420,8 @@ export const chatCompletionsNamespaceInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChatCompletionsNamespaceInstance",
 }));
 
 export type ChunksNamespaceInstanceItemError = CloudflareOpError;
@@ -5410,6 +5437,8 @@ export const chunksNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChunksNamespaceInstanceItem",
 }));
 
 export type CreateInstanceError =
@@ -5441,6 +5470,8 @@ export const createInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateInstanceJobError =
@@ -5470,6 +5501,8 @@ export const createInstanceJob: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstanceJob",
 }));
 
 export type CreateNamespaceError = NamespaceAlreadyExists | Forbidden | CloudflareOpError;
@@ -5485,6 +5518,8 @@ export const createNamespace: API.OperationMethod<
   errors: [NamespaceAlreadyExists, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateNamespaceInstanceError =
@@ -5524,6 +5559,8 @@ export const createNamespaceInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceInstance",
 }));
 
 export type CreateNamespaceInstanceJobError = CloudflareOpError;
@@ -5539,6 +5576,8 @@ export const createNamespaceInstanceJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceInstanceJob",
 }));
 
 export type CreateOrUpdateNamespaceInstanceItemError = CloudflareOpError;
@@ -5554,6 +5593,8 @@ export const createOrUpdateNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateNamespaceInstanceItem",
 }));
 
 export type CreateTokenError =
@@ -5583,6 +5624,8 @@ export const createToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteInstanceError =
@@ -5610,6 +5653,8 @@ export const deleteInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteNamespaceError = NamespaceNotFound | Forbidden | CloudflareOpError;
@@ -5625,6 +5670,8 @@ export const deleteNamespace: API.OperationMethod<
   errors: [NamespaceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteNamespaceInstanceError =
@@ -5654,6 +5701,8 @@ export const deleteNamespaceInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceInstance",
 }));
 
 export type DeleteNamespaceInstanceItemError = CloudflareOpError;
@@ -5669,6 +5718,8 @@ export const deleteNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceInstanceItem",
 }));
 
 export type DeleteTokenError =
@@ -5700,6 +5751,8 @@ export const deleteToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type DownloadNamespaceInstanceItemError = CloudflareOpError;
@@ -5715,6 +5768,8 @@ export const downloadNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadNamespaceInstanceItem",
 }));
 
 export type GetInstanceJobError = ValidationError | NotFound | InvalidRoute | CloudflareOpError;
@@ -5730,6 +5785,8 @@ export const getInstanceJob: API.OperationMethod<
   errors: [ValidationError, NotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceJob",
 }));
 
 export type GetNamespaceInstanceItemError = CloudflareOpError;
@@ -5745,6 +5802,8 @@ export const getNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceInstanceItem",
 }));
 
 export type GetNamespaceInstanceJobError = CloudflareOpError;
@@ -5760,6 +5819,8 @@ export const getNamespaceInstanceJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceInstanceJob",
 }));
 
 export type ListInstanceJobsError = CloudflareOpError;
@@ -5777,6 +5838,8 @@ export const listInstanceJobs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInstanceJobs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5803,6 +5866,8 @@ export const listInstances: API.PaginatedOperationMethod<
     errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInstances",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5829,6 +5894,8 @@ export const listNamespaceInstanceItems: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaceInstanceItems",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5855,6 +5922,8 @@ export const listNamespaceInstanceJobs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaceInstanceJobs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5885,6 +5954,8 @@ export const listNamespaceInstances: API.PaginatedOperationMethod<
     errors: [NamespaceNotFound, InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaceInstances",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5911,6 +5982,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaces",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5937,6 +6010,8 @@ export const listTokens: API.PaginatedOperationMethod<
     errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTokens",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5961,6 +6036,8 @@ export const logsInstanceJob: API.OperationMethod<
   errors: [ValidationError, NotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsInstanceJob",
 }));
 
 export type LogsNamespaceInstanceItemError = CloudflareOpError;
@@ -5976,6 +6053,8 @@ export const logsNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsNamespaceInstanceItem",
 }));
 
 export type LogsNamespaceInstanceJobError = CloudflareOpError;
@@ -5991,6 +6070,8 @@ export const logsNamespaceInstanceJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsNamespaceInstanceJob",
 }));
 
 export type MoveNamespacesInstanceError = CloudflareOpError;
@@ -6006,6 +6087,8 @@ export const moveNamespacesInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveNamespacesInstance",
 }));
 
 export type PatchNamespaceInstanceJobError = CloudflareOpError;
@@ -6021,6 +6104,8 @@ export const patchNamespaceInstanceJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNamespaceInstanceJob",
 }));
 
 export type ReadInstanceError =
@@ -6048,6 +6133,8 @@ export const readInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadInstance",
 }));
 
 export type ReadNamespaceError = NamespaceNotFound | Forbidden | CloudflareOpError;
@@ -6063,6 +6150,8 @@ export const readNamespace: API.OperationMethod<
   errors: [NamespaceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNamespace",
 }));
 
 export type ReadNamespaceInstanceError =
@@ -6092,6 +6181,8 @@ export const readNamespaceInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNamespaceInstance",
 }));
 
 export type ReadTokenError =
@@ -6121,6 +6212,8 @@ export const readToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadToken",
 }));
 
 export type SearchInstanceError = CloudflareOpError;
@@ -6136,6 +6229,8 @@ export const searchInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInstance",
 }));
 
 export type SearchNamespaceError = CloudflareOpError;
@@ -6151,6 +6246,8 @@ export const searchNamespace: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchNamespace",
 }));
 
 export type SearchNamespaceInstanceError = CloudflareOpError;
@@ -6166,6 +6263,8 @@ export const searchNamespaceInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchNamespaceInstance",
 }));
 
 export type StatsInstanceError = ValidationError | NotFound | InvalidRoute | CloudflareOpError;
@@ -6181,6 +6280,8 @@ export const statsInstance: API.OperationMethod<
   errors: [ValidationError, NotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StatsInstance",
 }));
 
 export type StatsNamespaceInstanceError = CloudflareOpError;
@@ -6196,6 +6297,8 @@ export const statsNamespaceInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StatsNamespaceInstance",
 }));
 
 export type SyncNamespaceInstanceItemError = CloudflareOpError;
@@ -6211,6 +6314,8 @@ export const syncNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncNamespaceInstanceItem",
 }));
 
 export type UpdateInstanceError =
@@ -6240,6 +6345,8 @@ export const updateInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateNamespaceError = NamespaceNotFound | Forbidden | CloudflareOpError;
@@ -6255,6 +6362,8 @@ export const updateNamespace: API.OperationMethod<
   errors: [NamespaceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateNamespaceInstanceError =
@@ -6288,6 +6397,8 @@ export const updateNamespaceInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceInstance",
 }));
 
 export type UpdateTokenError =
@@ -6319,6 +6430,8 @@ export const updateToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateToken",
 }));
 
 export type UploadNamespaceInstanceItemError = CloudflareOpError;
@@ -6334,6 +6447,8 @@ export const uploadNamespaceInstanceItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadNamespaceInstanceItem",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -6727,6 +6842,9 @@ function __c10(j: number): any {
           item: __S(16, __c1, 0),
           text: S.String,
           endByte: S.optional(S.NullOr(S.Number).pipe(T.Body("end_byte"))),
+          mediaEndMs: S.optional(S.NullOr(S.Number).pipe(T.Body("media_end_ms"))),
+          mediaStartMs: S.optional(S.NullOr(S.Number).pipe(T.Body("media_start_ms"))),
+          sourceMediaType: S.optional(S.NullOr(S.String).pipe(T.Body("source_media_type"))),
           startByte: S.optional(S.NullOr(S.Number).pipe(T.Body("start_byte"))),
         }),
       ).annotate({ identifier: "NamespacesInstancesItemsChunksResultItem" });

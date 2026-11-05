@@ -74,6 +74,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   xZoneName: "x_ZoneName",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Organizations",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -812,6 +826,8 @@ export const createMember: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateOrganizationError = Forbidden | CloudflareOpError;
@@ -827,6 +843,8 @@ export const createOrganization: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type DeleteMemberError = CloudflareOpError;
@@ -842,6 +860,8 @@ export const deleteMember: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteOrganizationError = OrganizationNotFound | Forbidden | CloudflareOpError;
@@ -857,6 +877,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type GetBillingUsageError = CloudflareOpError;
@@ -872,6 +894,8 @@ export const getBillingUsage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsage",
 }));
 
 export type GetMemberError = CloudflareOpError;
@@ -887,6 +911,8 @@ export const getMember: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetOrganizationError = OrganizationNotFound | Forbidden | CloudflareOpError;
@@ -902,6 +928,8 @@ export const getOrganization: API.OperationMethod<
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationAccountError = CloudflareOpError;
@@ -917,6 +945,8 @@ export const getOrganizationAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationAccount",
 }));
 
 export type GetOrganizationProfileError = OrganizationNotFound | Forbidden | CloudflareOpError;
@@ -932,6 +962,8 @@ export const getOrganizationProfile: API.OperationMethod<
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationProfile",
 }));
 
 export type ListLogAuditsError = CloudflareOpError;
@@ -949,6 +981,8 @@ export const listLogAudits: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogAudits",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -972,6 +1006,8 @@ export const listMembers: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 }));
 
 export type ListOrganizationsError = Forbidden | CloudflareOpError;
@@ -989,6 +1025,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1007,6 +1045,8 @@ export const logsAuditHistory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAuditHistory",
 }));
 
 export type PutOrganizationProfileError = OrganizationNotFound | Forbidden | CloudflareOpError;
@@ -1022,6 +1062,8 @@ export const putOrganizationProfile: API.OperationMethod<
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOrganizationProfile",
 }));
 
 export type UpdateOrganizationError = OrganizationNotFound | Forbidden | CloudflareOpError;
@@ -1037,6 +1079,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [OrganizationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

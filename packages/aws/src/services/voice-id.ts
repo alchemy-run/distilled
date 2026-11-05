@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://voiceid.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VoiceID",
+  service: "VoiceID",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -617,7 +634,7 @@ export type AssociateFraudsterError =
  * Associates the fraudsters with the watchlist specified in the same domain.
  */
 export const associateFraudster: API.OperationMethod<
-  AssociateFraudsterRequest,
+  AssociateFraudsterRequest & RegionInput,
   AssociateFraudsterResponse,
   AssociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -636,6 +653,8 @@ export const associateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFraudster",
+  telemetry: TELEMETRY,
+  span: "AssociateFraudster",
 }));
 
 export type CreateDomainError =
@@ -652,7 +671,7 @@ export type CreateDomainError =
  * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -671,6 +690,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateWatchlistError =
@@ -686,7 +707,7 @@ export type CreateWatchlistError =
  * Creates a watchlist that fraudsters can be a part of.
  */
 export const createWatchlist: API.OperationMethod<
-  CreateWatchlistRequest,
+  CreateWatchlistRequest & RegionInput,
   CreateWatchlistResponse,
   CreateWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -705,6 +726,8 @@ export const createWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWatchlist",
+  telemetry: TELEMETRY,
+  span: "CreateWatchlist",
 }));
 
 export type DeleteDomainError =
@@ -719,7 +742,7 @@ export type DeleteDomainError =
  * Deletes the specified domain from Voice ID.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -737,6 +760,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteFraudsterError =
@@ -751,7 +776,7 @@ export type DeleteFraudsterError =
  * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
  */
 export const deleteFraudster: API.OperationMethod<
-  DeleteFraudsterRequest,
+  DeleteFraudsterRequest & RegionInput,
   DeleteFraudsterResponse,
   DeleteFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -769,6 +794,8 @@ export const deleteFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFraudster",
+  telemetry: TELEMETRY,
+  span: "DeleteFraudster",
 }));
 
 export type DeleteSpeakerError =
@@ -783,7 +810,7 @@ export type DeleteSpeakerError =
  * Deletes the specified speaker from Voice ID.
  */
 export const deleteSpeaker: API.OperationMethod<
-  DeleteSpeakerRequest,
+  DeleteSpeakerRequest & RegionInput,
   DeleteSpeakerResponse,
   DeleteSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -801,6 +828,8 @@ export const deleteSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpeaker",
+  telemetry: TELEMETRY,
+  span: "DeleteSpeaker",
 }));
 
 export type DeleteWatchlistError =
@@ -817,7 +846,7 @@ export type DeleteWatchlistError =
  * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
  */
 export const deleteWatchlist: API.OperationMethod<
-  DeleteWatchlistRequest,
+  DeleteWatchlistRequest & RegionInput,
   DeleteWatchlistResponse,
   DeleteWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -835,6 +864,8 @@ export const deleteWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWatchlist",
+  telemetry: TELEMETRY,
+  span: "DeleteWatchlist",
 }));
 
 export type DescribeDomainError =
@@ -848,7 +879,7 @@ export type DescribeDomainError =
  * Describes the specified domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -865,6 +896,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeFraudsterError =
@@ -878,7 +911,7 @@ export type DescribeFraudsterError =
  * Describes the specified fraudster.
  */
 export const describeFraudster: API.OperationMethod<
-  DescribeFraudsterRequest,
+  DescribeFraudsterRequest & RegionInput,
   DescribeFraudsterResponse,
   DescribeFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -895,6 +928,8 @@ export const describeFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudster",
+  telemetry: TELEMETRY,
+  span: "DescribeFraudster",
 }));
 
 export type DescribeFraudsterRegistrationJobError =
@@ -908,7 +943,7 @@ export type DescribeFraudsterRegistrationJobError =
  * Describes the specified fraudster registration job.
  */
 export const describeFraudsterRegistrationJob: API.OperationMethod<
-  DescribeFraudsterRegistrationJobRequest,
+  DescribeFraudsterRegistrationJobRequest & RegionInput,
   DescribeFraudsterRegistrationJobResponse,
   DescribeFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +960,8 @@ export const describeFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudsterRegistrationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFraudsterRegistrationJob",
 }));
 
 export type DescribeSpeakerError =
@@ -938,7 +975,7 @@ export type DescribeSpeakerError =
  * Describes the specified speaker.
  */
 export const describeSpeaker: API.OperationMethod<
-  DescribeSpeakerRequest,
+  DescribeSpeakerRequest & RegionInput,
   DescribeSpeakerResponse,
   DescribeSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -955,6 +992,8 @@ export const describeSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeaker",
+  telemetry: TELEMETRY,
+  span: "DescribeSpeaker",
 }));
 
 export type DescribeSpeakerEnrollmentJobError =
@@ -968,7 +1007,7 @@ export type DescribeSpeakerEnrollmentJobError =
  * Describes the specified speaker enrollment job.
  */
 export const describeSpeakerEnrollmentJob: API.OperationMethod<
-  DescribeSpeakerEnrollmentJobRequest,
+  DescribeSpeakerEnrollmentJobRequest & RegionInput,
   DescribeSpeakerEnrollmentJobResponse,
   DescribeSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -985,6 +1024,8 @@ export const describeSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeakerEnrollmentJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSpeakerEnrollmentJob",
 }));
 
 export type DescribeWatchlistError =
@@ -998,7 +1039,7 @@ export type DescribeWatchlistError =
  * Describes the specified watchlist.
  */
 export const describeWatchlist: API.OperationMethod<
-  DescribeWatchlistRequest,
+  DescribeWatchlistRequest & RegionInput,
   DescribeWatchlistResponse,
   DescribeWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -1015,6 +1056,8 @@ export const describeWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWatchlist",
+  telemetry: TELEMETRY,
+  span: "DescribeWatchlist",
 }));
 
 export type DisassociateFraudsterError =
@@ -1031,7 +1074,7 @@ export type DisassociateFraudsterError =
  * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
  */
 export const disassociateFraudster: API.OperationMethod<
-  DisassociateFraudsterRequest,
+  DisassociateFraudsterRequest & RegionInput,
   DisassociateFraudsterResponse,
   DisassociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -1049,6 +1092,8 @@ export const disassociateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFraudster",
+  telemetry: TELEMETRY,
+  span: "DisassociateFraudster",
 }));
 
 export type EvaluateSessionError =
@@ -1064,7 +1109,7 @@ export type EvaluateSessionError =
  * Amazon Connect Voice ID call.
  */
 export const evaluateSession: API.OperationMethod<
-  EvaluateSessionRequest,
+  EvaluateSessionRequest & RegionInput,
   EvaluateSessionResponse,
   EvaluateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1082,6 +1127,8 @@ export const evaluateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateSession",
+  telemetry: TELEMETRY,
+  span: "EvaluateSession",
 }));
 
 export type ListDomainsError =
@@ -1094,7 +1141,7 @@ export type ListDomainsError =
  * Lists all the domains in the Amazon Web Services account.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1117,6 +1164,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "DomainSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListFraudsterRegistrationJobsError =
@@ -1132,7 +1181,7 @@ export type ListFraudsterRegistrationJobsError =
  * fraudster registration jobs in the given domain.
  */
 export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
-  ListFraudsterRegistrationJobsRequest,
+  ListFraudsterRegistrationJobsRequest & RegionInput,
   ListFraudsterRegistrationJobsResponse,
   ListFraudsterRegistrationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1156,6 +1205,8 @@ export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFraudsterRegistrationJobs",
 })) as any;
 
 export type ListFraudstersError =
@@ -1169,7 +1220,7 @@ export type ListFraudstersError =
  * Lists all fraudsters in a specified watchlist or domain.
  */
 export const listFraudsters: API.PaginatedOperationMethod<
-  ListFraudstersRequest,
+  ListFraudstersRequest & RegionInput,
   ListFraudstersResponse,
   ListFraudstersError,
   Credentials | HttpClient.HttpClient,
@@ -1193,6 +1244,8 @@ export const listFraudsters: API.PaginatedOperationMethod<
     items: "FraudsterSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFraudsters",
 })) as any;
 
 export type ListSpeakerEnrollmentJobsError =
@@ -1208,7 +1261,7 @@ export type ListSpeakerEnrollmentJobsError =
  * jobs with all possible speaker enrollment job statuses.
  */
 export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
-  ListSpeakerEnrollmentJobsRequest,
+  ListSpeakerEnrollmentJobsRequest & RegionInput,
   ListSpeakerEnrollmentJobsResponse,
   ListSpeakerEnrollmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1232,6 +1285,8 @@ export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeakerEnrollmentJobs",
 })) as any;
 
 export type ListSpeakersError =
@@ -1245,7 +1300,7 @@ export type ListSpeakersError =
  * Lists all speakers in a specified domain.
  */
 export const listSpeakers: API.PaginatedOperationMethod<
-  ListSpeakersRequest,
+  ListSpeakersRequest & RegionInput,
   ListSpeakersResponse,
   ListSpeakersError,
   Credentials | HttpClient.HttpClient,
@@ -1269,6 +1324,8 @@ export const listSpeakers: API.PaginatedOperationMethod<
     items: "SpeakerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeakers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1282,7 +1339,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a specified Voice ID resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1356,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWatchlistsError =
@@ -1312,7 +1371,7 @@ export type ListWatchlistsError =
  * Lists all watchlists in a specified domain.
  */
 export const listWatchlists: API.PaginatedOperationMethod<
-  ListWatchlistsRequest,
+  ListWatchlistsRequest & RegionInput,
   ListWatchlistsResponse,
   ListWatchlistsError,
   Credentials | HttpClient.HttpClient,
@@ -1336,6 +1395,8 @@ export const listWatchlists: API.PaginatedOperationMethod<
     items: "WatchlistSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWatchlists",
 })) as any;
 
 export type OptOutSpeakerError =
@@ -1356,7 +1417,7 @@ export type OptOutSpeakerError =
  * Voice ID.
  */
 export const optOutSpeaker: API.OperationMethod<
-  OptOutSpeakerRequest,
+  OptOutSpeakerRequest & RegionInput,
   OptOutSpeakerResponse,
   OptOutSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -1375,6 +1436,8 @@ export const optOutSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptOutSpeaker",
+  telemetry: TELEMETRY,
+  span: "OptOutSpeaker",
 }));
 
 export type StartFraudsterRegistrationJobError =
@@ -1390,7 +1453,7 @@ export type StartFraudsterRegistrationJobError =
  * Starts a new batch fraudster registration job using provided details.
  */
 export const startFraudsterRegistrationJob: API.OperationMethod<
-  StartFraudsterRegistrationJobRequest,
+  StartFraudsterRegistrationJobRequest & RegionInput,
   StartFraudsterRegistrationJobResponse,
   StartFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -1409,6 +1472,8 @@ export const startFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFraudsterRegistrationJob",
+  telemetry: TELEMETRY,
+  span: "StartFraudsterRegistrationJob",
 }));
 
 export type StartSpeakerEnrollmentJobError =
@@ -1424,7 +1489,7 @@ export type StartSpeakerEnrollmentJobError =
  * Starts a new batch speaker enrollment job using specified details.
  */
 export const startSpeakerEnrollmentJob: API.OperationMethod<
-  StartSpeakerEnrollmentJobRequest,
+  StartSpeakerEnrollmentJobRequest & RegionInput,
   StartSpeakerEnrollmentJobResponse,
   StartSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1443,6 +1508,8 @@ export const startSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerEnrollmentJob",
+  telemetry: TELEMETRY,
+  span: "StartSpeakerEnrollmentJob",
 }));
 
 export type TagResourceError =
@@ -1457,7 +1524,7 @@ export type TagResourceError =
  * Tags a Voice ID resource with the provided list of tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1475,6 +1542,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1489,7 +1558,7 @@ export type UntagResourceError =
  * Removes specified tags from a specified Amazon Connect Voice ID resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1507,6 +1576,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDomainError =
@@ -1523,7 +1594,7 @@ export type UpdateDomainError =
  * removed from the domain.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1612,8 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateWatchlistError =
@@ -1555,7 +1628,7 @@ export type UpdateWatchlistError =
  * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
  */
 export const updateWatchlist: API.OperationMethod<
-  UpdateWatchlistRequest,
+  UpdateWatchlistRequest & RegionInput,
   UpdateWatchlistResponse,
   UpdateWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -1573,6 +1646,8 @@ export const updateWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWatchlist",
+  telemetry: TELEMETRY,
+  span: "UpdateWatchlist",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

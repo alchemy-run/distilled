@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralSelling",
+  service: "PartnerCentralSelling",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2215,7 +2231,7 @@ export type AcceptEngagementInvitationError =
  * Use the `AcceptEngagementInvitation` action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
  */
 export const acceptEngagementInvitation: API.OperationMethod<
-  AcceptEngagementInvitationRequest,
+  AcceptEngagementInvitationRequest & RegionInput,
   AcceptEngagementInvitationResponse,
   AcceptEngagementInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2233,6 +2249,8 @@ export const acceptEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptEngagementInvitation",
 }));
 
 export type AssignOpportunityError =
@@ -2248,7 +2266,7 @@ export type AssignOpportunityError =
  * This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
  */
 export const assignOpportunity: API.OperationMethod<
-  AssignOpportunityRequest,
+  AssignOpportunityRequest & RegionInput,
   AssignOpportunityResponse,
   AssignOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -2265,6 +2283,8 @@ export const assignOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignOpportunity",
+  telemetry: TELEMETRY,
+  span: "AssignOpportunity",
 }));
 
 export type AssociateOpportunityError =
@@ -2292,7 +2312,7 @@ export type AssociateOpportunityError =
  * - Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the `ListEntities` operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
  */
 export const associateOpportunity: API.OperationMethod<
-  AssociateOpportunityRequest,
+  AssociateOpportunityRequest & RegionInput,
   AssociateOpportunityResponse,
   AssociateOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -2309,6 +2329,8 @@ export const associateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpportunity",
+  telemetry: TELEMETRY,
+  span: "AssociateOpportunity",
 }));
 
 export type CreateEngagementError =
@@ -2324,7 +2346,7 @@ export type CreateEngagementError =
  * The `CreateEngagement` action allows you to create an `Engagement`, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created `Engagement`.
  */
 export const createEngagement: API.OperationMethod<
-  CreateEngagementRequest,
+  CreateEngagementRequest & RegionInput,
   CreateEngagementResponse,
   CreateEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2343,6 +2365,8 @@ export const createEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagement",
+  telemetry: TELEMETRY,
+  span: "CreateEngagement",
 }));
 
 export type CreateEngagementContextError =
@@ -2358,7 +2382,7 @@ export type CreateEngagementContextError =
  * Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
  */
 export const createEngagementContext: API.OperationMethod<
-  CreateEngagementContextRequest,
+  CreateEngagementContextRequest & RegionInput,
   CreateEngagementContextResponse,
   CreateEngagementContextError,
   Credentials | HttpClient.HttpClient
@@ -2377,6 +2401,8 @@ export const createEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementContext",
+  telemetry: TELEMETRY,
+  span: "CreateEngagementContext",
 }));
 
 export type CreateEngagementInvitationError =
@@ -2392,7 +2418,7 @@ export type CreateEngagementInvitationError =
  * This action creates an invitation from a sender to a single receiver to join an engagement.
  */
 export const createEngagementInvitation: API.OperationMethod<
-  CreateEngagementInvitationRequest,
+  CreateEngagementInvitationRequest & RegionInput,
   CreateEngagementInvitationResponse,
   CreateEngagementInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2411,6 +2437,8 @@ export const createEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "CreateEngagementInvitation",
 }));
 
 export type CreateOpportunityError =
@@ -2437,7 +2465,7 @@ export type CreateOpportunityError =
  * There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
  */
 export const createOpportunity: API.OperationMethod<
-  CreateOpportunityRequest,
+  CreateOpportunityRequest & RegionInput,
   CreateOpportunityResponse,
   CreateOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -2455,6 +2483,8 @@ export const createOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpportunity",
+  telemetry: TELEMETRY,
+  span: "CreateOpportunity",
 }));
 
 export type CreateResourceSnapshotError =
@@ -2470,7 +2500,7 @@ export type CreateResourceSnapshotError =
  * This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
  */
 export const createResourceSnapshot: API.OperationMethod<
-  CreateResourceSnapshotRequest,
+  CreateResourceSnapshotRequest & RegionInput,
   CreateResourceSnapshotResponse,
   CreateResourceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2489,6 +2519,8 @@ export const createResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSnapshot",
 }));
 
 export type CreateResourceSnapshotJobError =
@@ -2504,7 +2536,7 @@ export type CreateResourceSnapshotJobError =
  * Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
  */
 export const createResourceSnapshotJob: API.OperationMethod<
-  CreateResourceSnapshotJobRequest,
+  CreateResourceSnapshotJobRequest & RegionInput,
   CreateResourceSnapshotJobResponse,
   CreateResourceSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -2523,6 +2555,8 @@ export const createResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSnapshotJob",
 }));
 
 export type DeleteResourceSnapshotJobError =
@@ -2537,7 +2571,7 @@ export type DeleteResourceSnapshotJobError =
  * Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
  */
 export const deleteResourceSnapshotJob: API.OperationMethod<
-  DeleteResourceSnapshotJobRequest,
+  DeleteResourceSnapshotJobRequest & RegionInput,
   DeleteResourceSnapshotJobResponse,
   DeleteResourceSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -2555,6 +2589,8 @@ export const deleteResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSnapshotJob",
 }));
 
 export type DisassociateOpportunityError =
@@ -2570,7 +2606,7 @@ export type DisassociateOpportunityError =
  * Use this operation to update the associations of an `Opportunity` due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
  */
 export const disassociateOpportunity: API.OperationMethod<
-  DisassociateOpportunityRequest,
+  DisassociateOpportunityRequest & RegionInput,
   DisassociateOpportunityResponse,
   DisassociateOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -2587,6 +2623,8 @@ export const disassociateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpportunity",
+  telemetry: TELEMETRY,
+  span: "DisassociateOpportunity",
 }));
 
 export type GetAwsOpportunitySummaryError =
@@ -2600,7 +2638,7 @@ export type GetAwsOpportunitySummaryError =
  * Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
  */
 export const getAwsOpportunitySummary: API.OperationMethod<
-  GetAwsOpportunitySummaryRequest,
+  GetAwsOpportunitySummaryRequest & RegionInput,
   GetAwsOpportunitySummaryResponse,
   GetAwsOpportunitySummaryError,
   Credentials | HttpClient.HttpClient
@@ -2617,6 +2655,8 @@ export const getAwsOpportunitySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAwsOpportunitySummary",
+  telemetry: TELEMETRY,
+  span: "GetAwsOpportunitySummary",
 }));
 
 export type GetEngagementError =
@@ -2630,7 +2670,7 @@ export type GetEngagementError =
  * Use this action to retrieve the engagement record for a given `EngagementIdentifier`.
  */
 export const getEngagement: API.OperationMethod<
-  GetEngagementRequest,
+  GetEngagementRequest & RegionInput,
   GetEngagementResponse,
   GetEngagementError,
   Credentials | HttpClient.HttpClient
@@ -2647,6 +2687,8 @@ export const getEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagement",
+  telemetry: TELEMETRY,
+  span: "GetEngagement",
 }));
 
 export type GetEngagementInvitationError =
@@ -2660,7 +2702,7 @@ export type GetEngagementInvitationError =
  * Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation's `Payload.Project.Title` with opportunity `Project.Title`.
  */
 export const getEngagementInvitation: API.OperationMethod<
-  GetEngagementInvitationRequest,
+  GetEngagementInvitationRequest & RegionInput,
   GetEngagementInvitationResponse,
   GetEngagementInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2677,6 +2719,8 @@ export const getEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "GetEngagementInvitation",
 }));
 
 export type GetOpportunityError =
@@ -2692,7 +2736,7 @@ export type GetOpportunityError =
  * Use the `ListOpportunities` action or the event notification (from Amazon EventBridge) to obtain this identifier.
  */
 export const getOpportunity: API.OperationMethod<
-  GetOpportunityRequest,
+  GetOpportunityRequest & RegionInput,
   GetOpportunityResponse,
   GetOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -2709,6 +2753,8 @@ export const getOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpportunity",
+  telemetry: TELEMETRY,
+  span: "GetOpportunity",
 }));
 
 export type GetProspectingFromEngagementTaskError =
@@ -2722,7 +2768,7 @@ export type GetProspectingFromEngagementTaskError =
  * Retrieves the details and current status of a prospecting task previously started with `StartProspectingFromEngagementTask` to enable polling for completion and access to per-engagement processing results.
  */
 export const getProspectingFromEngagementTask: API.OperationMethod<
-  GetProspectingFromEngagementTaskRequest,
+  GetProspectingFromEngagementTaskRequest & RegionInput,
   GetProspectingFromEngagementTaskResponse,
   GetProspectingFromEngagementTaskError,
   Credentials | HttpClient.HttpClient
@@ -2739,6 +2785,8 @@ export const getProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProspectingFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "GetProspectingFromEngagementTask",
 }));
 
 export type GetResourceSnapshotError =
@@ -2752,7 +2800,7 @@ export type GetResourceSnapshotError =
  * Use this action to retrieve a specific snapshot record.
  */
 export const getResourceSnapshot: API.OperationMethod<
-  GetResourceSnapshotRequest,
+  GetResourceSnapshotRequest & RegionInput,
   GetResourceSnapshotResponse,
   GetResourceSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2769,6 +2817,8 @@ export const getResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetResourceSnapshot",
 }));
 
 export type GetResourceSnapshotJobError =
@@ -2782,7 +2832,7 @@ export type GetResourceSnapshotJobError =
  * Use this action to retrieves information about a specific resource snapshot job.
  */
 export const getResourceSnapshotJob: API.OperationMethod<
-  GetResourceSnapshotJobRequest,
+  GetResourceSnapshotJobRequest & RegionInput,
   GetResourceSnapshotJobResponse,
   GetResourceSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -2799,6 +2849,8 @@ export const getResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "GetResourceSnapshotJob",
 }));
 
 export type GetSellingSystemSettingsError =
@@ -2812,7 +2864,7 @@ export type GetSellingSystemSettingsError =
  * Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
 export const getSellingSystemSettings: API.OperationMethod<
-  GetSellingSystemSettingsRequest,
+  GetSellingSystemSettingsRequest & RegionInput,
   GetSellingSystemSettingsResponse,
   GetSellingSystemSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2829,6 +2881,8 @@ export const getSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSellingSystemSettings",
+  telemetry: TELEMETRY,
+  span: "GetSellingSystemSettings",
 }));
 
 export type ListEngagementByAcceptingInvitationTasksError =
@@ -2842,7 +2896,7 @@ export type ListEngagementByAcceptingInvitationTasksError =
  * Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
  */
 export const listEngagementByAcceptingInvitationTasks: API.PaginatedOperationMethod<
-  ListEngagementByAcceptingInvitationTasksRequest,
+  ListEngagementByAcceptingInvitationTasksRequest & RegionInput,
   ListEngagementByAcceptingInvitationTasksResponse,
   ListEngagementByAcceptingInvitationTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2866,6 +2920,8 @@ export const listEngagementByAcceptingInvitationTasks: API.PaginatedOperationMet
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementByAcceptingInvitationTasks",
 })) as any;
 
 export type ListEngagementFromOpportunityTasksError =
@@ -2879,7 +2935,7 @@ export type ListEngagementFromOpportunityTasksError =
  * Lists all in-progress, completed, or failed `EngagementFromOpportunity` tasks that were initiated by the caller's account.
  */
 export const listEngagementFromOpportunityTasks: API.PaginatedOperationMethod<
-  ListEngagementFromOpportunityTasksRequest,
+  ListEngagementFromOpportunityTasksRequest & RegionInput,
   ListEngagementFromOpportunityTasksResponse,
   ListEngagementFromOpportunityTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2903,6 +2959,8 @@ export const listEngagementFromOpportunityTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementFromOpportunityTasks",
 })) as any;
 
 export type ListEngagementInvitationsError =
@@ -2916,7 +2974,7 @@ export type ListEngagementInvitationsError =
  * Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
  */
 export const listEngagementInvitations: API.PaginatedOperationMethod<
-  ListEngagementInvitationsRequest,
+  ListEngagementInvitationsRequest & RegionInput,
   ListEngagementInvitationsResponse,
   ListEngagementInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -2940,6 +2998,8 @@ export const listEngagementInvitations: API.PaginatedOperationMethod<
     items: "EngagementInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementInvitations",
 })) as any;
 
 export type ListEngagementMembersError =
@@ -2953,7 +3013,7 @@ export type ListEngagementMembersError =
  * Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The `ListEngagementMembers` operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
  */
 export const listEngagementMembers: API.PaginatedOperationMethod<
-  ListEngagementMembersRequest,
+  ListEngagementMembersRequest & RegionInput,
   ListEngagementMembersResponse,
   ListEngagementMembersError,
   Credentials | HttpClient.HttpClient,
@@ -2977,6 +3037,8 @@ export const listEngagementMembers: API.PaginatedOperationMethod<
     items: "EngagementMemberList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementMembers",
 })) as any;
 
 export type ListEngagementResourceAssociationsError =
@@ -2990,7 +3052,7 @@ export type ListEngagementResourceAssociationsError =
  * Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
  */
 export const listEngagementResourceAssociations: API.PaginatedOperationMethod<
-  ListEngagementResourceAssociationsRequest,
+  ListEngagementResourceAssociationsRequest & RegionInput,
   ListEngagementResourceAssociationsResponse,
   ListEngagementResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3014,6 +3076,8 @@ export const listEngagementResourceAssociations: API.PaginatedOperationMethod<
     items: "EngagementResourceAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementResourceAssociations",
 })) as any;
 
 export type ListEngagementsError =
@@ -3027,7 +3091,7 @@ export type ListEngagementsError =
  * This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
  */
 export const listEngagements: API.PaginatedOperationMethod<
-  ListEngagementsRequest,
+  ListEngagementsRequest & RegionInput,
   ListEngagementsResponse,
   ListEngagementsError,
   Credentials | HttpClient.HttpClient,
@@ -3051,6 +3115,8 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "EngagementSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagements",
 })) as any;
 
 export type ListOpportunitiesError =
@@ -3074,7 +3140,7 @@ export type ListOpportunitiesError =
  * - Amazon Web Services only returns opportunities created or updated on or after that date and time. Use `NextToken` to iterate over all pages.
  */
 export const listOpportunities: API.PaginatedOperationMethod<
-  ListOpportunitiesRequest,
+  ListOpportunitiesRequest & RegionInput,
   ListOpportunitiesResponse,
   ListOpportunitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3098,6 +3164,8 @@ export const listOpportunities: API.PaginatedOperationMethod<
     items: "OpportunitySummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpportunities",
 })) as any;
 
 export type ListOpportunityFromEngagementTasksError =
@@ -3111,7 +3179,7 @@ export type ListOpportunityFromEngagementTasksError =
  * Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
  */
 export const listOpportunityFromEngagementTasks: API.PaginatedOperationMethod<
-  ListOpportunityFromEngagementTasksRequest,
+  ListOpportunityFromEngagementTasksRequest & RegionInput,
   ListOpportunityFromEngagementTasksResponse,
   ListOpportunityFromEngagementTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3135,6 +3203,8 @@ export const listOpportunityFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpportunityFromEngagementTasks",
 })) as any;
 
 export type ListProspectingFromEngagementTasksError =
@@ -3147,7 +3217,7 @@ export type ListProspectingFromEngagementTasksError =
  * Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the `NextToken` value from each response to retrieve subsequent pages.
  */
 export const listProspectingFromEngagementTasks: API.PaginatedOperationMethod<
-  ListProspectingFromEngagementTasksRequest,
+  ListProspectingFromEngagementTasksRequest & RegionInput,
   ListProspectingFromEngagementTasksResponse,
   ListProspectingFromEngagementTasksError,
   Credentials | HttpClient.HttpClient,
@@ -3170,6 +3240,8 @@ export const listProspectingFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProspectingFromEngagementTasks",
 })) as any;
 
 export type ListResourceSnapshotJobsError =
@@ -3183,7 +3255,7 @@ export type ListResourceSnapshotJobsError =
  * Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
  */
 export const listResourceSnapshotJobs: API.PaginatedOperationMethod<
-  ListResourceSnapshotJobsRequest,
+  ListResourceSnapshotJobsRequest & RegionInput,
   ListResourceSnapshotJobsResponse,
   ListResourceSnapshotJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3207,6 +3279,8 @@ export const listResourceSnapshotJobs: API.PaginatedOperationMethod<
     items: "ResourceSnapshotJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSnapshotJobs",
 })) as any;
 
 export type ListResourceSnapshotsError =
@@ -3230,7 +3304,7 @@ export type ListResourceSnapshotsError =
  * - Filtering snapshots by resource owner.
  */
 export const listResourceSnapshots: API.PaginatedOperationMethod<
-  ListResourceSnapshotsRequest,
+  ListResourceSnapshotsRequest & RegionInput,
   ListResourceSnapshotsResponse,
   ListResourceSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -3254,6 +3328,8 @@ export const listResourceSnapshots: API.PaginatedOperationMethod<
     items: "ResourceSnapshotSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSnapshots",
 })) as any;
 
 export type ListSolutionsError =
@@ -3267,7 +3343,7 @@ export type ListSolutionsError =
  * Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
  */
 export const listSolutions: API.PaginatedOperationMethod<
-  ListSolutionsRequest,
+  ListSolutionsRequest & RegionInput,
   ListSolutionsResponse,
   ListSolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3291,6 +3367,8 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "SolutionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3304,7 +3382,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3321,6 +3399,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSellingSystemSettingsError =
@@ -3334,7 +3414,7 @@ export type PutSellingSystemSettingsError =
  * Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
 export const putSellingSystemSettings: API.OperationMethod<
-  PutSellingSystemSettingsRequest,
+  PutSellingSystemSettingsRequest & RegionInput,
   PutSellingSystemSettingsResponse,
   PutSellingSystemSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3351,6 +3431,8 @@ export const putSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSellingSystemSettings",
+  telemetry: TELEMETRY,
+  span: "PutSellingSystemSettings",
 }));
 
 export type RejectEngagementInvitationError =
@@ -3365,7 +3447,7 @@ export type RejectEngagementInvitationError =
  * This action rejects an `EngagementInvitation` that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
  */
 export const rejectEngagementInvitation: API.OperationMethod<
-  RejectEngagementInvitationRequest,
+  RejectEngagementInvitationRequest & RegionInput,
   RejectEngagementInvitationResponse,
   RejectEngagementInvitationError,
   Credentials | HttpClient.HttpClient
@@ -3383,6 +3465,8 @@ export const rejectEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectEngagementInvitation",
 }));
 
 export type StartEngagementByAcceptingInvitationTaskError =
@@ -3398,7 +3482,7 @@ export type StartEngagementByAcceptingInvitationTaskError =
  * This action starts the engagement by accepting an `EngagementInvitation`. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner's account from the AWS opportunity, and copying details for tracking. When completed, an `Opportunity Created` event is generated, indicating that the opportunity has been successfully created in the partner's account.
  */
 export const startEngagementByAcceptingInvitationTask: API.OperationMethod<
-  StartEngagementByAcceptingInvitationTaskRequest,
+  StartEngagementByAcceptingInvitationTaskRequest & RegionInput,
   StartEngagementByAcceptingInvitationTaskResponse,
   StartEngagementByAcceptingInvitationTaskError,
   Credentials | HttpClient.HttpClient
@@ -3417,6 +3501,8 @@ export const startEngagementByAcceptingInvitationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementByAcceptingInvitationTask",
+  telemetry: TELEMETRY,
+  span: "StartEngagementByAcceptingInvitationTask",
 }));
 
 export type StartEngagementFromOpportunityTaskError =
@@ -3432,7 +3518,7 @@ export type StartEngagementFromOpportunityTaskError =
  * Similar to `StartEngagementByAcceptingInvitationTask`, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including `GetOpportunity`, `CreateEngagement` (if it doesn't exist), `CreateResourceSnapshot`, `CreateResourceSnapshotJob`, `CreateEngagementInvitation` (if not already invited/accepted), and `SubmitOpportunity`.
  */
 export const startEngagementFromOpportunityTask: API.OperationMethod<
-  StartEngagementFromOpportunityTaskRequest,
+  StartEngagementFromOpportunityTaskRequest & RegionInput,
   StartEngagementFromOpportunityTaskResponse,
   StartEngagementFromOpportunityTaskError,
   Credentials | HttpClient.HttpClient
@@ -3451,6 +3537,8 @@ export const startEngagementFromOpportunityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementFromOpportunityTask",
+  telemetry: TELEMETRY,
+  span: "StartEngagementFromOpportunityTask",
 }));
 
 export type StartOpportunityFromEngagementTaskError =
@@ -3466,7 +3554,7 @@ export type StartOpportunityFromEngagementTaskError =
  * This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
  */
 export const startOpportunityFromEngagementTask: API.OperationMethod<
-  StartOpportunityFromEngagementTaskRequest,
+  StartOpportunityFromEngagementTaskRequest & RegionInput,
   StartOpportunityFromEngagementTaskResponse,
   StartOpportunityFromEngagementTaskError,
   Credentials | HttpClient.HttpClient
@@ -3485,6 +3573,8 @@ export const startOpportunityFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOpportunityFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "StartOpportunityFromEngagementTask",
 }));
 
 export type StartProspectingFromEngagementTaskError =
@@ -3499,7 +3589,7 @@ export type StartProspectingFromEngagementTaskError =
  * Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use `GetProspectingFromEngagementTask`, or use `ListProspectingFromEngagementTasks` to monitor multiple tasks.
  */
 export const startProspectingFromEngagementTask: API.OperationMethod<
-  StartProspectingFromEngagementTaskRequest,
+  StartProspectingFromEngagementTaskRequest & RegionInput,
   StartProspectingFromEngagementTaskResponse,
   StartProspectingFromEngagementTaskError,
   Credentials | HttpClient.HttpClient
@@ -3517,6 +3607,8 @@ export const startProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProspectingFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "StartProspectingFromEngagementTask",
 }));
 
 export type StartResourceSnapshotJobError =
@@ -3530,7 +3622,7 @@ export type StartResourceSnapshotJobError =
  * Starts a resource snapshot job that has been previously created.
  */
 export const startResourceSnapshotJob: API.OperationMethod<
-  StartResourceSnapshotJobRequest,
+  StartResourceSnapshotJobRequest & RegionInput,
   StartResourceSnapshotJobResponse,
   StartResourceSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -3547,6 +3639,8 @@ export const startResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "StartResourceSnapshotJob",
 }));
 
 export type StopResourceSnapshotJobError =
@@ -3560,7 +3654,7 @@ export type StopResourceSnapshotJobError =
  * Stops a resource snapshot job. The job must be started prior to being stopped.
  */
 export const stopResourceSnapshotJob: API.OperationMethod<
-  StopResourceSnapshotJobRequest,
+  StopResourceSnapshotJobRequest & RegionInput,
   StopResourceSnapshotJobResponse,
   StopResourceSnapshotJobError,
   Credentials | HttpClient.HttpClient
@@ -3577,6 +3671,8 @@ export const stopResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "StopResourceSnapshotJob",
 }));
 
 export type SubmitOpportunityError =
@@ -3590,7 +3686,7 @@ export type SubmitOpportunityError =
  * Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has ` LifeCycle.ReviewStatus ` as either `Approved` or `Action Required`.
  */
 export const submitOpportunity: API.OperationMethod<
-  SubmitOpportunityRequest,
+  SubmitOpportunityRequest & RegionInput,
   SubmitOpportunityResponse,
   SubmitOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -3607,6 +3703,8 @@ export const submitOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitOpportunity",
+  telemetry: TELEMETRY,
+  span: "SubmitOpportunity",
 }));
 
 export type TagResourceError =
@@ -3621,7 +3719,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3639,6 +3737,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3653,7 +3753,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3671,6 +3771,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEngagementContextError =
@@ -3686,7 +3788,7 @@ export type UpdateEngagementContextError =
  * Updates the context information for an existing engagement with new or modified data.
  */
 export const updateEngagementContext: API.OperationMethod<
-  UpdateEngagementContextRequest,
+  UpdateEngagementContextRequest & RegionInput,
   UpdateEngagementContextResponse,
   UpdateEngagementContextError,
   Credentials | HttpClient.HttpClient
@@ -3705,6 +3807,8 @@ export const updateEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEngagementContext",
+  telemetry: TELEMETRY,
+  span: "UpdateEngagementContext",
 }));
 
 export type UpdateOpportunityError =
@@ -3721,7 +3825,7 @@ export type UpdateOpportunityError =
  * When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to `null`. The best practice is to always perform a `GetOpportunity` to retrieve the latest values, then send the complete payload with the updated values to be changed.
  */
 export const updateOpportunity: API.OperationMethod<
-  UpdateOpportunityRequest,
+  UpdateOpportunityRequest & RegionInput,
   UpdateOpportunityResponse,
   UpdateOpportunityError,
   Credentials | HttpClient.HttpClient
@@ -3739,6 +3843,8 @@ export const updateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpportunity",
+  telemetry: TELEMETRY,
+  span: "UpdateOpportunity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

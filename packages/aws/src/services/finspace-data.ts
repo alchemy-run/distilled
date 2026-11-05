@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://finspace-api.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "finspacedata",
+  service: "finspacedata",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -713,7 +729,7 @@ export type AssociateUserToPermissionGroupError =
  * Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
  */
 export const associateUserToPermissionGroup: API.OperationMethod<
-  AssociateUserToPermissionGroupRequest,
+  AssociateUserToPermissionGroupRequest & RegionInput,
   AssociateUserToPermissionGroupResponse,
   AssociateUserToPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -731,6 +747,8 @@ export const associateUserToPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserToPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateUserToPermissionGroup",
 }));
 
 export type CreateChangesetError =
@@ -746,7 +764,7 @@ export type CreateChangesetError =
  * Creates a new Changeset in a FinSpace Dataset.
  */
 export const createChangeset: API.OperationMethod<
-  CreateChangesetRequest,
+  CreateChangesetRequest & RegionInput,
   CreateChangesetResponse,
   CreateChangesetError,
   Creds | HttpClient.HttpClient
@@ -765,6 +783,8 @@ export const createChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChangeset",
+  telemetry: TELEMETRY,
+  span: "CreateChangeset",
 }));
 
 export type CreateDatasetError =
@@ -780,7 +800,7 @@ export type CreateDatasetError =
  * Creates a new FinSpace Dataset.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Creds | HttpClient.HttpClient
@@ -799,6 +819,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDataViewError =
@@ -813,7 +835,7 @@ export type CreateDataViewError =
  * Creates a Dataview for a Dataset.
  */
 export const createDataView: API.OperationMethod<
-  CreateDataViewRequest,
+  CreateDataViewRequest & RegionInput,
   CreateDataViewResponse,
   CreateDataViewError,
   Creds | HttpClient.HttpClient
@@ -831,6 +853,8 @@ export const createDataView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataView",
+  telemetry: TELEMETRY,
+  span: "CreateDataView",
 }));
 
 export type CreatePermissionGroupError =
@@ -845,7 +869,7 @@ export type CreatePermissionGroupError =
  * Creates a group of permissions for various actions that a user can perform in FinSpace.
  */
 export const createPermissionGroup: API.OperationMethod<
-  CreatePermissionGroupRequest,
+  CreatePermissionGroupRequest & RegionInput,
   CreatePermissionGroupResponse,
   CreatePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -863,6 +887,8 @@ export const createPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "CreatePermissionGroup",
 }));
 
 export type CreateUserError =
@@ -877,7 +903,7 @@ export type CreateUserError =
  * Creates a new user in FinSpace.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Creds | HttpClient.HttpClient
@@ -895,6 +921,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteDatasetError =
@@ -910,7 +938,7 @@ export type DeleteDatasetError =
  * Deletes a FinSpace Dataset.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Creds | HttpClient.HttpClient
@@ -929,6 +957,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeletePermissionGroupError =
@@ -944,7 +974,7 @@ export type DeletePermissionGroupError =
  * Deletes a permission group. This action is irreversible.
  */
 export const deletePermissionGroup: API.OperationMethod<
-  DeletePermissionGroupRequest,
+  DeletePermissionGroupRequest & RegionInput,
   DeletePermissionGroupResponse,
   DeletePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -963,6 +993,8 @@ export const deletePermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionGroup",
 }));
 
 export type DisableUserError =
@@ -977,7 +1009,7 @@ export type DisableUserError =
  * Denies access to the FinSpace web application and API for the specified user.
  */
 export const disableUser: API.OperationMethod<
-  DisableUserRequest,
+  DisableUserRequest & RegionInput,
   DisableUserResponse,
   DisableUserError,
   Creds | HttpClient.HttpClient
@@ -995,6 +1027,8 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  telemetry: TELEMETRY,
+  span: "DisableUser",
 }));
 
 export type DisassociateUserFromPermissionGroupError =
@@ -1009,7 +1043,7 @@ export type DisassociateUserFromPermissionGroupError =
  * Removes a user from a permission group.
  */
 export const disassociateUserFromPermissionGroup: API.OperationMethod<
-  DisassociateUserFromPermissionGroupRequest,
+  DisassociateUserFromPermissionGroupRequest & RegionInput,
   DisassociateUserFromPermissionGroupResponse,
   DisassociateUserFromPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1027,6 +1061,8 @@ export const disassociateUserFromPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserFromPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateUserFromPermissionGroup",
 }));
 
 export type EnableUserError =
@@ -1042,7 +1078,7 @@ export type EnableUserError =
  * Allows the specified user to access the FinSpace web application and API.
  */
 export const enableUser: API.OperationMethod<
-  EnableUserRequest,
+  EnableUserRequest & RegionInput,
   EnableUserResponse,
   EnableUserError,
   Creds | HttpClient.HttpClient
@@ -1061,6 +1097,8 @@ export const enableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableUser",
+  telemetry: TELEMETRY,
+  span: "EnableUser",
 }));
 
 export type GetChangesetError =
@@ -1075,7 +1113,7 @@ export type GetChangesetError =
  * Get information about a Changeset.
  */
 export const getChangeset: API.OperationMethod<
-  GetChangesetRequest,
+  GetChangesetRequest & RegionInput,
   GetChangesetResponse,
   GetChangesetError,
   Creds | HttpClient.HttpClient
@@ -1093,6 +1131,8 @@ export const getChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeset",
+  telemetry: TELEMETRY,
+  span: "GetChangeset",
 }));
 
 export type GetDatasetError =
@@ -1107,7 +1147,7 @@ export type GetDatasetError =
  * Returns information about a Dataset.
  */
 export const getDataset: API.OperationMethod<
-  GetDatasetRequest,
+  GetDatasetRequest & RegionInput,
   GetDatasetResponse,
   GetDatasetError,
   Creds | HttpClient.HttpClient
@@ -1125,6 +1165,8 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDataViewError =
@@ -1138,7 +1180,7 @@ export type GetDataViewError =
  * Gets information about a Dataview.
  */
 export const getDataView: API.OperationMethod<
-  GetDataViewRequest,
+  GetDataViewRequest & RegionInput,
   GetDataViewResponse,
   GetDataViewError,
   Creds | HttpClient.HttpClient
@@ -1155,6 +1197,8 @@ export const getDataView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataView",
+  telemetry: TELEMETRY,
+  span: "GetDataView",
 }));
 
 export type GetExternalDataViewAccessDetailsError =
@@ -1172,7 +1216,7 @@ export type GetExternalDataViewAccessDetailsError =
  * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
  */
 export const getExternalDataViewAccessDetails: API.OperationMethod<
-  GetExternalDataViewAccessDetailsRequest,
+  GetExternalDataViewAccessDetailsRequest & RegionInput,
   GetExternalDataViewAccessDetailsResponse,
   GetExternalDataViewAccessDetailsError,
   Creds | HttpClient.HttpClient
@@ -1189,6 +1233,8 @@ export const getExternalDataViewAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExternalDataViewAccessDetails",
+  telemetry: TELEMETRY,
+  span: "GetExternalDataViewAccessDetails",
 }));
 
 export type GetPermissionGroupError =
@@ -1202,7 +1248,7 @@ export type GetPermissionGroupError =
  * Retrieves the details of a specific permission group.
  */
 export const getPermissionGroup: API.OperationMethod<
-  GetPermissionGroupRequest,
+  GetPermissionGroupRequest & RegionInput,
   GetPermissionGroupResponse,
   GetPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1219,6 +1265,8 @@ export const getPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "GetPermissionGroup",
 }));
 
 export type GetProgrammaticAccessCredentialsError =
@@ -1231,7 +1279,7 @@ export type GetProgrammaticAccessCredentialsError =
  * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
  */
 export const getProgrammaticAccessCredentials: API.OperationMethod<
-  GetProgrammaticAccessCredentialsRequest,
+  GetProgrammaticAccessCredentialsRequest & RegionInput,
   GetProgrammaticAccessCredentialsResponse,
   GetProgrammaticAccessCredentialsError,
   Creds | HttpClient.HttpClient
@@ -1247,6 +1295,8 @@ export const getProgrammaticAccessCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProgrammaticAccessCredentials",
+  telemetry: TELEMETRY,
+  span: "GetProgrammaticAccessCredentials",
 }));
 
 export type GetUserError =
@@ -1260,7 +1310,7 @@ export type GetUserError =
  * Retrieves details for a specific user.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Creds | HttpClient.HttpClient
@@ -1277,6 +1327,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetWorkingLocationError =
@@ -1290,7 +1342,7 @@ export type GetWorkingLocationError =
  * as a scratch space in FinSpace notebook.
  */
 export const getWorkingLocation: API.OperationMethod<
-  GetWorkingLocationRequest,
+  GetWorkingLocationRequest & RegionInput,
   GetWorkingLocationResponse,
   GetWorkingLocationError,
   Creds | HttpClient.HttpClient
@@ -1306,6 +1358,8 @@ export const getWorkingLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkingLocation",
+  telemetry: TELEMETRY,
+  span: "GetWorkingLocation",
 }));
 
 export type ListChangesetsError =
@@ -1320,7 +1374,7 @@ export type ListChangesetsError =
  * Lists the FinSpace Changesets for a Dataset.
  */
 export const listChangesets: API.PaginatedOperationMethod<
-  ListChangesetsRequest,
+  ListChangesetsRequest & RegionInput,
   ListChangesetsResponse,
   ListChangesetsError,
   Creds | HttpClient.HttpClient,
@@ -1345,6 +1399,8 @@ export const listChangesets: API.PaginatedOperationMethod<
     items: "changesets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangesets",
 })) as any;
 
 export type ListDatasetsError =
@@ -1358,7 +1414,7 @@ export type ListDatasetsError =
  * Lists all of the active Datasets that a user has access to.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Creds | HttpClient.HttpClient,
@@ -1382,6 +1438,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListDataViewsError =
@@ -1395,7 +1453,7 @@ export type ListDataViewsError =
  * Lists all available Dataviews for a Dataset.
  */
 export const listDataViews: API.PaginatedOperationMethod<
-  ListDataViewsRequest,
+  ListDataViewsRequest & RegionInput,
   ListDataViewsResponse,
   ListDataViewsError,
   Creds | HttpClient.HttpClient,
@@ -1419,6 +1477,8 @@ export const listDataViews: API.PaginatedOperationMethod<
     items: "dataViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataViews",
 })) as any;
 
 export type ListPermissionGroupsError =
@@ -1431,7 +1491,7 @@ export type ListPermissionGroupsError =
  * Lists all available permission groups in FinSpace.
  */
 export const listPermissionGroups: API.PaginatedOperationMethod<
-  ListPermissionGroupsRequest,
+  ListPermissionGroupsRequest & RegionInput,
   ListPermissionGroupsResponse,
   ListPermissionGroupsError,
   Creds | HttpClient.HttpClient,
@@ -1454,6 +1514,8 @@ export const listPermissionGroups: API.PaginatedOperationMethod<
     items: "permissionGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionGroups",
 })) as any;
 
 export type ListPermissionGroupsByUserError =
@@ -1467,7 +1529,7 @@ export type ListPermissionGroupsByUserError =
  * Lists all the permission groups that are associated with a specific user.
  */
 export const listPermissionGroupsByUser: API.OperationMethod<
-  ListPermissionGroupsByUserRequest,
+  ListPermissionGroupsByUserRequest & RegionInput,
   ListPermissionGroupsByUserResponse,
   ListPermissionGroupsByUserError,
   Creds | HttpClient.HttpClient
@@ -1484,6 +1546,8 @@ export const listPermissionGroupsByUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPermissionGroupsByUser",
+  telemetry: TELEMETRY,
+  span: "ListPermissionGroupsByUser",
 }));
 
 export type ListUsersError =
@@ -1496,7 +1560,7 @@ export type ListUsersError =
  * Lists all available users in FinSpace.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Creds | HttpClient.HttpClient,
@@ -1519,6 +1583,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListUsersByPermissionGroupError =
@@ -1532,7 +1598,7 @@ export type ListUsersByPermissionGroupError =
  * Lists details of all the users in a specific permission group.
  */
 export const listUsersByPermissionGroup: API.OperationMethod<
-  ListUsersByPermissionGroupRequest,
+  ListUsersByPermissionGroupRequest & RegionInput,
   ListUsersByPermissionGroupResponse,
   ListUsersByPermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1549,6 +1615,8 @@ export const listUsersByPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsersByPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "ListUsersByPermissionGroup",
 }));
 
 export type ResetUserPasswordError =
@@ -1563,7 +1631,7 @@ export type ResetUserPasswordError =
  * Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
  */
 export const resetUserPassword: API.OperationMethod<
-  ResetUserPasswordRequest,
+  ResetUserPasswordRequest & RegionInput,
   ResetUserPasswordResponse,
   ResetUserPasswordError,
   Creds | HttpClient.HttpClient
@@ -1581,6 +1649,8 @@ export const resetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetUserPassword",
+  telemetry: TELEMETRY,
+  span: "ResetUserPassword",
 }));
 
 export type UpdateChangesetError =
@@ -1595,7 +1665,7 @@ export type UpdateChangesetError =
  * Updates a FinSpace Changeset.
  */
 export const updateChangeset: API.OperationMethod<
-  UpdateChangesetRequest,
+  UpdateChangesetRequest & RegionInput,
   UpdateChangesetResponse,
   UpdateChangesetError,
   Creds | HttpClient.HttpClient
@@ -1613,6 +1683,8 @@ export const updateChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChangeset",
+  telemetry: TELEMETRY,
+  span: "UpdateChangeset",
 }));
 
 export type UpdateDatasetError =
@@ -1627,7 +1699,7 @@ export type UpdateDatasetError =
  * Updates a FinSpace Dataset.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Creds | HttpClient.HttpClient
@@ -1645,6 +1717,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdatePermissionGroupError =
@@ -1659,7 +1733,7 @@ export type UpdatePermissionGroupError =
  * Modifies the details of a permission group. You cannot modify a `permissionGroupID`.
  */
 export const updatePermissionGroup: API.OperationMethod<
-  UpdatePermissionGroupRequest,
+  UpdatePermissionGroupRequest & RegionInput,
   UpdatePermissionGroupResponse,
   UpdatePermissionGroupError,
   Creds | HttpClient.HttpClient
@@ -1677,6 +1751,8 @@ export const updatePermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionGroup",
 }));
 
 export type UpdateUserError =
@@ -1691,7 +1767,7 @@ export type UpdateUserError =
  * Modifies the details of the specified user. You cannot update the `userId` for a user.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Creds | HttpClient.HttpClient
@@ -1709,6 +1785,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideo",
+  service: "KinesisVideo",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -651,7 +667,7 @@ export type CreateSignalingChannelError =
  * `CreateSignalingChannel` is an asynchronous operation.
  */
 export const createSignalingChannel: API.OperationMethod<
-  CreateSignalingChannelInput,
+  CreateSignalingChannelInput & RegionInput,
   CreateSignalingChannelOutput,
   CreateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -669,6 +685,8 @@ export const createSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "CreateSignalingChannel",
 }));
 
 export type CreateStreamError =
@@ -694,7 +712,7 @@ export type CreateStreamError =
  * action.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -713,6 +731,8 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type DeleteEdgeConfigurationError =
@@ -730,7 +750,7 @@ export type DeleteEdgeConfigurationError =
  * When the deletion process has completed successfully, the edge configuration is no longer accessible.
  */
 export const deleteEdgeConfiguration: API.OperationMethod<
-  DeleteEdgeConfigurationInput,
+  DeleteEdgeConfigurationInput & RegionInput,
   DeleteEdgeConfigurationOutput,
   DeleteEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -747,6 +767,8 @@ export const deleteEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeConfiguration",
 }));
 
 export type DeleteSignalingChannelError =
@@ -763,7 +785,7 @@ export type DeleteSignalingChannelError =
  * recent version is deleted.
  */
 export const deleteSignalingChannel: API.OperationMethod<
-  DeleteSignalingChannelInput,
+  DeleteSignalingChannelInput & RegionInput,
   DeleteSignalingChannelOutput,
   DeleteSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -781,6 +803,8 @@ export const deleteSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteSignalingChannel",
 }));
 
 export type DeleteStreamError =
@@ -806,7 +830,7 @@ export type DeleteStreamError =
  * action.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -824,6 +848,8 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type DescribeEdgeConfigurationError =
@@ -841,7 +867,7 @@ export type DescribeEdgeConfigurationError =
  * evaluate the health of the Edge Agent.
  */
 export const describeEdgeConfiguration: API.OperationMethod<
-  DescribeEdgeConfigurationInput,
+  DescribeEdgeConfigurationInput & RegionInput,
   DescribeEdgeConfigurationOutput,
   DescribeEdgeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -858,6 +884,8 @@ export const describeEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeEdgeConfiguration",
 }));
 
 export type DescribeImageGenerationConfigurationError =
@@ -870,7 +898,7 @@ export type DescribeImageGenerationConfigurationError =
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
 export const describeImageGenerationConfiguration: API.OperationMethod<
-  DescribeImageGenerationConfigurationInput,
+  DescribeImageGenerationConfigurationInput & RegionInput,
   DescribeImageGenerationConfigurationOutput,
   DescribeImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -886,6 +914,8 @@ export const describeImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageGenerationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeImageGenerationConfiguration",
 }));
 
 export type DescribeMappedResourceConfigurationError =
@@ -899,7 +929,7 @@ export type DescribeMappedResourceConfigurationError =
  * or `streamARN` should be provided in the input.
  */
 export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
-  DescribeMappedResourceConfigurationInput,
+  DescribeMappedResourceConfigurationInput & RegionInput,
   DescribeMappedResourceConfigurationOutput,
   DescribeMappedResourceConfigurationError,
   Credentials | HttpClient.HttpClient,
@@ -922,6 +952,8 @@ export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
     items: "MappedResourceConfigurationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMappedResourceConfiguration",
 })) as any;
 
 export type DescribeMediaStorageConfigurationError =
@@ -935,7 +967,7 @@ export type DescribeMediaStorageConfigurationError =
  * or `ChannelARN` in the input.
  */
 export const describeMediaStorageConfiguration: API.OperationMethod<
-  DescribeMediaStorageConfigurationInput,
+  DescribeMediaStorageConfigurationInput & RegionInput,
   DescribeMediaStorageConfigurationOutput,
   DescribeMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -951,6 +983,8 @@ export const describeMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMediaStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeMediaStorageConfiguration",
 }));
 
 export type DescribeNotificationConfigurationError =
@@ -963,7 +997,7 @@ export type DescribeNotificationConfigurationError =
  * Gets the `NotificationConfiguration` for a given Kinesis video stream.
  */
 export const describeNotificationConfiguration: API.OperationMethod<
-  DescribeNotificationConfigurationInput,
+  DescribeNotificationConfigurationInput & RegionInput,
   DescribeNotificationConfigurationOutput,
   DescribeNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -979,6 +1013,8 @@ export const describeNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationConfiguration",
 }));
 
 export type DescribeSignalingChannelError =
@@ -993,7 +1029,7 @@ export type DescribeSignalingChannelError =
  * describe.
  */
 export const describeSignalingChannel: API.OperationMethod<
-  DescribeSignalingChannelInput,
+  DescribeSignalingChannelInput & RegionInput,
   DescribeSignalingChannelOutput,
   DescribeSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1009,6 +1045,8 @@ export const describeSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeSignalingChannel",
 }));
 
 export type DescribeStreamError =
@@ -1022,7 +1060,7 @@ export type DescribeStreamError =
  * either the `StreamName` or the `StreamARN`.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -1038,6 +1076,8 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  telemetry: TELEMETRY,
+  span: "DescribeStream",
 }));
 
 export type DescribeStreamStorageConfigurationError =
@@ -1054,7 +1094,7 @@ export type DescribeStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
  */
 export const describeStreamStorageConfiguration: API.OperationMethod<
-  DescribeStreamStorageConfigurationInput,
+  DescribeStreamStorageConfigurationInput & RegionInput,
   DescribeStreamStorageConfigurationOutput,
   DescribeStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1070,6 +1110,8 @@ export const describeStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeStreamStorageConfiguration",
 }));
 
 export type GetDataEndpointError =
@@ -1091,7 +1133,7 @@ export type GetDataEndpointError =
  * `StreamARN`.
  */
 export const getDataEndpoint: API.OperationMethod<
-  GetDataEndpointInput,
+  GetDataEndpointInput & RegionInput,
   GetDataEndpointOutput,
   GetDataEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1107,6 +1149,8 @@ export const getDataEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetDataEndpoint",
 }));
 
 export type GetSignalingChannelEndpointError =
@@ -1134,7 +1178,7 @@ export type GetSignalingChannelEndpointError =
  * an endpoint that a client can use to communicate only with a `MASTER`.
  */
 export const getSignalingChannelEndpoint: API.OperationMethod<
-  GetSignalingChannelEndpointInput,
+  GetSignalingChannelEndpointInput & RegionInput,
   GetSignalingChannelEndpointOutput,
   GetSignalingChannelEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1151,6 +1195,8 @@ export const getSignalingChannelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalingChannelEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSignalingChannelEndpoint",
 }));
 
 export type ListEdgeAgentConfigurationsError =
@@ -1164,7 +1210,7 @@ export type ListEdgeAgentConfigurationsError =
  * In the request, you must specify the Edge Agent `HubDeviceArn`.
  */
 export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
-  ListEdgeAgentConfigurationsInput,
+  ListEdgeAgentConfigurationsInput & RegionInput,
   ListEdgeAgentConfigurationsOutput,
   ListEdgeAgentConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1182,6 +1228,8 @@ export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
     items: "EdgeConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEdgeAgentConfigurations",
 })) as any;
 
 export type ListSignalingChannelsError =
@@ -1195,7 +1243,7 @@ export type ListSignalingChannelsError =
  * you can specify a `ChannelNameCondition`.
  */
 export const listSignalingChannels: API.PaginatedOperationMethod<
-  ListSignalingChannelsInput,
+  ListSignalingChannelsInput & RegionInput,
   ListSignalingChannelsOutput,
   ListSignalingChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1213,6 +1261,8 @@ export const listSignalingChannels: API.PaginatedOperationMethod<
     items: "ChannelInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalingChannels",
 })) as any;
 
 export type ListStreamsError =
@@ -1225,7 +1275,7 @@ export type ListStreamsError =
  * `StreamNameCondition`.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -1243,6 +1293,8 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "StreamInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1255,7 +1307,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags associated with the specified signaling channel.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1271,6 +1323,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTagsForStreamError =
@@ -1287,7 +1341,7 @@ export type ListTagsForStreamError =
  * `StreamARN`.
  */
 export const listTagsForStream: API.OperationMethod<
-  ListTagsForStreamInput,
+  ListTagsForStreamInput & RegionInput,
   ListTagsForStreamOutput,
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
@@ -1304,6 +1358,8 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  telemetry: TELEMETRY,
+  span: "ListTagsForStream",
 }));
 
 export type StartEdgeConfigurationUpdateError =
@@ -1333,7 +1389,7 @@ export type StartEdgeConfigurationUpdateError =
  * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
  */
 export const startEdgeConfigurationUpdate: API.OperationMethod<
-  StartEdgeConfigurationUpdateInput,
+  StartEdgeConfigurationUpdateInput & RegionInput,
   StartEdgeConfigurationUpdateOutput,
   StartEdgeConfigurationUpdateError,
   Credentials | HttpClient.HttpClient
@@ -1351,6 +1407,8 @@ export const startEdgeConfigurationUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEdgeConfigurationUpdate",
+  telemetry: TELEMETRY,
+  span: "StartEdgeConfigurationUpdate",
 }));
 
 export type TagResourceError =
@@ -1370,7 +1428,7 @@ export type TagResourceError =
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1388,6 +1446,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TagStreamError =
@@ -1415,7 +1475,7 @@ export type TagStreamError =
  * A Kinesis video stream can support up to 50 tags.
  */
 export const tagStream: API.OperationMethod<
-  TagStreamInput,
+  TagStreamInput & RegionInput,
   TagStreamOutput,
   TagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1434,6 +1494,8 @@ export const tagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagStream",
+  telemetry: TELEMETRY,
+  span: "TagStream",
 }));
 
 export type UntagResourceError =
@@ -1449,7 +1511,7 @@ export type UntagResourceError =
  * ignored.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1466,6 +1528,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UntagStreamError =
@@ -1485,7 +1549,7 @@ export type UntagStreamError =
  * `StreamARN`.
  */
 export const untagStream: API.OperationMethod<
-  UntagStreamInput,
+  UntagStreamInput & RegionInput,
   UntagStreamOutput,
   UntagStreamError,
   Credentials | HttpClient.HttpClient
@@ -1503,6 +1567,8 @@ export const untagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagStream",
+  telemetry: TELEMETRY,
+  span: "UntagStream",
 }));
 
 export type UpdateDataRetentionError =
@@ -1537,7 +1603,7 @@ export type UpdateDataRetentionError =
  * any data older than one hour is deleted immediately.
  */
 export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionInput,
+  UpdateDataRetentionInput & RegionInput,
   UpdateDataRetentionOutput,
   UpdateDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -1556,6 +1622,8 @@ export const updateDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRetention",
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetention",
 }));
 
 export type UpdateImageGenerationConfigurationError =
@@ -1570,7 +1638,7 @@ export type UpdateImageGenerationConfigurationError =
  * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
  */
 export const updateImageGenerationConfiguration: API.OperationMethod<
-  UpdateImageGenerationConfigurationInput,
+  UpdateImageGenerationConfigurationInput & RegionInput,
   UpdateImageGenerationConfigurationOutput,
   UpdateImageGenerationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1588,6 +1656,8 @@ export const updateImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageGenerationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateImageGenerationConfiguration",
 }));
 
 export type UpdateMediaStorageConfigurationError =
@@ -1615,7 +1685,7 @@ export type UpdateMediaStorageConfigurationError =
  * connection between a peer and the storage session.
  */
 export const updateMediaStorageConfiguration: API.OperationMethod<
-  UpdateMediaStorageConfigurationInput,
+  UpdateMediaStorageConfigurationInput & RegionInput,
   UpdateMediaStorageConfigurationOutput,
   UpdateMediaStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1633,6 +1703,8 @@ export const updateMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMediaStorageConfiguration",
 }));
 
 export type UpdateNotificationConfigurationError =
@@ -1647,7 +1719,7 @@ export type UpdateNotificationConfigurationError =
  * Updates the notification information for a stream.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationInput,
+  UpdateNotificationConfigurationInput & RegionInput,
   UpdateNotificationConfigurationOutput,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1665,6 +1737,8 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationConfiguration",
 }));
 
 export type UpdateSignalingChannelError =
@@ -1686,7 +1760,7 @@ export type UpdateSignalingChannelError =
  * value.
  */
 export const updateSignalingChannel: API.OperationMethod<
-  UpdateSignalingChannelInput,
+  UpdateSignalingChannelInput & RegionInput,
   UpdateSignalingChannelOutput,
   UpdateSignalingChannelError,
   Credentials | HttpClient.HttpClient
@@ -1705,6 +1779,8 @@ export const updateSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateSignalingChannel",
 }));
 
 export type UpdateStreamError =
@@ -1731,7 +1807,7 @@ export type UpdateStreamError =
  * complete.
  */
 export const updateStream: API.OperationMethod<
-  UpdateStreamInput,
+  UpdateStreamInput & RegionInput,
   UpdateStreamOutput,
   UpdateStreamError,
   Credentials | HttpClient.HttpClient
@@ -1750,6 +1826,8 @@ export const updateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStream",
+  telemetry: TELEMETRY,
+  span: "UpdateStream",
 }));
 
 export type UpdateStreamStorageConfigurationError =
@@ -1770,7 +1848,7 @@ export type UpdateStreamStorageConfigurationError =
  * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
  */
 export const updateStreamStorageConfiguration: API.OperationMethod<
-  UpdateStreamStorageConfigurationInput,
+  UpdateStreamStorageConfigurationInput & RegionInput,
   UpdateStreamStorageConfigurationOutput,
   UpdateStreamStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1788,6 +1866,8 @@ export const updateStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamStorageConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

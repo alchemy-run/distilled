@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "SecretService",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteSecretRequest {
   secretId?: string;
 }
@@ -104,6 +116,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type ListSecretError = ModalOpError;
@@ -118,6 +132,8 @@ export const listSecret: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecret",
 }));
 
 export type SecretGetInfoError = ModalOpError;
@@ -132,6 +148,8 @@ export const secretGetInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretGetInfo",
 }));
 
 export type SecretGetOrCreateError = ModalOpError;
@@ -146,6 +164,8 @@ export const secretGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretGetOrCreate",
 }));
 
 export type UpdateSecretError = ModalOpError;
@@ -160,6 +180,8 @@ export const updateSecret: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecret",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

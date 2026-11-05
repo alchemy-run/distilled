@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Lsp",
+  propagate: "w3c",
+} as const;
+
 export interface CompletionContext {
   triggerCharacter?: string;
   triggerKind: number;
@@ -108,6 +120,8 @@ export const completions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Completions",
 }));
 
 export type DidCloseError = DaytonaOpError;
@@ -123,6 +137,8 @@ export const didClose: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DidClose",
 }));
 
 export type DidOpenError = DaytonaOpError;
@@ -138,6 +154,8 @@ export const didOpen: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DidOpen",
 }));
 
 export type DocumentSymbolsError = DaytonaOpError;
@@ -153,6 +171,8 @@ export const documentSymbols: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DocumentSymbols",
 }));
 
 export type StartError = DaytonaOpError;
@@ -164,6 +184,8 @@ export const start: API.OperationMethod<StartRequest, StartResponse, StartError,
     errors: [UnknownDaytonaError],
     protocol: DaytonaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Start",
   }));
 
 export type StopError = DaytonaOpError;
@@ -175,6 +197,8 @@ export const stop: API.OperationMethod<StopRequest, StopResponse, StopError, Day
     errors: [UnknownDaytonaError],
     protocol: DaytonaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Stop",
   }));
 
 export type WorkspaceSymbolsError = DaytonaOpError;
@@ -190,6 +214,8 @@ export const workspaceSymbols: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSymbols",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

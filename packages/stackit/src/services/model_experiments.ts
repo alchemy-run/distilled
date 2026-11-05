@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ModelExperiments",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -256,6 +269,8 @@ export const createInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateInstanceTokenError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -271,6 +286,8 @@ export const createInstanceToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstanceToken",
 }));
 
 export type DeleteInstanceError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -286,6 +303,8 @@ export const deleteInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteInstanceTokenError =
@@ -306,6 +325,8 @@ export const deleteInstanceToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceToken",
 }));
 
 export type GetInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -321,6 +342,8 @@ export const getInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetInstanceTokenError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -336,6 +359,8 @@ export const getInstanceToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceToken",
 }));
 
 export type ListInstancesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -351,6 +376,8 @@ export const listInstances: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type ListInstanceTokensError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -366,6 +393,8 @@ export const listInstanceTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceTokens",
 }));
 
 export type PartialUpdateInstanceError =
@@ -386,6 +415,8 @@ export const partialUpdateInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateInstance",
 }));
 
 export type PartialUpdateInstanceTokenError =
@@ -406,6 +437,8 @@ export const partialUpdateInstanceToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateInstanceToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

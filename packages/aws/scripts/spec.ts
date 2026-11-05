@@ -1,8 +1,8 @@
-import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/core/codegen/emit";
-import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/dev/codegen/emit";
+import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 /**
  * AWS provider spec for the shared smithy→SDK compiler
- * (`@distilled.cloud/core/codegen/generator`).
+ * (`@distilled.cloud/dev/codegen/generator`).
  *
  * The driver owns the pipeline: operation discovery, Unit-I/O synthesis,
  * reachability (plus this spec's `extraRoots` for error-member deps),
@@ -30,8 +30,8 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/gen
  * - `header`/`postProcess` own the service consts (svc/auth/proto/ver/ns/
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
-import { cyclicShapeIds } from "@distilled.cloud/core/codegen/graph";
-import { mergePaginated } from "@distilled.cloud/core/codegen/pagination";
+import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
+import { mergePaginated } from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
@@ -252,21 +252,29 @@ export const applyAwsSpecPatches = (
     return id;
   };
 
+  const addErrors = (opShape: any, additions: ReadonlyArray<string>) => {
+    if (additions.length === 0) return;
+    const existingTargets = new Set(
+      ((opShape.errors ?? []) as Array<{ target: string }>).map((e) => e.target),
+    );
+    opShape.errors = [
+      ...(opShape.errors ?? []),
+      ...additions.filter((t) => !existingTargets.has(t)).map((target) => ({ target })),
+    ];
+  };
+
   for (const [opKey, patch] of Object.entries(serviceSpec.operations ?? {})) {
-    const opShape = opShapeByExportName.get(opKey)!;
-    const additions = [
+    addErrors(opShapeByExportName.get(opKey)!, [
       ...(patch.errors ?? []).map(materializePatchedError),
       ...(patch.syntheticErrors ?? []).map(materializeSyntheticError),
-    ];
-    if (additions.length) {
-      const existingTargets = new Set(
-        ((opShape.errors ?? []) as Array<{ target: string }>).map((e) => e.target),
-      );
-      opShape.errors = [
-        ...(opShape.errors ?? []),
-        ...additions.filter((t) => !existingTargets.has(t)).map((target) => ({ target })),
-      ];
-    }
+    ]);
+  }
+
+  // After the per-operation patches, so an operation that already lists one
+  // of these errors keeps it in its place.
+  const everyOperation = (serviceSpec.allOperations?.errors ?? []).map(materializePatchedError);
+  for (const opShape of opShapeByExportName.values()) {
+    addErrors(opShape, everyOperation);
   }
 
   // After the operation patches so members can land on patch-born
@@ -1140,6 +1148,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   // Import refs aliased only where a generated schema name conflicts.
   const credsRef = allSchemaNames.has("Credentials") ? "Creds" : "Credentials";
   const commonErrorsRef = allSchemaNames.has("CommonErrors") ? "CommonErr" : "CommonErrors";
+  const regionInputRef = allSchemaNames.has("RegionInput") ? "CallRegion" : "RegionInput";
 
   const errorShapeIds = collectErrorShapeIds(model);
 
@@ -2253,6 +2262,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           ? [`endpointHostPrefix: ${JSON.stringify(endpointHostPrefix)}`]
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
+        ...ctx.telemetry,
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;
 
@@ -2266,6 +2276,12 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
       // `Region` is NOT listed: it's an override resolved with
       // `Effect.serviceOption`, falling back to AWS_REGION (see region.ts).
       const depsType = `${credsRef} | HttpClient.HttpClient`;
+      // Every call takes an optional `region` (see region.ts), unless the
+      // input already models a member with that name.
+      const callInput =
+        shapes[opShape.__input]?.members?.region === undefined
+          ? `${input} & ${regionInputRef}`
+          : input;
       let typeAnnotation: string;
       if (paginatedTrait) {
         const itemType = resolvePaginatedItemType(
@@ -2278,9 +2294,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         // as a bare call function with no streaming methods (distilled#145).
         // The item type still has to be passed explicitly — makePaginated
         // resolves it from a runtime path string (distilled#404).
-        typeAnnotation = `API.PaginatedOperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
+        typeAnnotation = `API.PaginatedOperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}, ${itemType}>`;
       } else {
-        typeAnnotation = `API.OperationMethod<${input}, ${output}, ${errorTypeName}, ${depsType}>`;
+        typeAnnotation = `API.OperationMethod<${callInput}, ${output}, ${errorTypeName}, ${depsType}>`;
       }
 
       const opConst = operationConst({
@@ -2323,6 +2339,9 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         'import * as T from "../traits.ts";',
         "__CATEGORY_IMPORT__",
         credentialsImport,
+        regionInputRef === "CallRegion"
+          ? 'import type { RegionInput as CallRegion } from "../region.ts";'
+          : 'import type { RegionInput } from "../region.ts";',
         commonErrorsImport,
         "__SENSITIVE_IMPORT__",
       ].join("\n");

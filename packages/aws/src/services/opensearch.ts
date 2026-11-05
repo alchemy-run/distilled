@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -83,6 +85,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://es.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OpenSearch",
+  service: "OpenSearch",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2528,7 +2544,7 @@ export type AcceptInboundConnectionError =
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const acceptInboundConnection: API.OperationMethod<
-  AcceptInboundConnectionRequest,
+  AcceptInboundConnectionRequest & RegionInput,
   AcceptInboundConnectionResponse,
   AcceptInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2539,6 +2555,8 @@ export const acceptInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptInboundConnection",
 }));
 
 export type AddDataSourceError =
@@ -2556,7 +2574,7 @@ export type AddDataSourceError =
  * S3.
  */
 export const addDataSource: API.OperationMethod<
-  AddDataSourceRequest,
+  AddDataSourceRequest & RegionInput,
   AddDataSourceResponse,
   AddDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2575,6 +2593,8 @@ export const addDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDataSource",
+  telemetry: TELEMETRY,
+  span: "AddDataSource",
 }));
 
 export type AddDirectQueryDataSourceError =
@@ -2590,7 +2610,7 @@ export type AddDirectQueryDataSourceError =
  * queries on external data.
  */
 export const addDirectQueryDataSource: API.OperationMethod<
-  AddDirectQueryDataSourceRequest,
+  AddDirectQueryDataSourceRequest & RegionInput,
   AddDirectQueryDataSourceResponse,
   AddDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2608,6 +2628,8 @@ export const addDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "AddDirectQueryDataSource",
 }));
 
 export type AddTagsError =
@@ -2624,7 +2646,7 @@ export type AddTagsError =
  * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -2635,6 +2657,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AssociatePackageError =
@@ -2651,7 +2675,7 @@ export type AssociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2669,6 +2693,8 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
+  telemetry: TELEMETRY,
+  span: "AssociatePackage",
 }));
 
 export type AssociatePackagesError =
@@ -2684,7 +2710,7 @@ export type AssociatePackagesError =
  * a domain simultaneously.
  */
 export const associatePackages: API.OperationMethod<
-  AssociatePackagesRequest,
+  AssociatePackagesRequest & RegionInput,
   AssociatePackagesResponse,
   AssociatePackagesError,
   Credentials | HttpClient.HttpClient
@@ -2702,6 +2728,8 @@ export const associatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackages",
+  telemetry: TELEMETRY,
+  span: "AssociatePackages",
 }));
 
 export type AttachDataSourceError =
@@ -2716,7 +2744,7 @@ export type AttachDataSourceError =
  * Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of `ATTACHED`. Otherwise, the operation returns `PENDING` and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes `FAILED`. This operation is idempotent: If the data source is already attached or pending, the operation returns the existing attachment.
  */
 export const attachDataSource: API.OperationMethod<
-  AttachDataSourceRequest,
+  AttachDataSourceRequest & RegionInput,
   AttachDataSourceResponse,
   AttachDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2734,6 +2762,8 @@ export const attachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachDataSource",
+  telemetry: TELEMETRY,
+  span: "AttachDataSource",
 }));
 
 export type AuthorizeVpcEndpointAccessError =
@@ -2749,7 +2779,7 @@ export type AuthorizeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -2767,6 +2797,8 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeVpcEndpointAccess",
 }));
 
 export type CancelDomainConfigChangeError =
@@ -2780,7 +2812,7 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
@@ -2797,6 +2829,8 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
+  telemetry: TELEMETRY,
+  span: "CancelDomainConfigChange",
 }));
 
 export type CancelServiceSoftwareUpdateError =
@@ -2813,7 +2847,7 @@ export type CancelServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const cancelServiceSoftwareUpdate: API.OperationMethod<
-  CancelServiceSoftwareUpdateRequest,
+  CancelServiceSoftwareUpdateRequest & RegionInput,
   CancelServiceSoftwareUpdateResponse,
   CancelServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2824,6 +2858,8 @@ export const cancelServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "CancelServiceSoftwareUpdate",
 }));
 
 export type CreateApplicationError =
@@ -2838,7 +2874,7 @@ export type CreateApplicationError =
  * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2856,6 +2892,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDomainError =
@@ -2872,7 +2910,7 @@ export type CreateDomainError =
  * managing Amazon OpenSearch Service domains.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -2891,6 +2929,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateIndexError =
@@ -2907,7 +2947,7 @@ export type CreateIndexError =
  * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2927,6 +2967,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateOutboundConnectionError =
@@ -2941,7 +2983,7 @@ export type CreateOutboundConnectionError =
  * for Amazon OpenSearch Service.
  */
 export const createOutboundConnection: API.OperationMethod<
-  CreateOutboundConnectionRequest,
+  CreateOutboundConnectionRequest & RegionInput,
   CreateOutboundConnectionResponse,
   CreateOutboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2957,6 +2999,8 @@ export const createOutboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOutboundConnection",
 }));
 
 export type CreatePackageError =
@@ -2974,7 +3018,7 @@ export type CreatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
@@ -2993,6 +3037,8 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
+  telemetry: TELEMETRY,
+  span: "CreatePackage",
 }));
 
 export type CreateVpcEndpointError =
@@ -3007,7 +3053,7 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3025,6 +3071,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteApplicationError =
@@ -3040,7 +3088,7 @@ export type DeleteApplicationError =
  * Deletes a specified OpenSearch application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3059,6 +3107,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDataSourceError =
@@ -3074,7 +3124,7 @@ export type DeleteDataSourceError =
  * an Amazon OpenSearch Service data source with Amazon S3.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3092,6 +3142,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteDirectQueryDataSourceError =
@@ -3106,7 +3158,7 @@ export type DeleteDirectQueryDataSourceError =
  * Service.
  */
 export const deleteDirectQueryDataSource: API.OperationMethod<
-  DeleteDirectQueryDataSourceRequest,
+  DeleteDirectQueryDataSourceRequest & RegionInput,
   DeleteDirectQueryDataSourceResponse,
   DeleteDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3123,6 +3175,8 @@ export const deleteDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectQueryDataSource",
 }));
 
 export type DeleteDomainError =
@@ -3136,7 +3190,7 @@ export type DeleteDomainError =
  * domain after you delete it.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -3147,6 +3201,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteInboundConnectionError =
@@ -3158,7 +3214,7 @@ export type DeleteInboundConnectionError =
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteInboundConnection: API.OperationMethod<
-  DeleteInboundConnectionRequest,
+  DeleteInboundConnectionRequest & RegionInput,
   DeleteInboundConnectionResponse,
   DeleteInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3169,6 +3225,8 @@ export const deleteInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteInboundConnection",
 }));
 
 export type DeleteIndexError =
@@ -3184,7 +3242,7 @@ export type DeleteIndexError =
  * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3203,6 +3261,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteOutboundConnectionError =
@@ -3214,7 +3274,7 @@ export type DeleteOutboundConnectionError =
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteOutboundConnection: API.OperationMethod<
-  DeleteOutboundConnectionRequest,
+  DeleteOutboundConnectionRequest & RegionInput,
   DeleteOutboundConnectionResponse,
   DeleteOutboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3225,6 +3285,8 @@ export const deleteOutboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundConnection",
 }));
 
 export type DeletePackageError =
@@ -3240,7 +3302,7 @@ export type DeletePackageError =
  * for Amazon OpenSearch Service.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -3258,6 +3320,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeleteVpcEndpointError =
@@ -3270,7 +3334,7 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3281,6 +3345,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type DeregisterCapabilityError =
@@ -3295,7 +3361,7 @@ export type DeregisterCapabilityError =
  * Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration.
  */
 export const deregisterCapability: API.OperationMethod<
-  DeregisterCapabilityRequest,
+  DeregisterCapabilityRequest & RegionInput,
   DeregisterCapabilityResponse,
   DeregisterCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -3313,6 +3379,8 @@ export const deregisterCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCapability",
+  telemetry: TELEMETRY,
+  span: "DeregisterCapability",
 }));
 
 export type DescribeDataSourceAttachmentError =
@@ -3326,7 +3394,7 @@ export type DescribeDataSourceAttachmentError =
  * Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a `ResourceNotFoundException` if no attachment record exists for the specified application and data source combination.
  */
 export const describeDataSourceAttachment: API.OperationMethod<
-  DescribeDataSourceAttachmentRequest,
+  DescribeDataSourceAttachmentRequest & RegionInput,
   DescribeDataSourceAttachmentResponse,
   DescribeDataSourceAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -3343,6 +3411,8 @@ export const describeDataSourceAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSourceAttachment",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSourceAttachment",
 }));
 
 export type DescribeDomainError =
@@ -3356,7 +3426,7 @@ export type DescribeDomainError =
  * including the domain ID, domain service endpoint, and domain ARN.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -3367,6 +3437,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeDomainAutoTunesError =
@@ -3381,7 +3453,7 @@ export type DescribeDomainAutoTunesError =
  * OpenSearch Service.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
@@ -3398,6 +3470,8 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDomainAutoTunes",
 })) as any;
 
 export type DescribeDomainChangeProgressError =
@@ -3411,7 +3485,7 @@ export type DescribeDomainChangeProgressError =
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -3422,6 +3496,8 @@ export const describeDomainChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainChangeProgress",
 }));
 
 export type DescribeDomainConfigError =
@@ -3434,7 +3510,7 @@ export type DescribeDomainConfigError =
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
 export const describeDomainConfig: API.OperationMethod<
-  DescribeDomainConfigRequest,
+  DescribeDomainConfigRequest & RegionInput,
   DescribeDomainConfigResponse,
   DescribeDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -3445,6 +3521,8 @@ export const describeDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainConfig",
 }));
 
 export type DescribeDomainHealthError =
@@ -3459,7 +3537,7 @@ export type DescribeDomainHealthError =
  * number of nodes per Availability Zone, and shard count per node.
  */
 export const describeDomainHealth: API.OperationMethod<
-  DescribeDomainHealthRequest,
+  DescribeDomainHealthRequest & RegionInput,
   DescribeDomainHealthResponse,
   DescribeDomainHealthError,
   Credentials | HttpClient.HttpClient
@@ -3476,6 +3554,8 @@ export const describeDomainHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainHealth",
 }));
 
 export type DescribeDomainNodesError =
@@ -3492,7 +3572,7 @@ export type DescribeDomainNodesError =
  * states.
  */
 export const describeDomainNodes: API.OperationMethod<
-  DescribeDomainNodesRequest,
+  DescribeDomainNodesRequest & RegionInput,
   DescribeDomainNodesResponse,
   DescribeDomainNodesError,
   Credentials | HttpClient.HttpClient
@@ -3510,6 +3590,8 @@ export const describeDomainNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainNodes",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainNodes",
 }));
 
 export type DescribeDomainsError =
@@ -3522,7 +3604,7 @@ export type DescribeDomainsError =
  * domains.
  */
 export const describeDomains: API.OperationMethod<
-  DescribeDomainsRequest,
+  DescribeDomainsRequest & RegionInput,
   DescribeDomainsResponse,
   DescribeDomainsError,
   Credentials | HttpClient.HttpClient
@@ -3533,6 +3615,8 @@ export const describeDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeDomains",
 }));
 
 export type DescribeDryRunProgressError =
@@ -3547,7 +3631,7 @@ export type DescribeDryRunProgressError =
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
  */
 export const describeDryRunProgress: API.OperationMethod<
-  DescribeDryRunProgressRequest,
+  DescribeDryRunProgressRequest & RegionInput,
   DescribeDryRunProgressResponse,
   DescribeDryRunProgressError,
   Credentials | HttpClient.HttpClient
@@ -3564,6 +3648,8 @@ export const describeDryRunProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDryRunProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDryRunProgress",
 }));
 
 export type DescribeInboundConnectionsError =
@@ -3575,7 +3661,7 @@ export type DescribeInboundConnectionsError =
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeInboundConnections: API.PaginatedOperationMethod<
-  DescribeInboundConnectionsRequest,
+  DescribeInboundConnectionsRequest & RegionInput,
   DescribeInboundConnectionsResponse,
   DescribeInboundConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3592,6 +3678,8 @@ export const describeInboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInboundConnections",
 })) as any;
 
 export type DescribeInsightDetailsError =
@@ -3608,7 +3696,7 @@ export type DescribeInsightDetailsError =
  * and metric data.
  */
 export const describeInsightDetails: API.OperationMethod<
-  DescribeInsightDetailsRequest,
+  DescribeInsightDetailsRequest & RegionInput,
   DescribeInsightDetailsResponse,
   DescribeInsightDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3626,6 +3714,8 @@ export const describeInsightDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsightDetails",
+  telemetry: TELEMETRY,
+  span: "DescribeInsightDetails",
 }));
 
 export type DescribeInstanceTypeLimitsError =
@@ -3641,7 +3731,7 @@ export type DescribeInstanceTypeLimitsError =
  * or Elasticsearch version and instance type.
  */
 export const describeInstanceTypeLimits: API.OperationMethod<
-  DescribeInstanceTypeLimitsRequest,
+  DescribeInstanceTypeLimitsRequest & RegionInput,
   DescribeInstanceTypeLimitsResponse,
   DescribeInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3659,6 +3749,8 @@ export const describeInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceTypeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceTypeLimits",
 }));
 
 export type DescribeOutboundConnectionsError =
@@ -3670,7 +3762,7 @@ export type DescribeOutboundConnectionsError =
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeOutboundConnections: API.PaginatedOperationMethod<
-  DescribeOutboundConnectionsRequest,
+  DescribeOutboundConnectionsRequest & RegionInput,
   DescribeOutboundConnectionsResponse,
   DescribeOutboundConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3687,6 +3779,8 @@ export const describeOutboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOutboundConnections",
 })) as any;
 
 export type DescribePackagesError =
@@ -3702,7 +3796,7 @@ export type DescribePackagesError =
  * for Amazon OpenSearch Service.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -3725,6 +3819,8 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePackages",
 })) as any;
 
 export type DescribeReservedInstanceOfferingsError =
@@ -3739,7 +3835,7 @@ export type DescribeReservedInstanceOfferingsError =
  * OpenSearch Service.
  */
 export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedInstanceOfferingsRequest,
+  DescribeReservedInstanceOfferingsRequest & RegionInput,
   DescribeReservedInstanceOfferingsResponse,
   DescribeReservedInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -3761,6 +3857,8 @@ export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedInstanceOfferings",
 })) as any;
 
 export type DescribeReservedInstancesError =
@@ -3775,7 +3873,7 @@ export type DescribeReservedInstancesError =
  * OpenSearch Service.
  */
 export const describeReservedInstances: API.PaginatedOperationMethod<
-  DescribeReservedInstancesRequest,
+  DescribeReservedInstancesRequest & RegionInput,
   DescribeReservedInstancesResponse,
   DescribeReservedInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3797,6 +3895,8 @@ export const describeReservedInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedInstances",
 })) as any;
 
 export type DescribeVpcEndpointsError =
@@ -3809,7 +3909,7 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -3820,6 +3920,8 @@ export const describeVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcEndpoints",
 }));
 
 export type DetachDataSourceError =
@@ -3834,7 +3936,7 @@ export type DetachDataSourceError =
  * Removes a data source from an OpenSearch application. The application must be in the `ACTIVE` state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a `ConflictException` if the specified data source has a `PENDING` attachment, and a `ResourceNotFoundException` if the data source is not currently attached to the application.
  */
 export const detachDataSource: API.OperationMethod<
-  DetachDataSourceRequest,
+  DetachDataSourceRequest & RegionInput,
   DetachDataSourceResponse,
   DetachDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3852,6 +3954,8 @@ export const detachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachDataSource",
+  telemetry: TELEMETRY,
+  span: "DetachDataSource",
 }));
 
 export type DissociatePackageError =
@@ -3870,7 +3974,7 @@ export type DissociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
@@ -3888,6 +3992,8 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
+  telemetry: TELEMETRY,
+  span: "DissociatePackage",
 }));
 
 export type DissociatePackagesError =
@@ -3902,7 +4008,7 @@ export type DissociatePackagesError =
  * Dissociates multiple packages from a domain simultaneously.
  */
 export const dissociatePackages: API.OperationMethod<
-  DissociatePackagesRequest,
+  DissociatePackagesRequest & RegionInput,
   DissociatePackagesResponse,
   DissociatePackagesError,
   Credentials | HttpClient.HttpClient
@@ -3920,6 +4026,8 @@ export const dissociatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackages",
+  telemetry: TELEMETRY,
+  span: "DissociatePackages",
 }));
 
 export type GetApplicationError =
@@ -3934,7 +4042,7 @@ export type GetApplicationError =
  * Retrieves the configuration and status of an existing OpenSearch application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3952,6 +4060,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetCapabilityError =
@@ -3965,7 +4075,7 @@ export type GetCapabilityError =
  * Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status.
  */
 export const getCapability: API.OperationMethod<
-  GetCapabilityRequest,
+  GetCapabilityRequest & RegionInput,
   GetCapabilityResponse,
   GetCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -3982,6 +4092,8 @@ export const getCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapability",
+  telemetry: TELEMETRY,
+  span: "GetCapability",
 }));
 
 export type GetCompatibleVersionsError =
@@ -3996,7 +4108,7 @@ export type GetCompatibleVersionsError =
  * them to.
  */
 export const getCompatibleVersions: API.OperationMethod<
-  GetCompatibleVersionsRequest,
+  GetCompatibleVersionsRequest & RegionInput,
   GetCompatibleVersionsResponse,
   GetCompatibleVersionsError,
   Credentials | HttpClient.HttpClient
@@ -4013,6 +4125,8 @@ export const getCompatibleVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleVersions",
 }));
 
 export type GetDataSourceError =
@@ -4027,7 +4141,7 @@ export type GetDataSourceError =
  * Retrieves information about a direct query data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4045,6 +4159,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDefaultApplicationSettingError =
@@ -4060,7 +4176,7 @@ export type GetDefaultApplicationSettingError =
  * error.
  */
 export const getDefaultApplicationSetting: API.OperationMethod<
-  GetDefaultApplicationSettingRequest,
+  GetDefaultApplicationSettingRequest & RegionInput,
   GetDefaultApplicationSettingResponse,
   GetDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
@@ -4076,6 +4192,8 @@ export const getDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultApplicationSetting",
+  telemetry: TELEMETRY,
+  span: "GetDefaultApplicationSetting",
 }));
 
 export type GetDirectQueryDataSourceError =
@@ -4090,7 +4208,7 @@ export type GetDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const getDirectQueryDataSource: API.OperationMethod<
-  GetDirectQueryDataSourceRequest,
+  GetDirectQueryDataSourceRequest & RegionInput,
   GetDirectQueryDataSourceResponse,
   GetDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4107,6 +4225,8 @@ export const getDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDirectQueryDataSource",
 }));
 
 export type GetDomainMaintenanceStatusError =
@@ -4120,7 +4240,7 @@ export type GetDomainMaintenanceStatusError =
  * The status of the maintenance action.
  */
 export const getDomainMaintenanceStatus: API.OperationMethod<
-  GetDomainMaintenanceStatusRequest,
+  GetDomainMaintenanceStatusRequest & RegionInput,
   GetDomainMaintenanceStatusResponse,
   GetDomainMaintenanceStatusError,
   Credentials | HttpClient.HttpClient
@@ -4137,6 +4257,8 @@ export const getDomainMaintenanceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainMaintenanceStatus",
+  telemetry: TELEMETRY,
+  span: "GetDomainMaintenanceStatus",
 }));
 
 export type GetIndexError =
@@ -4152,7 +4274,7 @@ export type GetIndexError =
  * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
@@ -4171,6 +4293,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetMigrationError =
@@ -4184,7 +4308,7 @@ export type GetMigrationError =
  * Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed.
  */
 export const getMigration: API.OperationMethod<
-  GetMigrationRequest,
+  GetMigrationRequest & RegionInput,
   GetMigrationResponse,
   GetMigrationError,
   Credentials | HttpClient.HttpClient
@@ -4201,6 +4325,8 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetPackageVersionHistoryError =
@@ -4217,7 +4343,7 @@ export type GetPackageVersionHistoryError =
  * OpenSearch Service.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4240,6 +4366,8 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionHistory",
 })) as any;
 
 export type GetUpgradeHistoryError =
@@ -4254,7 +4382,7 @@ export type GetUpgradeHistoryError =
  * Service domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4277,6 +4405,8 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUpgradeHistory",
 })) as any;
 
 export type GetUpgradeStatusError =
@@ -4291,7 +4421,7 @@ export type GetUpgradeStatusError =
  * an Amazon OpenSearch Service domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
@@ -4308,6 +4438,8 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
+  telemetry: TELEMETRY,
+  span: "GetUpgradeStatus",
 }));
 
 export type InsightFeedbackError =
@@ -4324,7 +4456,7 @@ export type InsightFeedbackError =
  * for a specific insight.
  */
 export const insightFeedback: API.OperationMethod<
-  InsightFeedbackRequest,
+  InsightFeedbackRequest & RegionInput,
   InsightFeedbackResponse,
   InsightFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4342,6 +4474,8 @@ export const insightFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsightFeedback",
+  telemetry: TELEMETRY,
+  span: "InsightFeedback",
 }));
 
 export type ListApplicationsError =
@@ -4356,7 +4490,7 @@ export type ListApplicationsError =
  * Lists all OpenSearch applications under your account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -4381,6 +4515,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListDataSourceAttachmentsError =
@@ -4394,7 +4530,7 @@ export type ListDataSourceAttachmentsError =
  * Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (`PENDING`, `ATTACHED`, and `FAILED`).
  */
 export const listDataSourceAttachments: API.OperationMethod<
-  ListDataSourceAttachmentsRequest,
+  ListDataSourceAttachmentsRequest & RegionInput,
   ListDataSourceAttachmentsResponse,
   ListDataSourceAttachmentsError,
   Credentials | HttpClient.HttpClient
@@ -4411,6 +4547,8 @@ export const listDataSourceAttachments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSourceAttachments",
+  telemetry: TELEMETRY,
+  span: "ListDataSourceAttachments",
 }));
 
 export type ListDataSourcesError =
@@ -4427,7 +4565,7 @@ export type ListDataSourcesError =
  * Amazon OpenSearch Service direct queries with Amazon S3.
  */
 export const listDataSources: API.OperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4445,6 +4583,8 @@ export const listDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSources",
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 }));
 
 export type ListDirectQueryDataSourcesError =
@@ -4459,7 +4599,7 @@ export type ListDirectQueryDataSourcesError =
  * within Amazon OpenSearch Service.
  */
 export const listDirectQueryDataSources: API.OperationMethod<
-  ListDirectQueryDataSourcesRequest,
+  ListDirectQueryDataSourcesRequest & RegionInput,
   ListDirectQueryDataSourcesResponse,
   ListDirectQueryDataSourcesError,
   Credentials | HttpClient.HttpClient
@@ -4476,6 +4616,8 @@ export const listDirectQueryDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDirectQueryDataSources",
+  telemetry: TELEMETRY,
+  span: "ListDirectQueryDataSources",
 }));
 
 export type ListDomainMaintenancesError =
@@ -4489,7 +4631,7 @@ export type ListDomainMaintenancesError =
  * A list of maintenance actions for the domain.
  */
 export const listDomainMaintenances: API.PaginatedOperationMethod<
-  ListDomainMaintenancesRequest,
+  ListDomainMaintenancesRequest & RegionInput,
   ListDomainMaintenancesResponse,
   ListDomainMaintenancesError,
   Credentials | HttpClient.HttpClient,
@@ -4512,6 +4654,8 @@ export const listDomainMaintenances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainMaintenances",
 })) as any;
 
 export type ListDomainNamesError = BaseException | ValidationException | CommonErrors;
@@ -4520,7 +4664,7 @@ export type ListDomainNamesError = BaseException | ValidationException | CommonE
  * in the active Region.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
@@ -4531,6 +4675,8 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type ListDomainsForPackageError =
@@ -4546,7 +4692,7 @@ export type ListDomainsForPackageError =
  * for Amazon OpenSearch Service.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
@@ -4569,6 +4715,8 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainsForPackage",
 })) as any;
 
 export type ListInsightsError =
@@ -4585,7 +4733,7 @@ export type ListInsightsError =
  * and sort order.
  */
 export const listInsights: API.OperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient
@@ -4603,6 +4751,8 @@ export const listInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInsights",
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 }));
 
 export type ListInstanceTypeDetailsError =
@@ -4616,7 +4766,7 @@ export type ListInstanceTypeDetailsError =
  * Elasticsearch version.
  */
 export const listInstanceTypeDetails: API.PaginatedOperationMethod<
-  ListInstanceTypeDetailsRequest,
+  ListInstanceTypeDetailsRequest & RegionInput,
   ListInstanceTypeDetailsResponse,
   ListInstanceTypeDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4633,6 +4783,8 @@ export const listInstanceTypeDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceTypeDetails",
 })) as any;
 
 export type ListMigrationsError =
@@ -4645,7 +4797,7 @@ export type ListMigrationsError =
  * Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMigrations: API.OperationMethod<
-  ListMigrationsRequest,
+  ListMigrationsRequest & RegionInput,
   ListMigrationsResponse,
   ListMigrationsError,
   Credentials | HttpClient.HttpClient
@@ -4661,6 +4813,8 @@ export const listMigrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMigrations",
+  telemetry: TELEMETRY,
+  span: "ListMigrations",
 }));
 
 export type ListPackagesForDomainError =
@@ -4676,7 +4830,7 @@ export type ListPackagesForDomainError =
  * for Amazon OpenSearch Service.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
@@ -4699,6 +4853,8 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForDomain",
 })) as any;
 
 export type ListScheduledActionsError =
@@ -4714,7 +4870,7 @@ export type ListScheduledActionsError =
  * software updates or blue/green Auto-Tune enhancements.
  */
 export const listScheduledActions: API.PaginatedOperationMethod<
-  ListScheduledActionsRequest,
+  ListScheduledActionsRequest & RegionInput,
   ListScheduledActionsResponse,
   ListScheduledActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4737,6 +4893,8 @@ export const listScheduledActions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledActions",
 })) as any;
 
 export type ListTagsError =
@@ -4750,7 +4908,7 @@ export type ListTagsError =
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -4761,6 +4919,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListVersionsError =
@@ -4774,7 +4934,7 @@ export type ListVersionsError =
  * supports.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4791,6 +4951,8 @@ export const listVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 })) as any;
 
 export type ListVpcEndpointAccessError =
@@ -4805,7 +4967,7 @@ export type ListVpcEndpointAccessError =
  * endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -4816,6 +4978,8 @@ export const listVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointAccess",
 }));
 
 export type ListVpcEndpointsError =
@@ -4827,7 +4991,7 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -4838,6 +5002,8 @@ export const listVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 }));
 
 export type ListVpcEndpointsForDomainError =
@@ -4851,7 +5017,7 @@ export type ListVpcEndpointsForDomainError =
  * particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -4862,6 +5028,8 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointsForDomain",
 }));
 
 export type PurchaseReservedInstanceOfferingError =
@@ -4876,7 +5044,7 @@ export type PurchaseReservedInstanceOfferingError =
  * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
 export const purchaseReservedInstanceOffering: API.OperationMethod<
-  PurchaseReservedInstanceOfferingRequest,
+  PurchaseReservedInstanceOfferingRequest & RegionInput,
   PurchaseReservedInstanceOfferingResponse,
   PurchaseReservedInstanceOfferingError,
   Credentials | HttpClient.HttpClient
@@ -4894,6 +5062,8 @@ export const purchaseReservedInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedInstanceOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedInstanceOffering",
 }));
 
 export type PutDefaultApplicationSettingError =
@@ -4911,7 +5081,7 @@ export type PutDefaultApplicationSettingError =
  * `setAsDefault` parameter set to `false`.
  */
 export const putDefaultApplicationSetting: API.OperationMethod<
-  PutDefaultApplicationSettingRequest,
+  PutDefaultApplicationSettingRequest & RegionInput,
   PutDefaultApplicationSettingResponse,
   PutDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
@@ -4927,6 +5097,8 @@ export const putDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDefaultApplicationSetting",
+  telemetry: TELEMETRY,
+  span: "PutDefaultApplicationSetting",
 }));
 
 export type RegisterCapabilityError =
@@ -4942,7 +5114,7 @@ export type RegisterCapabilityError =
  * Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI.
  */
 export const registerCapability: API.OperationMethod<
-  RegisterCapabilityRequest,
+  RegisterCapabilityRequest & RegionInput,
   RegisterCapabilityResponse,
   RegisterCapabilityError,
   Credentials | HttpClient.HttpClient
@@ -4961,6 +5133,8 @@ export const registerCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCapability",
+  telemetry: TELEMETRY,
+  span: "RegisterCapability",
 }));
 
 export type RejectInboundConnectionError =
@@ -4972,7 +5146,7 @@ export type RejectInboundConnectionError =
  * cross-cluster connection request.
  */
 export const rejectInboundConnection: API.OperationMethod<
-  RejectInboundConnectionRequest,
+  RejectInboundConnectionRequest & RegionInput,
   RejectInboundConnectionResponse,
   RejectInboundConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4983,6 +5157,8 @@ export const rejectInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundConnection",
+  telemetry: TELEMETRY,
+  span: "RejectInboundConnection",
 }));
 
 export type RemoveTagsError =
@@ -4995,7 +5171,7 @@ export type RemoveTagsError =
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -5006,6 +5182,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RevokeVpcEndpointAccessError =
@@ -5020,7 +5198,7 @@ export type RevokeVpcEndpointAccessError =
  * interface VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
@@ -5037,6 +5215,8 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeVpcEndpointAccess",
 }));
 
 export type RollbackServiceSoftwareUpdateError =
@@ -5052,7 +5232,7 @@ export type RollbackServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const rollbackServiceSoftwareUpdate: API.OperationMethod<
-  RollbackServiceSoftwareUpdateRequest,
+  RollbackServiceSoftwareUpdateRequest & RegionInput,
   RollbackServiceSoftwareUpdateResponse,
   RollbackServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5069,6 +5249,8 @@ export const rollbackServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "RollbackServiceSoftwareUpdate",
 }));
 
 export type StartDomainMaintenanceError =
@@ -5084,7 +5266,7 @@ export type StartDomainMaintenanceError =
  * restart.
  */
 export const startDomainMaintenance: API.OperationMethod<
-  StartDomainMaintenanceRequest,
+  StartDomainMaintenanceRequest & RegionInput,
   StartDomainMaintenanceResponse,
   StartDomainMaintenanceError,
   Credentials | HttpClient.HttpClient
@@ -5101,6 +5283,8 @@ export const startDomainMaintenance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainMaintenance",
+  telemetry: TELEMETRY,
+  span: "StartDomainMaintenance",
 }));
 
 export type StartMigrationError =
@@ -5115,7 +5299,7 @@ export type StartMigrationError =
  * Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationRequest,
+  StartMigrationRequest & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5133,6 +5317,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type StartServiceSoftwareUpdateError =
@@ -5147,7 +5333,7 @@ export type StartServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const startServiceSoftwareUpdate: API.OperationMethod<
-  StartServiceSoftwareUpdateRequest,
+  StartServiceSoftwareUpdateRequest & RegionInput,
   StartServiceSoftwareUpdateResponse,
   StartServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5158,6 +5344,8 @@ export const startServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "StartServiceSoftwareUpdate",
 }));
 
 export type UpdateApplicationError =
@@ -5173,7 +5361,7 @@ export type UpdateApplicationError =
  * Updates the configuration and settings of an existing OpenSearch application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5192,6 +5380,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateDataSourceError =
@@ -5208,7 +5398,7 @@ export type UpdateDataSourceError =
  * S3.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5226,6 +5416,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateDirectQueryDataSourceError =
@@ -5241,7 +5433,7 @@ export type UpdateDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const updateDirectQueryDataSource: API.OperationMethod<
-  UpdateDirectQueryDataSourceRequest,
+  UpdateDirectQueryDataSourceRequest & RegionInput,
   UpdateDirectQueryDataSourceResponse,
   UpdateDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5259,6 +5451,8 @@ export const updateDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectQueryDataSource",
 }));
 
 export type UpdateDomainConfigError =
@@ -5274,7 +5468,7 @@ export type UpdateDomainConfigError =
  * domain.
  */
 export const updateDomainConfig: API.OperationMethod<
-  UpdateDomainConfigRequest,
+  UpdateDomainConfigRequest & RegionInput,
   UpdateDomainConfigResponse,
   UpdateDomainConfigError,
   Credentials | HttpClient.HttpClient
@@ -5292,6 +5486,8 @@ export const updateDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainConfig",
 }));
 
 export type UpdateIndexError =
@@ -5307,7 +5503,7 @@ export type UpdateIndexError =
  * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -5326,6 +5522,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdatePackageError =
@@ -5342,7 +5540,7 @@ export type UpdatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
@@ -5360,6 +5558,8 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
+  telemetry: TELEMETRY,
+  span: "UpdatePackage",
 }));
 
 export type UpdatePackageScopeError =
@@ -5374,7 +5574,7 @@ export type UpdatePackageScopeError =
  * associate a package.
  */
 export const updatePackageScope: API.OperationMethod<
-  UpdatePackageScopeRequest,
+  UpdatePackageScopeRequest & RegionInput,
   UpdatePackageScopeResponse,
   UpdatePackageScopeError,
   Credentials | HttpClient.HttpClient
@@ -5391,6 +5591,8 @@ export const updatePackageScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageScope",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageScope",
 }));
 
 export type UpdateScheduledActionError =
@@ -5408,7 +5610,7 @@ export type UpdateScheduledActionError =
  * software update or a blue/green Auto-Tune enhancement.
  */
 export const updateScheduledAction: API.OperationMethod<
-  UpdateScheduledActionRequest,
+  UpdateScheduledActionRequest & RegionInput,
   UpdateScheduledActionResponse,
   UpdateScheduledActionError,
   Credentials | HttpClient.HttpClient
@@ -5427,6 +5629,8 @@ export const updateScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAction",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledAction",
 }));
 
 export type UpdateVpcEndpointError =
@@ -5441,7 +5645,7 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
@@ -5459,6 +5663,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
 
 export type UpgradeDomainError =
@@ -5474,7 +5680,7 @@ export type UpgradeDomainError =
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
 export const upgradeDomain: API.OperationMethod<
-  UpgradeDomainRequest,
+  UpgradeDomainRequest & RegionInput,
   UpgradeDomainResponse,
   UpgradeDomainError,
   Credentials | HttpClient.HttpClient
@@ -5492,6 +5698,8 @@ export const upgradeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeDomain",
+  telemetry: TELEMETRY,
+  span: "UpgradeDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

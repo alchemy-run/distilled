@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -74,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://fis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "fis",
+  service: "fis",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -887,7 +903,7 @@ export type CreateExperimentTemplateError =
  * in the *Fault Injection Service User Guide*.
  */
 export const createExperimentTemplate: API.OperationMethod<
-  CreateExperimentTemplateRequest,
+  CreateExperimentTemplateRequest & RegionInput,
   CreateExperimentTemplateResponse,
   CreateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -903,6 +919,8 @@ export const createExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateExperimentTemplate",
 }));
 
 export type CreateTargetAccountConfigurationError =
@@ -918,7 +936,7 @@ export type CreateTargetAccountConfigurationError =
  * in the *Fault Injection Service User Guide*.
  */
 export const createTargetAccountConfiguration: API.OperationMethod<
-  CreateTargetAccountConfigurationRequest,
+  CreateTargetAccountConfigurationRequest & RegionInput,
   CreateTargetAccountConfigurationResponse,
   CreateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -934,6 +952,8 @@ export const createTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateTargetAccountConfiguration",
 }));
 
 export type DeleteExperimentTemplateError =
@@ -944,7 +964,7 @@ export type DeleteExperimentTemplateError =
  * Deletes the specified experiment template.
  */
 export const deleteExperimentTemplate: API.OperationMethod<
-  DeleteExperimentTemplateRequest,
+  DeleteExperimentTemplateRequest & RegionInput,
   DeleteExperimentTemplateResponse,
   DeleteExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -955,6 +975,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentTemplate",
 }));
 
 export type DeleteTargetAccountConfigurationError =
@@ -965,7 +987,7 @@ export type DeleteTargetAccountConfigurationError =
  * Deletes the specified target account configuration of the experiment template.
  */
 export const deleteTargetAccountConfiguration: API.OperationMethod<
-  DeleteTargetAccountConfigurationRequest,
+  DeleteTargetAccountConfigurationRequest & RegionInput,
   DeleteTargetAccountConfigurationResponse,
   DeleteTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -976,6 +998,8 @@ export const deleteTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetAccountConfiguration",
 }));
 
 export type GetActionError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -983,7 +1007,7 @@ export type GetActionError = ResourceNotFoundException | ValidationException | C
  * Gets information about the specified FIS action.
  */
 export const getAction: API.OperationMethod<
-  GetActionRequest,
+  GetActionRequest & RegionInput,
   GetActionResponse,
   GetActionError,
   Credentials | HttpClient.HttpClient
@@ -994,6 +1018,8 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetExperimentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1001,7 +1027,7 @@ export type GetExperimentError = ResourceNotFoundException | ValidationException
  * Gets information about the specified experiment.
  */
 export const getExperiment: API.OperationMethod<
-  GetExperimentRequest,
+  GetExperimentRequest & RegionInput,
   GetExperimentResponse,
   GetExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1012,6 +1038,8 @@ export const getExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperiment",
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentTargetAccountConfigurationError =
@@ -1022,7 +1050,7 @@ export type GetExperimentTargetAccountConfigurationError =
  * Gets information about the specified target account configuration of the experiment.
  */
 export const getExperimentTargetAccountConfiguration: API.OperationMethod<
-  GetExperimentTargetAccountConfigurationRequest,
+  GetExperimentTargetAccountConfigurationRequest & RegionInput,
   GetExperimentTargetAccountConfigurationResponse,
   GetExperimentTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1033,6 +1061,8 @@ export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetExperimentTargetAccountConfiguration",
 }));
 
 export type GetExperimentTemplateError =
@@ -1043,7 +1073,7 @@ export type GetExperimentTemplateError =
  * Gets information about the specified experiment template.
  */
 export const getExperimentTemplate: API.OperationMethod<
-  GetExperimentTemplateRequest,
+  GetExperimentTemplateRequest & RegionInput,
   GetExperimentTemplateResponse,
   GetExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1054,6 +1084,8 @@ export const getExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "GetExperimentTemplate",
 }));
 
 export type GetSafetyLeverError = ResourceNotFoundException | CommonErrors;
@@ -1061,7 +1093,7 @@ export type GetSafetyLeverError = ResourceNotFoundException | CommonErrors;
  * Gets information about the specified safety lever.
  */
 export const getSafetyLever: API.OperationMethod<
-  GetSafetyLeverRequest,
+  GetSafetyLeverRequest & RegionInput,
   GetSafetyLeverResponse,
   GetSafetyLeverError,
   Credentials | HttpClient.HttpClient
@@ -1072,6 +1104,8 @@ export const getSafetyLever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSafetyLever",
+  telemetry: TELEMETRY,
+  span: "GetSafetyLever",
 }));
 
 export type GetTargetAccountConfigurationError =
@@ -1082,7 +1116,7 @@ export type GetTargetAccountConfigurationError =
  * Gets information about the specified target account configuration of the experiment template.
  */
 export const getTargetAccountConfiguration: API.OperationMethod<
-  GetTargetAccountConfigurationRequest,
+  GetTargetAccountConfigurationRequest & RegionInput,
   GetTargetAccountConfigurationResponse,
   GetTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1093,6 +1127,8 @@ export const getTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTargetAccountConfiguration",
 }));
 
 export type GetTargetResourceTypeError =
@@ -1103,7 +1139,7 @@ export type GetTargetResourceTypeError =
  * Gets information about the specified resource type.
  */
 export const getTargetResourceType: API.OperationMethod<
-  GetTargetResourceTypeRequest,
+  GetTargetResourceTypeRequest & RegionInput,
   GetTargetResourceTypeResponse,
   GetTargetResourceTypeError,
   Credentials | HttpClient.HttpClient
@@ -1114,6 +1150,8 @@ export const getTargetResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetResourceType",
+  telemetry: TELEMETRY,
+  span: "GetTargetResourceType",
 }));
 
 export type ListActionsError = ValidationException | CommonErrors;
@@ -1121,7 +1159,7 @@ export type ListActionsError = ValidationException | CommonErrors;
  * Lists the available FIS actions.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsRequest,
+  ListActionsRequest & RegionInput,
   ListActionsResponse,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1139,6 +1177,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListExperimentResolvedTargetsError =
@@ -1149,7 +1189,7 @@ export type ListExperimentResolvedTargetsError =
  * Lists the resolved targets information of the specified experiment.
  */
 export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
-  ListExperimentResolvedTargetsRequest,
+  ListExperimentResolvedTargetsRequest & RegionInput,
   ListExperimentResolvedTargetsResponse,
   ListExperimentResolvedTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1167,6 +1207,8 @@ export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
     items: "resolvedTargets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentResolvedTargets",
 })) as any;
 
 export type ListExperimentsError = ValidationException | CommonErrors;
@@ -1174,7 +1216,7 @@ export type ListExperimentsError = ValidationException | CommonErrors;
  * Lists your experiments.
  */
 export const listExperiments: API.PaginatedOperationMethod<
-  ListExperimentsRequest,
+  ListExperimentsRequest & RegionInput,
   ListExperimentsResponse,
   ListExperimentsError,
   Credentials | HttpClient.HttpClient,
@@ -1192,6 +1234,8 @@ export const listExperiments: API.PaginatedOperationMethod<
     items: "experiments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 })) as any;
 
 export type ListExperimentTargetAccountConfigurationsError =
@@ -1202,7 +1246,7 @@ export type ListExperimentTargetAccountConfigurationsError =
  * Lists the target account configurations of the specified experiment.
  */
 export const listExperimentTargetAccountConfigurations: API.OperationMethod<
-  ListExperimentTargetAccountConfigurationsRequest,
+  ListExperimentTargetAccountConfigurationsRequest & RegionInput,
   ListExperimentTargetAccountConfigurationsResponse,
   ListExperimentTargetAccountConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -1213,6 +1257,8 @@ export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentTargetAccountConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListExperimentTargetAccountConfigurations",
 }));
 
 export type ListExperimentTemplatesError = ValidationException | CommonErrors;
@@ -1220,7 +1266,7 @@ export type ListExperimentTemplatesError = ValidationException | CommonErrors;
  * Lists your experiment templates.
  */
 export const listExperimentTemplates: API.PaginatedOperationMethod<
-  ListExperimentTemplatesRequest,
+  ListExperimentTemplatesRequest & RegionInput,
   ListExperimentTemplatesResponse,
   ListExperimentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1238,6 +1284,8 @@ export const listExperimentTemplates: API.PaginatedOperationMethod<
     items: "experimentTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentTemplates",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1245,7 +1293,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1256,6 +1304,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetAccountConfigurationsError =
@@ -1266,7 +1316,7 @@ export type ListTargetAccountConfigurationsError =
  * Lists the target account configurations of the specified experiment template.
  */
 export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
-  ListTargetAccountConfigurationsRequest,
+  ListTargetAccountConfigurationsRequest & RegionInput,
   ListTargetAccountConfigurationsResponse,
   ListTargetAccountConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1284,6 +1334,8 @@ export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
     items: "targetAccountConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetAccountConfigurations",
 })) as any;
 
 export type ListTargetResourceTypesError = ValidationException | CommonErrors;
@@ -1291,7 +1343,7 @@ export type ListTargetResourceTypesError = ValidationException | CommonErrors;
  * Lists the target resource types.
  */
 export const listTargetResourceTypes: API.PaginatedOperationMethod<
-  ListTargetResourceTypesRequest,
+  ListTargetResourceTypesRequest & RegionInput,
   ListTargetResourceTypesResponse,
   ListTargetResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1309,6 +1361,8 @@ export const listTargetResourceTypes: API.PaginatedOperationMethod<
     items: "targetResourceTypes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetResourceTypes",
 })) as any;
 
 export type StartExperimentError =
@@ -1321,7 +1375,7 @@ export type StartExperimentError =
  * Starts running an experiment from the specified experiment template.
  */
 export const startExperiment: API.OperationMethod<
-  StartExperimentRequest,
+  StartExperimentRequest & RegionInput,
   StartExperimentResponse,
   StartExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1391,8 @@ export const startExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperiment",
+  telemetry: TELEMETRY,
+  span: "StartExperiment",
 }));
 
 export type StopExperimentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1344,7 +1400,7 @@ export type StopExperimentError = ResourceNotFoundException | ValidationExceptio
  * Stops the specified experiment.
  */
 export const stopExperiment: API.OperationMethod<
-  StopExperimentRequest,
+  StopExperimentRequest & RegionInput,
   StopExperimentResponse,
   StopExperimentError,
   Credentials | HttpClient.HttpClient
@@ -1355,6 +1411,8 @@ export const stopExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperiment",
+  telemetry: TELEMETRY,
+  span: "StopExperiment",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -1362,7 +1420,7 @@ export type TagResourceError = CommonErrors;
  * Applies the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1373,6 +1431,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -1380,7 +1440,7 @@ export type UntagResourceError = CommonErrors;
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1391,6 +1451,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateExperimentTemplateError =
@@ -1402,7 +1464,7 @@ export type UpdateExperimentTemplateError =
  * Updates the specified experiment template.
  */
 export const updateExperimentTemplate: API.OperationMethod<
-  UpdateExperimentTemplateRequest,
+  UpdateExperimentTemplateRequest & RegionInput,
   UpdateExperimentTemplateResponse,
   UpdateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1413,6 +1475,8 @@ export const updateExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentTemplate",
 }));
 
 export type UpdateSafetyLeverStateError =
@@ -1424,7 +1488,7 @@ export type UpdateSafetyLeverStateError =
  * Updates the specified safety lever state.
  */
 export const updateSafetyLeverState: API.OperationMethod<
-  UpdateSafetyLeverStateRequest,
+  UpdateSafetyLeverStateRequest & RegionInput,
   UpdateSafetyLeverStateResponse,
   UpdateSafetyLeverStateError,
   Credentials | HttpClient.HttpClient
@@ -1435,6 +1499,8 @@ export const updateSafetyLeverState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyLeverState",
+  telemetry: TELEMETRY,
+  span: "UpdateSafetyLeverState",
 }));
 
 export type UpdateTargetAccountConfigurationError =
@@ -1445,7 +1511,7 @@ export type UpdateTargetAccountConfigurationError =
  * Updates the target account configuration for the specified experiment template.
  */
 export const updateTargetAccountConfiguration: API.OperationMethod<
-  UpdateTargetAccountConfigurationRequest,
+  UpdateTargetAccountConfigurationRequest & RegionInput,
   UpdateTargetAccountConfigurationResponse,
   UpdateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1456,6 +1522,8 @@ export const updateTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetAccountConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

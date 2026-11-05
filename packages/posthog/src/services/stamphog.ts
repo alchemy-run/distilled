@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Stamphog",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `all` - all * `label` - label */
 export type ReviewModeEnum = "all" | "label";
 export interface CreateStamphogRepoConfigRequest {
@@ -461,6 +474,8 @@ export const createStamphogRepoConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStamphogRepoConfig",
 }));
 
 export type CreateStamphogRepoConfigsSyncInstallationError = PosthogOpError;
@@ -476,6 +491,8 @@ export const createStamphogRepoConfigsSyncInstallation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStamphogRepoConfigsSyncInstallation",
 }));
 
 export type CreateStamphogReviewRunError = PosthogOpError;
@@ -491,6 +508,8 @@ export const createStamphogReviewRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStamphogReviewRun",
 }));
 
 export type GetStamphogDigestRunError = PosthogOpError;
@@ -506,6 +525,8 @@ export const getStamphogDigestRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogDigestRun",
 }));
 
 export type GetStamphogPullRequestError = PosthogOpError;
@@ -521,6 +542,8 @@ export const getStamphogPullRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogPullRequest",
 }));
 
 export type GetStamphogRepoConfigError = PosthogOpError;
@@ -536,6 +559,8 @@ export const getStamphogRepoConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogRepoConfig",
 }));
 
 export type GetStamphogRepoConfigsAvailableRepositoryError = PosthogOpError;
@@ -551,6 +576,8 @@ export const getStamphogRepoConfigsAvailableRepository: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogRepoConfigsAvailableRepository",
 }));
 
 export type GetStamphogReviewRunError = PosthogOpError;
@@ -566,6 +593,8 @@ export const getStamphogReviewRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStamphogReviewRun",
 }));
 
 export type ListStamphogDigestRunsError = PosthogOpError;
@@ -581,6 +610,8 @@ export const listStamphogDigestRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStamphogDigestRuns",
 }));
 
 export type ListStamphogPullRequestsError = PosthogOpError;
@@ -596,6 +627,8 @@ export const listStamphogPullRequests: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStamphogPullRequests",
 }));
 
 export type ListStamphogRepoConfigsError = PosthogOpError;
@@ -611,6 +644,8 @@ export const listStamphogRepoConfigs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStamphogRepoConfigs",
 }));
 
 export type ListStamphogReviewRunsError = PosthogOpError;
@@ -626,6 +661,8 @@ export const listStamphogReviewRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStamphogReviewRuns",
 }));
 
 export type StamphogRepoConfigsAddRepositoryCreateError = PosthogOpError;
@@ -641,6 +678,8 @@ export const stamphogRepoConfigsAddRepositoryCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StamphogRepoConfigsAddRepositoryCreate",
 }));
 
 export type StamphogRepoConfigsDestroyError = PosthogOpError;
@@ -656,6 +695,8 @@ export const stamphogRepoConfigsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StamphogRepoConfigsDestroy",
 }));
 
 export type StamphogRepoConfigsInstallInfoRetrieveError = PosthogOpError;
@@ -671,6 +712,8 @@ export const stamphogRepoConfigsInstallInfoRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StamphogRepoConfigsInstallInfoRetrieve",
 }));
 
 export type UpdateStamphogRepoConfigError = PosthogOpError;
@@ -686,6 +729,8 @@ export const updateStamphogRepoConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStamphogRepoConfig",
 }));
 
 export type UpdateStamphogRepoConfigsPartialError = PosthogOpError;
@@ -701,6 +746,8 @@ export const updateStamphogRepoConfigsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStamphogRepoConfigsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

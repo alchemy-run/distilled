@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://social-messaging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SocialMessaging",
+  service: "SocialMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedByMetaException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedByMetaException>()(
@@ -811,7 +827,7 @@ export type AssociateWhatsAppBusinessAccountError =
  * This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
  */
 export const associateWhatsAppBusinessAccount: API.OperationMethod<
-  AssociateWhatsAppBusinessAccountInput,
+  AssociateWhatsAppBusinessAccountInput & RegionInput,
   AssociateWhatsAppBusinessAccountOutput,
   AssociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -827,6 +843,8 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateWhatsAppBusinessAccount",
 }));
 
 export type CreateWhatsAppDatasetError =
@@ -841,7 +859,7 @@ export type CreateWhatsAppDatasetError =
  * Creates a Meta Conversions API dataset for a WhatsApp Business Account.
  */
 export const createWhatsAppDataset: API.OperationMethod<
-  CreateWhatsAppDatasetInput,
+  CreateWhatsAppDatasetInput & RegionInput,
   CreateWhatsAppDatasetOutput,
   CreateWhatsAppDatasetError,
   Credentials | HttpClient.HttpClient
@@ -859,6 +877,8 @@ export const createWhatsAppDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppDataset",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppDataset",
 }));
 
 export type CreateWhatsAppFlowError =
@@ -875,7 +895,7 @@ export type CreateWhatsAppFlowError =
  * is set to `true` and a valid `flowJson` is provided, the Flow is published immediately.
  */
 export const createWhatsAppFlow: API.OperationMethod<
-  CreateWhatsAppFlowInput,
+  CreateWhatsAppFlowInput & RegionInput,
   CreateWhatsAppFlowOutput,
   CreateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -893,6 +913,8 @@ export const createWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppFlow",
 }));
 
 export type CreateWhatsAppMessageTemplateError =
@@ -909,7 +931,7 @@ export type CreateWhatsAppMessageTemplateError =
  * Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
  */
 export const createWhatsAppMessageTemplate: API.OperationMethod<
-  CreateWhatsAppMessageTemplateInput,
+  CreateWhatsAppMessageTemplateInput & RegionInput,
   CreateWhatsAppMessageTemplateOutput,
   CreateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -927,6 +949,8 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplate",
 }));
 
 export type CreateWhatsAppMessageTemplateFromLibraryError =
@@ -941,7 +965,7 @@ export type CreateWhatsAppMessageTemplateFromLibraryError =
  * Creates a new WhatsApp message template using a template from Meta's template library.
  */
 export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
-  CreateWhatsAppMessageTemplateFromLibraryInput,
+  CreateWhatsAppMessageTemplateFromLibraryInput & RegionInput,
   CreateWhatsAppMessageTemplateFromLibraryOutput,
   CreateWhatsAppMessageTemplateFromLibraryError,
   Credentials | HttpClient.HttpClient
@@ -959,6 +983,8 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateFromLibrary",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplateFromLibrary",
 }));
 
 export type CreateWhatsAppMessageTemplateMediaError =
@@ -973,7 +999,7 @@ export type CreateWhatsAppMessageTemplateMediaError =
  * Uploads media for use in a WhatsApp message template.
  */
 export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
-  CreateWhatsAppMessageTemplateMediaInput,
+  CreateWhatsAppMessageTemplateMediaInput & RegionInput,
   CreateWhatsAppMessageTemplateMediaOutput,
   CreateWhatsAppMessageTemplateMediaError,
   Credentials | HttpClient.HttpClient
@@ -991,6 +1017,8 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateMedia",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplateMedia",
 }));
 
 export type DeleteWhatsAppFlowError =
@@ -1005,7 +1033,7 @@ export type DeleteWhatsAppFlowError =
  * Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.
  */
 export const deleteWhatsAppFlow: API.OperationMethod<
-  DeleteWhatsAppFlowInput,
+  DeleteWhatsAppFlowInput & RegionInput,
   DeleteWhatsAppFlowOutput,
   DeleteWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1023,6 +1051,8 @@ export const deleteWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppFlow",
 }));
 
 export type DeleteWhatsAppMessageMediaError =
@@ -1037,7 +1067,7 @@ export type DeleteWhatsAppMessageMediaError =
  * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
  */
 export const deleteWhatsAppMessageMedia: API.OperationMethod<
-  DeleteWhatsAppMessageMediaInput,
+  DeleteWhatsAppMessageMediaInput & RegionInput,
   DeleteWhatsAppMessageMediaOutput,
   DeleteWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1055,6 +1085,8 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppMessageMedia",
 }));
 
 export type DeleteWhatsAppMessageTemplateError =
@@ -1069,7 +1101,7 @@ export type DeleteWhatsAppMessageTemplateError =
  * Deletes a WhatsApp message template.
  */
 export const deleteWhatsAppMessageTemplate: API.OperationMethod<
-  DeleteWhatsAppMessageTemplateInput,
+  DeleteWhatsAppMessageTemplateInput & RegionInput,
   DeleteWhatsAppMessageTemplateOutput,
   DeleteWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1087,6 +1119,8 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppMessageTemplate",
 }));
 
 export type DeprecateWhatsAppFlowError =
@@ -1101,7 +1135,7 @@ export type DeprecateWhatsAppFlowError =
  * Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.
  */
 export const deprecateWhatsAppFlow: API.OperationMethod<
-  DeprecateWhatsAppFlowInput,
+  DeprecateWhatsAppFlowInput & RegionInput,
   DeprecateWhatsAppFlowOutput,
   DeprecateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1119,6 +1153,8 @@ export const deprecateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "DeprecateWhatsAppFlow",
 }));
 
 export type DisassociateWhatsAppBusinessAccountError =
@@ -1131,7 +1167,7 @@ export type DisassociateWhatsAppBusinessAccountError =
  * Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
  */
 export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
-  DisassociateWhatsAppBusinessAccountInput,
+  DisassociateWhatsAppBusinessAccountInput & RegionInput,
   DisassociateWhatsAppBusinessAccountOutput,
   DisassociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -1147,6 +1183,8 @@ export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateWhatsAppBusinessAccount",
 }));
 
 export type GetLinkedWhatsAppBusinessAccountError =
@@ -1160,7 +1198,7 @@ export type GetLinkedWhatsAppBusinessAccountError =
  * Get the details of your linked WhatsApp Business Account.
  */
 export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
-  GetLinkedWhatsAppBusinessAccountInput,
+  GetLinkedWhatsAppBusinessAccountInput & RegionInput,
   GetLinkedWhatsAppBusinessAccountOutput,
   GetLinkedWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
@@ -1177,6 +1215,8 @@ export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "GetLinkedWhatsAppBusinessAccount",
 }));
 
 export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
@@ -1190,7 +1230,7 @@ export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
  * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
  */
 export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
-  GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  GetLinkedWhatsAppBusinessAccountPhoneNumberInput & RegionInput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1207,6 +1247,8 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
 export type GetWhatsAppBusinessPublicKeyError =
@@ -1222,7 +1264,7 @@ export type GetWhatsAppBusinessPublicKeyError =
  * Retrieves the business public key for a phone number and its signature status.
  */
 export const getWhatsAppBusinessPublicKey: API.OperationMethod<
-  GetWhatsAppBusinessPublicKeyInput,
+  GetWhatsAppBusinessPublicKeyInput & RegionInput,
   GetWhatsAppBusinessPublicKeyOutput,
   GetWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1241,6 +1283,8 @@ export const getWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppBusinessPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppBusinessPublicKey",
 }));
 
 export type GetWhatsAppCallPermissionError =
@@ -1255,7 +1299,7 @@ export type GetWhatsAppCallPermissionError =
  * Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
  */
 export const getWhatsAppCallPermission: API.OperationMethod<
-  GetWhatsAppCallPermissionInput,
+  GetWhatsAppCallPermissionInput & RegionInput,
   GetWhatsAppCallPermissionOutput,
   GetWhatsAppCallPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1273,6 +1317,8 @@ export const getWhatsAppCallPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppCallPermission",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppCallPermission",
 }));
 
 export type GetWhatsAppFlowError =
@@ -1287,7 +1333,7 @@ export type GetWhatsAppFlowError =
  * Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
  */
 export const getWhatsAppFlow: API.OperationMethod<
-  GetWhatsAppFlowInput,
+  GetWhatsAppFlowInput & RegionInput,
   GetWhatsAppFlowOutput,
   GetWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1305,6 +1351,8 @@ export const getWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppFlow",
 }));
 
 export type GetWhatsAppFlowPreviewError =
@@ -1319,7 +1367,7 @@ export type GetWhatsAppFlowPreviewError =
  * Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.
  */
 export const getWhatsAppFlowPreview: API.OperationMethod<
-  GetWhatsAppFlowPreviewInput,
+  GetWhatsAppFlowPreviewInput & RegionInput,
   GetWhatsAppFlowPreviewOutput,
   GetWhatsAppFlowPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1385,8 @@ export const getWhatsAppFlowPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlowPreview",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppFlowPreview",
 }));
 
 export type GetWhatsAppMessageMediaError =
@@ -1355,7 +1405,7 @@ export type GetWhatsAppMessageMediaError =
  * returned.
  */
 export const getWhatsAppMessageMedia: API.OperationMethod<
-  GetWhatsAppMessageMediaInput,
+  GetWhatsAppMessageMediaInput & RegionInput,
   GetWhatsAppMessageMediaOutput,
   GetWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1373,6 +1423,8 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageMedia",
 }));
 
 export type GetWhatsAppMessageTemplateError =
@@ -1387,7 +1439,7 @@ export type GetWhatsAppMessageTemplateError =
  * Retrieves a specific WhatsApp message template.
  */
 export const getWhatsAppMessageTemplate: API.OperationMethod<
-  GetWhatsAppMessageTemplateInput,
+  GetWhatsAppMessageTemplateInput & RegionInput,
   GetWhatsAppMessageTemplateOutput,
   GetWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1405,6 +1457,8 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageTemplate",
 }));
 
 export type ListLinkedWhatsAppBusinessAccountsError =
@@ -1417,7 +1471,7 @@ export type ListLinkedWhatsAppBusinessAccountsError =
  * List all WhatsApp Business Accounts linked to your Amazon Web Services account.
  */
 export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
-  ListLinkedWhatsAppBusinessAccountsInput,
+  ListLinkedWhatsAppBusinessAccountsInput & RegionInput,
   ListLinkedWhatsAppBusinessAccountsOutput,
   ListLinkedWhatsAppBusinessAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1440,6 +1494,8 @@ export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
     items: "linkedAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinkedWhatsAppBusinessAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1451,7 +1507,7 @@ export type ListTagsForResourceError =
  * List all tags associated with a resource, such as a phone number or WABA.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1462,6 +1518,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWhatsAppFlowAssetsError =
@@ -1476,7 +1534,7 @@ export type ListWhatsAppFlowAssetsError =
  * Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.
  */
 export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
-  ListWhatsAppFlowAssetsInput,
+  ListWhatsAppFlowAssetsInput & RegionInput,
   ListWhatsAppFlowAssetsOutput,
   ListWhatsAppFlowAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1501,6 +1559,8 @@ export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
     items: "flowAssets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppFlowAssets",
 })) as any;
 
 export type ListWhatsAppFlowsError =
@@ -1515,7 +1575,7 @@ export type ListWhatsAppFlowsError =
  * Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.
  */
 export const listWhatsAppFlows: API.PaginatedOperationMethod<
-  ListWhatsAppFlowsInput,
+  ListWhatsAppFlowsInput & RegionInput,
   ListWhatsAppFlowsOutput,
   ListWhatsAppFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -1540,6 +1600,8 @@ export const listWhatsAppFlows: API.PaginatedOperationMethod<
     items: "flows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppFlows",
 })) as any;
 
 export type ListWhatsAppMessageTemplatesError =
@@ -1554,7 +1616,7 @@ export type ListWhatsAppMessageTemplatesError =
  * Lists WhatsApp message templates for a specific WhatsApp Business Account.
  */
 export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
-  ListWhatsAppMessageTemplatesInput,
+  ListWhatsAppMessageTemplatesInput & RegionInput,
   ListWhatsAppMessageTemplatesOutput,
   ListWhatsAppMessageTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1579,6 +1641,8 @@ export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppMessageTemplates",
 })) as any;
 
 export type ListWhatsAppTemplateLibraryError =
@@ -1593,7 +1657,7 @@ export type ListWhatsAppTemplateLibraryError =
  * Lists templates available in Meta's template library for WhatsApp messaging.
  */
 export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
-  ListWhatsAppTemplateLibraryInput,
+  ListWhatsAppTemplateLibraryInput & RegionInput,
   ListWhatsAppTemplateLibraryOutput,
   ListWhatsAppTemplateLibraryError,
   Credentials | HttpClient.HttpClient,
@@ -1618,6 +1682,8 @@ export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
     items: "metaLibraryTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppTemplateLibrary",
 })) as any;
 
 export type PostWhatsAppMessageMediaError =
@@ -1636,7 +1702,7 @@ export type PostWhatsAppMessageMediaError =
  * `InvalidParameterException` is returned.
  */
 export const postWhatsAppMessageMedia: API.OperationMethod<
-  PostWhatsAppMessageMediaInput,
+  PostWhatsAppMessageMediaInput & RegionInput,
   PostWhatsAppMessageMediaOutput,
   PostWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
@@ -1654,6 +1720,8 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "PostWhatsAppMessageMedia",
 }));
 
 export type PublishWhatsAppFlowError =
@@ -1668,7 +1736,7 @@ export type PublishWhatsAppFlowError =
  * Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.
  */
 export const publishWhatsAppFlow: API.OperationMethod<
-  PublishWhatsAppFlowInput,
+  PublishWhatsAppFlowInput & RegionInput,
   PublishWhatsAppFlowOutput,
   PublishWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1686,6 +1754,8 @@ export const publishWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "PublishWhatsAppFlow",
 }));
 
 export type PutWhatsAppBusinessAccountEventDestinationsError =
@@ -1697,7 +1767,7 @@ export type PutWhatsAppBusinessAccountEventDestinationsError =
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
  */
 export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
-  PutWhatsAppBusinessAccountEventDestinationsInput,
+  PutWhatsAppBusinessAccountEventDestinationsInput & RegionInput,
   PutWhatsAppBusinessAccountEventDestinationsOutput,
   PutWhatsAppBusinessAccountEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -1708,6 +1778,8 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
+  telemetry: TELEMETRY,
+  span: "PutWhatsAppBusinessAccountEventDestinations",
 }));
 
 export type PutWhatsAppBusinessPublicKeyError =
@@ -1723,7 +1795,7 @@ export type PutWhatsAppBusinessPublicKeyError =
  * Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
  */
 export const putWhatsAppBusinessPublicKey: API.OperationMethod<
-  PutWhatsAppBusinessPublicKeyInput,
+  PutWhatsAppBusinessPublicKeyInput & RegionInput,
   PutWhatsAppBusinessPublicKeyOutput,
   PutWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
@@ -1742,6 +1814,8 @@ export const putWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessPublicKey",
+  telemetry: TELEMETRY,
+  span: "PutWhatsAppBusinessPublicKey",
 }));
 
 export type SendWhatsAppCallEventError =
@@ -1757,7 +1831,7 @@ export type SendWhatsAppCallEventError =
  * Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
  */
 export const sendWhatsAppCallEvent: API.OperationMethod<
-  SendWhatsAppCallEventInput,
+  SendWhatsAppCallEventInput & RegionInput,
   SendWhatsAppCallEventOutput,
   SendWhatsAppCallEventError,
   Credentials | HttpClient.HttpClient
@@ -1776,6 +1850,8 @@ export const sendWhatsAppCallEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppCallEvent",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppCallEvent",
 }));
 
 export type SendWhatsAppConversionEventError =
@@ -1790,7 +1866,7 @@ export type SendWhatsAppConversionEventError =
  * Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
  */
 export const sendWhatsAppConversionEvent: API.OperationMethod<
-  SendWhatsAppConversionEventInput,
+  SendWhatsAppConversionEventInput & RegionInput,
   SendWhatsAppConversionEventOutput,
   SendWhatsAppConversionEventError,
   Credentials | HttpClient.HttpClient
@@ -1808,6 +1884,8 @@ export const sendWhatsAppConversionEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppConversionEvent",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppConversionEvent",
 }));
 
 export type SendWhatsAppMessageError =
@@ -1826,7 +1904,7 @@ export type SendWhatsAppMessageError =
  * .
  */
 export const sendWhatsAppMessage: API.OperationMethod<
-  SendWhatsAppMessageInput,
+  SendWhatsAppMessageInput & RegionInput,
   SendWhatsAppMessageOutput,
   SendWhatsAppMessageError,
   Credentials | HttpClient.HttpClient
@@ -1844,6 +1922,8 @@ export const sendWhatsAppMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppMessage",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppMessage",
 }));
 
 export type TagResourceError =
@@ -1856,7 +1936,7 @@ export type TagResourceError =
  * an existing tag key, the value is overwritten with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1867,6 +1947,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1878,7 +1960,7 @@ export type UntagResourceError =
  * Removes the specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1889,6 +1971,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
@@ -1903,7 +1987,7 @@ export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
  * Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
  */
 export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
-  UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput,
+  UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput & RegionInput,
   UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   UpdateLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1925,6 +2009,8 @@ export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
 export type UpdateWhatsAppFlowError =
@@ -1939,7 +2025,7 @@ export type UpdateWhatsAppFlowError =
  * Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
  */
 export const updateWhatsAppFlow: API.OperationMethod<
-  UpdateWhatsAppFlowInput,
+  UpdateWhatsAppFlowInput & RegionInput,
   UpdateWhatsAppFlowOutput,
   UpdateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
@@ -1957,6 +2043,8 @@ export const updateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppFlow",
 }));
 
 export type UpdateWhatsAppFlowAssetsError =
@@ -1971,7 +2059,7 @@ export type UpdateWhatsAppFlowAssetsError =
  * Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.
  */
 export const updateWhatsAppFlowAssets: API.OperationMethod<
-  UpdateWhatsAppFlowAssetsInput,
+  UpdateWhatsAppFlowAssetsInput & RegionInput,
   UpdateWhatsAppFlowAssetsOutput,
   UpdateWhatsAppFlowAssetsError,
   Credentials | HttpClient.HttpClient
@@ -1989,6 +2077,8 @@ export const updateWhatsAppFlowAssets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlowAssets",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppFlowAssets",
 }));
 
 export type UpdateWhatsAppMessageTemplateError =
@@ -2003,7 +2093,7 @@ export type UpdateWhatsAppMessageTemplateError =
  * Updates an existing WhatsApp message template.
  */
 export const updateWhatsAppMessageTemplate: API.OperationMethod<
-  UpdateWhatsAppMessageTemplateInput,
+  UpdateWhatsAppMessageTemplateInput & RegionInput,
   UpdateWhatsAppMessageTemplateOutput,
   UpdateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2111,8 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppMessageTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -81,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticache.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElastiCache",
+  service: "ElastiCache",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class APICallRateForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<APICallRateForCustomerExceededFault>()(
@@ -2410,7 +2427,7 @@ export type AddTagsToResourceError =
  * Guide.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceMessage,
+  AddTagsToResourceMessage & RegionInput,
   TagListMessage,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -2440,6 +2457,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type AuthorizeCacheSecurityGroupIngressError =
@@ -2458,7 +2477,7 @@ export type AuthorizeCacheSecurityGroupIngressError =
  * ElastiCache cluster in another region.
  */
 export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
-  AuthorizeCacheSecurityGroupIngressMessage,
+  AuthorizeCacheSecurityGroupIngressMessage & RegionInput,
   AuthorizeCacheSecurityGroupIngressResult,
   AuthorizeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -2475,6 +2494,8 @@ export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeCacheSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "AuthorizeCacheSecurityGroupIngress",
 }));
 
 export type BatchApplyUpdateActionError =
@@ -2487,7 +2508,7 @@ export type BatchApplyUpdateActionError =
  * Updates.
  */
 export const batchApplyUpdateAction: API.OperationMethod<
-  BatchApplyUpdateActionMessage,
+  BatchApplyUpdateActionMessage & RegionInput,
   UpdateActionResultsMessage,
   BatchApplyUpdateActionError,
   Credentials | HttpClient.HttpClient
@@ -2498,6 +2519,8 @@ export const batchApplyUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchApplyUpdateAction",
+  telemetry: TELEMETRY,
+  span: "BatchApplyUpdateAction",
 }));
 
 export type BatchStopUpdateActionError =
@@ -2510,7 +2533,7 @@ export type BatchStopUpdateActionError =
  * Service Updates.
  */
 export const batchStopUpdateAction: API.OperationMethod<
-  BatchStopUpdateActionMessage,
+  BatchStopUpdateActionMessage & RegionInput,
   UpdateActionResultsMessage,
   BatchStopUpdateActionError,
   Credentials | HttpClient.HttpClient
@@ -2521,6 +2544,8 @@ export const batchStopUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStopUpdateAction",
+  telemetry: TELEMETRY,
+  span: "BatchStopUpdateAction",
 }));
 
 export type CompleteMigrationError =
@@ -2532,7 +2557,7 @@ export type CompleteMigrationError =
  * Complete the migration of data.
  */
 export const completeMigration: API.OperationMethod<
-  CompleteMigrationMessage,
+  CompleteMigrationMessage & RegionInput,
   CompleteMigrationResponse,
   CompleteMigrationError,
   Credentials | HttpClient.HttpClient
@@ -2547,6 +2572,8 @@ export const completeMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMigration",
+  telemetry: TELEMETRY,
+  span: "CompleteMigration",
 }));
 
 export type CopyServerlessCacheSnapshotError =
@@ -2563,7 +2590,7 @@ export type CopyServerlessCacheSnapshotError =
  * Creates a copy of an existing serverless cache's snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const copyServerlessCacheSnapshot: API.OperationMethod<
-  CopyServerlessCacheSnapshotRequest,
+  CopyServerlessCacheSnapshotRequest & RegionInput,
   CopyServerlessCacheSnapshotResponse,
   CopyServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2583,6 +2610,8 @@ export const copyServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyServerlessCacheSnapshot",
 }));
 
 export type CopySnapshotError =
@@ -2668,7 +2697,7 @@ export type CopySnapshotError =
  * ElastiCache User Guide.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotMessage,
+  CopySnapshotMessage & RegionInput,
   CopySnapshotResult,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2687,6 +2716,8 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  telemetry: TELEMETRY,
+  span: "CopySnapshot",
 }));
 
 export type CreateCacheClusterError =
@@ -2712,7 +2743,7 @@ export type CreateCacheClusterError =
  * This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
  */
 export const createCacheCluster: API.OperationMethod<
-  CreateCacheClusterMessage,
+  CreateCacheClusterMessage & RegionInput,
   CreateCacheClusterResult,
   CreateCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -2738,6 +2769,8 @@ export const createCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCacheCluster",
 }));
 
 export type CreateCacheParameterGroupError =
@@ -2764,7 +2797,7 @@ export type CreateCacheParameterGroupError =
  * Parameter Groups in the ElastiCache User Guide.
  */
 export const createCacheParameterGroup: API.OperationMethod<
-  CreateCacheParameterGroupMessage,
+  CreateCacheParameterGroupMessage & RegionInput,
   CreateCacheParameterGroupResult,
   CreateCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -2782,6 +2815,8 @@ export const createCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheParameterGroup",
 }));
 
 export type CreateCacheSecurityGroupError =
@@ -2800,7 +2835,7 @@ export type CreateCacheSecurityGroupError =
  * VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
  */
 export const createCacheSecurityGroup: API.OperationMethod<
-  CreateCacheSecurityGroupMessage,
+  CreateCacheSecurityGroupMessage & RegionInput,
   CreateCacheSecurityGroupResult,
   CreateCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -2817,6 +2852,8 @@ export const createCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheSecurityGroup",
 }));
 
 export type CreateCacheSubnetGroupError =
@@ -2834,7 +2871,7 @@ export type CreateCacheSubnetGroupError =
  * Cloud (Amazon VPC).
  */
 export const createCacheSubnetGroup: API.OperationMethod<
-  CreateCacheSubnetGroupMessage,
+  CreateCacheSubnetGroupMessage & RegionInput,
   CreateCacheSubnetGroupResult,
   CreateCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2852,6 +2889,8 @@ export const createCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheSubnetGroup",
 }));
 
 export type CreateGlobalReplicationGroupError =
@@ -2877,7 +2916,7 @@ export type CreateGlobalReplicationGroupError =
  * the secondary cluster.
  */
 export const createGlobalReplicationGroup: API.OperationMethod<
-  CreateGlobalReplicationGroupMessage,
+  CreateGlobalReplicationGroupMessage & RegionInput,
   CreateGlobalReplicationGroupResult,
   CreateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -2895,6 +2934,8 @@ export const createGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalReplicationGroup",
 }));
 
 export type CreateReplicationGroupError =
@@ -2956,7 +2997,7 @@ export type CreateReplicationGroupError =
  * This operation is valid for Valkey and Redis OSS only.
  */
 export const createReplicationGroup: API.OperationMethod<
-  CreateReplicationGroupMessage,
+  CreateReplicationGroupMessage & RegionInput,
   CreateReplicationGroupResult,
   CreateReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -2987,6 +3028,8 @@ export const createReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationGroup",
 }));
 
 export type CreateServerlessCacheError =
@@ -3006,7 +3049,7 @@ export type CreateServerlessCacheError =
  * Creates a serverless cache.
  */
 export const createServerlessCache: API.OperationMethod<
-  CreateServerlessCacheRequest,
+  CreateServerlessCacheRequest & RegionInput,
   CreateServerlessCacheResponse,
   CreateServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -3029,6 +3072,8 @@ export const createServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCache",
+  telemetry: TELEMETRY,
+  span: "CreateServerlessCache",
 }));
 
 export type CreateServerlessCacheSnapshotError =
@@ -3045,7 +3090,7 @@ export type CreateServerlessCacheSnapshotError =
  * This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const createServerlessCacheSnapshot: API.OperationMethod<
-  CreateServerlessCacheSnapshotRequest,
+  CreateServerlessCacheSnapshotRequest & RegionInput,
   CreateServerlessCacheSnapshotResponse,
   CreateServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3065,6 +3110,8 @@ export const createServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateServerlessCacheSnapshot",
 }));
 
 export type CreateSnapshotError =
@@ -3086,7 +3133,7 @@ export type CreateSnapshotError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotMessage,
+  CreateSnapshotMessage & RegionInput,
   CreateSnapshotResult,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3108,6 +3155,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateUserError =
@@ -3124,7 +3173,7 @@ export type CreateUserError =
  * Using Role Based Access Control (RBAC).
  */
 export const createUser: API.OperationMethod<
-  CreateUserMessage,
+  CreateUserMessage & RegionInput,
   User,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -3143,6 +3192,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserGroupError =
@@ -3160,7 +3211,7 @@ export type CreateUserGroupError =
  * information, see Using Role Based Access Control (RBAC)
  */
 export const createUserGroup: API.OperationMethod<
-  CreateUserGroupMessage,
+  CreateUserGroupMessage & RegionInput,
   UserGroup,
   CreateUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -3180,6 +3231,8 @@ export const createUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserGroup",
+  telemetry: TELEMETRY,
+  span: "CreateUserGroup",
 }));
 
 export type DecreaseNodeGroupsInGlobalReplicationGroupError =
@@ -3192,7 +3245,7 @@ export type DecreaseNodeGroupsInGlobalReplicationGroupError =
  * Decreases the number of node groups in a Global datastore
  */
 export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
-  DecreaseNodeGroupsInGlobalReplicationGroupMessage,
+  DecreaseNodeGroupsInGlobalReplicationGroupMessage & RegionInput,
   DecreaseNodeGroupsInGlobalReplicationGroupResult,
   DecreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3208,6 +3261,8 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseNodeGroupsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DecreaseNodeGroupsInGlobalReplicationGroup",
 }));
 
 export type DecreaseReplicaCountError =
@@ -3231,7 +3286,7 @@ export type DecreaseReplicaCountError =
  * cluster down time.
  */
 export const decreaseReplicaCount: API.OperationMethod<
-  DecreaseReplicaCountMessage,
+  DecreaseReplicaCountMessage & RegionInput,
   DecreaseReplicaCountResult,
   DecreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
@@ -3255,6 +3310,8 @@ export const decreaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicaCount",
+  telemetry: TELEMETRY,
+  span: "DecreaseReplicaCount",
 }));
 
 export type DeleteCacheClusterError =
@@ -3289,7 +3346,7 @@ export type DeleteCacheClusterError =
  * - A cluster that is not in the `available` state
  */
 export const deleteCacheCluster: API.OperationMethod<
-  DeleteCacheClusterMessage,
+  DeleteCacheClusterMessage & RegionInput,
   DeleteCacheClusterResult,
   DeleteCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -3308,6 +3365,8 @@ export const deleteCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheCluster",
 }));
 
 export type DeleteCacheParameterGroupError =
@@ -3322,7 +3381,7 @@ export type DeleteCacheParameterGroupError =
  * parameter groups in your account.
  */
 export const deleteCacheParameterGroup: API.OperationMethod<
-  DeleteCacheParameterGroupMessage,
+  DeleteCacheParameterGroupMessage & RegionInput,
   DeleteCacheParameterGroupResponse,
   DeleteCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -3338,6 +3397,8 @@ export const deleteCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheParameterGroup",
 }));
 
 export type DeleteCacheSecurityGroupError =
@@ -3353,7 +3414,7 @@ export type DeleteCacheSecurityGroupError =
  * clusters.
  */
 export const deleteCacheSecurityGroup: API.OperationMethod<
-  DeleteCacheSecurityGroupMessage,
+  DeleteCacheSecurityGroupMessage & RegionInput,
   DeleteCacheSecurityGroupResponse,
   DeleteCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -3369,6 +3430,8 @@ export const deleteCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheSecurityGroup",
 }));
 
 export type DeleteCacheSubnetGroupError =
@@ -3382,7 +3445,7 @@ export type DeleteCacheSubnetGroupError =
  * clusters.
  */
 export const deleteCacheSubnetGroup: API.OperationMethod<
-  DeleteCacheSubnetGroupMessage,
+  DeleteCacheSubnetGroupMessage & RegionInput,
   DeleteCacheSubnetGroupResponse,
   DeleteCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3393,6 +3456,8 @@ export const deleteCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheSubnetGroup",
 }));
 
 export type DeleteGlobalReplicationGroupError =
@@ -3422,7 +3487,7 @@ export type DeleteGlobalReplicationGroupError =
  * operation.
  */
 export const deleteGlobalReplicationGroup: API.OperationMethod<
-  DeleteGlobalReplicationGroupMessage,
+  DeleteGlobalReplicationGroupMessage & RegionInput,
   DeleteGlobalReplicationGroupResult,
   DeleteGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3437,6 +3502,8 @@ export const deleteGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalReplicationGroup",
 }));
 
 export type DeleteReplicationGroupError =
@@ -3465,7 +3532,7 @@ export type DeleteReplicationGroupError =
  * - This operation is valid for Redis OSS only.
  */
 export const deleteReplicationGroup: API.OperationMethod<
-  DeleteReplicationGroupMessage,
+  DeleteReplicationGroupMessage & RegionInput,
   DeleteReplicationGroupResult,
   DeleteReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -3484,6 +3551,8 @@ export const deleteReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationGroup",
 }));
 
 export type DeleteServerlessCacheError =
@@ -3502,7 +3571,7 @@ export type DeleteServerlessCacheError =
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
 export const deleteServerlessCache: API.OperationMethod<
-  DeleteServerlessCacheRequest,
+  DeleteServerlessCacheRequest & RegionInput,
   DeleteServerlessCacheResponse,
   DeleteServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -3521,6 +3590,8 @@ export const deleteServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCache",
+  telemetry: TELEMETRY,
+  span: "DeleteServerlessCache",
 }));
 
 export type DeleteServerlessCacheSnapshotError =
@@ -3533,7 +3604,7 @@ export type DeleteServerlessCacheSnapshotError =
  * Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const deleteServerlessCacheSnapshot: API.OperationMethod<
-  DeleteServerlessCacheSnapshotRequest,
+  DeleteServerlessCacheSnapshotRequest & RegionInput,
   DeleteServerlessCacheSnapshotResponse,
   DeleteServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3549,6 +3620,8 @@ export const deleteServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteServerlessCacheSnapshot",
 }));
 
 export type DeleteSnapshotError =
@@ -3565,7 +3638,7 @@ export type DeleteSnapshotError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotMessage,
+  DeleteSnapshotMessage & RegionInput,
   DeleteSnapshotResult,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3581,6 +3654,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteUserError =
@@ -3596,7 +3671,7 @@ export type DeleteUserError =
  * see Using Role Based Access Control (RBAC).
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserMessage,
+  DeleteUserMessage & RegionInput,
   User,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3613,6 +3688,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserGroupError =
@@ -3627,7 +3704,7 @@ export type DeleteUserGroupError =
  * information, see Using Role Based Access Control (RBAC).
  */
 export const deleteUserGroup: API.OperationMethod<
-  DeleteUserGroupMessage,
+  DeleteUserGroupMessage & RegionInput,
   UserGroup,
   DeleteUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -3643,6 +3720,8 @@ export const deleteUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteUserGroup",
 }));
 
 export type DescribeCacheClustersError =
@@ -3674,7 +3753,7 @@ export type DescribeCacheClustersError =
  * for the removed nodes is displayed.
  */
 export const describeCacheClusters: API.PaginatedOperationMethod<
-  DescribeCacheClustersMessage,
+  DescribeCacheClustersMessage & RegionInput,
   CacheClusterMessage,
   DescribeCacheClustersError,
   Credentials | HttpClient.HttpClient,
@@ -3696,6 +3775,8 @@ export const describeCacheClusters: API.PaginatedOperationMethod<
     items: "CacheClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheClusters",
 })) as any;
 
 export type DescribeCacheEngineVersionsError = CommonErrors;
@@ -3703,7 +3784,7 @@ export type DescribeCacheEngineVersionsError = CommonErrors;
  * Returns a list of the available cache engines and their versions.
  */
 export const describeCacheEngineVersions: API.PaginatedOperationMethod<
-  DescribeCacheEngineVersionsMessage,
+  DescribeCacheEngineVersionsMessage & RegionInput,
   CacheEngineVersionMessage,
   DescribeCacheEngineVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3721,6 +3802,8 @@ export const describeCacheEngineVersions: API.PaginatedOperationMethod<
     items: "CacheEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheEngineVersions",
 })) as any;
 
 export type DescribeCacheParameterGroupsError =
@@ -3733,7 +3816,7 @@ export type DescribeCacheParameterGroupsError =
  * is specified, the list contains only the descriptions for that group.
  */
 export const describeCacheParameterGroups: API.PaginatedOperationMethod<
-  DescribeCacheParameterGroupsMessage,
+  DescribeCacheParameterGroupsMessage & RegionInput,
   CacheParameterGroupsMessage,
   DescribeCacheParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3755,6 +3838,8 @@ export const describeCacheParameterGroups: API.PaginatedOperationMethod<
     items: "CacheParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheParameterGroups",
 })) as any;
 
 export type DescribeCacheParametersError =
@@ -3766,7 +3851,7 @@ export type DescribeCacheParametersError =
  * Returns the detailed parameter list for a particular cache parameter group.
  */
 export const describeCacheParameters: API.PaginatedOperationMethod<
-  DescribeCacheParametersMessage,
+  DescribeCacheParametersMessage & RegionInput,
   CacheParameterGroupDetails,
   DescribeCacheParametersError,
   Credentials | HttpClient.HttpClient,
@@ -3788,6 +3873,8 @@ export const describeCacheParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheParameters",
 })) as any;
 
 export type DescribeCacheSecurityGroupsError =
@@ -3801,7 +3888,7 @@ export type DescribeCacheSecurityGroupsError =
  * when you have ElastiCache in Classic setup
  */
 export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
-  DescribeCacheSecurityGroupsMessage,
+  DescribeCacheSecurityGroupsMessage & RegionInput,
   CacheSecurityGroupMessage,
   DescribeCacheSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3823,6 +3910,8 @@ export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
     items: "CacheSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheSecurityGroups",
 })) as any;
 
 export type DescribeCacheSubnetGroupsError = CacheSubnetGroupNotFoundFault | CommonErrors;
@@ -3833,7 +3922,7 @@ export type DescribeCacheSubnetGroupsError = CacheSubnetGroupNotFoundFault | Com
  * default.
  */
 export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
-  DescribeCacheSubnetGroupsMessage,
+  DescribeCacheSubnetGroupsMessage & RegionInput,
   CacheSubnetGroupMessage,
   DescribeCacheSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3851,6 +3940,8 @@ export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
     items: "CacheSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheSubnetGroups",
 })) as any;
 
 export type DescribeEngineDefaultParametersError =
@@ -3862,7 +3953,7 @@ export type DescribeEngineDefaultParametersError =
  * engine.
  */
 export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
-  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersMessage & RegionInput,
   DescribeEngineDefaultParametersResult,
   DescribeEngineDefaultParametersError,
   Credentials | HttpClient.HttpClient,
@@ -3880,6 +3971,8 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
     items: "EngineDefaults.Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineDefaultParameters",
 })) as any;
 
 export type DescribeEventsError =
@@ -3895,7 +3988,7 @@ export type DescribeEventsError =
  * can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsMessage,
+  DescribeEventsMessage & RegionInput,
   EventsMessage,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3913,6 +4006,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeGlobalReplicationGroupsError =
@@ -3925,7 +4020,7 @@ export type DescribeGlobalReplicationGroupsError =
  * specified, returns information about all Global datastores.
  */
 export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
-  DescribeGlobalReplicationGroupsMessage,
+  DescribeGlobalReplicationGroupsMessage & RegionInput,
   DescribeGlobalReplicationGroupsResult,
   DescribeGlobalReplicationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3947,6 +4042,8 @@ export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
     items: "GlobalReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalReplicationGroups",
 })) as any;
 
 export type DescribeReplicationGroupsError =
@@ -3962,7 +4059,7 @@ export type DescribeReplicationGroupsError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const describeReplicationGroups: API.PaginatedOperationMethod<
-  DescribeReplicationGroupsMessage,
+  DescribeReplicationGroupsMessage & RegionInput,
   ReplicationGroupMessage,
   DescribeReplicationGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3984,6 +4081,8 @@ export const describeReplicationGroups: API.PaginatedOperationMethod<
     items: "ReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationGroups",
 })) as any;
 
 export type DescribeReservedCacheNodesError =
@@ -3996,7 +4095,7 @@ export type DescribeReservedCacheNodesError =
  * reserved cache node.
  */
 export const describeReservedCacheNodes: API.PaginatedOperationMethod<
-  DescribeReservedCacheNodesMessage,
+  DescribeReservedCacheNodesMessage & RegionInput,
   ReservedCacheNodeMessage,
   DescribeReservedCacheNodesError,
   Credentials | HttpClient.HttpClient,
@@ -4018,6 +4117,8 @@ export const describeReservedCacheNodes: API.PaginatedOperationMethod<
     items: "ReservedCacheNodes",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedCacheNodes",
 })) as any;
 
 export type DescribeReservedCacheNodesOfferingsError =
@@ -4029,7 +4130,7 @@ export type DescribeReservedCacheNodesOfferingsError =
  * Lists available reserved cache node offerings.
  */
 export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
-  DescribeReservedCacheNodesOfferingsMessage,
+  DescribeReservedCacheNodesOfferingsMessage & RegionInput,
   ReservedCacheNodesOfferingMessage,
   DescribeReservedCacheNodesOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -4051,6 +4152,8 @@ export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedCacheNodesOfferings",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedCacheNodesOfferings",
 })) as any;
 
 export type DescribeServerlessCachesError =
@@ -4064,7 +4167,7 @@ export type DescribeServerlessCachesError =
  * this Amazon Web Services account.
  */
 export const describeServerlessCaches: API.PaginatedOperationMethod<
-  DescribeServerlessCachesRequest,
+  DescribeServerlessCachesRequest & RegionInput,
   DescribeServerlessCachesResponse,
   DescribeServerlessCachesError,
   Credentials | HttpClient.HttpClient,
@@ -4086,6 +4189,8 @@ export const describeServerlessCaches: API.PaginatedOperationMethod<
     items: "ServerlessCaches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServerlessCaches",
 })) as any;
 
 export type DescribeServerlessCacheSnapshotsError =
@@ -4101,7 +4206,7 @@ export type DescribeServerlessCacheSnapshotsError =
  * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
-  DescribeServerlessCacheSnapshotsRequest,
+  DescribeServerlessCacheSnapshotsRequest & RegionInput,
   DescribeServerlessCacheSnapshotsResponse,
   DescribeServerlessCacheSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -4124,6 +4229,8 @@ export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
     items: "ServerlessCacheSnapshots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServerlessCacheSnapshots",
 })) as any;
 
 export type DescribeServiceUpdatesError =
@@ -4135,7 +4242,7 @@ export type DescribeServiceUpdatesError =
  * Returns details of the service updates
  */
 export const describeServiceUpdates: API.PaginatedOperationMethod<
-  DescribeServiceUpdatesMessage,
+  DescribeServiceUpdatesMessage & RegionInput,
   ServiceUpdatesMessage,
   DescribeServiceUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -4157,6 +4264,8 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceUpdates",
 })) as any;
 
 export type DescribeSnapshotsError =
@@ -4174,7 +4283,7 @@ export type DescribeSnapshotsError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsMessage,
+  DescribeSnapshotsMessage & RegionInput,
   DescribeSnapshotsListMessage,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -4197,6 +4306,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeUpdateActionsError =
@@ -4207,7 +4318,7 @@ export type DescribeUpdateActionsError =
  * Returns details of the update actions
  */
 export const describeUpdateActions: API.PaginatedOperationMethod<
-  DescribeUpdateActionsMessage,
+  DescribeUpdateActionsMessage & RegionInput,
   UpdateActionsMessage,
   DescribeUpdateActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4225,6 +4336,8 @@ export const describeUpdateActions: API.PaginatedOperationMethod<
     items: "UpdateActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUpdateActions",
 })) as any;
 
 export type DescribeUserGroupsError =
@@ -4236,7 +4349,7 @@ export type DescribeUserGroupsError =
  * Returns a list of user groups.
  */
 export const describeUserGroups: API.PaginatedOperationMethod<
-  DescribeUserGroupsMessage,
+  DescribeUserGroupsMessage & RegionInput,
   DescribeUserGroupsResult,
   DescribeUserGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -4258,6 +4371,8 @@ export const describeUserGroups: API.PaginatedOperationMethod<
     items: "UserGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUserGroups",
 })) as any;
 
 export type DescribeUsersError =
@@ -4269,7 +4384,7 @@ export type DescribeUsersError =
  * Returns a list of users.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersMessage,
+  DescribeUsersMessage & RegionInput,
   DescribeUsersResult,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
@@ -4287,6 +4402,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type DisassociateGlobalReplicationGroupError =
@@ -4301,7 +4418,7 @@ export type DisassociateGlobalReplicationGroupError =
  * remain as a standalone cluster in that Amazon region.
  */
 export const disassociateGlobalReplicationGroup: API.OperationMethod<
-  DisassociateGlobalReplicationGroupMessage,
+  DisassociateGlobalReplicationGroupMessage & RegionInput,
   DisassociateGlobalReplicationGroupResult,
   DisassociateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4317,6 +4434,8 @@ export const disassociateGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateGlobalReplicationGroup",
 }));
 
 export type ExportServerlessCacheSnapshotError =
@@ -4329,7 +4448,7 @@ export type ExportServerlessCacheSnapshotError =
  * Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
  */
 export const exportServerlessCacheSnapshot: API.OperationMethod<
-  ExportServerlessCacheSnapshotRequest,
+  ExportServerlessCacheSnapshotRequest & RegionInput,
   ExportServerlessCacheSnapshotResponse,
   ExportServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4345,6 +4464,8 @@ export const exportServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "ExportServerlessCacheSnapshot",
 }));
 
 export type FailoverGlobalReplicationGroupError =
@@ -4358,7 +4479,7 @@ export type FailoverGlobalReplicationGroupError =
  * become primary, and all other clusters will become secondary.
  */
 export const failoverGlobalReplicationGroup: API.OperationMethod<
-  FailoverGlobalReplicationGroupMessage,
+  FailoverGlobalReplicationGroupMessage & RegionInput,
   FailoverGlobalReplicationGroupResult,
   FailoverGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4374,6 +4495,8 @@ export const failoverGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "FailoverGlobalReplicationGroup",
 }));
 
 export type IncreaseNodeGroupsInGlobalReplicationGroupError =
@@ -4385,7 +4508,7 @@ export type IncreaseNodeGroupsInGlobalReplicationGroupError =
  * Increase the number of node groups in the Global datastore
  */
 export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
-  IncreaseNodeGroupsInGlobalReplicationGroupMessage,
+  IncreaseNodeGroupsInGlobalReplicationGroupMessage & RegionInput,
   IncreaseNodeGroupsInGlobalReplicationGroupResult,
   IncreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4400,6 +4523,8 @@ export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseNodeGroupsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "IncreaseNodeGroupsInGlobalReplicationGroup",
 }));
 
 export type IncreaseReplicaCountError =
@@ -4423,7 +4548,7 @@ export type IncreaseReplicaCountError =
  * cluster down time.
  */
 export const increaseReplicaCount: API.OperationMethod<
-  IncreaseReplicaCountMessage,
+  IncreaseReplicaCountMessage & RegionInput,
   IncreaseReplicaCountResult,
   IncreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
@@ -4447,6 +4572,8 @@ export const increaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicaCount",
+  telemetry: TELEMETRY,
+  span: "IncreaseReplicaCount",
 }));
 
 export type ListAllowedNodeTypeModificationsError =
@@ -4465,7 +4592,7 @@ export type ListAllowedNodeTypeModificationsError =
  * types returned by this operation.
  */
 export const listAllowedNodeTypeModifications: API.OperationMethod<
-  ListAllowedNodeTypeModificationsMessage,
+  ListAllowedNodeTypeModificationsMessage & RegionInput,
   AllowedNodeTypeModificationsMessage,
   ListAllowedNodeTypeModificationsError,
   Credentials | HttpClient.HttpClient
@@ -4481,6 +4608,8 @@ export const listAllowedNodeTypeModifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeModifications",
+  telemetry: TELEMETRY,
+  span: "ListAllowedNodeTypeModifications",
 }));
 
 export type ListTagsForResourceError =
@@ -4515,7 +4644,7 @@ export type ListTagsForResourceError =
  * `ListTagsForResource` returns an error.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceMessage,
+  ListTagsForResourceMessage & RegionInput,
   TagListMessage,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4544,6 +4673,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyCacheClusterError =
@@ -4564,7 +4695,7 @@ export type ModifyCacheClusterError =
  * cluster configuration parameters by specifying the parameters and the new values.
  */
 export const modifyCacheCluster: API.OperationMethod<
-  ModifyCacheClusterMessage,
+  ModifyCacheClusterMessage & RegionInput,
   ModifyCacheClusterResult,
   ModifyCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -4587,6 +4718,8 @@ export const modifyCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheCluster",
 }));
 
 export type ModifyCacheParameterGroupError =
@@ -4601,7 +4734,7 @@ export type ModifyCacheParameterGroupError =
  * in a single request by submitting a list parameter name and value pairs.
  */
 export const modifyCacheParameterGroup: API.OperationMethod<
-  ModifyCacheParameterGroupMessage,
+  ModifyCacheParameterGroupMessage & RegionInput,
   CacheParameterGroupNameMessage,
   ModifyCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -4618,6 +4751,8 @@ export const modifyCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheParameterGroup",
 }));
 
 export type ModifyCacheSubnetGroupError =
@@ -4631,7 +4766,7 @@ export type ModifyCacheSubnetGroupError =
  * Modifies an existing cache subnet group.
  */
 export const modifyCacheSubnetGroup: API.OperationMethod<
-  ModifyCacheSubnetGroupMessage,
+  ModifyCacheSubnetGroupMessage & RegionInput,
   ModifyCacheSubnetGroupResult,
   ModifyCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
@@ -4648,6 +4783,8 @@ export const modifyCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheSubnetGroup",
 }));
 
 export type ModifyGlobalReplicationGroupError =
@@ -4659,7 +4796,7 @@ export type ModifyGlobalReplicationGroupError =
  * Modifies the settings for a Global datastore.
  */
 export const modifyGlobalReplicationGroup: API.OperationMethod<
-  ModifyGlobalReplicationGroupMessage,
+  ModifyGlobalReplicationGroupMessage & RegionInput,
   ModifyGlobalReplicationGroupResult,
   ModifyGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4674,6 +4811,8 @@ export const modifyGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyGlobalReplicationGroup",
 }));
 
 export type ModifyReplicationGroupError =
@@ -4706,7 +4845,7 @@ export type ModifyReplicationGroupError =
  * This operation is valid for Valkey or Redis OSS only.
  */
 export const modifyReplicationGroup: API.OperationMethod<
-  ModifyReplicationGroupMessage,
+  ModifyReplicationGroupMessage & RegionInput,
   ModifyReplicationGroupResult,
   ModifyReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4734,6 +4873,8 @@ export const modifyReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationGroup",
 }));
 
 export type ModifyReplicationGroupShardConfigurationError =
@@ -4753,7 +4894,7 @@ export type ModifyReplicationGroupShardConfigurationError =
  * remove shards, or rebalance the keyspaces among existing shards.
  */
 export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
-  ModifyReplicationGroupShardConfigurationMessage,
+  ModifyReplicationGroupShardConfigurationMessage & RegionInput,
   ModifyReplicationGroupShardConfigurationResult,
   ModifyReplicationGroupShardConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4775,6 +4916,8 @@ export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroupShardConfiguration",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationGroupShardConfiguration",
 }));
 
 export type ModifyServerlessCacheError =
@@ -4791,7 +4934,7 @@ export type ModifyServerlessCacheError =
  * This API modifies the attributes of a serverless cache.
  */
 export const modifyServerlessCache: API.OperationMethod<
-  ModifyServerlessCacheRequest,
+  ModifyServerlessCacheRequest & RegionInput,
   ModifyServerlessCacheResponse,
   ModifyServerlessCacheError,
   Credentials | HttpClient.HttpClient
@@ -4811,6 +4954,8 @@ export const modifyServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyServerlessCache",
+  telemetry: TELEMETRY,
+  span: "ModifyServerlessCache",
 }));
 
 export type ModifyUserError =
@@ -4824,7 +4969,7 @@ export type ModifyUserError =
  * Changes user password(s) and/or access string.
  */
 export const modifyUser: API.OperationMethod<
-  ModifyUserMessage,
+  ModifyUserMessage & RegionInput,
   User,
   ModifyUserError,
   Credentials | HttpClient.HttpClient
@@ -4841,6 +4986,8 @@ export const modifyUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUser",
+  telemetry: TELEMETRY,
+  span: "ModifyUser",
 }));
 
 export type ModifyUserGroupError =
@@ -4857,7 +5004,7 @@ export type ModifyUserGroupError =
  * Changes the list of users that belong to the user group.
  */
 export const modifyUserGroup: API.OperationMethod<
-  ModifyUserGroupMessage,
+  ModifyUserGroupMessage & RegionInput,
   UserGroup,
   ModifyUserGroupError,
   Credentials | HttpClient.HttpClient
@@ -4877,6 +5024,8 @@ export const modifyUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUserGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyUserGroup",
 }));
 
 export type PurchaseReservedCacheNodesOfferingError =
@@ -4892,7 +5041,7 @@ export type PurchaseReservedCacheNodesOfferingError =
  * for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
  */
 export const purchaseReservedCacheNodesOffering: API.OperationMethod<
-  PurchaseReservedCacheNodesOfferingMessage,
+  PurchaseReservedCacheNodesOfferingMessage & RegionInput,
   PurchaseReservedCacheNodesOfferingResult,
   PurchaseReservedCacheNodesOfferingError,
   Credentials | HttpClient.HttpClient
@@ -4910,6 +5059,8 @@ export const purchaseReservedCacheNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedCacheNodesOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedCacheNodesOffering",
 }));
 
 export type RebalanceSlotsInGlobalReplicationGroupError =
@@ -4922,7 +5073,7 @@ export type RebalanceSlotsInGlobalReplicationGroupError =
  * cluster.
  */
 export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
-  RebalanceSlotsInGlobalReplicationGroupMessage,
+  RebalanceSlotsInGlobalReplicationGroupMessage & RegionInput,
   RebalanceSlotsInGlobalReplicationGroupResult,
   RebalanceSlotsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
@@ -4937,6 +5088,8 @@ export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebalanceSlotsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "RebalanceSlotsInGlobalReplicationGroup",
 }));
 
 export type RebootCacheClusterError =
@@ -4962,7 +5115,7 @@ export type RebootCacheClusterError =
  * reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
  */
 export const rebootCacheCluster: API.OperationMethod<
-  RebootCacheClusterMessage,
+  RebootCacheClusterMessage & RegionInput,
   RebootCacheClusterResult,
   RebootCacheClusterError,
   Credentials | HttpClient.HttpClient
@@ -4973,6 +5126,8 @@ export const rebootCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCacheCluster",
+  telemetry: TELEMETRY,
+  span: "RebootCacheCluster",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -5003,7 +5158,7 @@ export type RemoveTagsFromResourceError =
  * be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceMessage,
+  RemoveTagsFromResourceMessage & RegionInput,
   TagListMessage,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -5033,6 +5188,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetCacheParameterGroupError =
@@ -5049,7 +5206,7 @@ export type ResetCacheParameterGroupError =
  * `CacheParameterGroupName` parameters.
  */
 export const resetCacheParameterGroup: API.OperationMethod<
-  ResetCacheParameterGroupMessage,
+  ResetCacheParameterGroupMessage & RegionInput,
   CacheParameterGroupNameMessage,
   ResetCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -5066,6 +5223,8 @@ export const resetCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetCacheParameterGroup",
 }));
 
 export type RevokeCacheSecurityGroupIngressError =
@@ -5080,7 +5239,7 @@ export type RevokeCacheSecurityGroupIngressError =
  * from an Amazon EC2 security group that had been previously authorized.
  */
 export const revokeCacheSecurityGroupIngress: API.OperationMethod<
-  RevokeCacheSecurityGroupIngressMessage,
+  RevokeCacheSecurityGroupIngressMessage & RegionInput,
   RevokeCacheSecurityGroupIngressResult,
   RevokeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
@@ -5097,6 +5256,8 @@ export const revokeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCacheSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "RevokeCacheSecurityGroupIngress",
 }));
 
 export type StartMigrationError =
@@ -5109,7 +5270,7 @@ export type StartMigrationError =
  * Start the migration of data.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationMessage,
+  StartMigrationMessage & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5125,6 +5286,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type TestFailoverError =
@@ -5192,7 +5355,7 @@ export type TestFailoverError =
  * Multi-AZ in the *ElastiCache User Guide*.
  */
 export const testFailover: API.OperationMethod<
-  TestFailoverMessage,
+  TestFailoverMessage & RegionInput,
   TestFailoverResult,
   TestFailoverError,
   Credentials | HttpClient.HttpClient
@@ -5213,6 +5376,8 @@ export const testFailover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFailover",
+  telemetry: TELEMETRY,
+  span: "TestFailover",
 }));
 
 export type TestMigrationError =
@@ -5225,7 +5390,7 @@ export type TestMigrationError =
  * Async API to test connection between source and target replication group.
  */
 export const testMigration: API.OperationMethod<
-  TestMigrationMessage,
+  TestMigrationMessage & RegionInput,
   TestMigrationResponse,
   TestMigrationError,
   Credentials | HttpClient.HttpClient
@@ -5241,6 +5406,8 @@ export const testMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMigration",
+  telemetry: TELEMETRY,
+  span: "TestMigration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

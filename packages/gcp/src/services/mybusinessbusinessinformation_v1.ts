@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "mybusinessbusinessinformation" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Mybusinessbusinessinformation",
+  service: "mybusinessbusinessinformation",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -715,6 +734,8 @@ export const batchGetCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetCategories",
 }));
 
 export type CreateAccountsLocationsError =
@@ -735,6 +756,8 @@ export const createAccountsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsLocations",
 }));
 
 export type DeleteLocationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -750,6 +773,8 @@ export const deleteLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLocations",
 }));
 
 export type GetAttributesLocationsError = NotFound | Forbidden | GcpOpError;
@@ -765,6 +790,8 @@ export const getAttributesLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttributesLocations",
 }));
 
 export type GetChainsError = NotFound | Forbidden | GcpOpError;
@@ -776,6 +803,8 @@ export const getChains: API.OperationMethod<GetChainsRequest, Chain, GetChainsEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetChains",
   }));
 
 export type GetGoogleUpdatedLocationsError = NotFound | Forbidden | GcpOpError;
@@ -791,6 +820,8 @@ export const getGoogleUpdatedLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleUpdatedLocations",
 }));
 
 export type GetGoogleUpdatedLocationsAttributesError = NotFound | Forbidden | GcpOpError;
@@ -806,6 +837,8 @@ export const getGoogleUpdatedLocationsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleUpdatedLocationsAttributes",
 }));
 
 export type GetLocationsError = NotFound | Forbidden | GcpOpError;
@@ -821,6 +854,8 @@ export const getLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocations",
 }));
 
 export type ListAccountsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -837,6 +872,8 @@ export const listAccountsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -854,6 +891,8 @@ export const listAttributes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttributes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -871,6 +910,8 @@ export const listCategories: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategories",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -887,6 +928,8 @@ export const patchLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLocations",
 }));
 
 export type SearchChainsError = NotFound | Forbidden | GcpOpError;
@@ -902,6 +945,8 @@ export const searchChains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchChains",
 }));
 
 export type SearchGoogleLocationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -917,6 +962,8 @@ export const searchGoogleLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGoogleLocations",
 }));
 
 export type UpdateAttributesLocationsError =
@@ -937,6 +984,8 @@ export const updateAttributesLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributesLocations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

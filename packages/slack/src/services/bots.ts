@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Bots",
+  propagate: "w3c",
+} as const;
+
 export interface BotsInfoRequest {
   /** Bot user to get info on */
   bot?: string;
@@ -69,6 +82,8 @@ export const botsInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BotsInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

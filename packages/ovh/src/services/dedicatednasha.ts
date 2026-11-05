@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Dedicatednasha",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -648,6 +662,8 @@ export const confirmDedicatedNashaTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmDedicatedNashaTermination",
 }));
 
 export type CreateDedicatedNashaChangeContactError = OvhOpError;
@@ -663,6 +679,8 @@ export const createDedicatedNashaChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaChangeContact",
 }));
 
 export type CreateDedicatedNashaPartitionError = OvhOpError;
@@ -678,6 +696,8 @@ export const createDedicatedNashaPartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartition",
 }));
 
 export type CreateDedicatedNashaPartitionAccessError = OvhOpError;
@@ -693,6 +713,8 @@ export const createDedicatedNashaPartitionAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartitionAccess",
 }));
 
 export type CreateDedicatedNashaPartitionCustomSnapshotError = OvhOpError;
@@ -708,6 +730,8 @@ export const createDedicatedNashaPartitionCustomSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartitionCustomSnapshot",
 }));
 
 export type CreateDedicatedNashaPartitionOptionError = OvhOpError;
@@ -723,6 +747,8 @@ export const createDedicatedNashaPartitionOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartitionOption",
 }));
 
 export type CreateDedicatedNashaPartitionQuotaError = OvhOpError;
@@ -738,6 +764,8 @@ export const createDedicatedNashaPartitionQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartitionQuota",
 }));
 
 export type CreateDedicatedNashaPartitionSnapshotError = OvhOpError;
@@ -753,6 +781,8 @@ export const createDedicatedNashaPartitionSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedNashaPartitionSnapshot",
 }));
 
 export type DeleteDedicatedNashaPartitionError = OvhOpError;
@@ -768,6 +798,8 @@ export const deleteDedicatedNashaPartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedNashaPartition",
 }));
 
 export type DeleteDedicatedNashaPartitionAccessError = OvhOpError;
@@ -783,6 +815,8 @@ export const deleteDedicatedNashaPartitionAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedNashaPartitionAccess",
 }));
 
 export type DeleteDedicatedNashaPartitionCustomSnapshotError = OvhOpError;
@@ -798,6 +832,8 @@ export const deleteDedicatedNashaPartitionCustomSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedNashaPartitionCustomSnapshot",
 }));
 
 export type DeleteDedicatedNashaPartitionQuotaError = OvhOpError;
@@ -813,6 +849,8 @@ export const deleteDedicatedNashaPartitionQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedNashaPartitionQuota",
 }));
 
 export type DeleteDedicatedNashaPartitionSnapshotError = OvhOpError;
@@ -828,6 +866,8 @@ export const deleteDedicatedNashaPartitionSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedNashaPartitionSnapshot",
 }));
 
 export type GetDedicatedNashaError = OvhOpError;
@@ -843,6 +883,8 @@ export const getDedicatedNasha: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNasha",
 }));
 
 export type GetDedicatedNashaMetricsTokenError = OvhOpError;
@@ -858,6 +900,8 @@ export const getDedicatedNashaMetricsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaMetricsToken",
 }));
 
 export type GetDedicatedNashaPartitionError = OvhOpError;
@@ -873,6 +917,8 @@ export const getDedicatedNashaPartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartition",
 }));
 
 export type GetDedicatedNashaPartitionAccessError = OvhOpError;
@@ -888,6 +934,8 @@ export const getDedicatedNashaPartitionAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionAccess",
 }));
 
 export type GetDedicatedNashaPartitionCustomSnapshotError = OvhOpError;
@@ -903,6 +951,8 @@ export const getDedicatedNashaPartitionCustomSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionCustomSnapshot",
 }));
 
 export type GetDedicatedNashaPartitionOptionsError = OvhOpError;
@@ -918,6 +968,8 @@ export const getDedicatedNashaPartitionOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionOptions",
 }));
 
 export type GetDedicatedNashaPartitionQuotaError = OvhOpError;
@@ -933,6 +985,8 @@ export const getDedicatedNashaPartitionQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionQuota",
 }));
 
 export type GetDedicatedNashaPartitionSnapshotError = OvhOpError;
@@ -948,6 +1002,8 @@ export const getDedicatedNashaPartitionSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionSnapshot",
 }));
 
 export type GetDedicatedNashaPartitionUseError = OvhOpError;
@@ -963,6 +1019,8 @@ export const getDedicatedNashaPartitionUse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaPartitionUse",
 }));
 
 export type GetDedicatedNashaServiceInfosError = OvhOpError;
@@ -978,6 +1036,8 @@ export const getDedicatedNashaServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaServiceInfos",
 }));
 
 export type GetDedicatedNashaTaskError = OvhOpError;
@@ -993,6 +1053,8 @@ export const getDedicatedNashaTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaTask",
 }));
 
 export type GetDedicatedNashaUseError = OvhOpError;
@@ -1008,6 +1070,8 @@ export const getDedicatedNashaUse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedNashaUse",
 }));
 
 export type ListDedicatedNashaError = OvhOpError;
@@ -1023,6 +1087,8 @@ export const listDedicatedNasha: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNasha",
 }));
 
 export type ListDedicatedNashaPartitionError = OvhOpError;
@@ -1038,6 +1104,8 @@ export const listDedicatedNashaPartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartition",
 }));
 
 export type ListDedicatedNashaPartitionAccessError = OvhOpError;
@@ -1053,6 +1121,8 @@ export const listDedicatedNashaPartitionAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionAccess",
 }));
 
 export type ListDedicatedNashaPartitionAuthorizableBlocksError = OvhOpError;
@@ -1076,6 +1146,8 @@ export const listDedicatedNashaPartitionAuthorizableBlocks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionAuthorizableBlocks",
 }));
 
 export type ListDedicatedNashaPartitionAuthorizableIpsError = OvhOpError;
@@ -1091,6 +1163,8 @@ export const listDedicatedNashaPartitionAuthorizableIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionAuthorizableIps",
 }));
 
 export type ListDedicatedNashaPartitionCustomSnapshotError = OvhOpError;
@@ -1106,6 +1180,8 @@ export const listDedicatedNashaPartitionCustomSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionCustomSnapshot",
 }));
 
 export type ListDedicatedNashaPartitionQuotaError = OvhOpError;
@@ -1121,6 +1197,8 @@ export const listDedicatedNashaPartitionQuota: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionQuota",
 }));
 
 export type ListDedicatedNashaPartitionSnapshotError = OvhOpError;
@@ -1136,6 +1214,8 @@ export const listDedicatedNashaPartitionSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionSnapshot",
 }));
 
 export type ListDedicatedNashaPartitionTemplateUsageError = OvhOpError;
@@ -1151,6 +1231,8 @@ export const listDedicatedNashaPartitionTemplateUsage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaPartitionTemplateUsage",
 }));
 
 export type ListDedicatedNashaTaskError = OvhOpError;
@@ -1166,6 +1248,8 @@ export const listDedicatedNashaTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedNashaTask",
 }));
 
 export type PutDedicatedNashaError = OvhOpError;
@@ -1181,6 +1265,8 @@ export const putDedicatedNasha: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedNasha",
 }));
 
 export type PutDedicatedNashaPartitionError = OvhOpError;
@@ -1196,6 +1282,8 @@ export const putDedicatedNashaPartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedNashaPartition",
 }));
 
 export type PutDedicatedNashaServiceInfosError = OvhOpError;
@@ -1211,6 +1299,8 @@ export const putDedicatedNashaServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedNashaServiceInfos",
 }));
 
 export type TerminateDedicatedNashaError = OvhOpError;
@@ -1226,6 +1316,8 @@ export const terminateDedicatedNasha: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateDedicatedNasha",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Leads",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -191,6 +204,8 @@ export const createLead: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLead",
 }));
 
 export type GetLeadError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
@@ -202,6 +217,8 @@ export const getLead: API.OperationMethod<GetLeadRequest, Lead, GetLeadError, Wh
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetLead",
   }));
 
 export type ListLeadError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
@@ -219,6 +236,8 @@ export const listLead: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLead",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -244,6 +263,8 @@ export const updateLead: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLead",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

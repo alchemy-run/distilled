@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://arc-zonal-shift.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ARCZonalShift",
+  service: "ARCZonalShift",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -409,7 +425,7 @@ export type CancelPracticeRunError =
  * Cancel an in-progress practice run zonal shift in Amazon Application Recovery Controller.
  */
 export const cancelPracticeRun: API.OperationMethod<
-  CancelPracticeRunRequest,
+  CancelPracticeRunRequest & RegionInput,
   CancelPracticeRunResponse,
   CancelPracticeRunError,
   Credentials | HttpClient.HttpClient
@@ -427,6 +443,8 @@ export const cancelPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPracticeRun",
+  telemetry: TELEMETRY,
+  span: "CancelPracticeRun",
 }));
 
 export type CancelZonalShiftError =
@@ -443,7 +461,7 @@ export type CancelZonalShiftError =
  * A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
  */
 export const cancelZonalShift: API.OperationMethod<
-  CancelZonalShiftRequest,
+  CancelZonalShiftRequest & RegionInput,
   ZonalShift,
   CancelZonalShiftError,
   Credentials | HttpClient.HttpClient
@@ -461,6 +479,8 @@ export const cancelZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelZonalShift",
+  telemetry: TELEMETRY,
+  span: "CancelZonalShift",
 }));
 
 export type CreatePracticeRunConfigurationError =
@@ -479,7 +499,7 @@ export type CreatePracticeRunConfigurationError =
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const createPracticeRunConfiguration: API.OperationMethod<
-  CreatePracticeRunConfigurationRequest,
+  CreatePracticeRunConfigurationRequest & RegionInput,
   CreatePracticeRunConfigurationResponse,
   CreatePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -497,6 +517,8 @@ export const createPracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreatePracticeRunConfiguration",
 }));
 
 export type DeletePracticeRunConfigurationError =
@@ -511,7 +533,7 @@ export type DeletePracticeRunConfigurationError =
  * Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled.
  */
 export const deletePracticeRunConfiguration: API.OperationMethod<
-  DeletePracticeRunConfigurationRequest,
+  DeletePracticeRunConfigurationRequest & RegionInput,
   DeletePracticeRunConfigurationResponse,
   DeletePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -529,6 +551,8 @@ export const deletePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeletePracticeRunConfiguration",
 }));
 
 export type GetAutoshiftObserverNotificationStatusError =
@@ -540,7 +564,7 @@ export type GetAutoshiftObserverNotificationStatusError =
  * Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be `ENABLED` or `DISABLED`. When `ENABLED`, a notification is sent when an autoshift is triggered. When `DISABLED`, notifications are not sent.
  */
 export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
-  GetAutoshiftObserverNotificationStatusRequest,
+  GetAutoshiftObserverNotificationStatusRequest & RegionInput,
   GetAutoshiftObserverNotificationStatusResponse,
   GetAutoshiftObserverNotificationStatusError,
   Credentials | HttpClient.HttpClient
@@ -551,6 +575,8 @@ export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoshiftObserverNotificationStatus",
+  telemetry: TELEMETRY,
+  span: "GetAutoshiftObserverNotificationStatus",
 }));
 
 export type GetManagedResourceError =
@@ -564,7 +590,7 @@ export type GetManagedResourceError =
  * Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources.
  */
 export const getManagedResource: API.OperationMethod<
-  GetManagedResourceRequest,
+  GetManagedResourceRequest & RegionInput,
   GetManagedResourceResponse,
   GetManagedResourceError,
   Credentials | HttpClient.HttpClient
@@ -581,6 +607,8 @@ export const getManagedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedResource",
+  telemetry: TELEMETRY,
+  span: "GetManagedResource",
 }));
 
 export type ListAutoshiftsError =
@@ -593,7 +621,7 @@ export type ListAutoshiftsError =
  * Returns the autoshifts for an Amazon Web Services Region. By default, the call returns only `ACTIVE` autoshifts. Optionally, you can specify the `status` parameter to return `COMPLETED` autoshifts.
  */
 export const listAutoshifts: API.PaginatedOperationMethod<
-  ListAutoshiftsRequest,
+  ListAutoshiftsRequest & RegionInput,
   ListAutoshiftsResponse,
   ListAutoshiftsError,
   Credentials | HttpClient.HttpClient,
@@ -616,6 +644,8 @@ export const listAutoshifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutoshifts",
 })) as any;
 
 export type ListManagedResourcesError =
@@ -628,7 +658,7 @@ export type ListManagedResourcesError =
  * Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Application Recovery Controller, and information about them. The information includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each resource is deployed in, and the resource name.
  */
 export const listManagedResources: API.PaginatedOperationMethod<
-  ListManagedResourcesRequest,
+  ListManagedResourcesRequest & RegionInput,
   ListManagedResourcesResponse,
   ListManagedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -651,6 +681,8 @@ export const listManagedResources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedResources",
 })) as any;
 
 export type ListZonalShiftsError =
@@ -665,7 +697,7 @@ export type ListZonalShiftsError =
  * For more information about listing autoshifts, see ">ListAutoshifts.
  */
 export const listZonalShifts: API.PaginatedOperationMethod<
-  ListZonalShiftsRequest,
+  ListZonalShiftsRequest & RegionInput,
   ListZonalShiftsResponse,
   ListZonalShiftsError,
   Credentials | HttpClient.HttpClient,
@@ -688,6 +720,8 @@ export const listZonalShifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListZonalShifts",
 })) as any;
 
 export type StartPracticeRunError =
@@ -704,7 +738,7 @@ export type StartPracticeRunError =
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const startPracticeRun: API.OperationMethod<
-  StartPracticeRunRequest,
+  StartPracticeRunRequest & RegionInput,
   StartPracticeRunResponse,
   StartPracticeRunError,
   Credentials | HttpClient.HttpClient
@@ -722,6 +756,8 @@ export const startPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPracticeRun",
+  telemetry: TELEMETRY,
+  span: "StartPracticeRun",
 }));
 
 export type StartZonalShiftError =
@@ -750,7 +786,7 @@ export type StartZonalShiftError =
  * For more information, see Zonal shift in the Amazon Application Recovery Controller Developer Guide.
  */
 export const startZonalShift: API.OperationMethod<
-  StartZonalShiftRequest,
+  StartZonalShiftRequest & RegionInput,
   ZonalShift,
   StartZonalShiftError,
   Credentials | HttpClient.HttpClient
@@ -768,6 +804,8 @@ export const startZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartZonalShift",
+  telemetry: TELEMETRY,
+  span: "StartZonalShift",
 }));
 
 export type UpdateAutoshiftObserverNotificationStatusError =
@@ -784,7 +822,7 @@ export type UpdateAutoshiftObserverNotificationStatusError =
  * For more information, see Notifications for practice runs and autoshifts in the Amazon Application Recovery Controller Developer Guide.
  */
 export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
-  UpdateAutoshiftObserverNotificationStatusRequest,
+  UpdateAutoshiftObserverNotificationStatusRequest & RegionInput,
   UpdateAutoshiftObserverNotificationStatusResponse,
   UpdateAutoshiftObserverNotificationStatusError,
   Credentials | HttpClient.HttpClient
@@ -800,6 +838,8 @@ export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoshiftObserverNotificationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoshiftObserverNotificationStatus",
 }));
 
 export type UpdatePracticeRunConfigurationError =
@@ -814,7 +854,7 @@ export type UpdatePracticeRunConfigurationError =
  * Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
  */
 export const updatePracticeRunConfiguration: API.OperationMethod<
-  UpdatePracticeRunConfigurationRequest,
+  UpdatePracticeRunConfigurationRequest & RegionInput,
   UpdatePracticeRunConfigurationResponse,
   UpdatePracticeRunConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -832,6 +872,8 @@ export const updatePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdatePracticeRunConfiguration",
 }));
 
 export type UpdateZonalAutoshiftConfigurationError =
@@ -848,7 +890,7 @@ export type UpdateZonalAutoshiftConfigurationError =
  * You can update the zonal autoshift status to enable or disable zonal autoshift. When zonal autoshift is `ENABLED`, you authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Traffic is also shifted away for the required weekly practice runs.
  */
 export const updateZonalAutoshiftConfiguration: API.OperationMethod<
-  UpdateZonalAutoshiftConfigurationRequest,
+  UpdateZonalAutoshiftConfigurationRequest & RegionInput,
   UpdateZonalAutoshiftConfigurationResponse,
   UpdateZonalAutoshiftConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -866,6 +908,8 @@ export const updateZonalAutoshiftConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalAutoshiftConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateZonalAutoshiftConfiguration",
 }));
 
 export type UpdateZonalShiftError =
@@ -880,7 +924,7 @@ export type UpdateZonalShiftError =
  * Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
  */
 export const updateZonalShift: API.OperationMethod<
-  UpdateZonalShiftRequest,
+  UpdateZonalShiftRequest & RegionInput,
   ZonalShift,
   UpdateZonalShiftError,
   Credentials | HttpClient.HttpClient
@@ -898,6 +942,8 @@ export const updateZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalShift",
+  telemetry: TELEMETRY,
+  span: "UpdateZonalShift",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

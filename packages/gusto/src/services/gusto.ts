@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { GustoOpError, GustoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gusto-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Gusto",
+  service: "Gusto",
+  labels: "gusto",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -10811,6 +10824,8 @@ export const createBulkReport2: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkReport2",
 }));
 
 export type CreateCompaniesAttachmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10826,6 +10841,8 @@ export const createCompaniesAttachment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompaniesAttachment",
 }));
 
 export type CreateCompanyAdminError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10841,6 +10858,8 @@ export const createCompanyAdmin: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyAdmin",
 }));
 
 export type CreateCompanyBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10856,6 +10875,8 @@ export const createCompanyBankAccount: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyBankAccount",
 }));
 
 export type CreateCompanyCompanyBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10871,6 +10892,8 @@ export const createCompanyCompanyBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyCompanyBenefit",
 }));
 
 export type CreateCompanyContractorError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10886,6 +10909,8 @@ export const createCompanyContractor: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyContractor",
 }));
 
 export type CreateCompanyContractorPaymentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10901,6 +10926,8 @@ export const createCompanyContractorPayment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyContractorPayment",
 }));
 
 export type CreateCompanyContractorPaymentGroupError =
@@ -10919,6 +10946,8 @@ export const createCompanyContractorPaymentGroup: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyContractorPaymentGroup",
 }));
 
 export type CreateCompanyContractorPaymentGroupsPreviewError =
@@ -10937,6 +10966,8 @@ export const createCompanyContractorPaymentGroupsPreview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyContractorPaymentGroupsPreview",
 }));
 
 export type CreateCompanyEarningTypeError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10952,6 +10983,8 @@ export const createCompanyEarningType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyEarningType",
 }));
 
 export type CreateCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10967,6 +11000,8 @@ export const createCompanyHolidayPayPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyHolidayPayPolicy",
 }));
 
 export type CreateCompanyLocationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10982,6 +11017,8 @@ export const createCompanyLocation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyLocation",
 }));
 
 export type CreateCompanyPayrollError = NotFound | UnprocessableEntity | GustoOpError;
@@ -10997,6 +11034,8 @@ export const createCompanyPayroll: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPayroll",
 }));
 
 export type CreateCompanyPayScheduleError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11012,6 +11051,8 @@ export const createCompanyPaySchedule: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPaySchedule",
 }));
 
 export type CreateCompanyPaySchedulesAssignError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11027,6 +11068,8 @@ export const createCompanyPaySchedulesAssign: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPaySchedulesAssign",
 }));
 
 export type CreateCompanyPaySchedulesAssignmentPreviewError =
@@ -11045,6 +11088,8 @@ export const createCompanyPaySchedulesAssignmentPreview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPaySchedulesAssignmentPreview",
 }));
 
 export type CreateCompanyPeopleBatchError =
@@ -11064,6 +11109,8 @@ export const createCompanyPeopleBatch: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPeopleBatch",
 }));
 
 export type CreateCompanyReportError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11079,6 +11126,8 @@ export const createCompanyReport: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyReport",
 }));
 
 export type CreateCompanyReportsEmployeesAnnualFicaWageError =
@@ -11105,6 +11154,8 @@ export const createCompanyReportsEmployeesAnnualFicaWage: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyReportsEmployeesAnnualFicaWage",
 }));
 
 export type CreateCompanySignatoriesInviteError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11120,6 +11171,8 @@ export const createCompanySignatoriesInvite: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanySignatoriesInvite",
 }));
 
 export type CreateCompanySignatoryError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11135,6 +11188,8 @@ export const createCompanySignatory: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanySignatory",
 }));
 
 export type CreateCompanySuspensionError = UnprocessableEntity | GustoOpError;
@@ -11150,6 +11205,8 @@ export const createCompanySuspension: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanySuspension",
 }));
 
 export type CreateCompanyTimeOffAdminApprovedRequestError = NotFound | GustoOpError;
@@ -11165,6 +11222,8 @@ export const createCompanyTimeOffAdminApprovedRequest: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyTimeOffAdminApprovedRequest",
 }));
 
 export type CreateCompanyTimeOffPolicyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11180,6 +11239,8 @@ export const createCompanyTimeOffPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyTimeOffPolicy",
 }));
 
 export type CreateCompanyTimeOffRequestError = NotFound | GustoOpError;
@@ -11195,6 +11256,8 @@ export const createCompanyTimeOffRequest: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyTimeOffRequest",
 }));
 
 export type CreateCompanyTimeOffRequestsPreviewError = NotFound | GustoOpError;
@@ -11210,6 +11273,8 @@ export const createCompanyTimeOffRequestsPreview: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyTimeOffRequestsPreview",
 }));
 
 export type CreateCompanyTimeTrackingTimeSheetError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11225,6 +11290,8 @@ export const createCompanyTimeTrackingTimeSheet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyTimeTrackingTimeSheet",
 }));
 
 export type CreateContractorBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11240,6 +11307,8 @@ export const createContractorBankAccount: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorBankAccount",
 }));
 
 export type CreateContractorMemberPortalInvitationError =
@@ -11258,6 +11327,8 @@ export const createContractorMemberPortalInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorMemberPortalInvitation",
 }));
 
 export type CreateContractorRehireError = UnprocessableEntity | GustoOpError;
@@ -11273,6 +11344,8 @@ export const createContractorRehire: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorRehire",
 }));
 
 export type CreateContractorTerminationError = UnprocessableEntity | GustoOpError;
@@ -11288,6 +11361,8 @@ export const createContractorTermination: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorTermination",
 }));
 
 export type CreateEmployeeBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11303,6 +11378,8 @@ export const createEmployeeBankAccount: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeBankAccount",
 }));
 
 export type CreateEmployeeEmployeeBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11318,6 +11395,8 @@ export const createEmployeeEmployeeBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeEmployeeBenefit",
 }));
 
 export type CreateEmployeeGarnishmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11333,6 +11412,8 @@ export const createEmployeeGarnishment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeGarnishment",
 }));
 
 export type CreateEmployeeHomeAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11348,6 +11429,8 @@ export const createEmployeeHomeAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeHomeAddress",
 }));
 
 export type CreateEmployeeJobError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11363,6 +11446,8 @@ export const createEmployeeJob: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeJob",
 }));
 
 export type CreateEmployeeMemberPortalInvitationError =
@@ -11381,6 +11466,8 @@ export const createEmployeeMemberPortalInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeMemberPortalInvitation",
 }));
 
 export type CreateEmployeeRecurringReimbursementError =
@@ -11399,6 +11486,8 @@ export const createEmployeeRecurringReimbursement: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeRecurringReimbursement",
 }));
 
 export type CreateEmployeeRehireError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11414,6 +11503,8 @@ export const createEmployeeRehire: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeRehire",
 }));
 
 export type CreateEmployeeSalaryEstimateError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11429,6 +11520,8 @@ export const createEmployeeSalaryEstimate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeSalaryEstimate",
 }));
 
 export type CreateEmployeeSection603HighEarnerStatusError =
@@ -11448,6 +11541,8 @@ export const createEmployeeSection603HighEarnerStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeSection603HighEarnerStatus",
 }));
 
 export type CreateEmployeeTerminationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11463,6 +11558,8 @@ export const createEmployeeTermination: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeTermination",
 }));
 
 export type CreateEmployeeWorkAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11478,6 +11575,8 @@ export const createEmployeeWorkAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeWorkAddress",
 }));
 
 export type CreateEmployeeYtdBenefitAmountsFromDifferentCompanyError =
@@ -11504,6 +11603,8 @@ export const createEmployeeYtdBenefitAmountsFromDifferentCompany: API.OperationM
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeYtdBenefitAmountsFromDifferentCompany",
 }));
 
 export type CreatePartnerManagedCompanyError = UnprocessableEntity | GustoOpError;
@@ -11519,6 +11620,8 @@ export const createPartnerManagedCompany: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerManagedCompany",
 }));
 
 export type CreatePayrollBatchError = Conflict | UnprocessableEntity | GustoOpError;
@@ -11534,6 +11637,8 @@ export const createPayrollBatch: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayrollBatch",
 }));
 
 export type CreatePayrollDigestError = Conflict | UnprocessableEntity | GustoOpError;
@@ -11549,6 +11654,8 @@ export const createPayrollDigest: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayrollDigest",
 }));
 
 export type CreatePayrollGeneratedDocumentsPrintablePayrollCheckError =
@@ -11571,6 +11678,8 @@ export const createPayrollGeneratedDocumentsPrintablePayrollCheck: API.Operation
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayrollGeneratedDocumentsPrintablePayrollCheck",
 }));
 
 export type CreatePayrollReportsGeneralLedgerError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11586,6 +11695,8 @@ export const createPayrollReportsGeneralLedger: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayrollReportsGeneralLedger",
 }));
 
 export type CreatePlaidProcessorTokenError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11601,6 +11712,8 @@ export const createPlaidProcessorToken: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlaidProcessorToken",
 }));
 
 export type CreateProvisionError = UnprocessableEntity | GustoOpError;
@@ -11616,6 +11729,8 @@ export const createProvision: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProvision",
 }));
 
 export type CreateSalaryEstimateAcceptError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11631,6 +11746,8 @@ export const createSalaryEstimateAccept: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSalaryEstimateAccept",
 }));
 
 export type CreateSandboxGenerate1099Error = NotFound | UnprocessableEntity | GustoOpError;
@@ -11646,6 +11763,8 @@ export const createSandboxGenerate1099: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxGenerate1099",
 }));
 
 export type CreateSandboxGenerateW2Error = NotFound | UnprocessableEntity | GustoOpError;
@@ -11661,6 +11780,8 @@ export const createSandboxGenerateW2: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxGenerateW2",
 }));
 
 export type CreateWebhookSubscriptionError = UnprocessableEntity | GustoOpError;
@@ -11676,6 +11797,8 @@ export const createWebhookSubscription: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookSubscription",
 }));
 
 export type DeleteCompanyBankAccountError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11691,6 +11814,8 @@ export const deleteCompanyBankAccount: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyBankAccount",
 }));
 
 export type DeleteCompanyBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11706,6 +11831,8 @@ export const deleteCompanyBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyBenefit",
 }));
 
 export type DeleteCompanyContractorPaymentContractorPaymentError =
@@ -11732,6 +11859,8 @@ export const deleteCompanyContractorPaymentContractorPayment: API.OperationMetho
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyContractorPaymentContractorPayment",
 }));
 
 export type DeleteCompanyEarningTypeError = NotFound | GustoOpError;
@@ -11747,6 +11876,8 @@ export const deleteCompanyEarningType: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyEarningType",
 }));
 
 export type DeleteCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11762,6 +11893,8 @@ export const deleteCompanyHolidayPayPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyHolidayPayPolicy",
 }));
 
 export type DeleteCompanyPayrollsError = NotFound | GustoOpError;
@@ -11777,6 +11910,8 @@ export const deleteCompanyPayrolls: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyPayrolls",
 }));
 
 export type DeleteCompanySignatoryError = NotFound | GustoOpError;
@@ -11792,6 +11927,8 @@ export const deleteCompanySignatory: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanySignatory",
 }));
 
 export type DeleteCompensationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11807,6 +11944,8 @@ export const deleteCompensation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompensation",
 }));
 
 export type DeleteContractorError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11822,6 +11961,8 @@ export const deleteContractor: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContractor",
 }));
 
 export type DeleteContractorMemberPortalInvitationsError =
@@ -11840,6 +11981,8 @@ export const deleteContractorMemberPortalInvitations: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContractorMemberPortalInvitations",
 }));
 
 export type DeleteContractorRehireError = UnprocessableEntity | GustoOpError;
@@ -11855,6 +11998,8 @@ export const deleteContractorRehire: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContractorRehire",
 }));
 
 export type DeleteContractorTerminationError = UnprocessableEntity | GustoOpError;
@@ -11870,6 +12015,8 @@ export const deleteContractorTermination: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContractorTermination",
 }));
 
 export type DeleteDepartmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11885,6 +12032,8 @@ export const deleteDepartment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDepartment",
 }));
 
 export type DeleteEmployeeError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11900,6 +12049,8 @@ export const deleteEmployee: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployee",
 }));
 
 export type DeleteEmployeeBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11915,6 +12066,8 @@ export const deleteEmployeeBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployeeBenefit",
 }));
 
 export type DeleteEmployeeI9AuthorizationDocumentError =
@@ -11933,6 +12086,8 @@ export const deleteEmployeeI9AuthorizationDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployeeI9AuthorizationDocument",
 }));
 
 export type DeleteEmployeeMemberPortalInvitationsError =
@@ -11951,6 +12106,8 @@ export const deleteEmployeeMemberPortalInvitations: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployeeMemberPortalInvitations",
 }));
 
 export type DeleteEmployeeRehireError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11966,6 +12123,8 @@ export const deleteEmployeeRehire: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployeeRehire",
 }));
 
 export type DeleteEmployeeTerminationsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11981,6 +12140,8 @@ export const deleteEmployeeTerminations: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployeeTerminations",
 }));
 
 export type DeleteHomeAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -11996,6 +12157,8 @@ export const deleteHomeAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHomeAddress",
 }));
 
 export type DeleteJobError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12011,6 +12174,8 @@ export const deleteJob: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteRecurringReimbursementsError = NotFound | GustoOpError;
@@ -12026,6 +12191,8 @@ export const deleteRecurringReimbursements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecurringReimbursements",
 }));
 
 export type DeleteTimeOffRequestError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12041,6 +12208,8 @@ export const deleteTimeOffRequest: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimeOffRequest",
 }));
 
 export type DeleteTimeTrackingTimeSheetError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12056,6 +12225,8 @@ export const deleteTimeTrackingTimeSheet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimeTrackingTimeSheet",
 }));
 
 export type DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdError =
@@ -12082,6 +12253,8 @@ export const deleteV1ContractorPaymentGroupsContractorPaymentGroupId: API.Operat
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1ContractorPaymentGroupsContractorPaymentGroupId",
 }));
 
 export type DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdError =
@@ -12108,6 +12281,8 @@ export const deleteV1EmployeesEmployeeIdBankAccountsBankAccountId: API.Operation
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1EmployeesEmployeeIdBankAccountsBankAccountId",
 }));
 
 export type DeleteV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12123,6 +12298,8 @@ export const deleteV1ExternalPayroll: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1ExternalPayroll",
 }));
 
 export type DeleteWebhookSubscriptionUuidError = NotFound | GustoOpError;
@@ -12138,6 +12315,8 @@ export const deleteWebhookSubscriptionUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookSubscriptionUuid",
 }));
 
 export type DeleteWorkAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12153,6 +12332,8 @@ export const deleteWorkAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkAddress",
 }));
 
 export type GetAchTransactionsError = NotFound | GustoOpError;
@@ -12168,6 +12349,8 @@ export const getAchTransactions: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAchTransactions",
 }));
 
 export type GetBenefitError = GustoOpError;
@@ -12183,6 +12366,8 @@ export const getBenefit: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefit",
 }));
 
 export type GetBenefitsError = GustoOpError;
@@ -12198,6 +12383,8 @@ export const getBenefits: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefits",
 }));
 
 export type GetBenefitsBenefitRequirementsError = NotFound | GustoOpError;
@@ -12213,6 +12400,8 @@ export const getBenefitsBenefitRequirements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitsBenefitRequirements",
 }));
 
 export type GetBulkReportError = NotFound | GustoOpError;
@@ -12228,6 +12417,8 @@ export const getBulkReport: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBulkReport",
 }));
 
 export type GetCompaniesError = NotFound | GustoOpError;
@@ -12243,6 +12434,8 @@ export const getCompanies: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanies",
 }));
 
 export type GetCompaniesAttachmentError = NotFound | GustoOpError;
@@ -12258,6 +12451,8 @@ export const getCompaniesAttachment: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompaniesAttachment",
 }));
 
 export type GetCompaniesAttachmentsError = NotFound | GustoOpError;
@@ -12273,6 +12468,8 @@ export const getCompaniesAttachments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompaniesAttachments",
 }));
 
 export type GetCompaniesCompanyUuidWireInRequestUuidError = GustoOpError;
@@ -12288,6 +12485,8 @@ export const getCompaniesCompanyUuidWireInRequestUuid: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompaniesCompanyUuidWireInRequestUuid",
 }));
 
 export type GetCompaniesDepartmentsError = NotFound | GustoOpError;
@@ -12303,6 +12502,8 @@ export const getCompaniesDepartments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompaniesDepartments",
 }));
 
 export type GetCompanyAdminsError = NotFound | GustoOpError;
@@ -12318,6 +12519,8 @@ export const getCompanyAdmins: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyAdmins",
 }));
 
 export type GetCompanyBankAccountsError = NotFound | GustoOpError;
@@ -12333,6 +12536,8 @@ export const getCompanyBankAccounts: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyBankAccounts",
 }));
 
 export type GetCompanyBenefitError = NotFound | GustoOpError;
@@ -12348,6 +12553,8 @@ export const getCompanyBenefit: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyBenefit",
 }));
 
 export type GetCompanyBenefitContributionExclusionsError = NotFound | GustoOpError;
@@ -12363,6 +12570,8 @@ export const getCompanyBenefitContributionExclusions: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyBenefitContributionExclusions",
 }));
 
 export type GetCompanyBenefitEmployeeBenefitsError = NotFound | GustoOpError;
@@ -12378,6 +12587,8 @@ export const getCompanyBenefitEmployeeBenefits: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyBenefitEmployeeBenefits",
 }));
 
 export type GetCompanyCompanyBenefitsError = NotFound | GustoOpError;
@@ -12393,6 +12604,8 @@ export const getCompanyCompanyBenefits: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyCompanyBenefits",
 }));
 
 export type GetCompanyContractorPaymentContractorPaymentError = NotFound | GustoOpError;
@@ -12408,6 +12621,8 @@ export const getCompanyContractorPaymentContractorPayment: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractorPaymentContractorPayment",
 }));
 
 export type GetCompanyContractorPaymentGroupsError = NotFound | GustoOpError;
@@ -12423,6 +12638,8 @@ export const getCompanyContractorPaymentGroups: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractorPaymentGroups",
 }));
 
 export type GetCompanyContractorPaymentsError = NotFound | GustoOpError;
@@ -12438,6 +12655,8 @@ export const getCompanyContractorPayments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractorPayments",
 }));
 
 export type GetCompanyContractorPaymentsPreviewError =
@@ -12456,6 +12675,8 @@ export const getCompanyContractorPaymentsPreview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractorPaymentsPreview",
 }));
 
 export type GetCompanyContractorsError = NotFound | GustoOpError;
@@ -12471,6 +12692,8 @@ export const getCompanyContractors: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractors",
 }));
 
 export type GetCompanyContractorsPaymentDetailsError = NotFound | GustoOpError;
@@ -12486,6 +12709,8 @@ export const getCompanyContractorsPaymentDetails: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyContractorsPaymentDetails",
 }));
 
 export type GetCompanyCustomFieldsError = NotFound | GustoOpError;
@@ -12501,6 +12726,8 @@ export const getCompanyCustomFields: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyCustomFields",
 }));
 
 export type GetCompanyEarningTypesError = NotFound | GustoOpError;
@@ -12516,6 +12743,8 @@ export const getCompanyEarningTypes: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyEarningTypes",
 }));
 
 export type GetCompanyEmployeesError = NotFound | GustoOpError;
@@ -12531,6 +12760,8 @@ export const getCompanyEmployees: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyEmployees",
 }));
 
 export type GetCompanyEmployeesPaymentDetailsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12546,6 +12777,8 @@ export const getCompanyEmployeesPaymentDetails: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyEmployeesPaymentDetails",
 }));
 
 export type GetCompanyExternalPayrollsError = NotFound | GustoOpError;
@@ -12561,6 +12794,8 @@ export const getCompanyExternalPayrolls: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyExternalPayrolls",
 }));
 
 export type GetCompanyFederalTaxDetailsError = NotFound | GustoOpError;
@@ -12576,6 +12811,8 @@ export const getCompanyFederalTaxDetails: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyFederalTaxDetails",
 }));
 
 export type GetCompanyFormsError = NotFound | GustoOpError;
@@ -12591,6 +12828,8 @@ export const getCompanyForms: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyForms",
 }));
 
 export type GetCompanyHolidayPayPolicyError = NotFound | GustoOpError;
@@ -12606,6 +12845,8 @@ export const getCompanyHolidayPayPolicy: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyHolidayPayPolicy",
 }));
 
 export type GetCompanyLocationsError = NotFound | GustoOpError;
@@ -12621,6 +12862,8 @@ export const getCompanyLocations: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyLocations",
 }));
 
 export type GetCompanyNotificationsError = GustoOpError;
@@ -12636,6 +12879,8 @@ export const getCompanyNotifications: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyNotifications",
 }));
 
 export type GetCompanyOnboardingStatusError = NotFound | GustoOpError;
@@ -12651,6 +12896,8 @@ export const getCompanyOnboardingStatus: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyOnboardingStatus",
 }));
 
 export type GetCompanyPaidHolidaysError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12666,6 +12913,8 @@ export const getCompanyPaidHolidays: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaidHolidays",
 }));
 
 export type GetCompanyPaymentConfigsError = NotFound | GustoOpError;
@@ -12681,6 +12930,8 @@ export const getCompanyPaymentConfigs: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaymentConfigs",
 }));
 
 export type GetCompanyPayPeriodsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12696,6 +12947,8 @@ export const getCompanyPayPeriods: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPayPeriods",
 }));
 
 export type GetCompanyPayrollError = NotFound | GustoOpError;
@@ -12711,6 +12964,8 @@ export const getCompanyPayroll: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPayroll",
 }));
 
 export type GetCompanyPayrollPartnerDisbursementsError = NotFound | GustoOpError;
@@ -12726,6 +12981,8 @@ export const getCompanyPayrollPartnerDisbursements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPayrollPartnerDisbursements",
 }));
 
 export type GetCompanyPayrollReversalsError = NotFound | GustoOpError;
@@ -12741,6 +12998,8 @@ export const getCompanyPayrollReversals: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPayrollReversals",
 }));
 
 export type GetCompanyPayrollsError = NotFound | GustoOpError;
@@ -12756,6 +13015,8 @@ export const getCompanyPayrolls: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPayrolls",
 }));
 
 export type GetCompanyPayScheduleError = NotFound | GustoOpError;
@@ -12771,6 +13032,8 @@ export const getCompanyPaySchedule: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaySchedule",
 }));
 
 export type GetCompanyPaySchedulesError = NotFound | GustoOpError;
@@ -12786,6 +13049,8 @@ export const getCompanyPaySchedules: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaySchedules",
 }));
 
 export type GetCompanyPaySchedulesAssignmentsError = NotFound | GustoOpError;
@@ -12801,6 +13066,8 @@ export const getCompanyPaySchedulesAssignments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaySchedulesAssignments",
 }));
 
 export type GetCompanyPaySchedulesPreviewError = NotFound | UnprocessableEntity | GustoOpError;
@@ -12816,6 +13083,8 @@ export const getCompanyPaySchedulesPreview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPaySchedulesPreview",
 }));
 
 export type GetCompanyReportTemplatesReportTypeError =
@@ -12834,6 +13103,8 @@ export const getCompanyReportTemplatesReportType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyReportTemplatesReportType",
 }));
 
 export type GetCompanySignatoriesError = NotFound | GustoOpError;
@@ -12849,6 +13120,8 @@ export const getCompanySignatories: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanySignatories",
 }));
 
 export type GetCompanySuspensionsError = NotFound | GustoOpError;
@@ -12864,6 +13137,8 @@ export const getCompanySuspensions: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanySuspensions",
 }));
 
 export type GetCompanyTaxRequirementError = NotFound | GustoOpError;
@@ -12879,6 +13154,8 @@ export const getCompanyTaxRequirement: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTaxRequirement",
 }));
 
 export type GetCompanyTaxRequirementsError = NotFound | GustoOpError;
@@ -12894,6 +13171,8 @@ export const getCompanyTaxRequirements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTaxRequirements",
 }));
 
 export type GetCompanyTimeOffBalancesError = NotFound | GustoOpError;
@@ -12909,6 +13188,8 @@ export const getCompanyTimeOffBalances: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTimeOffBalances",
 }));
 
 export type GetCompanyTimeOffPoliciesError = NotFound | GustoOpError;
@@ -12924,6 +13205,8 @@ export const getCompanyTimeOffPolicies: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTimeOffPolicies",
 }));
 
 export type GetCompanyTimeOffRequestsError = GustoOpError;
@@ -12939,6 +13222,8 @@ export const getCompanyTimeOffRequests: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTimeOffRequests",
 }));
 
 export type GetCompanyTimeOffRequests2Error = NotFound | UnprocessableEntity | GustoOpError;
@@ -12954,6 +13239,8 @@ export const getCompanyTimeOffRequests2: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTimeOffRequests2",
 }));
 
 export type GetCompanyTimeTrackingTimeSheetsError = NotFound | GustoOpError;
@@ -12969,6 +13256,8 @@ export const getCompanyTimeTrackingTimeSheets: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyTimeTrackingTimeSheets",
 }));
 
 export type GetCompensationError = NotFound | GustoOpError;
@@ -12984,6 +13273,8 @@ export const getCompensation: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompensation",
 }));
 
 export type GetContractorError = NotFound | GustoOpError;
@@ -12999,6 +13290,8 @@ export const getContractor: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractor",
 }));
 
 export type GetContractorAddressError = NotFound | GustoOpError;
@@ -13014,6 +13307,8 @@ export const getContractorAddress: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorAddress",
 }));
 
 export type GetContractorBankAccountsError = NotFound | GustoOpError;
@@ -13029,6 +13324,8 @@ export const getContractorBankAccounts: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorBankAccounts",
 }));
 
 export type GetContractorDocumentsError = NotFound | GustoOpError;
@@ -13044,6 +13341,8 @@ export const getContractorDocuments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorDocuments",
 }));
 
 export type GetContractorFormError = NotFound | GustoOpError;
@@ -13059,6 +13358,8 @@ export const getContractorForm: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorForm",
 }));
 
 export type GetContractorFormPdfError = NotFound | GustoOpError;
@@ -13074,6 +13375,8 @@ export const getContractorFormPdf: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorFormPdf",
 }));
 
 export type GetContractorFormsError = NotFound | GustoOpError;
@@ -13089,6 +13392,8 @@ export const getContractorForms: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorForms",
 }));
 
 export type GetContractorMemberPortalInvitationsError = NotFound | GustoOpError;
@@ -13104,6 +13409,8 @@ export const getContractorMemberPortalInvitations: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorMemberPortalInvitations",
 }));
 
 export type GetContractorOnboardingStatusError = NotFound | GustoOpError;
@@ -13119,6 +13426,8 @@ export const getContractorOnboardingStatus: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorOnboardingStatus",
 }));
 
 export type GetContractorPaymentGroupPartnerDisbursementsError = NotFound | GustoOpError;
@@ -13138,6 +13447,8 @@ export const getContractorPaymentGroupPartnerDisbursements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorPaymentGroupPartnerDisbursements",
 }));
 
 export type GetContractorPaymentMethodError = NotFound | GustoOpError;
@@ -13153,6 +13464,8 @@ export const getContractorPaymentMethod: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorPaymentMethod",
 }));
 
 export type GetContractorPaymentPdfError = NotFound | GustoOpError;
@@ -13168,6 +13481,8 @@ export const getContractorPaymentPdf: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorPaymentPdf",
 }));
 
 export type GetContractorPaymentReceiptError = NotFound | GustoOpError;
@@ -13183,6 +13498,8 @@ export const getContractorPaymentReceipt: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorPaymentReceipt",
 }));
 
 export type GetContractorPaymentsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -13198,6 +13515,8 @@ export const getContractorPayments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorPayments",
 }));
 
 export type GetDepartmentError = NotFound | GustoOpError;
@@ -13213,6 +13532,8 @@ export const getDepartment: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDepartment",
 }));
 
 export type GetEmployeeBankAccountsError = NotFound | GustoOpError;
@@ -13228,6 +13549,8 @@ export const getEmployeeBankAccounts: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeBankAccounts",
 }));
 
 export type GetEmployeeBenefitError = NotFound | GustoOpError;
@@ -13243,6 +13566,8 @@ export const getEmployeeBenefit: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeBenefit",
 }));
 
 export type GetEmployeeCustomFieldsError = NotFound | GustoOpError;
@@ -13258,6 +13583,8 @@ export const getEmployeeCustomFields: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeCustomFields",
 }));
 
 export type GetEmployeeEmployeeBenefitsError = NotFound | GustoOpError;
@@ -13273,6 +13600,8 @@ export const getEmployeeEmployeeBenefits: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeEmployeeBenefits",
 }));
 
 export type GetEmployeeEmploymentHistoryError = NotFound | GustoOpError;
@@ -13288,6 +13617,8 @@ export const getEmployeeEmploymentHistory: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeEmploymentHistory",
 }));
 
 export type GetEmployeeFormError = NotFound | GustoOpError;
@@ -13303,6 +13634,8 @@ export const getEmployeeForm: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeForm",
 }));
 
 export type GetEmployeeFormPdfError = NotFound | GustoOpError;
@@ -13318,6 +13651,8 @@ export const getEmployeeFormPdf: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeFormPdf",
 }));
 
 export type GetEmployeeFormsError = NotFound | GustoOpError;
@@ -13333,6 +13668,8 @@ export const getEmployeeForms: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeForms",
 }));
 
 export type GetEmployeeGarnishmentsError = NotFound | GustoOpError;
@@ -13348,6 +13685,8 @@ export const getEmployeeGarnishments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeGarnishments",
 }));
 
 export type GetEmployeeHomeAddressesError = NotFound | GustoOpError;
@@ -13363,6 +13702,8 @@ export const getEmployeeHomeAddresses: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeHomeAddresses",
 }));
 
 export type GetEmployeeI9AuthorizationError = NotFound | GustoOpError;
@@ -13378,6 +13719,8 @@ export const getEmployeeI9Authorization: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeI9Authorization",
 }));
 
 export type GetEmployeeI9AuthorizationDocumentOptionsError = NotFound | GustoOpError;
@@ -13397,6 +13740,8 @@ export const getEmployeeI9AuthorizationDocumentOptions: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeI9AuthorizationDocumentOptions",
 }));
 
 export type GetEmployeeI9AuthorizationDocumentsError = NotFound | GustoOpError;
@@ -13412,6 +13757,8 @@ export const getEmployeeI9AuthorizationDocuments: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeI9AuthorizationDocuments",
 }));
 
 export type GetEmployeeJobsError = NotFound | GustoOpError;
@@ -13427,6 +13774,8 @@ export const getEmployeeJobs: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeJobs",
 }));
 
 export type GetEmployeeMemberPortalInvitationsError = NotFound | GustoOpError;
@@ -13442,6 +13791,8 @@ export const getEmployeeMemberPortalInvitations: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeMemberPortalInvitations",
 }));
 
 export type GetEmployeeOnboardingStatusError = NotFound | GustoOpError;
@@ -13457,6 +13808,8 @@ export const getEmployeeOnboardingStatus: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeOnboardingStatus",
 }));
 
 export type GetEmployeePaymentMethodError = NotFound | GustoOpError;
@@ -13472,6 +13825,8 @@ export const getEmployeePaymentMethod: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeePaymentMethod",
 }));
 
 export type GetEmployeeRecurringReimbursementsError = NotFound | GustoOpError;
@@ -13487,6 +13842,8 @@ export const getEmployeeRecurringReimbursements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeRecurringReimbursements",
 }));
 
 export type GetEmployeeRehireError = NotFound | GustoOpError;
@@ -13502,6 +13859,8 @@ export const getEmployeeRehire: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeRehire",
 }));
 
 export type GetEmployeesError = NotFound | GustoOpError;
@@ -13517,6 +13876,8 @@ export const getEmployees: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployees",
 }));
 
 export type GetEmployeeSection603HighEarnerStatusError =
@@ -13535,6 +13896,8 @@ export const getEmployeeSection603HighEarnerStatus: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeSection603HighEarnerStatus",
 }));
 
 export type GetEmployeeSection603HighEarnerStatusesError = NotFound | GustoOpError;
@@ -13550,6 +13913,8 @@ export const getEmployeeSection603HighEarnerStatuses: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeSection603HighEarnerStatuses",
 }));
 
 export type GetEmployeeTerminationsError = NotFound | GustoOpError;
@@ -13565,6 +13930,8 @@ export const getEmployeeTerminations: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeTerminations",
 }));
 
 export type GetEmployeeWorkAddressesError = NotFound | GustoOpError;
@@ -13580,6 +13947,8 @@ export const getEmployeeWorkAddresses: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeWorkAddresses",
 }));
 
 export type GetEmployeeYtdBenefitAmountsFromDifferentCompanyError = NotFound | GustoOpError;
@@ -13603,6 +13972,8 @@ export const getEmployeeYtdBenefitAmountsFromDifferentCompany: API.OperationMeth
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeYtdBenefitAmountsFromDifferentCompany",
 }));
 
 export type GetEventsError = UnprocessableEntity | GustoOpError;
@@ -13618,6 +13989,8 @@ export const getEvents: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvents",
 }));
 
 export type GetGarnishmentError = NotFound | GustoOpError;
@@ -13633,6 +14006,8 @@ export const getGarnishment: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGarnishment",
 }));
 
 export type GetGarnishmentsChildSupportError = GustoOpError;
@@ -13648,6 +14023,8 @@ export const getGarnishmentsChildSupport: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGarnishmentsChildSupport",
 }));
 
 export type GetGeneratedDocumentError = NotFound | GustoOpError;
@@ -13663,6 +14040,8 @@ export const getGeneratedDocument: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeneratedDocument",
 }));
 
 export type GetHomeAddressError = NotFound | GustoOpError;
@@ -13678,6 +14057,8 @@ export const getHomeAddress: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHomeAddress",
 }));
 
 export type GetInformationRequestsError = NotFound | GustoOpError;
@@ -13693,6 +14074,8 @@ export const getInformationRequests: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInformationRequests",
 }));
 
 export type GetInvoiceError = UnprocessableEntity | GustoOpError;
@@ -13708,6 +14091,8 @@ export const getInvoice: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetJobError = NotFound | GustoOpError;
@@ -13719,6 +14104,8 @@ export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, GustoO
     errors: [NotFound, UnknownGustoError],
     protocol: GustoProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJob",
   }));
 
 export type GetJobCompensationsError = NotFound | GustoOpError;
@@ -13734,6 +14121,8 @@ export const getJobCompensations: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobCompensations",
 }));
 
 export type GetLocationError = NotFound | GustoOpError;
@@ -13749,6 +14138,8 @@ export const getLocation: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocation",
 }));
 
 export type GetLocationMinimumWagesError = NotFound | GustoOpError;
@@ -13764,6 +14155,8 @@ export const getLocationMinimumWages: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationMinimumWages",
 }));
 
 export type GetNotificationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -13779,6 +14172,8 @@ export const getNotification: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type GetPartnerManagedCompanyMigrationReadinessError = NotFound | GustoOpError;
@@ -13798,6 +14193,8 @@ export const getPartnerManagedCompanyMigrationReadiness: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerManagedCompanyMigrationReadiness",
 }));
 
 export type GetPayrollBatchError = NotFound | GustoOpError;
@@ -13813,6 +14210,8 @@ export const getPayrollBatch: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollBatch",
 }));
 
 export type GetPayrollDigestError = NotFound | GustoOpError;
@@ -13828,6 +14227,8 @@ export const getPayrollDigest: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollDigest",
 }));
 
 export type GetPeopleBatchError = NotFound | GustoOpError;
@@ -13843,6 +14244,8 @@ export const getPeopleBatch: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeopleBatch",
 }));
 
 export type GetRecoveryCasesError = NotFound | GustoOpError;
@@ -13858,6 +14261,8 @@ export const getRecoveryCases: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryCases",
 }));
 
 export type GetRecurringReimbursementsError = NotFound | GustoOpError;
@@ -13873,6 +14278,8 @@ export const getRecurringReimbursements: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecurringReimbursements",
 }));
 
 export type GetReportError = NotFound | GustoOpError;
@@ -13888,6 +14295,8 @@ export const getReport: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReverseWireTransactionsError = NotFound | GustoOpError;
@@ -13903,6 +14312,8 @@ export const getReverseWireTransactions: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReverseWireTransactions",
 }));
 
 export type GetSalaryEstimatesOccupationsError = UnprocessableEntity | GustoOpError;
@@ -13918,6 +14329,8 @@ export const getSalaryEstimatesOccupations: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalaryEstimatesOccupations",
 }));
 
 export type GetTaxPaymentError = NotFound | GustoOpError;
@@ -13933,6 +14346,8 @@ export const getTaxPayment: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxPayment",
 }));
 
 export type GetTaxPaymentsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -13948,6 +14363,8 @@ export const getTaxPayments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxPayments",
 }));
 
 export type GetTerminationError = NotFound | GustoOpError;
@@ -13963,6 +14380,8 @@ export const getTermination: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTermination",
 }));
 
 export type GetTimeOffPolicyError = NotFound | GustoOpError;
@@ -13978,6 +14397,8 @@ export const getTimeOffPolicy: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeOffPolicy",
 }));
 
 export type GetTimeOffRequestError = NotFound | GustoOpError;
@@ -13993,6 +14414,8 @@ export const getTimeOffRequest: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeOffRequest",
 }));
 
 export type GetTimeTrackingTimeSheetError = NotFound | GustoOpError;
@@ -14008,6 +14431,8 @@ export const getTimeTrackingTimeSheet: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeTrackingTimeSheet",
 }));
 
 export type GetTokenInfoError = GustoOpError;
@@ -14023,6 +14448,8 @@ export const getTokenInfo: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenInfo",
 }));
 
 export type GetV1BenefitsCompanyBenefitIdSummaryError = NotFound | GustoOpError;
@@ -14038,6 +14465,8 @@ export const getV1BenefitsCompanyBenefitIdSummary: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1BenefitsCompanyBenefitIdSummary",
 }));
 
 export type GetV1CompaniesAttachmentUrlError = NotFound | GustoOpError;
@@ -14053,6 +14482,8 @@ export const getV1CompaniesAttachmentUrl: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompaniesAttachmentUrl",
 }));
 
 export type GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsError = NotFound | GustoOpError;
@@ -14076,6 +14507,8 @@ export const getV1CompaniesCompanyIdUnprocessedTerminationPayPeriods: API.Operat
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriods",
 }));
 
 export type GetV1CompaniesPayrollBlockersCompanyUuidError = NotFound | GustoOpError;
@@ -14091,6 +14524,8 @@ export const getV1CompaniesPayrollBlockersCompanyUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompaniesPayrollBlockersCompanyUuid",
 }));
 
 export type GetV1CompanyFormError = NotFound | GustoOpError;
@@ -14106,6 +14541,8 @@ export const getV1CompanyForm: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompanyForm",
 }));
 
 export type GetV1CompanyFormPdfError = NotFound | GustoOpError;
@@ -14121,6 +14558,8 @@ export const getV1CompanyFormPdf: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompanyFormPdf",
 }));
 
 export type GetV1CompanyIndustryError = NotFound | GustoOpError;
@@ -14136,6 +14575,8 @@ export const getV1CompanyIndustry: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1CompanyIndustry",
 }));
 
 export type GetV1ContractorDocumentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14151,6 +14592,8 @@ export const getV1ContractorDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ContractorDocument",
 }));
 
 export type GetV1ContractorDocumentPdfError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14166,6 +14609,8 @@ export const getV1ContractorDocumentPdf: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ContractorDocumentPdf",
 }));
 
 export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdError = NotFound | GustoOpError;
@@ -14189,6 +14634,8 @@ export const getV1ContractorPaymentGroupsContractorPaymentGroupId: API.Operation
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ContractorPaymentGroupsContractorPaymentGroupId",
 }));
 
 export type GetV1ContractorPaymentsContractorPaymentUuidFundError =
@@ -14211,6 +14658,8 @@ export const getV1ContractorPaymentsContractorPaymentUuidFund: API.OperationMeth
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ContractorPaymentsContractorPaymentUuidFund",
 }));
 
 export type GetV1EmployeesEmployeeIdFederalTaxesError = NotFound | GustoOpError;
@@ -14226,6 +14675,8 @@ export const getV1EmployeesEmployeeIdFederalTaxes: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1EmployeesEmployeeIdFederalTaxes",
 }));
 
 export type GetV1EmployeesEmployeeIdStateTaxesError = NotFound | GustoOpError;
@@ -14241,6 +14692,8 @@ export const getV1EmployeesEmployeeIdStateTaxes: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1EmployeesEmployeeIdStateTaxes",
 }));
 
 export type GetV1EmployeesEmployeeUuidPayStubsError = NotFound | GustoOpError;
@@ -14256,6 +14709,8 @@ export const getV1EmployeesEmployeeUuidPayStubs: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1EmployeesEmployeeUuidPayStubs",
 }));
 
 export type GetV1ExternalPayrollError = NotFound | GustoOpError;
@@ -14271,6 +14726,8 @@ export const getV1ExternalPayroll: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ExternalPayroll",
 }));
 
 export type GetV1ExternalPayrollCalculateTaxesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14286,6 +14743,8 @@ export const getV1ExternalPayrollCalculateTaxes: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ExternalPayrollCalculateTaxes",
 }));
 
 export type GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError = NotFound | GustoOpError;
@@ -14305,6 +14764,8 @@ export const getV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.Operatio
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1PartnerManagedCompaniesCompanyUuidTermsOfService",
 }));
 
 export type GetV1PaymentReceiptsPayrollsPayrollUuidError = NotFound | GustoOpError;
@@ -14320,6 +14781,8 @@ export const getV1PaymentReceiptsPayrollsPayrollUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1PaymentReceiptsPayrollsPayrollUuid",
 }));
 
 export type GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubError = NotFound | GustoOpError;
@@ -14343,6 +14806,8 @@ export const getV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStub: API.Operation
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStub",
 }));
 
 export type GetV1SalaryEstimatesIdError = NotFound | GustoOpError;
@@ -14358,6 +14823,8 @@ export const getV1SalaryEstimatesId: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1SalaryEstimatesId",
 }));
 
 export type GetV1TaxLiabilitiesError = NotFound | GustoOpError;
@@ -14373,6 +14840,8 @@ export const getV1TaxLiabilities: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1TaxLiabilities",
 }));
 
 export type GetV1WebhookSubscriptionVerificationTokenUuidError = NotFound | GustoOpError;
@@ -14392,6 +14861,8 @@ export const getV1WebhookSubscriptionVerificationTokenUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1WebhookSubscriptionVerificationTokenUuid",
 }));
 
 export type GetVersionEmployeesTimeOffActivitiesError =
@@ -14410,6 +14881,8 @@ export const getVersionEmployeesTimeOffActivities: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersionEmployeesTimeOffActivities",
 }));
 
 export type GetWebhooksHealthCheckError = GustoOpError;
@@ -14425,6 +14898,8 @@ export const getWebhooksHealthCheck: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooksHealthCheck",
 }));
 
 export type GetWebhookSubscriptionsError = GustoOpError;
@@ -14440,6 +14915,8 @@ export const getWebhookSubscriptions: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookSubscriptions",
 }));
 
 export type GetWebhookSubscriptionUuidError = NotFound | GustoOpError;
@@ -14455,6 +14932,8 @@ export const getWebhookSubscriptionUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookSubscriptionUuid",
 }));
 
 export type GetWireInRequestsWireInRequestUuidError = NotFound | GustoOpError;
@@ -14470,6 +14949,8 @@ export const getWireInRequestsWireInRequestUuid: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWireInRequestsWireInRequestUuid",
 }));
 
 export type GetWorkAddressError = NotFound | GustoOpError;
@@ -14485,6 +14966,8 @@ export const getWorkAddress: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkAddress",
 }));
 
 export type OauthAccessTokenError = GustoOpError;
@@ -14500,6 +14983,8 @@ export const oauthAccessToken: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OauthAccessToken",
 }));
 
 export type PostCompaniesPayrollSkipCompanyUuidError =
@@ -14519,6 +15004,8 @@ export const postCompaniesPayrollSkipCompanyUuid: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCompaniesPayrollSkipCompanyUuid",
 }));
 
 export type PostDepartmentsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14534,6 +15021,8 @@ export const postDepartments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDepartments",
 }));
 
 export type PostPayrollsGrossUpPayrollUuidError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14549,6 +15038,8 @@ export const postPayrollsGrossUpPayrollUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPayrollsGrossUpPayrollUuid",
 }));
 
 export type PostV1CompensationsCompensationIdError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14564,6 +15055,8 @@ export const postV1CompensationsCompensationId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1CompensationsCompensationId",
 }));
 
 export type PostV1DisconnectAppIntegrationError = NotFound | GustoOpError;
@@ -14579,6 +15072,8 @@ export const postV1DisconnectAppIntegration: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1DisconnectAppIntegration",
 }));
 
 export type PostV1EmployeesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14594,6 +15089,8 @@ export const postV1Employees: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1Employees",
 }));
 
 export type PostV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14609,6 +15106,8 @@ export const postV1ExternalPayroll: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1ExternalPayroll",
 }));
 
 export type PostV1HistoricalEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14624,6 +15123,8 @@ export const postV1HistoricalEmployees: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1HistoricalEmployees",
 }));
 
 export type PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError =
@@ -14646,6 +15147,8 @@ export const postV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.Operati
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1PartnerManagedCompaniesCompanyUuidTermsOfService",
 }));
 
 export type PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursError =
@@ -14668,6 +15171,8 @@ export const postV1PayrollsPayrollIdCalculateAccruingTimeOffHours: API.Operation
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1PayrollsPayrollIdCalculateAccruingTimeOffHours",
 }));
 
 export type PutAddPeopleToDepartmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14683,6 +15188,8 @@ export const putAddPeopleToDepartment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAddPeopleToDepartment",
 }));
 
 export type PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelError =
@@ -14705,6 +15212,8 @@ export const putApiV1CompaniesCompanyIdPayrollsPayrollIdCancel: API.OperationMet
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancel",
 }));
 
 export type PutCompaniesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14720,6 +15229,8 @@ export const putCompanies: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanies",
 }));
 
 export type PutCompanyBankAccountsVerifyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14735,6 +15246,8 @@ export const putCompanyBankAccountsVerify: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyBankAccountsVerify",
 }));
 
 export type PutCompanyBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14750,6 +15263,8 @@ export const putCompanyBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyBenefit",
 }));
 
 export type PutCompanyBenefitContributionExclusionsError =
@@ -14768,6 +15283,8 @@ export const putCompanyBenefitContributionExclusions: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyBenefitContributionExclusions",
 }));
 
 export type PutCompanyBenefitEmployeeBenefitsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14783,6 +15300,8 @@ export const putCompanyBenefitEmployeeBenefits: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyBenefitEmployeeBenefits",
 }));
 
 export type PutCompanyEarningTypeError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14798,6 +15317,8 @@ export const putCompanyEarningType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyEarningType",
 }));
 
 export type PutCompanyFederalTaxDetailsError =
@@ -14818,6 +15339,8 @@ export const putCompanyFederalTaxDetails: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyFederalTaxDetails",
 }));
 
 export type PutCompanyHolidayPayPolicyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14833,6 +15356,8 @@ export const putCompanyHolidayPayPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyHolidayPayPolicy",
 }));
 
 export type PutCompanyHolidayPayPolicyAddError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14848,6 +15373,8 @@ export const putCompanyHolidayPayPolicyAdd: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyHolidayPayPolicyAdd",
 }));
 
 export type PutCompanyHolidayPayPolicyRemoveError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14863,6 +15390,8 @@ export const putCompanyHolidayPayPolicyRemove: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyHolidayPayPolicyRemove",
 }));
 
 export type PutCompanyPaymentConfigsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14878,6 +15407,8 @@ export const putCompanyPaymentConfigs: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPaymentConfigs",
 }));
 
 export type PutCompanyPayrollCalculateError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14893,6 +15424,8 @@ export const putCompanyPayrollCalculate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPayrollCalculate",
 }));
 
 export type PutCompanyPayrollPrepareError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14908,6 +15441,8 @@ export const putCompanyPayrollPrepare: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPayrollPrepare",
 }));
 
 export type PutCompanyPayrollsError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -14923,6 +15458,8 @@ export const putCompanyPayrolls: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPayrolls",
 }));
 
 export type PutCompanyPayrollSubmitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14938,6 +15475,8 @@ export const putCompanyPayrollSubmit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPayrollSubmit",
 }));
 
 export type PutCompanyPayScheduleError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -14953,6 +15492,8 @@ export const putCompanyPaySchedule: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyPaySchedule",
 }));
 
 export type PutCompanySignatoryError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -14968,6 +15509,8 @@ export const putCompanySignatory: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanySignatory",
 }));
 
 export type PutCompanyTaxRequirementError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14983,6 +15526,8 @@ export const putCompanyTaxRequirement: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyTaxRequirement",
 }));
 
 export type PutCompensationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -14998,6 +15543,8 @@ export const putCompensation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompensation",
 }));
 
 export type PutContractorError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -15013,6 +15560,8 @@ export const putContractor: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContractor",
 }));
 
 export type PutContractorAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15028,6 +15577,8 @@ export const putContractorAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContractorAddress",
 }));
 
 export type PutContractorOnboardingStatusError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15043,6 +15594,8 @@ export const putContractorOnboardingStatus: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContractorOnboardingStatus",
 }));
 
 export type PutDepartmentsError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -15058,6 +15611,8 @@ export const putDepartments: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDepartments",
 }));
 
 export type PutEmployeeBankAccountsError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15073,6 +15628,8 @@ export const putEmployeeBankAccounts: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeBankAccounts",
 }));
 
 export type PutEmployeeBenefitError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15088,6 +15645,8 @@ export const putEmployeeBenefit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeBenefit",
 }));
 
 export type PutEmployeeFormSignError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15103,6 +15662,8 @@ export const putEmployeeFormSign: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeFormSign",
 }));
 
 export type PutEmployeeI9AuthorizationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15118,6 +15679,8 @@ export const putEmployeeI9Authorization: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeI9Authorization",
 }));
 
 export type PutEmployeeI9AuthorizationDocumentsError =
@@ -15136,6 +15699,8 @@ export const putEmployeeI9AuthorizationDocuments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeI9AuthorizationDocuments",
 }));
 
 export type PutEmployeeI9AuthorizationEmployerSignError =
@@ -15154,6 +15719,8 @@ export const putEmployeeI9AuthorizationEmployerSign: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeI9AuthorizationEmployerSign",
 }));
 
 export type PutEmployeeOnboardingDocumentsConfigError = NotFound | GustoOpError;
@@ -15169,6 +15736,8 @@ export const putEmployeeOnboardingDocumentsConfig: API.OperationMethod<
   errors: [NotFound, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeOnboardingDocumentsConfig",
 }));
 
 export type PutEmployeeOnboardingStatusError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15184,6 +15753,8 @@ export const putEmployeeOnboardingStatus: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeOnboardingStatus",
 }));
 
 export type PutEmployeePaymentMethodError =
@@ -15203,6 +15774,8 @@ export const putEmployeePaymentMethod: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeePaymentMethod",
 }));
 
 export type PutEmployeeRehireError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15218,6 +15791,8 @@ export const putEmployeeRehire: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeRehire",
 }));
 
 export type PutEmployeesError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -15233,6 +15808,8 @@ export const putEmployees: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployees",
 }));
 
 export type PutGarnishmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15248,6 +15825,8 @@ export const putGarnishment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGarnishment",
 }));
 
 export type PutHomeAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15263,6 +15842,8 @@ export const putHomeAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHomeAddress",
 }));
 
 export type PutJobError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15274,6 +15855,8 @@ export const putJob: API.OperationMethod<PutJobRequest, Job, PutJobError, GustoO
     errors: [NotFound, UnprocessableEntity, UnknownGustoError],
     protocol: GustoProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutJob",
   }));
 
 export type PutLocationError = NotFound | Conflict | UnprocessableEntity | GustoOpError;
@@ -15289,6 +15872,8 @@ export const putLocation: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutLocation",
 }));
 
 export type PutPartnerManagedCompanyDisassociateError =
@@ -15307,6 +15892,8 @@ export const putPartnerManagedCompanyDisassociate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPartnerManagedCompanyDisassociate",
 }));
 
 export type PutPartnerManagedCompanyMigrateError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15322,6 +15909,8 @@ export const putPartnerManagedCompanyMigrate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPartnerManagedCompanyMigrate",
 }));
 
 export type PutRecurringReimbursementsError =
@@ -15341,6 +15930,8 @@ export const putRecurringReimbursements: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRecurringReimbursements",
 }));
 
 export type PutRemovePeopleFromDepartmentError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15356,6 +15947,8 @@ export const putRemovePeopleFromDepartment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRemovePeopleFromDepartment",
 }));
 
 export type PutTerminationError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15371,6 +15964,8 @@ export const putTermination: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTermination",
 }));
 
 export type PutTimeOffPolicyError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15386,6 +15981,8 @@ export const putTimeOffPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffPolicy",
 }));
 
 export type PutTimeOffPolicyAddEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15401,6 +15998,8 @@ export const putTimeOffPolicyAddEmployees: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffPolicyAddEmployees",
 }));
 
 export type PutTimeOffPolicyBalanceError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15416,6 +16015,8 @@ export const putTimeOffPolicyBalance: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffPolicyBalance",
 }));
 
 export type PutTimeOffPolicyDeactivateError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15431,6 +16032,8 @@ export const putTimeOffPolicyDeactivate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffPolicyDeactivate",
 }));
 
 export type PutTimeOffPolicyRemoveEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15446,6 +16049,8 @@ export const putTimeOffPolicyRemoveEmployees: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffPolicyRemoveEmployees",
 }));
 
 export type PutTimeOffRequestApproveError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15461,6 +16066,8 @@ export const putTimeOffRequestApprove: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffRequestApprove",
 }));
 
 export type PutTimeOffRequestDeclineError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15476,6 +16083,8 @@ export const putTimeOffRequestDecline: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeOffRequestDecline",
 }));
 
 export type PutTimeTrackingTimeSheetError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15491,6 +16100,8 @@ export const putTimeTrackingTimeSheet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeTrackingTimeSheet",
 }));
 
 export type PutV1CompanyFormSignError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15506,6 +16117,8 @@ export const putV1CompanyFormSign: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1CompanyFormSign",
 }));
 
 export type PutV1CompanyIndustryError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15521,6 +16134,8 @@ export const putV1CompanyIndustry: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1CompanyIndustry",
 }));
 
 export type PutV1ContractorDocumentSignError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15536,6 +16151,8 @@ export const putV1ContractorDocumentSign: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1ContractorDocumentSign",
 }));
 
 export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundError =
@@ -15562,6 +16179,8 @@ export const putV1ContractorPaymentGroupsContractorPaymentGroupIdFund: API.Opera
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1ContractorPaymentGroupsContractorPaymentGroupIdFund",
 }));
 
 export type PutV1ContractorsContractorIdPaymentMethodError =
@@ -15581,6 +16200,8 @@ export const putV1ContractorsContractorIdPaymentMethod: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1ContractorsContractorIdPaymentMethod",
 }));
 
 export type PutV1EmployeesEmployeeIdFederalTaxesError =
@@ -15600,6 +16221,8 @@ export const putV1EmployeesEmployeeIdFederalTaxes: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1EmployeesEmployeeIdFederalTaxes",
 }));
 
 export type PutV1EmployeesEmployeeIdStateTaxesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15615,6 +16238,8 @@ export const putV1EmployeesEmployeeIdStateTaxes: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1EmployeesEmployeeIdStateTaxes",
 }));
 
 export type PutV1ExternalPayrollError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15630,6 +16255,8 @@ export const putV1ExternalPayroll: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1ExternalPayroll",
 }));
 
 export type PutV1HistoricalEmployeesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15645,6 +16272,8 @@ export const putV1HistoricalEmployees: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1HistoricalEmployees",
 }));
 
 export type PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceError =
@@ -15667,6 +16296,8 @@ export const putV1PartnerManagedCompaniesCompanyUuidTermsOfService: API.Operatio
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1PartnerManagedCompaniesCompanyUuidTermsOfService",
 }));
 
 export type PutV1SalaryEstimatesIdError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15682,6 +16313,8 @@ export const putV1SalaryEstimatesId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1SalaryEstimatesId",
 }));
 
 export type PutV1TaxLiabilitiesError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15697,6 +16330,8 @@ export const putV1TaxLiabilities: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1TaxLiabilities",
 }));
 
 export type PutV1TaxLiabilitiesFinishError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15712,6 +16347,8 @@ export const putV1TaxLiabilitiesFinish: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1TaxLiabilitiesFinish",
 }));
 
 export type PutV1VerifyWebhookSubscriptionUuidError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15727,6 +16364,8 @@ export const putV1VerifyWebhookSubscriptionUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1VerifyWebhookSubscriptionUuid",
 }));
 
 export type PutWebhookSubscriptionUuidError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15742,6 +16381,8 @@ export const putWebhookSubscriptionUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWebhookSubscriptionUuid",
 }));
 
 export type PutWireInRequestsWireInRequestUuidError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15757,6 +16398,8 @@ export const putWireInRequestsWireInRequestUuid: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWireInRequestsWireInRequestUuid",
 }));
 
 export type PutWorkAddressError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15772,6 +16415,8 @@ export const putWorkAddress: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWorkAddress",
 }));
 
 export type RedebitRecoveryCaseError = NotFound | UnprocessableEntity | GustoOpError;
@@ -15787,6 +16432,8 @@ export const redebitRecoveryCase: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedebitRecoveryCase",
 }));
 
 export type RevokeAccessTokenError = GustoOpError;
@@ -15802,6 +16449,8 @@ export const revokeAccessToken: API.OperationMethod<
   errors: [UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAccessToken",
 }));
 
 export type UpdateCompanyPayrollPartnerDisbursementsError =
@@ -15820,6 +16469,8 @@ export const updateCompanyPayrollPartnerDisbursements: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCompanyPayrollPartnerDisbursements",
 }));
 
 export type UpdateContractorPaymentGroupPartnerDisbursementsError =
@@ -15842,6 +16493,8 @@ export const updateContractorPaymentGroupPartnerDisbursements: API.OperationMeth
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContractorPaymentGroupPartnerDisbursements",
 }));
 
 export type UpdateEmployeeSection603HighEarnerStatusError =
@@ -15860,6 +16513,8 @@ export const updateEmployeeSection603HighEarnerStatus: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownGustoError],
   protocol: GustoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmployeeSection603HighEarnerStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

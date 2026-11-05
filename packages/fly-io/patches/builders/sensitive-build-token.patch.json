@@ -1,0 +1,10 @@
+{
+  "description": "ensureDepotRemoteBuilder returns `buildToken`, the token flyctl hands to the Depot remote builder to authenticate the build, but the Fly GraphQL schema marks nothing sensitive, so it decoded to a plain string that prints and logs. Marked sensitive so it decodes to Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.builders#EnsureDepotRemoteBuilderResponse/members/buildToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

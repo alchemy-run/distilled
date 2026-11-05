@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -73,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://s3tables.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Tables",
+  service: "S3Tables",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -751,7 +767,7 @@ export type CreateNamespaceError =
  * You must have the `s3tables:CreateNamespace` permission to use this operation.
  */
 export const createNamespace: API.OperationMethod<
-  CreateNamespaceRequest,
+  CreateNamespaceRequest & RegionInput,
   CreateNamespaceResponse,
   CreateNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -769,6 +785,8 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateTableError =
@@ -797,7 +815,7 @@ export type CreateTableError =
  * Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -815,6 +833,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type CreateTableBucketError =
@@ -839,7 +859,7 @@ export type CreateTableBucketError =
  * - To create a table bucket with tags, you must have the `s3tables:TagResource` permission in addition to `s3tables:CreateTableBucket` permission.
  */
 export const createTableBucket: API.OperationMethod<
-  CreateTableBucketRequest,
+  CreateTableBucketRequest & RegionInput,
   CreateTableBucketResponse,
   CreateTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -857,6 +877,8 @@ export const createTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTableBucket",
+  telemetry: TELEMETRY,
+  span: "CreateTableBucket",
 }));
 
 export type DeleteNamespaceError =
@@ -875,7 +897,7 @@ export type DeleteNamespaceError =
  * You must have the `s3tables:DeleteNamespace` permission to use this operation.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -893,6 +915,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteTableError =
@@ -911,7 +935,7 @@ export type DeleteTableError =
  * You must have the `s3tables:DeleteTable` permission to use this operation.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -929,6 +953,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DeleteTableBucketError =
@@ -947,7 +973,7 @@ export type DeleteTableBucketError =
  * You must have the `s3tables:DeleteTableBucket` permission to use this operation.
  */
 export const deleteTableBucket: API.OperationMethod<
-  DeleteTableBucketRequest,
+  DeleteTableBucketRequest & RegionInput,
   DeleteTableBucketResponse,
   DeleteTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -965,6 +991,8 @@ export const deleteTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucket",
 }));
 
 export type DeleteTableBucketEncryptionError =
@@ -983,7 +1011,7 @@ export type DeleteTableBucketEncryptionError =
  * You must have the `s3tables:DeleteTableBucketEncryption` permission to use this operation.
  */
 export const deleteTableBucketEncryption: API.OperationMethod<
-  DeleteTableBucketEncryptionRequest,
+  DeleteTableBucketEncryptionRequest & RegionInput,
   DeleteTableBucketEncryptionResponse,
   DeleteTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1001,6 +1029,8 @@ export const deleteTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketEncryption",
 }));
 
 export type DeleteTableBucketMetricsConfigurationError =
@@ -1019,7 +1049,7 @@ export type DeleteTableBucketMetricsConfigurationError =
  * You must have the `s3tables:DeleteTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
-  DeleteTableBucketMetricsConfigurationRequest,
+  DeleteTableBucketMetricsConfigurationRequest & RegionInput,
   DeleteTableBucketMetricsConfigurationResponse,
   DeleteTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1037,6 +1067,8 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketMetricsConfiguration",
 }));
 
 export type DeleteTableBucketPolicyError =
@@ -1055,7 +1087,7 @@ export type DeleteTableBucketPolicyError =
  * You must have the `s3tables:DeleteTableBucketPolicy` permission to use this operation.
  */
 export const deleteTableBucketPolicy: API.OperationMethod<
-  DeleteTableBucketPolicyRequest,
+  DeleteTableBucketPolicyRequest & RegionInput,
   DeleteTableBucketPolicyResponse,
   DeleteTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1073,6 +1105,8 @@ export const deleteTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketPolicy",
 }));
 
 export type DeleteTableBucketReplicationError =
@@ -1092,7 +1126,7 @@ export type DeleteTableBucketReplicationError =
  * You must have the `s3tables:DeleteTableBucketReplication` permission to use this operation.
  */
 export const deleteTableBucketReplication: API.OperationMethod<
-  DeleteTableBucketReplicationRequest,
+  DeleteTableBucketReplicationRequest & RegionInput,
   DeleteTableBucketReplicationResponse,
   DeleteTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1111,6 +1145,8 @@ export const deleteTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketReplication",
 }));
 
 export type DeleteTablePolicyError =
@@ -1129,7 +1165,7 @@ export type DeleteTablePolicyError =
  * You must have the `s3tables:DeleteTablePolicy` permission to use this operation.
  */
 export const deleteTablePolicy: API.OperationMethod<
-  DeleteTablePolicyRequest,
+  DeleteTablePolicyRequest & RegionInput,
   DeleteTablePolicyResponse,
   DeleteTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1147,6 +1183,8 @@ export const deleteTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTablePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTablePolicy",
 }));
 
 export type DeleteTableReplicationError =
@@ -1166,7 +1204,7 @@ export type DeleteTableReplicationError =
  * You must have the `s3tables:DeleteTableReplication` permission to use this operation.
  */
 export const deleteTableReplication: API.OperationMethod<
-  DeleteTableReplicationRequest,
+  DeleteTableReplicationRequest & RegionInput,
   DeleteTableReplicationResponse,
   DeleteTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1185,6 +1223,8 @@ export const deleteTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableReplication",
+  telemetry: TELEMETRY,
+  span: "DeleteTableReplication",
 }));
 
 export type GetNamespaceError =
@@ -1204,7 +1244,7 @@ export type GetNamespaceError =
  * You must have the `s3tables:GetNamespace` permission to use this operation.
  */
 export const getNamespace: API.OperationMethod<
-  GetNamespaceRequest,
+  GetNamespaceRequest & RegionInput,
   GetNamespaceResponse,
   GetNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1223,6 +1263,8 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetTableError =
@@ -1242,7 +1284,7 @@ export type GetTableError =
  * You must have the `s3tables:GetTable` permission to use this operation.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1303,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableBucketError =
@@ -1280,7 +1324,7 @@ export type GetTableBucketError =
  * You must have the `s3tables:GetTableBucket` permission to use this operation.
  */
 export const getTableBucket: API.OperationMethod<
-  GetTableBucketRequest,
+  GetTableBucketRequest & RegionInput,
   GetTableBucketResponse,
   GetTableBucketError,
   Credentials | HttpClient.HttpClient
@@ -1299,6 +1343,8 @@ export const getTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucket",
+  telemetry: TELEMETRY,
+  span: "GetTableBucket",
 }));
 
 export type GetTableBucketEncryptionError =
@@ -1317,7 +1363,7 @@ export type GetTableBucketEncryptionError =
  * You must have the `s3tables:GetTableBucketEncryption` permission to use this operation.
  */
 export const getTableBucketEncryption: API.OperationMethod<
-  GetTableBucketEncryptionRequest,
+  GetTableBucketEncryptionRequest & RegionInput,
   GetTableBucketEncryptionResponse,
   GetTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1335,6 +1381,8 @@ export const getTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketEncryption",
 }));
 
 export type GetTableBucketMaintenanceConfigurationError =
@@ -1353,7 +1401,7 @@ export type GetTableBucketMaintenanceConfigurationError =
  * You must have the `s3tables:GetTableBucketMaintenanceConfiguration` permission to use this operation.
  */
 export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
-  GetTableBucketMaintenanceConfigurationRequest,
+  GetTableBucketMaintenanceConfigurationRequest & RegionInput,
   GetTableBucketMaintenanceConfigurationResponse,
   GetTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1371,6 +1419,8 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketMaintenanceConfiguration",
 }));
 
 export type GetTableBucketMetricsConfigurationError =
@@ -1389,7 +1439,7 @@ export type GetTableBucketMetricsConfigurationError =
  * You must have the `s3tables:GetTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const getTableBucketMetricsConfiguration: API.OperationMethod<
-  GetTableBucketMetricsConfigurationRequest,
+  GetTableBucketMetricsConfigurationRequest & RegionInput,
   GetTableBucketMetricsConfigurationResponse,
   GetTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1407,6 +1457,8 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketMetricsConfiguration",
 }));
 
 export type GetTableBucketPolicyError =
@@ -1425,7 +1477,7 @@ export type GetTableBucketPolicyError =
  * You must have the `s3tables:GetTableBucketPolicy` permission to use this operation.
  */
 export const getTableBucketPolicy: API.OperationMethod<
-  GetTableBucketPolicyRequest,
+  GetTableBucketPolicyRequest & RegionInput,
   GetTableBucketPolicyResponse,
   GetTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1443,6 +1495,8 @@ export const getTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketPolicy",
 }));
 
 export type GetTableBucketReplicationError =
@@ -1462,7 +1516,7 @@ export type GetTableBucketReplicationError =
  * You must have the `s3tables:GetTableBucketReplication` permission to use this operation.
  */
 export const getTableBucketReplication: API.OperationMethod<
-  GetTableBucketReplicationRequest,
+  GetTableBucketReplicationRequest & RegionInput,
   GetTableBucketReplicationResponse,
   GetTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1481,6 +1535,8 @@ export const getTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketReplication",
 }));
 
 export type GetTableBucketStorageClassError =
@@ -1499,7 +1555,7 @@ export type GetTableBucketStorageClassError =
  * You must have the `s3tables:GetTableBucketStorageClass` permission to use this operation.
  */
 export const getTableBucketStorageClass: API.OperationMethod<
-  GetTableBucketStorageClassRequest,
+  GetTableBucketStorageClassRequest & RegionInput,
   GetTableBucketStorageClassResponse,
   GetTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -1517,6 +1573,8 @@ export const getTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketStorageClass",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketStorageClass",
 }));
 
 export type GetTableEncryptionError =
@@ -1535,7 +1593,7 @@ export type GetTableEncryptionError =
  * You must have the `s3tables:GetTableEncryption` permission to use this operation.
  */
 export const getTableEncryption: API.OperationMethod<
-  GetTableEncryptionRequest,
+  GetTableEncryptionRequest & RegionInput,
   GetTableEncryptionResponse,
   GetTableEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1553,6 +1611,8 @@ export const getTableEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableEncryption",
+  telemetry: TELEMETRY,
+  span: "GetTableEncryption",
 }));
 
 export type GetTableMaintenanceConfigurationError =
@@ -1573,7 +1633,7 @@ export type GetTableMaintenanceConfigurationError =
  * - You must have the `s3tables:GetTableData` permission to use set the compaction strategy to `sort` or `zorder`.
  */
 export const getTableMaintenanceConfiguration: API.OperationMethod<
-  GetTableMaintenanceConfigurationRequest,
+  GetTableMaintenanceConfigurationRequest & RegionInput,
   GetTableMaintenanceConfigurationResponse,
   GetTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1591,6 +1651,8 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableMaintenanceConfiguration",
 }));
 
 export type GetTableMaintenanceJobStatusError =
@@ -1609,7 +1671,7 @@ export type GetTableMaintenanceJobStatusError =
  * You must have the `s3tables:GetTableMaintenanceJobStatus` permission to use this operation.
  */
 export const getTableMaintenanceJobStatus: API.OperationMethod<
-  GetTableMaintenanceJobStatusRequest,
+  GetTableMaintenanceJobStatusRequest & RegionInput,
   GetTableMaintenanceJobStatusResponse,
   GetTableMaintenanceJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1627,6 +1689,8 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableMaintenanceJobStatus",
 }));
 
 export type GetTableMetadataLocationError =
@@ -1645,7 +1709,7 @@ export type GetTableMetadataLocationError =
  * You must have the `s3tables:GetTableMetadataLocation` permission to use this operation.
  */
 export const getTableMetadataLocation: API.OperationMethod<
-  GetTableMetadataLocationRequest,
+  GetTableMetadataLocationRequest & RegionInput,
   GetTableMetadataLocationResponse,
   GetTableMetadataLocationError,
   Credentials | HttpClient.HttpClient
@@ -1663,6 +1727,8 @@ export const getTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadataLocation",
+  telemetry: TELEMETRY,
+  span: "GetTableMetadataLocation",
 }));
 
 export type GetTablePolicyError =
@@ -1681,7 +1747,7 @@ export type GetTablePolicyError =
  * You must have the `s3tables:GetTablePolicy` permission to use this operation.
  */
 export const getTablePolicy: API.OperationMethod<
-  GetTablePolicyRequest,
+  GetTablePolicyRequest & RegionInput,
   GetTablePolicyResponse,
   GetTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1765,8 @@ export const getTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTablePolicy",
+  telemetry: TELEMETRY,
+  span: "GetTablePolicy",
 }));
 
 export type GetTableRecordExpirationConfigurationError =
@@ -1717,7 +1785,7 @@ export type GetTableRecordExpirationConfigurationError =
  * You must have the `s3tables:GetTableRecordExpirationConfiguration` permission to use this operation.
  */
 export const getTableRecordExpirationConfiguration: API.OperationMethod<
-  GetTableRecordExpirationConfigurationRequest,
+  GetTableRecordExpirationConfigurationRequest & RegionInput,
   GetTableRecordExpirationConfigurationResponse,
   GetTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1735,6 +1803,8 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableRecordExpirationConfiguration",
 }));
 
 export type GetTableRecordExpirationJobStatusError =
@@ -1753,7 +1823,7 @@ export type GetTableRecordExpirationJobStatusError =
  * You must have the `s3tables:GetTableRecordExpirationJobStatus` permission to use this operation.
  */
 export const getTableRecordExpirationJobStatus: API.OperationMethod<
-  GetTableRecordExpirationJobStatusRequest,
+  GetTableRecordExpirationJobStatusRequest & RegionInput,
   GetTableRecordExpirationJobStatusResponse,
   GetTableRecordExpirationJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1771,6 +1841,8 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableRecordExpirationJobStatus",
 }));
 
 export type GetTableReplicationError =
@@ -1790,7 +1862,7 @@ export type GetTableReplicationError =
  * You must have the `s3tables:GetTableReplication` permission to use this operation.
  */
 export const getTableReplication: API.OperationMethod<
-  GetTableReplicationRequest,
+  GetTableReplicationRequest & RegionInput,
   GetTableReplicationResponse,
   GetTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -1809,6 +1881,8 @@ export const getTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplication",
+  telemetry: TELEMETRY,
+  span: "GetTableReplication",
 }));
 
 export type GetTableReplicationStatusError =
@@ -1827,7 +1901,7 @@ export type GetTableReplicationStatusError =
  * You must have the `s3tables:GetTableReplicationStatus` permission to use this operation.
  */
 export const getTableReplicationStatus: API.OperationMethod<
-  GetTableReplicationStatusRequest,
+  GetTableReplicationStatusRequest & RegionInput,
   GetTableReplicationStatusResponse,
   GetTableReplicationStatusError,
   Credentials | HttpClient.HttpClient
@@ -1845,6 +1919,8 @@ export const getTableReplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplicationStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableReplicationStatus",
 }));
 
 export type GetTableStorageClassError =
@@ -1863,7 +1939,7 @@ export type GetTableStorageClassError =
  * You must have the `s3tables:GetTableStorageClass` permission to use this operation.
  */
 export const getTableStorageClass: API.OperationMethod<
-  GetTableStorageClassRequest,
+  GetTableStorageClassRequest & RegionInput,
   GetTableStorageClassResponse,
   GetTableStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -1881,6 +1957,8 @@ export const getTableStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableStorageClass",
+  telemetry: TELEMETRY,
+  span: "GetTableStorageClass",
 }));
 
 export type ListNamespacesError =
@@ -1900,7 +1978,7 @@ export type ListNamespacesError =
  * You must have the `s3tables:ListNamespaces` permission to use this operation.
  */
 export const listNamespaces: API.PaginatedOperationMethod<
-  ListNamespacesRequest,
+  ListNamespacesRequest & RegionInput,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1926,6 +2004,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxNamespaces",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 })) as any;
 
 export type ListTableBucketsError =
@@ -1945,7 +2025,7 @@ export type ListTableBucketsError =
  * You must have the `s3tables:ListTableBuckets` permission to use this operation.
  */
 export const listTableBuckets: API.PaginatedOperationMethod<
-  ListTableBucketsRequest,
+  ListTableBucketsRequest & RegionInput,
   ListTableBucketsResponse,
   ListTableBucketsError,
   Credentials | HttpClient.HttpClient,
@@ -1971,6 +2051,8 @@ export const listTableBuckets: API.PaginatedOperationMethod<
     items: "tableBuckets",
     pageSize: "maxBuckets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableBuckets",
 })) as any;
 
 export type ListTablesError =
@@ -1989,7 +2071,7 @@ export type ListTablesError =
  * You must have the `s3tables:ListTables` permission to use this operation.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -2014,6 +2096,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxTables",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2034,7 +2118,7 @@ export type ListTagsForResourceError =
  * For tables and table buckets, you must have the `s3tables:ListTagsForResource` permission to use this operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2052,6 +2136,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutTableBucketEncryptionError =
@@ -2072,7 +2158,7 @@ export type PutTableBucketEncryptionError =
  * If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the *Amazon Simple Storage Service User Guide*.
  */
 export const putTableBucketEncryption: API.OperationMethod<
-  PutTableBucketEncryptionRequest,
+  PutTableBucketEncryptionRequest & RegionInput,
   PutTableBucketEncryptionResponse,
   PutTableBucketEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -2090,6 +2176,8 @@ export const putTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketEncryption",
 }));
 
 export type PutTableBucketMaintenanceConfigurationError =
@@ -2108,7 +2196,7 @@ export type PutTableBucketMaintenanceConfigurationError =
  * You must have the `s3tables:PutTableBucketMaintenanceConfiguration` permission to use this operation.
  */
 export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
-  PutTableBucketMaintenanceConfigurationRequest,
+  PutTableBucketMaintenanceConfigurationRequest & RegionInput,
   PutTableBucketMaintenanceConfigurationResponse,
   PutTableBucketMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2126,6 +2214,8 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketMaintenanceConfiguration",
 }));
 
 export type PutTableBucketMetricsConfigurationError =
@@ -2144,7 +2234,7 @@ export type PutTableBucketMetricsConfigurationError =
  * You must have the `s3tables:PutTableBucketMetricsConfiguration` permission to use this operation.
  */
 export const putTableBucketMetricsConfiguration: API.OperationMethod<
-  PutTableBucketMetricsConfigurationRequest,
+  PutTableBucketMetricsConfigurationRequest & RegionInput,
   PutTableBucketMetricsConfigurationResponse,
   PutTableBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2162,6 +2252,8 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketMetricsConfiguration",
 }));
 
 export type PutTableBucketPolicyError =
@@ -2180,7 +2272,7 @@ export type PutTableBucketPolicyError =
  * You must have the `s3tables:PutTableBucketPolicy` permission to use this operation.
  */
 export const putTableBucketPolicy: API.OperationMethod<
-  PutTableBucketPolicyRequest,
+  PutTableBucketPolicyRequest & RegionInput,
   PutTableBucketPolicyResponse,
   PutTableBucketPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2198,6 +2290,8 @@ export const putTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketPolicy",
 }));
 
 export type PutTableBucketReplicationError =
@@ -2233,7 +2327,7 @@ export type PutTableBucketReplicationError =
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
 export const putTableBucketReplication: API.OperationMethod<
-  PutTableBucketReplicationRequest,
+  PutTableBucketReplicationRequest & RegionInput,
   PutTableBucketReplicationResponse,
   PutTableBucketReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2252,6 +2346,8 @@ export const putTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketReplication",
 }));
 
 export type PutTableBucketStorageClassError =
@@ -2270,7 +2366,7 @@ export type PutTableBucketStorageClassError =
  * You must have the `s3tables:PutTableBucketStorageClass` permission to use this operation.
  */
 export const putTableBucketStorageClass: API.OperationMethod<
-  PutTableBucketStorageClassRequest,
+  PutTableBucketStorageClassRequest & RegionInput,
   PutTableBucketStorageClassResponse,
   PutTableBucketStorageClassError,
   Credentials | HttpClient.HttpClient
@@ -2288,6 +2384,8 @@ export const putTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketStorageClass",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketStorageClass",
 }));
 
 export type PutTableMaintenanceConfigurationError =
@@ -2306,7 +2404,7 @@ export type PutTableMaintenanceConfigurationError =
  * You must have the `s3tables:PutTableMaintenanceConfiguration` permission to use this operation.
  */
 export const putTableMaintenanceConfiguration: API.OperationMethod<
-  PutTableMaintenanceConfigurationRequest,
+  PutTableMaintenanceConfigurationRequest & RegionInput,
   PutTableMaintenanceConfigurationResponse,
   PutTableMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2324,6 +2422,8 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableMaintenanceConfiguration",
 }));
 
 export type PutTablePolicyError =
@@ -2342,7 +2442,7 @@ export type PutTablePolicyError =
  * You must have the `s3tables:PutTablePolicy` permission to use this operation.
  */
 export const putTablePolicy: API.OperationMethod<
-  PutTablePolicyRequest,
+  PutTablePolicyRequest & RegionInput,
   PutTablePolicyResponse,
   PutTablePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2360,6 +2460,8 @@ export const putTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTablePolicy",
+  telemetry: TELEMETRY,
+  span: "PutTablePolicy",
 }));
 
 export type PutTableRecordExpirationConfigurationError =
@@ -2378,7 +2480,7 @@ export type PutTableRecordExpirationConfigurationError =
  * You must have the `s3tables:PutTableRecordExpirationConfiguration` permission to use this operation.
  */
 export const putTableRecordExpirationConfiguration: API.OperationMethod<
-  PutTableRecordExpirationConfigurationRequest,
+  PutTableRecordExpirationConfigurationRequest & RegionInput,
   PutTableRecordExpirationConfigurationResponse,
   PutTableRecordExpirationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2396,6 +2498,8 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableRecordExpirationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableRecordExpirationConfiguration",
 }));
 
 export type PutTableReplicationError =
@@ -2429,7 +2533,7 @@ export type PutTableReplicationError =
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
 export const putTableReplication: API.OperationMethod<
-  PutTableReplicationRequest,
+  PutTableReplicationRequest & RegionInput,
   PutTableReplicationResponse,
   PutTableReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2448,6 +2552,8 @@ export const putTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableReplication",
+  telemetry: TELEMETRY,
+  span: "PutTableReplication",
 }));
 
 export type RenameTableError =
@@ -2466,7 +2572,7 @@ export type RenameTableError =
  * You must have the `s3tables:RenameTable` permission to use this operation.
  */
 export const renameTable: API.OperationMethod<
-  RenameTableRequest,
+  RenameTableRequest & RegionInput,
   RenameTableResponse,
   RenameTableError,
   Credentials | HttpClient.HttpClient
@@ -2484,6 +2590,8 @@ export const renameTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameTable",
+  telemetry: TELEMETRY,
+  span: "RenameTable",
 }));
 
 export type TagResourceError =
@@ -2504,7 +2612,7 @@ export type TagResourceError =
  * For tables and table buckets, you must have the `s3tables:TagResource` permission to use this operation.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2522,6 +2630,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2542,7 +2652,7 @@ export type UntagResourceError =
  * For tables and table buckets, you must have the `s3tables:UntagResource` permission to use this operation.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2560,6 +2670,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateTableMetadataLocationError =
@@ -2578,7 +2690,7 @@ export type UpdateTableMetadataLocationError =
  * You must have the `s3tables:UpdateTableMetadataLocation` permission to use this operation.
  */
 export const updateTableMetadataLocation: API.OperationMethod<
-  UpdateTableMetadataLocationRequest,
+  UpdateTableMetadataLocationRequest & RegionInput,
   UpdateTableMetadataLocationResponse,
   UpdateTableMetadataLocationError,
   Credentials | HttpClient.HttpClient
@@ -2596,6 +2708,8 @@ export const updateTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableMetadataLocation",
+  telemetry: TELEMETRY,
+  span: "UpdateTableMetadataLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

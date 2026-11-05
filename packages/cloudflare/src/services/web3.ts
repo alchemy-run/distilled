@@ -23,6 +23,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   modifiedOn: "modified_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Web3",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -371,6 +385,8 @@ export const createHostname: API.OperationMethod<
   errors: [Web3HostnameNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostname",
 }));
 
 export type CreateHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
@@ -394,6 +410,8 @@ export const createHostnameIpfsUniversalPathContentListEntry: API.OperationMetho
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostnameIpfsUniversalPathContentListEntry",
 }));
 
 export type DeleteHostnameError = Web3HostnameNotFound | Forbidden | CloudflareOpError;
@@ -409,6 +427,8 @@ export const deleteHostname: API.OperationMethod<
   errors: [Web3HostnameNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostname",
 }));
 
 export type DeleteHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
@@ -432,6 +452,8 @@ export const deleteHostnameIpfsUniversalPathContentListEntry: API.OperationMetho
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostnameIpfsUniversalPathContentListEntry",
 }));
 
 export type GetHostnameError = Web3HostnameNotFound | Forbidden | CloudflareOpError;
@@ -447,6 +469,8 @@ export const getHostname: API.OperationMethod<
   errors: [Web3HostnameNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostname",
 }));
 
 export type GetHostnameIpfsUniversalPathContentListError =
@@ -472,6 +496,8 @@ export const getHostnameIpfsUniversalPathContentList: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostnameIpfsUniversalPathContentList",
 }));
 
 export type GetHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
@@ -487,6 +513,8 @@ export const getHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostnameIpfsUniversalPathContentListEntry",
 }));
 
 export type ListHostnameIpfsUniversalPathContentListEntriesError =
@@ -516,6 +544,8 @@ export const listHostnameIpfsUniversalPathContentListEntries: API.OperationMetho
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostnameIpfsUniversalPathContentListEntries",
 }));
 
 export type ListHostnamesError = Forbidden | CloudflareOpError;
@@ -533,6 +563,8 @@ export const listHostnames: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListHostnames",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -551,6 +583,8 @@ export const patchHostname: API.OperationMethod<
   errors: [Web3HostnameNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchHostname",
 }));
 
 export type PutHostnameIpfsUniversalPathContentListError =
@@ -576,6 +610,8 @@ export const putHostnameIpfsUniversalPathContentList: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostnameIpfsUniversalPathContentList",
 }));
 
 export type UpdateHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
@@ -599,6 +635,8 @@ export const updateHostnameIpfsUniversalPathContentListEntry: API.OperationMetho
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostnameIpfsUniversalPathContentListEntry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Firewalls",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateFirewallRequestLabelsMap = { [key: string]: string | undefined };
 /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
@@ -497,6 +510,8 @@ export const createFirewall: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFirewall",
 }));
 
 export type DeleteFirewallError = HetznerOpError;
@@ -512,6 +527,8 @@ export const deleteFirewall: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewall",
 }));
 
 export type GetFirewallError = HetznerOpError;
@@ -527,6 +544,8 @@ export const getFirewall: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewall",
 }));
 
 export type ListFirewallsError = HetznerOpError;
@@ -544,6 +563,8 @@ export const listFirewalls: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFirewalls",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -568,6 +589,8 @@ export const updateFirewall: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirewall",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

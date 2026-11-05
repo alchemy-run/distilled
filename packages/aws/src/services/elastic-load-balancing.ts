@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -83,6 +85,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticloadbalancing.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticLoadBalancing",
+  service: "ElasticLoadBalancing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessPointNotFoundException
   extends /*@__PURE__*/ S.TaggedError<AccessPointNotFoundException>()(
@@ -700,7 +717,7 @@ export type AddTagsError =
  * in the *Classic Load Balancers Guide*.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -711,6 +728,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type ApplySecurityGroupsToLoadBalancerError =
@@ -725,7 +744,7 @@ export type ApplySecurityGroupsToLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
-  ApplySecurityGroupsToLoadBalancerInput,
+  ApplySecurityGroupsToLoadBalancerInput & RegionInput,
   ApplySecurityGroupsToLoadBalancerOutput,
   ApplySecurityGroupsToLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -740,6 +759,8 @@ export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySecurityGroupsToLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "ApplySecurityGroupsToLoadBalancer",
 }));
 
 export type AttachLoadBalancerToSubnetsError =
@@ -756,7 +777,7 @@ export type AttachLoadBalancerToSubnetsError =
  * in the *Classic Load Balancers Guide*.
  */
 export const attachLoadBalancerToSubnets: API.OperationMethod<
-  AttachLoadBalancerToSubnetsInput,
+  AttachLoadBalancerToSubnetsInput & RegionInput,
   AttachLoadBalancerToSubnetsOutput,
   AttachLoadBalancerToSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -772,6 +793,8 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerToSubnets",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerToSubnets",
 }));
 
 export type ConfigureHealthCheckError = AccessPointNotFoundException | CommonErrors;
@@ -782,7 +805,7 @@ export type ConfigureHealthCheckError = AccessPointNotFoundException | CommonErr
  * in the *Classic Load Balancers Guide*.
  */
 export const configureHealthCheck: API.OperationMethod<
-  ConfigureHealthCheckInput,
+  ConfigureHealthCheckInput & RegionInput,
   ConfigureHealthCheckOutput,
   ConfigureHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +816,8 @@ export const configureHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureHealthCheck",
+  telemetry: TELEMETRY,
+  span: "ConfigureHealthCheck",
 }));
 
 export type CreateAppCookieStickinessPolicyError =
@@ -816,7 +841,7 @@ export type CreateAppCookieStickinessPolicyError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createAppCookieStickinessPolicy: API.OperationMethod<
-  CreateAppCookieStickinessPolicyInput,
+  CreateAppCookieStickinessPolicyInput & RegionInput,
   CreateAppCookieStickinessPolicyOutput,
   CreateAppCookieStickinessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -832,6 +857,8 @@ export const createAppCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppCookieStickinessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateAppCookieStickinessPolicy",
 }));
 
 export type CreateLBCookieStickinessPolicyError =
@@ -852,7 +879,7 @@ export type CreateLBCookieStickinessPolicyError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLBCookieStickinessPolicy: API.OperationMethod<
-  CreateLBCookieStickinessPolicyInput,
+  CreateLBCookieStickinessPolicyInput & RegionInput,
   CreateLBCookieStickinessPolicyOutput,
   CreateLBCookieStickinessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +895,8 @@ export const createLBCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLBCookieStickinessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLBCookieStickinessPolicy",
 }));
 
 export type CreateLoadBalancerError =
@@ -902,7 +931,7 @@ export type CreateLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateAccessPointInput,
+  CreateAccessPointInput & RegionInput,
   CreateAccessPointOutput,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -926,6 +955,8 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type CreateLoadBalancerListenersError =
@@ -942,7 +973,7 @@ export type CreateLoadBalancerListenersError =
  * in the *Classic Load Balancers Guide*.
  */
 export const createLoadBalancerListeners: API.OperationMethod<
-  CreateLoadBalancerListenerInput,
+  CreateLoadBalancerListenerInput & RegionInput,
   CreateLoadBalancerListenerOutput,
   CreateLoadBalancerListenersError,
   Credentials | HttpClient.HttpClient
@@ -959,6 +990,8 @@ export const createLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerListeners",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancerListeners",
 }));
 
 export type CreateLoadBalancerPolicyError =
@@ -974,7 +1007,7 @@ export type CreateLoadBalancerPolicyError =
  * Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
  */
 export const createLoadBalancerPolicy: API.OperationMethod<
-  CreateLoadBalancerPolicyInput,
+  CreateLoadBalancerPolicyInput & RegionInput,
   CreateLoadBalancerPolicyOutput,
   CreateLoadBalancerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -991,6 +1024,8 @@ export const createLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancerPolicy",
 }));
 
 export type DeleteLoadBalancerError = CommonErrors;
@@ -1003,7 +1038,7 @@ export type DeleteLoadBalancerError = CommonErrors;
  * `DeleteLoadBalancer` still succeeds.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteAccessPointInput,
+  DeleteAccessPointInput & RegionInput,
   DeleteAccessPointOutput,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1014,6 +1049,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type DeleteLoadBalancerListenersError = AccessPointNotFoundException | CommonErrors;
@@ -1021,7 +1058,7 @@ export type DeleteLoadBalancerListenersError = AccessPointNotFoundException | Co
  * Deletes the specified listeners from the specified load balancer.
  */
 export const deleteLoadBalancerListeners: API.OperationMethod<
-  DeleteLoadBalancerListenerInput,
+  DeleteLoadBalancerListenerInput & RegionInput,
   DeleteLoadBalancerListenerOutput,
   DeleteLoadBalancerListenersError,
   Credentials | HttpClient.HttpClient
@@ -1032,6 +1069,8 @@ export const deleteLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerListeners",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerListeners",
 }));
 
 export type DeleteLoadBalancerPolicyError =
@@ -1042,7 +1081,7 @@ export type DeleteLoadBalancerPolicyError =
  * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
  */
 export const deleteLoadBalancerPolicy: API.OperationMethod<
-  DeleteLoadBalancerPolicyInput,
+  DeleteLoadBalancerPolicyInput & RegionInput,
   DeleteLoadBalancerPolicyOutput,
   DeleteLoadBalancerPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1053,6 +1092,8 @@ export const deleteLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerPolicy",
 }));
 
 export type DeregisterInstancesFromLoadBalancerError =
@@ -1068,7 +1109,7 @@ export type DeregisterInstancesFromLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
-  DeregisterEndPointsInput,
+  DeregisterEndPointsInput & RegionInput,
   DeregisterEndPointsOutput,
   DeregisterInstancesFromLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1079,6 +1120,8 @@ export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstancesFromLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeregisterInstancesFromLoadBalancer",
 }));
 
 export type DescribeAccountLimitsError = CommonErrors;
@@ -1089,7 +1132,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * in the *Classic Load Balancers Guide*.
  */
 export const describeAccountLimits: API.OperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1100,6 +1143,8 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 }));
 
 export type DescribeInstanceHealthError =
@@ -1110,7 +1155,7 @@ export type DescribeInstanceHealthError =
  * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
  */
 export const describeInstanceHealth: API.OperationMethod<
-  DescribeEndPointStateInput,
+  DescribeEndPointStateInput & RegionInput,
   DescribeEndPointStateOutput,
   DescribeInstanceHealthError,
   Credentials | HttpClient.HttpClient
@@ -1121,6 +1166,8 @@ export const describeInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceHealth",
 }));
 
 export type DescribeLoadBalancerAttributesError =
@@ -1131,7 +1178,7 @@ export type DescribeLoadBalancerAttributesError =
  * Describes the attributes for the specified load balancer.
  */
 export const describeLoadBalancerAttributes: API.OperationMethod<
-  DescribeLoadBalancerAttributesInput,
+  DescribeLoadBalancerAttributesInput & RegionInput,
   DescribeLoadBalancerAttributesOutput,
   DescribeLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1142,6 +1189,8 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerAttributes",
 }));
 
 export type DescribeLoadBalancerPoliciesError =
@@ -1157,7 +1206,7 @@ export type DescribeLoadBalancerPoliciesError =
  * The names of the sample policies have the `ELBSample-` prefix.
  */
 export const describeLoadBalancerPolicies: API.OperationMethod<
-  DescribeLoadBalancerPoliciesInput,
+  DescribeLoadBalancerPoliciesInput & RegionInput,
   DescribeLoadBalancerPoliciesOutput,
   DescribeLoadBalancerPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -1168,6 +1217,8 @@ export const describeLoadBalancerPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerPolicies",
 }));
 
 export type DescribeLoadBalancerPolicyTypesError = PolicyTypeNotFoundException | CommonErrors;
@@ -1184,7 +1235,7 @@ export type DescribeLoadBalancerPolicyTypesError = PolicyTypeNotFoundException |
  * SetLoadBalancerPoliciesForBackendServer to set the policy.
  */
 export const describeLoadBalancerPolicyTypes: API.OperationMethod<
-  DescribeLoadBalancerPolicyTypesInput,
+  DescribeLoadBalancerPolicyTypesInput & RegionInput,
   DescribeLoadBalancerPolicyTypesOutput,
   DescribeLoadBalancerPolicyTypesError,
   Credentials | HttpClient.HttpClient
@@ -1195,6 +1246,8 @@ export const describeLoadBalancerPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicyTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerPolicyTypes",
 }));
 
 export type DescribeLoadBalancersError =
@@ -1205,7 +1258,7 @@ export type DescribeLoadBalancersError =
  * Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeAccessPointsInput,
+  DescribeAccessPointsInput & RegionInput,
   DescribeAccessPointsOutput,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -1222,6 +1275,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextMarker",
     items: "LoadBalancerDescriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancers",
 })) as any;
 
 export type DescribeTagsError = AccessPointNotFoundException | CommonErrors;
@@ -1229,7 +1284,7 @@ export type DescribeTagsError = AccessPointNotFoundException | CommonErrors;
  * Describes the tags associated with the specified load balancers.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -1240,6 +1295,8 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type DetachLoadBalancerFromSubnetsError =
@@ -1254,7 +1311,7 @@ export type DetachLoadBalancerFromSubnetsError =
  * the load balancer balances the traffic among the remaining routable subnets.
  */
 export const detachLoadBalancerFromSubnets: API.OperationMethod<
-  DetachLoadBalancerFromSubnetsInput,
+  DetachLoadBalancerFromSubnetsInput & RegionInput,
   DetachLoadBalancerFromSubnetsOutput,
   DetachLoadBalancerFromSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -1265,6 +1322,8 @@ export const detachLoadBalancerFromSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerFromSubnets",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancerFromSubnets",
 }));
 
 export type DisableAvailabilityZonesForLoadBalancerError =
@@ -1286,7 +1345,7 @@ export type DisableAvailabilityZonesForLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
-  RemoveAvailabilityZonesInput,
+  RemoveAvailabilityZonesInput & RegionInput,
   RemoveAvailabilityZonesOutput,
   DisableAvailabilityZonesForLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1297,6 +1356,8 @@ export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAvailabilityZonesForLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DisableAvailabilityZonesForLoadBalancer",
 }));
 
 export type EnableAvailabilityZonesForLoadBalancerError =
@@ -1313,7 +1374,7 @@ export type EnableAvailabilityZonesForLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
-  AddAvailabilityZonesInput,
+  AddAvailabilityZonesInput & RegionInput,
   AddAvailabilityZonesOutput,
   EnableAvailabilityZonesForLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1324,6 +1385,8 @@ export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAvailabilityZonesForLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "EnableAvailabilityZonesForLoadBalancer",
 }));
 
 export type ModifyLoadBalancerAttributesError =
@@ -1349,7 +1412,7 @@ export type ModifyLoadBalancerAttributesError =
  * - Idle Connection Timeout
  */
 export const modifyLoadBalancerAttributes: API.OperationMethod<
-  ModifyLoadBalancerAttributesInput,
+  ModifyLoadBalancerAttributesInput & RegionInput,
   ModifyLoadBalancerAttributesOutput,
   ModifyLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -1364,6 +1427,8 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyLoadBalancerAttributes",
 }));
 
 export type RegisterInstancesWithLoadBalancerError =
@@ -1392,7 +1457,7 @@ export type RegisterInstancesWithLoadBalancerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const registerInstancesWithLoadBalancer: API.OperationMethod<
-  RegisterEndPointsInput,
+  RegisterEndPointsInput & RegionInput,
   RegisterEndPointsOutput,
   RegisterInstancesWithLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -1403,6 +1468,8 @@ export const registerInstancesWithLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstancesWithLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "RegisterInstancesWithLoadBalancer",
 }));
 
 export type RemoveTagsError = AccessPointNotFoundException | CommonErrors;
@@ -1410,7 +1477,7 @@ export type RemoveTagsError = AccessPointNotFoundException | CommonErrors;
  * Removes one or more tags from the specified load balancer.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -1421,6 +1488,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type SetLoadBalancerListenerSSLCertificateError =
@@ -1438,7 +1507,7 @@ export type SetLoadBalancerListenerSSLCertificateError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
-  SetLoadBalancerListenerSSLCertificateInput,
+  SetLoadBalancerListenerSSLCertificateInput & RegionInput,
   SetLoadBalancerListenerSSLCertificateOutput,
   SetLoadBalancerListenerSSLCertificateError,
   Credentials | HttpClient.HttpClient
@@ -1455,6 +1524,8 @@ export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerListenerSSLCertificate",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerListenerSSLCertificate",
 }));
 
 export type SetLoadBalancerPoliciesForBackendServerError =
@@ -1478,7 +1549,7 @@ export type SetLoadBalancerPoliciesForBackendServerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
-  SetLoadBalancerPoliciesForBackendServerInput,
+  SetLoadBalancerPoliciesForBackendServerInput & RegionInput,
   SetLoadBalancerPoliciesForBackendServerOutput,
   SetLoadBalancerPoliciesForBackendServerError,
   Credentials | HttpClient.HttpClient
@@ -1493,6 +1564,8 @@ export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesForBackendServer",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerPoliciesForBackendServer",
 }));
 
 export type SetLoadBalancerPoliciesOfListenerError =
@@ -1513,7 +1586,7 @@ export type SetLoadBalancerPoliciesOfListenerError =
  * in the *Classic Load Balancers Guide*.
  */
 export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
-  SetLoadBalancerPoliciesOfListenerInput,
+  SetLoadBalancerPoliciesOfListenerInput & RegionInput,
   SetLoadBalancerPoliciesOfListenerOutput,
   SetLoadBalancerPoliciesOfListenerError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1602,8 @@ export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesOfListener",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerPoliciesOfListener",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

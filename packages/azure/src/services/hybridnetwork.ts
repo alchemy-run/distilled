@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HybridNetwork" },
+  prefix: "Hybridnetwork",
+  service: "Hybridnetwork",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Reference to another resource. */
 export interface AddArtifactStoreNetworkFabricControllerEndPointsRequestNetworkFabricControllerIdsItem {
   /** Resource ID. */
@@ -3353,6 +3374,8 @@ export const AddArtifactStoreNetworkFabricControllerEndPoints: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddArtifactStoreNetworkFabricControllerEndPoints",
 }));
 
 export type ApproveArtifactStorePrivateEndPointsError = AzureOpError;
@@ -3368,6 +3391,8 @@ export const ApproveArtifactStorePrivateEndPoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveArtifactStorePrivateEndPoints",
 }));
 
 export type ArtifactManifestsCreateOrUpdateError = AzureOpError;
@@ -3383,6 +3408,8 @@ export const ArtifactManifestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArtifactManifestsCreateOrUpdate",
 }));
 
 export type ArtifactStoresCreateOrUpdateError = AzureOpError;
@@ -3398,6 +3425,8 @@ export const ArtifactStoresCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArtifactStoresCreateOrUpdate",
 }));
 
 export type ConfigurationGroupSchemasCreateOrUpdateError = AzureOpError;
@@ -3413,6 +3442,8 @@ export const ConfigurationGroupSchemasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationGroupSchemasCreateOrUpdate",
 }));
 
 export type ConfigurationGroupValuesCreateOrUpdateError = AzureOpError;
@@ -3428,6 +3459,8 @@ export const ConfigurationGroupValuesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationGroupValuesCreateOrUpdate",
 }));
 
 export type DeleteArtifactManifestError = AzureOpError;
@@ -3443,6 +3476,8 @@ export const DeleteArtifactManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArtifactManifest",
 }));
 
 export type DeleteArtifactStoreError = AzureOpError;
@@ -3458,6 +3493,8 @@ export const DeleteArtifactStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArtifactStore",
 }));
 
 export type DeleteArtifactStoreNetworkFabricControllerEndPointsError = AzureOpError;
@@ -3481,6 +3518,8 @@ export const DeleteArtifactStoreNetworkFabricControllerEndPoints: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArtifactStoreNetworkFabricControllerEndPoints",
 }));
 
 export type DeleteConfigurationGroupSchemaError = AzureOpError;
@@ -3496,6 +3535,8 @@ export const DeleteConfigurationGroupSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationGroupSchema",
 }));
 
 export type DeleteConfigurationGroupValueError = AzureOpError;
@@ -3511,6 +3552,8 @@ export const DeleteConfigurationGroupValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationGroupValue",
 }));
 
 export type DeleteNetworkFunctionError = AzureOpError;
@@ -3526,6 +3569,8 @@ export const DeleteNetworkFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkFunction",
 }));
 
 export type DeleteNetworkFunctionDefinitionGroupError = AzureOpError;
@@ -3541,6 +3586,8 @@ export const DeleteNetworkFunctionDefinitionGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkFunctionDefinitionGroup",
 }));
 
 export type DeleteNetworkFunctionDefinitionVersionError = AzureOpError;
@@ -3556,6 +3603,8 @@ export const DeleteNetworkFunctionDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkFunctionDefinitionVersion",
 }));
 
 export type DeleteNetworkServiceDesignGroupError = AzureOpError;
@@ -3571,6 +3620,8 @@ export const DeleteNetworkServiceDesignGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkServiceDesignGroup",
 }));
 
 export type DeleteNetworkServiceDesignVersionError = AzureOpError;
@@ -3586,6 +3637,8 @@ export const DeleteNetworkServiceDesignVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkServiceDesignVersion",
 }));
 
 export type DeletePublisherError = AzureOpError;
@@ -3601,6 +3654,8 @@ export const DeletePublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublisher",
 }));
 
 export type DeleteSiteError = AzureOpError;
@@ -3616,6 +3671,8 @@ export const DeleteSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSite",
 }));
 
 export type DeleteSiteNetworkServiceError = AzureOpError;
@@ -3631,6 +3688,8 @@ export const DeleteSiteNetworkService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSiteNetworkService",
 }));
 
 export type ExecuteNetworkFunctionRequestError = AzureOpError;
@@ -3646,6 +3705,8 @@ export const ExecuteNetworkFunctionRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteNetworkFunctionRequest",
 }));
 
 export type GetArtifactManifestError = AzureOpError;
@@ -3661,6 +3722,8 @@ export const GetArtifactManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifactManifest",
 }));
 
 export type GetArtifactStoreError = AzureOpError;
@@ -3676,6 +3739,8 @@ export const GetArtifactStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifactStore",
 }));
 
 export type GetComponentError = AzureOpError;
@@ -3691,6 +3756,8 @@ export const GetComponent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetConfigurationGroupSchemaError = AzureOpError;
@@ -3706,6 +3773,8 @@ export const GetConfigurationGroupSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationGroupSchema",
 }));
 
 export type GetConfigurationGroupValueError = AzureOpError;
@@ -3721,6 +3790,8 @@ export const GetConfigurationGroupValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationGroupValue",
 }));
 
 export type GetNetworkFunctionError = AzureOpError;
@@ -3736,6 +3807,8 @@ export const GetNetworkFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkFunction",
 }));
 
 export type GetNetworkFunctionDefinitionGroupError = AzureOpError;
@@ -3751,6 +3824,8 @@ export const GetNetworkFunctionDefinitionGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkFunctionDefinitionGroup",
 }));
 
 export type GetNetworkFunctionDefinitionVersionError = AzureOpError;
@@ -3766,6 +3841,8 @@ export const GetNetworkFunctionDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkFunctionDefinitionVersion",
 }));
 
 export type GetNetworkServiceDesignGroupError = AzureOpError;
@@ -3781,6 +3858,8 @@ export const GetNetworkServiceDesignGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkServiceDesignGroup",
 }));
 
 export type GetNetworkServiceDesignVersionError = AzureOpError;
@@ -3796,6 +3875,8 @@ export const GetNetworkServiceDesignVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkServiceDesignVersion",
 }));
 
 export type GetProxyArtifactError = AzureOpError;
@@ -3811,6 +3892,8 @@ export const GetProxyArtifact: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProxyArtifact",
 }));
 
 export type GetPublisherError = AzureOpError;
@@ -3826,6 +3909,8 @@ export const GetPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublisher",
 }));
 
 export type GetSiteError = AzureOpError;
@@ -3841,6 +3926,8 @@ export const GetSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSite",
 }));
 
 export type GetSiteNetworkServiceError = AzureOpError;
@@ -3856,6 +3943,8 @@ export const GetSiteNetworkService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSiteNetworkService",
 }));
 
 export type ListArtifactManifestByArtifactStoreError = AzureOpError;
@@ -3871,6 +3960,8 @@ export const ListArtifactManifestByArtifactStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactManifestByArtifactStore",
 }));
 
 export type ListArtifactManifestCredentialError = AzureOpError;
@@ -3886,6 +3977,8 @@ export const ListArtifactManifestCredential: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactManifestCredential",
 }));
 
 export type ListArtifactStoreByPublisherError = AzureOpError;
@@ -3901,6 +3994,8 @@ export const ListArtifactStoreByPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactStoreByPublisher",
 }));
 
 export type ListArtifactStoreNetworkFabricControllerPrivateEndPointsError = AzureOpError;
@@ -3920,6 +4015,8 @@ export const ListArtifactStoreNetworkFabricControllerPrivateEndPoints: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactStoreNetworkFabricControllerPrivateEndPoints",
 }));
 
 export type ListArtifactStorePrivateEndPointsError = AzureOpError;
@@ -3935,6 +4032,8 @@ export const ListArtifactStorePrivateEndPoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactStorePrivateEndPoints",
 }));
 
 export type ListComponentByNetworkFunctionError = AzureOpError;
@@ -3950,6 +4049,8 @@ export const ListComponentByNetworkFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentByNetworkFunction",
 }));
 
 export type ListConfigurationGroupSchemaByPublisherError = AzureOpError;
@@ -3965,6 +4066,8 @@ export const ListConfigurationGroupSchemaByPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationGroupSchemaByPublisher",
 }));
 
 export type ListConfigurationGroupValueByResourceGroupError = AzureOpError;
@@ -3980,6 +4083,8 @@ export const ListConfigurationGroupValueByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationGroupValueByResourceGroup",
 }));
 
 export type ListConfigurationGroupValueBySubscriptionError = AzureOpError;
@@ -3995,6 +4100,8 @@ export const ListConfigurationGroupValueBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationGroupValueBySubscription",
 }));
 
 export type ListNetworkFunctionByResourceGroupError = AzureOpError;
@@ -4010,6 +4117,8 @@ export const ListNetworkFunctionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkFunctionByResourceGroup",
 }));
 
 export type ListNetworkFunctionBySubscriptionError = AzureOpError;
@@ -4025,6 +4134,8 @@ export const ListNetworkFunctionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkFunctionBySubscription",
 }));
 
 export type ListNetworkFunctionDefinitionGroupByPublisherError = AzureOpError;
@@ -4044,6 +4155,8 @@ export const ListNetworkFunctionDefinitionGroupByPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkFunctionDefinitionGroupByPublisher",
 }));
 
 export type ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroupError =
@@ -4064,6 +4177,8 @@ export const ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGrou
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup",
 }));
 
 export type ListNetworkServiceDesignGroupByPublisherError = AzureOpError;
@@ -4079,6 +4194,8 @@ export const ListNetworkServiceDesignGroupByPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkServiceDesignGroupByPublisher",
 }));
 
 export type ListNetworkServiceDesignVersionByNetworkServiceDesignGroupError = AzureOpError;
@@ -4098,6 +4215,8 @@ export const ListNetworkServiceDesignVersionByNetworkServiceDesignGroup: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkServiceDesignVersionByNetworkServiceDesignGroup",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4113,6 +4232,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProxyArtifactError = AzureOpError;
@@ -4128,6 +4249,8 @@ export const ListProxyArtifact: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProxyArtifact",
 }));
 
 export type ListPublisherByResourceGroupError = AzureOpError;
@@ -4143,6 +4266,8 @@ export const ListPublisherByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublisherByResourceGroup",
 }));
 
 export type ListPublisherBySubscriptionError = AzureOpError;
@@ -4158,6 +4283,8 @@ export const ListPublisherBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublisherBySubscription",
 }));
 
 export type ListSiteByResourceGroupError = AzureOpError;
@@ -4173,6 +4300,8 @@ export const ListSiteByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSiteByResourceGroup",
 }));
 
 export type ListSiteBySubscriptionError = AzureOpError;
@@ -4188,6 +4317,8 @@ export const ListSiteBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSiteBySubscription",
 }));
 
 export type ListSiteNetworkServiceByResourceGroupError = AzureOpError;
@@ -4203,6 +4334,8 @@ export const ListSiteNetworkServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSiteNetworkServiceByResourceGroup",
 }));
 
 export type ListSiteNetworkServiceBySubscriptionError = AzureOpError;
@@ -4218,6 +4351,8 @@ export const ListSiteNetworkServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSiteNetworkServiceBySubscription",
 }));
 
 export type NetworkFunctionDefinitionGroupsCreateOrUpdateError = AzureOpError;
@@ -4241,6 +4376,8 @@ export const NetworkFunctionDefinitionGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkFunctionDefinitionGroupsCreateOrUpdate",
 }));
 
 export type NetworkFunctionDefinitionVersionsCreateOrUpdateError = AzureOpError;
@@ -4264,6 +4401,8 @@ export const NetworkFunctionDefinitionVersionsCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkFunctionDefinitionVersionsCreateOrUpdate",
 }));
 
 export type NetworkFunctionsCreateOrUpdateError = AzureOpError;
@@ -4279,6 +4418,8 @@ export const NetworkFunctionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkFunctionsCreateOrUpdate",
 }));
 
 export type NetworkServiceDesignGroupsCreateOrUpdateError = AzureOpError;
@@ -4294,6 +4435,8 @@ export const NetworkServiceDesignGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkServiceDesignGroupsCreateOrUpdate",
 }));
 
 export type NetworkServiceDesignVersionsCreateOrUpdateError = AzureOpError;
@@ -4309,6 +4452,8 @@ export const NetworkServiceDesignVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkServiceDesignVersionsCreateOrUpdate",
 }));
 
 export type PublishersCreateOrUpdateError = AzureOpError;
@@ -4324,6 +4469,8 @@ export const PublishersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishersCreateOrUpdate",
 }));
 
 export type RemoveArtifactStorePrivateEndPointsError = AzureOpError;
@@ -4339,6 +4486,8 @@ export const RemoveArtifactStorePrivateEndPoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveArtifactStorePrivateEndPoints",
 }));
 
 export type SiteNetworkServicesCreateOrUpdateError = AzureOpError;
@@ -4354,6 +4503,8 @@ export const SiteNetworkServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SiteNetworkServicesCreateOrUpdate",
 }));
 
 export type SitesCreateOrUpdateError = AzureOpError;
@@ -4369,6 +4520,8 @@ export const SitesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SitesCreateOrUpdate",
 }));
 
 export type UpdateArtifactManifestError = AzureOpError;
@@ -4384,6 +4537,8 @@ export const UpdateArtifactManifest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateArtifactManifest",
 }));
 
 export type UpdateArtifactManifestStateError = AzureOpError;
@@ -4399,6 +4554,8 @@ export const UpdateArtifactManifestState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateArtifactManifestState",
 }));
 
 export type UpdateArtifactStoreError = AzureOpError;
@@ -4414,6 +4571,8 @@ export const UpdateArtifactStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateArtifactStore",
 }));
 
 export type UpdateConfigurationGroupSchemaError = AzureOpError;
@@ -4429,6 +4588,8 @@ export const UpdateConfigurationGroupSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationGroupSchema",
 }));
 
 export type UpdateConfigurationGroupSchemaStateError = AzureOpError;
@@ -4444,6 +4605,8 @@ export const UpdateConfigurationGroupSchemaState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationGroupSchemaState",
 }));
 
 export type UpdateConfigurationGroupValueTagsError = AzureOpError;
@@ -4459,6 +4622,8 @@ export const UpdateConfigurationGroupValueTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationGroupValueTags",
 }));
 
 export type UpdateNetworkFunctionDefinitionGroupError = AzureOpError;
@@ -4474,6 +4639,8 @@ export const UpdateNetworkFunctionDefinitionGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkFunctionDefinitionGroup",
 }));
 
 export type UpdateNetworkFunctionDefinitionVersionError = AzureOpError;
@@ -4489,6 +4656,8 @@ export const UpdateNetworkFunctionDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkFunctionDefinitionVersion",
 }));
 
 export type UpdateNetworkFunctionDefinitionVersionStateError = AzureOpError;
@@ -4508,6 +4677,8 @@ export const UpdateNetworkFunctionDefinitionVersionState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkFunctionDefinitionVersionState",
 }));
 
 export type UpdateNetworkFunctionTagsError = AzureOpError;
@@ -4523,6 +4694,8 @@ export const UpdateNetworkFunctionTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkFunctionTags",
 }));
 
 export type UpdateNetworkServiceDesignGroupError = AzureOpError;
@@ -4538,6 +4711,8 @@ export const UpdateNetworkServiceDesignGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkServiceDesignGroup",
 }));
 
 export type UpdateNetworkServiceDesignVersionError = AzureOpError;
@@ -4553,6 +4728,8 @@ export const UpdateNetworkServiceDesignVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkServiceDesignVersion",
 }));
 
 export type UpdateNetworkServiceDesignVersionStateError = AzureOpError;
@@ -4568,6 +4745,8 @@ export const UpdateNetworkServiceDesignVersionState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkServiceDesignVersionState",
 }));
 
 export type UpdateProxyArtifactStateError = AzureOpError;
@@ -4583,6 +4762,8 @@ export const UpdateProxyArtifactState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProxyArtifactState",
 }));
 
 export type UpdatePublisherError = AzureOpError;
@@ -4598,6 +4779,8 @@ export const UpdatePublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublisher",
 }));
 
 export type UpdateSiteNetworkServiceTagsError = AzureOpError;
@@ -4613,6 +4796,8 @@ export const UpdateSiteNetworkServiceTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSiteNetworkServiceTags",
 }));
 
 export type UpdateSiteTagsError = AzureOpError;
@@ -4628,6 +4813,8 @@ export const UpdateSiteTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSiteTags",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

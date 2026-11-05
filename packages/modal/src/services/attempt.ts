@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "AttemptService",
+  propagate: "w3c",
+} as const;
+
 export interface AttemptAwaitRequest {
   attemptToken?: string;
   requestedAt?: number;
@@ -135,6 +147,8 @@ export const attemptAwait: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttemptAwait",
 }));
 
 export type RetryAttemptError = ModalOpError;
@@ -149,6 +163,8 @@ export const retryAttempt: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryAttempt",
 }));
 
 export type StartAttemptError = ModalOpError;
@@ -163,6 +179,8 @@ export const startAttempt: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAttempt",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

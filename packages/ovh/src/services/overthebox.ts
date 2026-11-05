@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Overthebox",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface AuthorizeOverTheBoxRemoteAccessRequest {
   /** The internal name of your overTheBox offer */
   serviceName: string;
@@ -759,6 +773,8 @@ export const authorizeOverTheBoxRemoteAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeOverTheBoxRemoteAccess",
 }));
 
 export type CancelOverTheBoxResiliationError = OvhOpError;
@@ -774,6 +790,8 @@ export const cancelOverTheBoxResiliation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOverTheBoxResiliation",
 }));
 
 export type CreateOverTheBoxChangeContactError = OvhOpError;
@@ -789,6 +807,8 @@ export const createOverTheBoxChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxChangeContact",
 }));
 
 export type CreateOverTheBoxDeviceError = OvhOpError;
@@ -804,6 +824,8 @@ export const createOverTheBoxDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxDevice",
 }));
 
 export type CreateOverTheBoxDeviceActionError = OvhOpError;
@@ -819,6 +841,8 @@ export const createOverTheBoxDeviceAction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxDeviceAction",
 }));
 
 export type CreateOverTheBoxDeviceBackupError = OvhOpError;
@@ -834,6 +858,8 @@ export const createOverTheBoxDeviceBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxDeviceBackup",
 }));
 
 export type CreateOverTheBoxDeviceLogError = OvhOpError;
@@ -849,6 +875,8 @@ export const createOverTheBoxDeviceLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxDeviceLog",
 }));
 
 export type CreateOverTheBoxLinkDeviceError = OvhOpError;
@@ -864,6 +892,8 @@ export const createOverTheBoxLinkDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxLinkDevice",
 }));
 
 export type CreateOverTheBoxLinkHardwareError = OvhOpError;
@@ -879,6 +909,8 @@ export const createOverTheBoxLinkHardware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxLinkHardware",
 }));
 
 export type CreateOverTheBoxMigrationChangeOfferError = OvhOpError;
@@ -894,6 +926,8 @@ export const createOverTheBoxMigrationChangeOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxMigrationChangeOffer",
 }));
 
 export type CreateOverTheBoxRemoteAccessError = OvhOpError;
@@ -909,6 +943,8 @@ export const createOverTheBoxRemoteAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOverTheBoxRemoteAccess",
 }));
 
 export type DeleteOverTheBoxError = OvhOpError;
@@ -924,6 +960,8 @@ export const deleteOverTheBox: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOverTheBox",
 }));
 
 export type DeleteOverTheBoxBackupError = OvhOpError;
@@ -939,6 +977,8 @@ export const deleteOverTheBoxBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOverTheBoxBackup",
 }));
 
 export type DeleteOverTheBoxDeviceError = OvhOpError;
@@ -954,6 +994,8 @@ export const deleteOverTheBoxDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOverTheBoxDevice",
 }));
 
 export type DeleteOverTheBoxRemoteAccessError = OvhOpError;
@@ -969,6 +1011,8 @@ export const deleteOverTheBoxRemoteAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOverTheBoxRemoteAccess",
 }));
 
 export type GetOverTheBoxError = OvhOpError;
@@ -984,6 +1028,8 @@ export const getOverTheBox: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBox",
 }));
 
 export type GetOverTheBoxBackupError = OvhOpError;
@@ -999,6 +1045,8 @@ export const getOverTheBoxBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxBackup",
 }));
 
 export type GetOverTheBoxDeviceError = OvhOpError;
@@ -1014,6 +1062,8 @@ export const getOverTheBoxDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxDevice",
 }));
 
 export type GetOverTheBoxDeviceActionError = OvhOpError;
@@ -1029,6 +1079,8 @@ export const getOverTheBoxDeviceAction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxDeviceAction",
 }));
 
 export type GetOverTheBoxDeviceHardwareError = OvhOpError;
@@ -1044,6 +1096,8 @@ export const getOverTheBoxDeviceHardware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxDeviceHardware",
 }));
 
 export type GetOverTheBoxHardwareError = OvhOpError;
@@ -1059,6 +1113,8 @@ export const getOverTheBoxHardware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxHardware",
 }));
 
 export type GetOverTheBoxIpsError = OvhOpError;
@@ -1074,6 +1130,8 @@ export const getOverTheBoxIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxIps",
 }));
 
 export type GetOverTheBoxRemoteAccessError = OvhOpError;
@@ -1089,6 +1147,8 @@ export const getOverTheBoxRemoteAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxRemoteAccess",
 }));
 
 export type GetOverTheBoxServiceInfosError = OvhOpError;
@@ -1104,6 +1164,8 @@ export const getOverTheBoxServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxServiceInfos",
 }));
 
 export type GetOverTheBoxTaskError = OvhOpError;
@@ -1119,6 +1181,8 @@ export const getOverTheBoxTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverTheBoxTask",
 }));
 
 export type ListOverTheBoxError = OvhOpError;
@@ -1134,6 +1198,8 @@ export const listOverTheBox: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBox",
 }));
 
 export type ListOverTheBoxAvailableOffersError = OvhOpError;
@@ -1149,6 +1215,8 @@ export const listOverTheBoxAvailableOffers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxAvailableOffers",
 }));
 
 export type ListOverTheBoxAvailableReleaseChannelsError = OvhOpError;
@@ -1164,6 +1232,8 @@ export const listOverTheBoxAvailableReleaseChannels: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxAvailableReleaseChannels",
 }));
 
 export type ListOverTheBoxBackupsError = OvhOpError;
@@ -1179,6 +1249,8 @@ export const listOverTheBoxBackups: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxBackups",
 }));
 
 export type ListOverTheBoxDeviceActionsError = OvhOpError;
@@ -1194,6 +1266,8 @@ export const listOverTheBoxDeviceActions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxDeviceActions",
 }));
 
 export type ListOverTheBoxDeviceAvailableActionsError = OvhOpError;
@@ -1209,6 +1283,8 @@ export const listOverTheBoxDeviceAvailableActions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxDeviceAvailableActions",
 }));
 
 export type ListOverTheBoxHardwareError = OvhOpError;
@@ -1224,6 +1300,8 @@ export const listOverTheBoxHardware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxHardware",
 }));
 
 export type ListOverTheBoxHardwareAvailableError = OvhOpError;
@@ -1239,6 +1317,8 @@ export const listOverTheBoxHardwareAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxHardwareAvailable",
 }));
 
 export type ListOverTheBoxIpsError = OvhOpError;
@@ -1254,6 +1334,8 @@ export const listOverTheBoxIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxIps",
 }));
 
 export type ListOverTheBoxMigrationOffersError = OvhOpError;
@@ -1269,6 +1351,8 @@ export const listOverTheBoxMigrationOffers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxMigrationOffers",
 }));
 
 export type ListOverTheBoxRemoteAccessesError = OvhOpError;
@@ -1284,6 +1368,8 @@ export const listOverTheBoxRemoteAccesses: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxRemoteAccesses",
 }));
 
 export type ListOverTheBoxStatisticsError = OvhOpError;
@@ -1299,6 +1385,8 @@ export const listOverTheBoxStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxStatistics",
 }));
 
 export type ListOverTheBoxTasksError = OvhOpError;
@@ -1314,6 +1402,8 @@ export const listOverTheBoxTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOverTheBoxTasks",
 }));
 
 export type PutOverTheBoxError = OvhOpError;
@@ -1329,6 +1419,8 @@ export const putOverTheBox: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOverTheBox",
 }));
 
 export type PutOverTheBoxAutoMTUError = OvhOpError;
@@ -1344,6 +1436,8 @@ export const putOverTheBoxAutoMTU: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOverTheBoxAutoMTU",
 }));
 
 export type PutOverTheBoxIpv6Error = OvhOpError;
@@ -1359,6 +1453,8 @@ export const putOverTheBoxIpv6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOverTheBoxIpv6",
 }));
 
 export type PutOverTheBoxServiceInfosError = OvhOpError;
@@ -1374,6 +1470,8 @@ export const putOverTheBoxServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOverTheBoxServiceInfos",
 }));
 
 export type RestoreOverTheBoxDeviceBackupError = OvhOpError;
@@ -1389,6 +1487,8 @@ export const restoreOverTheBoxDeviceBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreOverTheBoxDeviceBackup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

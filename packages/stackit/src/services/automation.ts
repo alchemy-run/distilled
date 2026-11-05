@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Automation",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -277,6 +290,8 @@ export const createVolumeAutomation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeAutomation",
 }));
 
 export type CreateVolumeExecutionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -292,6 +307,8 @@ export const createVolumeExecution: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeExecution",
 }));
 
 export type DeleteVolumeAutomationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -307,6 +324,8 @@ export const deleteVolumeAutomation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeAutomation",
 }));
 
 export type GetVolumeAutomationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -322,6 +341,8 @@ export const getVolumeAutomation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeAutomation",
 }));
 
 export type GetVolumeExecutionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -337,6 +358,8 @@ export const getVolumeExecution: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeExecution",
 }));
 
 export type GetVolumeTemplateError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -352,6 +375,8 @@ export const getVolumeTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeTemplate",
 }));
 
 export type ListVolumeAutomationsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -367,6 +392,8 @@ export const listVolumeAutomations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeAutomations",
 }));
 
 export type ListVolumeExecutionsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -382,6 +409,8 @@ export const listVolumeExecutions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeExecutions",
 }));
 
 export type ListVolumeTemplatesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -397,6 +426,8 @@ export const listVolumeTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeTemplates",
 }));
 
 export type PartialUpdateVolumeAutomationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -412,6 +443,8 @@ export const partialUpdateVolumeAutomation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateVolumeAutomation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -103,6 +105,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://greengrass.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GreengrassV2",
+  service: "GreengrassV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -833,7 +849,7 @@ export type AssociateServiceRoleToAccountError =
  * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
-  AssociateServiceRoleToAccountRequest,
+  AssociateServiceRoleToAccountRequest & RegionInput,
   AssociateServiceRoleToAccountResponse,
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
@@ -844,6 +860,8 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceRoleToAccount",
 }));
 
 export type BatchAssociateClientDeviceWithCoreDeviceError =
@@ -867,7 +885,7 @@ export type BatchAssociateClientDeviceWithCoreDeviceError =
  * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
  */
 export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
-  BatchAssociateClientDeviceWithCoreDeviceRequest,
+  BatchAssociateClientDeviceWithCoreDeviceRequest & RegionInput,
   BatchAssociateClientDeviceWithCoreDeviceResponse,
   BatchAssociateClientDeviceWithCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -884,6 +902,8 @@ export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateClientDeviceWithCoreDevice",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateClientDeviceWithCoreDevice",
 }));
 
 export type BatchDisassociateClientDeviceFromCoreDeviceError =
@@ -899,7 +919,7 @@ export type BatchDisassociateClientDeviceFromCoreDeviceError =
  * the core device's connectivity information and certificates.
  */
 export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
-  BatchDisassociateClientDeviceFromCoreDeviceRequest,
+  BatchDisassociateClientDeviceFromCoreDeviceRequest & RegionInput,
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
   BatchDisassociateClientDeviceFromCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -920,6 +940,8 @@ export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateClientDeviceFromCoreDevice",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateClientDeviceFromCoreDevice",
 }));
 
 export type CancelDeploymentError =
@@ -936,7 +958,7 @@ export type CancelDeploymentError =
  * anything for that device.
  */
 export const cancelDeployment: API.OperationMethod<
-  CancelDeploymentRequest,
+  CancelDeploymentRequest & RegionInput,
   CancelDeploymentResponse,
   CancelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -954,6 +976,8 @@ export const cancelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelDeployment",
 }));
 
 export type CreateComponentVersionError =
@@ -998,7 +1022,7 @@ export type CreateComponentVersionError =
  * IoT Greengrass currently supports Lambda functions on only Linux core devices.
  */
 export const createComponentVersion: API.OperationMethod<
-  CreateComponentVersionRequest,
+  CreateComponentVersionRequest & RegionInput,
   CreateComponentVersionResponse,
   CreateComponentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1017,6 +1041,8 @@ export const createComponentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateComponentVersion",
 }));
 
 export type CreateDeploymentError =
@@ -1045,7 +1071,7 @@ export type CreateDeploymentError =
  * *IoT Greengrass V2 Developer Guide*.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1064,6 +1090,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type DeleteComponentError =
@@ -1083,7 +1111,7 @@ export type DeleteComponentError =
  * to use a valid version.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -1101,6 +1129,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteCoreDeviceError =
@@ -1118,7 +1148,7 @@ export type DeleteCoreDeviceError =
  * *IoT API Reference*.
  */
 export const deleteCoreDevice: API.OperationMethod<
-  DeleteCoreDeviceRequest,
+  DeleteCoreDeviceRequest & RegionInput,
   DeleteCoreDeviceResponse,
   DeleteCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1166,8 @@ export const deleteCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDevice",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreDevice",
 }));
 
 export type DeleteDeploymentError =
@@ -1155,7 +1187,7 @@ export type DeleteDeploymentError =
  * roll back to a previous deployment that has been deleted.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1173,6 +1205,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DescribeComponentError =
@@ -1186,7 +1220,7 @@ export type DescribeComponentError =
  * Retrieves metadata for a version of a component.
  */
 export const describeComponent: API.OperationMethod<
-  DescribeComponentRequest,
+  DescribeComponentRequest & RegionInput,
   DescribeComponentResponse,
   DescribeComponentError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1237,8 @@ export const describeComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeComponent",
 }));
 
 export type DisassociateServiceRoleFromAccountError = InternalServerException | CommonErrors;
@@ -1213,7 +1249,7 @@ export type DisassociateServiceRoleFromAccountError = InternalServerException | 
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
-  DisassociateServiceRoleFromAccountRequest,
+  DisassociateServiceRoleFromAccountRequest & RegionInput,
   DisassociateServiceRoleFromAccountResponse,
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1224,6 +1260,8 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceRoleFromAccount",
 }));
 
 export type GetComponentError =
@@ -1237,7 +1275,7 @@ export type GetComponentError =
  * Gets the recipe for a version of a component.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1292,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetComponentVersionArtifactError =
@@ -1269,7 +1309,7 @@ export type GetComponentVersionArtifactError =
  * install.
  */
 export const getComponentVersionArtifact: API.OperationMethod<
-  GetComponentVersionArtifactRequest,
+  GetComponentVersionArtifactRequest & RegionInput,
   GetComponentVersionArtifactResponse,
   GetComponentVersionArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1286,6 +1326,8 @@ export const getComponentVersionArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentVersionArtifact",
+  telemetry: TELEMETRY,
+  span: "GetComponentVersionArtifact",
 }));
 
 export type GetConnectivityInfoError = InternalServerException | ValidationException | CommonErrors;
@@ -1300,7 +1342,7 @@ export type GetConnectivityInfoError = InternalServerException | ValidationExcep
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getConnectivityInfo: API.OperationMethod<
-  GetConnectivityInfoRequest,
+  GetConnectivityInfoRequest & RegionInput,
   GetConnectivityInfoResponse,
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -1311,6 +1353,8 @@ export const getConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "GetConnectivityInfo",
 }));
 
 export type GetCoreDeviceError =
@@ -1343,7 +1387,7 @@ export type GetCoreDeviceError =
  * cloud deployment
  */
 export const getCoreDevice: API.OperationMethod<
-  GetCoreDeviceRequest,
+  GetCoreDeviceRequest & RegionInput,
   GetCoreDeviceResponse,
   GetCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1360,6 +1404,8 @@ export const getCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDevice",
+  telemetry: TELEMETRY,
+  span: "GetCoreDevice",
 }));
 
 export type GetDeploymentError =
@@ -1373,7 +1419,7 @@ export type GetDeploymentError =
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1390,6 +1436,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetServiceRoleForAccountError = InternalServerException | CommonErrors;
@@ -1400,7 +1448,7 @@ export type GetServiceRoleForAccountError = InternalServerException | CommonErro
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
-  GetServiceRoleForAccountRequest,
+  GetServiceRoleForAccountRequest & RegionInput,
   GetServiceRoleForAccountResponse,
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
@@ -1411,6 +1459,8 @@ export const getServiceRoleForAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
+  telemetry: TELEMETRY,
+  span: "GetServiceRoleForAccount",
 }));
 
 export type ListClientDevicesAssociatedWithCoreDeviceError =
@@ -1425,7 +1475,7 @@ export type ListClientDevicesAssociatedWithCoreDeviceError =
  * device.
  */
 export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMethod<
-  ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ListClientDevicesAssociatedWithCoreDeviceRequest & RegionInput,
   ListClientDevicesAssociatedWithCoreDeviceResponse,
   ListClientDevicesAssociatedWithCoreDeviceError,
   Credentials | HttpClient.HttpClient,
@@ -1449,6 +1499,8 @@ export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMe
     items: "associatedClientDevices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClientDevicesAssociatedWithCoreDevice",
 })) as any;
 
 export type ListComponentsError =
@@ -1463,7 +1515,7 @@ export type ListComponentsError =
  * have permission to view.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1487,6 +1539,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "components",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListComponentVersionsError =
@@ -1501,7 +1555,7 @@ export type ListComponentVersionsError =
  * first.
  */
 export const listComponentVersions: API.PaginatedOperationMethod<
-  ListComponentVersionsRequest,
+  ListComponentVersionsRequest & RegionInput,
   ListComponentVersionsResponse,
   ListComponentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1525,6 +1579,8 @@ export const listComponentVersions: API.PaginatedOperationMethod<
     items: "componentVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentVersions",
 })) as any;
 
 export type ListCoreDevicesError =
@@ -1561,7 +1617,7 @@ export type ListCoreDevicesError =
  * cloud deployment
  */
 export const listCoreDevices: API.PaginatedOperationMethod<
-  ListCoreDevicesRequest,
+  ListCoreDevicesRequest & RegionInput,
   ListCoreDevicesResponse,
   ListCoreDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -1584,6 +1640,8 @@ export const listCoreDevices: API.PaginatedOperationMethod<
     items: "coreDevices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreDevices",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1596,7 +1654,7 @@ export type ListDeploymentsError =
  * Retrieves a paginated list of deployments.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1619,6 +1677,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListEffectiveDeploymentsError =
@@ -1632,7 +1692,7 @@ export type ListEffectiveDeploymentsError =
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
 export const listEffectiveDeployments: API.PaginatedOperationMethod<
-  ListEffectiveDeploymentsRequest,
+  ListEffectiveDeploymentsRequest & RegionInput,
   ListEffectiveDeploymentsResponse,
   ListEffectiveDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1656,6 +1716,8 @@ export const listEffectiveDeployments: API.PaginatedOperationMethod<
     items: "effectiveDeployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEffectiveDeployments",
 })) as any;
 
 export type ListInstalledComponentsError =
@@ -1691,7 +1753,7 @@ export type ListInstalledComponentsError =
  * cloud deployment
  */
 export const listInstalledComponents: API.PaginatedOperationMethod<
-  ListInstalledComponentsRequest,
+  ListInstalledComponentsRequest & RegionInput,
   ListInstalledComponentsResponse,
   ListInstalledComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1715,6 +1777,8 @@ export const listInstalledComponents: API.PaginatedOperationMethod<
     items: "installedComponents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstalledComponents",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1726,7 +1790,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1737,6 +1801,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResolveComponentCandidatesError =
@@ -1766,7 +1832,7 @@ export type ResolveComponentCandidatesError =
  * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
  */
 export const resolveComponentCandidates: API.OperationMethod<
-  ResolveComponentCandidatesRequest,
+  ResolveComponentCandidatesRequest & RegionInput,
   ResolveComponentCandidatesResponse,
   ResolveComponentCandidatesError,
   Credentials | HttpClient.HttpClient
@@ -1784,6 +1850,8 @@ export const resolveComponentCandidates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveComponentCandidates",
+  telemetry: TELEMETRY,
+  span: "ResolveComponentCandidates",
 }));
 
 export type TagResourceError =
@@ -1796,7 +1864,7 @@ export type TagResourceError =
  * updates the tag's value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1807,6 +1875,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1818,7 +1888,7 @@ export type UntagResourceError =
  * Removes a tag from an IoT Greengrass resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1829,6 +1899,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectivityInfoError =
@@ -1846,7 +1918,7 @@ export type UpdateConnectivityInfoError =
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const updateConnectivityInfo: API.OperationMethod<
-  UpdateConnectivityInfoRequest,
+  UpdateConnectivityInfoRequest & RegionInput,
   UpdateConnectivityInfoResponse,
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -1857,6 +1929,8 @@ export const updateConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivityInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

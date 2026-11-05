@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * TurbopufferProtocol -- hand-written.
@@ -36,7 +36,8 @@ export type TurbopufferOpError =
   | UnknownTurbopufferError
   | ConfigError
   | HttpClientError.HttpClientError
-  | TurbopufferParseError;
+  | TurbopufferParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated turbopuffer operation. */
 export type TurbopufferOpContext = Credentials | HttpClient.HttpClient;

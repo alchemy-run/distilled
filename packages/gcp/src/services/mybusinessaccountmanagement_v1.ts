@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "mybusinessaccountmanagement" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Mybusinessaccountmanagement",
+  service: "mybusinessaccountmanagement",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -349,6 +368,8 @@ export const acceptAccountsInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptAccountsInvitations",
 }));
 
 export type CreateAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -364,6 +385,8 @@ export const createAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccounts",
 }));
 
 export type CreateAccountsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -379,6 +402,8 @@ export const createAccountsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAdmins",
 }));
 
 export type CreateLocationsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -394,6 +419,8 @@ export const createLocationsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLocationsAdmins",
 }));
 
 export type DeclineAccountsInvitationsError =
@@ -414,6 +441,8 @@ export const declineAccountsInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeclineAccountsInvitations",
 }));
 
 export type DeleteAccountsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -429,6 +458,8 @@ export const deleteAccountsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsAdmins",
 }));
 
 export type DeleteLocationsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -444,6 +475,8 @@ export const deleteLocationsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLocationsAdmins",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | GcpOpError;
@@ -459,6 +492,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | GcpOpError;
@@ -475,6 +510,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -491,6 +528,8 @@ export const listAccountsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdmins",
 }));
 
 export type ListAccountsInvitationsError = NotFound | Forbidden | GcpOpError;
@@ -506,6 +545,8 @@ export const listAccountsInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsInvitations",
 }));
 
 export type ListLocationsAdminsError = NotFound | Forbidden | GcpOpError;
@@ -521,6 +562,8 @@ export const listLocationsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationsAdmins",
 }));
 
 export type PatchAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -536,6 +579,8 @@ export const patchAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccounts",
 }));
 
 export type PatchAccountsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -551,6 +596,8 @@ export const patchAccountsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsAdmins",
 }));
 
 export type PatchLocationsAdminsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -566,6 +613,8 @@ export const patchLocationsAdmins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLocationsAdmins",
 }));
 
 export type TransferLocationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -581,6 +630,8 @@ export const transferLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferLocations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

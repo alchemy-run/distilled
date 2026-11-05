@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "vmwareengine" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Vmwareengine",
+  service: "vmwareengine",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2207,6 +2226,8 @@ export const createProjectsLocationsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatastores",
 }));
 
 export type CreateProjectsLocationsNetworkPeeringsError =
@@ -2227,6 +2248,8 @@ export const createProjectsLocationsNetworkPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsNetworkPeerings",
 }));
 
 export type CreateProjectsLocationsNetworkPoliciesError =
@@ -2247,6 +2270,8 @@ export const createProjectsLocationsNetworkPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsNetworkPolicies",
 }));
 
 export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -2271,6 +2296,8 @@ export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsNetworkPoliciesExternalAccessRules",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsError =
@@ -2291,6 +2318,8 @@ export const createProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateClouds",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsClustersError =
@@ -2315,6 +2344,8 @@ export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -2339,6 +2370,8 @@ export const createProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateCloudsExternalAddresses",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -2363,6 +2396,8 @@ export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateCloudsHcxActivationKeys",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsLoggingServersError =
@@ -2387,6 +2422,8 @@ export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateCloudsLoggingServers",
 }));
 
 export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -2411,6 +2448,8 @@ export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
 }));
 
 export type CreateProjectsLocationsPrivateConnectionsError =
@@ -2431,6 +2470,8 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsPrivateConnections",
 }));
 
 export type CreateProjectsLocationsVmwareEngineNetworksError =
@@ -2451,6 +2492,8 @@ export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsVmwareEngineNetworks",
 }));
 
 export type DeleteProjectsLocationsDatastoresError =
@@ -2471,6 +2514,8 @@ export const deleteProjectsLocationsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatastores",
 }));
 
 export type DeleteProjectsLocationsNetworkPeeringsError =
@@ -2491,6 +2536,8 @@ export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsNetworkPeerings",
 }));
 
 export type DeleteProjectsLocationsNetworkPoliciesError =
@@ -2511,6 +2558,8 @@ export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsNetworkPolicies",
 }));
 
 export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -2535,6 +2584,8 @@ export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsNetworkPoliciesExternalAccessRules",
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2555,6 +2606,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsOperations",
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsError =
@@ -2575,6 +2628,8 @@ export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateClouds",
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsClustersError =
@@ -2595,6 +2650,8 @@ export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -2619,6 +2676,8 @@ export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateCloudsExternalAddresses",
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsLoggingServersError =
@@ -2643,6 +2702,8 @@ export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateCloudsLoggingServers",
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -2667,6 +2728,8 @@ export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
 }));
 
 export type DeleteProjectsLocationsPrivateConnectionsError =
@@ -2687,6 +2750,8 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsPrivateConnections",
 }));
 
 export type DeleteProjectsLocationsVmwareEngineNetworksError =
@@ -2707,6 +2772,8 @@ export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsVmwareEngineNetworks",
 }));
 
 export type FetchExternalAddressesProjectsLocationsNetworkPoliciesError =
@@ -2730,6 +2797,8 @@ export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.Paginat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchExternalAddressesProjectsLocationsNetworkPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2746,6 +2815,8 @@ export const getDnsBindPermissionProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsBindPermissionProjectsLocations",
 }));
 
 export type GetDnsForwardingProjectsLocationsPrivateCloudsError = NotFound | Forbidden | GcpOpError;
@@ -2765,6 +2836,8 @@ export const getDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsForwardingProjectsLocationsPrivateClouds",
 }));
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsError = NotFound | Forbidden | GcpOpError;
@@ -2780,6 +2853,8 @@ export const getIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsPrivateClouds",
 }));
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsClustersError =
@@ -2802,6 +2877,8 @@ export const getIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -2824,6 +2901,8 @@ export const getIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.Op
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys",
 }));
 
 export type GetNsxCredentialsProjectsLocationsPrivateCloudsError =
@@ -2846,6 +2925,8 @@ export const getNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNsxCredentialsProjectsLocationsPrivateClouds",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2861,6 +2942,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsAnnouncementsError = NotFound | Forbidden | GcpOpError;
@@ -2876,6 +2959,8 @@ export const getProjectsLocationsAnnouncements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsAnnouncements",
 }));
 
 export type GetProjectsLocationsDatastoresError = NotFound | Forbidden | GcpOpError;
@@ -2891,6 +2976,8 @@ export const getProjectsLocationsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatastores",
 }));
 
 export type GetProjectsLocationsNetworkPeeringsError = NotFound | Forbidden | GcpOpError;
@@ -2906,6 +2993,8 @@ export const getProjectsLocationsNetworkPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsNetworkPeerings",
 }));
 
 export type GetProjectsLocationsNetworkPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2921,6 +3010,8 @@ export const getProjectsLocationsNetworkPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsNetworkPolicies",
 }));
 
 export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -2943,6 +3034,8 @@ export const getProjectsLocationsNetworkPoliciesExternalAccessRules: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsNetworkPoliciesExternalAccessRules",
 }));
 
 export type GetProjectsLocationsNodeTypesError = NotFound | Forbidden | GcpOpError;
@@ -2958,6 +3051,8 @@ export const getProjectsLocationsNodeTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsNodeTypes",
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2973,6 +3068,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsOperations",
 }));
 
 export type GetProjectsLocationsPrivateCloudsError = NotFound | Forbidden | GcpOpError;
@@ -2988,6 +3085,8 @@ export const getProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateClouds",
 }));
 
 export type GetProjectsLocationsPrivateCloudsClustersError = NotFound | Forbidden | GcpOpError;
@@ -3003,6 +3102,8 @@ export const getProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type GetProjectsLocationsPrivateCloudsClustersNodesError = NotFound | Forbidden | GcpOpError;
@@ -3022,6 +3123,8 @@ export const getProjectsLocationsPrivateCloudsClustersNodes: API.OperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsClustersNodes",
 }));
 
 export type GetProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -3044,6 +3147,8 @@ export const getProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsExternalAddresses",
 }));
 
 export type GetProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -3066,6 +3171,8 @@ export const getProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsHcxActivationKeys",
 }));
 
 export type GetProjectsLocationsPrivateCloudsLoggingServersError =
@@ -3088,6 +3195,8 @@ export const getProjectsLocationsPrivateCloudsLoggingServers: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsLoggingServers",
 }));
 
 export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -3110,6 +3219,8 @@ export const getProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.Ope
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
 }));
 
 export type GetProjectsLocationsPrivateCloudsSubnetsError = NotFound | Forbidden | GcpOpError;
@@ -3125,6 +3236,8 @@ export const getProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsSubnets",
 }));
 
 export type GetProjectsLocationsPrivateCloudsUpgradesError = NotFound | Forbidden | GcpOpError;
@@ -3140,6 +3253,8 @@ export const getProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateCloudsUpgrades",
 }));
 
 export type GetProjectsLocationsPrivateConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -3155,6 +3270,8 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsPrivateConnections",
 }));
 
 export type GetProjectsLocationsVmwareEngineNetworksError = NotFound | Forbidden | GcpOpError;
@@ -3170,6 +3287,8 @@ export const getProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsVmwareEngineNetworks",
 }));
 
 export type GetVcenterCredentialsProjectsLocationsPrivateCloudsError =
@@ -3192,6 +3311,8 @@ export const getVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVcenterCredentialsProjectsLocationsPrivateClouds",
 }));
 
 export type GrantProjectsLocationsDnsBindPermissionError =
@@ -3212,6 +3333,8 @@ export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantProjectsLocationsDnsBindPermission",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3228,6 +3351,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3245,6 +3370,8 @@ export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsAnnouncements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3262,6 +3389,8 @@ export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatastores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3279,6 +3408,8 @@ export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsNetworkPeerings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3303,6 +3434,8 @@ export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsNetworkPeeringsPeeringRoutes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3320,6 +3453,8 @@ export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsNetworkPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3344,6 +3479,8 @@ export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.Pagina
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsNetworkPoliciesExternalAccessRules",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3361,6 +3498,8 @@ export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsNodeTypes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3378,6 +3517,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3395,6 +3536,8 @@ export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateClouds",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3412,6 +3555,8 @@ export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsClusters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3436,6 +3581,8 @@ export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOpera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsClustersNodes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3460,6 +3607,8 @@ export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsExternalAddresses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3484,6 +3633,8 @@ export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsHcxActivationKeys",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3508,6 +3659,8 @@ export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsLoggingServers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3532,6 +3685,8 @@ export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.Pa
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3549,6 +3704,8 @@ export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsSubnets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3566,6 +3723,8 @@ export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateCloudsUpgrades",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3583,6 +3742,8 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateConnections",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3607,6 +3768,8 @@ export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsPrivateConnectionsPeeringRoutes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3624,6 +3787,8 @@ export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsVmwareEngineNetworks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3649,6 +3814,8 @@ export const migrateManagementVmsProjectsLocationsPrivateClouds: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateManagementVmsProjectsLocationsPrivateClouds",
 }));
 
 export type MountDatastoreProjectsLocationsPrivateCloudsClustersError =
@@ -3673,6 +3840,8 @@ export const mountDatastoreProjectsLocationsPrivateCloudsClusters: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MountDatastoreProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type PatchProjectsLocationsDatastoresError =
@@ -3693,6 +3862,8 @@ export const patchProjectsLocationsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatastores",
 }));
 
 export type PatchProjectsLocationsNetworkPeeringsError =
@@ -3713,6 +3884,8 @@ export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsNetworkPeerings",
 }));
 
 export type PatchProjectsLocationsNetworkPoliciesError =
@@ -3733,6 +3906,8 @@ export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsNetworkPolicies",
 }));
 
 export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -3757,6 +3932,8 @@ export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsNetworkPoliciesExternalAccessRules",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsError =
@@ -3777,6 +3954,8 @@ export const patchProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateClouds",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsClustersError =
@@ -3801,6 +3980,8 @@ export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -3825,6 +4006,8 @@ export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsExternalAddresses",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsLoggingServersError =
@@ -3849,6 +4032,8 @@ export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsLoggingServers",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -3873,6 +4058,8 @@ export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsSubnetsError =
@@ -3893,6 +4080,8 @@ export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsSubnets",
 }));
 
 export type PatchProjectsLocationsPrivateCloudsUpgradesError =
@@ -3917,6 +4106,8 @@ export const patchProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateCloudsUpgrades",
 }));
 
 export type PatchProjectsLocationsPrivateConnectionsError =
@@ -3937,6 +4128,8 @@ export const patchProjectsLocationsPrivateConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsPrivateConnections",
 }));
 
 export type PatchProjectsLocationsVmwareEngineNetworksError =
@@ -3957,6 +4150,8 @@ export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsVmwareEngineNetworks",
 }));
 
 export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError =
@@ -3981,6 +4176,8 @@ export const privateCloudDeletionNowProjectsLocationsPrivateClouds: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateCloudDeletionNowProjectsLocationsPrivateClouds",
 }));
 
 export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -4005,6 +4202,8 @@ export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
 }));
 
 export type ResetNsxCredentialsProjectsLocationsPrivateCloudsError =
@@ -4029,6 +4228,8 @@ export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetNsxCredentialsProjectsLocationsPrivateClouds",
 }));
 
 export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsError =
@@ -4053,6 +4254,8 @@ export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetVcenterCredentialsProjectsLocationsPrivateClouds",
 }));
 
 export type RevokeProjectsLocationsDnsBindPermissionError =
@@ -4073,6 +4276,8 @@ export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeProjectsLocationsDnsBindPermission",
 }));
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsError =
@@ -4093,6 +4298,8 @@ export const setIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsPrivateClouds",
 }));
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsClustersError =
@@ -4117,6 +4324,8 @@ export const setIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -4141,6 +4350,8 @@ export const setIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys",
 }));
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsError =
@@ -4165,6 +4376,8 @@ export const testIamPermissionsProjectsLocationsPrivateClouds: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsPrivateClouds",
 }));
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersError =
@@ -4189,6 +4402,8 @@ export const testIamPermissionsProjectsLocationsPrivateCloudsClusters: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -4213,6 +4428,8 @@ export const testIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys: 
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys",
 }));
 
 export type UndeleteProjectsLocationsPrivateCloudsError =
@@ -4233,6 +4450,8 @@ export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteProjectsLocationsPrivateClouds",
 }));
 
 export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersError =
@@ -4257,6 +4476,8 @@ export const unmountDatastoreProjectsLocationsPrivateCloudsClusters: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnmountDatastoreProjectsLocationsPrivateCloudsClusters",
 }));
 
 export type UpdateDnsForwardingProjectsLocationsPrivateCloudsError =
@@ -4281,6 +4502,8 @@ export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsForwardingProjectsLocationsPrivateClouds",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

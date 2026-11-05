@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Environment",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1084,6 +1098,8 @@ export const createCustomEnvironment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomEnvironment",
 }));
 
 export type CreateSharedEnvVariableError =
@@ -1104,6 +1120,8 @@ export const createSharedEnvVariable: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSharedEnvVariable",
 }));
 
 export type DeleteSharedEnvVariableError =
@@ -1124,6 +1142,8 @@ export const deleteSharedEnvVariable: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedEnvVariable",
 }));
 
 export type GetCustomEnvironmentError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1139,6 +1159,8 @@ export const getCustomEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomEnvironment",
 }));
 
 export type GetProjectCustomEnvironmentsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1154,6 +1176,8 @@ export const getProjectCustomEnvironments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectCustomEnvironments",
 }));
 
 export type GetSharedEnvVarError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1169,6 +1193,8 @@ export const getSharedEnvVar: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedEnvVar",
 }));
 
 export type ListSharedEnvVariableError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1184,6 +1210,8 @@ export const listSharedEnvVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedEnvVariable",
 }));
 
 export type RemoveCustomEnvironmentError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1199,6 +1227,8 @@ export const removeCustomEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomEnvironment",
 }));
 
 export type UnlinkSharedEnvVariableError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1214,6 +1244,8 @@ export const unlinkSharedEnvVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkSharedEnvVariable",
 }));
 
 export type UpdateCustomEnvironmentError =
@@ -1234,6 +1266,8 @@ export const updateCustomEnvironment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomEnvironment",
 }));
 
 export type UpdateSharedEnvVariableError =
@@ -1254,6 +1288,8 @@ export const updateSharedEnvVariable: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSharedEnvVariable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

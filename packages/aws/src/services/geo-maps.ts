@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -155,6 +157,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GeoMaps",
+  service: "GeoMaps",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -356,7 +372,7 @@ export type GetGlyphsError = CommonErrors;
  * For more information, see Style labels with glyphs in the *Amazon Location Service Developer Guide*.
  */
 export const getGlyphs: API.OperationMethod<
-  GetGlyphsRequest,
+  GetGlyphsRequest & RegionInput,
   GetGlyphsResponse,
   GetGlyphsError,
   Credentials | HttpClient.HttpClient
@@ -367,6 +383,8 @@ export const getGlyphs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlyphs",
+  telemetry: TELEMETRY,
+  span: "GetGlyphs",
 }));
 
 export type GetSpritesError = CommonErrors;
@@ -376,7 +394,7 @@ export type GetSpritesError = CommonErrors;
  * For more information, see Style iconography with sprites in the *Amazon Location Service Developer Guide*.
  */
 export const getSprites: API.OperationMethod<
-  GetSpritesRequest,
+  GetSpritesRequest & RegionInput,
   GetSpritesResponse,
   GetSpritesError,
   Credentials | HttpClient.HttpClient
@@ -387,6 +405,8 @@ export const getSprites: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSprites",
+  telemetry: TELEMETRY,
+  span: "GetSprites",
 }));
 
 export type GetStaticMapError =
@@ -407,7 +427,7 @@ export type GetStaticMapError =
  * - Overlay on the static map
  */
 export const getStaticMap: API.OperationMethod<
-  GetStaticMapRequest,
+  GetStaticMapRequest & RegionInput,
   GetStaticMapResponse,
   GetStaticMapError,
   Credentials | HttpClient.HttpClient
@@ -423,6 +443,8 @@ export const getStaticMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticMap",
+  telemetry: TELEMETRY,
+  span: "GetStaticMap",
 }));
 
 export type GetStyleDescriptorError = CommonErrors;
@@ -432,7 +454,7 @@ export type GetStyleDescriptorError = CommonErrors;
  * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
  */
 export const getStyleDescriptor: API.OperationMethod<
-  GetStyleDescriptorRequest,
+  GetStyleDescriptorRequest & RegionInput,
   GetStyleDescriptorResponse,
   GetStyleDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -443,6 +465,8 @@ export const getStyleDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStyleDescriptor",
+  telemetry: TELEMETRY,
+  span: "GetStyleDescriptor",
 }));
 
 export type GetTileError =
@@ -458,7 +482,7 @@ export type GetTileError =
  * For more information, see Tiles in the *Amazon Location Service Developer Guide*.
  */
 export const getTile: API.OperationMethod<
-  GetTileRequest,
+  GetTileRequest & RegionInput,
   GetTileResponse,
   GetTileError,
   Credentials | HttpClient.HttpClient
@@ -475,6 +499,8 @@ export const getTile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",
+  telemetry: TELEMETRY,
+  span: "GetTile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -86,6 +86,20 @@ applyErrorMatchers(CreateExtensionTosAgreementNotAuthorized, [
 ]);
 
 /**
+ * `ensureDepotRemoteBuilder` named an app the token cannot see (deleted, or
+ * in another organization). GraphQL returns this as a 200 with
+ * `Could not find App` and extension code `NOT_FOUND`.
+ */
+export class RemoteBuilderAppNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<RemoteBuilderAppNotFound>()("RemoteBuilderAppNotFound", {
+    code: /*@__PURE__*/ Schema.optional(Schema.Int),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+  }).pipe(Category.withNotFoundError) {}
+applyErrorMatchers(RemoteBuilderAppNotFound, [
+  { message: { matches: "[Cc]ould not find [Aa]pp" } },
+]);
+
+/**
  * Errors any Fly.io operation may surface in addition to the status-mapped
  * per-operation errors.
  */

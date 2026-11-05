@@ -131,6 +131,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   xOriginatingIp: "x_originating_ip",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "EmailSecurity",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AllowPolicyNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AllowPolicyNotFound>()("AllowPolicyNotFound", {
@@ -4872,6 +4886,8 @@ export const bulkInvestigateMove: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkInvestigateMove",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -4892,6 +4908,8 @@ export const bulkInvestigateRelease: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkInvestigateRelease",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -4910,6 +4928,8 @@ export const createInvestigateBulk: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvestigateBulk",
 }));
 
 export type CreateInvestigateBulkCancelError = CloudflareOpError;
@@ -4925,6 +4945,8 @@ export const createInvestigateBulkCancel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvestigateBulkCancel",
 }));
 
 export type CreateInvestigateMoveError = CloudflareOpError;
@@ -4942,6 +4964,8 @@ export const createInvestigateMove: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateInvestigateMove",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -4960,6 +4984,8 @@ export const createInvestigatePreview: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvestigatePreview",
 }));
 
 export type CreateInvestigateReclassifyError = CloudflareOpError;
@@ -4975,6 +5001,8 @@ export const createInvestigateReclassify: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvestigateReclassify",
 }));
 
 export type CreateSettingAllowPolicyError =
@@ -4993,6 +5021,8 @@ export const createSettingAllowPolicy: API.OperationMethod<
   errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingAllowPolicy",
 }));
 
 export type CreateSettingBlockSenderError =
@@ -5011,6 +5041,8 @@ export const createSettingBlockSender: API.OperationMethod<
   errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingBlockSender",
 }));
 
 export type CreateSettingImpersonationRegistryError =
@@ -5029,6 +5061,8 @@ export const createSettingImpersonationRegistry: API.OperationMethod<
   errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingImpersonationRegistry",
 }));
 
 export type CreateSettingsContentPolicyError = CloudflareOpError;
@@ -5044,6 +5078,8 @@ export const createSettingsContentPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingsContentPolicy",
 }));
 
 export type CreateSettingsDomainError = CloudflareOpError;
@@ -5059,6 +5095,8 @@ export const createSettingsDomain: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingsDomain",
 }));
 
 export type CreateSettingSendingDomainRestrictionError = CloudflareOpError;
@@ -5074,6 +5112,8 @@ export const createSettingSendingDomainRestriction: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingSendingDomainRestriction",
 }));
 
 export type CreateSettingTrustedDomainError =
@@ -5092,6 +5132,8 @@ export const createSettingTrustedDomain: API.OperationMethod<
   errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingTrustedDomain",
 }));
 
 export type CreateSettingUrlIgnorePatternError = CloudflareOpError;
@@ -5107,6 +5149,8 @@ export const createSettingUrlIgnorePattern: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSettingUrlIgnorePattern",
 }));
 
 export type DeleteInvestigateBulkError = CloudflareOpError;
@@ -5122,6 +5166,8 @@ export const deleteInvestigateBulk: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvestigateBulk",
 }));
 
 export type DeleteSettingAllowPolicyError =
@@ -5147,6 +5193,8 @@ export const deleteSettingAllowPolicy: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingAllowPolicy",
 }));
 
 export type DeleteSettingBlockSenderError =
@@ -5172,6 +5220,8 @@ export const deleteSettingBlockSender: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingBlockSender",
 }));
 
 export type DeleteSettingDomainError =
@@ -5197,6 +5247,8 @@ export const deleteSettingDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingDomain",
 }));
 
 export type DeleteSettingImpersonationRegistryError =
@@ -5222,6 +5274,8 @@ export const deleteSettingImpersonationRegistry: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingImpersonationRegistry",
 }));
 
 export type DeleteSettingsContentPolicyError = CloudflareOpError;
@@ -5237,6 +5291,8 @@ export const deleteSettingsContentPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingsContentPolicy",
 }));
 
 export type DeleteSettingSendingDomainRestrictionError = CloudflareOpError;
@@ -5252,6 +5308,8 @@ export const deleteSettingSendingDomainRestriction: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingSendingDomainRestriction",
 }));
 
 export type DeleteSettingTrustedDomainError =
@@ -5277,6 +5335,8 @@ export const deleteSettingTrustedDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingTrustedDomain",
 }));
 
 export type DeleteSettingUrlIgnorePatternError = CloudflareOpError;
@@ -5292,6 +5352,8 @@ export const deleteSettingUrlIgnorePattern: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingUrlIgnorePattern",
 }));
 
 export type EditSettingsContentPolicyError = CloudflareOpError;
@@ -5307,6 +5369,8 @@ export const editSettingsContentPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSettingsContentPolicy",
 }));
 
 export type GetInvestigateError = CloudflareOpError;
@@ -5322,6 +5386,8 @@ export const getInvestigate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigate",
 }));
 
 export type GetInvestigateBulkError = CloudflareOpError;
@@ -5337,6 +5403,8 @@ export const getInvestigateBulk: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigateBulk",
 }));
 
 export type GetInvestigateDetectionError = CloudflareOpError;
@@ -5352,6 +5420,8 @@ export const getInvestigateDetection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigateDetection",
 }));
 
 export type GetInvestigatePreviewError = CloudflareOpError;
@@ -5367,6 +5437,8 @@ export const getInvestigatePreview: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigatePreview",
 }));
 
 export type GetInvestigateRawError = CloudflareOpError;
@@ -5382,6 +5454,8 @@ export const getInvestigateRaw: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigateRaw",
 }));
 
 export type GetInvestigateTraceError = CloudflareOpError;
@@ -5397,6 +5471,8 @@ export const getInvestigateTrace: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigateTrace",
 }));
 
 export type GetSettingAllowPolicyError =
@@ -5422,6 +5498,8 @@ export const getSettingAllowPolicy: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingAllowPolicy",
 }));
 
 export type GetSettingBlockSenderError =
@@ -5447,6 +5525,8 @@ export const getSettingBlockSender: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingBlockSender",
 }));
 
 export type GetSettingDomainError =
@@ -5472,6 +5552,8 @@ export const getSettingDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingDomain",
 }));
 
 export type GetSettingImpersonationRegistryError =
@@ -5497,6 +5579,8 @@ export const getSettingImpersonationRegistry: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingImpersonationRegistry",
 }));
 
 export type GetSettingsContentPolicyError = CloudflareOpError;
@@ -5512,6 +5596,8 @@ export const getSettingsContentPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsContentPolicy",
 }));
 
 export type GetSettingSendingDomainRestrictionError = CloudflareOpError;
@@ -5527,6 +5613,8 @@ export const getSettingSendingDomainRestriction: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingSendingDomainRestriction",
 }));
 
 export type GetSettingTrustedDomainError =
@@ -5552,6 +5640,8 @@ export const getSettingTrustedDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingTrustedDomain",
 }));
 
 export type GetSettingUrlIgnorePatternError = CloudflareOpError;
@@ -5567,6 +5657,8 @@ export const getSettingUrlIgnorePattern: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingUrlIgnorePattern",
 }));
 
 export type ListInvestigateBulkMessagesError = CloudflareOpError;
@@ -5584,6 +5676,8 @@ export const listInvestigateBulkMessages: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvestigateBulkMessages",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5610,6 +5704,8 @@ export const listInvestigateBulks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvestigateBulks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5636,6 +5732,8 @@ export const listInvestigates: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvestigates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5662,6 +5760,8 @@ export const listPhishguardReports: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPhishguardReports",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -5685,6 +5785,8 @@ export const listSettingAllowPolicies: API.PaginatedOperationMethod<
     errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingAllowPolicies",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5711,6 +5813,8 @@ export const listSettingBlockSenders: API.PaginatedOperationMethod<
     errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingBlockSenders",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5737,6 +5841,8 @@ export const listSettingDomains: API.PaginatedOperationMethod<
     errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingDomains",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5766,6 +5872,8 @@ export const listSettingImpersonationRegistries: API.PaginatedOperationMethod<
     errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingImpersonationRegistries",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5790,6 +5898,8 @@ export const listSettingsContentPolicies: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSettingsContentPolicies",
 }));
 
 export type ListSettingSendingDomainRestrictionsError = CloudflareOpError;
@@ -5807,6 +5917,8 @@ export const listSettingSendingDomainRestrictions: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingSendingDomainRestrictions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5836,6 +5948,8 @@ export const listSettingTrustedDomains: API.PaginatedOperationMethod<
     errors: [EmailSecurityNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingTrustedDomains",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5862,6 +5976,8 @@ export const listSettingUrlIgnorePatterns: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingUrlIgnorePatterns",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5888,6 +6004,8 @@ export const listSubmissions: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSubmissions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -5922,6 +6040,8 @@ export const patchSettingAllowPolicy: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingAllowPolicy",
 }));
 
 export type PatchSettingBlockSenderError =
@@ -5947,6 +6067,8 @@ export const patchSettingBlockSender: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingBlockSender",
 }));
 
 export type PatchSettingDomainError =
@@ -5972,6 +6094,8 @@ export const patchSettingDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingDomain",
 }));
 
 export type PatchSettingImpersonationRegistryError =
@@ -5997,6 +6121,8 @@ export const patchSettingImpersonationRegistry: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingImpersonationRegistry",
 }));
 
 export type PatchSettingSendingDomainRestrictionError = CloudflareOpError;
@@ -6012,6 +6138,8 @@ export const patchSettingSendingDomainRestriction: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingSendingDomainRestriction",
 }));
 
 export type PatchSettingTrustedDomainError =
@@ -6037,6 +6165,8 @@ export const patchSettingTrustedDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingTrustedDomain",
 }));
 
 export type PatchSettingUrlIgnorePatternError = CloudflareOpError;
@@ -6052,6 +6182,8 @@ export const patchSettingUrlIgnorePattern: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettingUrlIgnorePattern",
 }));
 
 export type SettingsAllowPoliciesBatchError = CloudflareOpError;
@@ -6067,6 +6199,8 @@ export const settingsAllowPoliciesBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsAllowPoliciesBatch",
 }));
 
 export type SettingsBlockSendersBatchError = CloudflareOpError;
@@ -6082,6 +6216,8 @@ export const settingsBlockSendersBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsBlockSendersBatch",
 }));
 
 export type SettingsContentPoliciesBatchError = CloudflareOpError;
@@ -6097,6 +6233,8 @@ export const settingsContentPoliciesBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsContentPoliciesBatch",
 }));
 
 export type SettingsDomainsBatchError = CloudflareOpError;
@@ -6112,6 +6250,8 @@ export const settingsDomainsBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsDomainsBatch",
 }));
 
 export type SettingsDomainsBulkDeleteError = CloudflareOpError;
@@ -6127,6 +6267,8 @@ export const settingsDomainsBulkDelete: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsDomainsBulkDelete",
 }));
 
 export type SettingsTrustedDomainsBatchError = CloudflareOpError;
@@ -6142,6 +6284,8 @@ export const settingsTrustedDomainsBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SettingsTrustedDomainsBatch",
 }));
 
 export type UpdateSettingsDomainError = CloudflareOpError;
@@ -6157,6 +6301,8 @@ export const updateSettingsDomain: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSettingsDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

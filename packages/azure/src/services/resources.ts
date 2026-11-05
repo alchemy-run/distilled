@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  prefix: "Resources",
+  service: "Resources",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags */
 export type ApplicationDefinitionsCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -9083,6 +9103,11 @@ export const ApplicationDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApplicationDefinitionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ApplicationsCreateOrUpdateError = AzureOpError;
@@ -9098,6 +9123,11 @@ export const ApplicationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApplicationsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ApplicationsCreateOrUpdateByIdError = AzureOpError;
@@ -9113,6 +9143,11 @@ export const ApplicationsCreateOrUpdateById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApplicationsCreateOrUpdateById",
+    attributes: { "url.template": "/{applicationId}" },
+  },
 }));
 
 export type CancelDeploymentError = AzureOpError;
@@ -9128,6 +9163,11 @@ export const CancelDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelDeployment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CancelDeploymentAtManagementGroupScopeError = AzureOpError;
@@ -9143,6 +9183,11 @@ export const CancelDeploymentAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelDeploymentAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CancelDeploymentAtScopeError = AzureOpError;
@@ -9158,6 +9203,14 @@ export const CancelDeploymentAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelDeploymentAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+    },
+  },
 }));
 
 export type CancelDeploymentAtSubscriptionScopeError = AzureOpError;
@@ -9173,6 +9226,11 @@ export const CancelDeploymentAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelDeploymentAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CancelDeploymentAtTenantScopeError = AzureOpError;
@@ -9188,6 +9246,11 @@ export const CancelDeploymentAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelDeploymentAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CheckResourceNameError = AzureOpError;
@@ -9203,6 +9266,11 @@ export const CheckResourceName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CheckResourceName",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CheckSubscriptionZonePeersError = AzureOpError;
@@ -9218,6 +9286,11 @@ export const CheckSubscriptionZonePeers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CheckSubscriptionZonePeers",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CreateDeploymentScriptError = AzureOpError;
@@ -9233,6 +9306,11 @@ export const CreateDeploymentScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateDeploymentScript",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type CreatePolicyAssignmentError = AzureOpError;
@@ -9248,6 +9326,15 @@ export const CreatePolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreatePolicyAssignment",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+    },
+  },
 }));
 
 export type DecompileBicepError = AzureOpError;
@@ -9263,6 +9350,11 @@ export const DecompileBicep: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DecompileBicep",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteApplicationError = AzureOpError;
@@ -9278,6 +9370,11 @@ export const DeleteApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteApplication",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type DeleteApplicationByIdError = AzureOpError;
@@ -9293,6 +9390,8 @@ export const DeleteApplicationById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "DeleteApplicationById", attributes: { "url.template": "/{applicationId}" } },
 }));
 
 export type DeleteApplicationDefinitionError = AzureOpError;
@@ -9308,6 +9407,11 @@ export const DeleteApplicationDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteApplicationDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type DeleteDeploymentError = AzureOpError;
@@ -9323,6 +9427,11 @@ export const DeleteDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeployment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentAtManagementGroupScopeError = AzureOpError;
@@ -9338,6 +9447,11 @@ export const DeleteDeploymentAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentAtScopeError = AzureOpError;
@@ -9353,6 +9467,14 @@ export const DeleteDeploymentAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+    },
+  },
 }));
 
 export type DeleteDeploymentAtSubscriptionScopeError = AzureOpError;
@@ -9368,6 +9490,11 @@ export const DeleteDeploymentAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentAtTenantScopeError = AzureOpError;
@@ -9383,6 +9510,11 @@ export const DeleteDeploymentAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentScriptError = AzureOpError;
@@ -9398,6 +9530,11 @@ export const DeleteDeploymentScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentScript",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStackAtManagementGroupError = AzureOpError;
@@ -9413,6 +9550,11 @@ export const DeleteDeploymentStackAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStackAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStackAtResourceGroupError = AzureOpError;
@@ -9428,6 +9570,11 @@ export const DeleteDeploymentStackAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStackAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStackAtSubscriptionError = AzureOpError;
@@ -9443,6 +9590,11 @@ export const DeleteDeploymentStackAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStackAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStacksWhatIfResultsAtManagementGroupError = AzureOpError;
@@ -9466,6 +9618,11 @@ export const DeleteDeploymentStacksWhatIfResultsAtManagementGroup: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStacksWhatIfResultsAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStacksWhatIfResultsAtResourceGroupError = AzureOpError;
@@ -9489,6 +9646,11 @@ export const DeleteDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStacksWhatIfResultsAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteDeploymentStacksWhatIfResultsAtSubscriptionError = AzureOpError;
@@ -9512,6 +9674,11 @@ export const DeleteDeploymentStacksWhatIfResultsAtSubscription: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDeploymentStacksWhatIfResultsAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteJitRequestError = AzureOpError;
@@ -9527,6 +9694,11 @@ export const DeleteJitRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteJitRequest",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type DeleteManagementLockAtResourceGroupLevelError = AzureOpError;
@@ -9542,6 +9714,11 @@ export const DeleteManagementLockAtResourceGroupLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteManagementLockAtResourceGroupLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeleteManagementLockAtResourceLevelError = AzureOpError;
@@ -9557,6 +9734,11 @@ export const DeleteManagementLockAtResourceLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteManagementLockAtResourceLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeleteManagementLockAtSubscriptionLevelError = AzureOpError;
@@ -9572,6 +9754,11 @@ export const DeleteManagementLockAtSubscriptionLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteManagementLockAtSubscriptionLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeleteManagementLockByScopeError = AzureOpError;
@@ -9587,6 +9774,14 @@ export const DeleteManagementLockByScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteManagementLockByScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template": "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+    },
+  },
 }));
 
 export type DeletePolicyAssignmentError = AzureOpError;
@@ -9602,6 +9797,15 @@ export const DeletePolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicyAssignment",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+    },
+  },
 }));
 
 export type DeletePolicyDefinitionError = AzureOpError;
@@ -9617,6 +9821,11 @@ export const DeletePolicyDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicyDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicyDefinitionAtManagementGroupError = AzureOpError;
@@ -9632,6 +9841,11 @@ export const DeletePolicyDefinitionAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicyDefinitionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicyDefinitionVersionError = AzureOpError;
@@ -9647,6 +9861,11 @@ export const DeletePolicyDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicyDefinitionVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicyDefinitionVersionAtManagementGroupError = AzureOpError;
@@ -9670,6 +9889,11 @@ export const DeletePolicyDefinitionVersionAtManagementGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicyDefinitionVersionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicySetDefinitionError = AzureOpError;
@@ -9685,6 +9909,11 @@ export const DeletePolicySetDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicySetDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicySetDefinitionAtManagementGroupError = AzureOpError;
@@ -9700,6 +9929,11 @@ export const DeletePolicySetDefinitionAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicySetDefinitionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicySetDefinitionVersionError = AzureOpError;
@@ -9715,6 +9949,11 @@ export const DeletePolicySetDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicySetDefinitionVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePolicySetDefinitionVersionAtManagementGroupError = AzureOpError;
@@ -9738,6 +9977,11 @@ export const DeletePolicySetDefinitionVersionAtManagementGroup: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePolicySetDefinitionVersionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeletePrivateLinkAssociationError = AzureOpError;
@@ -9753,6 +9997,11 @@ export const DeletePrivateLinkAssociation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePrivateLinkAssociation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeleteResourceError = AzureOpError;
@@ -9768,6 +10017,8 @@ export const DeleteResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type DeleteResourceByIdError = AzureOpError;
@@ -9783,6 +10034,8 @@ export const DeleteResourceById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "DeleteResourceById", attributes: { "url.template": "/{resourceId}" } },
 }));
 
 export type DeleteResourceGroupError = AzureOpError;
@@ -9798,6 +10051,8 @@ export const DeleteResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGroup",
 }));
 
 export type DeleteResourceLinkError = AzureOpError;
@@ -9813,6 +10068,8 @@ export const DeleteResourceLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "DeleteResourceLink", attributes: { "url.template": "/{linkId}" } },
 }));
 
 export type DeleteResourceManagementPrivateLinkError = AzureOpError;
@@ -9828,6 +10085,11 @@ export const DeleteResourceManagementPrivateLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteResourceManagementPrivateLink",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type DeleteSubscriptionFeatureRegistrationError = AzureOpError;
@@ -9843,6 +10105,11 @@ export const DeleteSubscriptionFeatureRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSubscriptionFeatureRegistration",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type DeleteTagError = AzureOpError;
@@ -9858,6 +10125,8 @@ export const DeleteTag: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteTagAtScopeError = AzureOpError;
@@ -9873,6 +10142,14 @@ export const DeleteTagAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTagAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/tags/default",
+    },
+  },
 }));
 
 export type DeleteTagValueError = AzureOpError;
@@ -9888,6 +10165,8 @@ export const DeleteTagValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagValue",
 }));
 
 export type DeleteTemplateSpecError = AzureOpError;
@@ -9903,6 +10182,11 @@ export const DeleteTemplateSpec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTemplateSpec",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeleteTemplateSpecVersionError = AzureOpError;
@@ -9918,6 +10202,11 @@ export const DeleteTemplateSpecVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTemplateSpecVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsCalculateTemplateHashError = AzureOpError;
@@ -9933,6 +10222,11 @@ export const DeploymentsCalculateTemplateHash: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCalculateTemplateHash",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsCreateOrUpdateError = AzureOpError;
@@ -9948,6 +10242,11 @@ export const DeploymentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsCreateOrUpdateAtManagementGroupScopeError = AzureOpError;
@@ -9971,6 +10270,11 @@ export const DeploymentsCreateOrUpdateAtManagementGroupScope: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateOrUpdateAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsCreateOrUpdateAtScopeError = AzureOpError;
@@ -9986,6 +10290,14 @@ export const DeploymentsCreateOrUpdateAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateOrUpdateAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+    },
+  },
 }));
 
 export type DeploymentsCreateOrUpdateAtSubscriptionScopeError = AzureOpError;
@@ -10009,6 +10321,11 @@ export const DeploymentsCreateOrUpdateAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateOrUpdateAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsCreateOrUpdateAtTenantScopeError = AzureOpError;
@@ -10024,6 +10341,11 @@ export const DeploymentsCreateOrUpdateAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsCreateOrUpdateAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -10047,6 +10369,11 @@ export const DeploymentStacksCreateOrUpdateAtManagementGroup: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksCreateOrUpdateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksCreateOrUpdateAtResourceGroupError = AzureOpError;
@@ -10070,6 +10397,11 @@ export const DeploymentStacksCreateOrUpdateAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksCreateOrUpdateAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksCreateOrUpdateAtSubscriptionError = AzureOpError;
@@ -10093,6 +10425,11 @@ export const DeploymentStacksCreateOrUpdateAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksCreateOrUpdateAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateError = AzureOpError;
@@ -10116,6 +10453,11 @@ export const DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdate: API.O
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtManagementGroupWhatIfError = AzureOpError;
@@ -10139,6 +10481,11 @@ export const DeploymentStacksWhatIfResultsAtManagementGroupWhatIf: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtManagementGroupWhatIf",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateError = AzureOpError;
@@ -10162,6 +10509,11 @@ export const DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdate: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtResourceGroupWhatIfError = AzureOpError;
@@ -10185,6 +10537,11 @@ export const DeploymentStacksWhatIfResultsAtResourceGroupWhatIf: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtResourceGroupWhatIf",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateError = AzureOpError;
@@ -10208,6 +10565,11 @@ export const DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdate: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentStacksWhatIfResultsAtSubscriptionWhatIfError = AzureOpError;
@@ -10231,6 +10593,11 @@ export const DeploymentStacksWhatIfResultsAtSubscriptionWhatIf: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentStacksWhatIfResultsAtSubscriptionWhatIf",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsWhatIfError = AzureOpError;
@@ -10246,6 +10613,11 @@ export const DeploymentsWhatIf: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsWhatIf",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsWhatIfAtManagementGroupScopeError = AzureOpError;
@@ -10261,6 +10633,11 @@ export const DeploymentsWhatIfAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsWhatIfAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsWhatIfAtSubscriptionScopeError = AzureOpError;
@@ -10276,6 +10653,11 @@ export const DeploymentsWhatIfAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsWhatIfAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type DeploymentsWhatIfAtTenantScopeError = AzureOpError;
@@ -10291,6 +10673,11 @@ export const DeploymentsWhatIfAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeploymentsWhatIfAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentStackTemplateAtManagementGroupError = AzureOpError;
@@ -10310,6 +10697,11 @@ export const ExportDeploymentStackTemplateAtManagementGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentStackTemplateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentStackTemplateAtResourceGroupError = AzureOpError;
@@ -10329,6 +10721,11 @@ export const ExportDeploymentStackTemplateAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentStackTemplateAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentStackTemplateAtSubscriptionError = AzureOpError;
@@ -10348,6 +10745,11 @@ export const ExportDeploymentStackTemplateAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentStackTemplateAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentTemplateError = AzureOpError;
@@ -10363,6 +10765,11 @@ export const ExportDeploymentTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentTemplate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentTemplateAtManagementGroupScopeError = AzureOpError;
@@ -10382,6 +10789,11 @@ export const ExportDeploymentTemplateAtManagementGroupScope: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentTemplateAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentTemplateAtScopeError = AzureOpError;
@@ -10397,6 +10809,15 @@ export const ExportDeploymentTemplateAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentTemplateAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template":
+        "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+    },
+  },
 }));
 
 export type ExportDeploymentTemplateAtSubscriptionScopeError = AzureOpError;
@@ -10416,6 +10837,11 @@ export const ExportDeploymentTemplateAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentTemplateAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportDeploymentTemplateAtTenantScopeError = AzureOpError;
@@ -10431,6 +10857,11 @@ export const ExportDeploymentTemplateAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportDeploymentTemplateAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ExportResourceGroupTemplateError = AzureOpError;
@@ -10446,6 +10877,8 @@ export const ExportResourceGroupTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportResourceGroupTemplate",
 }));
 
 export type GetApplicationError = AzureOpError;
@@ -10461,6 +10894,11 @@ export const GetApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetApplication",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type GetApplicationByIdError = AzureOpError;
@@ -10476,6 +10914,8 @@ export const GetApplicationById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "GetApplicationById", attributes: { "url.template": "/{applicationId}" } },
 }));
 
 export type GetApplicationDefinitionError = AzureOpError;
@@ -10491,6 +10931,11 @@ export const GetApplicationDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetApplicationDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type GetChangeError = AzureOpError;
@@ -10506,6 +10951,11 @@ export const GetChange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetChange",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDataBoundaryScopeError = AzureOpError;
@@ -10521,6 +10971,14 @@ export const GetDataBoundaryScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataBoundaryScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/dataBoundaries/{default}",
+    },
+  },
 }));
 
 export type GetDataBoundaryTenantError = AzureOpError;
@@ -10536,6 +10994,11 @@ export const GetDataBoundaryTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataBoundaryTenant",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDataPolicyManifestByPolicyModeError = AzureOpError;
@@ -10551,6 +11014,11 @@ export const GetDataPolicyManifestByPolicyMode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataPolicyManifestByPolicyMode",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetDeploymentError = AzureOpError;
@@ -10566,6 +11034,11 @@ export const GetDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeployment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentAtManagementGroupScopeError = AzureOpError;
@@ -10581,6 +11054,11 @@ export const GetDeploymentAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentAtScopeError = AzureOpError;
@@ -10596,6 +11074,14 @@ export const GetDeploymentAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+    },
+  },
 }));
 
 export type GetDeploymentAtSubscriptionScopeError = AzureOpError;
@@ -10611,6 +11097,11 @@ export const GetDeploymentAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentAtTenantScopeError = AzureOpError;
@@ -10626,6 +11117,11 @@ export const GetDeploymentAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentOperationError = AzureOpError;
@@ -10641,6 +11137,8 @@ export const GetDeploymentOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentOperation",
 }));
 
 export type GetDeploymentOperationAtManagementGroupScopeError = AzureOpError;
@@ -10660,6 +11158,11 @@ export const GetDeploymentOperationAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentOperationAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentOperationAtScopeError = AzureOpError;
@@ -10675,6 +11178,15 @@ export const GetDeploymentOperationAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentOperationAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template":
+        "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
+    },
+  },
 }));
 
 export type GetDeploymentOperationAtSubscriptionScopeError = AzureOpError;
@@ -10690,6 +11202,11 @@ export const GetDeploymentOperationAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentOperationAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentOperationAtTenantScopeError = AzureOpError;
@@ -10705,6 +11222,11 @@ export const GetDeploymentOperationAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentOperationAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentScriptError = AzureOpError;
@@ -10720,6 +11242,11 @@ export const GetDeploymentScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentScript",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentScriptLogsError = AzureOpError;
@@ -10735,6 +11262,11 @@ export const GetDeploymentScriptLogs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentScriptLogs",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentScriptLogsDefaultError = AzureOpError;
@@ -10750,6 +11282,11 @@ export const GetDeploymentScriptLogsDefault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentScriptLogsDefault",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStackAtManagementGroupError = AzureOpError;
@@ -10765,6 +11302,11 @@ export const GetDeploymentStackAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStackAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStackAtResourceGroupError = AzureOpError;
@@ -10780,6 +11322,11 @@ export const GetDeploymentStackAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStackAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStackAtSubscriptionError = AzureOpError;
@@ -10795,6 +11342,11 @@ export const GetDeploymentStackAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStackAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStacksWhatIfResultsAtManagementGroupError = AzureOpError;
@@ -10818,6 +11370,11 @@ export const GetDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStacksWhatIfResultsAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStacksWhatIfResultsAtResourceGroupError = AzureOpError;
@@ -10841,6 +11398,11 @@ export const GetDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStacksWhatIfResultsAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetDeploymentStacksWhatIfResultsAtSubscriptionError = AzureOpError;
@@ -10864,6 +11426,11 @@ export const GetDeploymentStacksWhatIfResultsAtSubscription: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDeploymentStacksWhatIfResultsAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetFeatureError = AzureOpError;
@@ -10879,6 +11446,11 @@ export const GetFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFeature",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type GetJitRequestError = AzureOpError;
@@ -10894,6 +11466,11 @@ export const GetJitRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetJitRequest",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type GetManagementLockAtResourceGroupLevelError = AzureOpError;
@@ -10909,6 +11486,11 @@ export const GetManagementLockAtResourceGroupLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetManagementLockAtResourceGroupLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetManagementLockAtResourceLevelError = AzureOpError;
@@ -10924,6 +11506,11 @@ export const GetManagementLockAtResourceLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetManagementLockAtResourceLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetManagementLockAtSubscriptionLevelError = AzureOpError;
@@ -10939,6 +11526,11 @@ export const GetManagementLockAtSubscriptionLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetManagementLockAtSubscriptionLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetManagementLockByScopeError = AzureOpError;
@@ -10954,6 +11546,14 @@ export const GetManagementLockByScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetManagementLockByScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template": "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+    },
+  },
 }));
 
 export type GetPolicyAssignmentError = AzureOpError;
@@ -10969,6 +11569,15 @@ export const GetPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyAssignment",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+    },
+  },
 }));
 
 export type GetPolicyDefinitionError = AzureOpError;
@@ -10984,6 +11593,11 @@ export const GetPolicyDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicyDefinitionAtManagementGroupError = AzureOpError;
@@ -10999,6 +11613,11 @@ export const GetPolicyDefinitionAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinitionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicyDefinitionBuiltInError = AzureOpError;
@@ -11014,6 +11633,11 @@ export const GetPolicyDefinitionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinitionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicyDefinitionVersionError = AzureOpError;
@@ -11029,6 +11653,11 @@ export const GetPolicyDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinitionVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicyDefinitionVersionAtManagementGroupError = AzureOpError;
@@ -11048,6 +11677,11 @@ export const GetPolicyDefinitionVersionAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinitionVersionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicyDefinitionVersionBuiltInError = AzureOpError;
@@ -11063,6 +11697,11 @@ export const GetPolicyDefinitionVersionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicyDefinitionVersionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionError = AzureOpError;
@@ -11078,6 +11717,11 @@ export const GetPolicySetDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinition",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionAtManagementGroupError = AzureOpError;
@@ -11093,6 +11737,11 @@ export const GetPolicySetDefinitionAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinitionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionBuiltInError = AzureOpError;
@@ -11108,6 +11757,11 @@ export const GetPolicySetDefinitionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinitionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionVersionError = AzureOpError;
@@ -11123,6 +11777,11 @@ export const GetPolicySetDefinitionVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinitionVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionVersionAtManagementGroupError = AzureOpError;
@@ -11146,6 +11805,11 @@ export const GetPolicySetDefinitionVersionAtManagementGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinitionVersionAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPolicySetDefinitionVersionBuiltInError = AzureOpError;
@@ -11161,6 +11825,11 @@ export const GetPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPolicySetDefinitionVersionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetPrivateLinkAssociationError = AzureOpError;
@@ -11176,6 +11845,11 @@ export const GetPrivateLinkAssociation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateLinkAssociation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetProviderError = AzureOpError;
@@ -11191,6 +11865,8 @@ export const GetProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvider",
 }));
 
 export type GetProviderAtTenantScopeError = AzureOpError;
@@ -11206,6 +11882,8 @@ export const GetProviderAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderAtTenantScope",
 }));
 
 export type GetResourceError = AzureOpError;
@@ -11221,6 +11899,8 @@ export const GetResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GetResourceByIdError = AzureOpError;
@@ -11236,6 +11916,8 @@ export const GetResourceById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "GetResourceById", attributes: { "url.template": "/{resourceId}" } },
 }));
 
 export type GetResourceGroupError = AzureOpError;
@@ -11251,6 +11933,8 @@ export const GetResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroup",
 }));
 
 export type GetResourceLinkError = AzureOpError;
@@ -11266,6 +11950,8 @@ export const GetResourceLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "GetResourceLink", attributes: { "url.template": "/{linkId}" } },
 }));
 
 export type GetResourceManagementPrivateLinkError = AzureOpError;
@@ -11281,6 +11967,11 @@ export const GetResourceManagementPrivateLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetResourceManagementPrivateLink",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type GetSubscriptionError = AzureOpError;
@@ -11296,6 +11987,8 @@ export const GetSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetSubscriptionFeatureRegistrationError = AzureOpError;
@@ -11311,6 +12004,11 @@ export const GetSubscriptionFeatureRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSubscriptionFeatureRegistration",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type GetTagAtScopeError = AzureOpError;
@@ -11326,6 +12024,14 @@ export const GetTagAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTagAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/tags/default",
+    },
+  },
 }));
 
 export type GetTemplateSpecError = AzureOpError;
@@ -11341,6 +12047,11 @@ export const GetTemplateSpec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTemplateSpec",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetTemplateSpecBuiltInError = AzureOpError;
@@ -11356,6 +12067,11 @@ export const GetTemplateSpecBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTemplateSpecBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetTemplateSpecVersionError = AzureOpError;
@@ -11371,6 +12087,11 @@ export const GetTemplateSpecVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTemplateSpecVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type GetTemplateSpecVersionBuiltInError = AzureOpError;
@@ -11386,6 +12107,11 @@ export const GetTemplateSpecVersionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTemplateSpecVersionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type JitRequestsCreateOrUpdateError = AzureOpError;
@@ -11401,6 +12127,11 @@ export const JitRequestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "JitRequestsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListApplicationByResourceGroupError = AzureOpError;
@@ -11416,6 +12147,11 @@ export const ListApplicationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListApplicationByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListApplicationBySubscriptionError = AzureOpError;
@@ -11431,6 +12167,11 @@ export const ListApplicationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListApplicationBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListApplicationDefinitionByResourceGroupError = AzureOpError;
@@ -11446,6 +12187,11 @@ export const ListApplicationDefinitionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListApplicationDefinitionByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListAuthorizationOperationsError = AzureOpError;
@@ -11461,6 +12207,11 @@ export const ListAuthorizationOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAuthorizationOperations",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListChangesError = AzureOpError;
@@ -11476,6 +12227,11 @@ export const ListChanges: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListChanges",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDataPolicyManifestsError = AzureOpError;
@@ -11491,6 +12247,11 @@ export const ListDataPolicyManifests: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataPolicyManifests",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListDeploymentAtManagementGroupScopeError = AzureOpError;
@@ -11506,6 +12267,11 @@ export const ListDeploymentAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentAtScopeError = AzureOpError;
@@ -11521,6 +12287,14 @@ export const ListDeploymentAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/deployments",
+    },
+  },
 }));
 
 export type ListDeploymentAtSubscriptionScopeError = AzureOpError;
@@ -11536,6 +12310,11 @@ export const ListDeploymentAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentAtTenantScopeError = AzureOpError;
@@ -11551,6 +12330,11 @@ export const ListDeploymentAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentByResourceGroupError = AzureOpError;
@@ -11566,6 +12350,11 @@ export const ListDeploymentByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentOperationAtManagementGroupScopeError = AzureOpError;
@@ -11585,6 +12374,11 @@ export const ListDeploymentOperationAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentOperationAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentOperationAtScopeError = AzureOpError;
@@ -11600,6 +12394,15 @@ export const ListDeploymentOperationAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentOperationAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template":
+        "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
+    },
+  },
 }));
 
 export type ListDeploymentOperationAtSubscriptionScopeError = AzureOpError;
@@ -11615,6 +12418,11 @@ export const ListDeploymentOperationAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentOperationAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentOperationAtTenantScopeError = AzureOpError;
@@ -11630,6 +12438,11 @@ export const ListDeploymentOperationAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentOperationAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentOperationsError = AzureOpError;
@@ -11645,6 +12458,8 @@ export const ListDeploymentOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentOperations",
 }));
 
 export type ListDeploymentScriptByResourceGroupError = AzureOpError;
@@ -11660,6 +12475,11 @@ export const ListDeploymentScriptByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentScriptByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentScriptBySubscriptionError = AzureOpError;
@@ -11675,6 +12495,11 @@ export const ListDeploymentScriptBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentScriptBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStackAtManagementGroupError = AzureOpError;
@@ -11690,6 +12515,11 @@ export const ListDeploymentStackAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStackAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStackAtResourceGroupError = AzureOpError;
@@ -11705,6 +12535,11 @@ export const ListDeploymentStackAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStackAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStackAtSubscriptionError = AzureOpError;
@@ -11720,6 +12555,11 @@ export const ListDeploymentStackAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStackAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStacksWhatIfResultsAtManagementGroupError = AzureOpError;
@@ -11739,6 +12579,11 @@ export const ListDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStacksWhatIfResultsAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStacksWhatIfResultsAtResourceGroupError = AzureOpError;
@@ -11758,6 +12603,11 @@ export const ListDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStacksWhatIfResultsAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListDeploymentStacksWhatIfResultsAtSubscriptionError = AzureOpError;
@@ -11777,6 +12627,11 @@ export const ListDeploymentStacksWhatIfResultsAtSubscription: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeploymentStacksWhatIfResultsAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListFeatureAllError = AzureOpError;
@@ -11792,6 +12647,11 @@ export const ListFeatureAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListFeatureAll",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type ListFeaturesError = AzureOpError;
@@ -11807,6 +12667,11 @@ export const ListFeatures: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListFeatures",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type ListJitRequestByResourceGroupError = AzureOpError;
@@ -11822,6 +12687,11 @@ export const ListJitRequestByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListJitRequestByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListJitRequestBySubscriptionError = AzureOpError;
@@ -11837,6 +12707,11 @@ export const ListJitRequestBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListJitRequestBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type ListManagementLockAtResourceGroupLevelError = AzureOpError;
@@ -11852,6 +12727,11 @@ export const ListManagementLockAtResourceGroupLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListManagementLockAtResourceGroupLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListManagementLockAtResourceLevelError = AzureOpError;
@@ -11867,6 +12747,11 @@ export const ListManagementLockAtResourceLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListManagementLockAtResourceLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListManagementLockAtSubscriptionLevelError = AzureOpError;
@@ -11882,6 +12767,11 @@ export const ListManagementLockAtSubscriptionLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListManagementLockAtSubscriptionLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListManagementLockByScopeError = AzureOpError;
@@ -11897,6 +12787,14 @@ export const ListManagementLockByScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListManagementLockByScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template": "/{scope}/providers/Microsoft.Authorization/locks",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -11912,6 +12810,11 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOperations",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type ListPolicyAssignmentForManagementGroupError = AzureOpError;
@@ -11927,6 +12830,11 @@ export const ListPolicyAssignmentForManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyAssignmentForManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyAssignmentForResourceError = AzureOpError;
@@ -11942,6 +12850,11 @@ export const ListPolicyAssignmentForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyAssignmentForResource",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyAssignmentForResourceGroupError = AzureOpError;
@@ -11957,6 +12870,11 @@ export const ListPolicyAssignmentForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyAssignmentForResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyAssignmentsError = AzureOpError;
@@ -11972,6 +12890,11 @@ export const ListPolicyAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyAssignments",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionBuiltInError = AzureOpError;
@@ -11987,6 +12910,11 @@ export const ListPolicyDefinitionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionByManagementGroupError = AzureOpError;
@@ -12002,6 +12930,11 @@ export const ListPolicyDefinitionByManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionByManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionsError = AzureOpError;
@@ -12017,6 +12950,11 @@ export const ListPolicyDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionAllError = AzureOpError;
@@ -12032,6 +12970,11 @@ export const ListPolicyDefinitionVersionAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersionAll",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionAllAtManagementGroupError = AzureOpError;
@@ -12051,6 +12994,11 @@ export const ListPolicyDefinitionVersionAllAtManagementGroup: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersionAllAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionAllBuiltinsError = AzureOpError;
@@ -12066,6 +13014,11 @@ export const ListPolicyDefinitionVersionAllBuiltins: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersionAllBuiltins",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionBuiltInError = AzureOpError;
@@ -12081,6 +13034,11 @@ export const ListPolicyDefinitionVersionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionByManagementGroupError = AzureOpError;
@@ -12100,6 +13058,11 @@ export const ListPolicyDefinitionVersionByManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersionByManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicyDefinitionVersionsError = AzureOpError;
@@ -12115,6 +13078,11 @@ export const ListPolicyDefinitionVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyDefinitionVersions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionBuiltInError = AzureOpError;
@@ -12130,6 +13098,11 @@ export const ListPolicySetDefinitionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionByManagementGroupError = AzureOpError;
@@ -12145,6 +13118,11 @@ export const ListPolicySetDefinitionByManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionByManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionsError = AzureOpError;
@@ -12160,6 +13138,11 @@ export const ListPolicySetDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionAllError = AzureOpError;
@@ -12175,6 +13158,11 @@ export const ListPolicySetDefinitionVersionAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersionAll",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionAllAtManagementGroupError = AzureOpError;
@@ -12194,6 +13182,11 @@ export const ListPolicySetDefinitionVersionAllAtManagementGroup: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersionAllAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionAllBuiltinsError = AzureOpError;
@@ -12209,6 +13202,11 @@ export const ListPolicySetDefinitionVersionAllBuiltins: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersionAllBuiltins",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionBuiltInError = AzureOpError;
@@ -12224,6 +13222,11 @@ export const ListPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersionBuiltIn",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionByManagementGroupError = AzureOpError;
@@ -12243,6 +13246,11 @@ export const ListPolicySetDefinitionVersionByManagementGroup: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersionByManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPolicySetDefinitionVersionsError = AzureOpError;
@@ -12258,6 +13266,11 @@ export const ListPolicySetDefinitionVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicySetDefinitionVersions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListPrivateLinkAssociationError = AzureOpError;
@@ -12273,6 +13286,11 @@ export const ListPrivateLinkAssociation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPrivateLinkAssociation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListProviderAtTenantScopeError = AzureOpError;
@@ -12288,6 +13306,8 @@ export const ListProviderAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderAtTenantScope",
 }));
 
 export type ListProviderResourceTypesError = AzureOpError;
@@ -12303,6 +13323,8 @@ export const ListProviderResourceTypes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderResourceTypes",
 }));
 
 export type ListProvidersError = AzureOpError;
@@ -12318,6 +13340,8 @@ export const ListProviders: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviders",
 }));
 
 export type ListResourceByResourceGroupError = AzureOpError;
@@ -12333,6 +13357,8 @@ export const ListResourceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceByResourceGroup",
 }));
 
 export type ListResourceGroupsError = AzureOpError;
@@ -12348,6 +13374,8 @@ export const ListResourceGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceGroups",
 }));
 
 export type ListResourceLinkAtSourceScopeError = AzureOpError;
@@ -12363,6 +13391,14 @@ export const ListResourceLinkAtSourceScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListResourceLinkAtSourceScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/links",
+    },
+  },
 }));
 
 export type ListResourceLinkAtSubscriptionError = AzureOpError;
@@ -12378,6 +13414,11 @@ export const ListResourceLinkAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListResourceLinkAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListResourceManagementPrivateLinkError = AzureOpError;
@@ -12393,6 +13434,11 @@ export const ListResourceManagementPrivateLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListResourceManagementPrivateLink",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListResourceManagementPrivateLinkByResourceGroupError = AzureOpError;
@@ -12412,6 +13458,11 @@ export const ListResourceManagementPrivateLinkByResourceGroup: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListResourceManagementPrivateLinkByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ListResourcesError = AzureOpError;
@@ -12427,6 +13478,8 @@ export const ListResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 }));
 
 export type ListSubscriptionFeatureRegistrationAllBySubscriptionError = AzureOpError;
@@ -12446,6 +13499,11 @@ export const ListSubscriptionFeatureRegistrationAllBySubscription: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSubscriptionFeatureRegistrationAllBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type ListSubscriptionFeatureRegistrationBySubscriptionError = AzureOpError;
@@ -12465,6 +13523,11 @@ export const ListSubscriptionFeatureRegistrationBySubscription: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSubscriptionFeatureRegistrationBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type ListSubscriptionLocationsError = AzureOpError;
@@ -12480,6 +13543,8 @@ export const ListSubscriptionLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionLocations",
 }));
 
 export type ListSubscriptionsError = AzureOpError;
@@ -12495,6 +13560,8 @@ export const ListSubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 }));
 
 export type ListTagsError = AzureOpError;
@@ -12510,6 +13577,8 @@ export const ListTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListTemplateSpecBuiltInsError = AzureOpError;
@@ -12525,6 +13594,11 @@ export const ListTemplateSpecBuiltIns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTemplateSpecBuiltIns",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListTemplateSpecByResourceGroupError = AzureOpError;
@@ -12540,6 +13614,11 @@ export const ListTemplateSpecByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTemplateSpecByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListTemplateSpecBySubscriptionError = AzureOpError;
@@ -12555,6 +13634,11 @@ export const ListTemplateSpecBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTemplateSpecBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListTemplateSpecVersionBuiltInsError = AzureOpError;
@@ -12570,6 +13654,11 @@ export const ListTemplateSpecVersionBuiltIns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTemplateSpecVersionBuiltIns",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListTemplateSpecVersionsError = AzureOpError;
@@ -12585,6 +13674,11 @@ export const ListTemplateSpecVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTemplateSpecVersions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ListTenantsError = AzureOpError;
@@ -12600,6 +13694,8 @@ export const ListTenants: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTenants",
 }));
 
 export type ManagementLocksCreateOrUpdateAtResourceGroupLevelError = AzureOpError;
@@ -12619,6 +13715,11 @@ export const ManagementLocksCreateOrUpdateAtResourceGroupLevel: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ManagementLocksCreateOrUpdateAtResourceGroupLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ManagementLocksCreateOrUpdateAtResourceLevelError = AzureOpError;
@@ -12638,6 +13739,11 @@ export const ManagementLocksCreateOrUpdateAtResourceLevel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ManagementLocksCreateOrUpdateAtResourceLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ManagementLocksCreateOrUpdateAtSubscriptionLevelError = AzureOpError;
@@ -12657,6 +13763,11 @@ export const ManagementLocksCreateOrUpdateAtSubscriptionLevel: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ManagementLocksCreateOrUpdateAtSubscriptionLevel",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ManagementLocksCreateOrUpdateByScopeError = AzureOpError;
@@ -12672,6 +13783,14 @@ export const ManagementLocksCreateOrUpdateByScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ManagementLocksCreateOrUpdateByScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template": "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+    },
+  },
 }));
 
 export type MoveResourceResourcesError = AzureOpError;
@@ -12687,6 +13806,8 @@ export const MoveResourceResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveResourceResources",
 }));
 
 export type PolicyDefinitionsCreateOrUpdateError = AzureOpError;
@@ -12702,6 +13823,11 @@ export const PolicyDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyDefinitionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyDefinitionsCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -12725,6 +13851,11 @@ export const PolicyDefinitionsCreateOrUpdateAtManagementGroup: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyDefinitionsCreateOrUpdateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyDefinitionVersionsCreateOrUpdateError = AzureOpError;
@@ -12740,6 +13871,11 @@ export const PolicyDefinitionVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyDefinitionVersionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -12763,6 +13899,11 @@ export const PolicyDefinitionVersionsCreateOrUpdateAtManagementGroup: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyDefinitionVersionsCreateOrUpdateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicySetDefinitionsCreateOrUpdateError = AzureOpError;
@@ -12778,6 +13919,11 @@ export const PolicySetDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicySetDefinitionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -12801,6 +13947,11 @@ export const PolicySetDefinitionsCreateOrUpdateAtManagementGroup: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicySetDefinitionsCreateOrUpdateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicySetDefinitionVersionsCreateOrUpdateError = AzureOpError;
@@ -12816,6 +13967,11 @@ export const PolicySetDefinitionVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicySetDefinitionVersionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -12839,6 +13995,11 @@ export const PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroup: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyTokensAcquireError = AzureOpError;
@@ -12854,6 +14015,11 @@ export const PolicyTokensAcquire: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyTokensAcquire",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyTokensAcquireAtManagementGroupError = AzureOpError;
@@ -12869,6 +14035,11 @@ export const PolicyTokensAcquireAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyTokensAcquireAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PolicyTokensAcquireAtResourceGroupError = AzureOpError;
@@ -12884,6 +14055,11 @@ export const PolicyTokensAcquireAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyTokensAcquireAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type ProvidersProviderPermissionsError = AzureOpError;
@@ -12899,6 +14075,8 @@ export const ProvidersProviderPermissions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvidersProviderPermissions",
 }));
 
 export type PutDataBoundaryError = AzureOpError;
@@ -12914,6 +14092,11 @@ export const PutDataBoundary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutDataBoundary",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type PutPrivateLinkAssociationError = AzureOpError;
@@ -12929,6 +14112,11 @@ export const PutPrivateLinkAssociation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutPrivateLinkAssociation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type PutResourceManagementPrivateLinkError = AzureOpError;
@@ -12944,6 +14132,11 @@ export const PutResourceManagementPrivateLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutResourceManagementPrivateLink",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  },
 }));
 
 export type RefreshApplicationPermissionsError = AzureOpError;
@@ -12959,6 +14152,11 @@ export const RefreshApplicationPermissions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RefreshApplicationPermissions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type RegisterFeatureError = AzureOpError;
@@ -12974,6 +14172,11 @@ export const RegisterFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegisterFeature",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type RegisterProviderError = AzureOpError;
@@ -12989,6 +14192,8 @@ export const RegisterProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterProvider",
 }));
 
 export type RegisterProviderAtManagementGroupScopeError = AzureOpError;
@@ -13004,6 +14209,11 @@ export const RegisterProviderAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegisterProviderAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Management" },
+  },
 }));
 
 export type ResourceGroupsCreateOrUpdateError = AzureOpError;
@@ -13019,6 +14229,8 @@ export const ResourceGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourceGroupsCreateOrUpdate",
 }));
 
 export type ResourceLinksCreateOrUpdateError = AzureOpError;
@@ -13034,6 +14246,8 @@ export const ResourceLinksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "ResourceLinksCreateOrUpdate", attributes: { "url.template": "/{linkId}" } },
 }));
 
 export type ResourcesCreateOrUpdateError = AzureOpError;
@@ -13049,6 +14263,8 @@ export const ResourcesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourcesCreateOrUpdate",
 }));
 
 export type ResourcesCreateOrUpdateByIdError = AzureOpError;
@@ -13064,6 +14280,8 @@ export const ResourcesCreateOrUpdateById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "ResourcesCreateOrUpdateById", attributes: { "url.template": "/{resourceId}" } },
 }));
 
 export type ResourcesValidateMoveResourcesError = AzureOpError;
@@ -13079,6 +14297,8 @@ export const ResourcesValidateMoveResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResourcesValidateMoveResources",
 }));
 
 export type SubscriptionFeatureRegistrationsCreateOrUpdateError = AzureOpError;
@@ -13102,6 +14322,11 @@ export const SubscriptionFeatureRegistrationsCreateOrUpdate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SubscriptionFeatureRegistrationsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type TagsCreateOrUpdateError = AzureOpError;
@@ -13117,6 +14342,8 @@ export const TagsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TagsCreateOrUpdate",
 }));
 
 export type TagsCreateOrUpdateAtScopeError = AzureOpError;
@@ -13132,6 +14359,14 @@ export const TagsCreateOrUpdateAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TagsCreateOrUpdateAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/tags/default",
+    },
+  },
 }));
 
 export type TagsCreateOrUpdateValueError = AzureOpError;
@@ -13147,6 +14382,8 @@ export const TagsCreateOrUpdateValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TagsCreateOrUpdateValue",
 }));
 
 export type TemplateSpecsCreateOrUpdateError = AzureOpError;
@@ -13162,6 +14399,11 @@ export const TemplateSpecsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TemplateSpecsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type TemplateSpecVersionsCreateOrUpdateError = AzureOpError;
@@ -13177,6 +14419,11 @@ export const TemplateSpecVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "TemplateSpecVersionsCreateOrUpdate",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type UnregisterFeatureError = AzureOpError;
@@ -13192,6 +14439,11 @@ export const UnregisterFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UnregisterFeature",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
+  },
 }));
 
 export type UnregisterProviderError = AzureOpError;
@@ -13207,6 +14459,8 @@ export const UnregisterProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterProvider",
 }));
 
 export type UpdateApplicationError = AzureOpError;
@@ -13222,6 +14476,11 @@ export const UpdateApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateApplication",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type UpdateApplicationByIdError = AzureOpError;
@@ -13237,6 +14496,8 @@ export const UpdateApplicationById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "UpdateApplicationById", attributes: { "url.template": "/{applicationId}" } },
 }));
 
 export type UpdateDeploymentScriptError = AzureOpError;
@@ -13252,6 +14513,11 @@ export const UpdateDeploymentScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateDeploymentScript",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type UpdateJitRequestError = AzureOpError;
@@ -13267,6 +14533,11 @@ export const UpdateJitRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateJitRequest",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
+  },
 }));
 
 export type UpdatePolicyAssignmentError = AzureOpError;
@@ -13282,6 +14553,15 @@ export const UpdatePolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdatePolicyAssignment",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Authorization",
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+    },
+  },
 }));
 
 export type UpdateResourceError = AzureOpError;
@@ -13297,6 +14577,8 @@ export const UpdateResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateResourceByIdError = AzureOpError;
@@ -13312,6 +14594,8 @@ export const UpdateResourceById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: { op: "UpdateResourceById", attributes: { "url.template": "/{resourceId}" } },
 }));
 
 export type UpdateResourceGroupError = AzureOpError;
@@ -13327,6 +14611,8 @@ export const UpdateResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGroup",
 }));
 
 export type UpdateTagAtScopeError = AzureOpError;
@@ -13342,6 +14628,14 @@ export const UpdateTagAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTagAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template": "/{scope}/providers/Microsoft.Resources/tags/default",
+    },
+  },
 }));
 
 export type UpdateTemplateSpecError = AzureOpError;
@@ -13357,6 +14651,11 @@ export const UpdateTemplateSpec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTemplateSpec",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type UpdateTemplateSpecVersionError = AzureOpError;
@@ -13372,6 +14671,11 @@ export const UpdateTemplateSpecVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTemplateSpecVersion",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentError = AzureOpError;
@@ -13387,6 +14691,11 @@ export const ValidateDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeployment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentAtManagementGroupScopeError = AzureOpError;
@@ -13402,6 +14711,11 @@ export const ValidateDeploymentAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentAtManagementGroupScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentAtScopeError = AzureOpError;
@@ -13417,6 +14731,15 @@ export const ValidateDeploymentAtScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentAtScope",
+    attributes: {
+      "azure.resource_provider.namespace": "Microsoft.Resources",
+      "url.template":
+        "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+    },
+  },
 }));
 
 export type ValidateDeploymentAtSubscriptionScopeError = AzureOpError;
@@ -13432,6 +14755,11 @@ export const ValidateDeploymentAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentAtSubscriptionScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentAtTenantScopeError = AzureOpError;
@@ -13447,6 +14775,11 @@ export const ValidateDeploymentAtTenantScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentAtTenantScope",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentStackStackAtManagementGroupError = AzureOpError;
@@ -13466,6 +14799,11 @@ export const ValidateDeploymentStackStackAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentStackStackAtManagementGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentStackStackAtResourceGroupError = AzureOpError;
@@ -13485,6 +14823,11 @@ export const ValidateDeploymentStackStackAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentStackStackAtResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateDeploymentStackStackAtSubscriptionError = AzureOpError;
@@ -13500,6 +14843,11 @@ export const ValidateDeploymentStackStackAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateDeploymentStackStackAtSubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 export type ValidateResourceValidatorResourcesError = AzureOpError;
@@ -13515,6 +14863,11 @@ export const ValidateResourceValidatorResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateResourceValidatorResources",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

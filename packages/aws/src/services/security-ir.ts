@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityIR",
+  service: "SecurityIR",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -608,7 +624,7 @@ export type BatchGetMemberAccountDetailsError = CommonErrors;
  * AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be `123123123` which is nine digits, and with zero-prepend would be `000123123123`. Not zero-prepending to 12 digits could result in errors.
  */
 export const batchGetMemberAccountDetails: API.OperationMethod<
-  BatchGetMemberAccountDetailsRequest,
+  BatchGetMemberAccountDetailsRequest & RegionInput,
   BatchGetMemberAccountDetailsResponse,
   BatchGetMemberAccountDetailsError,
   Credentials | HttpClient.HttpClient
@@ -619,6 +635,8 @@ export const batchGetMemberAccountDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberAccountDetails",
+  telemetry: TELEMETRY,
+  span: "BatchGetMemberAccountDetails",
 }));
 
 export type CancelMembershipError = CommonErrors;
@@ -626,7 +644,7 @@ export type CancelMembershipError = CommonErrors;
  * Cancels an existing membership.
  */
 export const cancelMembership: API.OperationMethod<
-  CancelMembershipRequest,
+  CancelMembershipRequest & RegionInput,
   CancelMembershipResponse,
   CancelMembershipError,
   Credentials | HttpClient.HttpClient
@@ -637,6 +655,8 @@ export const cancelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMembership",
+  telemetry: TELEMETRY,
+  span: "CancelMembership",
 }));
 
 export type CloseCaseError = CommonErrors;
@@ -644,7 +664,7 @@ export type CloseCaseError = CommonErrors;
  * Closes an existing case.
  */
 export const closeCase: API.OperationMethod<
-  CloseCaseRequest,
+  CloseCaseRequest & RegionInput,
   CloseCaseResponse,
   CloseCaseError,
   Credentials | HttpClient.HttpClient
@@ -655,6 +675,8 @@ export const closeCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseCase",
+  telemetry: TELEMETRY,
+  span: "CloseCase",
 }));
 
 export type CreateCaseError = CommonErrors;
@@ -662,7 +684,7 @@ export type CreateCaseError = CommonErrors;
  * Creates a new case.
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -673,6 +695,8 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type CreateCaseCommentError = CommonErrors;
@@ -680,7 +704,7 @@ export type CreateCaseCommentError = CommonErrors;
  * Adds a comment to an existing case.
  */
 export const createCaseComment: API.OperationMethod<
-  CreateCaseCommentRequest,
+  CreateCaseCommentRequest & RegionInput,
   CreateCaseCommentResponse,
   CreateCaseCommentError,
   Credentials | HttpClient.HttpClient
@@ -691,6 +715,8 @@ export const createCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseComment",
+  telemetry: TELEMETRY,
+  span: "CreateCaseComment",
 }));
 
 export type CreateMembershipError = CommonErrors;
@@ -698,7 +724,7 @@ export type CreateMembershipError = CommonErrors;
  * Creates a new membership.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipRequest,
+  CreateMembershipRequest & RegionInput,
   CreateMembershipResponse,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -709,6 +735,8 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  telemetry: TELEMETRY,
+  span: "CreateMembership",
 }));
 
 export type GetCaseError = CommonErrors;
@@ -716,7 +744,7 @@ export type GetCaseError = CommonErrors;
  * Returns the attributes of a case.
  */
 export const getCase: API.OperationMethod<
-  GetCaseRequest,
+  GetCaseRequest & RegionInput,
   GetCaseResponse,
   GetCaseError,
   Credentials | HttpClient.HttpClient
@@ -727,6 +755,8 @@ export const getCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCase",
+  telemetry: TELEMETRY,
+  span: "GetCase",
 }));
 
 export type GetCaseAttachmentDownloadUrlError = CommonErrors;
@@ -734,7 +764,7 @@ export type GetCaseAttachmentDownloadUrlError = CommonErrors;
  * Returns a Pre-Signed URL for uploading attachments into a case.
  */
 export const getCaseAttachmentDownloadUrl: API.OperationMethod<
-  GetCaseAttachmentDownloadUrlRequest,
+  GetCaseAttachmentDownloadUrlRequest & RegionInput,
   GetCaseAttachmentDownloadUrlResponse,
   GetCaseAttachmentDownloadUrlError,
   Credentials | HttpClient.HttpClient
@@ -745,6 +775,8 @@ export const getCaseAttachmentDownloadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentDownloadUrl",
+  telemetry: TELEMETRY,
+  span: "GetCaseAttachmentDownloadUrl",
 }));
 
 export type GetCaseAttachmentUploadUrlError = CommonErrors;
@@ -752,7 +784,7 @@ export type GetCaseAttachmentUploadUrlError = CommonErrors;
  * Uploads an attachment to a case.
  */
 export const getCaseAttachmentUploadUrl: API.OperationMethod<
-  GetCaseAttachmentUploadUrlRequest,
+  GetCaseAttachmentUploadUrlRequest & RegionInput,
   GetCaseAttachmentUploadUrlResponse,
   GetCaseAttachmentUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -763,6 +795,8 @@ export const getCaseAttachmentUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentUploadUrl",
+  telemetry: TELEMETRY,
+  span: "GetCaseAttachmentUploadUrl",
 }));
 
 export type GetMembershipError = CommonErrors;
@@ -770,7 +804,7 @@ export type GetMembershipError = CommonErrors;
  * Returns the attributes of a membership.
  */
 export const getMembership: API.OperationMethod<
-  GetMembershipRequest,
+  GetMembershipRequest & RegionInput,
   GetMembershipResponse,
   GetMembershipError,
   Credentials | HttpClient.HttpClient
@@ -781,6 +815,8 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
+  telemetry: TELEMETRY,
+  span: "GetMembership",
 }));
 
 export type ListCaseEditsError = CommonErrors;
@@ -788,7 +824,7 @@ export type ListCaseEditsError = CommonErrors;
  * Views the case history for edits made to a designated case.
  */
 export const listCaseEdits: API.PaginatedOperationMethod<
-  ListCaseEditsRequest,
+  ListCaseEditsRequest & RegionInput,
   ListCaseEditsResponse,
   ListCaseEditsError,
   Credentials | HttpClient.HttpClient,
@@ -806,6 +842,8 @@ export const listCaseEdits: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCaseEdits",
 })) as any;
 
 export type ListCasesError = CommonErrors;
@@ -813,7 +851,7 @@ export type ListCasesError = CommonErrors;
  * Lists all cases the requester has access to.
  */
 export const listCases: API.PaginatedOperationMethod<
-  ListCasesRequest,
+  ListCasesRequest & RegionInput,
   ListCasesResponse,
   ListCasesError,
   Credentials | HttpClient.HttpClient,
@@ -831,6 +869,8 @@ export const listCases: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCases",
 })) as any;
 
 export type ListCommentsError = CommonErrors;
@@ -838,7 +878,7 @@ export type ListCommentsError = CommonErrors;
  * Returns comments for a designated case.
  */
 export const listComments: API.PaginatedOperationMethod<
-  ListCommentsRequest,
+  ListCommentsRequest & RegionInput,
   ListCommentsResponse,
   ListCommentsError,
   Credentials | HttpClient.HttpClient,
@@ -856,6 +896,8 @@ export const listComments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComments",
 })) as any;
 
 export type ListInvestigationsError = CommonErrors;
@@ -863,7 +905,7 @@ export type ListInvestigationsError = CommonErrors;
  * Investigation performed by an agent for a security incident...
  */
 export const listInvestigations: API.PaginatedOperationMethod<
-  ListInvestigationsRequest,
+  ListInvestigationsRequest & RegionInput,
   ListInvestigationsResponse,
   ListInvestigationsError,
   Credentials | HttpClient.HttpClient,
@@ -881,6 +923,8 @@ export const listInvestigations: API.PaginatedOperationMethod<
     items: "investigationActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 })) as any;
 
 export type ListMembershipsError = CommonErrors;
@@ -888,7 +932,7 @@ export type ListMembershipsError = CommonErrors;
  * Returns the memberships that the calling principal can access.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsRequest,
+  ListMembershipsRequest & RegionInput,
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -906,6 +950,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -917,7 +963,7 @@ export type ListTagsForResourceError =
  * Returns currently configured tags on a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +974,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendFeedbackError = CommonErrors;
@@ -935,7 +983,7 @@ export type SendFeedbackError = CommonErrors;
  * Send feedback based on response investigation action
  */
 export const sendFeedback: API.OperationMethod<
-  SendFeedbackRequest,
+  SendFeedbackRequest & RegionInput,
   SendFeedbackResponse,
   SendFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -946,6 +994,8 @@ export const sendFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendFeedback",
+  telemetry: TELEMETRY,
+  span: "SendFeedback",
 }));
 
 export type TagResourceError =
@@ -957,7 +1007,7 @@ export type TagResourceError =
  * Adds a tag(s) to a designated resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +1018,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -979,7 +1031,7 @@ export type UntagResourceError =
  * Removes a tag(s) from a designate resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -990,6 +1042,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCaseError = CommonErrors;
@@ -997,7 +1051,7 @@ export type UpdateCaseError = CommonErrors;
  * Updates an existing case.
  */
 export const updateCase: API.OperationMethod<
-  UpdateCaseRequest,
+  UpdateCaseRequest & RegionInput,
   UpdateCaseResponse,
   UpdateCaseError,
   Credentials | HttpClient.HttpClient
@@ -1008,6 +1062,8 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
+  telemetry: TELEMETRY,
+  span: "UpdateCase",
 }));
 
 export type UpdateCaseCommentError = CommonErrors;
@@ -1015,7 +1071,7 @@ export type UpdateCaseCommentError = CommonErrors;
  * Updates an existing case comment.
  */
 export const updateCaseComment: API.OperationMethod<
-  UpdateCaseCommentRequest,
+  UpdateCaseCommentRequest & RegionInput,
   UpdateCaseCommentResponse,
   UpdateCaseCommentError,
   Credentials | HttpClient.HttpClient
@@ -1026,6 +1082,8 @@ export const updateCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseComment",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseComment",
 }));
 
 export type UpdateCaseStatusError = CommonErrors;
@@ -1053,7 +1111,7 @@ export type UpdateCaseStatusError = CommonErrors;
  * **AWS supported**: You must use the `CloseCase` API to close.
  */
 export const updateCaseStatus: API.OperationMethod<
-  UpdateCaseStatusRequest,
+  UpdateCaseStatusRequest & RegionInput,
   UpdateCaseStatusResponse,
   UpdateCaseStatusError,
   Credentials | HttpClient.HttpClient
@@ -1064,6 +1122,8 @@ export const updateCaseStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseStatus",
 }));
 
 export type UpdateMembershipError = CommonErrors;
@@ -1071,7 +1131,7 @@ export type UpdateMembershipError = CommonErrors;
  * Updates membership configuration.
  */
 export const updateMembership: API.OperationMethod<
-  UpdateMembershipRequest,
+  UpdateMembershipRequest & RegionInput,
   UpdateMembershipResponse,
   UpdateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1082,6 +1142,8 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateMembership",
 }));
 
 export type UpdateResolverTypeError = CommonErrors;
@@ -1091,7 +1153,7 @@ export type UpdateResolverTypeError = CommonErrors;
  * This is a one-way action and cannot be reversed.
  */
 export const updateResolverType: API.OperationMethod<
-  UpdateResolverTypeRequest,
+  UpdateResolverTypeRequest & RegionInput,
   UpdateResolverTypeResponse,
   UpdateResolverTypeError,
   Credentials | HttpClient.HttpClient
@@ -1102,6 +1164,8 @@ export const updateResolverType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverType",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

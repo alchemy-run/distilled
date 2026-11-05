@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -73,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://inspector.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Inspector",
+  service: "Inspector",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -899,7 +916,7 @@ export type AddAttributesToFindingsError =
  * ARNs of the findings.
  */
 export const addAttributesToFindings: API.OperationMethod<
-  AddAttributesToFindingsRequest,
+  AddAttributesToFindingsRequest & RegionInput,
   AddAttributesToFindingsResponse,
   AddAttributesToFindingsError,
   Credentials | HttpClient.HttpClient
@@ -916,6 +933,8 @@ export const addAttributesToFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAttributesToFindings",
+  telemetry: TELEMETRY,
+  span: "AddAttributesToFindings",
 }));
 
 export type CreateAssessmentTargetError =
@@ -938,7 +957,7 @@ export type CreateAssessmentTargetError =
  * Amazon Inspector Assessment Targets.
  */
 export const createAssessmentTarget: API.OperationMethod<
-  CreateAssessmentTargetRequest,
+  CreateAssessmentTargetRequest & RegionInput,
   CreateAssessmentTargetResponse,
   CreateAssessmentTargetError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +976,8 @@ export const createAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentTarget",
 }));
 
 export type CreateAssessmentTemplateError =
@@ -974,7 +995,7 @@ export type CreateAssessmentTemplateError =
  * perform security assessments.
  */
 export const createAssessmentTemplate: API.OperationMethod<
-  CreateAssessmentTemplateRequest,
+  CreateAssessmentTemplateRequest & RegionInput,
   CreateAssessmentTemplateResponse,
   CreateAssessmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -992,6 +1013,8 @@ export const createAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentTemplate",
 }));
 
 export type CreateExclusionsPreviewError =
@@ -1008,7 +1031,7 @@ export type CreateExclusionsPreviewError =
  * detect before it runs the assessment.
  */
 export const createExclusionsPreview: API.OperationMethod<
-  CreateExclusionsPreviewRequest,
+  CreateExclusionsPreviewRequest & RegionInput,
   CreateExclusionsPreviewResponse,
   CreateExclusionsPreviewError,
   Credentials | HttpClient.HttpClient
@@ -1026,6 +1049,8 @@ export const createExclusionsPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExclusionsPreview",
+  telemetry: TELEMETRY,
+  span: "CreateExclusionsPreview",
 }));
 
 export type CreateResourceGroupError =
@@ -1042,7 +1067,7 @@ export type CreateResourceGroupError =
  * target. For more information, see CreateAssessmentTarget.
  */
 export const createResourceGroup: API.OperationMethod<
-  CreateResourceGroupRequest,
+  CreateResourceGroupRequest & RegionInput,
   CreateResourceGroupResponse,
   CreateResourceGroupError,
   Credentials | HttpClient.HttpClient
@@ -1059,6 +1084,8 @@ export const createResourceGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGroup",
+  telemetry: TELEMETRY,
+  span: "CreateResourceGroup",
 }));
 
 export type DeleteAssessmentRunError =
@@ -1074,7 +1101,7 @@ export type DeleteAssessmentRunError =
  * run.
  */
 export const deleteAssessmentRun: API.OperationMethod<
-  DeleteAssessmentRunRequest,
+  DeleteAssessmentRunRequest & RegionInput,
   DeleteAssessmentRunResponse,
   DeleteAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1092,6 +1119,8 @@ export const deleteAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentRun",
 }));
 
 export type DeleteAssessmentTargetError =
@@ -1107,7 +1136,7 @@ export type DeleteAssessmentTargetError =
  * target.
  */
 export const deleteAssessmentTarget: API.OperationMethod<
-  DeleteAssessmentTargetRequest,
+  DeleteAssessmentTargetRequest & RegionInput,
   DeleteAssessmentTargetResponse,
   DeleteAssessmentTargetError,
   Credentials | HttpClient.HttpClient
@@ -1125,6 +1154,8 @@ export const deleteAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentTarget",
 }));
 
 export type DeleteAssessmentTemplateError =
@@ -1140,7 +1171,7 @@ export type DeleteAssessmentTemplateError =
  * template.
  */
 export const deleteAssessmentTemplate: API.OperationMethod<
-  DeleteAssessmentTemplateRequest,
+  DeleteAssessmentTemplateRequest & RegionInput,
   DeleteAssessmentTemplateResponse,
   DeleteAssessmentTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1158,6 +1189,8 @@ export const deleteAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentTemplate",
 }));
 
 export type DescribeAssessmentRunsError = InternalException | InvalidInputException | CommonErrors;
@@ -1166,7 +1199,7 @@ export type DescribeAssessmentRunsError = InternalException | InvalidInputExcept
  * runs.
  */
 export const describeAssessmentRuns: API.OperationMethod<
-  DescribeAssessmentRunsRequest,
+  DescribeAssessmentRunsRequest & RegionInput,
   DescribeAssessmentRunsResponse,
   DescribeAssessmentRunsError,
   Credentials | HttpClient.HttpClient
@@ -1177,6 +1210,8 @@ export const describeAssessmentRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentRuns",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentRuns",
 }));
 
 export type DescribeAssessmentTargetsError =
@@ -1188,7 +1223,7 @@ export type DescribeAssessmentTargetsError =
  * targets.
  */
 export const describeAssessmentTargets: API.OperationMethod<
-  DescribeAssessmentTargetsRequest,
+  DescribeAssessmentTargetsRequest & RegionInput,
   DescribeAssessmentTargetsResponse,
   DescribeAssessmentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -1199,6 +1234,8 @@ export const describeAssessmentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTargets",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentTargets",
 }));
 
 export type DescribeAssessmentTemplatesError =
@@ -1210,7 +1247,7 @@ export type DescribeAssessmentTemplatesError =
  * templates.
  */
 export const describeAssessmentTemplates: API.OperationMethod<
-  DescribeAssessmentTemplatesRequest,
+  DescribeAssessmentTemplatesRequest & RegionInput,
   DescribeAssessmentTemplatesResponse,
   DescribeAssessmentTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -1221,6 +1258,8 @@ export const describeAssessmentTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTemplates",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentTemplates",
 }));
 
 export type DescribeCrossAccountAccessRoleError = InternalException | CommonErrors;
@@ -1229,7 +1268,7 @@ export type DescribeCrossAccountAccessRoleError = InternalException | CommonErro
  * account.
  */
 export const describeCrossAccountAccessRole: API.OperationMethod<
-  DescribeCrossAccountAccessRoleRequest,
+  DescribeCrossAccountAccessRoleRequest & RegionInput,
   DescribeCrossAccountAccessRoleResponse,
   DescribeCrossAccountAccessRoleError,
   Credentials | HttpClient.HttpClient
@@ -1240,6 +1279,8 @@ export const describeCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAccessRole",
+  telemetry: TELEMETRY,
+  span: "DescribeCrossAccountAccessRole",
 }));
 
 export type DescribeExclusionsError = InternalException | InvalidInputException | CommonErrors;
@@ -1247,7 +1288,7 @@ export type DescribeExclusionsError = InternalException | InvalidInputException 
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
 export const describeExclusions: API.OperationMethod<
-  DescribeExclusionsRequest,
+  DescribeExclusionsRequest & RegionInput,
   DescribeExclusionsResponse,
   DescribeExclusionsError,
   Credentials | HttpClient.HttpClient
@@ -1258,6 +1299,8 @@ export const describeExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExclusions",
+  telemetry: TELEMETRY,
+  span: "DescribeExclusions",
 }));
 
 export type DescribeFindingsError = InternalException | InvalidInputException | CommonErrors;
@@ -1265,7 +1308,7 @@ export type DescribeFindingsError = InternalException | InvalidInputException | 
  * Describes the findings that are specified by the ARNs of the findings.
  */
 export const describeFindings: API.OperationMethod<
-  DescribeFindingsRequest,
+  DescribeFindingsRequest & RegionInput,
   DescribeFindingsResponse,
   DescribeFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1276,6 +1319,8 @@ export const describeFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFindings",
+  telemetry: TELEMETRY,
+  span: "DescribeFindings",
 }));
 
 export type DescribeResourceGroupsError = InternalException | InvalidInputException | CommonErrors;
@@ -1284,7 +1329,7 @@ export type DescribeResourceGroupsError = InternalException | InvalidInputExcept
  * groups.
  */
 export const describeResourceGroups: API.OperationMethod<
-  DescribeResourceGroupsRequest,
+  DescribeResourceGroupsRequest & RegionInput,
   DescribeResourceGroupsResponse,
   DescribeResourceGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1295,6 +1340,8 @@ export const describeResourceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceGroups",
 }));
 
 export type DescribeRulesPackagesError = InternalException | InvalidInputException | CommonErrors;
@@ -1303,7 +1350,7 @@ export type DescribeRulesPackagesError = InternalException | InvalidInputExcepti
  * packages.
  */
 export const describeRulesPackages: API.OperationMethod<
-  DescribeRulesPackagesRequest,
+  DescribeRulesPackagesRequest & RegionInput,
   DescribeRulesPackagesResponse,
   DescribeRulesPackagesError,
   Credentials | HttpClient.HttpClient
@@ -1314,6 +1361,8 @@ export const describeRulesPackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRulesPackages",
+  telemetry: TELEMETRY,
+  span: "DescribeRulesPackages",
 }));
 
 export type GetAssessmentReportError =
@@ -1330,7 +1379,7 @@ export type GetAssessmentReportError =
  * specified assessment run.
  */
 export const getAssessmentReport: API.OperationMethod<
-  GetAssessmentReportRequest,
+  GetAssessmentReportRequest & RegionInput,
   GetAssessmentReportResponse,
   GetAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1349,6 +1398,8 @@ export const getAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentReport",
+  telemetry: TELEMETRY,
+  span: "GetAssessmentReport",
 }));
 
 export type GetExclusionsPreviewError =
@@ -1363,7 +1414,7 @@ export type GetExclusionsPreviewError =
  * API.
  */
 export const getExclusionsPreview: API.PaginatedOperationMethod<
-  GetExclusionsPreviewRequest,
+  GetExclusionsPreviewRequest & RegionInput,
   GetExclusionsPreviewResponse,
   GetExclusionsPreviewError,
   Credentials | HttpClient.HttpClient,
@@ -1380,6 +1431,8 @@ export const getExclusionsPreview: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetExclusionsPreview",
 })) as any;
 
 export type GetTelemetryMetadataError =
@@ -1393,7 +1446,7 @@ export type GetTelemetryMetadataError =
  * run.
  */
 export const getTelemetryMetadata: API.OperationMethod<
-  GetTelemetryMetadataRequest,
+  GetTelemetryMetadataRequest & RegionInput,
   GetTelemetryMetadataResponse,
   GetTelemetryMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1404,6 +1457,8 @@ export const getTelemetryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryMetadata",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryMetadata",
 }));
 
 export type ListAssessmentRunAgentsError =
@@ -1417,7 +1472,7 @@ export type ListAssessmentRunAgentsError =
  * assessment runs.
  */
 export const listAssessmentRunAgents: API.PaginatedOperationMethod<
-  ListAssessmentRunAgentsRequest,
+  ListAssessmentRunAgentsRequest & RegionInput,
   ListAssessmentRunAgentsResponse,
   ListAssessmentRunAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -1434,6 +1489,8 @@ export const listAssessmentRunAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentRunAgents",
 })) as any;
 
 export type ListAssessmentRunsError =
@@ -1447,7 +1504,7 @@ export type ListAssessmentRunsError =
  * specified by the ARNs of the assessment templates.
  */
 export const listAssessmentRuns: API.PaginatedOperationMethod<
-  ListAssessmentRunsRequest,
+  ListAssessmentRunsRequest & RegionInput,
   ListAssessmentRunsResponse,
   ListAssessmentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1464,6 +1521,8 @@ export const listAssessmentRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentRuns",
 })) as any;
 
 export type ListAssessmentTargetsError =
@@ -1477,7 +1536,7 @@ export type ListAssessmentTargetsError =
  * Targets.
  */
 export const listAssessmentTargets: API.PaginatedOperationMethod<
-  ListAssessmentTargetsRequest,
+  ListAssessmentTargetsRequest & RegionInput,
   ListAssessmentTargetsResponse,
   ListAssessmentTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -1494,6 +1553,8 @@ export const listAssessmentTargets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentTargets",
 })) as any;
 
 export type ListAssessmentTemplatesError =
@@ -1507,7 +1568,7 @@ export type ListAssessmentTemplatesError =
  * specified by the ARNs of the assessment targets.
  */
 export const listAssessmentTemplates: API.PaginatedOperationMethod<
-  ListAssessmentTemplatesRequest,
+  ListAssessmentTemplatesRequest & RegionInput,
   ListAssessmentTemplatesResponse,
   ListAssessmentTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1524,6 +1585,8 @@ export const listAssessmentTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentTemplates",
 })) as any;
 
 export type ListEventSubscriptionsError =
@@ -1537,7 +1600,7 @@ export type ListEventSubscriptionsError =
  * the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
  */
 export const listEventSubscriptions: API.PaginatedOperationMethod<
-  ListEventSubscriptionsRequest,
+  ListEventSubscriptionsRequest & RegionInput,
   ListEventSubscriptionsResponse,
   ListEventSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1554,6 +1617,8 @@ export const listEventSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventSubscriptions",
 })) as any;
 
 export type ListExclusionsError =
@@ -1566,7 +1631,7 @@ export type ListExclusionsError =
  * List exclusions that are generated by the assessment run.
  */
 export const listExclusions: API.PaginatedOperationMethod<
-  ListExclusionsRequest,
+  ListExclusionsRequest & RegionInput,
   ListExclusionsResponse,
   ListExclusionsError,
   Credentials | HttpClient.HttpClient,
@@ -1583,6 +1648,8 @@ export const listExclusions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExclusions",
 })) as any;
 
 export type ListFindingsError =
@@ -1596,7 +1663,7 @@ export type ListFindingsError =
  * ARNs of the assessment runs.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -1613,6 +1680,8 @@ export const listFindings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListRulesPackagesError =
@@ -1624,7 +1693,7 @@ export type ListRulesPackagesError =
  * Lists all available Amazon Inspector rules packages.
  */
 export const listRulesPackages: API.PaginatedOperationMethod<
-  ListRulesPackagesRequest,
+  ListRulesPackagesRequest & RegionInput,
   ListRulesPackagesResponse,
   ListRulesPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1641,6 +1710,8 @@ export const listRulesPackages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRulesPackages",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1653,7 +1724,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with an assessment template.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1664,6 +1735,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PreviewAgentsError =
@@ -1678,7 +1751,7 @@ export type PreviewAgentsError =
  * assessment target.
  */
 export const previewAgents: API.PaginatedOperationMethod<
-  PreviewAgentsRequest,
+  PreviewAgentsRequest & RegionInput,
   PreviewAgentsResponse,
   PreviewAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -1701,6 +1774,8 @@ export const previewAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "PreviewAgents",
 })) as any;
 
 export type RegisterCrossAccountAccessRoleError =
@@ -1715,7 +1790,7 @@ export type RegisterCrossAccountAccessRoleError =
  * perform security assessments.
  */
 export const registerCrossAccountAccessRole: API.OperationMethod<
-  RegisterCrossAccountAccessRoleRequest,
+  RegisterCrossAccountAccessRoleRequest & RegionInput,
   RegisterCrossAccountAccessRoleResponse,
   RegisterCrossAccountAccessRoleError,
   Credentials | HttpClient.HttpClient
@@ -1732,6 +1807,8 @@ export const registerCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCrossAccountAccessRole",
+  telemetry: TELEMETRY,
+  span: "RegisterCrossAccountAccessRole",
 }));
 
 export type RemoveAttributesFromFindingsError =
@@ -1746,7 +1823,7 @@ export type RemoveAttributesFromFindingsError =
  * by the ARNs of the findings where an attribute with the specified key exists.
  */
 export const removeAttributesFromFindings: API.OperationMethod<
-  RemoveAttributesFromFindingsRequest,
+  RemoveAttributesFromFindingsRequest & RegionInput,
   RemoveAttributesFromFindingsResponse,
   RemoveAttributesFromFindingsError,
   Credentials | HttpClient.HttpClient
@@ -1763,6 +1840,8 @@ export const removeAttributesFromFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributesFromFindings",
+  telemetry: TELEMETRY,
+  span: "RemoveAttributesFromFindings",
 }));
 
 export type SetTagsForResourceError =
@@ -1777,7 +1856,7 @@ export type SetTagsForResourceError =
  * ARN of the assessment template.
  */
 export const setTagsForResource: API.OperationMethod<
-  SetTagsForResourceRequest,
+  SetTagsForResourceRequest & RegionInput,
   SetTagsForResourceResponse,
   SetTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1794,6 +1873,8 @@ export const setTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTagsForResource",
+  telemetry: TELEMETRY,
+  span: "SetTagsForResource",
 }));
 
 export type StartAssessmentRunError =
@@ -1812,7 +1893,7 @@ export type StartAssessmentRunError =
  * agents per AWS account.
  */
 export const startAssessmentRun: API.OperationMethod<
-  StartAssessmentRunRequest,
+  StartAssessmentRunRequest & RegionInput,
   StartAssessmentRunResponse,
   StartAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1832,6 +1913,8 @@ export const startAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "StartAssessmentRun",
 }));
 
 export type StopAssessmentRunError =
@@ -1846,7 +1929,7 @@ export type StopAssessmentRunError =
  * run.
  */
 export const stopAssessmentRun: API.OperationMethod<
-  StopAssessmentRunRequest,
+  StopAssessmentRunRequest & RegionInput,
   StopAssessmentRunResponse,
   StopAssessmentRunError,
   Credentials | HttpClient.HttpClient
@@ -1863,6 +1946,8 @@ export const stopAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "StopAssessmentRun",
 }));
 
 export type SubscribeToEventError =
@@ -1878,7 +1963,7 @@ export type SubscribeToEventError =
  * about a specified event to a specified SNS topic.
  */
 export const subscribeToEvent: API.OperationMethod<
-  SubscribeToEventRequest,
+  SubscribeToEventRequest & RegionInput,
   SubscribeToEventResponse,
   SubscribeToEventError,
   Credentials | HttpClient.HttpClient
@@ -1896,6 +1981,8 @@ export const subscribeToEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToEvent",
+  telemetry: TELEMETRY,
+  span: "SubscribeToEvent",
 }));
 
 export type UnsubscribeFromEventError =
@@ -1910,7 +1997,7 @@ export type UnsubscribeFromEventError =
  * notifications about a specified event to a specified SNS topic.
  */
 export const unsubscribeFromEvent: API.OperationMethod<
-  UnsubscribeFromEventRequest,
+  UnsubscribeFromEventRequest & RegionInput,
   UnsubscribeFromEventResponse,
   UnsubscribeFromEventError,
   Credentials | HttpClient.HttpClient
@@ -1927,6 +2014,8 @@ export const unsubscribeFromEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromEvent",
+  telemetry: TELEMETRY,
+  span: "UnsubscribeFromEvent",
 }));
 
 export type UpdateAssessmentTargetError =
@@ -1944,7 +2033,7 @@ export type UpdateAssessmentTargetError =
  * and region are included in the assessment target.
  */
 export const updateAssessmentTarget: API.OperationMethod<
-  UpdateAssessmentTargetRequest,
+  UpdateAssessmentTargetRequest & RegionInput,
   UpdateAssessmentTargetResponse,
   UpdateAssessmentTargetError,
   Credentials | HttpClient.HttpClient
@@ -1961,6 +2050,8 @@ export const updateAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentTarget",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

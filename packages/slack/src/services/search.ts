@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Search",
+  propagate: "w3c",
+} as const;
+
 export type SearchAllRequestSortDir = "asc" | "desc";
 export interface SearchAllRequest {
   count?: number;
@@ -203,6 +216,8 @@ export const searchAll: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAll",
 }));
 
 export type SearchFilesError = SlackOpError;
@@ -218,6 +233,8 @@ export const searchFiles: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFiles",
 }));
 
 export type SearchMessagesError = SlackOpError;
@@ -233,6 +250,8 @@ export const searchMessages: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMessages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://workdocs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkDocs",
+  service: "WorkDocs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1085,7 +1101,7 @@ export type AbortDocumentVersionUploadError =
  * so.
  */
 export const abortDocumentVersionUpload: API.OperationMethod<
-  AbortDocumentVersionUploadRequest,
+  AbortDocumentVersionUploadRequest & RegionInput,
   AbortDocumentVersionUploadResponse,
   AbortDocumentVersionUploadError,
   Credentials | HttpClient.HttpClient
@@ -1104,6 +1120,8 @@ export const abortDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortDocumentVersionUpload",
+  telemetry: TELEMETRY,
+  span: "AbortDocumentVersionUpload",
 }));
 
 export type ActivateUserError =
@@ -1118,7 +1136,7 @@ export type ActivateUserError =
  * WorkDocs.
  */
 export const activateUser: API.OperationMethod<
-  ActivateUserRequest,
+  ActivateUserRequest & RegionInput,
   ActivateUserResponse,
   ActivateUserError,
   Credentials | HttpClient.HttpClient
@@ -1135,6 +1153,8 @@ export const activateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateUser",
+  telemetry: TELEMETRY,
+  span: "ActivateUser",
 }));
 
 export type AddResourcePermissionsError =
@@ -1150,7 +1170,7 @@ export type AddResourcePermissionsError =
  * permissions.
  */
 export const addResourcePermissions: API.OperationMethod<
-  AddResourcePermissionsRequest,
+  AddResourcePermissionsRequest & RegionInput,
   AddResourcePermissionsResponse,
   AddResourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1167,6 +1187,8 @@ export const addResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddResourcePermissions",
+  telemetry: TELEMETRY,
+  span: "AddResourcePermissions",
 }));
 
 export type CreateCommentError =
@@ -1183,7 +1205,7 @@ export type CreateCommentError =
  * Adds a new comment to the specified document version.
  */
 export const createComment: API.OperationMethod<
-  CreateCommentRequest,
+  CreateCommentRequest & RegionInput,
   CreateCommentResponse,
   CreateCommentError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1225,8 @@ export const createComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComment",
+  telemetry: TELEMETRY,
+  span: "CreateComment",
 }));
 
 export type CreateCustomMetadataError =
@@ -1219,7 +1243,7 @@ export type CreateCustomMetadataError =
  * or version).
  */
 export const createCustomMetadata: API.OperationMethod<
-  CreateCustomMetadataRequest,
+  CreateCustomMetadataRequest & RegionInput,
   CreateCustomMetadataResponse,
   CreateCustomMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1238,6 +1262,8 @@ export const createCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomMetadata",
+  telemetry: TELEMETRY,
+  span: "CreateCustomMetadata",
 }));
 
 export type CreateFolderError =
@@ -1256,7 +1282,7 @@ export type CreateFolderError =
  * Creates a folder with the specified name and parent folder.
  */
 export const createFolder: API.OperationMethod<
-  CreateFolderRequest,
+  CreateFolderRequest & RegionInput,
   CreateFolderResponse,
   CreateFolderError,
   Credentials | HttpClient.HttpClient
@@ -1278,6 +1304,8 @@ export const createFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolder",
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateLabelsError =
@@ -1293,7 +1321,7 @@ export type CreateLabelsError =
  * folder)
  */
 export const createLabels: API.OperationMethod<
-  CreateLabelsRequest,
+  CreateLabelsRequest & RegionInput,
   CreateLabelsResponse,
   CreateLabelsError,
   Credentials | HttpClient.HttpClient
@@ -1311,6 +1339,8 @@ export const createLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabels",
+  telemetry: TELEMETRY,
+  span: "CreateLabels",
 }));
 
 export type CreateNotificationSubscriptionError =
@@ -1327,7 +1357,7 @@ export type CreateNotificationSubscriptionError =
  * Guide.
  */
 export const createNotificationSubscription: API.OperationMethod<
-  CreateNotificationSubscriptionRequest,
+  CreateNotificationSubscriptionRequest & RegionInput,
   CreateNotificationSubscriptionResponse,
   CreateNotificationSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1343,6 +1373,8 @@ export const createNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationSubscription",
 }));
 
 export type CreateUserError =
@@ -1357,7 +1389,7 @@ export type CreateUserError =
  * created user is "ACTIVE". New users can access Amazon WorkDocs.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1374,6 +1406,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeactivateUserError =
@@ -1388,7 +1422,7 @@ export type DeactivateUserError =
  * WorkDocs.
  */
 export const deactivateUser: API.OperationMethod<
-  DeactivateUserRequest,
+  DeactivateUserRequest & RegionInput,
   DeactivateUserResponse,
   DeactivateUserError,
   Credentials | HttpClient.HttpClient
@@ -1405,6 +1439,8 @@ export const deactivateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateUser",
+  telemetry: TELEMETRY,
+  span: "DeactivateUser",
 }));
 
 export type DeleteCommentError =
@@ -1420,7 +1456,7 @@ export type DeleteCommentError =
  * Deletes the specified comment from the document version.
  */
 export const deleteComment: API.OperationMethod<
-  DeleteCommentRequest,
+  DeleteCommentRequest & RegionInput,
   DeleteCommentResponse,
   DeleteCommentError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1475,8 @@ export const deleteComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComment",
+  telemetry: TELEMETRY,
+  span: "DeleteComment",
 }));
 
 export type DeleteCustomMetadataError =
@@ -1453,7 +1491,7 @@ export type DeleteCustomMetadataError =
  * Deletes custom metadata from the specified resource.
  */
 export const deleteCustomMetadata: API.OperationMethod<
-  DeleteCustomMetadataRequest,
+  DeleteCustomMetadataRequest & RegionInput,
   DeleteCustomMetadataResponse,
   DeleteCustomMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1471,6 +1509,8 @@ export const deleteCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomMetadata",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomMetadata",
 }));
 
 export type DeleteDocumentError =
@@ -1488,7 +1528,7 @@ export type DeleteDocumentError =
  * Permanently deletes the specified document and its associated metadata.
  */
 export const deleteDocument: API.OperationMethod<
-  DeleteDocumentRequest,
+  DeleteDocumentRequest & RegionInput,
   DeleteDocumentResponse,
   DeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1509,6 +1549,8 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteDocumentVersionError =
@@ -1525,7 +1567,7 @@ export type DeleteDocumentVersionError =
  * Deletes a specific version of a document.
  */
 export const deleteDocumentVersion: API.OperationMethod<
-  DeleteDocumentVersionRequest,
+  DeleteDocumentVersionRequest & RegionInput,
   DeleteDocumentVersionResponse,
   DeleteDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1545,6 +1587,8 @@ export const deleteDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentVersion",
 }));
 
 export type DeleteFolderError =
@@ -1562,7 +1606,7 @@ export type DeleteFolderError =
  * Permanently deletes the specified folder and its contents.
  */
 export const deleteFolder: API.OperationMethod<
-  DeleteFolderRequest,
+  DeleteFolderRequest & RegionInput,
   DeleteFolderResponse,
   DeleteFolderError,
   Credentials | HttpClient.HttpClient
@@ -1583,6 +1627,8 @@ export const deleteFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolder",
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteFolderContentsError =
@@ -1598,7 +1644,7 @@ export type DeleteFolderContentsError =
  * Deletes the contents of the specified folder.
  */
 export const deleteFolderContents: API.OperationMethod<
-  DeleteFolderContentsRequest,
+  DeleteFolderContentsRequest & RegionInput,
   DeleteFolderContentsResponse,
   DeleteFolderContentsError,
   Credentials | HttpClient.HttpClient
@@ -1617,6 +1663,8 @@ export const deleteFolderContents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolderContents",
+  telemetry: TELEMETRY,
+  span: "DeleteFolderContents",
 }));
 
 export type DeleteLabelsError =
@@ -1631,7 +1679,7 @@ export type DeleteLabelsError =
  * Deletes the specified list of labels from a resource.
  */
 export const deleteLabels: API.OperationMethod<
-  DeleteLabelsRequest,
+  DeleteLabelsRequest & RegionInput,
   DeleteLabelsResponse,
   DeleteLabelsError,
   Credentials | HttpClient.HttpClient
@@ -1649,6 +1697,8 @@ export const deleteLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabels",
+  telemetry: TELEMETRY,
+  span: "DeleteLabels",
 }));
 
 export type DeleteNotificationSubscriptionError =
@@ -1661,7 +1711,7 @@ export type DeleteNotificationSubscriptionError =
  * Deletes the specified subscription from the specified organization.
  */
 export const deleteNotificationSubscription: API.OperationMethod<
-  DeleteNotificationSubscriptionRequest,
+  DeleteNotificationSubscriptionRequest & RegionInput,
   DeleteNotificationSubscriptionResponse,
   DeleteNotificationSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1677,6 +1727,8 @@ export const deleteNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationSubscription",
 }));
 
 export type DeleteUserError =
@@ -1692,7 +1744,7 @@ export type DeleteUserError =
  * Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -1709,6 +1761,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeActivitiesError =
@@ -1722,7 +1776,7 @@ export type DescribeActivitiesError =
  * Describes the user activities in a specified time period.
  */
 export const describeActivities: API.PaginatedOperationMethod<
-  DescribeActivitiesRequest,
+  DescribeActivitiesRequest & RegionInput,
   DescribeActivitiesResponse,
   DescribeActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1746,6 +1800,8 @@ export const describeActivities: API.PaginatedOperationMethod<
     items: "UserActivities",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeActivities",
 })) as any;
 
 export type DescribeCommentsError =
@@ -1760,7 +1816,7 @@ export type DescribeCommentsError =
  * List all the comments for the specified document version.
  */
 export const describeComments: API.PaginatedOperationMethod<
-  DescribeCommentsRequest,
+  DescribeCommentsRequest & RegionInput,
   DescribeCommentsResponse,
   DescribeCommentsError,
   Credentials | HttpClient.HttpClient,
@@ -1785,6 +1841,8 @@ export const describeComments: API.PaginatedOperationMethod<
     items: "Comments",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComments",
 })) as any;
 
 export type DescribeDocumentVersionsError =
@@ -1803,7 +1861,7 @@ export type DescribeDocumentVersionsError =
  * By default, only active versions are returned.
  */
 export const describeDocumentVersions: API.PaginatedOperationMethod<
-  DescribeDocumentVersionsRequest,
+  DescribeDocumentVersionsRequest & RegionInput,
   DescribeDocumentVersionsResponse,
   DescribeDocumentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1830,6 +1888,8 @@ export const describeDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentVersions",
 })) as any;
 
 export type DescribeFolderContentsError =
@@ -1850,7 +1910,7 @@ export type DescribeFolderContentsError =
  * documents.
  */
 export const describeFolderContents: API.PaginatedOperationMethod<
-  DescribeFolderContentsRequest,
+  DescribeFolderContentsRequest & RegionInput,
   DescribeFolderContentsResponse,
   DescribeFolderContentsError,
   Credentials | HttpClient.HttpClient,
@@ -1870,6 +1930,8 @@ export const describeFolderContents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeFolderContents",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFolderContents",
 })) as any;
 
 export type DescribeGroupsError =
@@ -1883,7 +1945,7 @@ export type DescribeGroupsError =
  * Active Directory.
  */
 export const describeGroups: API.PaginatedOperationMethod<
-  DescribeGroupsRequest,
+  DescribeGroupsRequest & RegionInput,
   DescribeGroupsResponse,
   DescribeGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1906,6 +1968,8 @@ export const describeGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGroups",
 })) as any;
 
 export type DescribeNotificationSubscriptionsError =
@@ -1917,7 +1981,7 @@ export type DescribeNotificationSubscriptionsError =
  * Lists the specified notification subscriptions.
  */
 export const describeNotificationSubscriptions: API.PaginatedOperationMethod<
-  DescribeNotificationSubscriptionsRequest,
+  DescribeNotificationSubscriptionsRequest & RegionInput,
   DescribeNotificationSubscriptionsResponse,
   DescribeNotificationSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1939,6 +2003,8 @@ export const describeNotificationSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationSubscriptions",
 })) as any;
 
 export type DescribeResourcePermissionsError =
@@ -1952,7 +2018,7 @@ export type DescribeResourcePermissionsError =
  * Describes the permissions of a specified resource.
  */
 export const describeResourcePermissions: API.PaginatedOperationMethod<
-  DescribeResourcePermissionsRequest,
+  DescribeResourcePermissionsRequest & RegionInput,
   DescribeResourcePermissionsResponse,
   DescribeResourcePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1976,6 +2042,8 @@ export const describeResourcePermissions: API.PaginatedOperationMethod<
     items: "Principals",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePermissions",
 })) as any;
 
 export type DescribeRootFoldersError =
@@ -1998,7 +2066,7 @@ export type DescribeRootFoldersError =
  * WorkDocs Developer Guide.
  */
 export const describeRootFolders: API.PaginatedOperationMethod<
-  DescribeRootFoldersRequest,
+  DescribeRootFoldersRequest & RegionInput,
   DescribeRootFoldersResponse,
   DescribeRootFoldersError,
   Credentials | HttpClient.HttpClient,
@@ -2022,6 +2090,8 @@ export const describeRootFolders: API.PaginatedOperationMethod<
     items: "Folders",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRootFolders",
 })) as any;
 
 export type DescribeUsersError =
@@ -2042,7 +2112,7 @@ export type DescribeUsersError =
  * set of results.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResponse,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2068,6 +2138,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type GetCurrentUserError =
@@ -2088,7 +2160,7 @@ export type GetCurrentUserError =
  * WorkDocs Developer Guide.
  */
 export const getCurrentUser: API.OperationMethod<
-  GetCurrentUserRequest,
+  GetCurrentUserRequest & RegionInput,
   GetCurrentUserResponse,
   GetCurrentUserError,
   Credentials | HttpClient.HttpClient
@@ -2105,6 +2177,8 @@ export const getCurrentUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCurrentUser",
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDocumentError =
@@ -2120,7 +2194,7 @@ export type GetDocumentError =
  * Retrieves details of a document.
  */
 export const getDocument: API.OperationMethod<
-  GetDocumentRequest,
+  GetDocumentRequest & RegionInput,
   GetDocumentResponse,
   GetDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2139,6 +2213,8 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetDocumentPathError =
@@ -2158,7 +2234,7 @@ export type GetDocumentPathError =
  * folders.
  */
 export const getDocumentPath: API.OperationMethod<
-  GetDocumentPathRequest,
+  GetDocumentPathRequest & RegionInput,
   GetDocumentPathResponse,
   GetDocumentPathError,
   Credentials | HttpClient.HttpClient
@@ -2175,6 +2251,8 @@ export const getDocumentPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentPath",
+  telemetry: TELEMETRY,
+  span: "GetDocumentPath",
 }));
 
 export type GetDocumentVersionError =
@@ -2190,7 +2268,7 @@ export type GetDocumentVersionError =
  * Retrieves version metadata for the specified document.
  */
 export const getDocumentVersion: API.OperationMethod<
-  GetDocumentVersionRequest,
+  GetDocumentVersionRequest & RegionInput,
   GetDocumentVersionResponse,
   GetDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -2209,6 +2287,8 @@ export const getDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "GetDocumentVersion",
 }));
 
 export type GetFolderError =
@@ -2224,7 +2304,7 @@ export type GetFolderError =
  * Retrieves the metadata of the specified folder.
  */
 export const getFolder: API.OperationMethod<
-  GetFolderRequest,
+  GetFolderRequest & RegionInput,
   GetFolderResponse,
   GetFolderError,
   Credentials | HttpClient.HttpClient
@@ -2243,6 +2323,8 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetFolderPathError =
@@ -2262,7 +2344,7 @@ export type GetFolderPathError =
  * names.
  */
 export const getFolderPath: API.OperationMethod<
-  GetFolderPathRequest,
+  GetFolderPathRequest & RegionInput,
   GetFolderPathResponse,
   GetFolderPathError,
   Credentials | HttpClient.HttpClient
@@ -2279,6 +2361,8 @@ export const getFolderPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolderPath",
+  telemetry: TELEMETRY,
+  span: "GetFolderPath",
 }));
 
 export type GetResourcesError =
@@ -2293,7 +2377,7 @@ export type GetResourcesError =
  * `CollectionType` supported is `SHARED_WITH_ME`.
  */
 export const getResources: API.OperationMethod<
-  GetResourcesRequest,
+  GetResourcesRequest & RegionInput,
   GetResourcesResponse,
   GetResourcesError,
   Credentials | HttpClient.HttpClient
@@ -2310,6 +2394,8 @@ export const getResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResources",
+  telemetry: TELEMETRY,
+  span: "GetResources",
 }));
 
 export type InitiateDocumentVersionUploadError =
@@ -2339,7 +2425,7 @@ export type InitiateDocumentVersionUploadError =
  * To cancel the document upload, call AbortDocumentVersionUpload.
  */
 export const initiateDocumentVersionUpload: API.OperationMethod<
-  InitiateDocumentVersionUploadRequest,
+  InitiateDocumentVersionUploadRequest & RegionInput,
   InitiateDocumentVersionUploadResponse,
   InitiateDocumentVersionUploadError,
   Credentials | HttpClient.HttpClient
@@ -2365,6 +2451,8 @@ export const initiateDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateDocumentVersionUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateDocumentVersionUpload",
 }));
 
 export type RemoveAllResourcePermissionsError =
@@ -2377,7 +2465,7 @@ export type RemoveAllResourcePermissionsError =
  * Removes all the permissions from the specified resource.
  */
 export const removeAllResourcePermissions: API.OperationMethod<
-  RemoveAllResourcePermissionsRequest,
+  RemoveAllResourcePermissionsRequest & RegionInput,
   RemoveAllResourcePermissionsResponse,
   RemoveAllResourcePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2393,6 +2481,8 @@ export const removeAllResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllResourcePermissions",
+  telemetry: TELEMETRY,
+  span: "RemoveAllResourcePermissions",
 }));
 
 export type RemoveResourcePermissionError =
@@ -2406,7 +2496,7 @@ export type RemoveResourcePermissionError =
  * resource.
  */
 export const removeResourcePermission: API.OperationMethod<
-  RemoveResourcePermissionRequest,
+  RemoveResourcePermissionRequest & RegionInput,
   RemoveResourcePermissionResponse,
   RemoveResourcePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2422,6 +2512,8 @@ export const removeResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveResourcePermission",
+  telemetry: TELEMETRY,
+  span: "RemoveResourcePermission",
 }));
 
 export type RestoreDocumentVersionsError =
@@ -2438,7 +2530,7 @@ export type RestoreDocumentVersionsError =
  * Recovers a deleted version of an Amazon WorkDocs document.
  */
 export const restoreDocumentVersions: API.OperationMethod<
-  RestoreDocumentVersionsRequest,
+  RestoreDocumentVersionsRequest & RegionInput,
   RestoreDocumentVersionsResponse,
   RestoreDocumentVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2458,6 +2550,8 @@ export const restoreDocumentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDocumentVersions",
+  telemetry: TELEMETRY,
+  span: "RestoreDocumentVersions",
 }));
 
 export type SearchResourcesError =
@@ -2470,7 +2564,7 @@ export type SearchResourcesError =
  * Searches metadata and the content of folders, documents, document versions, and comments.
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesRequest,
+  SearchResourcesRequest & RegionInput,
   SearchResourcesResponse,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2493,6 +2587,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type UpdateDocumentError =
@@ -2512,7 +2608,7 @@ export type UpdateDocumentError =
  * the document and its parent folder, if applicable.
  */
 export const updateDocument: API.OperationMethod<
-  UpdateDocumentRequest,
+  UpdateDocumentRequest & RegionInput,
   UpdateDocumentResponse,
   UpdateDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2534,6 +2630,8 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
+  telemetry: TELEMETRY,
+  span: "UpdateDocument",
 }));
 
 export type UpdateDocumentVersionError =
@@ -2554,7 +2652,7 @@ export type UpdateDocumentVersionError =
  * returned by InitiateDocumentVersionUpload.
  */
 export const updateDocumentVersion: API.OperationMethod<
-  UpdateDocumentVersionRequest,
+  UpdateDocumentVersionRequest & RegionInput,
   UpdateDocumentVersionResponse,
   UpdateDocumentVersionError,
   Credentials | HttpClient.HttpClient
@@ -2574,6 +2672,8 @@ export const updateDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentVersion",
 }));
 
 export type UpdateFolderError =
@@ -2593,7 +2693,7 @@ export type UpdateFolderError =
  * to both the folder and its parent folder, if applicable.
  */
 export const updateFolder: API.OperationMethod<
-  UpdateFolderRequest,
+  UpdateFolderRequest & RegionInput,
   UpdateFolderResponse,
   UpdateFolderError,
   Credentials | HttpClient.HttpClient
@@ -2615,6 +2715,8 @@ export const updateFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolder",
+  telemetry: TELEMETRY,
+  span: "UpdateFolder",
 }));
 
 export type UpdateUserError =
@@ -2633,7 +2735,7 @@ export type UpdateUserError =
  * administrative privileges to the Amazon WorkDocs site.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -2654,6 +2756,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

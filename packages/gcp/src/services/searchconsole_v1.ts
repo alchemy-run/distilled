@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "searchconsole" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Searchconsole",
+  service: "searchconsole",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -607,6 +626,8 @@ export const addSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSites",
 }));
 
 export type DeleteSitemapsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -622,6 +643,8 @@ export const deleteSitemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSitemaps",
 }));
 
 export type DeleteSitesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -637,6 +660,8 @@ export const deleteSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSites",
 }));
 
 export type GetSitemapsError = NotFound | Forbidden | GcpOpError;
@@ -652,6 +677,8 @@ export const getSitemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitemaps",
 }));
 
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
@@ -663,6 +690,8 @@ export const getSites: API.OperationMethod<GetSitesRequest, WmxSite, GetSitesErr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSites",
   }));
 
 export type InspectUrlInspectionIndexError =
@@ -683,6 +712,8 @@ export const inspectUrlInspectionIndex: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InspectUrlInspectionIndex",
 }));
 
 export type ListSitemapsError = NotFound | Forbidden | GcpOpError;
@@ -698,6 +729,8 @@ export const listSitemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitemaps",
 }));
 
 export type ListSitesError = NotFound | Forbidden | GcpOpError;
@@ -713,6 +746,8 @@ export const listSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSites",
 }));
 
 export type QuerySearchanalyticsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -728,6 +763,8 @@ export const querySearchanalytics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QuerySearchanalytics",
 }));
 
 export type RunUrlTestingToolsMobileFriendlyTestError =
@@ -748,6 +785,8 @@ export const runUrlTestingToolsMobileFriendlyTest: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunUrlTestingToolsMobileFriendlyTest",
 }));
 
 export type SubmitSitemapsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -763,6 +802,8 @@ export const submitSitemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitSitemaps",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

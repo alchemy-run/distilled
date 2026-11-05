@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudcommerceprocurement" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudcommerceprocurement",
+  service: "cloudcommerceprocurement",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -344,6 +363,8 @@ export const approvePlanChangeProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovePlanChangeProvidersEntitlements",
 }));
 
 export type ApproveProvidersAccountsError =
@@ -364,6 +385,8 @@ export const approveProvidersAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveProvidersAccounts",
 }));
 
 export type ApproveProvidersEntitlementsError =
@@ -384,6 +407,8 @@ export const approveProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveProvidersEntitlements",
 }));
 
 export type GetProvidersAccountsError = NotFound | Forbidden | GcpOpError;
@@ -399,6 +424,8 @@ export const getProvidersAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvidersAccounts",
 }));
 
 export type GetProvidersEntitlementsError = NotFound | Forbidden | GcpOpError;
@@ -414,6 +441,8 @@ export const getProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvidersEntitlements",
 }));
 
 export type ListProvidersAccountsError = NotFound | Forbidden | GcpOpError;
@@ -430,6 +459,8 @@ export const listProvidersAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProvidersAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -447,6 +478,8 @@ export const listProvidersEntitlements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProvidersEntitlements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -468,6 +501,8 @@ export const patchProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProvidersEntitlements",
 }));
 
 export type RejectPlanChangeProvidersEntitlementsError =
@@ -488,6 +523,8 @@ export const rejectPlanChangeProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectPlanChangeProvidersEntitlements",
 }));
 
 export type RejectProvidersAccountsError =
@@ -508,6 +545,8 @@ export const rejectProvidersAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectProvidersAccounts",
 }));
 
 export type RejectProvidersEntitlementsError =
@@ -528,6 +567,8 @@ export const rejectProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectProvidersEntitlements",
 }));
 
 export type ResetProvidersAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -543,6 +584,8 @@ export const resetProvidersAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetProvidersAccounts",
 }));
 
 export type SuspendProvidersEntitlementsError =
@@ -563,6 +606,8 @@ export const suspendProvidersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendProvidersEntitlements",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

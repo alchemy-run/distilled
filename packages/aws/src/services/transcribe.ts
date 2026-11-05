@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -88,6 +90,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://transcribe.{R}.{D}","properties":{},"headers":{}}',
   ["cn-north-1", "cn-northwest-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Transcribe",
+  service: "Transcribe",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1190,7 +1206,7 @@ export type CreateCallAnalyticsCategoryError =
  * real-time transcriptions.
  */
 export const createCallAnalyticsCategory: API.OperationMethod<
-  CreateCallAnalyticsCategoryRequest,
+  CreateCallAnalyticsCategoryRequest & RegionInput,
   CreateCallAnalyticsCategoryResponse,
   CreateCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1222,8 @@ export const createCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCallAnalyticsCategory",
+  telemetry: TELEMETRY,
+  span: "CreateCallAnalyticsCategory",
 }));
 
 export type CreateLanguageModelError =
@@ -1229,7 +1247,7 @@ export type CreateLanguageModelError =
  * - A unique name for your model
  */
 export const createLanguageModel: API.OperationMethod<
-  CreateLanguageModelRequest,
+  CreateLanguageModelRequest & RegionInput,
   CreateLanguageModelResponse,
   CreateLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1245,6 +1263,8 @@ export const createLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLanguageModel",
+  telemetry: TELEMETRY,
+  span: "CreateLanguageModel",
 }));
 
 export type CreateMedicalVocabularyError =
@@ -1272,7 +1292,7 @@ export type CreateMedicalVocabularyError =
  * vocabularies.
  */
 export const createMedicalVocabulary: API.OperationMethod<
-  CreateMedicalVocabularyRequest,
+  CreateMedicalVocabularyRequest & RegionInput,
   CreateMedicalVocabularyResponse,
   CreateMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1288,6 +1308,8 @@ export const createMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMedicalVocabulary",
+  telemetry: TELEMETRY,
+  span: "CreateMedicalVocabulary",
 }));
 
 export type CreateVocabularyError =
@@ -1313,7 +1335,7 @@ export type CreateVocabularyError =
  * vocabularies.
  */
 export const createVocabulary: API.OperationMethod<
-  CreateVocabularyRequest,
+  CreateVocabularyRequest & RegionInput,
   CreateVocabularyResponse,
   CreateVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1329,6 +1351,8 @@ export const createVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabulary",
+  telemetry: TELEMETRY,
+  span: "CreateVocabulary",
 }));
 
 export type CreateVocabularyFilterError =
@@ -1353,7 +1377,7 @@ export type CreateVocabularyFilterError =
  * filtering.
  */
 export const createVocabularyFilter: API.OperationMethod<
-  CreateVocabularyFilterRequest,
+  CreateVocabularyFilterRequest & RegionInput,
   CreateVocabularyFilterResponse,
   CreateVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -1369,6 +1393,8 @@ export const createVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabularyFilter",
+  telemetry: TELEMETRY,
+  span: "CreateVocabularyFilter",
 }));
 
 export type DeleteCallAnalyticsCategoryError =
@@ -1383,7 +1409,7 @@ export type DeleteCallAnalyticsCategoryError =
  * sensitive.
  */
 export const deleteCallAnalyticsCategory: API.OperationMethod<
-  DeleteCallAnalyticsCategoryRequest,
+  DeleteCallAnalyticsCategoryRequest & RegionInput,
   DeleteCallAnalyticsCategoryResponse,
   DeleteCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1399,6 +1425,8 @@ export const deleteCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCallAnalyticsCategory",
+  telemetry: TELEMETRY,
+  span: "DeleteCallAnalyticsCategory",
 }));
 
 export type DeleteCallAnalyticsJobError =
@@ -1412,7 +1440,7 @@ export type DeleteCallAnalyticsJobError =
  * sensitive.
  */
 export const deleteCallAnalyticsJob: API.OperationMethod<
-  DeleteCallAnalyticsJobRequest,
+  DeleteCallAnalyticsJobRequest & RegionInput,
   DeleteCallAnalyticsJobResponse,
   DeleteCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -1423,6 +1451,8 @@ export const deleteCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCallAnalyticsJob",
+  telemetry: TELEMETRY,
+  span: "DeleteCallAnalyticsJob",
 }));
 
 export type DeleteLanguageModelError =
@@ -1436,7 +1466,7 @@ export type DeleteLanguageModelError =
  * names are case sensitive.
  */
 export const deleteLanguageModel: API.OperationMethod<
-  DeleteLanguageModelRequest,
+  DeleteLanguageModelRequest & RegionInput,
   DeleteLanguageModelResponse,
   DeleteLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1447,6 +1477,8 @@ export const deleteLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLanguageModel",
+  telemetry: TELEMETRY,
+  span: "DeleteLanguageModel",
 }));
 
 export type DeleteMedicalScribeJobError =
@@ -1460,7 +1492,7 @@ export type DeleteMedicalScribeJobError =
  * case sensitive.
  */
 export const deleteMedicalScribeJob: API.OperationMethod<
-  DeleteMedicalScribeJobRequest,
+  DeleteMedicalScribeJobRequest & RegionInput,
   DeleteMedicalScribeJobResponse,
   DeleteMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1471,6 +1503,8 @@ export const deleteMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalScribeJob",
+  telemetry: TELEMETRY,
+  span: "DeleteMedicalScribeJob",
 }));
 
 export type DeleteMedicalTranscriptionJobError =
@@ -1484,7 +1518,7 @@ export type DeleteMedicalTranscriptionJobError =
  * case sensitive.
  */
 export const deleteMedicalTranscriptionJob: API.OperationMethod<
-  DeleteMedicalTranscriptionJobRequest,
+  DeleteMedicalTranscriptionJobRequest & RegionInput,
   DeleteMedicalTranscriptionJobResponse,
   DeleteMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1495,6 +1529,8 @@ export const deleteMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "DeleteMedicalTranscriptionJob",
 }));
 
 export type DeleteMedicalVocabularyError =
@@ -1509,7 +1545,7 @@ export type DeleteMedicalVocabularyError =
  * vocabulary names are case sensitive.
  */
 export const deleteMedicalVocabulary: API.OperationMethod<
-  DeleteMedicalVocabularyRequest,
+  DeleteMedicalVocabularyRequest & RegionInput,
   DeleteMedicalVocabularyResponse,
   DeleteMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1525,6 +1561,8 @@ export const deleteMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalVocabulary",
+  telemetry: TELEMETRY,
+  span: "DeleteMedicalVocabulary",
 }));
 
 export type DeleteTranscriptionJobError =
@@ -1538,7 +1576,7 @@ export type DeleteTranscriptionJobError =
  * sensitive.
  */
 export const deleteTranscriptionJob: API.OperationMethod<
-  DeleteTranscriptionJobRequest,
+  DeleteTranscriptionJobRequest & RegionInput,
   DeleteTranscriptionJobResponse,
   DeleteTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1549,6 +1587,8 @@ export const deleteTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "DeleteTranscriptionJob",
 }));
 
 export type DeleteVocabularyError =
@@ -1563,7 +1603,7 @@ export type DeleteVocabularyError =
  * are case sensitive.
  */
 export const deleteVocabulary: API.OperationMethod<
-  DeleteVocabularyRequest,
+  DeleteVocabularyRequest & RegionInput,
   DeleteVocabularyResponse,
   DeleteVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1579,6 +1619,8 @@ export const deleteVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabulary",
+  telemetry: TELEMETRY,
+  span: "DeleteVocabulary",
 }));
 
 export type DeleteVocabularyFilterError =
@@ -1593,7 +1635,7 @@ export type DeleteVocabularyFilterError =
  * Custom vocabulary filter names are case sensitive.
  */
 export const deleteVocabularyFilter: API.OperationMethod<
-  DeleteVocabularyFilterRequest,
+  DeleteVocabularyFilterRequest & RegionInput,
   DeleteVocabularyFilterResponse,
   DeleteVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -1609,6 +1651,8 @@ export const deleteVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabularyFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteVocabularyFilter",
 }));
 
 export type DescribeLanguageModelError =
@@ -1629,7 +1673,7 @@ export type DescribeLanguageModelError =
  * failure.
  */
 export const describeLanguageModel: API.OperationMethod<
-  DescribeLanguageModelRequest,
+  DescribeLanguageModelRequest & RegionInput,
   DescribeLanguageModelResponse,
   DescribeLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -1645,6 +1689,8 @@ export const describeLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLanguageModel",
+  telemetry: TELEMETRY,
+  span: "DescribeLanguageModel",
 }));
 
 export type GetCallAnalyticsCategoryError =
@@ -1659,7 +1705,7 @@ export type GetCallAnalyticsCategoryError =
  * To get a list of your Call Analytics categories, use the operation.
  */
 export const getCallAnalyticsCategory: API.OperationMethod<
-  GetCallAnalyticsCategoryRequest,
+  GetCallAnalyticsCategoryRequest & RegionInput,
   GetCallAnalyticsCategoryResponse,
   GetCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1675,6 +1721,8 @@ export const getCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallAnalyticsCategory",
+  telemetry: TELEMETRY,
+  span: "GetCallAnalyticsCategory",
 }));
 
 export type GetCallAnalyticsJobError =
@@ -1702,7 +1750,7 @@ export type GetCallAnalyticsJobError =
  * To get a list of your Call Analytics jobs, use the operation.
  */
 export const getCallAnalyticsJob: API.OperationMethod<
-  GetCallAnalyticsJobRequest,
+  GetCallAnalyticsJobRequest & RegionInput,
   GetCallAnalyticsJobResponse,
   GetCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1766,8 @@ export const getCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallAnalyticsJob",
+  telemetry: TELEMETRY,
+  span: "GetCallAnalyticsJob",
 }));
 
 export type GetMedicalScribeJobError =
@@ -1739,7 +1789,7 @@ export type GetMedicalScribeJobError =
  * To get a list of your Medical Scribe jobs, use the operation.
  */
 export const getMedicalScribeJob: API.OperationMethod<
-  GetMedicalScribeJobRequest,
+  GetMedicalScribeJobRequest & RegionInput,
   GetMedicalScribeJobResponse,
   GetMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1755,6 +1805,8 @@ export const getMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalScribeJob",
+  telemetry: TELEMETRY,
+  span: "GetMedicalScribeJob",
 }));
 
 export type GetMedicalTranscriptionJobError =
@@ -1776,7 +1828,7 @@ export type GetMedicalTranscriptionJobError =
  * To get a list of your medical transcription jobs, use the operation.
  */
 export const getMedicalTranscriptionJob: API.OperationMethod<
-  GetMedicalTranscriptionJobRequest,
+  GetMedicalTranscriptionJobRequest & RegionInput,
   GetMedicalTranscriptionJobResponse,
   GetMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1792,6 +1844,8 @@ export const getMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "GetMedicalTranscriptionJob",
 }));
 
 export type GetMedicalVocabularyError =
@@ -1811,7 +1865,7 @@ export type GetMedicalVocabularyError =
  * To get a list of your custom medical vocabularies, use the operation.
  */
 export const getMedicalVocabulary: API.OperationMethod<
-  GetMedicalVocabularyRequest,
+  GetMedicalVocabularyRequest & RegionInput,
   GetMedicalVocabularyResponse,
   GetMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1827,6 +1881,8 @@ export const getMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalVocabulary",
+  telemetry: TELEMETRY,
+  span: "GetMedicalVocabulary",
 }));
 
 export type GetTranscriptionJobError =
@@ -1851,7 +1907,7 @@ export type GetTranscriptionJobError =
  * To get a list of your transcription jobs, use the operation.
  */
 export const getTranscriptionJob: API.OperationMethod<
-  GetTranscriptionJobRequest,
+  GetTranscriptionJobRequest & RegionInput,
   GetTranscriptionJobResponse,
   GetTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -1867,6 +1923,8 @@ export const getTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "GetTranscriptionJob",
 }));
 
 export type GetVocabularyError =
@@ -1887,7 +1945,7 @@ export type GetVocabularyError =
  * To get a list of your custom vocabularies, use the operation.
  */
 export const getVocabulary: API.OperationMethod<
-  GetVocabularyRequest,
+  GetVocabularyRequest & RegionInput,
   GetVocabularyResponse,
   GetVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -1903,6 +1961,8 @@ export const getVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVocabulary",
+  telemetry: TELEMETRY,
+  span: "GetVocabulary",
 }));
 
 export type GetVocabularyFilterError =
@@ -1917,7 +1977,7 @@ export type GetVocabularyFilterError =
  * To get a list of your custom vocabulary filters, use the operation.
  */
 export const getVocabularyFilter: API.OperationMethod<
-  GetVocabularyFilterRequest,
+  GetVocabularyFilterRequest & RegionInput,
   GetVocabularyFilterResponse,
   GetVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -1933,6 +1993,8 @@ export const getVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVocabularyFilter",
+  telemetry: TELEMETRY,
+  span: "GetVocabularyFilter",
 }));
 
 export type ListCallAnalyticsCategoriesError =
@@ -1947,7 +2009,7 @@ export type ListCallAnalyticsCategoriesError =
  * To get detailed information about a specific Call Analytics category, use the operation.
  */
 export const listCallAnalyticsCategories: API.PaginatedOperationMethod<
-  ListCallAnalyticsCategoriesRequest,
+  ListCallAnalyticsCategoriesRequest & RegionInput,
   ListCallAnalyticsCategoriesResponse,
   ListCallAnalyticsCategoriesError,
   Credentials | HttpClient.HttpClient,
@@ -1964,6 +2026,8 @@ export const listCallAnalyticsCategories: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCallAnalyticsCategories",
 })) as any;
 
 export type ListCallAnalyticsJobsError =
@@ -1978,7 +2042,7 @@ export type ListCallAnalyticsJobsError =
  * To get detailed information about a specific Call Analytics job, use the operation.
  */
 export const listCallAnalyticsJobs: API.PaginatedOperationMethod<
-  ListCallAnalyticsJobsRequest,
+  ListCallAnalyticsJobsRequest & RegionInput,
   ListCallAnalyticsJobsResponse,
   ListCallAnalyticsJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1995,6 +2059,8 @@ export const listCallAnalyticsJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCallAnalyticsJobs",
 })) as any;
 
 export type ListLanguageModelsError =
@@ -2009,7 +2075,7 @@ export type ListLanguageModelsError =
  * To get detailed information about a specific custom language model, use the operation.
  */
 export const listLanguageModels: API.PaginatedOperationMethod<
-  ListLanguageModelsRequest,
+  ListLanguageModelsRequest & RegionInput,
   ListLanguageModelsResponse,
   ListLanguageModelsError,
   Credentials | HttpClient.HttpClient,
@@ -2026,6 +2092,8 @@ export const listLanguageModels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLanguageModels",
 })) as any;
 
 export type ListMedicalScribeJobsError =
@@ -2040,7 +2108,7 @@ export type ListMedicalScribeJobsError =
  * To get detailed information about a specific Medical Scribe job, use the operation.
  */
 export const listMedicalScribeJobs: API.PaginatedOperationMethod<
-  ListMedicalScribeJobsRequest,
+  ListMedicalScribeJobsRequest & RegionInput,
   ListMedicalScribeJobsResponse,
   ListMedicalScribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2057,6 +2125,8 @@ export const listMedicalScribeJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMedicalScribeJobs",
 })) as any;
 
 export type ListMedicalTranscriptionJobsError =
@@ -2071,7 +2141,7 @@ export type ListMedicalTranscriptionJobsError =
  * To get detailed information about a specific medical transcription job, use the operation.
  */
 export const listMedicalTranscriptionJobs: API.PaginatedOperationMethod<
-  ListMedicalTranscriptionJobsRequest,
+  ListMedicalTranscriptionJobsRequest & RegionInput,
   ListMedicalTranscriptionJobsResponse,
   ListMedicalTranscriptionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2088,6 +2158,8 @@ export const listMedicalTranscriptionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMedicalTranscriptionJobs",
 })) as any;
 
 export type ListMedicalVocabulariesError =
@@ -2102,7 +2174,7 @@ export type ListMedicalVocabulariesError =
  * To get detailed information about a specific custom medical vocabulary, use the operation.
  */
 export const listMedicalVocabularies: API.PaginatedOperationMethod<
-  ListMedicalVocabulariesRequest,
+  ListMedicalVocabulariesRequest & RegionInput,
   ListMedicalVocabulariesResponse,
   ListMedicalVocabulariesError,
   Credentials | HttpClient.HttpClient,
@@ -2119,6 +2191,8 @@ export const listMedicalVocabularies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMedicalVocabularies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2135,7 +2209,7 @@ export type ListTagsForResourceError =
  * resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2151,6 +2225,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTranscriptionJobsError =
@@ -2165,7 +2241,7 @@ export type ListTranscriptionJobsError =
  * To get detailed information about a specific transcription job, use the operation.
  */
 export const listTranscriptionJobs: API.PaginatedOperationMethod<
-  ListTranscriptionJobsRequest,
+  ListTranscriptionJobsRequest & RegionInput,
   ListTranscriptionJobsResponse,
   ListTranscriptionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2182,6 +2258,8 @@ export const listTranscriptionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTranscriptionJobs",
 })) as any;
 
 export type ListVocabulariesError =
@@ -2196,7 +2274,7 @@ export type ListVocabulariesError =
  * To get detailed information about a specific custom vocabulary, use the operation.
  */
 export const listVocabularies: API.PaginatedOperationMethod<
-  ListVocabulariesRequest,
+  ListVocabulariesRequest & RegionInput,
   ListVocabulariesResponse,
   ListVocabulariesError,
   Credentials | HttpClient.HttpClient,
@@ -2213,6 +2291,8 @@ export const listVocabularies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVocabularies",
 })) as any;
 
 export type ListVocabularyFiltersError =
@@ -2227,7 +2307,7 @@ export type ListVocabularyFiltersError =
  * To get detailed information about a specific custom vocabulary filter, use the operation.
  */
 export const listVocabularyFilters: API.PaginatedOperationMethod<
-  ListVocabularyFiltersRequest,
+  ListVocabularyFiltersRequest & RegionInput,
   ListVocabularyFiltersResponse,
   ListVocabularyFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -2244,6 +2324,8 @@ export const listVocabularyFilters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVocabularyFilters",
 })) as any;
 
 export type StartCallAnalyticsJobError =
@@ -2298,7 +2380,7 @@ export type StartCallAnalyticsJobError =
  * `RedactedMediaFileUri` field of your response.
  */
 export const startCallAnalyticsJob: API.OperationMethod<
-  StartCallAnalyticsJobRequest,
+  StartCallAnalyticsJobRequest & RegionInput,
   StartCallAnalyticsJobResponse,
   StartCallAnalyticsJobError,
   Credentials | HttpClient.HttpClient
@@ -2314,6 +2396,8 @@ export const startCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCallAnalyticsJob",
+  telemetry: TELEMETRY,
+  span: "StartCallAnalyticsJob",
 }));
 
 export type StartMedicalScribeJobError =
@@ -2357,7 +2441,7 @@ export type StartMedicalScribeJobError =
  * value of `Settings` is set to true.
  */
 export const startMedicalScribeJob: API.OperationMethod<
-  StartMedicalScribeJobRequest,
+  StartMedicalScribeJobRequest & RegionInput,
   StartMedicalScribeJobResponse,
   StartMedicalScribeJobError,
   Credentials | HttpClient.HttpClient
@@ -2373,6 +2457,8 @@ export const startMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalScribeJob",
+  telemetry: TELEMETRY,
+  span: "StartMedicalScribeJob",
 }));
 
 export type StartMedicalTranscriptionJobError =
@@ -2420,7 +2506,7 @@ export type StartMedicalTranscriptionJobError =
  * dictation.
  */
 export const startMedicalTranscriptionJob: API.OperationMethod<
-  StartMedicalTranscriptionJobRequest,
+  StartMedicalTranscriptionJobRequest & RegionInput,
   StartMedicalTranscriptionJobResponse,
   StartMedicalTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -2436,6 +2522,8 @@ export const startMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "StartMedicalTranscriptionJob",
 }));
 
 export type StartTranscriptionJobError =
@@ -2475,7 +2563,7 @@ export type StartTranscriptionJobError =
  * the languages for you.
  */
 export const startTranscriptionJob: API.OperationMethod<
-  StartTranscriptionJobRequest,
+  StartTranscriptionJobRequest & RegionInput,
   StartTranscriptionJobResponse,
   StartTranscriptionJobError,
   Credentials | HttpClient.HttpClient
@@ -2491,6 +2579,8 @@ export const startTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTranscriptionJob",
+  telemetry: TELEMETRY,
+  span: "StartTranscriptionJob",
 }));
 
 export type TagResourceError =
@@ -2508,7 +2598,7 @@ export type TagResourceError =
  * resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2525,6 +2615,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2541,7 +2633,7 @@ export type UntagResourceError =
  * `ResourceArn` and `TagKeys`.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2558,6 +2650,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCallAnalyticsCategoryError =
@@ -2576,7 +2670,7 @@ export type UpdateCallAnalyticsCategoryError =
  * To create a new category, see .
  */
 export const updateCallAnalyticsCategory: API.OperationMethod<
-  UpdateCallAnalyticsCategoryRequest,
+  UpdateCallAnalyticsCategoryRequest & RegionInput,
   UpdateCallAnalyticsCategoryResponse,
   UpdateCallAnalyticsCategoryError,
   Credentials | HttpClient.HttpClient
@@ -2593,6 +2687,8 @@ export const updateCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCallAnalyticsCategory",
+  telemetry: TELEMETRY,
+  span: "UpdateCallAnalyticsCategory",
 }));
 
 export type UpdateLanguageModelError =
@@ -2616,7 +2712,7 @@ export type UpdateLanguageModelError =
  * is being processed.
  */
 export const updateLanguageModel: API.OperationMethod<
-  UpdateLanguageModelRequest,
+  UpdateLanguageModelRequest & RegionInput,
   UpdateLanguageModelResponse,
   UpdateLanguageModelError,
   Credentials | HttpClient.HttpClient
@@ -2633,6 +2729,8 @@ export const updateLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLanguageModel",
+  telemetry: TELEMETRY,
+  span: "UpdateLanguageModel",
 }));
 
 export type UpdateMedicalVocabularyError =
@@ -2648,7 +2746,7 @@ export type UpdateMedicalVocabularyError =
  * onto an existing custom vocabulary.
  */
 export const updateMedicalVocabulary: API.OperationMethod<
-  UpdateMedicalVocabularyRequest,
+  UpdateMedicalVocabularyRequest & RegionInput,
   UpdateMedicalVocabularyResponse,
   UpdateMedicalVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -2665,6 +2763,8 @@ export const updateMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMedicalVocabulary",
+  telemetry: TELEMETRY,
+  span: "UpdateMedicalVocabulary",
 }));
 
 export type UpdateVocabularyError =
@@ -2684,7 +2784,7 @@ export type UpdateVocabularyError =
  * `Phrases` or `VocabularyFileUri` in your request.
  */
 export const updateVocabulary: API.OperationMethod<
-  UpdateVocabularyRequest,
+  UpdateVocabularyRequest & RegionInput,
   UpdateVocabularyResponse,
   UpdateVocabularyError,
   Credentials | HttpClient.HttpClient
@@ -2701,6 +2801,8 @@ export const updateVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVocabulary",
+  telemetry: TELEMETRY,
+  span: "UpdateVocabulary",
 }));
 
 export type UpdateVocabularyFilterError =
@@ -2719,7 +2821,7 @@ export type UpdateVocabularyFilterError =
  * in your request.
  */
 export const updateVocabularyFilter: API.OperationMethod<
-  UpdateVocabularyFilterRequest,
+  UpdateVocabularyFilterRequest & RegionInput,
   UpdateVocabularyFilterResponse,
   UpdateVocabularyFilterError,
   Credentials | HttpClient.HttpClient
@@ -2736,6 +2838,8 @@ export const updateVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVocabularyFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateVocabularyFilter",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

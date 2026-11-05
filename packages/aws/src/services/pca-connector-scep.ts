@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pca-connector-scep.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PcaConnectorScep",
+  service: "PcaConnectorScep",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -328,7 +344,7 @@ export type CreateChallengeError =
  * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
  */
 export const createChallenge: API.OperationMethod<
-  CreateChallengeRequest,
+  CreateChallengeRequest & RegionInput,
   CreateChallengeResponse,
   CreateChallengeError,
   Credentials | HttpClient.HttpClient
@@ -348,6 +364,8 @@ export const createChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChallenge",
+  telemetry: TELEMETRY,
+  span: "CreateChallenge",
 }));
 
 export type CreateConnectorError =
@@ -363,7 +381,7 @@ export type CreateConnectorError =
  * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -382,6 +400,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type DeleteChallengeError =
@@ -396,7 +416,7 @@ export type DeleteChallengeError =
  * Deletes the specified Challenge.
  */
 export const deleteChallenge: API.OperationMethod<
-  DeleteChallengeRequest,
+  DeleteChallengeRequest & RegionInput,
   DeleteChallengeResponse,
   DeleteChallengeError,
   Credentials | HttpClient.HttpClient
@@ -414,6 +434,8 @@ export const deleteChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChallenge",
+  telemetry: TELEMETRY,
+  span: "DeleteChallenge",
 }));
 
 export type DeleteConnectorError =
@@ -428,7 +450,7 @@ export type DeleteConnectorError =
  * Deletes the specified Connector. This operation also deletes any challenges associated with the connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -446,6 +468,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type GetChallengeMetadataError =
@@ -459,7 +483,7 @@ export type GetChallengeMetadataError =
  * Retrieves the metadata for the specified Challenge.
  */
 export const getChallengeMetadata: API.OperationMethod<
-  GetChallengeMetadataRequest,
+  GetChallengeMetadataRequest & RegionInput,
   GetChallengeMetadataResponse,
   GetChallengeMetadataError,
   Credentials | HttpClient.HttpClient
@@ -476,6 +500,8 @@ export const getChallengeMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengeMetadata",
+  telemetry: TELEMETRY,
+  span: "GetChallengeMetadata",
 }));
 
 export type GetChallengePasswordError =
@@ -489,7 +515,7 @@ export type GetChallengePasswordError =
  * Retrieves the challenge password for the specified Challenge.
  */
 export const getChallengePassword: API.OperationMethod<
-  GetChallengePasswordRequest,
+  GetChallengePasswordRequest & RegionInput,
   GetChallengePasswordResponse,
   GetChallengePasswordError,
   Credentials | HttpClient.HttpClient
@@ -506,6 +532,8 @@ export const getChallengePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengePassword",
+  telemetry: TELEMETRY,
+  span: "GetChallengePassword",
 }));
 
 export type GetConnectorError =
@@ -519,7 +547,7 @@ export type GetConnectorError =
  * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -536,6 +564,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type ListChallengeMetadataError =
@@ -549,7 +579,7 @@ export type ListChallengeMetadataError =
  * Retrieves the challenge metadata for the specified ARN.
  */
 export const listChallengeMetadata: API.PaginatedOperationMethod<
-  ListChallengeMetadataRequest,
+  ListChallengeMetadataRequest & RegionInput,
   ListChallengeMetadataResponse,
   ListChallengeMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -573,6 +603,8 @@ export const listChallengeMetadata: API.PaginatedOperationMethod<
     items: "Challenges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChallengeMetadata",
 })) as any;
 
 export type ListConnectorsError =
@@ -585,7 +617,7 @@ export type ListConnectorsError =
  * Lists the connectors belonging to your Amazon Web Services account.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -608,6 +640,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -621,7 +655,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -638,6 +672,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -651,7 +687,7 @@ export type TagResourceError =
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -668,6 +704,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -681,7 +719,7 @@ export type UntagResourceError =
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -698,6 +736,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

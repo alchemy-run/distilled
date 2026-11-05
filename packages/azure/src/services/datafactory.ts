@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataFactory" },
+  prefix: "Datafactory",
+  service: "Datafactory",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** List of tags that can be used for describing the data flow. */
 export type DataFlowAnnotationsList = Array<unknown>;
 /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
@@ -3476,6 +3497,8 @@ export const AddDataFlowDebugSessionDataFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDataFlowDebugSessionDataFlow",
 }));
 
 export type CancelPipelineRunError = AzureOpError;
@@ -3491,6 +3514,8 @@ export const CancelPipelineRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPipelineRun",
 }));
 
 export type CancelTriggerRunError = AzureOpError;
@@ -3506,6 +3531,8 @@ export const CancelTriggerRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTriggerRun",
 }));
 
 export type ChangeDataCaptureCreateOrUpdateError = AzureOpError;
@@ -3521,6 +3548,8 @@ export const ChangeDataCaptureCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeDataCaptureCreateOrUpdate",
 }));
 
 export type ChangeDataCaptureStatusError = AzureOpError;
@@ -3536,6 +3565,8 @@ export const ChangeDataCaptureStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeDataCaptureStatus",
 }));
 
 export type CreateDataFlowDebugSessionError = AzureOpError;
@@ -3551,6 +3582,8 @@ export const CreateDataFlowDebugSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataFlowDebugSession",
 }));
 
 export type CreateIntegrationRuntimeLinkedIntegrationRuntimeError = AzureOpError;
@@ -3570,6 +3603,8 @@ export const CreateIntegrationRuntimeLinkedIntegrationRuntime: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationRuntimeLinkedIntegrationRuntime",
 }));
 
 export type CreatePipelineRunError = AzureOpError;
@@ -3585,6 +3620,8 @@ export const CreatePipelineRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePipelineRun",
 }));
 
 export type CredentialOperationsCreateOrUpdateError = AzureOpError;
@@ -3600,6 +3637,8 @@ export const CredentialOperationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CredentialOperationsCreateOrUpdate",
 }));
 
 export type DataFlowDebugSessionQueryByFactoryError = AzureOpError;
@@ -3615,6 +3654,8 @@ export const DataFlowDebugSessionQueryByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataFlowDebugSessionQueryByFactory",
 }));
 
 export type DataFlowsCreateOrUpdateError = AzureOpError;
@@ -3630,6 +3671,8 @@ export const DataFlowsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataFlowsCreateOrUpdate",
 }));
 
 export type DatasetsCreateOrUpdateError = AzureOpError;
@@ -3645,6 +3688,8 @@ export const DatasetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatasetsCreateOrUpdate",
 }));
 
 export type DeleteChangeDataCaptureError = AzureOpError;
@@ -3660,6 +3705,8 @@ export const DeleteChangeDataCapture: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChangeDataCapture",
 }));
 
 export type DeleteCredentialOperationError = AzureOpError;
@@ -3675,6 +3722,8 @@ export const DeleteCredentialOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialOperation",
 }));
 
 export type DeleteDataFlowError = AzureOpError;
@@ -3690,6 +3739,8 @@ export const DeleteDataFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataFlow",
 }));
 
 export type DeleteDataFlowDebugSessionError = AzureOpError;
@@ -3705,6 +3756,8 @@ export const DeleteDataFlowDebugSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataFlowDebugSession",
 }));
 
 export type DeleteDatasetError = AzureOpError;
@@ -3720,6 +3773,8 @@ export const DeleteDataset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteFactoryError = AzureOpError;
@@ -3735,6 +3790,8 @@ export const DeleteFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFactory",
 }));
 
 export type DeleteGlobalParameterError = AzureOpError;
@@ -3750,6 +3807,8 @@ export const DeleteGlobalParameter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalParameter",
 }));
 
 export type DeleteIntegrationRuntimeError = AzureOpError;
@@ -3765,6 +3824,8 @@ export const DeleteIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationRuntime",
 }));
 
 export type DeleteIntegrationRuntimeNodeError = AzureOpError;
@@ -3780,6 +3841,8 @@ export const DeleteIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationRuntimeNode",
 }));
 
 export type DeleteLinkedServiceError = AzureOpError;
@@ -3795,6 +3858,8 @@ export const DeleteLinkedService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLinkedService",
 }));
 
 export type DeleteManagedPrivateEndpointError = AzureOpError;
@@ -3810,6 +3875,8 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedPrivateEndpoint",
 }));
 
 export type DeletePipelineError = AzureOpError;
@@ -3825,6 +3892,8 @@ export const DeletePipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -3840,6 +3909,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteTriggerError = AzureOpError;
@@ -3855,6 +3926,8 @@ export const DeleteTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DisableIntegrationRuntimeInteractiveQueryError = AzureOpError;
@@ -3870,6 +3943,8 @@ export const DisableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableIntegrationRuntimeInteractiveQuery",
 }));
 
 export type EnableIntegrationRuntimeInteractiveQueryError = AzureOpError;
@@ -3885,6 +3960,8 @@ export const EnableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableIntegrationRuntimeInteractiveQuery",
 }));
 
 export type ExecuteDataFlowDebugSessionCommandError = AzureOpError;
@@ -3900,6 +3977,8 @@ export const ExecuteDataFlowDebugSessionCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteDataFlowDebugSessionCommand",
 }));
 
 export type ExposureControlQueryFeatureValuesByFactoryError = AzureOpError;
@@ -3915,6 +3994,8 @@ export const ExposureControlQueryFeatureValuesByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExposureControlQueryFeatureValuesByFactory",
 }));
 
 export type FactoriesConfigureFactoryRepoError = AzureOpError;
@@ -3930,6 +4011,8 @@ export const FactoriesConfigureFactoryRepo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FactoriesConfigureFactoryRepo",
 }));
 
 export type FactoriesCreateOrUpdateError = AzureOpError;
@@ -3945,6 +4028,8 @@ export const FactoriesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FactoriesCreateOrUpdate",
 }));
 
 export type GetChangeDataCaptureError = AzureOpError;
@@ -3960,6 +4045,8 @@ export const GetChangeDataCapture: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeDataCapture",
 }));
 
 export type GetCredentialOperationError = AzureOpError;
@@ -3975,6 +4062,8 @@ export const GetCredentialOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentialOperation",
 }));
 
 export type GetDataFlowError = AzureOpError;
@@ -3990,6 +4079,8 @@ export const GetDataFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataFlow",
 }));
 
 export type GetDatasetError = AzureOpError;
@@ -4005,6 +4096,8 @@ export const GetDataset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetExposureControlFeatureValueError = AzureOpError;
@@ -4020,6 +4113,8 @@ export const GetExposureControlFeatureValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExposureControlFeatureValue",
 }));
 
 export type GetExposureControlFeatureValueByFactoryError = AzureOpError;
@@ -4035,6 +4130,8 @@ export const GetExposureControlFeatureValueByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExposureControlFeatureValueByFactory",
 }));
 
 export type GetFactoryError = AzureOpError;
@@ -4050,6 +4147,8 @@ export const GetFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactory",
 }));
 
 export type GetFactoryDataPlaneAccessError = AzureOpError;
@@ -4065,6 +4164,8 @@ export const GetFactoryDataPlaneAccess: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactoryDataPlaneAccess",
 }));
 
 export type GetFactoryGitHubAccessTokenError = AzureOpError;
@@ -4080,6 +4181,8 @@ export const GetFactoryGitHubAccessToken: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactoryGitHubAccessToken",
 }));
 
 export type GetGlobalParameterError = AzureOpError;
@@ -4095,6 +4198,8 @@ export const GetGlobalParameter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalParameter",
 }));
 
 export type GetIntegrationRuntimeError = AzureOpError;
@@ -4110,6 +4215,8 @@ export const GetIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntime",
 }));
 
 export type GetIntegrationRuntimeConnectionInfoError = AzureOpError;
@@ -4125,6 +4232,8 @@ export const GetIntegrationRuntimeConnectionInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeConnectionInfo",
 }));
 
 export type GetIntegrationRuntimeMonitoringDataError = AzureOpError;
@@ -4140,6 +4249,8 @@ export const GetIntegrationRuntimeMonitoringData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeMonitoringData",
 }));
 
 export type GetIntegrationRuntimeNodeError = AzureOpError;
@@ -4155,6 +4266,8 @@ export const GetIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeNode",
 }));
 
 export type GetIntegrationRuntimeNodeIpAddressError = AzureOpError;
@@ -4170,6 +4283,8 @@ export const GetIntegrationRuntimeNodeIpAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeNodeIpAddress",
 }));
 
 export type GetIntegrationRuntimeObjectMetadataError = AzureOpError;
@@ -4185,6 +4300,8 @@ export const GetIntegrationRuntimeObjectMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeObjectMetadata",
 }));
 
 export type GetIntegrationRuntimeStatusError = AzureOpError;
@@ -4200,6 +4317,8 @@ export const GetIntegrationRuntimeStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeStatus",
 }));
 
 export type GetLinkedServiceError = AzureOpError;
@@ -4215,6 +4334,8 @@ export const GetLinkedService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkedService",
 }));
 
 export type GetManagedPrivateEndpointError = AzureOpError;
@@ -4230,6 +4351,8 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedPrivateEndpoint",
 }));
 
 export type GetManagedVirtualNetworkError = AzureOpError;
@@ -4245,6 +4368,8 @@ export const GetManagedVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedVirtualNetwork",
 }));
 
 export type GetPipelineError = AzureOpError;
@@ -4260,6 +4385,8 @@ export const GetPipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetPipelineRunError = AzureOpError;
@@ -4275,6 +4402,8 @@ export const GetPipelineRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPipelineRun",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -4290,6 +4419,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -4305,6 +4436,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetTriggerError = AzureOpError;
@@ -4320,6 +4453,8 @@ export const GetTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type GetTriggerEventSubscriptionStatusError = AzureOpError;
@@ -4335,6 +4470,8 @@ export const GetTriggerEventSubscriptionStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerEventSubscriptionStatus",
 }));
 
 export type GlobalParametersCreateOrUpdateError = AzureOpError;
@@ -4350,6 +4487,8 @@ export const GlobalParametersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalParametersCreateOrUpdate",
 }));
 
 export type IntegrationRuntimesCreateOrUpdateError = AzureOpError;
@@ -4365,6 +4504,8 @@ export const IntegrationRuntimesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationRuntimesCreateOrUpdate",
 }));
 
 export type IntegrationRuntimesUpgradeError = AzureOpError;
@@ -4380,6 +4521,8 @@ export const IntegrationRuntimesUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationRuntimesUpgrade",
 }));
 
 export type LinkedServicesCreateOrUpdateError = AzureOpError;
@@ -4395,6 +4538,8 @@ export const LinkedServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkedServicesCreateOrUpdate",
 }));
 
 export type ListChangeDataCaptureByFactoryError = AzureOpError;
@@ -4410,6 +4555,8 @@ export const ListChangeDataCaptureByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeDataCaptureByFactory",
 }));
 
 export type ListCredentialOperationByFactoryError = AzureOpError;
@@ -4425,6 +4572,8 @@ export const ListCredentialOperationByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentialOperationByFactory",
 }));
 
 export type ListDataFlowByFactoryError = AzureOpError;
@@ -4440,6 +4589,8 @@ export const ListDataFlowByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataFlowByFactory",
 }));
 
 export type ListDatasetByFactoryError = AzureOpError;
@@ -4455,6 +4606,8 @@ export const ListDatasetByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetByFactory",
 }));
 
 export type ListFactoriesError = AzureOpError;
@@ -4470,6 +4623,8 @@ export const ListFactories: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFactories",
 }));
 
 export type ListFactoryByResourceGroupError = AzureOpError;
@@ -4485,6 +4640,8 @@ export const ListFactoryByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFactoryByResourceGroup",
 }));
 
 export type ListGlobalParameterByFactoryError = AzureOpError;
@@ -4500,6 +4657,8 @@ export const ListGlobalParameterByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalParameterByFactory",
 }));
 
 export type ListIntegrationRuntimeAuthKeysError = AzureOpError;
@@ -4515,6 +4674,8 @@ export const ListIntegrationRuntimeAuthKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeAuthKeys",
 }));
 
 export type ListIntegrationRuntimeByFactoryError = AzureOpError;
@@ -4530,6 +4691,8 @@ export const ListIntegrationRuntimeByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeByFactory",
 }));
 
 export type ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -4553,6 +4716,8 @@ export const ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListLinkedServiceByFactoryError = AzureOpError;
@@ -4568,6 +4733,8 @@ export const ListLinkedServiceByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedServiceByFactory",
 }));
 
 export type ListManagedPrivateEndpointByFactoryError = AzureOpError;
@@ -4583,6 +4750,8 @@ export const ListManagedPrivateEndpointByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedPrivateEndpointByFactory",
 }));
 
 export type ListManagedVirtualNetworkByFactoryError = AzureOpError;
@@ -4598,6 +4767,8 @@ export const ListManagedVirtualNetworkByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedVirtualNetworkByFactory",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4613,6 +4784,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPipelineByFactoryError = AzureOpError;
@@ -4628,6 +4801,8 @@ export const ListPipelineByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPipelineByFactory",
 }));
 
 export type ListPrivateEndPointConnectionByFactoryError = AzureOpError;
@@ -4643,6 +4818,8 @@ export const ListPrivateEndPointConnectionByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndPointConnectionByFactory",
 }));
 
 export type ListTriggerByFactoryError = AzureOpError;
@@ -4658,6 +4835,8 @@ export const ListTriggerByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerByFactory",
 }));
 
 export type ManagedPrivateEndpointsCreateOrUpdateError = AzureOpError;
@@ -4673,6 +4852,8 @@ export const ManagedPrivateEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagedPrivateEndpointsCreateOrUpdate",
 }));
 
 export type ManagedVirtualNetworksCreateOrUpdateError = AzureOpError;
@@ -4688,6 +4869,8 @@ export const ManagedVirtualNetworksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagedVirtualNetworksCreateOrUpdate",
 }));
 
 export type PipelineRunsQueryByFactoryError = AzureOpError;
@@ -4703,6 +4886,8 @@ export const PipelineRunsQueryByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PipelineRunsQueryByFactory",
 }));
 
 export type PipelinesCreateOrUpdateError = AzureOpError;
@@ -4718,6 +4903,8 @@ export const PipelinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PipelinesCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionCreateOrUpdateError = AzureOpError;
@@ -4733,6 +4920,8 @@ export const PrivateEndpointConnectionCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionCreateOrUpdate",
 }));
 
 export type RefreshIntegrationRuntimeObjectMetadataError = AzureOpError;
@@ -4748,6 +4937,8 @@ export const RefreshIntegrationRuntimeObjectMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshIntegrationRuntimeObjectMetadata",
 }));
 
 export type RegenerateIntegrationRuntimeAuthKeyError = AzureOpError;
@@ -4763,6 +4954,8 @@ export const RegenerateIntegrationRuntimeAuthKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateIntegrationRuntimeAuthKey",
 }));
 
 export type RemoveIntegrationRuntimeLinksError = AzureOpError;
@@ -4778,6 +4971,8 @@ export const RemoveIntegrationRuntimeLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveIntegrationRuntimeLinks",
 }));
 
 export type RunActivityRunsQueryByPipelineError = AzureOpError;
@@ -4793,6 +4988,8 @@ export const RunActivityRunsQueryByPipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunActivityRunsQueryByPipeline",
 }));
 
 export type StartChangeDataCaptureError = AzureOpError;
@@ -4808,6 +5005,8 @@ export const StartChangeDataCapture: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartChangeDataCapture",
 }));
 
 export type StartIntegrationRuntimeError = AzureOpError;
@@ -4823,6 +5022,8 @@ export const StartIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartIntegrationRuntime",
 }));
 
 export type StartTriggerError = AzureOpError;
@@ -4838,6 +5039,8 @@ export const StartTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartTrigger",
 }));
 
 export type StopChangeDataCaptureError = AzureOpError;
@@ -4853,6 +5056,8 @@ export const StopChangeDataCapture: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopChangeDataCapture",
 }));
 
 export type StopIntegrationRuntimeError = AzureOpError;
@@ -4868,6 +5073,8 @@ export const StopIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopIntegrationRuntime",
 }));
 
 export type StopTriggerError = AzureOpError;
@@ -4883,6 +5090,8 @@ export const StopTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopTrigger",
 }));
 
 export type SubscribeTriggerToEventsError = AzureOpError;
@@ -4898,6 +5107,8 @@ export const SubscribeTriggerToEvents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeTriggerToEvents",
 }));
 
 export type SyncIntegrationRuntimeCredentialsError = AzureOpError;
@@ -4913,6 +5124,8 @@ export const SyncIntegrationRuntimeCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncIntegrationRuntimeCredentials",
 }));
 
 export type TriggerRunsQueryByFactoryError = AzureOpError;
@@ -4928,6 +5141,8 @@ export const TriggerRunsQueryByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRunsQueryByFactory",
 }));
 
 export type TriggerRunsRerunError = AzureOpError;
@@ -4943,6 +5158,8 @@ export const TriggerRunsRerun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRunsRerun",
 }));
 
 export type TriggersCreateOrUpdateError = AzureOpError;
@@ -4958,6 +5175,8 @@ export const TriggersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggersCreateOrUpdate",
 }));
 
 export type TriggersQueryByFactoryError = AzureOpError;
@@ -4973,6 +5192,8 @@ export const TriggersQueryByFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggersQueryByFactory",
 }));
 
 export type UnsubscribeTriggerFromEventsError = AzureOpError;
@@ -4988,6 +5209,8 @@ export const UnsubscribeTriggerFromEvents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeTriggerFromEvents",
 }));
 
 export type UpdateFactoryError = AzureOpError;
@@ -5003,6 +5226,8 @@ export const UpdateFactory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFactory",
 }));
 
 export type UpdateIntegrationRuntimeError = AzureOpError;
@@ -5018,6 +5243,8 @@ export const UpdateIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationRuntime",
 }));
 
 export type UpdateIntegrationRuntimeNodeError = AzureOpError;
@@ -5033,6 +5260,8 @@ export const UpdateIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationRuntimeNode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

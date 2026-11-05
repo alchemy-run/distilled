@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://featurestore-runtime.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerFeatureStoreRuntime",
+  service: "SageMakerFeatureStoreRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessForbidden
   extends /*@__PURE__*/ S.TaggedError<AccessForbidden>()(
@@ -279,7 +295,7 @@ export type BatchGetRecordError =
  * Retrieves a batch of `Records` from a `FeatureGroup`.
  */
 export const batchGetRecord: API.OperationMethod<
-  BatchGetRecordRequest,
+  BatchGetRecordRequest & RegionInput,
   BatchGetRecordResponse,
   BatchGetRecordError,
   Credentials | HttpClient.HttpClient
@@ -290,6 +306,8 @@ export const batchGetRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRecord",
+  telemetry: TELEMETRY,
+  span: "BatchGetRecord",
 }));
 
 export type BatchWriteRecordError =
@@ -310,7 +328,7 @@ export type BatchWriteRecordError =
  * `TtlDuration`.
  */
 export const batchWriteRecord: API.OperationMethod<
-  BatchWriteRecordRequest,
+  BatchWriteRecordRequest & RegionInput,
   BatchWriteRecordResponse,
   BatchWriteRecordError,
   Credentials | HttpClient.HttpClient
@@ -321,6 +339,8 @@ export const batchWriteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteRecord",
+  telemetry: TELEMETRY,
+  span: "BatchWriteRecord",
 }));
 
 export type DeleteRecordError =
@@ -364,7 +384,7 @@ export type DeleteRecordError =
  * enabled, see Delete records from the offline store.
  */
 export const deleteRecord: API.OperationMethod<
-  DeleteRecordRequest,
+  DeleteRecordRequest & RegionInput,
   DeleteRecordResponse,
   DeleteRecordError,
   Credentials | HttpClient.HttpClient
@@ -381,6 +401,8 @@ export const deleteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteRecord",
 }));
 
 export type GetRecordError =
@@ -397,7 +419,7 @@ export type GetRecordError =
  * `RecordIdentifierValue` is found, then an empty result is returned.
  */
 export const getRecord: API.OperationMethod<
-  GetRecordRequest,
+  GetRecordRequest & RegionInput,
   GetRecordResponse,
   GetRecordError,
   Credentials | HttpClient.HttpClient
@@ -415,6 +437,8 @@ export const getRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecord",
+  telemetry: TELEMETRY,
+  span: "GetRecord",
 }));
 
 export type ListRecordsError =
@@ -430,7 +454,7 @@ export type ListRecordsError =
  * records exist without retrieving the full record data.
  */
 export const listRecords: API.PaginatedOperationMethod<
-  ListRecordsRequest,
+  ListRecordsRequest & RegionInput,
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -448,6 +472,8 @@ export const listRecords: API.PaginatedOperationMethod<
     items: "RecordIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecords",
 })) as any;
 
 export type PutRecordError =
@@ -479,7 +505,7 @@ export type PutRecordError =
  * the group level `TtlDuration`.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordRequest,
+  PutRecordRequest & RegionInput,
   PutRecordResponse,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -496,6 +522,8 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  telemetry: TELEMETRY,
+  span: "PutRecord",
 }));
 
 export type UpdateRecordError =
@@ -530,7 +558,7 @@ export type UpdateRecordError =
  * `ValidationError`.
  */
 export const updateRecord: API.OperationMethod<
-  UpdateRecordRequest,
+  UpdateRecordRequest & RegionInput,
   UpdateRecordResponse,
   UpdateRecordError,
   Credentials | HttpClient.HttpClient
@@ -548,6 +576,8 @@ export const updateRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecord",
+  telemetry: TELEMETRY,
+  span: "UpdateRecord",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

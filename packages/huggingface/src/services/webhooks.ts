@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Webhooks",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type CreateWebhookRequestWatchedItemType =
   | "dataset"
   | "model"
@@ -1204,6 +1217,8 @@ export const createWebhook: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteWebhookError = HuggingFaceOpError;
@@ -1219,6 +1234,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type EnableDisableWebhookError = HuggingFaceOpError;
@@ -1234,6 +1251,8 @@ export const enableDisableWebhook: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDisableWebhook",
 }));
 
 export type GetWebhookError = HuggingFaceOpError;
@@ -1249,6 +1268,8 @@ export const getWebhook: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListWebhooksError = HuggingFaceOpError;
@@ -1264,6 +1285,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type ReplayWebhookLogError = HuggingFaceOpError;
@@ -1279,6 +1302,8 @@ export const replayWebhookLog: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplayWebhookLog",
 }));
 
 export type UpdateWebhookError = HuggingFaceOpError;
@@ -1294,6 +1319,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

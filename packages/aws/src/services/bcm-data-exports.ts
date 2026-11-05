@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -105,6 +107,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BCMDataExports",
+  service: "BCMDataExports",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -404,7 +421,7 @@ export type CreateExportError =
  * The `TableConfigurations` is a collection of specified `TableProperties` for the table being queried in the `QueryStatement`. TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. However, tables are not required to have any TableProperties. Each table property has a default value that it assumes if not specified. For more information on table configurations, see Data query. To view the table properties available for each table, see the Data Exports table dictionary or use the `ListTables` API to get a response of all tables and their available properties.
  */
 export const createExport: API.OperationMethod<
-  CreateExportRequest,
+  CreateExportRequest & RegionInput,
   CreateExportResponse,
   CreateExportError,
   Credentials | HttpClient.HttpClient
@@ -421,6 +438,8 @@ export const createExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
+  telemetry: TELEMETRY,
+  span: "CreateExport",
 }));
 
 export type DeleteExportError =
@@ -433,7 +452,7 @@ export type DeleteExportError =
  * Deletes an existing data export.
  */
 export const deleteExport: API.OperationMethod<
-  DeleteExportRequest,
+  DeleteExportRequest & RegionInput,
   DeleteExportResponse,
   DeleteExportError,
   Credentials | HttpClient.HttpClient
@@ -449,6 +468,8 @@ export const deleteExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
+  telemetry: TELEMETRY,
+  span: "DeleteExport",
 }));
 
 export type GetExecutionError =
@@ -461,7 +482,7 @@ export type GetExecutionError =
  * Exports data based on the source data update.
  */
 export const getExecution: API.OperationMethod<
-  GetExecutionRequest,
+  GetExecutionRequest & RegionInput,
   GetExecutionResponse,
   GetExecutionError,
   Credentials | HttpClient.HttpClient
@@ -477,6 +498,8 @@ export const getExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecution",
+  telemetry: TELEMETRY,
+  span: "GetExecution",
 }));
 
 export type GetExportError =
@@ -489,7 +512,7 @@ export type GetExportError =
  * Views the definition of an existing data export.
  */
 export const getExport: API.OperationMethod<
-  GetExportRequest,
+  GetExportRequest & RegionInput,
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
@@ -505,6 +528,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetTableError =
@@ -516,7 +541,7 @@ export type GetTableError =
  * Returns the metadata for the specified table and table properties. This includes the list of columns in the table schema, their data types, and column descriptions.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -527,6 +552,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type ListExecutionsError =
@@ -539,7 +566,7 @@ export type ListExecutionsError =
  * Lists the historical executions for the export.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -562,6 +589,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "Executions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListExportsError =
@@ -573,7 +602,7 @@ export type ListExportsError =
  * Lists all data export definitions.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -591,6 +620,8 @@ export const listExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListTablesError =
@@ -602,7 +633,7 @@ export type ListTablesError =
  * Lists all available tables in data exports.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -620,6 +651,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -633,7 +666,7 @@ export type ListTagsForResourceError =
  * List tags associated with an existing data export.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -650,6 +683,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -663,7 +698,7 @@ export type TagResourceError =
  * Adds tags for an existing data export definition.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +715,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -693,7 +730,7 @@ export type UntagResourceError =
  * Deletes tags associated with an existing data export definition.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -710,6 +747,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateExportError =
@@ -722,7 +761,7 @@ export type UpdateExportError =
  * Updates an existing data export by overwriting all export parameters. All export parameters must be provided in the UpdateExport request.
  */
 export const updateExport: API.OperationMethod<
-  UpdateExportRequest,
+  UpdateExportRequest & RegionInput,
   UpdateExportResponse,
   UpdateExportError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +777,8 @@ export const updateExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",
+  telemetry: TELEMETRY,
+  span: "UpdateExport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

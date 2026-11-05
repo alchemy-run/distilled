@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   uploadedOn: "uploaded_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "MtlsCertificates",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CertificateAlreadyDeleted
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyDeleted>()("CertificateAlreadyDeleted", {
@@ -230,6 +244,8 @@ export const createMtlsCertificate: API.OperationMethod<
   errors: [CertificateAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMtlsCertificate",
 }));
 
 export type DeleteMtlsCertificateError =
@@ -255,6 +271,8 @@ export const deleteMtlsCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMtlsCertificate",
 }));
 
 export type GetAssociationError = CloudflareOpError;
@@ -272,6 +290,8 @@ export const getAssociation: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAssociation",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -290,6 +310,8 @@ export const getMtlsCertificate: API.OperationMethod<
   errors: [CertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMtlsCertificate",
 }));
 
 export type ListMtlsCertificatesError = CloudflareOpError;
@@ -307,6 +329,8 @@ export const listMtlsCertificates: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMtlsCertificates",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

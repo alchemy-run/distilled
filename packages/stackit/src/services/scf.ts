@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Scf",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -398,6 +411,8 @@ export const applyOrganizationQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyOrganizationQuota",
 }));
 
 export type CreateOrganizationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -413,6 +428,8 @@ export const createOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrgManagerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -428,6 +445,8 @@ export const createOrgManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgManager",
 }));
 
 export type CreateOrgRoleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -443,6 +462,8 @@ export const createOrgRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgRole",
 }));
 
 export type CreateSpaceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -458,6 +479,8 @@ export const createSpace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpace",
 }));
 
 export type CreateSpaceRoleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -473,6 +496,8 @@ export const createSpaceRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpaceRole",
 }));
 
 export type DeleteOrganizationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -488,6 +513,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrgManagerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -503,6 +530,8 @@ export const deleteOrgManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgManager",
 }));
 
 export type DeleteSpaceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -518,6 +547,8 @@ export const deleteSpace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type GetOrganizationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -533,6 +564,8 @@ export const getOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationQuotaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -548,6 +581,8 @@ export const getOrganizationQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationQuota",
 }));
 
 export type GetOrganizationUsageSummaryError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -563,6 +598,8 @@ export const getOrganizationUsageSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationUsageSummary",
 }));
 
 export type GetOrgManagerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -578,6 +615,8 @@ export const getOrgManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgManager",
 }));
 
 export type GetPlatformError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -593,6 +632,8 @@ export const getPlatform: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatform",
 }));
 
 export type GetPlatformQuotaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -608,6 +649,8 @@ export const getPlatformQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatformQuota",
 }));
 
 export type GetSpaceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -623,6 +666,8 @@ export const getSpace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpace",
 }));
 
 export type ListOrganizationQuotasError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -638,6 +683,8 @@ export const listOrganizationQuotas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationQuotas",
 }));
 
 export type ListOrganizationsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -653,6 +700,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListPlatformQuotasError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -668,6 +717,8 @@ export const listPlatformQuotas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformQuotas",
 }));
 
 export type ListPlatformsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -683,6 +734,8 @@ export const listPlatforms: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatforms",
 }));
 
 export type ListSpacesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -698,6 +751,8 @@ export const listSpaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -713,6 +768,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateSpaceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -728,6 +785,8 @@ export const updateSpace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

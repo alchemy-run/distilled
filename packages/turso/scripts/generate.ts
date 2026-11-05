@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -7,18 +7,18 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/turso.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Turso's provider spec: the
+ * `@distilled.cloud/dev/codegen`; this script is Turso's provider spec: the
  * openapi-converter trait vocabulary (nullable / raw-response / sensitive /
  * error matchers) and the protocol/retry names. Turso is plain bearer-REST —
  * no envelope, no pagination profiles (the API exposes raw `page`/`page_size`
  * fields on its one pageable endpoint; v0 emitted no paginated ops either).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -83,6 +83,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Turso Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.

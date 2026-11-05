@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "WebhookService",
+  propagate: "w3c",
+} as const;
+
 export interface AddWebhookTokenEnvironmentRequest {
   tokenId?: string;
   environmentId?: string;
@@ -87,6 +99,8 @@ export const addWebhookTokenEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddWebhookTokenEnvironment",
 }));
 
 export type CreateWebhookTokenError = ModalOpError;
@@ -102,6 +116,8 @@ export const createWebhookToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookToken",
 }));
 
 export type DeleteWebhookTokenError = ModalOpError;
@@ -116,6 +132,8 @@ export const deleteWebhookToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookToken",
 }));
 
 export type ListWebhookTokenError = ModalOpError;
@@ -130,6 +148,8 @@ export const listWebhookToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookToken",
 }));
 
 export type ListWebhookTokenEnvironmentError = ModalOpError;
@@ -144,6 +164,8 @@ export const listWebhookTokenEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookTokenEnvironment",
 }));
 
 export type RemoveWebhookTokenEnvironmentError = ModalOpError;
@@ -158,6 +180,8 @@ export const removeWebhookTokenEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWebhookTokenEnvironment",
 }));
 
 export type UpdateWebhookTokenError = ModalOpError;
@@ -172,6 +196,8 @@ export const updateWebhookToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookToken",
 }));
 
 export type WebhookTokenListForEnvironmentError = ModalOpError;
@@ -186,6 +212,8 @@ export const webhookTokenListForEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookTokenListForEnvironment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

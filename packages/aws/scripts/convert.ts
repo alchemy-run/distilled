@@ -2,15 +2,18 @@
 /**
  * convert — original AWS Smithy models + patches/{sdkId}.json →
  * `.generated-specs/<sdkId>.json`, plus the endpoint rules engine's
- * partition data → `src/rules-engine/partitions.json`.
+ * partition data → `packages/s3/src/rules-engine/partitions.json`.
  *
  * generate.ts compiles those models and does not read the spec-mirror.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { applyTelemetryTraits } from "@distilled.cloud/dev/codegen/telemetry";
 import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { applyAwsSpecPatches, dropForeignNamespaceShapes } from "./spec.ts";
+import { awsTelemetry } from "./telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
@@ -41,13 +44,12 @@ if (!fs.existsSync(modelsRoot)) {
   );
 }
 
-fs.mkdirSync(outDir, { recursive: true });
-
-// Region → partition data the endpoint resolver reads at runtime. Not
-// generated code, but it comes from the same mirror as the models.
+// Region → partition data the endpoint resolver (in @distilled.cloud/s3)
+// reads at runtime. Not generated code, but it comes from the same mirror as
+// the models.
 {
   const partitions = path.join(specsRoot, "partitions.json");
-  const dest = path.join(root, "src", "rules-engine");
+  const dest = path.join(root, "..", "s3", "src", "rules-engine");
   fs.mkdirSync(dest, { recursive: true });
   fs.copyFileSync(partitions, path.join(dest, "partitions.json"));
   console.log("✅ partitions.json");
@@ -73,11 +75,12 @@ for (const service of services) {
   const patchFileBase = moduleName(sdkId);
   const spec = loadServiceSpecPatch(sdkId, root);
   applyAwsSpecPatches(model, spec, patchFileBase);
+  applyTelemetryTraits(model, patchFileBase, awsTelemetry(sdkId));
   const hasPatch = fs.existsSync(path.join(root, "patches", `${patchFileBase}.json`));
   if (hasPatch) patched++;
 
   const outName = `${patchFileBase}.json`;
-  fs.writeFileSync(path.join(outDir, outName), `${JSON.stringify(model, null, 2)}\n`);
+  writeModel(path.join(outDir, outName), model);
   written++;
   if (dropped > 0) {
     console.log(`   ${outName}: dropped ${dropped} foreign-namespace shape(s)`);

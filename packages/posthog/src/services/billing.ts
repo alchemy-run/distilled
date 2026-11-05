@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Billing",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface BillingActivateAuthorizeCreateRequest {
   plan: string;
   billing_limit: number;
@@ -592,6 +605,8 @@ export const billingActivateAuthorizeCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingActivateAuthorizeCreate",
 }));
 
 export type BillingActivateAuthorizeStatusCreateError = PosthogOpError;
@@ -606,6 +621,8 @@ export const billingActivateAuthorizeStatusCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingActivateAuthorizeStatusCreate",
 }));
 
 export type BillingActivateCreateError = PosthogOpError;
@@ -620,6 +637,8 @@ export const billingActivateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingActivateCreate",
 }));
 
 export type BillingAlertsDestinationsDeleteCreateError = PosthogOpError;
@@ -635,6 +654,8 @@ export const billingAlertsDestinationsDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingAlertsDestinationsDeleteCreate",
 }));
 
 export type BillingAlertsDestroyError = PosthogOpError;
@@ -649,6 +670,8 @@ export const billingAlertsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingAlertsDestroy",
 }));
 
 export type BillingDeactivateCreateError = PosthogOpError;
@@ -663,6 +686,8 @@ export const billingDeactivateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingDeactivateCreate",
 }));
 
 export type BillingGetInvoicesRetrieveError = PosthogOpError;
@@ -677,6 +702,8 @@ export const billingGetInvoicesRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingGetInvoicesRetrieve",
 }));
 
 export type BillingSpendExportRetrieveError = PosthogOpError;
@@ -692,6 +719,8 @@ export const billingSpendExportRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingSpendExportRetrieve",
 }));
 
 export type BillingStartupsApplyCreateError = PosthogOpError;
@@ -706,6 +735,8 @@ export const billingStartupsApplyCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingStartupsApplyCreate",
 }));
 
 export type BillingTrialsActivateCreateError = PosthogOpError;
@@ -720,6 +751,8 @@ export const billingTrialsActivateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingTrialsActivateCreate",
 }));
 
 export type BillingTrialsCancelCreateError = PosthogOpError;
@@ -734,6 +767,8 @@ export const billingTrialsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingTrialsCancelCreate",
 }));
 
 export type BillingUsageExportRetrieveError = PosthogOpError;
@@ -749,6 +784,8 @@ export const billingUsageExportRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingUsageExportRetrieve",
 }));
 
 export type CreateBillingAlertError = PosthogOpError;
@@ -763,6 +800,8 @@ export const createBillingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlert",
 }));
 
 export type CreateBillingAlertsCheckNowError = PosthogOpError;
@@ -778,6 +817,8 @@ export const createBillingAlertsCheckNow: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlertsCheckNow",
 }));
 
 export type CreateBillingAlertsDestinationError = PosthogOpError;
@@ -793,6 +834,8 @@ export const createBillingAlertsDestination: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlertsDestination",
 }));
 
 export type CreateBillingCouponsClaimError = PosthogOpError;
@@ -807,6 +850,8 @@ export const createBillingCouponsClaim: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCouponsClaim",
 }));
 
 export type CreateBillingCreditsPurchaseError = PosthogOpError;
@@ -821,6 +866,8 @@ export const createBillingCreditsPurchase: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCreditsPurchase",
 }));
 
 export type CreateBillingSubscriptionSwitchPlanError = PosthogOpError;
@@ -835,6 +882,8 @@ export const createBillingSubscriptionSwitchPlan: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingSubscriptionSwitchPlan",
 }));
 
 export type GetBillingAlertError = PosthogOpError;
@@ -849,6 +898,8 @@ export const getBillingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAlert",
 }));
 
 export type GetBillingCouponsOverviewError = PosthogOpError;
@@ -863,6 +914,8 @@ export const getBillingCouponsOverview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCouponsOverview",
 }));
 
 export type GetBillingCreditsOverviewError = PosthogOpError;
@@ -877,6 +930,8 @@ export const getBillingCreditsOverview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditsOverview",
 }));
 
 export type GetBillingPeriodError = PosthogOpError;
@@ -892,6 +947,8 @@ export const getBillingPeriod: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPeriod",
 }));
 
 export type GetBillingPortalError = PosthogOpError;
@@ -906,6 +963,8 @@ export const getBillingPortal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPortal",
 }));
 
 export type GetBillingSpendError = PosthogOpError;
@@ -921,6 +980,8 @@ export const getBillingSpend: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSpend",
 }));
 
 export type GetBillingUsageError = PosthogOpError;
@@ -935,6 +996,8 @@ export const getBillingUsage: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsage",
 }));
 
 export type GetBillingUsageTeamOptionError = PosthogOpError;
@@ -950,6 +1013,8 @@ export const getBillingUsageTeamOption: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsageTeamOption",
 }));
 
 export type ListBillingError = PosthogOpError;
@@ -964,6 +1029,8 @@ export const listBilling: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBilling",
 }));
 
 export type ListBillingAlertsError = PosthogOpError;
@@ -978,6 +1045,8 @@ export const listBillingAlerts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAlerts",
 }));
 
 export type ListBillingAlertsEventsError = PosthogOpError;
@@ -993,6 +1062,8 @@ export const listBillingAlertsEvents: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAlertsEvents",
 }));
 
 export type UpdateBillingAlertError = PosthogOpError;
@@ -1007,6 +1078,8 @@ export const updateBillingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingAlert",
 }));
 
 export type UpdateBillingAlertsPartialError = PosthogOpError;
@@ -1021,6 +1094,8 @@ export const updateBillingAlertsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingAlertsPartial",
 }));
 
 export type UpdateBillingLicensePartialError = PosthogOpError;
@@ -1035,6 +1110,8 @@ export const updateBillingLicensePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingLicensePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

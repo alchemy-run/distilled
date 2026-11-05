@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoOrganization",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1206,6 +1219,8 @@ export const createOrg: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrg",
 }));
 
 export type CreateOrgRepoError = BadRequest | Forbidden | NotFound | Conflict | ForgejoOpError;
@@ -1221,6 +1236,8 @@ export const createOrgRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgRepo",
 }));
 
 export type CreateOrgVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -1236,6 +1253,8 @@ export const createOrgVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgVariable",
 }));
 
 export type DeleteOrgError = NotFound | OrganizationOwnsRepositories | ForgejoOpError;
@@ -1251,6 +1270,8 @@ export const deleteOrg: API.OperationMethod<
   errors: [NotFound, OrganizationOwnsRepositories],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrg",
 }));
 
 export type DeleteOrgRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1266,6 +1287,8 @@ export const deleteOrgRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgRunner",
 }));
 
 export type DeleteOrgSecretError = BadRequest | NotFound | ForgejoOpError;
@@ -1281,6 +1304,8 @@ export const deleteOrgSecret: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgSecret",
 }));
 
 export type DeleteOrgVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -1296,6 +1321,8 @@ export const deleteOrgVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgVariable",
 }));
 
 export type EditOrgError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1311,6 +1338,8 @@ export const editOrg: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditOrg",
 }));
 
 export type GetOrgError = NotFound | ForgejoOpError;
@@ -1326,6 +1355,8 @@ export const getOrg: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrg",
 }));
 
 export type GetOrgRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1341,6 +1372,8 @@ export const getOrgRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRunner",
 }));
 
 export type GetOrgRunnersError = BadRequest | NotFound | ForgejoOpError;
@@ -1356,6 +1389,8 @@ export const getOrgRunners: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRunners",
 }));
 
 export type GetOrgVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -1371,6 +1406,8 @@ export const getOrgVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgVariable",
 }));
 
 export type GetOrgVariablesListError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1386,6 +1423,8 @@ export const getOrgVariablesList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgVariablesList",
 }));
 
 export type OrgAddTeamMemberError = NotFound | ForgejoOpError;
@@ -1401,6 +1440,8 @@ export const orgAddTeamMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgAddTeamMember",
 }));
 
 export type OrgAddTeamRepositoryError = Forbidden | NotFound | ForgejoOpError;
@@ -1416,6 +1457,8 @@ export const orgAddTeamRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgAddTeamRepository",
 }));
 
 export type OrgBlockUserError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1431,6 +1474,8 @@ export const orgBlockUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgBlockUser",
 }));
 
 export type OrgCheckQuotaError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1446,6 +1491,8 @@ export const orgCheckQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgCheckQuota",
 }));
 
 export type OrgConcealMemberError = Forbidden | NotFound | ForgejoOpError;
@@ -1461,6 +1508,8 @@ export const orgConcealMember: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgConcealMember",
 }));
 
 export type OrgCreateHookError = NotFound | ForgejoOpError;
@@ -1476,6 +1525,8 @@ export const orgCreateHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgCreateHook",
 }));
 
 export type OrgCreateLabelError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1491,6 +1542,8 @@ export const orgCreateLabel: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgCreateLabel",
 }));
 
 export type OrgCreateTeamError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1506,6 +1559,8 @@ export const orgCreateTeam: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgCreateTeam",
 }));
 
 export type OrgDeleteAvatarError = NotFound | ForgejoOpError;
@@ -1521,6 +1576,8 @@ export const orgDeleteAvatar: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgDeleteAvatar",
 }));
 
 export type OrgDeleteHookError = NotFound | ForgejoOpError;
@@ -1536,6 +1593,8 @@ export const orgDeleteHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgDeleteHook",
 }));
 
 export type OrgDeleteLabelError = NotFound | ForgejoOpError;
@@ -1551,6 +1610,8 @@ export const orgDeleteLabel: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgDeleteLabel",
 }));
 
 export type OrgDeleteMemberError = NotFound | ForgejoOpError;
@@ -1566,6 +1627,8 @@ export const orgDeleteMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgDeleteMember",
 }));
 
 export type OrgDeleteTeamError = NotFound | ForgejoOpError;
@@ -1581,6 +1644,8 @@ export const orgDeleteTeam: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgDeleteTeam",
 }));
 
 export type OrgEditHookError = NotFound | ForgejoOpError;
@@ -1596,6 +1661,8 @@ export const orgEditHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgEditHook",
 }));
 
 export type OrgEditLabelError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1611,6 +1678,8 @@ export const orgEditLabel: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgEditLabel",
 }));
 
 export type OrgEditTeamError = NotFound | ForgejoOpError;
@@ -1626,6 +1695,8 @@ export const orgEditTeam: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgEditTeam",
 }));
 
 export type OrgGetAllError = ForgejoOpError;
@@ -1641,6 +1712,8 @@ export const orgGetAll: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetAll",
 }));
 
 export type OrgGetHookError = NotFound | ForgejoOpError;
@@ -1656,6 +1729,8 @@ export const orgGetHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetHook",
 }));
 
 export type OrgGetLabelError = NotFound | ForgejoOpError;
@@ -1671,6 +1746,8 @@ export const orgGetLabel: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetLabel",
 }));
 
 export type OrgGetQuotaError = Forbidden | NotFound | ForgejoOpError;
@@ -1686,6 +1763,8 @@ export const orgGetQuota: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetQuota",
 }));
 
 export type OrgGetTeamError = NotFound | ForgejoOpError;
@@ -1701,6 +1780,8 @@ export const orgGetTeam: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetTeam",
 }));
 
 export type OrgGetUserPermissionsError = Forbidden | NotFound | ForgejoOpError;
@@ -1716,6 +1797,8 @@ export const orgGetUserPermissions: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgGetUserPermissions",
 }));
 
 export type OrgIsMemberError = NotFound | ForgejoOpError;
@@ -1731,6 +1814,8 @@ export const orgIsMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgIsMember",
 }));
 
 export type OrgIsPublicMemberError = NotFound | ForgejoOpError;
@@ -1746,6 +1831,8 @@ export const orgIsPublicMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgIsPublicMember",
 }));
 
 export type OrgListActionsSecretsError = Forbidden | NotFound | ForgejoOpError;
@@ -1761,6 +1848,8 @@ export const orgListActionsSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListActionsSecrets",
 }));
 
 export type OrgListActivityFeedsError = NotFound | ForgejoOpError;
@@ -1776,6 +1865,8 @@ export const orgListActivityFeeds: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListActivityFeeds",
 }));
 
 export type OrgListBlockedUsersError = ForgejoOpError;
@@ -1791,6 +1882,8 @@ export const orgListBlockedUsers: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListBlockedUsers",
 }));
 
 export type OrgListCurrentUserOrgsError = Forbidden | NotFound | ForgejoOpError;
@@ -1806,6 +1899,8 @@ export const orgListCurrentUserOrgs: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListCurrentUserOrgs",
 }));
 
 export type OrgListHooksError = NotFound | ForgejoOpError;
@@ -1821,6 +1916,8 @@ export const orgListHooks: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListHooks",
 }));
 
 export type OrgListLabelsError = NotFound | ForgejoOpError;
@@ -1836,6 +1933,8 @@ export const orgListLabels: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListLabels",
 }));
 
 export type OrgListMembersError = NotFound | ForgejoOpError;
@@ -1851,6 +1950,8 @@ export const orgListMembers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListMembers",
 }));
 
 export type OrgListPublicMembersError = NotFound | ForgejoOpError;
@@ -1866,6 +1967,8 @@ export const orgListPublicMembers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListPublicMembers",
 }));
 
 export type OrgListQuotaArtifactsError = Forbidden | NotFound | ForgejoOpError;
@@ -1881,6 +1984,8 @@ export const orgListQuotaArtifacts: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListQuotaArtifacts",
 }));
 
 export type OrgListQuotaAttachmentsError = Forbidden | NotFound | ForgejoOpError;
@@ -1896,6 +2001,8 @@ export const orgListQuotaAttachments: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListQuotaAttachments",
 }));
 
 export type OrgListQuotaPackagesError = Forbidden | NotFound | ForgejoOpError;
@@ -1911,6 +2018,8 @@ export const orgListQuotaPackages: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListQuotaPackages",
 }));
 
 export type OrgListReposError = NotFound | ForgejoOpError;
@@ -1926,6 +2035,8 @@ export const orgListRepos: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListRepos",
 }));
 
 export type OrgListTeamActivityFeedsError = NotFound | ForgejoOpError;
@@ -1941,6 +2052,8 @@ export const orgListTeamActivityFeeds: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeamActivityFeeds",
 }));
 
 export type OrgListTeamMemberError = NotFound | ForgejoOpError;
@@ -1956,6 +2069,8 @@ export const orgListTeamMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeamMember",
 }));
 
 export type OrgListTeamMembersError = Forbidden | NotFound | ForgejoOpError;
@@ -1971,6 +2086,8 @@ export const orgListTeamMembers: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeamMembers",
 }));
 
 export type OrgListTeamRepoError = NotFound | ForgejoOpError;
@@ -1986,6 +2103,8 @@ export const orgListTeamRepo: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeamRepo",
 }));
 
 export type OrgListTeamReposError = NotFound | ForgejoOpError;
@@ -2001,6 +2120,8 @@ export const orgListTeamRepos: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeamRepos",
 }));
 
 export type OrgListTeamsError = Forbidden | NotFound | ForgejoOpError;
@@ -2016,6 +2137,8 @@ export const orgListTeams: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListTeams",
 }));
 
 export type OrgListUserOrgsError = NotFound | ForgejoOpError;
@@ -2031,6 +2154,8 @@ export const orgListUserOrgs: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgListUserOrgs",
 }));
 
 export type OrgPublicizeMemberError = Forbidden | NotFound | ForgejoOpError;
@@ -2046,6 +2171,8 @@ export const orgPublicizeMember: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgPublicizeMember",
 }));
 
 export type OrgRemoveTeamMemberError = NotFound | ForgejoOpError;
@@ -2061,6 +2188,8 @@ export const orgRemoveTeamMember: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgRemoveTeamMember",
 }));
 
 export type OrgRemoveTeamRepositoryError = Forbidden | NotFound | ForgejoOpError;
@@ -2076,6 +2205,8 @@ export const orgRemoveTeamRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgRemoveTeamRepository",
 }));
 
 export type OrgSearchRunJobsError = Forbidden | ForgejoOpError;
@@ -2091,6 +2222,8 @@ export const orgSearchRunJobs: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgSearchRunJobs",
 }));
 
 export type OrgUnblockUserError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -2106,6 +2239,8 @@ export const orgUnblockUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgUnblockUser",
 }));
 
 export type OrgUpdateAvatarError = NotFound | ForgejoOpError;
@@ -2121,6 +2256,8 @@ export const orgUpdateAvatar: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrgUpdateAvatar",
 }));
 
 export type RegisterOrgRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -2136,6 +2273,8 @@ export const registerOrgRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterOrgRunner",
 }));
 
 export type RenameOrgError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -2151,6 +2290,8 @@ export const renameOrg: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameOrg",
 }));
 
 export type SearchTeamError = NotFound | ForgejoOpError;
@@ -2166,6 +2307,8 @@ export const searchTeam: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTeam",
 }));
 
 export type UpdateOrgSecretError = BadRequest | NotFound | ForgejoOpError;
@@ -2181,6 +2324,8 @@ export const updateOrgSecret: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgSecret",
 }));
 
 export type UpdateOrgVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -2196,6 +2341,8 @@ export const updateOrgVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgVariable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -24,6 +24,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Speed",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1280,6 +1294,8 @@ export const createPageTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePageTest",
 }));
 
 export type CreateScheduleError =
@@ -1305,6 +1321,8 @@ export const createSchedule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedule",
 }));
 
 export type DeletePageTestError = CloudflareOpError;
@@ -1320,6 +1338,8 @@ export const deletePageTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePageTest",
 }));
 
 export type DeleteScheduleError = TestScheduleNotFound | Forbidden | CloudflareOpError;
@@ -1335,6 +1355,8 @@ export const deleteSchedule: API.OperationMethod<
   errors: [TestScheduleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type GetPageTestError = CloudflareOpError;
@@ -1350,6 +1372,8 @@ export const getPageTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPageTest",
 }));
 
 export type GetScheduleError = TestScheduleNotFound | Forbidden | CloudflareOpError;
@@ -1365,6 +1389,8 @@ export const getSchedule: API.OperationMethod<
   errors: [TestScheduleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedule",
 }));
 
 export type ListAvailabilitiesError = CloudflareOpError;
@@ -1380,6 +1406,8 @@ export const listAvailabilities: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilities",
 }));
 
 export type ListPagesError = CloudflareOpError;
@@ -1397,6 +1425,8 @@ export const listPages: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPages",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1417,6 +1447,8 @@ export const listPageTests: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPageTests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1441,6 +1473,8 @@ export const trendPage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrendPage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

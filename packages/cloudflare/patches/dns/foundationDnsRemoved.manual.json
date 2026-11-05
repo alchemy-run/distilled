@@ -1,0 +1,29 @@
+{
+  "description": "Cloudflare removes foundation_dns from the DNS settings API on 2026-11-23 (PATCHes carrying it are rejected, responses stop returning it). Drop it from the zone/account settings request bodies and make it optional in the responses; Advanced Nameservers are nameservers.type: cloudflare.advanced.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#PatchSettingZoneRequest/members/foundation_dns"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#SettingsAccountEditRequestZoneDefaults/members/foundation_dns"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#GetSettingZoneResponse/members/foundation_dns/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#PatchSettingZoneResponse/members/foundation_dns/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#SettingsAccountGetResponseZoneDefaults/members/foundation_dns/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.dns#SettingsAccountEditResponseZoneDefaults/members/foundation_dns/traits/smithy.api#required"
+    }
+  ]
+}

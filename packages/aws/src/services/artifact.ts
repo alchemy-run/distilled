@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -107,6 +109,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Artifact",
+  service: "Artifact",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -503,7 +519,7 @@ export type CreateComplianceInquiryError =
  * Create a new compliance inquiry.
  */
 export const createComplianceInquiry: API.OperationMethod<
-  CreateComplianceInquiryRequest,
+  CreateComplianceInquiryRequest & RegionInput,
   CreateComplianceInquiryResponse,
   CreateComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -520,6 +536,8 @@ export const createComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComplianceInquiry",
+  telemetry: TELEMETRY,
+  span: "CreateComplianceInquiry",
 }));
 
 export type ExportComplianceInquiryError =
@@ -533,7 +551,7 @@ export type ExportComplianceInquiryError =
  * Export a compliance inquiry report.
  */
 export const exportComplianceInquiry: API.OperationMethod<
-  ExportComplianceInquiryRequest,
+  ExportComplianceInquiryRequest & RegionInput,
   ExportComplianceInquiryResponse,
   ExportComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -550,6 +568,8 @@ export const exportComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportComplianceInquiry",
+  telemetry: TELEMETRY,
+  span: "ExportComplianceInquiry",
 }));
 
 export type GetAccountSettingsError =
@@ -565,7 +585,7 @@ export type GetAccountSettingsError =
  * Get the account settings for Artifact.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -584,6 +604,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetComplianceInquiryMetadataError =
@@ -597,7 +619,7 @@ export type GetComplianceInquiryMetadataError =
  * Get the metadata for a single compliance inquiry.
  */
 export const getComplianceInquiryMetadata: API.OperationMethod<
-  GetComplianceInquiryMetadataRequest,
+  GetComplianceInquiryMetadataRequest & RegionInput,
   GetComplianceInquiryMetadataResponse,
   GetComplianceInquiryMetadataError,
   Credentials | HttpClient.HttpClient
@@ -614,6 +636,8 @@ export const getComplianceInquiryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceInquiryMetadata",
+  telemetry: TELEMETRY,
+  span: "GetComplianceInquiryMetadata",
 }));
 
 export type GetReportError =
@@ -629,7 +653,7 @@ export type GetReportError =
  * Get the content for a single report.
  */
 export const getReport: API.OperationMethod<
-  GetReportRequest,
+  GetReportRequest & RegionInput,
   GetReportResponse,
   GetReportError,
   Credentials | HttpClient.HttpClient
@@ -648,6 +672,8 @@ export const getReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReport",
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReportMetadataError =
@@ -662,7 +688,7 @@ export type GetReportMetadataError =
  * Get the metadata for a single report.
  */
 export const getReportMetadata: API.OperationMethod<
-  GetReportMetadataRequest,
+  GetReportMetadataRequest & RegionInput,
   GetReportMetadataResponse,
   GetReportMetadataError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +706,8 @@ export const getReportMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportMetadata",
+  telemetry: TELEMETRY,
+  span: "GetReportMetadata",
 }));
 
 export type GetTermForReportError =
@@ -695,7 +723,7 @@ export type GetTermForReportError =
  * Get the Term content associated with a single report.
  */
 export const getTermForReport: API.OperationMethod<
-  GetTermForReportRequest,
+  GetTermForReportRequest & RegionInput,
   GetTermForReportResponse,
   GetTermForReportError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +742,8 @@ export const getTermForReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTermForReport",
+  telemetry: TELEMETRY,
+  span: "GetTermForReport",
 }));
 
 export type ListComplianceInquiriesError =
@@ -727,7 +757,7 @@ export type ListComplianceInquiriesError =
  * List available compliance inquiries.
  */
 export const listComplianceInquiries: API.PaginatedOperationMethod<
-  ListComplianceInquiriesRequest,
+  ListComplianceInquiriesRequest & RegionInput,
   ListComplianceInquiriesResponse,
   ListComplianceInquiriesError,
   Credentials | HttpClient.HttpClient,
@@ -751,6 +781,8 @@ export const listComplianceInquiries: API.PaginatedOperationMethod<
     items: "complianceInquiries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceInquiries",
 })) as any;
 
 export type ListComplianceInquiryQueriesError =
@@ -764,7 +796,7 @@ export type ListComplianceInquiryQueriesError =
  * List queries within a compliance inquiry.
  */
 export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
-  ListComplianceInquiryQueriesRequest,
+  ListComplianceInquiryQueriesRequest & RegionInput,
   ListComplianceInquiryQueriesResponse,
   ListComplianceInquiryQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -788,6 +820,8 @@ export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceInquiryQueries",
 })) as any;
 
 export type ListCustomerAgreementsError =
@@ -800,7 +834,7 @@ export type ListCustomerAgreementsError =
  * List active customer-agreements applicable to calling identity.
  */
 export const listCustomerAgreements: API.PaginatedOperationMethod<
-  ListCustomerAgreementsRequest,
+  ListCustomerAgreementsRequest & RegionInput,
   ListCustomerAgreementsResponse,
   ListCustomerAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -823,6 +857,8 @@ export const listCustomerAgreements: API.PaginatedOperationMethod<
     items: "customerAgreements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomerAgreements",
 })) as any;
 
 export type ListReportsError =
@@ -837,7 +873,7 @@ export type ListReportsError =
  * List available reports.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsRequest,
+  ListReportsRequest & RegionInput,
   ListReportsResponse,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -862,6 +898,8 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReports",
 })) as any;
 
 export type ListReportVersionsError =
@@ -876,7 +914,7 @@ export type ListReportVersionsError =
  * List available report versions for a given report.
  */
 export const listReportVersions: API.PaginatedOperationMethod<
-  ListReportVersionsRequest,
+  ListReportVersionsRequest & RegionInput,
   ListReportVersionsResponse,
   ListReportVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -901,6 +939,8 @@ export const listReportVersions: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -914,7 +954,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -931,6 +971,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountSettingsError =
@@ -946,7 +988,7 @@ export type PutAccountSettingsError =
  * Put the account settings for Artifact.
  */
 export const putAccountSettings: API.OperationMethod<
-  PutAccountSettingsRequest,
+  PutAccountSettingsRequest & RegionInput,
   PutAccountSettingsResponse,
   PutAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -965,6 +1007,8 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
+  telemetry: TELEMETRY,
+  span: "PutAccountSettings",
 }));
 
 export type PutComplianceInquiryFeedbackError =
@@ -979,7 +1023,7 @@ export type PutComplianceInquiryFeedbackError =
  * Submits feedback on a compliance inquiry response.
  */
 export const putComplianceInquiryFeedback: API.OperationMethod<
-  PutComplianceInquiryFeedbackRequest,
+  PutComplianceInquiryFeedbackRequest & RegionInput,
   PutComplianceInquiryFeedbackResponse,
   PutComplianceInquiryFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -997,6 +1041,8 @@ export const putComplianceInquiryFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceInquiryFeedback",
+  telemetry: TELEMETRY,
+  span: "PutComplianceInquiryFeedback",
 }));
 
 export type TagResourceError =
@@ -1010,7 +1056,7 @@ export type TagResourceError =
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1027,6 +1073,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1040,7 +1088,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1057,6 +1105,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -68,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://xray.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "XRay",
+  service: "XRay",
+  propagate: TxXray.propagate,
+} as const;
 
 export class GroupAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<GroupAlreadyExists>()(
@@ -1017,7 +1033,7 @@ export type BatchGetTracesError = InvalidRequestException | ThrottledException |
  * list of trace IDs.
  */
 export const batchGetTraces: API.PaginatedOperationMethod<
-  BatchGetTracesRequest,
+  BatchGetTracesRequest & RegionInput,
   BatchGetTracesResult,
   BatchGetTracesError,
   Credentials | HttpClient.HttpClient,
@@ -1030,6 +1046,8 @@ export const batchGetTraces: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "BatchGetTraces",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Traces" } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetTraces",
 })) as any;
 
 export type CancelTraceRetrievalError =
@@ -1041,7 +1059,7 @@ export type CancelTraceRetrievalError =
  * Cancels an ongoing trace retrieval job initiated by `StartTraceRetrieval` using the provided `RetrievalToken`. A successful cancellation will return an HTTP 200 response.
  */
 export const cancelTraceRetrieval: API.OperationMethod<
-  CancelTraceRetrievalRequest,
+  CancelTraceRetrievalRequest & RegionInput,
   CancelTraceRetrievalResult,
   CancelTraceRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1052,6 +1070,8 @@ export const cancelTraceRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTraceRetrieval",
+  telemetry: TELEMETRY,
+  span: "CancelTraceRetrieval",
 }));
 
 export type CreateGroupError =
@@ -1063,7 +1083,7 @@ export type CreateGroupError =
  * Creates a group resource with a name and a filter expression.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResult,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1074,6 +1094,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateSamplingRuleError =
@@ -1092,7 +1114,7 @@ export type CreateSamplingRuleError =
  * of borrowing from the reservoir.
  */
 export const createSamplingRule: API.OperationMethod<
-  CreateSamplingRuleRequest,
+  CreateSamplingRuleRequest & RegionInput,
   CreateSamplingRuleResult,
   CreateSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1108,6 +1130,8 @@ export const createSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSamplingRule",
+  telemetry: TELEMETRY,
+  span: "CreateSamplingRule",
 }));
 
 export type DeleteGroupError =
@@ -1119,7 +1143,7 @@ export type DeleteGroupError =
  * Deletes a group resource.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResult,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -1130,6 +1154,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1141,7 +1167,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource policy from the target Amazon Web Services account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResult,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1152,6 +1178,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSamplingRuleError =
@@ -1163,7 +1191,7 @@ export type DeleteSamplingRuleError =
  * Deletes a sampling rule.
  */
 export const deleteSamplingRule: API.OperationMethod<
-  DeleteSamplingRuleRequest,
+  DeleteSamplingRuleRequest & RegionInput,
   DeleteSamplingRuleResult,
   DeleteSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1174,6 +1202,8 @@ export const deleteSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSamplingRule",
+  telemetry: TELEMETRY,
+  span: "DeleteSamplingRule",
 }));
 
 export type GetEncryptionConfigError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1181,7 +1211,7 @@ export type GetEncryptionConfigError = InvalidRequestException | ThrottledExcept
  * Retrieves the current encryption configuration for X-Ray data.
  */
 export const getEncryptionConfig: API.OperationMethod<
-  GetEncryptionConfigRequest,
+  GetEncryptionConfigRequest & RegionInput,
   GetEncryptionConfigResult,
   GetEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -1192,6 +1222,8 @@ export const getEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "GetEncryptionConfig",
 }));
 
 export type GetGroupError =
@@ -1203,7 +1235,7 @@ export type GetGroupError =
  * Retrieves group resource details.
  */
 export const getGroup: API.OperationMethod<
-  GetGroupRequest,
+  GetGroupRequest & RegionInput,
   GetGroupResult,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1214,6 +1246,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupsError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1221,7 +1255,7 @@ export type GetGroupsError = InvalidRequestException | ThrottledException | Comm
  * Retrieves all active group details.
  */
 export const getGroups: API.PaginatedOperationMethod<
-  GetGroupsRequest,
+  GetGroupsRequest & RegionInput,
   GetGroupsResult,
   GetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1234,6 +1268,8 @@ export const getGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetGroups",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Groups" } as const,
+  telemetry: TELEMETRY,
+  span: "GetGroups",
 })) as any;
 
 export type GetIndexingRulesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1243,7 +1279,7 @@ export type GetIndexingRulesError = InvalidRequestException | ThrottledException
  * Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see Transaction Search.
  */
 export const getIndexingRules: API.OperationMethod<
-  GetIndexingRulesRequest,
+  GetIndexingRulesRequest & RegionInput,
   GetIndexingRulesResult,
   GetIndexingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1254,6 +1290,8 @@ export const getIndexingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndexingRules",
+  telemetry: TELEMETRY,
+  span: "GetIndexingRules",
 }));
 
 export type GetInsightError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1263,7 +1301,7 @@ export type GetInsightError = InvalidRequestException | ThrottledException | Com
  * and the start and end time of the insight.
  */
 export const getInsight: API.OperationMethod<
-  GetInsightRequest,
+  GetInsightRequest & RegionInput,
   GetInsightResult,
   GetInsightError,
   Credentials | HttpClient.HttpClient
@@ -1274,6 +1312,8 @@ export const getInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsight",
+  telemetry: TELEMETRY,
+  span: "GetInsight",
 }));
 
 export type GetInsightEventsError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1283,7 +1323,7 @@ export type GetInsightEventsError = InvalidRequestException | ThrottledException
  * console.
  */
 export const getInsightEvents: API.PaginatedOperationMethod<
-  GetInsightEventsRequest,
+  GetInsightEventsRequest & RegionInput,
   GetInsightEventsResult,
   GetInsightEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1300,6 +1340,8 @@ export const getInsightEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInsightEvents",
 })) as any;
 
 export type GetInsightImpactGraphError =
@@ -1311,7 +1353,7 @@ export type GetInsightImpactGraphError =
  * structural information. For a complete service graph, use this API with the GetServiceGraph API.
  */
 export const getInsightImpactGraph: API.OperationMethod<
-  GetInsightImpactGraphRequest,
+  GetInsightImpactGraphRequest & RegionInput,
   GetInsightImpactGraphResult,
   GetInsightImpactGraphError,
   Credentials | HttpClient.HttpClient
@@ -1322,6 +1364,8 @@ export const getInsightImpactGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightImpactGraph",
+  telemetry: TELEMETRY,
+  span: "GetInsightImpactGraph",
 }));
 
 export type GetInsightSummariesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1329,7 +1373,7 @@ export type GetInsightSummariesError = InvalidRequestException | ThrottledExcept
  * Retrieves the summaries of all insights in the specified group matching the provided filter values.
  */
 export const getInsightSummaries: API.PaginatedOperationMethod<
-  GetInsightSummariesRequest,
+  GetInsightSummariesRequest & RegionInput,
   GetInsightSummariesResult,
   GetInsightSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1346,6 +1390,8 @@ export const getInsightSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInsightSummaries",
 })) as any;
 
 export type GetRetrievedTracesGraphError =
@@ -1365,7 +1411,7 @@ export type GetRetrievedTracesGraphError =
  * For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see GetTraceGraph.
  */
 export const getRetrievedTracesGraph: API.OperationMethod<
-  GetRetrievedTracesGraphRequest,
+  GetRetrievedTracesGraphRequest & RegionInput,
   GetRetrievedTracesGraphResult,
   GetRetrievedTracesGraphError,
   Credentials | HttpClient.HttpClient
@@ -1376,6 +1422,8 @@ export const getRetrievedTracesGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetrievedTracesGraph",
+  telemetry: TELEMETRY,
+  span: "GetRetrievedTracesGraph",
 }));
 
 export type GetSamplingRulesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1383,7 +1431,7 @@ export type GetSamplingRulesError = InvalidRequestException | ThrottledException
  * Retrieves all sampling rules.
  */
 export const getSamplingRules: API.PaginatedOperationMethod<
-  GetSamplingRulesRequest,
+  GetSamplingRulesRequest & RegionInput,
   GetSamplingRulesResult,
   GetSamplingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1400,6 +1448,8 @@ export const getSamplingRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "SamplingRuleRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSamplingRules",
 })) as any;
 
 export type GetSamplingStatisticSummariesError =
@@ -1410,7 +1460,7 @@ export type GetSamplingStatisticSummariesError =
  * Retrieves information about recent sampling results for all sampling rules.
  */
 export const getSamplingStatisticSummaries: API.PaginatedOperationMethod<
-  GetSamplingStatisticSummariesRequest,
+  GetSamplingStatisticSummariesRequest & RegionInput,
   GetSamplingStatisticSummariesResult,
   GetSamplingStatisticSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1427,6 +1477,8 @@ export const getSamplingStatisticSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "SamplingStatisticSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSamplingStatisticSummaries",
 })) as any;
 
 export type GetSamplingTargetsError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1434,7 +1486,7 @@ export type GetSamplingTargetsError = InvalidRequestException | ThrottledExcepti
  * Requests a sampling quota for rules that the service is using to sample requests.
  */
 export const getSamplingTargets: API.OperationMethod<
-  GetSamplingTargetsRequest,
+  GetSamplingTargetsRequest & RegionInput,
   GetSamplingTargetsResult,
   GetSamplingTargetsError,
   Credentials | HttpClient.HttpClient
@@ -1445,6 +1497,8 @@ export const getSamplingTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSamplingTargets",
+  telemetry: TELEMETRY,
+  span: "GetSamplingTargets",
 }));
 
 export type GetServiceGraphError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1456,7 +1510,7 @@ export type GetServiceGraphError = InvalidRequestException | ThrottledException 
  * databases.
  */
 export const getServiceGraph: API.PaginatedOperationMethod<
-  GetServiceGraphRequest,
+  GetServiceGraphRequest & RegionInput,
   GetServiceGraphResult,
   GetServiceGraphError,
   Credentials | HttpClient.HttpClient,
@@ -1469,6 +1523,8 @@ export const getServiceGraph: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetServiceGraph",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Services" } as const,
+  telemetry: TELEMETRY,
+  span: "GetServiceGraph",
 })) as any;
 
 export type GetTimeSeriesServiceStatisticsError =
@@ -1480,7 +1536,7 @@ export type GetTimeSeriesServiceStatisticsError =
  * range.
  */
 export const getTimeSeriesServiceStatistics: API.PaginatedOperationMethod<
-  GetTimeSeriesServiceStatisticsRequest,
+  GetTimeSeriesServiceStatisticsRequest & RegionInput,
   GetTimeSeriesServiceStatisticsResult,
   GetTimeSeriesServiceStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -1497,6 +1553,8 @@ export const getTimeSeriesServiceStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "TimeSeriesServiceStatistics",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTimeSeriesServiceStatistics",
 })) as any;
 
 export type GetTraceGraphError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1504,7 +1562,7 @@ export type GetTraceGraphError = InvalidRequestException | ThrottledException | 
  * Retrieves a service graph for one or more specific trace IDs.
  */
 export const getTraceGraph: API.PaginatedOperationMethod<
-  GetTraceGraphRequest,
+  GetTraceGraphRequest & RegionInput,
   GetTraceGraphResult,
   GetTraceGraphError,
   Credentials | HttpClient.HttpClient,
@@ -1517,6 +1575,8 @@ export const getTraceGraph: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetTraceGraph",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Services" } as const,
+  telemetry: TELEMETRY,
+  span: "GetTraceGraph",
 })) as any;
 
 export type GetTraceSegmentDestinationError =
@@ -1527,7 +1587,7 @@ export type GetTraceSegmentDestinationError =
  * Retrieves the current destination of data sent to `PutTraceSegments` and *OpenTelemetry protocol (OTLP)* endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
  */
 export const getTraceSegmentDestination: API.OperationMethod<
-  GetTraceSegmentDestinationRequest,
+  GetTraceSegmentDestinationRequest & RegionInput,
   GetTraceSegmentDestinationResult,
   GetTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1538,6 +1598,8 @@ export const getTraceSegmentDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTraceSegmentDestination",
+  telemetry: TELEMETRY,
+  span: "GetTraceSegmentDestination",
 }));
 
 export type GetTraceSummariesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1562,7 +1624,7 @@ export type GetTraceSummariesError = InvalidRequestException | ThrottledExceptio
  * expressions in the *Amazon Web Services X-Ray Developer Guide*.
  */
 export const getTraceSummaries: API.PaginatedOperationMethod<
-  GetTraceSummariesRequest,
+  GetTraceSummariesRequest & RegionInput,
   GetTraceSummariesResult,
   GetTraceSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1579,6 +1641,8 @@ export const getTraceSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "TraceSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTraceSummaries",
 })) as any;
 
 export type ListResourcePoliciesError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1586,7 +1650,7 @@ export type ListResourcePoliciesError = InvalidRequestException | ThrottledExcep
  * Returns the list of resource policies in the target Amazon Web Services account.
  */
 export const listResourcePolicies: API.PaginatedOperationMethod<
-  ListResourcePoliciesRequest,
+  ListResourcePoliciesRequest & RegionInput,
   ListResourcePoliciesResult,
   ListResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1603,6 +1667,8 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ResourcePolicies",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcePolicies",
 })) as any;
 
 export type ListRetrievedTracesError =
@@ -1622,7 +1688,7 @@ export type ListRetrievedTracesError =
  * For retrieving data from X-Ray directly as opposed to the Transaction Search generated log group, see BatchGetTraces.
  */
 export const listRetrievedTraces: API.OperationMethod<
-  ListRetrievedTracesRequest,
+  ListRetrievedTracesRequest & RegionInput,
   ListRetrievedTracesResult,
   ListRetrievedTracesError,
   Credentials | HttpClient.HttpClient
@@ -1633,6 +1699,8 @@ export const listRetrievedTraces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRetrievedTraces",
+  telemetry: TELEMETRY,
+  span: "ListRetrievedTraces",
 }));
 
 export type ListTagsForResourceError =
@@ -1644,7 +1712,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1657,6 +1725,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutEncryptionConfigError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1664,7 +1734,7 @@ export type PutEncryptionConfigError = InvalidRequestException | ThrottledExcept
  * Updates the encryption configuration for X-Ray data.
  */
 export const putEncryptionConfig: API.OperationMethod<
-  PutEncryptionConfigRequest,
+  PutEncryptionConfigRequest & RegionInput,
   PutEncryptionConfigResult,
   PutEncryptionConfigError,
   Credentials | HttpClient.HttpClient
@@ -1675,6 +1745,8 @@ export const putEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "PutEncryptionConfig",
 }));
 
 export type PutResourcePolicyError =
@@ -1692,7 +1764,7 @@ export type PutResourcePolicyError =
  * unique within that account. The maximum size of each resource policy is 5KB.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResult,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1710,6 +1782,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutTelemetryRecordsError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1717,7 +1791,7 @@ export type PutTelemetryRecordsError = InvalidRequestException | ThrottledExcept
  * Used by the Amazon Web Services X-Ray daemon to upload telemetry.
  */
 export const putTelemetryRecords: API.OperationMethod<
-  PutTelemetryRecordsRequest,
+  PutTelemetryRecordsRequest & RegionInput,
   PutTelemetryRecordsResult,
   PutTelemetryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -1728,6 +1802,8 @@ export const putTelemetryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTelemetryRecords",
+  telemetry: TELEMETRY,
+  span: "PutTelemetryRecords",
 }));
 
 export type PutTraceSegmentsError = InvalidRequestException | ThrottledException | CommonErrors;
@@ -1786,7 +1862,7 @@ export type PutTraceSegmentsError = InvalidRequestException | ThrottledException
  * the original request timestamp in Unix epoch time, this is not required or validated.
  */
 export const putTraceSegments: API.OperationMethod<
-  PutTraceSegmentsRequest,
+  PutTraceSegmentsRequest & RegionInput,
   PutTraceSegmentsResult,
   PutTraceSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -1797,6 +1873,8 @@ export const putTraceSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTraceSegments",
+  telemetry: TELEMETRY,
+  span: "PutTraceSegments",
 }));
 
 export type StartTraceRetrievalError =
@@ -1814,7 +1892,7 @@ export type StartTraceRetrievalError =
  * For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
  */
 export const startTraceRetrieval: API.OperationMethod<
-  StartTraceRetrievalRequest,
+  StartTraceRetrievalRequest & RegionInput,
   StartTraceRetrievalResult,
   StartTraceRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1825,6 +1903,8 @@ export const startTraceRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTraceRetrieval",
+  telemetry: TELEMETRY,
+  span: "StartTraceRetrieval",
 }));
 
 export type TagResourceError =
@@ -1837,7 +1917,7 @@ export type TagResourceError =
  * Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1853,6 +1933,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1865,7 +1947,7 @@ export type UntagResourceError =
  * tags (those with an `aws:` prefix).
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1876,6 +1958,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGroupError =
@@ -1887,7 +1971,7 @@ export type UpdateGroupError =
  * Updates a group resource.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResult,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1898,6 +1982,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIndexingRuleError =
@@ -1911,7 +1997,7 @@ export type UpdateIndexingRuleError =
  * Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search.
  */
 export const updateIndexingRule: API.OperationMethod<
-  UpdateIndexingRuleRequest,
+  UpdateIndexingRuleRequest & RegionInput,
   UpdateIndexingRuleResult,
   UpdateIndexingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1922,6 +2008,8 @@ export const updateIndexingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexingRule",
+  telemetry: TELEMETRY,
+  span: "UpdateIndexingRule",
 }));
 
 export type UpdateSamplingRuleError =
@@ -1933,7 +2021,7 @@ export type UpdateSamplingRuleError =
  * Modifies a sampling rule's configuration.
  */
 export const updateSamplingRule: API.OperationMethod<
-  UpdateSamplingRuleRequest,
+  UpdateSamplingRuleRequest & RegionInput,
   UpdateSamplingRuleResult,
   UpdateSamplingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1944,6 +2032,8 @@ export const updateSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSamplingRule",
+  telemetry: TELEMETRY,
+  span: "UpdateSamplingRule",
 }));
 
 export type UpdateTraceSegmentDestinationError =
@@ -1954,7 +2044,7 @@ export type UpdateTraceSegmentDestinationError =
  * Modifies the destination of data sent to `PutTraceSegments`. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
  */
 export const updateTraceSegmentDestination: API.OperationMethod<
-  UpdateTraceSegmentDestinationRequest,
+  UpdateTraceSegmentDestinationRequest & RegionInput,
   UpdateTraceSegmentDestinationResult,
   UpdateTraceSegmentDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1965,6 +2055,8 @@ export const updateTraceSegmentDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTraceSegmentDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateTraceSegmentDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

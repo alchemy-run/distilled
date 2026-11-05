@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ScVmm" },
+  prefix: "Scvmm",
+  service: "Scvmm",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AvailabilitySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Defines the resource properties. */
@@ -1961,6 +1982,8 @@ export const AvailabilitySetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AvailabilitySetsCreateOrUpdate",
 }));
 
 export type CloudsCreateOrUpdateError = AzureOpError;
@@ -1976,6 +1999,8 @@ export const CloudsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudsCreateOrUpdate",
 }));
 
 export type CreateGuestAgentError = AzureOpError;
@@ -1991,6 +2016,14 @@ export const CreateGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type CreateInventoryItemError = AzureOpError;
@@ -2006,6 +2039,8 @@ export const CreateInventoryItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInventoryItem",
 }));
 
 export type CreateVirtualMachineInstanceCheckpointError = AzureOpError;
@@ -2021,6 +2056,14 @@ export const CreateVirtualMachineInstanceCheckpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateVirtualMachineInstanceCheckpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
+    },
+  },
 }));
 
 export type DeleteAvailabilitySetError = AzureOpError;
@@ -2036,6 +2079,8 @@ export const DeleteAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAvailabilitySet",
 }));
 
 export type DeleteCloudError = AzureOpError;
@@ -2051,6 +2096,8 @@ export const DeleteCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloud",
 }));
 
 export type DeleteGuestAgentError = AzureOpError;
@@ -2066,6 +2113,14 @@ export const DeleteGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type DeleteInventoryItemError = AzureOpError;
@@ -2081,6 +2136,8 @@ export const DeleteInventoryItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInventoryItem",
 }));
 
 export type DeleteVirtualMachineInstanceError = AzureOpError;
@@ -2096,6 +2153,13 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteVirtualMachineInstance",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type DeleteVirtualMachineInstanceCheckpointError = AzureOpError;
@@ -2111,6 +2175,14 @@ export const DeleteVirtualMachineInstanceCheckpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteVirtualMachineInstanceCheckpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
+    },
+  },
 }));
 
 export type DeleteVirtualMachineTemplateError = AzureOpError;
@@ -2126,6 +2198,8 @@ export const DeleteVirtualMachineTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineTemplate",
 }));
 
 export type DeleteVirtualNetworkError = AzureOpError;
@@ -2141,6 +2215,8 @@ export const DeleteVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNetwork",
 }));
 
 export type DeleteVmmServerError = AzureOpError;
@@ -2156,6 +2232,8 @@ export const DeleteVmmServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVmmServer",
 }));
 
 export type GetAvailabilitySetError = AzureOpError;
@@ -2171,6 +2249,8 @@ export const GetAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailabilitySet",
 }));
 
 export type GetCloudError = AzureOpError;
@@ -2186,6 +2266,8 @@ export const GetCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloud",
 }));
 
 export type GetGuestAgentError = AzureOpError;
@@ -2201,6 +2283,14 @@ export const GetGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type GetInventoryItemError = AzureOpError;
@@ -2216,6 +2306,8 @@ export const GetInventoryItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInventoryItem",
 }));
 
 export type GetVirtualMachineInstanceError = AzureOpError;
@@ -2231,6 +2323,13 @@ export const GetVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVirtualMachineInstance",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type GetVirtualMachineTemplateError = AzureOpError;
@@ -2246,6 +2345,8 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineTemplate",
 }));
 
 export type GetVirtualNetworkError = AzureOpError;
@@ -2261,6 +2362,8 @@ export const GetVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetwork",
 }));
 
 export type GetVmInstanceHybridIdentityMetadatasError = AzureOpError;
@@ -2276,6 +2379,14 @@ export const GetVmInstanceHybridIdentityMetadatas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVmInstanceHybridIdentityMetadatas",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
+    },
+  },
 }));
 
 export type GetVmmServerError = AzureOpError;
@@ -2291,6 +2402,8 @@ export const GetVmmServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmmServer",
 }));
 
 export type ListAvailabilitySetByResourceGroupError = AzureOpError;
@@ -2306,6 +2419,8 @@ export const ListAvailabilitySetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilitySetByResourceGroup",
 }));
 
 export type ListAvailabilitySetBySubscriptionError = AzureOpError;
@@ -2321,6 +2436,8 @@ export const ListAvailabilitySetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilitySetBySubscription",
 }));
 
 export type ListCloudByResourceGroupError = AzureOpError;
@@ -2336,6 +2453,8 @@ export const ListCloudByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudByResourceGroup",
 }));
 
 export type ListCloudBySubscriptionError = AzureOpError;
@@ -2351,6 +2470,8 @@ export const ListCloudBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudBySubscription",
 }));
 
 export type ListGuestAgentByVirtualMachineInstanceError = AzureOpError;
@@ -2366,6 +2487,14 @@ export const ListGuestAgentByVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListGuestAgentByVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
+    },
+  },
 }));
 
 export type ListInventoryItemByVmmServerError = AzureOpError;
@@ -2381,6 +2510,8 @@ export const ListInventoryItemByVmmServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInventoryItemByVmmServer",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2396,6 +2527,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListVirtualMachineInstancesError = AzureOpError;
@@ -2411,6 +2544,13 @@ export const ListVirtualMachineInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVirtualMachineInstances",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
+    },
+  },
 }));
 
 export type ListVirtualMachineTemplateByResourceGroupError = AzureOpError;
@@ -2426,6 +2566,8 @@ export const ListVirtualMachineTemplateByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineTemplateByResourceGroup",
 }));
 
 export type ListVirtualMachineTemplateBySubscriptionError = AzureOpError;
@@ -2441,6 +2583,8 @@ export const ListVirtualMachineTemplateBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineTemplateBySubscription",
 }));
 
 export type ListVirtualNetworkByResourceGroupError = AzureOpError;
@@ -2456,6 +2600,8 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkByResourceGroup",
 }));
 
 export type ListVirtualNetworkBySubscriptionError = AzureOpError;
@@ -2471,6 +2617,8 @@ export const ListVirtualNetworkBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkBySubscription",
 }));
 
 export type ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceError = AzureOpError;
@@ -2490,6 +2638,14 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
+    },
+  },
 }));
 
 export type ListVmmServerByResourceGroupError = AzureOpError;
@@ -2505,6 +2661,8 @@ export const ListVmmServerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmmServerByResourceGroup",
 }));
 
 export type ListVmmServerBySubscriptionError = AzureOpError;
@@ -2520,6 +2678,8 @@ export const ListVmmServerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmmServerBySubscription",
 }));
 
 export type RestartVirtualMachineInstanceError = AzureOpError;
@@ -2535,6 +2695,14 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestartVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
+    },
+  },
 }));
 
 export type RestoreVirtualMachineInstanceCheckpointError = AzureOpError;
@@ -2550,6 +2718,14 @@ export const RestoreVirtualMachineInstanceCheckpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestoreVirtualMachineInstanceCheckpoint",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
+    },
+  },
 }));
 
 export type StartVirtualMachineInstanceError = AzureOpError;
@@ -2565,6 +2741,14 @@ export const StartVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
+    },
+  },
 }));
 
 export type StopVirtualMachineInstanceError = AzureOpError;
@@ -2580,6 +2764,14 @@ export const StopVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StopVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
+    },
+  },
 }));
 
 export type UpdateAvailabilitySetError = AzureOpError;
@@ -2595,6 +2787,8 @@ export const UpdateAvailabilitySet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilitySet",
 }));
 
 export type UpdateCloudError = AzureOpError;
@@ -2610,6 +2804,8 @@ export const UpdateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloud",
 }));
 
 export type UpdateVirtualMachineInstanceError = AzureOpError;
@@ -2625,6 +2821,13 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateVirtualMachineInstance",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type UpdateVirtualMachineTemplateError = AzureOpError;
@@ -2640,6 +2843,8 @@ export const UpdateVirtualMachineTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineTemplate",
 }));
 
 export type UpdateVirtualNetworkError = AzureOpError;
@@ -2655,6 +2860,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNetwork",
 }));
 
 export type UpdateVmmServerError = AzureOpError;
@@ -2670,6 +2877,8 @@ export const UpdateVmmServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVmmServer",
 }));
 
 export type VirtualMachineInstancesCreateOrUpdateError = AzureOpError;
@@ -2685,6 +2894,13 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VirtualMachineInstancesCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type VirtualMachineTemplatesCreateOrUpdateError = AzureOpError;
@@ -2700,6 +2916,8 @@ export const VirtualMachineTemplatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineTemplatesCreateOrUpdate",
 }));
 
 export type VirtualNetworksCreateOrUpdateError = AzureOpError;
@@ -2715,6 +2933,8 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualNetworksCreateOrUpdate",
 }));
 
 export type VmmServersCreateOrUpdateError = AzureOpError;
@@ -2730,6 +2950,8 @@ export const VmmServersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VmmServersCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

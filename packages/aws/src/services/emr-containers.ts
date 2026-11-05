@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -83,6 +85,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://emr-containers.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EMRcontainers",
+  service: "EMRcontainers",
+  propagate: TxXray.propagate,
+} as const;
 
 export class EksClusterConnectionUpdating
   extends /*@__PURE__*/ S.TaggedError<EksClusterConnectionUpdating>()(
@@ -706,7 +722,7 @@ export type CancelJobRunError =
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const cancelJobRun: API.OperationMethod<
-  CancelJobRunRequest,
+  CancelJobRunRequest & RegionInput,
   CancelJobRunResponse,
   CancelJobRunError,
   Creds | HttpClient.HttpClient
@@ -717,6 +733,8 @@ export const cancelJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
+  telemetry: TELEMETRY,
+  span: "CancelJobRun",
 }));
 
 export type CreateJobTemplateError =
@@ -732,7 +750,7 @@ export type CreateJobTemplateError =
  * API request.
  */
 export const createJobTemplate: API.OperationMethod<
-  CreateJobTemplateRequest,
+  CreateJobTemplateRequest & RegionInput,
   CreateJobTemplateResponse,
   CreateJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -748,6 +766,8 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateJobTemplate",
 }));
 
 export type CreateManagedEndpointError =
@@ -761,7 +781,7 @@ export type CreateManagedEndpointError =
  * communicate with your virtual cluster.
  */
 export const createManagedEndpoint: API.OperationMethod<
-  CreateManagedEndpointRequest,
+  CreateManagedEndpointRequest & RegionInput,
   CreateManagedEndpointResponse,
   CreateManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -777,6 +797,8 @@ export const createManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateManagedEndpoint",
 }));
 
 export type CreateSecurityConfigurationError =
@@ -791,7 +813,7 @@ export type CreateSecurityConfigurationError =
  * to re-use a security setup each time you create a virtual cluster.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationRequest,
+  CreateSecurityConfigurationRequest & RegionInput,
   CreateSecurityConfigurationResponse,
   CreateSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -802,6 +824,8 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfiguration",
 }));
 
 export type CreateVirtualClusterError =
@@ -819,7 +843,7 @@ export type CreateVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const createVirtualCluster: API.OperationMethod<
-  CreateVirtualClusterRequest,
+  CreateVirtualClusterRequest & RegionInput,
   CreateVirtualClusterResponse,
   CreateVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -837,6 +861,8 @@ export const createVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualCluster",
 }));
 
 export type DeleteJobTemplateError =
@@ -851,7 +877,7 @@ export type DeleteJobTemplateError =
  * API request.
  */
 export const deleteJobTemplate: API.OperationMethod<
-  DeleteJobTemplateRequest,
+  DeleteJobTemplateRequest & RegionInput,
   DeleteJobTemplateResponse,
   DeleteJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -862,6 +888,8 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteJobTemplate",
 }));
 
 export type DeleteManagedEndpointError =
@@ -874,7 +902,7 @@ export type DeleteManagedEndpointError =
  * communicate with your virtual cluster.
  */
 export const deleteManagedEndpoint: API.OperationMethod<
-  DeleteManagedEndpointRequest,
+  DeleteManagedEndpointRequest & RegionInput,
   DeleteManagedEndpointResponse,
   DeleteManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -885,6 +913,8 @@ export const deleteManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteManagedEndpoint",
 }));
 
 export type DeleteSecurityConfigurationError =
@@ -895,7 +925,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationRequest,
+  DeleteSecurityConfigurationRequest & RegionInput,
   DeleteSecurityConfigurationResponse,
   DeleteSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -906,6 +936,8 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfiguration",
 }));
 
 export type DeleteVirtualClusterError =
@@ -920,7 +952,7 @@ export type DeleteVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const deleteVirtualCluster: API.OperationMethod<
-  DeleteVirtualClusterRequest,
+  DeleteVirtualClusterRequest & RegionInput,
   DeleteVirtualClusterResponse,
   DeleteVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -931,6 +963,8 @@ export const deleteVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualCluster",
 }));
 
 export type DescribeJobRunError =
@@ -944,7 +978,7 @@ export type DescribeJobRunError =
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const describeJobRun: API.OperationMethod<
-  DescribeJobRunRequest,
+  DescribeJobRunRequest & RegionInput,
   DescribeJobRunResponse,
   DescribeJobRunError,
   Creds | HttpClient.HttpClient
@@ -960,6 +994,8 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  telemetry: TELEMETRY,
+  span: "DescribeJobRun",
 }));
 
 export type DescribeJobTemplateError =
@@ -975,7 +1011,7 @@ export type DescribeJobTemplateError =
  * certain values in StartJobRun API request.
  */
 export const describeJobTemplate: API.OperationMethod<
-  DescribeJobTemplateRequest,
+  DescribeJobTemplateRequest & RegionInput,
   DescribeJobTemplateResponse,
   DescribeJobTemplateError,
   Creds | HttpClient.HttpClient
@@ -991,6 +1027,8 @@ export const describeJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeJobTemplate",
 }));
 
 export type DescribeManagedEndpointError =
@@ -1004,7 +1042,7 @@ export type DescribeManagedEndpointError =
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
 export const describeManagedEndpoint: API.OperationMethod<
-  DescribeManagedEndpointRequest,
+  DescribeManagedEndpointRequest & RegionInput,
   DescribeManagedEndpointResponse,
   DescribeManagedEndpointError,
   Creds | HttpClient.HttpClient
@@ -1020,6 +1058,8 @@ export const describeManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedEndpoint",
 }));
 
 export type DescribeSecurityConfigurationError =
@@ -1036,7 +1076,7 @@ export type DescribeSecurityConfigurationError =
  * create a virtual cluster.
  */
 export const describeSecurityConfiguration: API.OperationMethod<
-  DescribeSecurityConfigurationRequest,
+  DescribeSecurityConfigurationRequest & RegionInput,
   DescribeSecurityConfigurationResponse,
   DescribeSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -1052,6 +1092,8 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityConfiguration",
 }));
 
 export type DescribeVirtualClusterError =
@@ -1069,7 +1111,7 @@ export type DescribeVirtualClusterError =
  * requirements.
  */
 export const describeVirtualCluster: API.OperationMethod<
-  DescribeVirtualClusterRequest,
+  DescribeVirtualClusterRequest & RegionInput,
   DescribeVirtualClusterResponse,
   DescribeVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -1085,6 +1127,8 @@ export const describeVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualCluster",
 }));
 
 export type GetManagedEndpointSessionCredentialsError =
@@ -1098,7 +1142,7 @@ export type GetManagedEndpointSessionCredentialsError =
  * Generate a session token to connect to a managed endpoint.
  */
 export const getManagedEndpointSessionCredentials: API.OperationMethod<
-  GetManagedEndpointSessionCredentialsRequest,
+  GetManagedEndpointSessionCredentialsRequest & RegionInput,
   GetManagedEndpointSessionCredentialsResponse,
   GetManagedEndpointSessionCredentialsError,
   Creds | HttpClient.HttpClient
@@ -1115,6 +1159,8 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedEndpointSessionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetManagedEndpointSessionCredentials",
 }));
 
 export type ListJobRunsError =
@@ -1127,7 +1173,7 @@ export type ListJobRunsError =
  * Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Creds | HttpClient.HttpClient,
@@ -1145,6 +1191,8 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "jobRuns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobRuns",
 })) as any;
 
 export type ListJobTemplatesError =
@@ -1159,7 +1207,7 @@ export type ListJobTemplatesError =
  * certain values in StartJobRun API request.
  */
 export const listJobTemplates: API.PaginatedOperationMethod<
-  ListJobTemplatesRequest,
+  ListJobTemplatesRequest & RegionInput,
   ListJobTemplatesResponse,
   ListJobTemplatesError,
   Creds | HttpClient.HttpClient,
@@ -1177,6 +1225,8 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobTemplates",
 })) as any;
 
 export type ListManagedEndpointsError =
@@ -1189,7 +1239,7 @@ export type ListManagedEndpointsError =
  * that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
  */
 export const listManagedEndpoints: API.PaginatedOperationMethod<
-  ListManagedEndpointsRequest,
+  ListManagedEndpointsRequest & RegionInput,
   ListManagedEndpointsResponse,
   ListManagedEndpointsError,
   Creds | HttpClient.HttpClient,
@@ -1207,6 +1257,8 @@ export const listManagedEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedEndpoints",
 })) as any;
 
 export type ListSecurityConfigurationsError =
@@ -1222,7 +1274,7 @@ export type ListSecurityConfigurationsError =
  * cluster.
  */
 export const listSecurityConfigurations: API.PaginatedOperationMethod<
-  ListSecurityConfigurationsRequest,
+  ListSecurityConfigurationsRequest & RegionInput,
   ListSecurityConfigurationsResponse,
   ListSecurityConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -1240,6 +1292,8 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     items: "securityConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigurations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1252,7 +1306,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to the resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -1268,6 +1322,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVirtualClustersError =
@@ -1284,7 +1340,7 @@ export type ListVirtualClustersError =
  * requirements.
  */
 export const listVirtualClusters: API.PaginatedOperationMethod<
-  ListVirtualClustersRequest,
+  ListVirtualClustersRequest & RegionInput,
   ListVirtualClustersResponse,
   ListVirtualClustersError,
   Creds | HttpClient.HttpClient,
@@ -1302,6 +1358,8 @@ export const listVirtualClusters: API.PaginatedOperationMethod<
     items: "virtualClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualClusters",
 })) as any;
 
 export type StartJobRunError =
@@ -1315,7 +1373,7 @@ export type StartJobRunError =
  * SparkSQL query, that you submit to Amazon EMR on EKS.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Creds | HttpClient.HttpClient
@@ -1331,6 +1389,8 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  telemetry: TELEMETRY,
+  span: "StartJobRun",
 }));
 
 export type TagResourceError =
@@ -1352,7 +1412,7 @@ export type TagResourceError =
  * you add.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -1369,6 +1429,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1382,7 +1444,7 @@ export type UntagResourceError =
  * Removes tags from resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -1399,6 +1461,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateVirtualClusterError =
@@ -1413,7 +1477,7 @@ export type UpdateVirtualClusterError =
  * Kubernetes namespaces to meet your requirements.
  */
 export const updateVirtualCluster: API.OperationMethod<
-  UpdateVirtualClusterRequest,
+  UpdateVirtualClusterRequest & RegionInput,
   UpdateVirtualClusterResponse,
   UpdateVirtualClusterError,
   Creds | HttpClient.HttpClient
@@ -1424,6 +1488,8 @@ export const updateVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

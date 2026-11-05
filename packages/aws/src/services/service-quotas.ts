@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicequotas.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceQuotas",
+  service: "ServiceQuotas",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -561,7 +578,7 @@ export type AssociateServiceQuotaTemplateError =
  * for any adjustable quota to your template.
  */
 export const associateServiceQuotaTemplate: API.OperationMethod<
-  AssociateServiceQuotaTemplateRequest,
+  AssociateServiceQuotaTemplateRequest & RegionInput,
   AssociateServiceQuotaTemplateResponse,
   AssociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -581,6 +598,8 @@ export const associateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceQuotaTemplate",
 }));
 
 export type CreateSupportCaseError =
@@ -598,7 +617,7 @@ export type CreateSupportCaseError =
  * a Support case if the request has a `Pending` status.
  */
 export const createSupportCase: API.OperationMethod<
-  CreateSupportCaseRequest,
+  CreateSupportCaseRequest & RegionInput,
   CreateSupportCaseResponse,
   CreateSupportCaseError,
   Credentials | HttpClient.HttpClient
@@ -618,6 +637,8 @@ export const createSupportCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportCase",
+  telemetry: TELEMETRY,
+  span: "CreateSupportCase",
 }));
 
 export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
@@ -636,7 +657,7 @@ export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
   DeleteServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -657,6 +678,8 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceQuotaIncreaseRequestFromTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceQuotaIncreaseRequestFromTemplate",
 }));
 
 export type DisassociateServiceQuotaTemplateError =
@@ -675,7 +698,7 @@ export type DisassociateServiceQuotaTemplateError =
  * Disabling a quota request template does not apply its quota increase requests.
  */
 export const disassociateServiceQuotaTemplate: API.OperationMethod<
-  DisassociateServiceQuotaTemplateRequest,
+  DisassociateServiceQuotaTemplateRequest & RegionInput,
   DisassociateServiceQuotaTemplateResponse,
   DisassociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -695,6 +718,8 @@ export const disassociateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceQuotaTemplate",
 }));
 
 export type GetAssociationForServiceQuotaTemplateError =
@@ -711,7 +736,7 @@ export type GetAssociationForServiceQuotaTemplateError =
  * Retrieves the status of the association for the quota request template.
  */
 export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
-  GetAssociationForServiceQuotaTemplateRequest,
+  GetAssociationForServiceQuotaTemplateRequest & RegionInput,
   GetAssociationForServiceQuotaTemplateResponse,
   GetAssociationForServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +756,8 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociationForServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "GetAssociationForServiceQuotaTemplate",
 }));
 
 export type GetAutoManagementConfigurationError =
@@ -745,7 +772,7 @@ export type GetAutoManagementConfigurationError =
  * run out of your allocated quotas.
  */
 export const getAutoManagementConfiguration: API.OperationMethod<
-  GetAutoManagementConfigurationRequest,
+  GetAutoManagementConfigurationRequest & RegionInput,
   GetAutoManagementConfigurationResponse,
   GetAutoManagementConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -762,6 +789,8 @@ export const getAutoManagementConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoManagementConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAutoManagementConfiguration",
 }));
 
 export type GetAWSDefaultServiceQuotaError =
@@ -776,7 +805,7 @@ export type GetAWSDefaultServiceQuotaError =
  * reflect any quota increases.
  */
 export const getAWSDefaultServiceQuota: API.OperationMethod<
-  GetAWSDefaultServiceQuotaRequest,
+  GetAWSDefaultServiceQuotaRequest & RegionInput,
   GetAWSDefaultServiceQuotaResponse,
   GetAWSDefaultServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -793,6 +822,8 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSDefaultServiceQuota",
+  telemetry: TELEMETRY,
+  span: "GetAWSDefaultServiceQuota",
 }));
 
 export type GetQuotaUtilizationReportError =
@@ -818,7 +849,7 @@ export type GetQuotaUtilizationReportError =
  * 15 minutes.
  */
 export const getQuotaUtilizationReport: API.OperationMethod<
-  GetQuotaUtilizationReportRequest,
+  GetQuotaUtilizationReportRequest & RegionInput,
   GetQuotaUtilizationReportResponse,
   GetQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -836,6 +867,8 @@ export const getQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuotaUtilizationReport",
+  telemetry: TELEMETRY,
+  span: "GetQuotaUtilizationReport",
 }));
 
 export type GetRequestedServiceQuotaChangeError =
@@ -849,7 +882,7 @@ export type GetRequestedServiceQuotaChangeError =
  * Retrieves information about the specified quota increase request.
  */
 export const getRequestedServiceQuotaChange: API.OperationMethod<
-  GetRequestedServiceQuotaChangeRequest,
+  GetRequestedServiceQuotaChangeRequest & RegionInput,
   GetRequestedServiceQuotaChangeResponse,
   GetRequestedServiceQuotaChangeError,
   Credentials | HttpClient.HttpClient
@@ -866,6 +899,8 @@ export const getRequestedServiceQuotaChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestedServiceQuotaChange",
+  telemetry: TELEMETRY,
+  span: "GetRequestedServiceQuotaChange",
 }));
 
 export type GetServiceQuotaError =
@@ -881,7 +916,7 @@ export type GetServiceQuotaError =
  * value is not available for a quota, the quota is not retrieved.
  */
 export const getServiceQuota: API.OperationMethod<
-  GetServiceQuotaRequest,
+  GetServiceQuotaRequest & RegionInput,
   GetServiceQuotaResponse,
   GetServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -898,6 +933,8 @@ export const getServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuota",
+  telemetry: TELEMETRY,
+  span: "GetServiceQuota",
 }));
 
 export type GetServiceQuotaIncreaseRequestFromTemplateError =
@@ -916,7 +953,7 @@ export type GetServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  GetServiceQuotaIncreaseRequestFromTemplateRequest,
+  GetServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   GetServiceQuotaIncreaseRequestFromTemplateResponse,
   GetServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -937,6 +974,8 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuotaIncreaseRequestFromTemplate",
+  telemetry: TELEMETRY,
+  span: "GetServiceQuotaIncreaseRequestFromTemplate",
 }));
 
 export type ListAWSDefaultServiceQuotasError =
@@ -952,7 +991,7 @@ export type ListAWSDefaultServiceQuotasError =
  * value does not reflect any quota increases.
  */
 export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
-  ListAWSDefaultServiceQuotasRequest,
+  ListAWSDefaultServiceQuotasRequest & RegionInput,
   ListAWSDefaultServiceQuotasResponse,
   ListAWSDefaultServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -977,6 +1016,8 @@ export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAWSDefaultServiceQuotas",
 })) as any;
 
 export type ListRequestedServiceQuotaChangeHistoryError =
@@ -993,7 +1034,7 @@ export type ListRequestedServiceQuotaChangeHistoryError =
  * levels. Responses include any open or closed requests within 90 days.
  */
 export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryRequest,
+  ListRequestedServiceQuotaChangeHistoryRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryResponse,
   ListRequestedServiceQuotaChangeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1018,6 +1059,8 @@ export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMetho
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequestedServiceQuotaChangeHistory",
 })) as any;
 
 export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
@@ -1033,7 +1076,7 @@ export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
  * return quota requests at either the account level, resource level, or all levels.
  */
 export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ListRequestedServiceQuotaChangeHistoryByQuotaRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
   ListRequestedServiceQuotaChangeHistoryByQuotaError,
   Credentials | HttpClient.HttpClient,
@@ -1066,6 +1109,8 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperati
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequestedServiceQuotaChangeHistoryByQuota",
 })) as any;
 
 export type ListServiceQuotaIncreaseRequestsInTemplateError =
@@ -1082,7 +1127,7 @@ export type ListServiceQuotaIncreaseRequestsInTemplateError =
  * Lists the quota increase requests in the specified quota request template.
  */
 export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationMethod<
-  ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ListServiceQuotaIncreaseRequestsInTemplateRequest & RegionInput,
   ListServiceQuotaIncreaseRequestsInTemplateResponse,
   ListServiceQuotaIncreaseRequestsInTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -1109,6 +1154,8 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationM
     items: "ServiceQuotaIncreaseRequestInTemplateList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotaIncreaseRequestsInTemplate",
 })) as any;
 
 export type ListServiceQuotasError =
@@ -1126,7 +1173,7 @@ export type ListServiceQuotasError =
  * either the account level, resource level, or all levels.
  */
 export const listServiceQuotas: API.PaginatedOperationMethod<
-  ListServiceQuotasRequest,
+  ListServiceQuotasRequest & RegionInput,
   ListServiceQuotasResponse,
   ListServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -1151,6 +1198,8 @@ export const listServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotas",
 })) as any;
 
 export type ListServicesError =
@@ -1164,7 +1213,7 @@ export type ListServicesError =
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1188,6 +1237,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1201,7 +1252,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags assigned to the specified applied quota.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1218,6 +1269,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutServiceQuotaIncreaseRequestIntoTemplateError =
@@ -1236,7 +1289,7 @@ export type PutServiceQuotaIncreaseRequestIntoTemplateError =
  * Adds a quota increase request to your quota request template.
  */
 export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
-  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest & RegionInput,
   PutServiceQuotaIncreaseRequestIntoTemplateResponse,
   PutServiceQuotaIncreaseRequestIntoTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1258,6 +1311,8 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceQuotaIncreaseRequestIntoTemplate",
+  telemetry: TELEMETRY,
+  span: "PutServiceQuotaIncreaseRequestIntoTemplate",
 }));
 
 export type RequestServiceQuotaIncreaseError =
@@ -1276,7 +1331,7 @@ export type RequestServiceQuotaIncreaseError =
  * level.
  */
 export const requestServiceQuotaIncrease: API.OperationMethod<
-  RequestServiceQuotaIncreaseRequest,
+  RequestServiceQuotaIncreaseRequest & RegionInput,
   RequestServiceQuotaIncreaseResponse,
   RequestServiceQuotaIncreaseError,
   Credentials | HttpClient.HttpClient
@@ -1297,6 +1352,8 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestServiceQuotaIncrease",
+  telemetry: TELEMETRY,
+  span: "RequestServiceQuotaIncrease",
 }));
 
 export type StartAutoManagementError =
@@ -1312,7 +1369,7 @@ export type StartAutoManagementError =
  * run out of your allocated quotas.
  */
 export const startAutoManagement: API.OperationMethod<
-  StartAutoManagementRequest,
+  StartAutoManagementRequest & RegionInput,
   StartAutoManagementResponse,
   StartAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1329,6 +1386,8 @@ export const startAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutoManagement",
+  telemetry: TELEMETRY,
+  span: "StartAutoManagement",
 }));
 
 export type StartQuotaUtilizationReportError =
@@ -1349,7 +1408,7 @@ export type StartQuotaUtilizationReportError =
  * to check the status and retrieve the results when the report is ready.
  */
 export const startQuotaUtilizationReport: API.OperationMethod<
-  StartQuotaUtilizationReportRequest,
+  StartQuotaUtilizationReportRequest & RegionInput,
   StartQuotaUtilizationReportResponse,
   StartQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -1367,6 +1426,8 @@ export const startQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuotaUtilizationReport",
+  telemetry: TELEMETRY,
+  span: "StartQuotaUtilizationReport",
 }));
 
 export type StopAutoManagementError =
@@ -1382,7 +1443,7 @@ export type StopAutoManagementError =
  * run out of your allocated quotas.
  */
 export const stopAutoManagement: API.OperationMethod<
-  StopAutoManagementRequest,
+  StopAutoManagementRequest & RegionInput,
   StopAutoManagementResponse,
   StopAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1399,6 +1460,8 @@ export const stopAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutoManagement",
+  telemetry: TELEMETRY,
+  span: "StopAutoManagement",
 }));
 
 export type TagResourceError =
@@ -1415,7 +1478,7 @@ export type TagResourceError =
  * the quota.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1434,6 +1497,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1448,7 +1513,7 @@ export type UntagResourceError =
  * remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1530,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutoManagementError =
@@ -1480,7 +1547,7 @@ export type UpdateAutoManagementError =
  * run out of your allocated quotas.
  */
 export const updateAutoManagement: API.OperationMethod<
-  UpdateAutoManagementRequest,
+  UpdateAutoManagementRequest & RegionInput,
   UpdateAutoManagementResponse,
   UpdateAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1497,6 +1564,8 @@ export const updateAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoManagement",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoManagement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

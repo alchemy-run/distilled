@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "SchemaPropertyGroups",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -169,6 +182,8 @@ export const createSchemaPropertyGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchemaPropertyGroup",
 }));
 
 export type GetSchemaPropertyGroupError = Forbidden | NotFound | PosthogOpError;
@@ -183,6 +198,8 @@ export const getSchemaPropertyGroup: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemaPropertyGroup",
 }));
 
 export type ListSchemaPropertyGroupsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -197,6 +214,8 @@ export const listSchemaPropertyGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemaPropertyGroups",
 }));
 
 export type SchemaPropertyGroupsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -211,6 +230,8 @@ export const schemaPropertyGroupsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchemaPropertyGroupsDestroy",
 }));
 
 export type UpdateSchemaPropertyGroupError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -225,6 +246,8 @@ export const updateSchemaPropertyGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchemaPropertyGroup",
 }));
 
 export type UpdateSchemaPropertyGroupsPartialError =
@@ -243,6 +266,8 @@ export const updateSchemaPropertyGroupsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchemaPropertyGroupsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

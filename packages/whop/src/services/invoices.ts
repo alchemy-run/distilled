@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Invoices",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1020,6 +1033,8 @@ export const createInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoice",
 }));
 
 export type DeleteInvoiceError =
@@ -1040,6 +1055,8 @@ export const deleteInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoice",
 }));
 
 export type GetInvoiceError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
@@ -1055,6 +1072,8 @@ export const getInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type ListInvoiceError =
@@ -1077,6 +1096,8 @@ export const listInvoice: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvoice",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1107,6 +1128,8 @@ export const markPaidInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkPaidInvoice",
 }));
 
 export type MarkUncollectibleInvoiceError =
@@ -1127,6 +1150,8 @@ export const markUncollectibleInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkUncollectibleInvoice",
 }));
 
 export type ResendInvoiceError =
@@ -1147,6 +1172,8 @@ export const resendInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendInvoice",
 }));
 
 export type UpdateInvoiceError =
@@ -1167,6 +1194,8 @@ export const updateInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoice",
 }));
 
 export type VoidInvoiceError =
@@ -1187,6 +1216,8 @@ export const voidInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VoidInvoice",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

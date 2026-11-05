@@ -112,9 +112,14 @@ same measurement, cut down to finish within the other CI jobs:
 - **Cut:** no strict variants, no imports or typecheck suites, no official
   SDKs, latency sampled for 400 ms (`--budget`). Each runtime probe runs 3
   times (`--repeats`): timings keep the fastest run, heap the median.
+- **Whole-SDK memory:** every service module of `aws`, `cloudflare` and `gcp`
+  (`ci.json` `providers`) imported in one process, as Alchemy does. An SDK is
+  built and measured only when its package, `core`, `scripts/` or the lockfile
+  differ from main's run (`--reuse`); otherwise main's number is copied. A PR
+  that changes `core` rebuilds all three, about 3 minutes.
 - **Main's numbers:** each push to main runs `ci.ts run --wide` (every SDK)
   and caches it with a rolling history of main's runs (the line charts) as
-  `bench-ci-main-<sha>-<run id>`. A PR restores its base's entry or the
+  `bench-ci-main-v2-<sha>-<run id>`. A PR restores its base's entry or the
   newest one; on a miss it benchmarks the base commit in the same job. Run
   the workflow by hand on main with `backfill: N` to seed the history.
 

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.BillingBenefits" },
+  prefix: "Billingbenefits",
+  service: "Billingbenefits",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CancelConditionalCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4036,6 +4057,8 @@ export const CancelConditionalCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelConditionalCredit",
 }));
 
 export type CancelCreditError = AzureOpError;
@@ -4051,6 +4074,8 @@ export const CancelCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCredit",
 }));
 
 export type CancelDiscountError = AzureOpError;
@@ -4066,6 +4091,8 @@ export const CancelDiscount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDiscount",
 }));
 
 export type CancelMaccError = AzureOpError;
@@ -4081,6 +4108,8 @@ export const CancelMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMacc",
 }));
 
 export type ConditionalCreditsCreateOrUpdateError = AzureOpError;
@@ -4096,6 +4125,8 @@ export const ConditionalCreditsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConditionalCreditsCreateOrUpdate",
 }));
 
 export type CreateCreditError = AzureOpError;
@@ -4111,6 +4142,8 @@ export const CreateCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredit",
 }));
 
 export type CreateDiscountError = AzureOpError;
@@ -4126,6 +4159,8 @@ export const CreateDiscount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDiscount",
 }));
 
 export type CreateFreeServiceError = AzureOpError;
@@ -4141,6 +4176,8 @@ export const CreateFreeService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFreeService",
 }));
 
 export type CreateMaccError = AzureOpError;
@@ -4156,6 +4193,8 @@ export const CreateMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMacc",
 }));
 
 export type CreateReservationOrderAliasError = AzureOpError;
@@ -4171,6 +4210,8 @@ export const CreateReservationOrderAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReservationOrderAlias",
 }));
 
 export type CreateSavingsPlanOrderAliasError = AzureOpError;
@@ -4186,6 +4227,8 @@ export const CreateSavingsPlanOrderAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavingsPlanOrderAlias",
 }));
 
 export type CreateSourceError = AzureOpError;
@@ -4201,6 +4244,8 @@ export const CreateSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSource",
 }));
 
 export type CreditsChangeSponsorError = AzureOpError;
@@ -4216,6 +4261,8 @@ export const CreditsChangeSponsor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditsChangeSponsor",
 }));
 
 export type DeleteConditionalCreditError = AzureOpError;
@@ -4231,6 +4278,8 @@ export const DeleteConditionalCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConditionalCredit",
 }));
 
 export type DeleteCreditError = AzureOpError;
@@ -4246,6 +4295,8 @@ export const DeleteCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredit",
 }));
 
 export type DeleteDiscountError = AzureOpError;
@@ -4261,6 +4312,8 @@ export const DeleteDiscount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscount",
 }));
 
 export type DeleteFreeServiceError = AzureOpError;
@@ -4276,6 +4329,8 @@ export const DeleteFreeService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFreeService",
 }));
 
 export type DeleteMaccError = AzureOpError;
@@ -4291,6 +4346,8 @@ export const DeleteMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMacc",
 }));
 
 export type DeleteSourceError = AzureOpError;
@@ -4306,6 +4363,8 @@ export const DeleteSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSource",
 }));
 
 export type GetBillingAccountCatalogGroupsOpsError = AzureOpError;
@@ -4321,6 +4380,8 @@ export const GetBillingAccountCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAccountCatalogGroupsOps",
 }));
 
 export type GetBillingProfileCatalogGroupsOpsError = AzureOpError;
@@ -4336,6 +4397,8 @@ export const GetBillingProfileCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProfileCatalogGroupsOps",
 }));
 
 export type GetConditionalCreditError = AzureOpError;
@@ -4351,6 +4414,8 @@ export const GetConditionalCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConditionalCredit",
 }));
 
 export type GetConditionalCreditContributorFromPrimaryError = AzureOpError;
@@ -4366,6 +4431,8 @@ export const GetConditionalCreditContributorFromPrimary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConditionalCreditContributorFromPrimary",
 }));
 
 export type GetConditionalCreditTransactionError = AzureOpError;
@@ -4381,6 +4448,8 @@ export const GetConditionalCreditTransaction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConditionalCreditTransaction",
 }));
 
 export type GetContributorFromPrimaryError = AzureOpError;
@@ -4396,6 +4465,8 @@ export const GetContributorFromPrimary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContributorFromPrimary",
 }));
 
 export type GetCreditError = AzureOpError;
@@ -4411,6 +4482,8 @@ export const GetCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredit",
 }));
 
 export type GetCreditTransactionError = AzureOpError;
@@ -4426,6 +4499,8 @@ export const GetCreditTransaction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditTransaction",
 }));
 
 export type GetDiscountError = AzureOpError;
@@ -4441,6 +4516,8 @@ export const GetDiscount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscount",
 }));
 
 export type GetFreeServiceError = AzureOpError;
@@ -4456,6 +4533,8 @@ export const GetFreeService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFreeService",
 }));
 
 export type GetMaccError = AzureOpError;
@@ -4471,6 +4550,8 @@ export const GetMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMacc",
 }));
 
 export type GetMaccTransactionError = AzureOpError;
@@ -4486,6 +4567,8 @@ export const GetMaccTransaction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaccTransaction",
 }));
 
 export type GetReservationOrderAliasError = AzureOpError;
@@ -4501,6 +4584,8 @@ export const GetReservationOrderAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservationOrderAlias",
 }));
 
 export type GetSavingsPlanError = AzureOpError;
@@ -4516,6 +4601,8 @@ export const GetSavingsPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlan",
 }));
 
 export type GetSavingsPlanOrderError = AzureOpError;
@@ -4531,6 +4618,8 @@ export const GetSavingsPlanOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlanOrder",
 }));
 
 export type GetSavingsPlanOrderAliasError = AzureOpError;
@@ -4546,6 +4635,8 @@ export const GetSavingsPlanOrderAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlanOrderAlias",
 }));
 
 export type GetSourceError = AzureOpError;
@@ -4561,6 +4652,8 @@ export const GetSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSource",
 }));
 
 export type GetSubscriptionCatalogGroupsOpsError = AzureOpError;
@@ -4576,6 +4669,8 @@ export const GetSubscriptionCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionCatalogGroupsOps",
 }));
 
 export type ListApplicableMaccsError = AzureOpError;
@@ -4591,6 +4686,8 @@ export const ListApplicableMaccs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicableMaccs",
 }));
 
 export type ListBillingAccountCatalogGroupsOpsError = AzureOpError;
@@ -4606,6 +4703,8 @@ export const ListBillingAccountCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAccountCatalogGroupsOps",
 }));
 
 export type ListBillingProfileCatalogGroupsOpsError = AzureOpError;
@@ -4621,6 +4720,8 @@ export const ListBillingProfileCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingProfileCatalogGroupsOps",
 }));
 
 export type ListConditionalCreditByResourceGroupError = AzureOpError;
@@ -4636,6 +4737,8 @@ export const ListConditionalCreditByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConditionalCreditByResourceGroup",
 }));
 
 export type ListConditionalCreditBySubscriptionError = AzureOpError;
@@ -4651,6 +4754,8 @@ export const ListConditionalCreditBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConditionalCreditBySubscription",
 }));
 
 export type ListConditionalCreditContributorFromApplicableConditionalCreditError = AzureOpError;
@@ -4670,6 +4775,11 @@ export const ListConditionalCreditContributorFromApplicableConditionalCredit: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListConditionalCreditContributorFromApplicableConditionalCredit",
+    attributes: { "azure.resource_provider.namespace": "microsoft.BillingBenefits" },
+  },
 }));
 
 export type ListConditionalCreditContributorFromPrimaryError = AzureOpError;
@@ -4685,6 +4795,8 @@ export const ListConditionalCreditContributorFromPrimary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConditionalCreditContributorFromPrimary",
 }));
 
 export type ListConditionalCreditsScopeError = AzureOpError;
@@ -4700,6 +4812,13 @@ export const ListConditionalCreditsScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListConditionalCreditsScope",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
+    },
+  },
 }));
 
 export type ListConditionalCreditTransactionByParentError = AzureOpError;
@@ -4715,6 +4834,8 @@ export const ListConditionalCreditTransactionByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConditionalCreditTransactionByParent",
 }));
 
 export type ListContributorFromApplicableMaccError = AzureOpError;
@@ -4730,6 +4851,11 @@ export const ListContributorFromApplicableMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListContributorFromApplicableMacc",
+    attributes: { "azure.resource_provider.namespace": "microsoft.BillingBenefits" },
+  },
 }));
 
 export type ListContributorFromPrimaryError = AzureOpError;
@@ -4745,6 +4871,8 @@ export const ListContributorFromPrimary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContributorFromPrimary",
 }));
 
 export type ListCreditApplicableError = AzureOpError;
@@ -4760,6 +4888,13 @@ export const ListCreditApplicable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListCreditApplicable",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableCredits",
+    },
+  },
 }));
 
 export type ListCreditByResourceGroupError = AzureOpError;
@@ -4775,6 +4910,8 @@ export const ListCreditByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreditByResourceGroup",
 }));
 
 export type ListCreditBySubscriptionError = AzureOpError;
@@ -4790,6 +4927,8 @@ export const ListCreditBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreditBySubscription",
 }));
 
 export type ListCreditTransactionByParentError = AzureOpError;
@@ -4805,6 +4944,8 @@ export const ListCreditTransactionByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreditTransactionByParent",
 }));
 
 export type ListDiscountsResourceGroupError = AzureOpError;
@@ -4820,6 +4961,8 @@ export const ListDiscountsResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscountsResourceGroup",
 }));
 
 export type ListDiscountsScopeError = AzureOpError;
@@ -4835,6 +4978,13 @@ export const ListDiscountsScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDiscountsScope",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableDiscounts",
+    },
+  },
 }));
 
 export type ListDiscountsSubscriptionError = AzureOpError;
@@ -4850,6 +5000,8 @@ export const ListDiscountsSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscountsSubscription",
 }));
 
 export type ListFreeServiceByResourceGroupError = AzureOpError;
@@ -4865,6 +5017,8 @@ export const ListFreeServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFreeServiceByResourceGroup",
 }));
 
 export type ListFreeServiceBySubscriptionError = AzureOpError;
@@ -4880,6 +5034,8 @@ export const ListFreeServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFreeServiceBySubscription",
 }));
 
 export type ListMaccByResourceGroupError = AzureOpError;
@@ -4895,6 +5051,8 @@ export const ListMaccByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaccByResourceGroup",
 }));
 
 export type ListMaccBySubscriptionError = AzureOpError;
@@ -4910,6 +5068,8 @@ export const ListMaccBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaccBySubscription",
 }));
 
 export type ListMaccTransactionByParentError = AzureOpError;
@@ -4925,6 +5085,8 @@ export const ListMaccTransactionByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaccTransactionByParent",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4940,6 +5102,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSavingsPlanError = AzureOpError;
@@ -4955,6 +5119,8 @@ export const ListSavingsPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlan",
 }));
 
 export type ListSavingsPlanAllError = AzureOpError;
@@ -4970,6 +5136,8 @@ export const ListSavingsPlanAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlanAll",
 }));
 
 export type ListSavingsPlanOrderError = AzureOpError;
@@ -4985,6 +5153,8 @@ export const ListSavingsPlanOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlanOrder",
 }));
 
 export type ListSellerResourceError = AzureOpError;
@@ -5000,6 +5170,8 @@ export const ListSellerResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSellerResource",
 }));
 
 export type ListSourceByCreditError = AzureOpError;
@@ -5015,6 +5187,8 @@ export const ListSourceByCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSourceByCredit",
 }));
 
 export type ListSubscriptionCatalogGroupsOpsError = AzureOpError;
@@ -5030,6 +5204,8 @@ export const ListSubscriptionCatalogGroupsOps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionCatalogGroupsOps",
 }));
 
 export type MaccsChargeShortfallError = AzureOpError;
@@ -5045,6 +5221,8 @@ export const MaccsChargeShortfall: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaccsChargeShortfall",
 }));
 
 export type MaccsWriteOffError = AzureOpError;
@@ -5060,6 +5238,8 @@ export const MaccsWriteOff: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaccsWriteOff",
 }));
 
 export type SavingsPlanOrderElevateError = AzureOpError;
@@ -5075,6 +5255,8 @@ export const SavingsPlanOrderElevate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavingsPlanOrderElevate",
 }));
 
 export type SavingsPlanValidateUpdateError = AzureOpError;
@@ -5090,6 +5272,8 @@ export const SavingsPlanValidateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavingsPlanValidateUpdate",
 }));
 
 export type UpdateConditionalCreditError = AzureOpError;
@@ -5105,6 +5289,8 @@ export const UpdateConditionalCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConditionalCredit",
 }));
 
 export type UpdateCreditError = AzureOpError;
@@ -5120,6 +5306,8 @@ export const UpdateCredit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCredit",
 }));
 
 export type UpdateDiscountError = AzureOpError;
@@ -5135,6 +5323,8 @@ export const UpdateDiscount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDiscount",
 }));
 
 export type UpdateFreeServiceError = AzureOpError;
@@ -5150,6 +5340,8 @@ export const UpdateFreeService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFreeService",
 }));
 
 export type UpdateMaccError = AzureOpError;
@@ -5165,6 +5357,8 @@ export const UpdateMacc: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMacc",
 }));
 
 export type UpdateSavingsPlanError = AzureOpError;
@@ -5180,6 +5374,8 @@ export const UpdateSavingsPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavingsPlan",
 }));
 
 export type UpdateSourceError = AzureOpError;
@@ -5195,6 +5391,8 @@ export const UpdateSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSource",
 }));
 
 export type ValidateBenefitError = AzureOpError;
@@ -5210,6 +5408,8 @@ export const ValidateBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBenefit",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

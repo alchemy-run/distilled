@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "DomainService",
+  propagate: "w3c",
+} as const;
+
 export interface CreateDomainRequest {
   domainName?: string;
 }
@@ -61,6 +73,8 @@ export const createDomain: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type ListDomainError = ModalOpError;
@@ -75,6 +89,8 @@ export const listDomain: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomain",
 }));
 
 export type VerifyDomainCertificateError = ModalOpError;
@@ -90,6 +106,8 @@ export const verifyDomainCertificate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomainCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

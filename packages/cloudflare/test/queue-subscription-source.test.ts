@@ -1,4 +1,5 @@
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
+import * as Effect from "effect/Effect";
 import { describe, expect, test } from "vitest";
 import { createSubscription, getSubscription } from "../src/services/queues.ts";
 
@@ -9,22 +10,24 @@ import { createSubscription, getSubscription } from "../src/services/queues.ts";
  */
 describe("email.sending subscription source", () => {
   test("the create request sends zone_id and domain", () => {
-    const request = buildRequest({
-      input: {
-        accountId: "account",
-        name: "mail-events",
-        enabled: true,
-        events: ["message.bounced"],
-        destination: { type: "queues.queue", queueId: "queue" },
-        source: {
-          type: "email.sending",
-          zoneId: "zone",
-          domain: "mail.example.com",
+    const request = Effect.runSync(
+      buildRequest({
+        input: {
+          accountId: "account",
+          name: "mail-events",
+          enabled: true,
+          events: ["message.bounced"],
+          destination: { type: "queues.queue", queueId: "queue" },
+          source: {
+            type: "email.sending",
+            zoneId: "zone",
+            domain: "mail.example.com",
+          },
         },
-      },
-      inputAst: createSubscription.input.ast,
-      baseUrl: "https://api.cloudflare.com/client/v4",
-    });
+        inputAst: createSubscription.input.ast,
+        baseUrl: "https://api.cloudflare.com/client/v4",
+      }),
+    );
     const body = JSON.parse(String((request.body as { body: string }).body));
     expect(body.source).toEqual({
       type: "email.sending",

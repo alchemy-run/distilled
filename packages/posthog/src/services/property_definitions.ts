@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "PropertyDefinitions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -215,6 +228,8 @@ export const getPropertyDefinition: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertyDefinition",
 }));
 
 export type GetPropertyDefinitionsSeenTogetherError = Forbidden | NotFound | PosthogOpError;
@@ -230,6 +245,8 @@ export const getPropertyDefinitionsSeenTogether: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertyDefinitionsSeenTogether",
 }));
 
 export type ListPropertyDefinitionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -244,6 +261,8 @@ export const listPropertyDefinitions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertyDefinitions",
 }));
 
 export type PropertyDefinitionsBulkUpdateTagsCreateError =
@@ -263,6 +282,8 @@ export const propertyDefinitionsBulkUpdateTagsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PropertyDefinitionsBulkUpdateTagsCreate",
 }));
 
 export type PropertyDefinitionsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -277,6 +298,8 @@ export const propertyDefinitionsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PropertyDefinitionsDestroy",
 }));
 
 export type UpdatePropertyDefinitionError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -291,6 +314,8 @@ export const updatePropertyDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePropertyDefinition",
 }));
 
 export type UpdatePropertyDefinitionsPartialError =
@@ -309,6 +334,8 @@ export const updatePropertyDefinitionsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePropertyDefinitionsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

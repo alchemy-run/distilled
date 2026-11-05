@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Iaas",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2224,6 +2237,8 @@ export const addNetworkToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNetworkToServer",
 }));
 
 export type AddNicToServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2239,6 +2254,8 @@ export const addNicToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNicToServer",
 }));
 
 export type AddPublicIpToServerError =
@@ -2259,6 +2276,8 @@ export const addPublicIpToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPublicIpToServer",
 }));
 
 export type AddRoutesToRoutingTableError =
@@ -2279,6 +2298,8 @@ export const addRoutesToRoutingTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRoutesToRoutingTable",
 }));
 
 export type AddRoutingTableToAreaError =
@@ -2299,6 +2320,8 @@ export const addRoutingTableToArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRoutingTableToArea",
 }));
 
 export type AddSecurityGroupToServerError =
@@ -2319,6 +2342,8 @@ export const addSecurityGroupToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSecurityGroupToServer",
 }));
 
 export type AddServiceAccountToServerError =
@@ -2339,6 +2364,8 @@ export const addServiceAccountToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServiceAccountToServer",
 }));
 
 export type AddVolumeToServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2354,6 +2381,8 @@ export const addVolumeToServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddVolumeToServer",
 }));
 
 export type CreateAffinityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2369,6 +2398,8 @@ export const createAffinityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAffinityGroup",
 }));
 
 export type CreateBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2384,6 +2415,8 @@ export const createBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateImageError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2399,6 +2432,8 @@ export const createImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateImage",
 }));
 
 export type CreateIsolatedNetworkError =
@@ -2419,6 +2454,8 @@ export const createIsolatedNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIsolatedNetwork",
 }));
 
 export type CreateKeyPairError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2434,6 +2471,8 @@ export const createKeyPair: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyPair",
 }));
 
 export type CreateNetworkError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2449,6 +2488,8 @@ export const createNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateNetworkAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2464,6 +2505,8 @@ export const createNetworkArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkArea",
 }));
 
 export type CreateNetworkAreaRangeError =
@@ -2484,6 +2527,8 @@ export const createNetworkAreaRange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkAreaRange",
 }));
 
 export type CreateNetworkAreaRegionError =
@@ -2504,6 +2549,8 @@ export const createNetworkAreaRegion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkAreaRegion",
 }));
 
 export type CreateNetworkAreaRouteError =
@@ -2524,6 +2571,8 @@ export const createNetworkAreaRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkAreaRoute",
 }));
 
 export type CreateNicError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2539,6 +2588,8 @@ export const createNic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNic",
 }));
 
 export type CreatePublicIPError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2554,6 +2605,8 @@ export const createPublicIP: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicIP",
 }));
 
 export type CreateSecurityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2569,6 +2622,8 @@ export const createSecurityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityGroup",
 }));
 
 export type CreateSecurityGroupRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2584,6 +2639,8 @@ export const createSecurityGroupRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityGroupRule",
 }));
 
 export type CreateServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2599,6 +2656,8 @@ export const createServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServer",
 }));
 
 export type CreateSnapshotError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2614,6 +2673,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateVolumeError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2629,6 +2690,8 @@ export const createVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type DeallocateServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2644,6 +2707,8 @@ export const deallocateServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeallocateServer",
 }));
 
 export type DeleteAffinityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2659,6 +2724,8 @@ export const deleteAffinityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAffinityGroup",
 }));
 
 export type DeleteBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2674,6 +2741,8 @@ export const deleteBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteImageError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2689,6 +2758,8 @@ export const deleteImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteImageShareError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2704,6 +2775,8 @@ export const deleteImageShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImageShare",
 }));
 
 export type DeleteImageShareConsumerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2719,6 +2792,8 @@ export const deleteImageShareConsumer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImageShareConsumer",
 }));
 
 export type DeleteKeyPairError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2734,6 +2809,8 @@ export const deleteKeyPair: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyPair",
 }));
 
 export type DeleteNetworkError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2749,6 +2826,8 @@ export const deleteNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type DeleteNetworkAreaError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2764,6 +2843,8 @@ export const deleteNetworkArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkArea",
 }));
 
 export type DeleteNetworkAreaRangeError =
@@ -2784,6 +2865,8 @@ export const deleteNetworkAreaRange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkAreaRange",
 }));
 
 export type DeleteNetworkAreaRegionError =
@@ -2804,6 +2887,8 @@ export const deleteNetworkAreaRegion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkAreaRegion",
 }));
 
 export type DeleteNetworkAreaRouteError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2819,6 +2904,8 @@ export const deleteNetworkAreaRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkAreaRoute",
 }));
 
 export type DeleteNicError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2834,6 +2921,8 @@ export const deleteNic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNic",
 }));
 
 export type DeletePublicIPError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2849,6 +2938,8 @@ export const deletePublicIP: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicIP",
 }));
 
 export type DeleteRouteFromRoutingTableError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2864,6 +2955,8 @@ export const deleteRouteFromRoutingTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRouteFromRoutingTable",
 }));
 
 export type DeleteRoutingTableFromAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2879,6 +2972,8 @@ export const deleteRoutingTableFromArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoutingTableFromArea",
 }));
 
 export type DeleteSecurityGroupError =
@@ -2899,6 +2994,8 @@ export const deleteSecurityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityGroup",
 }));
 
 export type DeleteSecurityGroupRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2914,6 +3011,8 @@ export const deleteSecurityGroupRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityGroupRule",
 }));
 
 export type DeleteServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2929,6 +3028,8 @@ export const deleteServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type DeleteSnapshotError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2944,6 +3045,8 @@ export const deleteSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteVolumeError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -2959,6 +3062,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type GetAffinityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2974,6 +3079,8 @@ export const getAffinityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAffinityGroup",
 }));
 
 export type GetAttachedVolumeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -2989,6 +3096,8 @@ export const getAttachedVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttachedVolume",
 }));
 
 export type GetBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3004,6 +3113,8 @@ export const getBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetImageError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3019,6 +3130,8 @@ export const getImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetImageShareError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3034,6 +3147,8 @@ export const getImageShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImageShare",
 }));
 
 export type GetImageShareConsumerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3049,6 +3164,8 @@ export const getImageShareConsumer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImageShareConsumer",
 }));
 
 export type GetKeyPairError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3064,6 +3181,8 @@ export const getKeyPair: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyPair",
 }));
 
 export type GetMachineTypeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3079,6 +3198,8 @@ export const getMachineType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineType",
 }));
 
 export type GetNetworkError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3094,6 +3215,8 @@ export const getNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetNetworkAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3109,6 +3232,8 @@ export const getNetworkArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkArea",
 }));
 
 export type GetNetworkAreaRangeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3124,6 +3249,8 @@ export const getNetworkAreaRange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkAreaRange",
 }));
 
 export type GetNetworkAreaRegionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3139,6 +3266,8 @@ export const getNetworkAreaRegion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkAreaRegion",
 }));
 
 export type GetNetworkAreaRouteError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3154,6 +3283,8 @@ export const getNetworkAreaRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkAreaRoute",
 }));
 
 export type GetNicError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3165,6 +3296,8 @@ export const getNic: API.OperationMethod<GetNicRequest, NIC, GetNicError, Stacki
     errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetNic",
   }));
 
 export type GetOrganizationRequestError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3180,6 +3313,8 @@ export const getOrganizationRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRequest",
 }));
 
 export type GetProjectDetailsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3195,6 +3330,8 @@ export const getProjectDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectDetails",
 }));
 
 export type GetProjectNICError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3210,6 +3347,8 @@ export const getProjectNIC: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectNIC",
 }));
 
 export type GetProjectRequestError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3225,6 +3364,8 @@ export const getProjectRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectRequest",
 }));
 
 export type GetPublicIPError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3240,6 +3381,8 @@ export const getPublicIP: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicIP",
 }));
 
 export type GetRouteOfRoutingTableError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3255,6 +3398,8 @@ export const getRouteOfRoutingTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRouteOfRoutingTable",
 }));
 
 export type GetRoutingTableOfAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3270,6 +3415,8 @@ export const getRoutingTableOfArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoutingTableOfArea",
 }));
 
 export type GetSecurityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3285,6 +3432,8 @@ export const getSecurityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityGroup",
 }));
 
 export type GetSecurityGroupRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3300,6 +3449,8 @@ export const getSecurityGroupRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityGroupRule",
 }));
 
 export type GetServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3315,6 +3466,8 @@ export const getServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServer",
 }));
 
 export type GetServerConsoleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3330,6 +3483,8 @@ export const getServerConsole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerConsole",
 }));
 
 export type GetServerLogError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3345,6 +3500,8 @@ export const getServerLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerLog",
 }));
 
 export type GetSnapshotError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3360,6 +3517,8 @@ export const getSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetVolumeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3375,6 +3534,8 @@ export const getVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetVolumePerformanceClassError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3390,6 +3551,8 @@ export const getVolumePerformanceClass: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumePerformanceClass",
 }));
 
 export type ImageFromVolumeError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -3405,6 +3568,8 @@ export const imageFromVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageFromVolume",
 }));
 
 export type ListAffinityGroupsError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -3420,6 +3585,8 @@ export const listAffinityGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAffinityGroups",
 }));
 
 export type ListAttachedVolumesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3435,6 +3602,8 @@ export const listAttachedVolumes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttachedVolumes",
 }));
 
 export type ListAvailabilityZonesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3450,6 +3619,8 @@ export const listAvailabilityZones: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilityZones",
 }));
 
 export type ListBackupsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3465,6 +3636,8 @@ export const listBackups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListImagesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3480,6 +3653,8 @@ export const listImages: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 }));
 
 export type ListKeyPairsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3495,6 +3670,8 @@ export const listKeyPairs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeyPairs",
 }));
 
 export type ListMachineTypesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3510,6 +3687,8 @@ export const listMachineTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineTypes",
 }));
 
 export type ListNetworkAreaProjectsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3525,6 +3704,8 @@ export const listNetworkAreaProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAreaProjects",
 }));
 
 export type ListNetworkAreaRangesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3540,6 +3721,8 @@ export const listNetworkAreaRanges: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAreaRanges",
 }));
 
 export type ListNetworkAreaRegionsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3555,6 +3738,8 @@ export const listNetworkAreaRegions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAreaRegions",
 }));
 
 export type ListNetworkAreaRoutesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3570,6 +3755,8 @@ export const listNetworkAreaRoutes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAreaRoutes",
 }));
 
 export type ListNetworkAreasError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3585,6 +3772,8 @@ export const listNetworkAreas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAreas",
 }));
 
 export type ListNetworksError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3600,6 +3789,8 @@ export const listNetworks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 }));
 
 export type ListNicsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3615,6 +3806,8 @@ export const listNics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNics",
 }));
 
 export type ListProjectNICsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3630,6 +3823,8 @@ export const listProjectNICs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectNICs",
 }));
 
 export type ListPublicIPRangesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3645,6 +3840,8 @@ export const listPublicIPRanges: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicIPRanges",
 }));
 
 export type ListPublicIPsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3660,6 +3857,8 @@ export const listPublicIPs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicIPs",
 }));
 
 export type ListQuotasError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3675,6 +3874,8 @@ export const listQuotas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotas",
 }));
 
 export type ListRoutesOfRoutingTableError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3690,6 +3891,8 @@ export const listRoutesOfRoutingTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoutesOfRoutingTable",
 }));
 
 export type ListRoutingTablesOfAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3705,6 +3908,8 @@ export const listRoutingTablesOfArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoutingTablesOfArea",
 }));
 
 export type ListSecurityGroupRulesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3720,6 +3925,8 @@ export const listSecurityGroupRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityGroupRules",
 }));
 
 export type ListSecurityGroupsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3735,6 +3942,8 @@ export const listSecurityGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityGroups",
 }));
 
 export type ListServerNICsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3750,6 +3959,8 @@ export const listServerNICs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerNICs",
 }));
 
 export type ListServersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3765,6 +3976,8 @@ export const listServers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 }));
 
 export type ListServerServiceAccountsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3780,6 +3993,8 @@ export const listServerServiceAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerServiceAccounts",
 }));
 
 export type ListSnapshotsInProjectError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3795,6 +4010,8 @@ export const listSnapshotsInProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotsInProject",
 }));
 
 export type ListVolumePerformanceClassesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3810,6 +4027,8 @@ export const listVolumePerformanceClasses: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumePerformanceClasses",
 }));
 
 export type ListVolumesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3825,6 +4044,8 @@ export const listVolumes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 export type PartialUpdateNetworkError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3840,6 +4061,8 @@ export const partialUpdateNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateNetwork",
 }));
 
 export type PartialUpdateNetworkAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3855,6 +4078,8 @@ export const partialUpdateNetworkArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateNetworkArea",
 }));
 
 export type RebootServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -3870,6 +4095,8 @@ export const rebootServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootServer",
 }));
 
 export type RemoveNetworkFromServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3885,6 +4112,8 @@ export const removeNetworkFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNetworkFromServer",
 }));
 
 export type RemoveNicFromServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -3900,6 +4129,8 @@ export const removeNicFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNicFromServer",
 }));
 
 export type RemovePublicIpFromServerError =
@@ -3920,6 +4151,8 @@ export const removePublicIpFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePublicIpFromServer",
 }));
 
 export type RemoveSecurityGroupFromServerError =
@@ -3940,6 +4173,8 @@ export const removeSecurityGroupFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSecurityGroupFromServer",
 }));
 
 export type RemoveServiceAccountFromServerError =
@@ -3960,6 +4195,8 @@ export const removeServiceAccountFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveServiceAccountFromServer",
 }));
 
 export type RemoveVolumeFromServerError =
@@ -3980,6 +4217,8 @@ export const removeVolumeFromServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveVolumeFromServer",
 }));
 
 export type RescueServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -3995,6 +4234,8 @@ export const rescueServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RescueServer",
 }));
 
 export type ResizeServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4010,6 +4251,8 @@ export const resizeServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizeServer",
 }));
 
 export type ResizeVolumeError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4025,6 +4268,8 @@ export const resizeVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizeVolume",
 }));
 
 export type RestoreBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4040,6 +4285,8 @@ export const restoreBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBackup",
 }));
 
 export type SetImageShareError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4055,6 +4302,8 @@ export const setImageShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetImageShare",
 }));
 
 export type StartServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4070,6 +4319,8 @@ export const startServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServer",
 }));
 
 export type StopServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4085,6 +4336,8 @@ export const stopServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopServer",
 }));
 
 export type UnrescueServerError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4100,6 +4353,8 @@ export const unrescueServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnrescueServer",
 }));
 
 export type UpdateAttachedVolumeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4115,6 +4370,8 @@ export const updateAttachedVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttachedVolume",
 }));
 
 export type UpdateBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4130,6 +4387,8 @@ export const updateBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackup",
 }));
 
 export type UpdateImageError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4145,6 +4404,8 @@ export const updateImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImage",
 }));
 
 export type UpdateImageShareError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4160,6 +4421,8 @@ export const updateImageShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImageShare",
 }));
 
 export type UpdateKeyPairError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4175,6 +4438,8 @@ export const updateKeyPair: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyPair",
 }));
 
 export type UpdateNetworkAreaRegionError =
@@ -4195,6 +4460,8 @@ export const updateNetworkAreaRegion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkAreaRegion",
 }));
 
 export type UpdateNetworkAreaRouteError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4210,6 +4477,8 @@ export const updateNetworkAreaRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkAreaRoute",
 }));
 
 export type UpdateNicError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -4225,6 +4494,8 @@ export const updateNic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNic",
 }));
 
 export type UpdatePublicIPError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4240,6 +4511,8 @@ export const updatePublicIP: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublicIP",
 }));
 
 export type UpdateRouteOfRoutingTableError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4255,6 +4528,8 @@ export const updateRouteOfRoutingTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRouteOfRoutingTable",
 }));
 
 export type UpdateRoutingTableOfAreaError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4270,6 +4545,8 @@ export const updateRoutingTableOfArea: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingTableOfArea",
 }));
 
 export type UpdateSecurityGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4285,6 +4562,8 @@ export const updateSecurityGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityGroup",
 }));
 
 export type UpdateServerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4300,6 +4579,8 @@ export const updateServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServer",
 }));
 
 export type UpdateSnapshotError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4315,6 +4596,8 @@ export const updateSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshot",
 }));
 
 export type UpdateVolumeError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -4330,6 +4613,8 @@ export const updateVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

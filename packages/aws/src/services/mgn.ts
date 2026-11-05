@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -71,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mgn.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "mgn",
+  service: "mgn",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1999,7 +2015,7 @@ export type ArchiveApplicationError =
  * Archive application.
  */
 export const archiveApplication: API.OperationMethod<
-  ArchiveApplicationRequest,
+  ArchiveApplicationRequest & RegionInput,
   Application,
   ArchiveApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2015,6 +2031,8 @@ export const archiveApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveApplication",
+  telemetry: TELEMETRY,
+  span: "ArchiveApplication",
 }));
 
 export type ArchiveWaveError =
@@ -2027,7 +2045,7 @@ export type ArchiveWaveError =
  * Archive wave.
  */
 export const archiveWave: API.OperationMethod<
-  ArchiveWaveRequest,
+  ArchiveWaveRequest & RegionInput,
   Wave,
   ArchiveWaveError,
   Credentials | HttpClient.HttpClient
@@ -2043,6 +2061,8 @@ export const archiveWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveWave",
+  telemetry: TELEMETRY,
+  span: "ArchiveWave",
 }));
 
 export type AssociateApplicationsError =
@@ -2055,7 +2075,7 @@ export type AssociateApplicationsError =
  * Associate applications to wave.
  */
 export const associateApplications: API.OperationMethod<
-  AssociateApplicationsRequest,
+  AssociateApplicationsRequest & RegionInput,
   AssociateApplicationsResponse,
   AssociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -2071,6 +2091,8 @@ export const associateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplications",
+  telemetry: TELEMETRY,
+  span: "AssociateApplications",
 }));
 
 export type AssociateSourceServersError =
@@ -2083,7 +2105,7 @@ export type AssociateSourceServersError =
  * Associate source servers to application.
  */
 export const associateSourceServers: API.OperationMethod<
-  AssociateSourceServersRequest,
+  AssociateSourceServersRequest & RegionInput,
   AssociateSourceServersResponse,
   AssociateSourceServersError,
   Credentials | HttpClient.HttpClient
@@ -2099,6 +2121,8 @@ export const associateSourceServers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceServers",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceServers",
 }));
 
 export type ChangeServerLifeCycleStateError =
@@ -2111,7 +2135,7 @@ export type ChangeServerLifeCycleStateError =
  * Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
  */
 export const changeServerLifeCycleState: API.OperationMethod<
-  ChangeServerLifeCycleStateRequest,
+  ChangeServerLifeCycleStateRequest & RegionInput,
   SourceServer,
   ChangeServerLifeCycleStateError,
   Credentials | HttpClient.HttpClient
@@ -2127,6 +2151,8 @@ export const changeServerLifeCycleState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeServerLifeCycleState",
+  telemetry: TELEMETRY,
+  span: "ChangeServerLifeCycleState",
 }));
 
 export type CreateApplicationError =
@@ -2138,7 +2164,7 @@ export type CreateApplicationError =
  * Create application.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   Application,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2149,6 +2175,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateConnectorError =
@@ -2159,7 +2187,7 @@ export type CreateConnectorError =
  * Create Connector.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   Connector,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2170,6 +2198,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateLaunchConfigurationTemplateError =
@@ -2181,7 +2211,7 @@ export type CreateLaunchConfigurationTemplateError =
  * Creates a new Launch Configuration Template.
  */
 export const createLaunchConfigurationTemplate: API.OperationMethod<
-  CreateLaunchConfigurationTemplateRequest,
+  CreateLaunchConfigurationTemplateRequest & RegionInput,
   LaunchConfigurationTemplate,
   CreateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2192,6 +2222,8 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateLaunchConfigurationTemplate",
 }));
 
 export type CreateNetworkMigrationDefinitionError =
@@ -2202,7 +2234,7 @@ export type CreateNetworkMigrationDefinitionError =
  * Creates a new network migration definition that specifies the source and target network configuration for a migration.
  */
 export const createNetworkMigrationDefinition: API.OperationMethod<
-  CreateNetworkMigrationDefinitionRequest,
+  CreateNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   CreateNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2213,6 +2245,8 @@ export const createNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkMigrationDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkMigrationDefinition",
 }));
 
 export type CreateReplicationConfigurationTemplateError =
@@ -2224,7 +2258,7 @@ export type CreateReplicationConfigurationTemplateError =
  * Creates a new ReplicationConfigurationTemplate.
  */
 export const createReplicationConfigurationTemplate: API.OperationMethod<
-  CreateReplicationConfigurationTemplateRequest,
+  CreateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   CreateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2235,6 +2269,8 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfigurationTemplate",
 }));
 
 export type CreateWaveError =
@@ -2246,7 +2282,7 @@ export type CreateWaveError =
  * Create wave.
  */
 export const createWave: API.OperationMethod<
-  CreateWaveRequest,
+  CreateWaveRequest & RegionInput,
   Wave,
   CreateWaveError,
   Credentials | HttpClient.HttpClient
@@ -2257,6 +2293,8 @@ export const createWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWave",
+  telemetry: TELEMETRY,
+  span: "CreateWave",
 }));
 
 export type DeleteApplicationError =
@@ -2268,7 +2306,7 @@ export type DeleteApplicationError =
  * Delete application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2279,6 +2317,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteConnectorError =
@@ -2290,7 +2330,7 @@ export type DeleteConnectorError =
  * Delete Connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2301,6 +2341,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteJobError =
@@ -2312,7 +2354,7 @@ export type DeleteJobError =
  * Deletes a single Job by ID.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -2323,6 +2365,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteLaunchConfigurationTemplateError =
@@ -2334,7 +2378,7 @@ export type DeleteLaunchConfigurationTemplateError =
  * Deletes a single Launch Configuration Template by ID.
  */
 export const deleteLaunchConfigurationTemplate: API.OperationMethod<
-  DeleteLaunchConfigurationTemplateRequest,
+  DeleteLaunchConfigurationTemplateRequest & RegionInput,
   DeleteLaunchConfigurationTemplateResponse,
   DeleteLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2345,6 +2389,8 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchConfigurationTemplate",
 }));
 
 export type DeleteNetworkMigrationDefinitionError =
@@ -2356,7 +2402,7 @@ export type DeleteNetworkMigrationDefinitionError =
  * Deletes a network migration definition. This operation removes the migration definition and all associated metadata.
  */
 export const deleteNetworkMigrationDefinition: API.OperationMethod<
-  DeleteNetworkMigrationDefinitionRequest,
+  DeleteNetworkMigrationDefinitionRequest & RegionInput,
   DeleteNetworkMigrationDefinitionResponse,
   DeleteNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2367,6 +2413,8 @@ export const deleteNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkMigrationDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkMigrationDefinition",
 }));
 
 export type DeleteReplicationConfigurationTemplateError =
@@ -2378,7 +2426,7 @@ export type DeleteReplicationConfigurationTemplateError =
  * Deletes a single Replication Configuration Template by ID
  */
 export const deleteReplicationConfigurationTemplate: API.OperationMethod<
-  DeleteReplicationConfigurationTemplateRequest,
+  DeleteReplicationConfigurationTemplateRequest & RegionInput,
   DeleteReplicationConfigurationTemplateResponse,
   DeleteReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2389,6 +2437,8 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfigurationTemplate",
 }));
 
 export type DeleteSourceServerError =
@@ -2400,7 +2450,7 @@ export type DeleteSourceServerError =
  * Deletes a single source server by ID.
  */
 export const deleteSourceServer: API.OperationMethod<
-  DeleteSourceServerRequest,
+  DeleteSourceServerRequest & RegionInput,
   DeleteSourceServerResponse,
   DeleteSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -2411,6 +2461,8 @@ export const deleteSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceServer",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceServer",
 }));
 
 export type DeleteVcenterClientError =
@@ -2422,7 +2474,7 @@ export type DeleteVcenterClientError =
  * Deletes a given vCenter client by ID.
  */
 export const deleteVcenterClient: API.OperationMethod<
-  DeleteVcenterClientRequest,
+  DeleteVcenterClientRequest & RegionInput,
   DeleteVcenterClientResponse,
   DeleteVcenterClientError,
   Credentials | HttpClient.HttpClient
@@ -2433,6 +2485,8 @@ export const deleteVcenterClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVcenterClient",
+  telemetry: TELEMETRY,
+  span: "DeleteVcenterClient",
 }));
 
 export type DeleteWaveError =
@@ -2444,7 +2498,7 @@ export type DeleteWaveError =
  * Delete wave.
  */
 export const deleteWave: API.OperationMethod<
-  DeleteWaveRequest,
+  DeleteWaveRequest & RegionInput,
   DeleteWaveResponse,
   DeleteWaveError,
   Credentials | HttpClient.HttpClient
@@ -2455,6 +2509,8 @@ export const deleteWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWave",
+  telemetry: TELEMETRY,
+  span: "DeleteWave",
 }));
 
 export type DescribeJobLogItemsError =
@@ -2465,7 +2521,7 @@ export type DescribeJobLogItemsError =
  * Retrieves detailed job log items with paging.
  */
 export const describeJobLogItems: API.PaginatedOperationMethod<
-  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsRequest & RegionInput,
   DescribeJobLogItemsResponse,
   DescribeJobLogItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2483,6 +2539,8 @@ export const describeJobLogItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobLogItems",
 })) as any;
 
 export type DescribeJobsError = UninitializedAccountException | ValidationException | CommonErrors;
@@ -2490,7 +2548,7 @@ export type DescribeJobsError = UninitializedAccountException | ValidationExcept
  * Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
 export const describeJobs: API.PaginatedOperationMethod<
-  DescribeJobsRequest,
+  DescribeJobsRequest & RegionInput,
   DescribeJobsResponse,
   DescribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2508,6 +2566,8 @@ export const describeJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobs",
 })) as any;
 
 export type DescribeLaunchConfigurationTemplatesError =
@@ -2519,7 +2579,7 @@ export type DescribeLaunchConfigurationTemplatesError =
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
 export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesRequest & RegionInput,
   DescribeLaunchConfigurationTemplatesResponse,
   DescribeLaunchConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2537,6 +2597,8 @@ export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLaunchConfigurationTemplates",
 })) as any;
 
 export type DescribeReplicationConfigurationTemplatesError =
@@ -2548,7 +2610,7 @@ export type DescribeReplicationConfigurationTemplatesError =
  * Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.
  */
 export const describeReplicationConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesRequest & RegionInput,
   DescribeReplicationConfigurationTemplatesResponse,
   DescribeReplicationConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2566,6 +2628,8 @@ export const describeReplicationConfigurationTemplates: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigurationTemplates",
 })) as any;
 
 export type DescribeSourceServersError =
@@ -2576,7 +2640,7 @@ export type DescribeSourceServersError =
  * Retrieves all SourceServers or multiple SourceServers by ID.
  */
 export const describeSourceServers: API.PaginatedOperationMethod<
-  DescribeSourceServersRequest,
+  DescribeSourceServersRequest & RegionInput,
   DescribeSourceServersResponse,
   DescribeSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2594,6 +2658,8 @@ export const describeSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceServers",
 })) as any;
 
 export type DescribeVcenterClientsError =
@@ -2605,7 +2671,7 @@ export type DescribeVcenterClientsError =
  * Returns a list of the installed vCenter clients.
  */
 export const describeVcenterClients: API.PaginatedOperationMethod<
-  DescribeVcenterClientsRequest,
+  DescribeVcenterClientsRequest & RegionInput,
   DescribeVcenterClientsResponse,
   DescribeVcenterClientsError,
   Credentials | HttpClient.HttpClient,
@@ -2623,6 +2689,8 @@ export const describeVcenterClients: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeVcenterClients",
 })) as any;
 
 export type DisassociateApplicationsError =
@@ -2634,7 +2702,7 @@ export type DisassociateApplicationsError =
  * Disassociate applications from wave.
  */
 export const disassociateApplications: API.OperationMethod<
-  DisassociateApplicationsRequest,
+  DisassociateApplicationsRequest & RegionInput,
   DisassociateApplicationsResponse,
   DisassociateApplicationsError,
   Credentials | HttpClient.HttpClient
@@ -2645,6 +2713,8 @@ export const disassociateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplications",
+  telemetry: TELEMETRY,
+  span: "DisassociateApplications",
 }));
 
 export type DisassociateSourceServersError =
@@ -2656,7 +2726,7 @@ export type DisassociateSourceServersError =
  * Disassociate source servers from application.
  */
 export const disassociateSourceServers: API.OperationMethod<
-  DisassociateSourceServersRequest,
+  DisassociateSourceServersRequest & RegionInput,
   DisassociateSourceServersResponse,
   DisassociateSourceServersError,
   Credentials | HttpClient.HttpClient
@@ -2667,6 +2737,8 @@ export const disassociateSourceServers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceServers",
+  telemetry: TELEMETRY,
+  span: "DisassociateSourceServers",
 }));
 
 export type DisconnectFromServiceError =
@@ -2678,7 +2750,7 @@ export type DisconnectFromServiceError =
  * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectFromService: API.OperationMethod<
-  DisconnectFromServiceRequest,
+  DisconnectFromServiceRequest & RegionInput,
   SourceServer,
   DisconnectFromServiceError,
   Credentials | HttpClient.HttpClient
@@ -2689,6 +2761,8 @@ export const disconnectFromService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectFromService",
+  telemetry: TELEMETRY,
+  span: "DisconnectFromService",
 }));
 
 export type FinalizeCutoverError =
@@ -2701,7 +2775,7 @@ export type FinalizeCutoverError =
  * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const finalizeCutover: API.OperationMethod<
-  FinalizeCutoverRequest,
+  FinalizeCutoverRequest & RegionInput,
   SourceServer,
   FinalizeCutoverError,
   Credentials | HttpClient.HttpClient
@@ -2717,6 +2791,8 @@ export const finalizeCutover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FinalizeCutover",
+  telemetry: TELEMETRY,
+  span: "FinalizeCutover",
 }));
 
 export type GetLaunchConfigurationError =
@@ -2727,7 +2803,7 @@ export type GetLaunchConfigurationError =
  * Lists all LaunchConfigurations available, filtered by Source Server IDs.
  */
 export const getLaunchConfiguration: API.OperationMethod<
-  GetLaunchConfigurationRequest,
+  GetLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   GetLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2738,6 +2814,8 @@ export const getLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLaunchConfiguration",
 }));
 
 export type GetNetworkMigrationDefinitionError =
@@ -2748,7 +2826,7 @@ export type GetNetworkMigrationDefinitionError =
  * Retrieves the details of a network migration definition including source and target configurations.
  */
 export const getNetworkMigrationDefinition: API.OperationMethod<
-  GetNetworkMigrationDefinitionRequest,
+  GetNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   GetNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2759,6 +2837,8 @@ export const getNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkMigrationDefinition",
+  telemetry: TELEMETRY,
+  span: "GetNetworkMigrationDefinition",
 }));
 
 export type GetNetworkMigrationMapperSegmentConstructError =
@@ -2770,7 +2850,7 @@ export type GetNetworkMigrationMapperSegmentConstructError =
  * Retrieves detailed information about a specific construct within a mapper segment, including its properties and configuration data.
  */
 export const getNetworkMigrationMapperSegmentConstruct: API.OperationMethod<
-  GetNetworkMigrationMapperSegmentConstructRequest,
+  GetNetworkMigrationMapperSegmentConstructRequest & RegionInput,
   GetNetworkMigrationMapperSegmentConstructResponse,
   GetNetworkMigrationMapperSegmentConstructError,
   Credentials | HttpClient.HttpClient
@@ -2781,6 +2861,8 @@ export const getNetworkMigrationMapperSegmentConstruct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkMigrationMapperSegmentConstruct",
+  telemetry: TELEMETRY,
+  span: "GetNetworkMigrationMapperSegmentConstruct",
 }));
 
 export type GetReplicationConfigurationError =
@@ -2791,7 +2873,7 @@ export type GetReplicationConfigurationError =
  * Lists all ReplicationConfigurations, filtered by Source Server ID.
  */
 export const getReplicationConfiguration: API.OperationMethod<
-  GetReplicationConfigurationRequest,
+  GetReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   GetReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2802,6 +2884,8 @@ export const getReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetReplicationConfiguration",
 }));
 
 export type InitializeServiceError = AccessDeniedException | ValidationException | CommonErrors;
@@ -2809,7 +2893,7 @@ export type InitializeServiceError = AccessDeniedException | ValidationException
  * Initialize Application Migration Service.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceRequest,
+  InitializeServiceRequest & RegionInput,
   InitializeServiceResponse,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -2820,6 +2904,8 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  telemetry: TELEMETRY,
+  span: "InitializeService",
 }));
 
 export type ListApplicationsError = UninitializedAccountException | CommonErrors;
@@ -2827,7 +2913,7 @@ export type ListApplicationsError = UninitializedAccountException | CommonErrors
  * Retrieves all applications or multiple applications by ID.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -2845,6 +2931,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListConnectorsError =
@@ -2855,7 +2943,7 @@ export type ListConnectorsError =
  * List Connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2873,6 +2961,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListExportErrorsError =
@@ -2883,7 +2973,7 @@ export type ListExportErrorsError =
  * List export errors.
  */
 export const listExportErrors: API.PaginatedOperationMethod<
-  ListExportErrorsRequest,
+  ListExportErrorsRequest & RegionInput,
   ListExportErrorsResponse,
   ListExportErrorsError,
   Credentials | HttpClient.HttpClient,
@@ -2901,6 +2991,8 @@ export const listExportErrors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExportErrors",
 })) as any;
 
 export type ListExportsError = UninitializedAccountException | CommonErrors;
@@ -2908,7 +3000,7 @@ export type ListExportsError = UninitializedAccountException | CommonErrors;
  * List exports.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsRequest,
+  ListExportsRequest & RegionInput,
   ListExportsResponse,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -2926,6 +3018,8 @@ export const listExports: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListImportErrorsError =
@@ -2936,7 +3030,7 @@ export type ListImportErrorsError =
  * List import errors.
  */
 export const listImportErrors: API.PaginatedOperationMethod<
-  ListImportErrorsRequest,
+  ListImportErrorsRequest & RegionInput,
   ListImportErrorsResponse,
   ListImportErrorsError,
   Credentials | HttpClient.HttpClient,
@@ -2954,6 +3048,8 @@ export const listImportErrors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportErrors",
 })) as any;
 
 export type ListImportFileEnrichmentsError = ValidationException | CommonErrors;
@@ -2961,7 +3057,7 @@ export type ListImportFileEnrichmentsError = ValidationException | CommonErrors;
  * Lists import file enrichment jobs with optional filtering by job IDs.
  */
 export const listImportFileEnrichments: API.PaginatedOperationMethod<
-  ListImportFileEnrichmentsRequest,
+  ListImportFileEnrichmentsRequest & RegionInput,
   ListImportFileEnrichmentsResponse,
   ListImportFileEnrichmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2979,6 +3075,8 @@ export const listImportFileEnrichments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportFileEnrichments",
 })) as any;
 
 export type ListImportsError = UninitializedAccountException | ValidationException | CommonErrors;
@@ -2986,7 +3084,7 @@ export type ListImportsError = UninitializedAccountException | ValidationExcepti
  * List imports.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsRequest,
+  ListImportsRequest & RegionInput,
   ListImportsResponse,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -3004,6 +3102,8 @@ export const listImports: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImports",
 })) as any;
 
 export type ListManagedAccountsError =
@@ -3014,7 +3114,7 @@ export type ListManagedAccountsError =
  * List Managed Accounts.
  */
 export const listManagedAccounts: API.PaginatedOperationMethod<
-  ListManagedAccountsRequest,
+  ListManagedAccountsRequest & RegionInput,
   ListManagedAccountsResponse,
   ListManagedAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -3032,6 +3132,8 @@ export const listManagedAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedAccounts",
 })) as any;
 
 export type ListNetworkMigrationAnalysesError =
@@ -3044,7 +3146,7 @@ export type ListNetworkMigrationAnalysesError =
  * Lists network migration analysis jobs for a specified execution. Returns information about analysis job status and results.
  */
 export const listNetworkMigrationAnalyses: API.PaginatedOperationMethod<
-  ListNetworkMigrationAnalysesRequest,
+  ListNetworkMigrationAnalysesRequest & RegionInput,
   ListNetworkMigrationAnalysesResponse,
   ListNetworkMigrationAnalysesError,
   Credentials | HttpClient.HttpClient,
@@ -3067,6 +3169,8 @@ export const listNetworkMigrationAnalyses: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationAnalyses",
 })) as any;
 
 export type ListNetworkMigrationAnalysisResultsError =
@@ -3079,7 +3183,7 @@ export type ListNetworkMigrationAnalysisResultsError =
  * Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources.
  */
 export const listNetworkMigrationAnalysisResults: API.PaginatedOperationMethod<
-  ListNetworkMigrationAnalysisResultsRequest,
+  ListNetworkMigrationAnalysisResultsRequest & RegionInput,
   ListNetworkMigrationAnalysisResultsResponse,
   ListNetworkMigrationAnalysisResultsError,
   Credentials | HttpClient.HttpClient,
@@ -3102,6 +3206,8 @@ export const listNetworkMigrationAnalysisResults: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationAnalysisResults",
 })) as any;
 
 export type ListNetworkMigrationCodeGenerationsError =
@@ -3114,7 +3220,7 @@ export type ListNetworkMigrationCodeGenerationsError =
  * Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates.
  */
 export const listNetworkMigrationCodeGenerations: API.PaginatedOperationMethod<
-  ListNetworkMigrationCodeGenerationsRequest,
+  ListNetworkMigrationCodeGenerationsRequest & RegionInput,
   ListNetworkMigrationCodeGenerationsResponse,
   ListNetworkMigrationCodeGenerationsError,
   Credentials | HttpClient.HttpClient,
@@ -3137,6 +3243,8 @@ export const listNetworkMigrationCodeGenerations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationCodeGenerations",
 })) as any;
 
 export type ListNetworkMigrationCodeGenerationSegmentsError =
@@ -3149,7 +3257,7 @@ export type ListNetworkMigrationCodeGenerationSegmentsError =
  * Lists code generation segments, which represent individual infrastructure components generated as code templates.
  */
 export const listNetworkMigrationCodeGenerationSegments: API.PaginatedOperationMethod<
-  ListNetworkMigrationCodeGenerationSegmentsRequest,
+  ListNetworkMigrationCodeGenerationSegmentsRequest & RegionInput,
   ListNetworkMigrationCodeGenerationSegmentsResponse,
   ListNetworkMigrationCodeGenerationSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3176,6 +3284,8 @@ export const listNetworkMigrationCodeGenerationSegments: API.PaginatedOperationM
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationCodeGenerationSegments",
 })) as any;
 
 export type ListNetworkMigrationDefinitionsError = AccessDeniedException | CommonErrors;
@@ -3183,7 +3293,7 @@ export type ListNetworkMigrationDefinitionsError = AccessDeniedException | Commo
  * Lists all network migration definitions in the account, with optional filtering.
  */
 export const listNetworkMigrationDefinitions: API.PaginatedOperationMethod<
-  ListNetworkMigrationDefinitionsRequest,
+  ListNetworkMigrationDefinitionsRequest & RegionInput,
   ListNetworkMigrationDefinitionsResponse,
   ListNetworkMigrationDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -3201,6 +3311,8 @@ export const listNetworkMigrationDefinitions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationDefinitions",
 })) as any;
 
 export type ListNetworkMigrationDeployedStacksError =
@@ -3213,7 +3325,7 @@ export type ListNetworkMigrationDeployedStacksError =
  * Lists CloudFormation stacks that have been deployed as part of the network migration.
  */
 export const listNetworkMigrationDeployedStacks: API.PaginatedOperationMethod<
-  ListNetworkMigrationDeployedStacksRequest,
+  ListNetworkMigrationDeployedStacksRequest & RegionInput,
   ListNetworkMigrationDeployedStacksResponse,
   ListNetworkMigrationDeployedStacksError,
   Credentials | HttpClient.HttpClient,
@@ -3236,6 +3348,8 @@ export const listNetworkMigrationDeployedStacks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationDeployedStacks",
 })) as any;
 
 export type ListNetworkMigrationDeploymentsError =
@@ -3248,7 +3362,7 @@ export type ListNetworkMigrationDeploymentsError =
  * Lists network migration deployment jobs and their current status.
  */
 export const listNetworkMigrationDeployments: API.PaginatedOperationMethod<
-  ListNetworkMigrationDeploymentsRequest,
+  ListNetworkMigrationDeploymentsRequest & RegionInput,
   ListNetworkMigrationDeployerJobResponse,
   ListNetworkMigrationDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -3271,6 +3385,8 @@ export const listNetworkMigrationDeployments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationDeployments",
 })) as any;
 
 export type ListNetworkMigrationExecutionsError =
@@ -3281,7 +3397,7 @@ export type ListNetworkMigrationExecutionsError =
  * Lists network migration execution instances for a given definition, showing the status and progress of each execution.
  */
 export const listNetworkMigrationExecutions: API.PaginatedOperationMethod<
-  ListNetworkMigrationExecutionsRequest,
+  ListNetworkMigrationExecutionsRequest & RegionInput,
   ListNetworkMigrationExecutionsResponse,
   ListNetworkMigrationExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3299,6 +3415,8 @@ export const listNetworkMigrationExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationExecutions",
 })) as any;
 
 export type ListNetworkMigrationMapperSegmentConstructsError =
@@ -3311,7 +3429,7 @@ export type ListNetworkMigrationMapperSegmentConstructsError =
  * Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups.
  */
 export const listNetworkMigrationMapperSegmentConstructs: API.PaginatedOperationMethod<
-  ListNetworkMigrationMapperSegmentConstructsRequest,
+  ListNetworkMigrationMapperSegmentConstructsRequest & RegionInput,
   ListNetworkMigrationMapperSegmentConstructsResponse,
   ListNetworkMigrationMapperSegmentConstructsError,
   Credentials | HttpClient.HttpClient,
@@ -3338,6 +3456,8 @@ export const listNetworkMigrationMapperSegmentConstructs: API.PaginatedOperation
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationMapperSegmentConstructs",
 })) as any;
 
 export type ListNetworkMigrationMapperSegmentsError =
@@ -3350,7 +3470,7 @@ export type ListNetworkMigrationMapperSegmentsError =
  * Lists mapper segments, which represent logical groupings of network resources to be migrated together.
  */
 export const listNetworkMigrationMapperSegments: API.PaginatedOperationMethod<
-  ListNetworkMigrationMapperSegmentsRequest,
+  ListNetworkMigrationMapperSegmentsRequest & RegionInput,
   ListNetworkMigrationMapperSegmentsResponse,
   ListNetworkMigrationMapperSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3373,6 +3493,8 @@ export const listNetworkMigrationMapperSegments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationMapperSegments",
 })) as any;
 
 export type ListNetworkMigrationMappingsError =
@@ -3385,7 +3507,7 @@ export type ListNetworkMigrationMappingsError =
  * Lists network migration mapping jobs, which analyze and create relationships between source and target network resources.
  */
 export const listNetworkMigrationMappings: API.PaginatedOperationMethod<
-  ListNetworkMigrationMappingsRequest,
+  ListNetworkMigrationMappingsRequest & RegionInput,
   ListNetworkMigrationMappingsResponse,
   ListNetworkMigrationMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -3408,6 +3530,8 @@ export const listNetworkMigrationMappings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationMappings",
 })) as any;
 
 export type ListNetworkMigrationMappingUpdatesError =
@@ -3420,7 +3544,7 @@ export type ListNetworkMigrationMappingUpdatesError =
  * Lists mapping update jobs, which apply customer modifications to the generated network mappings.
  */
 export const listNetworkMigrationMappingUpdates: API.PaginatedOperationMethod<
-  ListNetworkMigrationMappingUpdatesRequest,
+  ListNetworkMigrationMappingUpdatesRequest & RegionInput,
   ListNetworkMigrationMappingUpdatesResponse,
   ListNetworkMigrationMappingUpdatesError,
   Credentials | HttpClient.HttpClient,
@@ -3443,6 +3567,8 @@ export const listNetworkMigrationMappingUpdates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkMigrationMappingUpdates",
 })) as any;
 
 export type ListSourceServerActionsError =
@@ -3453,7 +3579,7 @@ export type ListSourceServerActionsError =
  * List source server post migration custom actions.
  */
 export const listSourceServerActions: API.PaginatedOperationMethod<
-  ListSourceServerActionsRequest,
+  ListSourceServerActionsRequest & RegionInput,
   ListSourceServerActionsResponse,
   ListSourceServerActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3471,6 +3597,8 @@ export const listSourceServerActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceServerActions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3484,7 +3612,7 @@ export type ListTagsForResourceError =
  * List all tags for your Application Migration Service resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3501,6 +3629,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateActionsError =
@@ -3511,7 +3641,7 @@ export type ListTemplateActionsError =
  * List template post migration custom actions.
  */
 export const listTemplateActions: API.PaginatedOperationMethod<
-  ListTemplateActionsRequest,
+  ListTemplateActionsRequest & RegionInput,
   ListTemplateActionsResponse,
   ListTemplateActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3529,6 +3659,8 @@ export const listTemplateActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateActions",
 })) as any;
 
 export type ListWavesError = UninitializedAccountException | CommonErrors;
@@ -3536,7 +3668,7 @@ export type ListWavesError = UninitializedAccountException | CommonErrors;
  * Retrieves all waves or multiple waves by ID.
  */
 export const listWaves: API.PaginatedOperationMethod<
-  ListWavesRequest,
+  ListWavesRequest & RegionInput,
   ListWavesResponse,
   ListWavesError,
   Credentials | HttpClient.HttpClient,
@@ -3554,6 +3686,8 @@ export const listWaves: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWaves",
 })) as any;
 
 export type MarkAsArchivedError =
@@ -3565,7 +3699,7 @@ export type MarkAsArchivedError =
  * Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.
  */
 export const markAsArchived: API.OperationMethod<
-  MarkAsArchivedRequest,
+  MarkAsArchivedRequest & RegionInput,
   SourceServer,
   MarkAsArchivedError,
   Credentials | HttpClient.HttpClient
@@ -3576,6 +3710,8 @@ export const markAsArchived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MarkAsArchived",
+  telemetry: TELEMETRY,
+  span: "MarkAsArchived",
 }));
 
 export type PauseReplicationError =
@@ -3589,7 +3725,7 @@ export type PauseReplicationError =
  * Pause Replication.
  */
 export const pauseReplication: API.OperationMethod<
-  PauseReplicationRequest,
+  PauseReplicationRequest & RegionInput,
   SourceServer,
   PauseReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3606,6 +3742,8 @@ export const pauseReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseReplication",
+  telemetry: TELEMETRY,
+  span: "PauseReplication",
 }));
 
 export type PutSourceServerActionError =
@@ -3618,7 +3756,7 @@ export type PutSourceServerActionError =
  * Put source server post migration custom action.
  */
 export const putSourceServerAction: API.OperationMethod<
-  PutSourceServerActionRequest,
+  PutSourceServerActionRequest & RegionInput,
   SourceServerActionDocument,
   PutSourceServerActionError,
   Credentials | HttpClient.HttpClient
@@ -3634,6 +3772,8 @@ export const putSourceServerAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSourceServerAction",
+  telemetry: TELEMETRY,
+  span: "PutSourceServerAction",
 }));
 
 export type PutTemplateActionError =
@@ -3646,7 +3786,7 @@ export type PutTemplateActionError =
  * Put template post migration custom action.
  */
 export const putTemplateAction: API.OperationMethod<
-  PutTemplateActionRequest,
+  PutTemplateActionRequest & RegionInput,
   TemplateActionDocument,
   PutTemplateActionError,
   Credentials | HttpClient.HttpClient
@@ -3662,6 +3802,8 @@ export const putTemplateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTemplateAction",
+  telemetry: TELEMETRY,
+  span: "PutTemplateAction",
 }));
 
 export type RemoveSourceServerActionError =
@@ -3673,7 +3815,7 @@ export type RemoveSourceServerActionError =
  * Remove source server post migration custom action.
  */
 export const removeSourceServerAction: API.OperationMethod<
-  RemoveSourceServerActionRequest,
+  RemoveSourceServerActionRequest & RegionInput,
   RemoveSourceServerActionResponse,
   RemoveSourceServerActionError,
   Credentials | HttpClient.HttpClient
@@ -3684,6 +3826,8 @@ export const removeSourceServerAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceServerAction",
+  telemetry: TELEMETRY,
+  span: "RemoveSourceServerAction",
 }));
 
 export type RemoveTemplateActionError =
@@ -3695,7 +3839,7 @@ export type RemoveTemplateActionError =
  * Remove template post migration custom action.
  */
 export const removeTemplateAction: API.OperationMethod<
-  RemoveTemplateActionRequest,
+  RemoveTemplateActionRequest & RegionInput,
   RemoveTemplateActionResponse,
   RemoveTemplateActionError,
   Credentials | HttpClient.HttpClient
@@ -3706,6 +3850,8 @@ export const removeTemplateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTemplateAction",
+  telemetry: TELEMETRY,
+  span: "RemoveTemplateAction",
 }));
 
 export type ResumeReplicationError =
@@ -3719,7 +3865,7 @@ export type ResumeReplicationError =
  * Resume Replication.
  */
 export const resumeReplication: API.OperationMethod<
-  ResumeReplicationRequest,
+  ResumeReplicationRequest & RegionInput,
   SourceServer,
   ResumeReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3736,6 +3882,8 @@ export const resumeReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeReplication",
+  telemetry: TELEMETRY,
+  span: "ResumeReplication",
 }));
 
 export type RetryDataReplicationError =
@@ -3747,7 +3895,7 @@ export type RetryDataReplicationError =
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
  */
 export const retryDataReplication: API.OperationMethod<
-  RetryDataReplicationRequest,
+  RetryDataReplicationRequest & RegionInput,
   SourceServer,
   RetryDataReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3758,6 +3906,8 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
+  telemetry: TELEMETRY,
+  span: "RetryDataReplication",
 }));
 
 export type StartCutoverError =
@@ -3769,7 +3919,7 @@ export type StartCutoverError =
  * Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
  */
 export const startCutover: API.OperationMethod<
-  StartCutoverRequest,
+  StartCutoverRequest & RegionInput,
   StartCutoverResponse,
   StartCutoverError,
   Credentials | HttpClient.HttpClient
@@ -3780,6 +3930,8 @@ export const startCutover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCutover",
+  telemetry: TELEMETRY,
+  span: "StartCutover",
 }));
 
 export type StartExportError =
@@ -3791,7 +3943,7 @@ export type StartExportError =
  * Start export.
  */
 export const startExport: API.OperationMethod<
-  StartExportRequest,
+  StartExportRequest & RegionInput,
   StartExportResponse,
   StartExportError,
   Credentials | HttpClient.HttpClient
@@ -3802,6 +3954,8 @@ export const startExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExport",
+  telemetry: TELEMETRY,
+  span: "StartExport",
 }));
 
 export type StartImportError =
@@ -3815,7 +3969,7 @@ export type StartImportError =
  * Start import.
  */
 export const startImport: API.OperationMethod<
-  StartImportRequest,
+  StartImportRequest & RegionInput,
   StartImportResponse,
   StartImportError,
   Credentials | HttpClient.HttpClient
@@ -3832,6 +3986,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartImportFileEnrichmentError =
@@ -3845,7 +4001,7 @@ export type StartImportFileEnrichmentError =
  * Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies.
  */
 export const startImportFileEnrichment: API.OperationMethod<
-  StartImportFileEnrichmentRequest,
+  StartImportFileEnrichmentRequest & RegionInput,
   StartImportFileEnrichmentResponse,
   StartImportFileEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3862,6 +4018,8 @@ export const startImportFileEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportFileEnrichment",
+  telemetry: TELEMETRY,
+  span: "StartImportFileEnrichment",
 }));
 
 export type StartNetworkMigrationAnalysisError =
@@ -3876,7 +4034,7 @@ export type StartNetworkMigrationAnalysisError =
  * Starts a network migration analysis job to evaluate connectivity and compatibility of the migration mappings.
  */
 export const startNetworkMigrationAnalysis: API.OperationMethod<
-  StartNetworkMigrationAnalysisRequest,
+  StartNetworkMigrationAnalysisRequest & RegionInput,
   StartNetworkMigrationAnalysisResponse,
   StartNetworkMigrationAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -3894,6 +4052,8 @@ export const startNetworkMigrationAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartNetworkMigrationAnalysis",
 }));
 
 export type StartNetworkMigrationCodeGenerationError =
@@ -3908,7 +4068,7 @@ export type StartNetworkMigrationCodeGenerationError =
  * Starts a code generation job to convert network migration mappings into infrastructure-as-code templates.
  */
 export const startNetworkMigrationCodeGeneration: API.OperationMethod<
-  StartNetworkMigrationCodeGenerationRequest,
+  StartNetworkMigrationCodeGenerationRequest & RegionInput,
   StartNetworkMigrationCodeGenerationResponse,
   StartNetworkMigrationCodeGenerationError,
   Credentials | HttpClient.HttpClient
@@ -3926,6 +4086,8 @@ export const startNetworkMigrationCodeGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationCodeGeneration",
+  telemetry: TELEMETRY,
+  span: "StartNetworkMigrationCodeGeneration",
 }));
 
 export type StartNetworkMigrationDeploymentError =
@@ -3940,7 +4102,7 @@ export type StartNetworkMigrationDeploymentError =
  * Starts a deployment job to create the target network infrastructure based on the generated code templates.
  */
 export const startNetworkMigrationDeployment: API.OperationMethod<
-  StartNetworkMigrationDeploymentRequest,
+  StartNetworkMigrationDeploymentRequest & RegionInput,
   StartNetworkMigrationDeployerJobResponse,
   StartNetworkMigrationDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -3958,6 +4120,8 @@ export const startNetworkMigrationDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationDeployment",
+  telemetry: TELEMETRY,
+  span: "StartNetworkMigrationDeployment",
 }));
 
 export type StartNetworkMigrationMappingError =
@@ -3972,7 +4136,7 @@ export type StartNetworkMigrationMappingError =
  * Starts the network migration mapping process for a given network migration execution.
  */
 export const startNetworkMigrationMapping: API.OperationMethod<
-  StartNetworkMigrationMappingRequest,
+  StartNetworkMigrationMappingRequest & RegionInput,
   StartNetworkMigrationMappingResponse,
   StartNetworkMigrationMappingError,
   Credentials | HttpClient.HttpClient
@@ -3990,6 +4154,8 @@ export const startNetworkMigrationMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationMapping",
+  telemetry: TELEMETRY,
+  span: "StartNetworkMigrationMapping",
 }));
 
 export type StartNetworkMigrationMappingUpdateError =
@@ -4004,7 +4170,7 @@ export type StartNetworkMigrationMappingUpdateError =
  * Starts a job to apply customer modifications to network migration mappings, such as changing properties.
  */
 export const startNetworkMigrationMappingUpdate: API.OperationMethod<
-  StartNetworkMigrationMappingUpdateRequest,
+  StartNetworkMigrationMappingUpdateRequest & RegionInput,
   StartNetworkMigrationMappingUpdateResponse,
   StartNetworkMigrationMappingUpdateError,
   Credentials | HttpClient.HttpClient
@@ -4022,6 +4188,8 @@ export const startNetworkMigrationMappingUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationMappingUpdate",
+  telemetry: TELEMETRY,
+  span: "StartNetworkMigrationMappingUpdate",
 }));
 
 export type StartReplicationError =
@@ -4035,7 +4203,7 @@ export type StartReplicationError =
  * Start replication for source server irrespective of its replication type.
  */
 export const startReplication: API.OperationMethod<
-  StartReplicationRequest,
+  StartReplicationRequest & RegionInput,
   SourceServer,
   StartReplicationError,
   Credentials | HttpClient.HttpClient
@@ -4052,6 +4220,8 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
+  telemetry: TELEMETRY,
+  span: "StartReplication",
 }));
 
 export type StartTestError =
@@ -4063,7 +4233,7 @@ export type StartTestError =
  * Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
  */
 export const startTest: API.OperationMethod<
-  StartTestRequest,
+  StartTestRequest & RegionInput,
   StartTestResponse,
   StartTestError,
   Credentials | HttpClient.HttpClient
@@ -4074,6 +4244,8 @@ export const startTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTest",
+  telemetry: TELEMETRY,
+  span: "StartTest",
 }));
 
 export type StopReplicationError =
@@ -4087,7 +4259,7 @@ export type StopReplicationError =
  * Stop Replication.
  */
 export const stopReplication: API.OperationMethod<
-  StopReplicationRequest,
+  StopReplicationRequest & RegionInput,
   SourceServer,
   StopReplicationError,
   Credentials | HttpClient.HttpClient
@@ -4104,6 +4276,8 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
+  telemetry: TELEMETRY,
+  span: "StopReplication",
 }));
 
 export type TagResourceError =
@@ -4117,7 +4291,7 @@ export type TagResourceError =
  * Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4134,6 +4308,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateTargetInstancesError =
@@ -4145,7 +4321,7 @@ export type TerminateTargetInstancesError =
  * Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
  */
 export const terminateTargetInstances: API.OperationMethod<
-  TerminateTargetInstancesRequest,
+  TerminateTargetInstancesRequest & RegionInput,
   TerminateTargetInstancesResponse,
   TerminateTargetInstancesError,
   Credentials | HttpClient.HttpClient
@@ -4156,6 +4332,8 @@ export const terminateTargetInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateTargetInstances",
+  telemetry: TELEMETRY,
+  span: "TerminateTargetInstances",
 }));
 
 export type UnarchiveApplicationError =
@@ -4167,7 +4345,7 @@ export type UnarchiveApplicationError =
  * Unarchive application.
  */
 export const unarchiveApplication: API.OperationMethod<
-  UnarchiveApplicationRequest,
+  UnarchiveApplicationRequest & RegionInput,
   Application,
   UnarchiveApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4178,6 +4356,8 @@ export const unarchiveApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveApplication",
+  telemetry: TELEMETRY,
+  span: "UnarchiveApplication",
 }));
 
 export type UnarchiveWaveError =
@@ -4189,7 +4369,7 @@ export type UnarchiveWaveError =
  * Unarchive wave.
  */
 export const unarchiveWave: API.OperationMethod<
-  UnarchiveWaveRequest,
+  UnarchiveWaveRequest & RegionInput,
   Wave,
   UnarchiveWaveError,
   Credentials | HttpClient.HttpClient
@@ -4200,6 +4380,8 @@ export const unarchiveWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveWave",
+  telemetry: TELEMETRY,
+  span: "UnarchiveWave",
 }));
 
 export type UntagResourceError =
@@ -4213,7 +4395,7 @@ export type UntagResourceError =
  * Deletes the specified set of tags from the specified set of Application Migration Service resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4230,6 +4412,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -4241,7 +4425,7 @@ export type UpdateApplicationError =
  * Update application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   Application,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4252,6 +4436,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateConnectorError =
@@ -4263,7 +4449,7 @@ export type UpdateConnectorError =
  * Update Connector.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   Connector,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4274,6 +4460,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateLaunchConfigurationError =
@@ -4288,7 +4476,7 @@ export type UpdateLaunchConfigurationError =
  * bootMode valid values are `LEGACY_BIOS | UEFI | USE_SOURCE`
  */
 export const updateLaunchConfiguration: API.OperationMethod<
-  UpdateLaunchConfigurationRequest,
+  UpdateLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   UpdateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4304,6 +4492,8 @@ export const updateLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfiguration",
 }));
 
 export type UpdateLaunchConfigurationTemplateError =
@@ -4316,7 +4506,7 @@ export type UpdateLaunchConfigurationTemplateError =
  * Updates an existing Launch Configuration Template by ID.
  */
 export const updateLaunchConfigurationTemplate: API.OperationMethod<
-  UpdateLaunchConfigurationTemplateRequest,
+  UpdateLaunchConfigurationTemplateRequest & RegionInput,
   LaunchConfigurationTemplate,
   UpdateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4332,6 +4522,8 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfigurationTemplate",
 }));
 
 export type UpdateNetworkMigrationDefinitionError =
@@ -4343,7 +4535,7 @@ export type UpdateNetworkMigrationDefinitionError =
  * Updates an existing network migration definition with new source or target configurations.
  */
 export const updateNetworkMigrationDefinition: API.OperationMethod<
-  UpdateNetworkMigrationDefinitionRequest,
+  UpdateNetworkMigrationDefinitionRequest & RegionInput,
   NetworkMigrationDefinition,
   UpdateNetworkMigrationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4354,6 +4546,8 @@ export const updateNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkMigrationDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkMigrationDefinition",
 }));
 
 export type UpdateNetworkMigrationMapperSegmentError =
@@ -4365,7 +4559,7 @@ export type UpdateNetworkMigrationMapperSegmentError =
  * Updates a mapper segment's configuration, such as changing its scope tags.
  */
 export const updateNetworkMigrationMapperSegment: API.OperationMethod<
-  UpdateNetworkMigrationMapperSegmentRequest,
+  UpdateNetworkMigrationMapperSegmentRequest & RegionInput,
   NetworkMigrationMapperSegment,
   UpdateNetworkMigrationMapperSegmentError,
   Credentials | HttpClient.HttpClient
@@ -4376,6 +4570,8 @@ export const updateNetworkMigrationMapperSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkMigrationMapperSegment",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkMigrationMapperSegment",
 }));
 
 export type UpdateReplicationConfigurationError =
@@ -4389,7 +4585,7 @@ export type UpdateReplicationConfigurationError =
  * Allows you to update multiple ReplicationConfigurations by Source Server ID.
  */
 export const updateReplicationConfiguration: API.OperationMethod<
-  UpdateReplicationConfigurationRequest,
+  UpdateReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   UpdateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4406,6 +4602,8 @@ export const updateReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfiguration",
 }));
 
 export type UpdateReplicationConfigurationTemplateError =
@@ -4418,7 +4616,7 @@ export type UpdateReplicationConfigurationTemplateError =
  * Updates a ReplicationConfigurationTemplate by ID.
  */
 export const updateReplicationConfigurationTemplate: API.OperationMethod<
-  UpdateReplicationConfigurationTemplateRequest,
+  UpdateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   UpdateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4434,6 +4632,8 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfigurationTemplate",
 }));
 
 export type UpdateSourceServerError =
@@ -4445,7 +4645,7 @@ export type UpdateSourceServerError =
  * Update Source Server.
  */
 export const updateSourceServer: API.OperationMethod<
-  UpdateSourceServerRequest,
+  UpdateSourceServerRequest & RegionInput,
   SourceServer,
   UpdateSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -4456,6 +4656,8 @@ export const updateSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceServer",
+  telemetry: TELEMETRY,
+  span: "UpdateSourceServer",
 }));
 
 export type UpdateSourceServerReplicationTypeError =
@@ -4470,7 +4672,7 @@ export type UpdateSourceServerReplicationTypeError =
  * SNAPSHOT_SHIPPING should be used for agentless replication.
  */
 export const updateSourceServerReplicationType: API.OperationMethod<
-  UpdateSourceServerReplicationTypeRequest,
+  UpdateSourceServerReplicationTypeRequest & RegionInput,
   SourceServer,
   UpdateSourceServerReplicationTypeError,
   Credentials | HttpClient.HttpClient
@@ -4486,6 +4688,8 @@ export const updateSourceServerReplicationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceServerReplicationType",
+  telemetry: TELEMETRY,
+  span: "UpdateSourceServerReplicationType",
 }));
 
 export type UpdateWaveError =
@@ -4497,7 +4701,7 @@ export type UpdateWaveError =
  * Update wave.
  */
 export const updateWave: API.OperationMethod<
-  UpdateWaveRequest,
+  UpdateWaveRequest & RegionInput,
   Wave,
   UpdateWaveError,
   Credentials | HttpClient.HttpClient
@@ -4508,6 +4712,8 @@ export const updateWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWave",
+  telemetry: TELEMETRY,
+  span: "UpdateWave",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

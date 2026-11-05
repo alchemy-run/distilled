@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { RedisCloudOpError, RedisCloudOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "redis-cloud-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "RedisCloud",
+  service: "RedisCloud",
+  labels: "redis_cloud",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3659,6 +3672,8 @@ export const acceptActiveActiveTgwResourceShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptActiveActiveTgwResourceShare",
 }));
 
 export type AcceptTgwResourceShareError =
@@ -3679,6 +3694,8 @@ export const acceptTgwResourceShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptTgwResourceShare",
 }));
 
 export type AddNewRegionToActiveActiveSubscriptionError =
@@ -3699,6 +3716,8 @@ export const addNewRegionToActiveActiveSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNewRegionToActiveActiveSubscription",
 }));
 
 export type BackupDatabaseError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -3714,6 +3733,8 @@ export const backupDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupDatabase",
 }));
 
 export type BackupDatabase1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -3729,6 +3750,8 @@ export const backupDatabase1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BackupDatabase1",
 }));
 
 export type CreateActiveActivePrivateLinkError =
@@ -3750,6 +3773,8 @@ export const createActiveActivePrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActivePrivateLink",
 }));
 
 export type CreateActiveActivePrivateLinkPrincipalError =
@@ -3771,6 +3796,8 @@ export const createActiveActivePrivateLinkPrincipal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActivePrivateLinkPrincipal",
 }));
 
 export type CreateActiveActivePscServiceError =
@@ -3792,6 +3819,8 @@ export const createActiveActivePscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActivePscService",
 }));
 
 export type CreateActiveActivePscServiceEndpointError =
@@ -3813,6 +3842,8 @@ export const createActiveActivePscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActivePscServiceEndpoint",
 }));
 
 export type CreateActiveActiveTgwAttachmentError =
@@ -3834,6 +3865,8 @@ export const createActiveActiveTgwAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActiveTgwAttachment",
 }));
 
 export type CreateActiveActiveVpcPeeringError =
@@ -3855,6 +3888,8 @@ export const createActiveActiveVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveActiveVpcPeering",
 }));
 
 export type CreateCloudAccountError =
@@ -3876,6 +3911,8 @@ export const createCloudAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudAccount",
 }));
 
 export type CreateCostReportError =
@@ -3897,6 +3934,8 @@ export const createCostReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostReport",
 }));
 
 export type CreateDatabaseError =
@@ -3918,6 +3957,8 @@ export const createDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateEndpointsRedirectionError =
@@ -3939,6 +3980,8 @@ export const createEndpointsRedirection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointsRedirection",
 }));
 
 export type CreateFixedDatabaseError =
@@ -3960,6 +4003,8 @@ export const createFixedDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFixedDatabase",
 }));
 
 export type CreateMemoryStoreError =
@@ -3981,6 +4026,8 @@ export const createMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMemoryStore",
 }));
 
 export type CreateMemoryStoreApiKeyError =
@@ -4002,6 +4049,8 @@ export const createMemoryStoreApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMemoryStoreApiKey",
 }));
 
 export type CreatePrivateLinkError =
@@ -4023,6 +4072,8 @@ export const createPrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateLink",
 }));
 
 export type CreatePrivateLinkPrincipalError =
@@ -4044,6 +4095,8 @@ export const createPrivateLinkPrincipal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateLinkPrincipal",
 }));
 
 export type CreatePscServiceError =
@@ -4065,6 +4118,8 @@ export const createPscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePscService",
 }));
 
 export type CreatePscServiceEndpointError =
@@ -4086,6 +4141,8 @@ export const createPscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePscServiceEndpoint",
 }));
 
 export type CreateRedisRuleError =
@@ -4107,6 +4164,8 @@ export const createRedisRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedisRule",
 }));
 
 export type CreateRoleError =
@@ -4128,6 +4187,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateSubscriptionError =
@@ -4149,6 +4210,8 @@ export const createSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateSubscription1Error =
@@ -4170,6 +4233,8 @@ export const createSubscription1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription1",
 }));
 
 export type CreateTagError =
@@ -4191,6 +4256,8 @@ export const createTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateTag1Error =
@@ -4212,6 +4279,8 @@ export const createTag1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag1",
 }));
 
 export type CreateTgwAttachmentError =
@@ -4233,6 +4302,8 @@ export const createTgwAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTgwAttachment",
 }));
 
 export type CreateUserError =
@@ -4254,6 +4325,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateVpcPeeringError =
@@ -4275,6 +4348,8 @@ export const createVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeering",
 }));
 
 export type DeleteAclRoleError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4290,6 +4365,8 @@ export const deleteAclRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAclRole",
 }));
 
 export type DeleteActiveActivePrivateLinkError =
@@ -4310,6 +4387,8 @@ export const deleteActiveActivePrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActivePrivateLink",
 }));
 
 export type DeleteActiveActivePrivateLinkPrincipalsError =
@@ -4330,6 +4409,8 @@ export const deleteActiveActivePrivateLinkPrincipals: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActivePrivateLinkPrincipals",
 }));
 
 export type DeleteActiveActivePscServiceError =
@@ -4350,6 +4431,8 @@ export const deleteActiveActivePscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActivePscService",
 }));
 
 export type DeleteActiveActivePscServiceEndpointError =
@@ -4370,6 +4453,8 @@ export const deleteActiveActivePscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActivePscServiceEndpoint",
 }));
 
 export type DeleteActiveActiveTgwAttachmentError =
@@ -4390,6 +4475,8 @@ export const deleteActiveActiveTgwAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActiveTgwAttachment",
 }));
 
 export type DeleteActiveActiveVpcPeeringError =
@@ -4410,6 +4497,8 @@ export const deleteActiveActiveVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveActiveVpcPeering",
 }));
 
 export type DeleteCloudAccountError =
@@ -4430,6 +4519,8 @@ export const deleteCloudAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudAccount",
 }));
 
 export type DeleteDatabaseByIdError =
@@ -4450,6 +4541,8 @@ export const deleteDatabaseById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseById",
 }));
 
 export type DeleteFixedDatabaseByIDError =
@@ -4470,6 +4563,8 @@ export const deleteFixedDatabaseByID: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFixedDatabaseByID",
 }));
 
 export type DeleteFixedDatabaseByID1Error =
@@ -4490,6 +4585,8 @@ export const deleteFixedDatabaseByID1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFixedDatabaseByID1",
 }));
 
 export type DeleteMemoryStoreError =
@@ -4510,6 +4607,8 @@ export const deleteMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMemoryStore",
 }));
 
 export type DeleteMemoryStoreApiKeyError =
@@ -4530,6 +4629,8 @@ export const deleteMemoryStoreApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMemoryStoreApiKey",
 }));
 
 export type DeletePrivateLinkError =
@@ -4550,6 +4651,8 @@ export const deletePrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLink",
 }));
 
 export type DeletePrivateLinkPrincipalsError =
@@ -4570,6 +4673,8 @@ export const deletePrivateLinkPrincipals: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkPrincipals",
 }));
 
 export type DeletePscServiceError =
@@ -4590,6 +4695,8 @@ export const deletePscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePscService",
 }));
 
 export type DeletePscServiceEndpointError =
@@ -4610,6 +4717,8 @@ export const deletePscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePscServiceEndpoint",
 }));
 
 export type DeleteRedisRuleError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4625,6 +4734,8 @@ export const deleteRedisRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedisRule",
 }));
 
 export type DeleteRegionsFromActiveActiveSubscriptionError =
@@ -4645,6 +4756,8 @@ export const deleteRegionsFromActiveActiveSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegionsFromActiveActiveSubscription",
 }));
 
 export type DeleteSubscriptionError =
@@ -4665,6 +4778,8 @@ export const deleteSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteSubscriptionById1Error =
@@ -4685,6 +4800,8 @@ export const deleteSubscriptionById1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptionById1",
 }));
 
 export type DeleteTagError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4700,6 +4817,8 @@ export const deleteTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteTag1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4715,6 +4834,8 @@ export const deleteTag1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag1",
 }));
 
 export type DeleteTgwAttachmentError =
@@ -4735,6 +4856,8 @@ export const deleteTgwAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTgwAttachment",
 }));
 
 export type DeleteUserError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4750,6 +4873,8 @@ export const deleteUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUser2Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4765,6 +4890,8 @@ export const deleteUser2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser2",
 }));
 
 export type DeleteVpcPeeringError =
@@ -4785,6 +4912,8 @@ export const deleteVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeering",
 }));
 
 export type DisassociateActiveActivePrivateLinkConnectionsError =
@@ -4813,6 +4942,8 @@ export const disassociateActiveActivePrivateLinkConnections: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisassociateActiveActivePrivateLinkConnections",
 }));
 
 export type DisassociatePrivateLinkConnectionsError =
@@ -4833,6 +4964,8 @@ export const disassociatePrivateLinkConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisassociatePrivateLinkConnections",
 }));
 
 export type EmptyMemoryStoreError =
@@ -4853,6 +4986,8 @@ export const emptyMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmptyMemoryStore",
 }));
 
 export type FlushCrdbError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -4868,6 +5003,8 @@ export const flushCrdb: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushCrdb",
 }));
 
 export type FlushMemoryStoreError =
@@ -4888,6 +5025,8 @@ export const flushMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushMemoryStore",
 }));
 
 export type GetAccountPaymentMethodsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -4903,6 +5042,8 @@ export const getAccountPaymentMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPaymentMethods",
 }));
 
 export type GetAccountSessionLogsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -4918,6 +5059,8 @@ export const getAccountSessionLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountSessionLogs",
 }));
 
 export type GetAccountSystemLogsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -4933,6 +5076,8 @@ export const getAccountSystemLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountSystemLogs",
 }));
 
 export type GetActiveActivePrivateLinkError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -4948,6 +5093,8 @@ export const getActiveActivePrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivePrivateLink",
 }));
 
 export type GetActiveActivePrivateLinkEndpointScriptError =
@@ -4967,6 +5114,8 @@ export const getActiveActivePrivateLinkEndpointScript: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivePrivateLinkEndpointScript",
 }));
 
 export type GetActiveActivePscServiceError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -4982,6 +5131,8 @@ export const getActiveActivePscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivePscService",
 }));
 
 export type GetActiveActivePscServiceEndpointsError =
@@ -5001,6 +5152,8 @@ export const getActiveActivePscServiceEndpoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivePscServiceEndpoints",
 }));
 
 export type GetActiveActiveTgwsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5016,6 +5169,8 @@ export const getActiveActiveTgws: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActiveTgws",
 }));
 
 export type GetActiveActiveTgwSharedInvitationsError =
@@ -5035,6 +5190,8 @@ export const getActiveActiveTgwSharedInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActiveTgwSharedInvitations",
 }));
 
 export type GetActiveActiveVpcPeeringsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5050,6 +5207,8 @@ export const getActiveActiveVpcPeerings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActiveVpcPeerings",
 }));
 
 export type GetActiveActivPscServiceEndpointCreationScriptError =
@@ -5077,6 +5236,8 @@ export const getActiveActivPscServiceEndpointCreationScript: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivPscServiceEndpointCreationScript",
 }));
 
 export type GetActiveActivPscServiceEndpointDeletionScriptError =
@@ -5104,6 +5265,8 @@ export const getActiveActivPscServiceEndpointDeletionScript: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveActivPscServiceEndpointDeletionScript",
 }));
 
 export type GetAllFixedSubscriptionsPlansError =
@@ -5123,6 +5286,8 @@ export const getAllFixedSubscriptionsPlans: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllFixedSubscriptionsPlans",
 }));
 
 export type GetAllRedisRulesError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5138,6 +5303,8 @@ export const getAllRedisRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllRedisRules",
 }));
 
 export type GetAllSubscriptionsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5153,6 +5320,8 @@ export const getAllSubscriptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllSubscriptions",
 }));
 
 export type GetAllSubscriptions1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5168,6 +5337,8 @@ export const getAllSubscriptions1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllSubscriptions1",
 }));
 
 export type GetAllTasksError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5183,6 +5354,8 @@ export const getAllTasks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllTasks",
 }));
 
 export type GetAllUsersError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5198,6 +5371,8 @@ export const getAllUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllUsers",
 }));
 
 export type GetAllUsers1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5213,6 +5388,8 @@ export const getAllUsers1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllUsers1",
 }));
 
 export type GetCidrWhiteListError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5228,6 +5405,8 @@ export const getCidrWhiteList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCidrWhiteList",
 }));
 
 export type GetCloudAccountError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5243,6 +5422,8 @@ export const getCloudAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudAccount",
 }));
 
 export type GetCloudAccountsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5258,6 +5439,8 @@ export const getCloudAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudAccounts",
 }));
 
 export type GetCostReportError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5273,6 +5456,8 @@ export const getCostReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostReport",
 }));
 
 export type GetCurrentAccountError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5288,6 +5473,8 @@ export const getCurrentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentAccount",
 }));
 
 export type GetDatabaseAvailableVersionsError =
@@ -5307,6 +5494,8 @@ export const getDatabaseAvailableVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseAvailableVersions",
 }));
 
 export type GetDatabaseBackupStatusError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5322,6 +5511,8 @@ export const getDatabaseBackupStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseBackupStatus",
 }));
 
 export type GetDatabaseBackupStatus1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5337,6 +5528,8 @@ export const getDatabaseBackupStatus1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseBackupStatus1",
 }));
 
 export type GetDatabaseImportStatusError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5352,6 +5545,8 @@ export const getDatabaseImportStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseImportStatus",
 }));
 
 export type GetDatabaseImportStatus1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5367,6 +5562,8 @@ export const getDatabaseImportStatus1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseImportStatus1",
 }));
 
 export type GetDatabaseRedisVersionUpgradeStatusError =
@@ -5386,6 +5583,8 @@ export const getDatabaseRedisVersionUpgradeStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseRedisVersionUpgradeStatus",
 }));
 
 export type GetDatabaseTrafficError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5401,6 +5600,8 @@ export const getDatabaseTraffic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTraffic",
 }));
 
 export type GetDatabaseTraffic1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5416,6 +5617,8 @@ export const getDatabaseTraffic1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseTraffic1",
 }));
 
 export type GetDataIntegrationWorkspacesError =
@@ -5435,6 +5638,8 @@ export const getDataIntegrationWorkspaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationWorkspaces",
 }));
 
 export type GetDataPersistenceOptionsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5450,6 +5655,8 @@ export const getDataPersistenceOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataPersistenceOptions",
 }));
 
 export type GetEndpointsRedirectionStatusError =
@@ -5469,6 +5676,8 @@ export const getEndpointsRedirectionStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsRedirectionStatus",
 }));
 
 export type GetEssentialsDatabaseAvailableVersionsError =
@@ -5488,6 +5697,8 @@ export const getEssentialsDatabaseAvailableVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEssentialsDatabaseAvailableVersions",
 }));
 
 export type GetEssentialsDatabaseRedisVersionUpgradeStatusError =
@@ -5511,6 +5722,8 @@ export const getEssentialsDatabaseRedisVersionUpgradeStatus: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEssentialsDatabaseRedisVersionUpgradeStatus",
 }));
 
 export type GetFixedSubscriptionDatabasesError =
@@ -5530,6 +5743,8 @@ export const getFixedSubscriptionDatabases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFixedSubscriptionDatabases",
 }));
 
 export type GetFixedSubscriptionsPlanByIdError =
@@ -5549,6 +5764,8 @@ export const getFixedSubscriptionsPlanById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFixedSubscriptionsPlanById",
 }));
 
 export type GetFixedSubscriptionsPlansBySubscriptionIdError =
@@ -5568,6 +5785,8 @@ export const getFixedSubscriptionsPlansBySubscriptionId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFixedSubscriptionsPlansBySubscriptionId",
 }));
 
 export type GetMemoryStoreError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5583,6 +5802,8 @@ export const getMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemoryStore",
 }));
 
 export type GetPrivateLinkError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5598,6 +5819,8 @@ export const getPrivateLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLink",
 }));
 
 export type GetPrivateLinkEndpointScriptError =
@@ -5617,6 +5840,8 @@ export const getPrivateLinkEndpointScript: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkEndpointScript",
 }));
 
 export type GetPscServiceError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5632,6 +5857,8 @@ export const getPscService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPscService",
 }));
 
 export type GetPscServiceEndpointCreationScriptError =
@@ -5651,6 +5878,8 @@ export const getPscServiceEndpointCreationScript: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPscServiceEndpointCreationScript",
 }));
 
 export type GetPscServiceEndpointDeletionScriptError =
@@ -5670,6 +5899,8 @@ export const getPscServiceEndpointDeletionScript: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPscServiceEndpointDeletionScript",
 }));
 
 export type GetPscServiceEndpointsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5685,6 +5916,8 @@ export const getPscServiceEndpoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPscServiceEndpoints",
 }));
 
 export type GetRedisVersionsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5700,6 +5933,8 @@ export const getRedisVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisVersions",
 }));
 
 export type GetRedisVersions1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5715,6 +5950,8 @@ export const getRedisVersions1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisVersions1",
 }));
 
 export type GetRegionsFromActiveActiveSubscriptionError =
@@ -5734,6 +5971,8 @@ export const getRegionsFromActiveActiveSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionsFromActiveActiveSubscription",
 }));
 
 export type GetRolesError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5749,6 +5988,8 @@ export const getRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoles",
 }));
 
 export type GetSlowLogError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5764,6 +6005,8 @@ export const getSlowLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSlowLog",
 }));
 
 export type GetSlowLog1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5779,6 +6022,8 @@ export const getSlowLog1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSlowLog1",
 }));
 
 export type GetSubscriptionError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5794,6 +6039,8 @@ export const getSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetSubscriptionById1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5809,6 +6056,8 @@ export const getSubscriptionById1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionById1",
 }));
 
 export type GetSubscriptionDatabaseError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5824,6 +6073,8 @@ export const getSubscriptionDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDatabase",
 }));
 
 export type GetSubscriptionDatabaseByID1Error =
@@ -5843,6 +6094,8 @@ export const getSubscriptionDatabaseByID1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDatabaseByID1",
 }));
 
 export type GetSubscriptionDatabaseCertificateError =
@@ -5862,6 +6115,8 @@ export const getSubscriptionDatabaseCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDatabaseCertificate",
 }));
 
 export type GetSubscriptionDatabasesError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5877,6 +6132,8 @@ export const getSubscriptionDatabases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDatabases",
 }));
 
 export type GetSubscriptionMaintenanceWindowsError =
@@ -5896,6 +6153,8 @@ export const getSubscriptionMaintenanceWindows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionMaintenanceWindows",
 }));
 
 export type GetSubscriptionPricingError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5911,6 +6170,8 @@ export const getSubscriptionPricing: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionPricing",
 }));
 
 export type GetSupportedDatabaseModulesError =
@@ -5930,6 +6191,8 @@ export const getSupportedDatabaseModules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportedDatabaseModules",
 }));
 
 export type GetSupportedRegionsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5945,6 +6208,8 @@ export const getSupportedRegions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportedRegions",
 }));
 
 export type GetSupportedSearchScalingFactorsError =
@@ -5964,6 +6229,8 @@ export const getSupportedSearchScalingFactors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportedSearchScalingFactors",
 }));
 
 export type GetTagsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5979,6 +6246,8 @@ export const getTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetTags1Error = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -5994,6 +6263,8 @@ export const getTags1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTags1",
 }));
 
 export type GetTaskError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6009,6 +6280,8 @@ export const getTask: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetTgwsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6024,6 +6297,8 @@ export const getTgws: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTgws",
 }));
 
 export type GetTgwSharedInvitationsError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6039,6 +6314,8 @@ export const getTgwSharedInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTgwSharedInvitations",
 }));
 
 export type GetUserError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6054,6 +6331,8 @@ export const getUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserByIDError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6069,6 +6348,8 @@ export const getUserByID: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserByID",
 }));
 
 export type GetVpcPeeringError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
@@ -6084,6 +6365,8 @@ export const getVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpcPeering",
 }));
 
 export type ImportDatabaseError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6099,6 +6382,8 @@ export const importDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabase",
 }));
 
 export type ImportDatabase1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6114,6 +6399,8 @@ export const importDatabase1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabase1",
 }));
 
 export type ListMemoryStoreApiKeysError =
@@ -6134,6 +6421,8 @@ export const listMemoryStoreApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMemoryStoreApiKeys",
 }));
 
 export type ListMemoryStoresError =
@@ -6154,6 +6443,8 @@ export const listMemoryStores: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMemoryStores",
 }));
 
 export type ProxyDataIntegrationWorkspace5Error =
@@ -6174,6 +6465,8 @@ export const proxyDataIntegrationWorkspace5: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyDataIntegrationWorkspace5",
 }));
 
 export type ProxyDataIntegrationWorkspace6Error =
@@ -6194,6 +6487,8 @@ export const proxyDataIntegrationWorkspace6: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyDataIntegrationWorkspace6",
 }));
 
 export type ProxyDataIntegrationWorkspace7Error =
@@ -6214,6 +6509,8 @@ export const proxyDataIntegrationWorkspace7: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyDataIntegrationWorkspace7",
 }));
 
 export type ProxyDataIntegrationWorkspace8Error =
@@ -6234,6 +6531,8 @@ export const proxyDataIntegrationWorkspace8: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyDataIntegrationWorkspace8",
 }));
 
 export type ProxyDataIntegrationWorkspace9Error =
@@ -6254,6 +6553,8 @@ export const proxyDataIntegrationWorkspace9: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyDataIntegrationWorkspace9",
 }));
 
 export type RejectActiveActiveTgwResourceShareError =
@@ -6274,6 +6575,8 @@ export const rejectActiveActiveTgwResourceShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectActiveActiveTgwResourceShare",
 }));
 
 export type RejectTgwResourceShareError =
@@ -6294,6 +6597,8 @@ export const rejectTgwResourceShare: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectTgwResourceShare",
 }));
 
 export type ResumeBdbTrafficError =
@@ -6314,6 +6619,8 @@ export const resumeBdbTraffic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBdbTraffic",
 }));
 
 export type ResumeBdbTraffic1Error =
@@ -6334,6 +6641,8 @@ export const resumeBdbTraffic1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBdbTraffic1",
 }));
 
 export type RevertEndpointsRedirectionError =
@@ -6354,6 +6663,8 @@ export const revertEndpointsRedirection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertEndpointsRedirection",
 }));
 
 export type UpdateActiveActivePscServiceEndpointError =
@@ -6374,6 +6685,8 @@ export const updateActiveActivePscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActiveActivePscServiceEndpoint",
 }));
 
 export type UpdateActiveActiveTgwAttachmentCidrsError =
@@ -6394,6 +6707,8 @@ export const updateActiveActiveTgwAttachmentCidrs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActiveActiveTgwAttachmentCidrs",
 }));
 
 export type UpdateActiveActiveVpcPeeringError =
@@ -6414,6 +6729,8 @@ export const updateActiveActiveVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActiveActiveVpcPeering",
 }));
 
 export type UpdateCloudAccountError =
@@ -6434,6 +6751,8 @@ export const updateCloudAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudAccount",
 }));
 
 export type UpdateCrdbLocalPropertiesError =
@@ -6454,6 +6773,8 @@ export const updateCrdbLocalProperties: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCrdbLocalProperties",
 }));
 
 export type UpdateDatabaseError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6469,6 +6790,8 @@ export const updateDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateMemoryStoreError =
@@ -6489,6 +6812,8 @@ export const updateMemoryStore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMemoryStore",
 }));
 
 export type UpdatePscServiceEndpointError =
@@ -6509,6 +6834,8 @@ export const updatePscServiceEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePscServiceEndpoint",
 }));
 
 export type UpdateRedisRuleError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6524,6 +6851,8 @@ export const updateRedisRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRedisRule",
 }));
 
 export type UpdateRoleError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6539,6 +6868,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateSubscriptionError =
@@ -6559,6 +6890,8 @@ export const updateSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateSubscription1Error =
@@ -6579,6 +6912,8 @@ export const updateSubscription1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription1",
 }));
 
 export type UpdateSubscriptionCidrWhiteListError =
@@ -6599,6 +6934,8 @@ export const updateSubscriptionCidrWhiteList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionCidrWhiteList",
 }));
 
 export type UpdateSubscriptionMaintenanceWindowsError =
@@ -6619,6 +6956,8 @@ export const updateSubscriptionMaintenanceWindows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionMaintenanceWindows",
 }));
 
 export type UpdateSubscriptionResourceTagsError =
@@ -6639,6 +6978,8 @@ export const updateSubscriptionResourceTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionResourceTags",
 }));
 
 export type UpdateTagError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6654,6 +6995,8 @@ export const updateTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTag",
 }));
 
 export type UpdateTag1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6669,6 +7012,8 @@ export const updateTag1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTag1",
 }));
 
 export type UpdateTagsError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6684,6 +7029,8 @@ export const updateTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTags",
 }));
 
 export type UpdateTags1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6699,6 +7046,8 @@ export const updateTags1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTags1",
 }));
 
 export type UpdateTgwAttachmentCidrsError =
@@ -6719,6 +7068,8 @@ export const updateTgwAttachmentCidrs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTgwAttachmentCidrs",
 }));
 
 export type UpdateUserError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6734,6 +7085,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUser1Error = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
@@ -6749,6 +7102,8 @@ export const updateUser1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser1",
 }));
 
 export type UpdateVpcPeeringError =
@@ -6769,6 +7124,8 @@ export const updateVpcPeering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVpcPeering",
 }));
 
 export type UpgradeDatabaseRedisVersionError =
@@ -6789,6 +7146,8 @@ export const upgradeDatabaseRedisVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradeDatabaseRedisVersion",
 }));
 
 export type UpgradeEssentialsDatabaseRedisVersionError =
@@ -6809,6 +7168,8 @@ export const upgradeEssentialsDatabaseRedisVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradeEssentialsDatabaseRedisVersion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

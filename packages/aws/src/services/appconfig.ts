@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -81,6 +83,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appconfig.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppConfig",
+  service: "AppConfig",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1001,7 +1017,7 @@ export type CreateApplicationError =
  * your users.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   Application,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1012,6 +1028,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateConfigurationProfileError =
@@ -1052,7 +1070,7 @@ export type CreateConfigurationProfileError =
  * User Guide.
  */
 export const createConfigurationProfile: API.OperationMethod<
-  CreateConfigurationProfileRequest,
+  CreateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   CreateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1068,6 +1086,8 @@ export const createConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationProfile",
 }));
 
 export type CreateDeploymentStrategyError =
@@ -1082,7 +1102,7 @@ export type CreateDeploymentStrategyError =
  * an algorithm that defines how percentage grows, and bake time.
  */
 export const createDeploymentStrategy: API.OperationMethod<
-  CreateDeploymentStrategyRequest,
+  CreateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   CreateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1093,6 +1113,8 @@ export const createDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentStrategy",
 }));
 
 export type CreateEnvironmentError =
@@ -1112,7 +1134,7 @@ export type CreateEnvironmentError =
  * configuration.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   Environment,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1128,6 +1150,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateExperimentDefinitionError =
@@ -1141,7 +1165,7 @@ export type CreateExperimentDefinitionError =
  * Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.
  */
 export const createExperimentDefinition: API.OperationMethod<
-  CreateExperimentDefinitionRequest,
+  CreateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   CreateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1158,6 +1182,8 @@ export const createExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateExperimentDefinition",
 }));
 
 export type CreateExtensionError =
@@ -1190,7 +1216,7 @@ export type CreateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtension: API.OperationMethod<
-  CreateExtensionRequest,
+  CreateExtensionRequest & RegionInput,
   Extension,
   CreateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1232,8 @@ export const createExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtension",
+  telemetry: TELEMETRY,
+  span: "CreateExtension",
 }));
 
 export type CreateExtensionAssociationError =
@@ -1229,7 +1257,7 @@ export type CreateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const createExtensionAssociation: API.OperationMethod<
-  CreateExtensionAssociationRequest,
+  CreateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   CreateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1245,6 +1273,8 @@ export const createExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateExtensionAssociation",
 }));
 
 export type CreateHostedConfigurationVersionError =
@@ -1262,7 +1292,7 @@ export type CreateHostedConfigurationVersionError =
  * *AppConfig User Guide*.
  */
 export const createHostedConfigurationVersion: API.OperationMethod<
-  CreateHostedConfigurationVersionRequest,
+  CreateHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   CreateHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1280,6 +1310,8 @@ export const createHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateHostedConfigurationVersion",
 }));
 
 export type DeleteApplicationError =
@@ -1291,7 +1323,7 @@ export type DeleteApplicationError =
  * Deletes an application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1302,6 +1334,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteConfigurationProfileError =
@@ -1318,7 +1352,7 @@ export type DeleteConfigurationProfileError =
  * protection.
  */
 export const deleteConfigurationProfile: API.OperationMethod<
-  DeleteConfigurationProfileRequest,
+  DeleteConfigurationProfileRequest & RegionInput,
   DeleteConfigurationProfileResponse,
   DeleteConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1334,6 +1368,8 @@ export const deleteConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfile",
 }));
 
 export type DeleteDeploymentStrategyError =
@@ -1345,7 +1381,7 @@ export type DeleteDeploymentStrategyError =
  * Deletes a deployment strategy.
  */
 export const deleteDeploymentStrategy: API.OperationMethod<
-  DeleteDeploymentStrategyRequest,
+  DeleteDeploymentStrategyRequest & RegionInput,
   DeleteDeploymentStrategyResponse,
   DeleteDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1356,6 +1392,8 @@ export const deleteDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentStrategy",
 }));
 
 export type DeleteEnvironmentError =
@@ -1371,7 +1409,7 @@ export type DeleteEnvironmentError =
  * protection.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1387,6 +1425,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteExperimentDefinitionError =
@@ -1399,7 +1439,7 @@ export type DeleteExperimentDefinitionError =
  * Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.
  */
 export const deleteExperimentDefinition: API.OperationMethod<
-  DeleteExperimentDefinitionRequest,
+  DeleteExperimentDefinitionRequest & RegionInput,
   DeleteExperimentDefinitionResponse,
   DeleteExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1415,6 +1455,8 @@ export const deleteExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentDefinition",
 }));
 
 export type DeleteExtensionError =
@@ -1427,7 +1469,7 @@ export type DeleteExtensionError =
  * extension before you delete the extension.
  */
 export const deleteExtension: API.OperationMethod<
-  DeleteExtensionRequest,
+  DeleteExtensionRequest & RegionInput,
   DeleteExtensionResponse,
   DeleteExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1438,6 +1480,8 @@ export const deleteExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtension",
+  telemetry: TELEMETRY,
+  span: "DeleteExtension",
 }));
 
 export type DeleteExtensionAssociationError =
@@ -1450,7 +1494,7 @@ export type DeleteExtensionAssociationError =
  * association.
  */
 export const deleteExtensionAssociation: API.OperationMethod<
-  DeleteExtensionAssociationRequest,
+  DeleteExtensionAssociationRequest & RegionInput,
   DeleteExtensionAssociationResponse,
   DeleteExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1461,6 +1505,8 @@ export const deleteExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteExtensionAssociation",
 }));
 
 export type DeleteHostedConfigurationVersionError =
@@ -1473,7 +1519,7 @@ export type DeleteHostedConfigurationVersionError =
  * store.
  */
 export const deleteHostedConfigurationVersion: API.OperationMethod<
-  DeleteHostedConfigurationVersionRequest,
+  DeleteHostedConfigurationVersionRequest & RegionInput,
   DeleteHostedConfigurationVersionResponse,
   DeleteHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1484,6 +1530,8 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteHostedConfigurationVersion",
 }));
 
 export type GetAccountSettingsError = BadRequestException | InternalServerException | CommonErrors;
@@ -1492,7 +1540,7 @@ export type GetAccountSettingsError = BadRequestException | InternalServerExcept
  * parameter.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   AccountSettings,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1503,6 +1551,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetApplicationError =
@@ -1514,7 +1564,7 @@ export type GetApplicationError =
  * Retrieves information about an application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   Application,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1525,6 +1575,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetConfigurationError =
@@ -1544,7 +1596,7 @@ export type GetConfigurationError =
  * Pricing.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   Configuration,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1555,6 +1607,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetConfigurationProfileError =
@@ -1566,7 +1620,7 @@ export type GetConfigurationProfileError =
  * Retrieves information about a configuration profile.
  */
 export const getConfigurationProfile: API.OperationMethod<
-  GetConfigurationProfileRequest,
+  GetConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   GetConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1577,6 +1631,8 @@ export const getConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfile",
 }));
 
 export type GetDeploymentError =
@@ -1588,7 +1644,7 @@ export type GetDeploymentError =
  * Retrieves information about a configuration deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   Deployment,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1655,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentStrategyError =
@@ -1614,7 +1672,7 @@ export type GetDeploymentStrategyError =
  * grows, and bake time.
  */
 export const getDeploymentStrategy: API.OperationMethod<
-  GetDeploymentStrategyRequest,
+  GetDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   GetDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -1625,6 +1683,8 @@ export const getDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentStrategy",
 }));
 
 export type GetEnvironmentError =
@@ -1641,7 +1701,7 @@ export type GetEnvironmentError =
  * configuration.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   Environment,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1652,6 +1712,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetExperimentDefinitionError =
@@ -1663,7 +1725,7 @@ export type GetExperimentDefinitionError =
  * Retrieves information about an experiment definition.
  */
 export const getExperimentDefinition: API.OperationMethod<
-  GetExperimentDefinitionRequest,
+  GetExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   GetExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1674,6 +1736,8 @@ export const getExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "GetExperimentDefinition",
 }));
 
 export type GetExperimentRunError =
@@ -1685,7 +1749,7 @@ export type GetExperimentRunError =
  * Retrieves information about an experiment run, including its status, start time, and exposure settings.
  */
 export const getExperimentRun: API.OperationMethod<
-  GetExperimentRunRequest,
+  GetExperimentRunRequest & RegionInput,
   ExperimentRun,
   GetExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -1696,6 +1760,8 @@ export const getExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentRun",
+  telemetry: TELEMETRY,
+  span: "GetExperimentRun",
 }));
 
 export type GetExtensionError =
@@ -1707,7 +1773,7 @@ export type GetExtensionError =
  * Returns information about an AppConfig extension.
  */
 export const getExtension: API.OperationMethod<
-  GetExtensionRequest,
+  GetExtensionRequest & RegionInput,
   Extension,
   GetExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1784,8 @@ export const getExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtension",
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetExtensionAssociationError =
@@ -1731,7 +1799,7 @@ export type GetExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const getExtensionAssociation: API.OperationMethod<
-  GetExtensionAssociationRequest,
+  GetExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   GetExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1742,6 +1810,8 @@ export const getExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "GetExtensionAssociation",
 }));
 
 export type GetHostedConfigurationVersionError =
@@ -1753,7 +1823,7 @@ export type GetHostedConfigurationVersionError =
  * Retrieves information about a specific configuration version.
  */
 export const getHostedConfigurationVersion: API.OperationMethod<
-  GetHostedConfigurationVersionRequest,
+  GetHostedConfigurationVersionRequest & RegionInput,
   HostedConfigurationVersion,
   GetHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
@@ -1764,6 +1834,8 @@ export const getHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "GetHostedConfigurationVersion",
 }));
 
 export type ListApplicationsError = BadRequestException | InternalServerException | CommonErrors;
@@ -1771,7 +1843,7 @@ export type ListApplicationsError = BadRequestException | InternalServerExceptio
  * Lists all applications in your Amazon Web Services account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   Applications,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -1789,6 +1861,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListConfigurationProfilesError =
@@ -1800,7 +1874,7 @@ export type ListConfigurationProfilesError =
  * Lists the configuration profiles for an application.
  */
 export const listConfigurationProfiles: API.PaginatedOperationMethod<
-  ListConfigurationProfilesRequest,
+  ListConfigurationProfilesRequest & RegionInput,
   ConfigurationProfiles,
   ListConfigurationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1818,6 +1892,8 @@ export const listConfigurationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfiles",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1829,7 +1905,7 @@ export type ListDeploymentsError =
  * Lists the deployments for an environment in descending deployment number order.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   Deployments,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1847,6 +1923,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListDeploymentStrategiesError =
@@ -1857,7 +1935,7 @@ export type ListDeploymentStrategiesError =
  * Lists deployment strategies.
  */
 export const listDeploymentStrategies: API.PaginatedOperationMethod<
-  ListDeploymentStrategiesRequest,
+  ListDeploymentStrategiesRequest & RegionInput,
   DeploymentStrategies,
   ListDeploymentStrategiesError,
   Credentials | HttpClient.HttpClient,
@@ -1875,6 +1953,8 @@ export const listDeploymentStrategies: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentStrategies",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -1886,7 +1966,7 @@ export type ListEnvironmentsError =
  * Lists the environments for an application.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   Environments,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1904,6 +1984,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListExperimentDefinitionsError =
@@ -1915,7 +1997,7 @@ export type ListExperimentDefinitionsError =
  * Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.
  */
 export const listExperimentDefinitions: API.PaginatedOperationMethod<
-  ListExperimentDefinitionsRequest,
+  ListExperimentDefinitionsRequest & RegionInput,
   ExperimentDefinitions,
   ListExperimentDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -1933,6 +2015,8 @@ export const listExperimentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentDefinitions",
 })) as any;
 
 export type ListExperimentRunEventsError =
@@ -1944,7 +2028,7 @@ export type ListExperimentRunEventsError =
  * Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.
  */
 export const listExperimentRunEvents: API.PaginatedOperationMethod<
-  ListExperimentRunEventsRequest,
+  ListExperimentRunEventsRequest & RegionInput,
   ExperimentRunEvents,
   ListExperimentRunEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1962,6 +2046,8 @@ export const listExperimentRunEvents: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentRunEvents",
 })) as any;
 
 export type ListExperimentRunsError =
@@ -1973,7 +2059,7 @@ export type ListExperimentRunsError =
  * Lists the experiment runs for a specified experiment definition. You can filter by status.
  */
 export const listExperimentRuns: API.PaginatedOperationMethod<
-  ListExperimentRunsRequest,
+  ListExperimentRunsRequest & RegionInput,
   ExperimentRuns,
   ListExperimentRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1991,6 +2077,8 @@ export const listExperimentRuns: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentRuns",
 })) as any;
 
 export type ListExtensionAssociationsError =
@@ -2003,7 +2091,7 @@ export type ListExtensionAssociationsError =
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensionAssociations: API.PaginatedOperationMethod<
-  ListExtensionAssociationsRequest,
+  ListExtensionAssociationsRequest & RegionInput,
   ExtensionAssociations,
   ListExtensionAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2021,6 +2109,8 @@ export const listExtensionAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensionAssociations",
 })) as any;
 
 export type ListExtensionsError = BadRequestException | InternalServerException | CommonErrors;
@@ -2030,7 +2120,7 @@ export type ListExtensionsError = BadRequestException | InternalServerException 
  * workflows in the *AppConfig User Guide*.
  */
 export const listExtensions: API.PaginatedOperationMethod<
-  ListExtensionsRequest,
+  ListExtensionsRequest & RegionInput,
   Extensions,
   ListExtensionsError,
   Credentials | HttpClient.HttpClient,
@@ -2048,6 +2138,8 @@ export const listExtensions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 })) as any;
 
 export type ListHostedConfigurationVersionsError =
@@ -2060,7 +2152,7 @@ export type ListHostedConfigurationVersionsError =
  * version.
  */
 export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
-  ListHostedConfigurationVersionsRequest,
+  ListHostedConfigurationVersionsRequest & RegionInput,
   HostedConfigurationVersions,
   ListHostedConfigurationVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2078,6 +2170,8 @@ export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHostedConfigurationVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2089,7 +2183,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of key-value tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ResourceTags,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2100,6 +2194,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartDeploymentError =
@@ -2114,7 +2210,7 @@ export type StartDeploymentError =
  * AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
  */
 export const startDeployment: API.OperationMethod<
-  StartDeploymentRequest,
+  StartDeploymentRequest & RegionInput,
   Deployment,
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2130,6 +2226,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StartExperimentRunError =
@@ -2144,7 +2242,7 @@ export type StartExperimentRunError =
  * Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing.
  */
 export const startExperimentRun: API.OperationMethod<
-  StartExperimentRunRequest,
+  StartExperimentRunRequest & RegionInput,
   ExperimentRun,
   StartExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2160,6 +2258,8 @@ export const startExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperimentRun",
+  telemetry: TELEMETRY,
+  span: "StartExperimentRun",
 }));
 
 export type StopDeploymentError =
@@ -2176,7 +2276,7 @@ export type StopDeploymentError =
  * deployment completion.
  */
 export const stopDeployment: API.OperationMethod<
-  StopDeploymentRequest,
+  StopDeploymentRequest & RegionInput,
   Deployment,
   StopDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2187,6 +2287,8 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
+  telemetry: TELEMETRY,
+  span: "StopDeployment",
 }));
 
 export type StopExperimentRunError =
@@ -2199,7 +2301,7 @@ export type StopExperimentRunError =
  * Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.
  */
 export const stopExperimentRun: API.OperationMethod<
-  StopExperimentRunRequest,
+  StopExperimentRunRequest & RegionInput,
   ExperimentRun,
   StopExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2215,6 +2317,8 @@ export const stopExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperimentRun",
+  telemetry: TELEMETRY,
+  span: "StopExperimentRun",
 }));
 
 export type TagResourceError =
@@ -2228,7 +2332,7 @@ export type TagResourceError =
  * of which you define. You can specify a maximum of 50 tags for a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2239,6 +2343,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2250,7 +2356,7 @@ export type UntagResourceError =
  * Deletes a tag key and value from an AppConfig resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2261,6 +2367,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -2271,7 +2379,7 @@ export type UpdateAccountSettingsError =
  * Updates the value of the `DeletionProtection` parameter.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   AccountSettings,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2282,6 +2390,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateApplicationError =
@@ -2293,7 +2403,7 @@ export type UpdateApplicationError =
  * Updates an application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   Application,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2304,6 +2414,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateConfigurationProfileError =
@@ -2315,7 +2427,7 @@ export type UpdateConfigurationProfileError =
  * Updates a configuration profile.
  */
 export const updateConfigurationProfile: API.OperationMethod<
-  UpdateConfigurationProfileRequest,
+  UpdateConfigurationProfileRequest & RegionInput,
   ConfigurationProfile,
   UpdateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
@@ -2326,6 +2438,8 @@ export const updateConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationProfile",
 }));
 
 export type UpdateDeploymentStrategyError =
@@ -2337,7 +2451,7 @@ export type UpdateDeploymentStrategyError =
  * Updates a deployment strategy.
  */
 export const updateDeploymentStrategy: API.OperationMethod<
-  UpdateDeploymentStrategyRequest,
+  UpdateDeploymentStrategyRequest & RegionInput,
   DeploymentStrategy,
   UpdateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2462,8 @@ export const updateDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentStrategy",
 }));
 
 export type UpdateEnvironmentError =
@@ -2359,7 +2475,7 @@ export type UpdateEnvironmentError =
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   Environment,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2370,6 +2486,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateExperimentDefinitionError =
@@ -2382,7 +2500,7 @@ export type UpdateExperimentDefinitionError =
  * Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.
  */
 export const updateExperimentDefinition: API.OperationMethod<
-  UpdateExperimentDefinitionRequest,
+  UpdateExperimentDefinitionRequest & RegionInput,
   ExperimentDefinition,
   UpdateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -2398,6 +2516,8 @@ export const updateExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentDefinition",
 }));
 
 export type UpdateExperimentRunError =
@@ -2410,7 +2530,7 @@ export type UpdateExperimentRunError =
  * Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.
  */
 export const updateExperimentRun: API.OperationMethod<
-  UpdateExperimentRunRequest,
+  UpdateExperimentRunRequest & RegionInput,
   ExperimentRun,
   UpdateExperimentRunError,
   Credentials | HttpClient.HttpClient
@@ -2426,6 +2546,8 @@ export const updateExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentRun",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentRun",
 }));
 
 export type UpdateExtensionError =
@@ -2440,7 +2562,7 @@ export type UpdateExtensionError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtension: API.OperationMethod<
-  UpdateExtensionRequest,
+  UpdateExtensionRequest & RegionInput,
   Extension,
   UpdateExtensionError,
   Credentials | HttpClient.HttpClient
@@ -2456,6 +2578,8 @@ export const updateExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtension",
+  telemetry: TELEMETRY,
+  span: "UpdateExtension",
 }));
 
 export type UpdateExtensionAssociationError =
@@ -2469,7 +2593,7 @@ export type UpdateExtensionAssociationError =
  * workflows in the *AppConfig User Guide*.
  */
 export const updateExtensionAssociation: API.OperationMethod<
-  UpdateExtensionAssociationRequest,
+  UpdateExtensionAssociationRequest & RegionInput,
   ExtensionAssociation,
   UpdateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2480,6 +2604,8 @@ export const updateExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateExtensionAssociation",
 }));
 
 export type ValidateConfigurationError =
@@ -2491,7 +2617,7 @@ export type ValidateConfigurationError =
  * Uses the validators in a configuration profile to validate a configuration.
  */
 export const validateConfiguration: API.OperationMethod<
-  ValidateConfigurationRequest,
+  ValidateConfigurationRequest & RegionInput,
   ValidateConfigurationResponse,
   ValidateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2502,6 +2628,8 @@ export const validateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfiguration",
+  telemetry: TELEMETRY,
+  span: "ValidateConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

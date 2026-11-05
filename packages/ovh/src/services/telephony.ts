@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Telephony",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateTelephonyLineNewPhoneRequest {
   /** The name of your billingAccount */
   billingAccount: string;
@@ -8172,6 +8186,8 @@ export const activateTelephonyLineNewPhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateTelephonyLineNewPhone",
 }));
 
 export type BlockTelephonyLineError = OvhOpError;
@@ -8187,6 +8203,8 @@ export const blockTelephonyLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlockTelephonyLine",
 }));
 
 export type CancelTelephonyLineConvertToNumberError = OvhOpError;
@@ -8202,6 +8220,8 @@ export const cancelTelephonyLineConvertToNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyLineConvertToNumber",
 }));
 
 export type CancelTelephonyNumberConvertToLineError = OvhOpError;
@@ -8217,6 +8237,8 @@ export const cancelTelephonyNumberConvertToLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyNumberConvertToLine",
 }));
 
 export type CancelTelephonyPortabilityError = OvhOpError;
@@ -8232,6 +8254,8 @@ export const cancelTelephonyPortability: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyPortability",
 }));
 
 export type CancelTelephonyProcedureError = OvhOpError;
@@ -8247,6 +8271,8 @@ export const cancelTelephonyProcedure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyProcedure",
 }));
 
 export type CancelTelephonyRsvaScheduledRateCodeError = OvhOpError;
@@ -8262,6 +8288,8 @@ export const cancelTelephonyRsvaScheduledRateCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyRsvaScheduledRateCode",
 }));
 
 export type CancelTelephonyServiceTerminationError = OvhOpError;
@@ -8277,6 +8305,8 @@ export const cancelTelephonyServiceTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyServiceTermination",
 }));
 
 export type CancelTelephonyTerminationError = OvhOpError;
@@ -8292,6 +8322,8 @@ export const cancelTelephonyTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTelephonyTermination",
 }));
 
 export type ConvertTelephonyLineToNumberError = OvhOpError;
@@ -8307,6 +8339,8 @@ export const convertTelephonyLineToNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertTelephonyLineToNumber",
 }));
 
 export type ConvertTelephonyNumberToLineError = OvhOpError;
@@ -8322,6 +8356,8 @@ export const convertTelephonyNumberToLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertTelephonyNumberToLine",
 }));
 
 export type CreateTelephonyAbbreviatedNumberError = OvhOpError;
@@ -8337,6 +8373,8 @@ export const createTelephonyAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyAbbreviatedNumber",
 }));
 
 export type CreateTelephonyAliasChangeContactError = OvhOpError;
@@ -8352,6 +8390,8 @@ export const createTelephonyAliasChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyAliasChangeContact",
 }));
 
 export type CreateTelephonyBillingAccountSiteError = OvhOpError;
@@ -8367,6 +8407,8 @@ export const createTelephonyBillingAccountSite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyBillingAccountSite",
 }));
 
 export type CreateTelephonyCanTransferSecurityDepositError = OvhOpError;
@@ -8382,6 +8424,8 @@ export const createTelephonyCanTransferSecurityDeposit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyCanTransferSecurityDeposit",
 }));
 
 export type CreateTelephonyChangeContactError = OvhOpError;
@@ -8397,6 +8441,8 @@ export const createTelephonyChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyChangeContact",
 }));
 
 export type CreateTelephonyConferenceAnnounceUploadError = OvhOpError;
@@ -8412,6 +8458,8 @@ export const createTelephonyConferenceAnnounceUpload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceAnnounceUpload",
 }));
 
 export type CreateTelephonyConferenceParticipantDeafError = OvhOpError;
@@ -8427,6 +8475,8 @@ export const createTelephonyConferenceParticipantDeaf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceParticipantDeaf",
 }));
 
 export type CreateTelephonyConferenceParticipantEnergyError = OvhOpError;
@@ -8442,6 +8492,8 @@ export const createTelephonyConferenceParticipantEnergy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceParticipantEnergy",
 }));
 
 export type CreateTelephonyConferenceParticipantKickError = OvhOpError;
@@ -8457,6 +8509,8 @@ export const createTelephonyConferenceParticipantKick: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceParticipantKick",
 }));
 
 export type CreateTelephonyConferenceParticipantUndeafError = OvhOpError;
@@ -8472,6 +8526,8 @@ export const createTelephonyConferenceParticipantUndeaf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceParticipantUndeaf",
 }));
 
 export type CreateTelephonyConferenceRoomError = OvhOpError;
@@ -8487,6 +8543,8 @@ export const createTelephonyConferenceRoom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoom",
 }));
 
 export type CreateTelephonyConferenceRoomParticipantDeafError = OvhOpError;
@@ -8506,6 +8564,8 @@ export const createTelephonyConferenceRoomParticipantDeaf: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoomParticipantDeaf",
 }));
 
 export type CreateTelephonyConferenceRoomParticipantEnergyError = OvhOpError;
@@ -8525,6 +8585,8 @@ export const createTelephonyConferenceRoomParticipantEnergy: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoomParticipantEnergy",
 }));
 
 export type CreateTelephonyConferenceRoomParticipantKickError = OvhOpError;
@@ -8544,6 +8606,8 @@ export const createTelephonyConferenceRoomParticipantKick: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoomParticipantKick",
 }));
 
 export type CreateTelephonyConferenceRoomParticipantUndeafError = OvhOpError;
@@ -8563,6 +8627,8 @@ export const createTelephonyConferenceRoomParticipantUndeaf: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoomParticipantUndeaf",
 }));
 
 export type CreateTelephonyConferenceRoomWebAccessError = OvhOpError;
@@ -8578,6 +8644,8 @@ export const createTelephonyConferenceRoomWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceRoomWebAccess",
 }));
 
 export type CreateTelephonyConferenceWebAccessError = OvhOpError;
@@ -8593,6 +8661,8 @@ export const createTelephonyConferenceWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyConferenceWebAccess",
 }));
 
 export type CreateTelephonyDdiChangeDestinationError = OvhOpError;
@@ -8608,6 +8678,8 @@ export const createTelephonyDdiChangeDestination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyDdiChangeDestination",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentError = OvhOpError;
@@ -8623,6 +8695,8 @@ export const createTelephonyEasyHuntingHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgent",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentBannerAccessError = OvhOpError;
@@ -8642,6 +8716,8 @@ export const createTelephonyEasyHuntingHuntingAgentBannerAccess: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentBannerAccess",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentCallEavesdropError = OvhOpError;
@@ -8661,6 +8737,8 @@ export const createTelephonyEasyHuntingHuntingAgentCallEavesdrop: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentCallEavesdrop",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentCallHangupError = OvhOpError;
@@ -8680,6 +8758,8 @@ export const createTelephonyEasyHuntingHuntingAgentCallHangup: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentCallHangup",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentCallHoldError = OvhOpError;
@@ -8699,6 +8779,8 @@ export const createTelephonyEasyHuntingHuntingAgentCallHold: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentCallHold",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentCallInterceptError = OvhOpError;
@@ -8718,6 +8800,8 @@ export const createTelephonyEasyHuntingHuntingAgentCallIntercept: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentCallIntercept",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentCallWhisperError = OvhOpError;
@@ -8737,6 +8821,8 @@ export const createTelephonyEasyHuntingHuntingAgentCallWhisper: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentCallWhisper",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentEventTokenError = OvhOpError;
@@ -8760,6 +8846,8 @@ export const createTelephonyEasyHuntingHuntingAgentEventToken: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentEventToken",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingAgentQueueError = OvhOpError;
@@ -8779,6 +8867,8 @@ export const createTelephonyEasyHuntingHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingAgentQueue",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingCustomStatusError = OvhOpError;
@@ -8798,6 +8888,8 @@ export const createTelephonyEasyHuntingHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingCustomStatus",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingEventTokenError = OvhOpError;
@@ -8821,6 +8913,8 @@ export const createTelephonyEasyHuntingHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingEventToken",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueError = OvhOpError;
@@ -8836,6 +8930,8 @@ export const createTelephonyEasyHuntingHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueue",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueAgentError = OvhOpError;
@@ -8855,6 +8951,8 @@ export const createTelephonyEasyHuntingHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueAgent",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueLiveCallEavesdropError = OvhOpError;
@@ -8874,6 +8972,8 @@ export const createTelephonyEasyHuntingHuntingQueueLiveCallEavesdrop: API.Operat
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueLiveCallEavesdrop",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueLiveCallHangupError = OvhOpError;
@@ -8893,6 +8993,8 @@ export const createTelephonyEasyHuntingHuntingQueueLiveCallHangup: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueLiveCallHangup",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueLiveCallHoldError = OvhOpError;
@@ -8912,6 +9014,8 @@ export const createTelephonyEasyHuntingHuntingQueueLiveCallHold: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueLiveCallHold",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueLiveCallInterceptError = OvhOpError;
@@ -8931,6 +9035,8 @@ export const createTelephonyEasyHuntingHuntingQueueLiveCallIntercept: API.Operat
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueLiveCallIntercept",
 }));
 
 export type CreateTelephonyEasyHuntingHuntingQueueLiveCallWhisperError = OvhOpError;
@@ -8950,6 +9056,8 @@ export const createTelephonyEasyHuntingHuntingQueueLiveCallWhisper: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingHuntingQueueLiveCallWhisper",
 }));
 
 export type CreateTelephonyEasyHuntingScreenListConditionConditionError = OvhOpError;
@@ -8969,6 +9077,8 @@ export const createTelephonyEasyHuntingScreenListConditionCondition: API.Operati
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingScreenListConditionCondition",
 }));
 
 export type CreateTelephonyEasyHuntingSoundUploadError = OvhOpError;
@@ -8984,6 +9094,8 @@ export const createTelephonyEasyHuntingSoundUpload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingSoundUpload",
 }));
 
 export type CreateTelephonyEasyHuntingTimeConditionConditionError = OvhOpError;
@@ -9003,6 +9115,8 @@ export const createTelephonyEasyHuntingTimeConditionCondition: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEasyHuntingTimeConditionCondition",
 }));
 
 export type CreateTelephonyEventTokenError = OvhOpError;
@@ -9018,6 +9132,8 @@ export const createTelephonyEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyEventToken",
 }));
 
 export type CreateTelephonyFaxCampaignError = OvhOpError;
@@ -9033,6 +9149,8 @@ export const createTelephonyFaxCampaign: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyFaxCampaign",
 }));
 
 export type CreateTelephonyFaxScreenListError = OvhOpError;
@@ -9048,6 +9166,8 @@ export const createTelephonyFaxScreenList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyFaxScreenList",
 }));
 
 export type CreateTelephonyFaxSettingsChangePasswordError = OvhOpError;
@@ -9063,6 +9183,8 @@ export const createTelephonyFaxSettingsChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyFaxSettingsChangePassword",
 }));
 
 export type CreateTelephonyHistoryRepaymentConsumptionError = OvhOpError;
@@ -9078,6 +9200,8 @@ export const createTelephonyHistoryRepaymentConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyHistoryRepaymentConsumption",
 }));
 
 export type CreateTelephonyLineAbbreviatedNumberError = OvhOpError;
@@ -9093,6 +9217,8 @@ export const createTelephonyLineAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineAbbreviatedNumber",
 }));
 
 export type CreateTelephonyLineAntihackError = OvhOpError;
@@ -9108,6 +9234,8 @@ export const createTelephonyLineAntihack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineAntihack",
 }));
 
 export type CreateTelephonyLineAssociateDeviceError = OvhOpError;
@@ -9123,6 +9251,8 @@ export const createTelephonyLineAssociateDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineAssociateDevice",
 }));
 
 export type CreateTelephonyLineAutomaticCallError = OvhOpError;
@@ -9138,6 +9268,8 @@ export const createTelephonyLineAutomaticCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineAutomaticCall",
 }));
 
 export type CreateTelephonyLineChangeContactError = OvhOpError;
@@ -9153,6 +9285,8 @@ export const createTelephonyLineChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineChangeContact",
 }));
 
 export type CreateTelephonyLineChangePasswordError = OvhOpError;
@@ -9168,6 +9302,8 @@ export const createTelephonyLineChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineChangePassword",
 }));
 
 export type CreateTelephonyLineClick2CallError = OvhOpError;
@@ -9183,6 +9319,8 @@ export const createTelephonyLineClick2Call: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineClick2Call",
 }));
 
 export type CreateTelephonyLineClick2CallUserError = OvhOpError;
@@ -9198,6 +9336,8 @@ export const createTelephonyLineClick2CallUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineClick2CallUser",
 }));
 
 export type CreateTelephonyLineClick2CallUserChangePasswordError = OvhOpError;
@@ -9221,6 +9361,8 @@ export const createTelephonyLineClick2CallUserChangePassword: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineClick2CallUserChangePassword",
 }));
 
 export type CreateTelephonyLineClick2CallUserClick2CallError = OvhOpError;
@@ -9240,6 +9382,8 @@ export const createTelephonyLineClick2CallUserClick2Call: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineClick2CallUserClick2Call",
 }));
 
 export type CreateTelephonyLineDissociateDeviceError = OvhOpError;
@@ -9255,6 +9399,8 @@ export const createTelephonyLineDissociateDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineDissociateDevice",
 }));
 
 export type CreateTelephonyLinePhoneChangePhoneConfigurationError = OvhOpError;
@@ -9278,6 +9424,8 @@ export const createTelephonyLinePhoneChangePhoneConfiguration: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLinePhoneChangePhoneConfiguration",
 }));
 
 export type CreateTelephonyLinePhonePhonebookError = OvhOpError;
@@ -9293,6 +9441,8 @@ export const createTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLinePhonePhonebook",
 }));
 
 export type CreateTelephonyLinePhonePhonebookPhonebookContactError = OvhOpError;
@@ -9316,6 +9466,8 @@ export const createTelephonyLinePhonePhonebookPhonebookContact: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLinePhonePhonebookPhonebookContact",
 }));
 
 export type CreateTelephonyLinePhoneRmaError = OvhOpError;
@@ -9331,6 +9483,8 @@ export const createTelephonyLinePhoneRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLinePhoneRma",
 }));
 
 export type CreateTelephonyLinePhoneRmaChangeTypeError = OvhOpError;
@@ -9346,6 +9500,8 @@ export const createTelephonyLinePhoneRmaChangeType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLinePhoneRmaChangeType",
 }));
 
 export type CreateTelephonyLineSoftphoneTokenError = OvhOpError;
@@ -9361,6 +9517,8 @@ export const createTelephonyLineSoftphoneToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineSoftphoneToken",
 }));
 
 export type CreateTelephonyLineToneToneUploadError = OvhOpError;
@@ -9376,6 +9534,8 @@ export const createTelephonyLineToneToneUpload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineToneToneUpload",
 }));
 
 export type CreateTelephonyLineTrafficExtractError = OvhOpError;
@@ -9391,6 +9551,8 @@ export const createTelephonyLineTrafficExtract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyLineTrafficExtract",
 }));
 
 export type CreateTelephonyNumberChangeFeatureTypeError = OvhOpError;
@@ -9406,6 +9568,8 @@ export const createTelephonyNumberChangeFeatureType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyNumberChangeFeatureType",
 }));
 
 export type CreateTelephonyOutplanNotificationError = OvhOpError;
@@ -9421,6 +9585,8 @@ export const createTelephonyOutplanNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOutplanNotification",
 }));
 
 export type CreateTelephonyOvhPabxDialplanError = OvhOpError;
@@ -9436,6 +9602,8 @@ export const createTelephonyOvhPabxDialplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxDialplan",
 }));
 
 export type CreateTelephonyOvhPabxDialplanExtensionError = OvhOpError;
@@ -9451,6 +9619,8 @@ export const createTelephonyOvhPabxDialplanExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxDialplanExtension",
 }));
 
 export type CreateTelephonyOvhPabxDialplanExtensionConditionScreenListError = OvhOpError;
@@ -9474,6 +9644,8 @@ export const createTelephonyOvhPabxDialplanExtensionConditionScreenList: API.Ope
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxDialplanExtensionConditionScreenList",
 }));
 
 export type CreateTelephonyOvhPabxDialplanExtensionConditionTimeError = OvhOpError;
@@ -9493,6 +9665,8 @@ export const createTelephonyOvhPabxDialplanExtensionConditionTime: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxDialplanExtensionConditionTime",
 }));
 
 export type CreateTelephonyOvhPabxDialplanExtensionRuleError = OvhOpError;
@@ -9512,6 +9686,8 @@ export const createTelephonyOvhPabxDialplanExtensionRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxDialplanExtensionRule",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentError = OvhOpError;
@@ -9527,6 +9703,8 @@ export const createTelephonyOvhPabxHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgent",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentBannerAccessError = OvhOpError;
@@ -9546,6 +9724,8 @@ export const createTelephonyOvhPabxHuntingAgentBannerAccess: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentBannerAccess",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentCallEavesdropError = OvhOpError;
@@ -9565,6 +9745,8 @@ export const createTelephonyOvhPabxHuntingAgentCallEavesdrop: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentCallEavesdrop",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentCallHangupError = OvhOpError;
@@ -9584,6 +9766,8 @@ export const createTelephonyOvhPabxHuntingAgentCallHangup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentCallHangup",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentCallHoldError = OvhOpError;
@@ -9599,6 +9783,8 @@ export const createTelephonyOvhPabxHuntingAgentCallHold: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentCallHold",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentCallInterceptError = OvhOpError;
@@ -9618,6 +9804,8 @@ export const createTelephonyOvhPabxHuntingAgentCallIntercept: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentCallIntercept",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentCallWhisperError = OvhOpError;
@@ -9637,6 +9825,8 @@ export const createTelephonyOvhPabxHuntingAgentCallWhisper: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentCallWhisper",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentEventTokenError = OvhOpError;
@@ -9660,6 +9850,8 @@ export const createTelephonyOvhPabxHuntingAgentEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentEventToken",
 }));
 
 export type CreateTelephonyOvhPabxHuntingAgentQueueError = OvhOpError;
@@ -9675,6 +9867,8 @@ export const createTelephonyOvhPabxHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingAgentQueue",
 }));
 
 export type CreateTelephonyOvhPabxHuntingCustomStatusError = OvhOpError;
@@ -9690,6 +9884,8 @@ export const createTelephonyOvhPabxHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingCustomStatus",
 }));
 
 export type CreateTelephonyOvhPabxHuntingEventTokenError = OvhOpError;
@@ -9705,6 +9901,8 @@ export const createTelephonyOvhPabxHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingEventToken",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueError = OvhOpError;
@@ -9720,6 +9918,8 @@ export const createTelephonyOvhPabxHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueue",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueAgentError = OvhOpError;
@@ -9735,6 +9935,8 @@ export const createTelephonyOvhPabxHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueAgent",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueLiveCallEavesdropError = OvhOpError;
@@ -9754,6 +9956,8 @@ export const createTelephonyOvhPabxHuntingQueueLiveCallEavesdrop: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueLiveCallEavesdrop",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueLiveCallHangupError = OvhOpError;
@@ -9773,6 +9977,8 @@ export const createTelephonyOvhPabxHuntingQueueLiveCallHangup: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueLiveCallHangup",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueLiveCallHoldError = OvhOpError;
@@ -9792,6 +9998,8 @@ export const createTelephonyOvhPabxHuntingQueueLiveCallHold: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueLiveCallHold",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueLiveCallInterceptError = OvhOpError;
@@ -9811,6 +10019,8 @@ export const createTelephonyOvhPabxHuntingQueueLiveCallIntercept: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueLiveCallIntercept",
 }));
 
 export type CreateTelephonyOvhPabxHuntingQueueLiveCallWhisperError = OvhOpError;
@@ -9830,6 +10040,8 @@ export const createTelephonyOvhPabxHuntingQueueLiveCallWhisper: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxHuntingQueueLiveCallWhisper",
 }));
 
 export type CreateTelephonyOvhPabxMenuError = OvhOpError;
@@ -9845,6 +10057,8 @@ export const createTelephonyOvhPabxMenu: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxMenu",
 }));
 
 export type CreateTelephonyOvhPabxMenuEntryError = OvhOpError;
@@ -9860,6 +10074,8 @@ export const createTelephonyOvhPabxMenuEntry: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxMenuEntry",
 }));
 
 export type CreateTelephonyOvhPabxSoundUploadError = OvhOpError;
@@ -9875,6 +10091,8 @@ export const createTelephonyOvhPabxSoundUpload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxSoundUpload",
 }));
 
 export type CreateTelephonyOvhPabxTtsError = OvhOpError;
@@ -9890,6 +10108,8 @@ export const createTelephonyOvhPabxTts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyOvhPabxTts",
 }));
 
 export type CreateTelephonyPhonebookError = OvhOpError;
@@ -9905,6 +10125,8 @@ export const createTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyPhonebook",
 }));
 
 export type CreateTelephonyPhonebookPhonebookContactError = OvhOpError;
@@ -9920,6 +10142,8 @@ export const createTelephonyPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyPhonebookPhonebookContact",
 }));
 
 export type CreateTelephonyPortabilityChangeDateError = OvhOpError;
@@ -9935,6 +10159,8 @@ export const createTelephonyPortabilityChangeDate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyPortabilityChangeDate",
 }));
 
 export type CreateTelephonyPortabilityDocumentError = OvhOpError;
@@ -9950,6 +10176,8 @@ export const createTelephonyPortabilityDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyPortabilityDocument",
 }));
 
 export type CreateTelephonyPortabilityRelaunchError = OvhOpError;
@@ -9965,6 +10193,8 @@ export const createTelephonyPortabilityRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyPortabilityRelaunch",
 }));
 
 export type CreateTelephonyProcedureError = OvhOpError;
@@ -9980,6 +10210,8 @@ export const createTelephonyProcedure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyProcedure",
 }));
 
 export type CreateTelephonyRedirectChangeDestinationError = OvhOpError;
@@ -9995,6 +10227,8 @@ export const createTelephonyRedirectChangeDestination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyRedirectChangeDestination",
 }));
 
 export type CreateTelephonyRsvaScheduleRateCodeError = OvhOpError;
@@ -10010,6 +10244,8 @@ export const createTelephonyRsvaScheduleRateCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyRsvaScheduleRateCode",
 }));
 
 export type CreateTelephonySchedulerEventError = OvhOpError;
@@ -10025,6 +10261,8 @@ export const createTelephonySchedulerEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonySchedulerEvent",
 }));
 
 export type CreateTelephonyScreenScreenListError = OvhOpError;
@@ -10040,6 +10278,8 @@ export const createTelephonyScreenScreenList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyScreenScreenList",
 }));
 
 export type CreateTelephonyServiceChangeOfBillingAccountError = OvhOpError;
@@ -10055,6 +10295,8 @@ export const createTelephonyServiceChangeOfBillingAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyServiceChangeOfBillingAccount",
 }));
 
 export type CreateTelephonyServiceEventTokenError = OvhOpError;
@@ -10070,6 +10312,8 @@ export const createTelephonyServiceEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyServiceEventToken",
 }));
 
 export type CreateTelephonyServiceOfferChangeError = OvhOpError;
@@ -10085,6 +10329,8 @@ export const createTelephonyServiceOfferChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyServiceOfferChange",
 }));
 
 export type CreateTelephonySoundError = OvhOpError;
@@ -10100,6 +10346,8 @@ export const createTelephonySound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonySound",
 }));
 
 export type CreateTelephonyTimeConditionConditionError = OvhOpError;
@@ -10115,6 +10363,8 @@ export const createTelephonyTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyTimeConditionCondition",
 }));
 
 export type CreateTelephonyTrunkChangeContactError = OvhOpError;
@@ -10130,6 +10380,8 @@ export const createTelephonyTrunkChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyTrunkChangeContact",
 }));
 
 export type CreateTelephonyTrunkExternalDisplayedNumberError = OvhOpError;
@@ -10145,6 +10397,8 @@ export const createTelephonyTrunkExternalDisplayedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyTrunkExternalDisplayedNumber",
 }));
 
 export type CreateTelephonyVoicemailGreetingError = OvhOpError;
@@ -10160,6 +10414,8 @@ export const createTelephonyVoicemailGreeting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyVoicemailGreeting",
 }));
 
 export type CreateTelephonyVoicemailSettingsChangePasswordError = OvhOpError;
@@ -10183,6 +10439,8 @@ export const createTelephonyVoicemailSettingsChangePassword: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyVoicemailSettingsChangePassword",
 }));
 
 export type CreateTelephonyVoicemailSettingsChangeRoutingError = OvhOpError;
@@ -10202,6 +10460,8 @@ export const createTelephonyVoicemailSettingsChangeRouting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyVoicemailSettingsChangeRouting",
 }));
 
 export type CreateTelephonyVxmlSettingsLogError = OvhOpError;
@@ -10217,6 +10477,8 @@ export const createTelephonyVxmlSettingsLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelephonyVxmlSettingsLog",
 }));
 
 export type DeleteTelephonyError = OvhOpError;
@@ -10232,6 +10494,8 @@ export const deleteTelephony: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephony",
 }));
 
 export type DeleteTelephonyAbbreviatedNumberError = OvhOpError;
@@ -10247,6 +10511,8 @@ export const deleteTelephonyAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyAbbreviatedNumber",
 }));
 
 export type DeleteTelephonyConferenceRoomWebAccessError = OvhOpError;
@@ -10262,6 +10528,8 @@ export const deleteTelephonyConferenceRoomWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyConferenceRoomWebAccess",
 }));
 
 export type DeleteTelephonyConferenceWebAccessError = OvhOpError;
@@ -10277,6 +10545,8 @@ export const deleteTelephonyConferenceWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyConferenceWebAccess",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingAgentError = OvhOpError;
@@ -10292,6 +10562,8 @@ export const deleteTelephonyEasyHuntingHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingAgent",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingAgentBannerAccessError = OvhOpError;
@@ -10315,6 +10587,8 @@ export const deleteTelephonyEasyHuntingHuntingAgentBannerAccess: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingAgentBannerAccess",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingAgentEventTokenError = OvhOpError;
@@ -10338,6 +10612,8 @@ export const deleteTelephonyEasyHuntingHuntingAgentEventToken: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingAgentEventToken",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingAgentQueueError = OvhOpError;
@@ -10353,6 +10629,8 @@ export const deleteTelephonyEasyHuntingHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingAgentQueue",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingCustomStatusError = OvhOpError;
@@ -10372,6 +10650,8 @@ export const deleteTelephonyEasyHuntingHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingCustomStatus",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingEventTokenError = OvhOpError;
@@ -10387,6 +10667,8 @@ export const deleteTelephonyEasyHuntingHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingEventToken",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingQueueError = OvhOpError;
@@ -10402,6 +10684,8 @@ export const deleteTelephonyEasyHuntingHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingQueue",
 }));
 
 export type DeleteTelephonyEasyHuntingHuntingQueueAgentError = OvhOpError;
@@ -10417,6 +10701,8 @@ export const deleteTelephonyEasyHuntingHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingHuntingQueueAgent",
 }));
 
 export type DeleteTelephonyEasyHuntingRecordError = OvhOpError;
@@ -10432,6 +10718,8 @@ export const deleteTelephonyEasyHuntingRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingRecord",
 }));
 
 export type DeleteTelephonyEasyHuntingScreenListConditionConditionError = OvhOpError;
@@ -10455,6 +10743,8 @@ export const deleteTelephonyEasyHuntingScreenListConditionCondition: API.Operati
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingScreenListConditionCondition",
 }));
 
 export type DeleteTelephonyEasyHuntingSoundError = OvhOpError;
@@ -10470,6 +10760,8 @@ export const deleteTelephonyEasyHuntingSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingSound",
 }));
 
 export type DeleteTelephonyEasyHuntingTimeConditionConditionError = OvhOpError;
@@ -10493,6 +10785,8 @@ export const deleteTelephonyEasyHuntingTimeConditionCondition: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEasyHuntingTimeConditionCondition",
 }));
 
 export type DeleteTelephonyEventTokenError = OvhOpError;
@@ -10508,6 +10802,8 @@ export const deleteTelephonyEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyEventToken",
 }));
 
 export type DeleteTelephonyFaxCampaignError = OvhOpError;
@@ -10523,6 +10819,8 @@ export const deleteTelephonyFaxCampaign: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyFaxCampaign",
 }));
 
 export type DeleteTelephonyFaxScreenListsError = OvhOpError;
@@ -10538,6 +10836,8 @@ export const deleteTelephonyFaxScreenLists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyFaxScreenLists",
 }));
 
 export type DeleteTelephonyLineAbbreviatedNumberError = OvhOpError;
@@ -10553,6 +10853,8 @@ export const deleteTelephonyLineAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineAbbreviatedNumber",
 }));
 
 export type DeleteTelephonyLineClick2CallUserError = OvhOpError;
@@ -10568,6 +10870,8 @@ export const deleteTelephonyLineClick2CallUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineClick2CallUser",
 }));
 
 export type DeleteTelephonyLinePhonePhonebookError = OvhOpError;
@@ -10583,6 +10887,8 @@ export const deleteTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLinePhonePhonebook",
 }));
 
 export type DeleteTelephonyLinePhonePhonebookPhonebookContactError = OvhOpError;
@@ -10606,6 +10912,8 @@ export const deleteTelephonyLinePhonePhonebookPhonebookContact: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLinePhonePhonebookPhonebookContact",
 }));
 
 export type DeleteTelephonyLinePhoneRmaError = OvhOpError;
@@ -10621,6 +10929,8 @@ export const deleteTelephonyLinePhoneRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLinePhoneRma",
 }));
 
 export type DeleteTelephonyLineRecordError = OvhOpError;
@@ -10636,6 +10946,8 @@ export const deleteTelephonyLineRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineRecord",
 }));
 
 export type DeleteTelephonyLineSoftphoneDeviceError = OvhOpError;
@@ -10651,6 +10963,8 @@ export const deleteTelephonyLineSoftphoneDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineSoftphoneDevice",
 }));
 
 export type DeleteTelephonyLineSoftphoneLogoError = OvhOpError;
@@ -10666,6 +10980,8 @@ export const deleteTelephonyLineSoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineSoftphoneLogo",
 }));
 
 export type DeleteTelephonyLineSoftphoneThemeError = OvhOpError;
@@ -10681,6 +10997,8 @@ export const deleteTelephonyLineSoftphoneTheme: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineSoftphoneTheme",
 }));
 
 export type DeleteTelephonyLineTrafficExtractError = OvhOpError;
@@ -10696,6 +11014,8 @@ export const deleteTelephonyLineTrafficExtract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyLineTrafficExtract",
 }));
 
 export type DeleteTelephonyOutplanNotificationError = OvhOpError;
@@ -10711,6 +11031,8 @@ export const deleteTelephonyOutplanNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOutplanNotification",
 }));
 
 export type DeleteTelephonyOvhPabxDialplanError = OvhOpError;
@@ -10726,6 +11048,8 @@ export const deleteTelephonyOvhPabxDialplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxDialplan",
 }));
 
 export type DeleteTelephonyOvhPabxDialplanExtensionError = OvhOpError;
@@ -10741,6 +11065,8 @@ export const deleteTelephonyOvhPabxDialplanExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxDialplanExtension",
 }));
 
 export type DeleteTelephonyOvhPabxDialplanExtensionConditionScreenListError = OvhOpError;
@@ -10764,6 +11090,8 @@ export const deleteTelephonyOvhPabxDialplanExtensionConditionScreenList: API.Ope
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxDialplanExtensionConditionScreenList",
 }));
 
 export type DeleteTelephonyOvhPabxDialplanExtensionConditionTimeError = OvhOpError;
@@ -10787,6 +11115,8 @@ export const deleteTelephonyOvhPabxDialplanExtensionConditionTime: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxDialplanExtensionConditionTime",
 }));
 
 export type DeleteTelephonyOvhPabxDialplanExtensionRuleError = OvhOpError;
@@ -10802,6 +11132,8 @@ export const deleteTelephonyOvhPabxDialplanExtensionRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxDialplanExtensionRule",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingAgentError = OvhOpError;
@@ -10817,6 +11149,8 @@ export const deleteTelephonyOvhPabxHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingAgent",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingAgentBannerAccessError = OvhOpError;
@@ -10840,6 +11174,8 @@ export const deleteTelephonyOvhPabxHuntingAgentBannerAccess: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingAgentBannerAccess",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingAgentEventTokenError = OvhOpError;
@@ -10855,6 +11191,8 @@ export const deleteTelephonyOvhPabxHuntingAgentEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingAgentEventToken",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingAgentQueueError = OvhOpError;
@@ -10870,6 +11208,8 @@ export const deleteTelephonyOvhPabxHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingAgentQueue",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingCustomStatusError = OvhOpError;
@@ -10885,6 +11225,8 @@ export const deleteTelephonyOvhPabxHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingCustomStatus",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingEventTokenError = OvhOpError;
@@ -10900,6 +11242,8 @@ export const deleteTelephonyOvhPabxHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingEventToken",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingQueueError = OvhOpError;
@@ -10915,6 +11259,8 @@ export const deleteTelephonyOvhPabxHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingQueue",
 }));
 
 export type DeleteTelephonyOvhPabxHuntingQueueAgentError = OvhOpError;
@@ -10930,6 +11276,8 @@ export const deleteTelephonyOvhPabxHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxHuntingQueueAgent",
 }));
 
 export type DeleteTelephonyOvhPabxMenuError = OvhOpError;
@@ -10945,6 +11293,8 @@ export const deleteTelephonyOvhPabxMenu: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxMenu",
 }));
 
 export type DeleteTelephonyOvhPabxMenuEntryError = OvhOpError;
@@ -10960,6 +11310,8 @@ export const deleteTelephonyOvhPabxMenuEntry: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxMenuEntry",
 }));
 
 export type DeleteTelephonyOvhPabxRecordError = OvhOpError;
@@ -10975,6 +11327,8 @@ export const deleteTelephonyOvhPabxRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxRecord",
 }));
 
 export type DeleteTelephonyOvhPabxSoundError = OvhOpError;
@@ -10990,6 +11344,8 @@ export const deleteTelephonyOvhPabxSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxSound",
 }));
 
 export type DeleteTelephonyOvhPabxTtsError = OvhOpError;
@@ -11005,6 +11361,8 @@ export const deleteTelephonyOvhPabxTts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyOvhPabxTts",
 }));
 
 export type DeleteTelephonyPhonebookError = OvhOpError;
@@ -11020,6 +11378,8 @@ export const deleteTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyPhonebook",
 }));
 
 export type DeleteTelephonyPhonebookPhonebookContactError = OvhOpError;
@@ -11035,6 +11395,8 @@ export const deleteTelephonyPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyPhonebookPhonebookContact",
 }));
 
 export type DeleteTelephonyPortabilityDocumentError = OvhOpError;
@@ -11050,6 +11412,8 @@ export const deleteTelephonyPortabilityDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyPortabilityDocument",
 }));
 
 export type DeleteTelephonySchedulerEventError = OvhOpError;
@@ -11065,6 +11429,8 @@ export const deleteTelephonySchedulerEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonySchedulerEvent",
 }));
 
 export type DeleteTelephonyScreenScreenListError = OvhOpError;
@@ -11080,6 +11446,8 @@ export const deleteTelephonyScreenScreenList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyScreenScreenList",
 }));
 
 export type DeleteTelephonyServiceError = OvhOpError;
@@ -11095,6 +11463,8 @@ export const deleteTelephonyService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyService",
 }));
 
 export type DeleteTelephonyServiceEventTokenError = OvhOpError;
@@ -11110,6 +11480,8 @@ export const deleteTelephonyServiceEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyServiceEventToken",
 }));
 
 export type DeleteTelephonyServiceOfferChangeError = OvhOpError;
@@ -11125,6 +11497,8 @@ export const deleteTelephonyServiceOfferChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyServiceOfferChange",
 }));
 
 export type DeleteTelephonySoftphoneLogoError = OvhOpError;
@@ -11140,6 +11514,8 @@ export const deleteTelephonySoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonySoftphoneLogo",
 }));
 
 export type DeleteTelephonySoundError = OvhOpError;
@@ -11155,6 +11531,8 @@ export const deleteTelephonySound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonySound",
 }));
 
 export type DeleteTelephonySpareError = OvhOpError;
@@ -11170,6 +11548,8 @@ export const deleteTelephonySpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonySpare",
 }));
 
 export type DeleteTelephonyTimeConditionConditionError = OvhOpError;
@@ -11185,6 +11565,8 @@ export const deleteTelephonyTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyTimeConditionCondition",
 }));
 
 export type DeleteTelephonyTrunkExternalDisplayedNumberError = OvhOpError;
@@ -11200,6 +11582,8 @@ export const deleteTelephonyTrunkExternalDisplayedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyTrunkExternalDisplayedNumber",
 }));
 
 export type DeleteTelephonyVoicemailDirectoryError = OvhOpError;
@@ -11215,6 +11599,8 @@ export const deleteTelephonyVoicemailDirectory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyVoicemailDirectory",
 }));
 
 export type DeleteTelephonyVoicemailGreetingError = OvhOpError;
@@ -11230,6 +11616,8 @@ export const deleteTelephonyVoicemailGreeting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelephonyVoicemailGreeting",
 }));
 
 export type DisconnectTelephonyLineSoftphoneDeviceError = OvhOpError;
@@ -11245,6 +11633,8 @@ export const disconnectTelephonyLineSoftphoneDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectTelephonyLineSoftphoneDevice",
 }));
 
 export type ExecuteTelephonyPortabilityError = OvhOpError;
@@ -11260,6 +11650,8 @@ export const executeTelephonyPortability: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteTelephonyPortability",
 }));
 
 export type FetchTelephonyServiceDirectoryEntrepriseInformationsError = OvhOpError;
@@ -11279,6 +11671,8 @@ export const fetchTelephonyServiceDirectoryEntrepriseInformations: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchTelephonyServiceDirectoryEntrepriseInformations",
 }));
 
 export type GenerateTelephonyResellerPanelPasswordError = OvhOpError;
@@ -11294,6 +11688,8 @@ export const generateTelephonyResellerPanelPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateTelephonyResellerPanelPassword",
 }));
 
 export type GetTelephonyError = OvhOpError;
@@ -11309,6 +11705,8 @@ export const getTelephony: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephony",
 }));
 
 export type GetTelephonyAbbreviatedNumberError = OvhOpError;
@@ -11324,6 +11722,8 @@ export const getTelephonyAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyAbbreviatedNumber",
 }));
 
 export type GetTelephonyAliasError = OvhOpError;
@@ -11339,6 +11739,8 @@ export const getTelephonyAlias: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyAlias",
 }));
 
 export type GetTelephonyAliasServiceInfosError = OvhOpError;
@@ -11354,6 +11756,8 @@ export const getTelephonyAliasServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyAliasServiceInfos",
 }));
 
 export type GetTelephonyBillingAccountSiteError = OvhOpError;
@@ -11369,6 +11773,8 @@ export const getTelephonyBillingAccountSite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyBillingAccountSite",
 }));
 
 export type GetTelephonyCarrierSipError = OvhOpError;
@@ -11384,6 +11790,8 @@ export const getTelephonyCarrierSip: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSip",
 }));
 
 export type GetTelephonyCarrierSipCdrsError = OvhOpError;
@@ -11399,6 +11807,8 @@ export const getTelephonyCarrierSipCdrs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSipCdrs",
 }));
 
 export type GetTelephonyCarrierSipEndpointError = OvhOpError;
@@ -11414,6 +11824,8 @@ export const getTelephonyCarrierSipEndpoint: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSipEndpoint",
 }));
 
 export type GetTelephonyCarrierSipSettingsError = OvhOpError;
@@ -11429,6 +11841,8 @@ export const getTelephonyCarrierSipSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSipSettings",
 }));
 
 export type GetTelephonyCarrierSipVnoError = OvhOpError;
@@ -11444,6 +11858,8 @@ export const getTelephonyCarrierSipVno: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSipVno",
 }));
 
 export type GetTelephonyCarrierSipVnoRangeError = OvhOpError;
@@ -11459,6 +11875,8 @@ export const getTelephonyCarrierSipVnoRange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyCarrierSipVnoRange",
 }));
 
 export type GetTelephonyConferenceError = OvhOpError;
@@ -11474,6 +11892,8 @@ export const getTelephonyConference: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConference",
 }));
 
 export type GetTelephonyConferenceHistoryError = OvhOpError;
@@ -11489,6 +11909,8 @@ export const getTelephonyConferenceHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceHistory",
 }));
 
 export type GetTelephonyConferenceInformationsError = OvhOpError;
@@ -11504,6 +11926,8 @@ export const getTelephonyConferenceInformations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceInformations",
 }));
 
 export type GetTelephonyConferenceParticipantError = OvhOpError;
@@ -11519,6 +11943,8 @@ export const getTelephonyConferenceParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceParticipant",
 }));
 
 export type GetTelephonyConferenceRoomError = OvhOpError;
@@ -11534,6 +11960,8 @@ export const getTelephonyConferenceRoom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceRoom",
 }));
 
 export type GetTelephonyConferenceRoomHistoryError = OvhOpError;
@@ -11549,6 +11977,8 @@ export const getTelephonyConferenceRoomHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceRoomHistory",
 }));
 
 export type GetTelephonyConferenceRoomParticipantError = OvhOpError;
@@ -11564,6 +11994,8 @@ export const getTelephonyConferenceRoomParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceRoomParticipant",
 }));
 
 export type GetTelephonyConferenceRoomsStatsError = OvhOpError;
@@ -11579,6 +12011,8 @@ export const getTelephonyConferenceRoomsStats: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceRoomsStats",
 }));
 
 export type GetTelephonyConferenceRoomWebAccessError = OvhOpError;
@@ -11594,6 +12028,8 @@ export const getTelephonyConferenceRoomWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceRoomWebAccess",
 }));
 
 export type GetTelephonyConferenceSettingsError = OvhOpError;
@@ -11609,6 +12045,8 @@ export const getTelephonyConferenceSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceSettings",
 }));
 
 export type GetTelephonyConferenceWebAccessError = OvhOpError;
@@ -11624,6 +12062,8 @@ export const getTelephonyConferenceWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyConferenceWebAccess",
 }));
 
 export type GetTelephonyDdiError = OvhOpError;
@@ -11639,6 +12079,8 @@ export const getTelephonyDdi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyDdi",
 }));
 
 export type GetTelephonyEasyHuntingError = OvhOpError;
@@ -11654,6 +12096,8 @@ export const getTelephonyEasyHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHunting",
 }));
 
 export type GetTelephonyEasyHuntingHuntingError = OvhOpError;
@@ -11669,6 +12113,8 @@ export const getTelephonyEasyHuntingHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHunting",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentError = OvhOpError;
@@ -11684,6 +12130,8 @@ export const getTelephonyEasyHuntingHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgent",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentBannerAccessError = OvhOpError;
@@ -11703,6 +12151,8 @@ export const getTelephonyEasyHuntingHuntingAgentBannerAccess: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentBannerAccess",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentCallError = OvhOpError;
@@ -11718,6 +12168,8 @@ export const getTelephonyEasyHuntingHuntingAgentCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentCall",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentEventTokenError = OvhOpError;
@@ -11737,6 +12189,8 @@ export const getTelephonyEasyHuntingHuntingAgentEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentEventToken",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentLiveStatusError = OvhOpError;
@@ -11756,6 +12210,8 @@ export const getTelephonyEasyHuntingHuntingAgentLiveStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentLiveStatus",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentQueueError = OvhOpError;
@@ -11771,6 +12227,8 @@ export const getTelephonyEasyHuntingHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentQueue",
 }));
 
 export type GetTelephonyEasyHuntingHuntingAgentQueueLiveStatusError = OvhOpError;
@@ -11790,6 +12248,8 @@ export const getTelephonyEasyHuntingHuntingAgentQueueLiveStatus: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingAgentQueueLiveStatus",
 }));
 
 export type GetTelephonyEasyHuntingHuntingCustomStatusError = OvhOpError;
@@ -11805,6 +12265,8 @@ export const getTelephonyEasyHuntingHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingCustomStatus",
 }));
 
 export type GetTelephonyEasyHuntingHuntingEventTokenError = OvhOpError;
@@ -11820,6 +12282,8 @@ export const getTelephonyEasyHuntingHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingEventToken",
 }));
 
 export type GetTelephonyEasyHuntingHuntingQueueError = OvhOpError;
@@ -11835,6 +12299,8 @@ export const getTelephonyEasyHuntingHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingQueue",
 }));
 
 export type GetTelephonyEasyHuntingHuntingQueueAgentError = OvhOpError;
@@ -11850,6 +12316,8 @@ export const getTelephonyEasyHuntingHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingQueueAgent",
 }));
 
 export type GetTelephonyEasyHuntingHuntingQueueAgentLiveStatusError = OvhOpError;
@@ -11869,6 +12337,8 @@ export const getTelephonyEasyHuntingHuntingQueueAgentLiveStatus: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingQueueAgentLiveStatus",
 }));
 
 export type GetTelephonyEasyHuntingHuntingQueueLiveCallError = OvhOpError;
@@ -11888,6 +12358,8 @@ export const getTelephonyEasyHuntingHuntingQueueLiveCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingQueueLiveCall",
 }));
 
 export type GetTelephonyEasyHuntingHuntingQueueLiveStatisticsError = OvhOpError;
@@ -11907,6 +12379,8 @@ export const getTelephonyEasyHuntingHuntingQueueLiveStatistics: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingHuntingQueueLiveStatistics",
 }));
 
 export type GetTelephonyEasyHuntingRecordError = OvhOpError;
@@ -11922,6 +12396,8 @@ export const getTelephonyEasyHuntingRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingRecord",
 }));
 
 export type GetTelephonyEasyHuntingScreenListConditionConditionError = OvhOpError;
@@ -11941,6 +12417,8 @@ export const getTelephonyEasyHuntingScreenListConditionCondition: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingScreenListConditionCondition",
 }));
 
 export type GetTelephonyEasyHuntingScreenListConditionsError = OvhOpError;
@@ -11964,6 +12442,8 @@ export const getTelephonyEasyHuntingScreenListConditions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingScreenListConditions",
 }));
 
 export type GetTelephonyEasyHuntingSoundError = OvhOpError;
@@ -11979,6 +12459,8 @@ export const getTelephonyEasyHuntingSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingSound",
 }));
 
 export type GetTelephonyEasyHuntingTimeConditionConditionError = OvhOpError;
@@ -11998,6 +12480,8 @@ export const getTelephonyEasyHuntingTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingTimeConditionCondition",
 }));
 
 export type GetTelephonyEasyHuntingTimeConditionsError = OvhOpError;
@@ -12013,6 +12497,8 @@ export const getTelephonyEasyHuntingTimeConditions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEasyHuntingTimeConditions",
 }));
 
 export type GetTelephonyEventTokenError = OvhOpError;
@@ -12028,6 +12514,8 @@ export const getTelephonyEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyEventToken",
 }));
 
 export type GetTelephonyFaxError = OvhOpError;
@@ -12043,6 +12531,8 @@ export const getTelephonyFax: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyFax",
 }));
 
 export type GetTelephonyFaxCampaignError = OvhOpError;
@@ -12058,6 +12548,8 @@ export const getTelephonyFaxCampaign: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyFaxCampaign",
 }));
 
 export type GetTelephonyFaxScreenListsError = OvhOpError;
@@ -12073,6 +12565,8 @@ export const getTelephonyFaxScreenLists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyFaxScreenLists",
 }));
 
 export type GetTelephonyFaxSettingsError = OvhOpError;
@@ -12088,6 +12582,8 @@ export const getTelephonyFaxSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyFaxSettings",
 }));
 
 export type GetTelephonyHasSpecialNumbersError = OvhOpError;
@@ -12103,6 +12599,8 @@ export const getTelephonyHasSpecialNumbers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHasSpecialNumbers",
 }));
 
 export type GetTelephonyHistoryConsumptionError = OvhOpError;
@@ -12118,6 +12616,8 @@ export const getTelephonyHistoryConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryConsumption",
 }));
 
 export type GetTelephonyHistoryConsumptionFileError = OvhOpError;
@@ -12133,6 +12633,8 @@ export const getTelephonyHistoryConsumptionFile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryConsumptionFile",
 }));
 
 export type GetTelephonyHistoryRepaymentConsumptionError = OvhOpError;
@@ -12148,6 +12650,8 @@ export const getTelephonyHistoryRepaymentConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryRepaymentConsumption",
 }));
 
 export type GetTelephonyHistoryRepaymentConsumptionDocumentError = OvhOpError;
@@ -12167,6 +12671,8 @@ export const getTelephonyHistoryRepaymentConsumptionDocument: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryRepaymentConsumptionDocument",
 }));
 
 export type GetTelephonyHistoryTollfreeConsumptionError = OvhOpError;
@@ -12182,6 +12688,8 @@ export const getTelephonyHistoryTollfreeConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryTollfreeConsumption",
 }));
 
 export type GetTelephonyHistoryTollfreeConsumptionDocumentError = OvhOpError;
@@ -12201,6 +12709,8 @@ export const getTelephonyHistoryTollfreeConsumptionDocument: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyHistoryTollfreeConsumptionDocument",
 }));
 
 export type GetTelephonyLineError = OvhOpError;
@@ -12216,6 +12726,8 @@ export const getTelephonyLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLine",
 }));
 
 export type GetTelephonyLineAbbreviatedNumberError = OvhOpError;
@@ -12231,6 +12743,8 @@ export const getTelephonyLineAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineAbbreviatedNumber",
 }));
 
 export type GetTelephonyLineActivateNewPhoneError = OvhOpError;
@@ -12246,6 +12760,8 @@ export const getTelephonyLineActivateNewPhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineActivateNewPhone",
 }));
 
 export type GetTelephonyLineAutomaticCallError = OvhOpError;
@@ -12261,6 +12777,8 @@ export const getTelephonyLineAutomaticCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineAutomaticCall",
 }));
 
 export type GetTelephonyLineByServiceNameError = OvhOpError;
@@ -12276,6 +12794,8 @@ export const getTelephonyLineByServiceName: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineByServiceName",
 }));
 
 export type GetTelephonyLineClick2CallUserError = OvhOpError;
@@ -12291,6 +12811,8 @@ export const getTelephonyLineClick2CallUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineClick2CallUser",
 }));
 
 export type GetTelephonyLineEventError = OvhOpError;
@@ -12306,6 +12828,8 @@ export const getTelephonyLineEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineEvent",
 }));
 
 export type GetTelephonyLineMaximumAvailableSimultaneousLinesError = OvhOpError;
@@ -12329,6 +12853,8 @@ export const getTelephonyLineMaximumAvailableSimultaneousLines: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineMaximumAvailableSimultaneousLines",
 }));
 
 export type GetTelephonyLineOfferError = OvhOpError;
@@ -12344,6 +12870,8 @@ export const getTelephonyLineOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineOffer",
 }));
 
 export type GetTelephonyLineOptionDefaultCodecsError = OvhOpError;
@@ -12359,6 +12887,8 @@ export const getTelephonyLineOptionDefaultCodecs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineOptionDefaultCodecs",
 }));
 
 export type GetTelephonyLineOptionsError = OvhOpError;
@@ -12374,6 +12904,8 @@ export const getTelephonyLineOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineOptions",
 }));
 
 export type GetTelephonyLinePhoneError = OvhOpError;
@@ -12389,6 +12921,8 @@ export const getTelephonyLinePhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhone",
 }));
 
 export type GetTelephonyLinePhoneAdminCredentialsError = OvhOpError;
@@ -12404,6 +12938,8 @@ export const getTelephonyLinePhoneAdminCredentials: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhoneAdminCredentials",
 }));
 
 export type GetTelephonyLinePhoneFunctionKeyError = OvhOpError;
@@ -12419,6 +12955,8 @@ export const getTelephonyLinePhoneFunctionKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhoneFunctionKey",
 }));
 
 export type GetTelephonyLinePhonePhonebookError = OvhOpError;
@@ -12434,6 +12972,8 @@ export const getTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhonePhonebook",
 }));
 
 export type GetTelephonyLinePhonePhonebookExportError = OvhOpError;
@@ -12449,6 +12989,8 @@ export const getTelephonyLinePhonePhonebookExport: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhonePhonebookExport",
 }));
 
 export type GetTelephonyLinePhonePhonebookPhonebookContactError = OvhOpError;
@@ -12468,6 +13010,8 @@ export const getTelephonyLinePhonePhonebookPhonebookContact: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhonePhonebookPhonebookContact",
 }));
 
 export type GetTelephonyLinePhoneRmaError = OvhOpError;
@@ -12483,6 +13027,8 @@ export const getTelephonyLinePhoneRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhoneRma",
 }));
 
 export type GetTelephonyLinePhoneSupportsPhonebookError = OvhOpError;
@@ -12498,6 +13044,8 @@ export const getTelephonyLinePhoneSupportsPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLinePhoneSupportsPhonebook",
 }));
 
 export type GetTelephonyLineRecordError = OvhOpError;
@@ -12513,6 +13061,8 @@ export const getTelephonyLineRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineRecord",
 }));
 
 export type GetTelephonyLineServiceInfosError = OvhOpError;
@@ -12528,6 +13078,8 @@ export const getTelephonyLineServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineServiceInfos",
 }));
 
 export type GetTelephonyLineSimultaneousChannelsDetailsError = OvhOpError;
@@ -12547,6 +13099,8 @@ export const getTelephonyLineSimultaneousChannelsDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineSimultaneousChannelsDetails",
 }));
 
 export type GetTelephonyLineSoftphoneBetaError = OvhOpError;
@@ -12562,6 +13116,8 @@ export const getTelephonyLineSoftphoneBeta: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineSoftphoneBeta",
 }));
 
 export type GetTelephonyLineSoftphoneLogoError = OvhOpError;
@@ -12577,6 +13133,8 @@ export const getTelephonyLineSoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineSoftphoneLogo",
 }));
 
 export type GetTelephonyLineSoftphoneStatusError = OvhOpError;
@@ -12592,6 +13150,8 @@ export const getTelephonyLineSoftphoneStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineSoftphoneStatus",
 }));
 
 export type GetTelephonyLineSoftphoneThemeError = OvhOpError;
@@ -12607,6 +13167,8 @@ export const getTelephonyLineSoftphoneTheme: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineSoftphoneTheme",
 }));
 
 export type GetTelephonyLineTonesError = OvhOpError;
@@ -12622,6 +13184,8 @@ export const getTelephonyLineTones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineTones",
 }));
 
 export type GetTelephonyLineTrafficExtractError = OvhOpError;
@@ -12637,6 +13201,8 @@ export const getTelephonyLineTrafficExtract: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyLineTrafficExtract",
 }));
 
 export type GetTelephonyNumberError = OvhOpError;
@@ -12652,6 +13218,8 @@ export const getTelephonyNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyNumber",
 }));
 
 export type GetTelephonyOfferTaskError = OvhOpError;
@@ -12667,6 +13235,8 @@ export const getTelephonyOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOfferTask",
 }));
 
 export type GetTelephonyOutplanNotificationError = OvhOpError;
@@ -12682,6 +13252,8 @@ export const getTelephonyOutplanNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOutplanNotification",
 }));
 
 export type GetTelephonyOvhPabxError = OvhOpError;
@@ -12697,6 +13269,8 @@ export const getTelephonyOvhPabx: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabx",
 }));
 
 export type GetTelephonyOvhPabxDialplanError = OvhOpError;
@@ -12712,6 +13286,8 @@ export const getTelephonyOvhPabxDialplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxDialplan",
 }));
 
 export type GetTelephonyOvhPabxDialplanExtensionError = OvhOpError;
@@ -12727,6 +13303,8 @@ export const getTelephonyOvhPabxDialplanExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxDialplanExtension",
 }));
 
 export type GetTelephonyOvhPabxDialplanExtensionConditionScreenListError = OvhOpError;
@@ -12750,6 +13328,8 @@ export const getTelephonyOvhPabxDialplanExtensionConditionScreenList: API.Operat
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxDialplanExtensionConditionScreenList",
 }));
 
 export type GetTelephonyOvhPabxDialplanExtensionConditionTimeError = OvhOpError;
@@ -12769,6 +13349,8 @@ export const getTelephonyOvhPabxDialplanExtensionConditionTime: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxDialplanExtensionConditionTime",
 }));
 
 export type GetTelephonyOvhPabxDialplanExtensionRuleError = OvhOpError;
@@ -12784,6 +13366,8 @@ export const getTelephonyOvhPabxDialplanExtensionRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxDialplanExtensionRule",
 }));
 
 export type GetTelephonyOvhPabxHuntingError = OvhOpError;
@@ -12799,6 +13383,8 @@ export const getTelephonyOvhPabxHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHunting",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentError = OvhOpError;
@@ -12814,6 +13400,8 @@ export const getTelephonyOvhPabxHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgent",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentBannerAccessError = OvhOpError;
@@ -12833,6 +13421,8 @@ export const getTelephonyOvhPabxHuntingAgentBannerAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentBannerAccess",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentCallError = OvhOpError;
@@ -12848,6 +13438,8 @@ export const getTelephonyOvhPabxHuntingAgentCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentCall",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentEventTokenError = OvhOpError;
@@ -12863,6 +13455,8 @@ export const getTelephonyOvhPabxHuntingAgentEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentEventToken",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentLiveStatusError = OvhOpError;
@@ -12878,6 +13472,8 @@ export const getTelephonyOvhPabxHuntingAgentLiveStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentLiveStatus",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentQueueError = OvhOpError;
@@ -12893,6 +13489,8 @@ export const getTelephonyOvhPabxHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentQueue",
 }));
 
 export type GetTelephonyOvhPabxHuntingAgentQueueLiveStatusError = OvhOpError;
@@ -12912,6 +13510,8 @@ export const getTelephonyOvhPabxHuntingAgentQueueLiveStatus: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingAgentQueueLiveStatus",
 }));
 
 export type GetTelephonyOvhPabxHuntingCustomStatusError = OvhOpError;
@@ -12927,6 +13527,8 @@ export const getTelephonyOvhPabxHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingCustomStatus",
 }));
 
 export type GetTelephonyOvhPabxHuntingEventTokenError = OvhOpError;
@@ -12942,6 +13544,8 @@ export const getTelephonyOvhPabxHuntingEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingEventToken",
 }));
 
 export type GetTelephonyOvhPabxHuntingQueueError = OvhOpError;
@@ -12957,6 +13561,8 @@ export const getTelephonyOvhPabxHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingQueue",
 }));
 
 export type GetTelephonyOvhPabxHuntingQueueAgentError = OvhOpError;
@@ -12972,6 +13578,8 @@ export const getTelephonyOvhPabxHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingQueueAgent",
 }));
 
 export type GetTelephonyOvhPabxHuntingQueueAgentLiveStatusError = OvhOpError;
@@ -12991,6 +13599,8 @@ export const getTelephonyOvhPabxHuntingQueueAgentLiveStatus: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingQueueAgentLiveStatus",
 }));
 
 export type GetTelephonyOvhPabxHuntingQueueLiveCallError = OvhOpError;
@@ -13006,6 +13616,8 @@ export const getTelephonyOvhPabxHuntingQueueLiveCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingQueueLiveCall",
 }));
 
 export type GetTelephonyOvhPabxHuntingQueueLiveStatisticsError = OvhOpError;
@@ -13025,6 +13637,8 @@ export const getTelephonyOvhPabxHuntingQueueLiveStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxHuntingQueueLiveStatistics",
 }));
 
 export type GetTelephonyOvhPabxMenuError = OvhOpError;
@@ -13040,6 +13654,8 @@ export const getTelephonyOvhPabxMenu: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxMenu",
 }));
 
 export type GetTelephonyOvhPabxMenuEntryError = OvhOpError;
@@ -13055,6 +13671,8 @@ export const getTelephonyOvhPabxMenuEntry: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxMenuEntry",
 }));
 
 export type GetTelephonyOvhPabxRecordError = OvhOpError;
@@ -13070,6 +13688,8 @@ export const getTelephonyOvhPabxRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxRecord",
 }));
 
 export type GetTelephonyOvhPabxSoundError = OvhOpError;
@@ -13085,6 +13705,8 @@ export const getTelephonyOvhPabxSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxSound",
 }));
 
 export type GetTelephonyOvhPabxTtsError = OvhOpError;
@@ -13100,6 +13722,8 @@ export const getTelephonyOvhPabxTts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyOvhPabxTts",
 }));
 
 export type GetTelephonyPhonebookError = OvhOpError;
@@ -13115,6 +13739,8 @@ export const getTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPhonebook",
 }));
 
 export type GetTelephonyPhonebookExportError = OvhOpError;
@@ -13130,6 +13756,8 @@ export const getTelephonyPhonebookExport: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPhonebookExport",
 }));
 
 export type GetTelephonyPhonebookPhonebookContactError = OvhOpError;
@@ -13145,6 +13773,8 @@ export const getTelephonyPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPhonebookPhonebookContact",
 }));
 
 export type GetTelephonyPortabilityError = OvhOpError;
@@ -13160,6 +13790,8 @@ export const getTelephonyPortability: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPortability",
 }));
 
 export type GetTelephonyPortabilityCanBeCancelledError = OvhOpError;
@@ -13175,6 +13807,8 @@ export const getTelephonyPortabilityCanBeCancelled: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPortabilityCanBeCancelled",
 }));
 
 export type GetTelephonyPortabilityCanBeExecutedError = OvhOpError;
@@ -13190,6 +13824,8 @@ export const getTelephonyPortabilityCanBeExecuted: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPortabilityCanBeExecuted",
 }));
 
 export type GetTelephonyPortabilityDateCanBeChangedError = OvhOpError;
@@ -13205,6 +13841,8 @@ export const getTelephonyPortabilityDateCanBeChanged: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPortabilityDateCanBeChanged",
 }));
 
 export type GetTelephonyPortabilityDocumentError = OvhOpError;
@@ -13220,6 +13858,8 @@ export const getTelephonyPortabilityDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyPortabilityDocument",
 }));
 
 export type GetTelephonyProcedureError = OvhOpError;
@@ -13235,6 +13875,8 @@ export const getTelephonyProcedure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyProcedure",
 }));
 
 export type GetTelephonyProcedureRequiredError = OvhOpError;
@@ -13250,6 +13892,8 @@ export const getTelephonyProcedureRequired: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyProcedureRequired",
 }));
 
 export type GetTelephonyRedirectError = OvhOpError;
@@ -13265,6 +13909,8 @@ export const getTelephonyRedirect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyRedirect",
 }));
 
 export type GetTelephonyResellerPanelStatusError = OvhOpError;
@@ -13280,6 +13926,8 @@ export const getTelephonyResellerPanelStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyResellerPanelStatus",
 }));
 
 export type GetTelephonyRsvaError = OvhOpError;
@@ -13295,6 +13943,8 @@ export const getTelephonyRsva: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyRsva",
 }));
 
 export type GetTelephonyRsvaCurrentRateCodeError = OvhOpError;
@@ -13310,6 +13960,8 @@ export const getTelephonyRsvaCurrentRateCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyRsvaCurrentRateCode",
 }));
 
 export type GetTelephonyRsvaScheduledRateCodeError = OvhOpError;
@@ -13325,6 +13977,8 @@ export const getTelephonyRsvaScheduledRateCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyRsvaScheduledRateCode",
 }));
 
 export type GetTelephonySchedulerError = OvhOpError;
@@ -13340,6 +13994,8 @@ export const getTelephonyScheduler: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyScheduler",
 }));
 
 export type GetTelephonySchedulerEventError = OvhOpError;
@@ -13355,6 +14011,8 @@ export const getTelephonySchedulerEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySchedulerEvent",
 }));
 
 export type GetTelephonyScreenError = OvhOpError;
@@ -13370,6 +14028,8 @@ export const getTelephonyScreen: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyScreen",
 }));
 
 export type GetTelephonyScreenScreenListError = OvhOpError;
@@ -13385,6 +14045,8 @@ export const getTelephonyScreenScreenList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyScreenScreenList",
 }));
 
 export type GetTelephonyServiceError = OvhOpError;
@@ -13400,6 +14062,8 @@ export const getTelephonyService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyService",
 }));
 
 export type GetTelephonyServiceDirectoryError = OvhOpError;
@@ -13415,6 +14079,8 @@ export const getTelephonyServiceDirectory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceDirectory",
 }));
 
 export type GetTelephonyServiceEventCallbackError = OvhOpError;
@@ -13430,6 +14096,8 @@ export const getTelephonyServiceEventCallback: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceEventCallback",
 }));
 
 export type GetTelephonyServiceEventTokenError = OvhOpError;
@@ -13445,6 +14113,8 @@ export const getTelephonyServiceEventToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceEventToken",
 }));
 
 export type GetTelephonyServiceFaxConsumptionError = OvhOpError;
@@ -13460,6 +14130,8 @@ export const getTelephonyServiceFaxConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceFaxConsumption",
 }));
 
 export type GetTelephonyServiceInfosError = OvhOpError;
@@ -13475,6 +14147,8 @@ export const getTelephonyServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceInfos",
 }));
 
 export type GetTelephonyServiceOfferChangeError = OvhOpError;
@@ -13490,6 +14164,8 @@ export const getTelephonyServiceOfferChange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceOfferChange",
 }));
 
 export type GetTelephonyServiceOfferTaskError = OvhOpError;
@@ -13505,6 +14181,8 @@ export const getTelephonyServiceOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceOfferTask",
 }));
 
 export type GetTelephonyServicePreviousVoiceConsumptionError = OvhOpError;
@@ -13524,6 +14202,8 @@ export const getTelephonyServicePreviousVoiceConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServicePreviousVoiceConsumption",
 }));
 
 export type GetTelephonyServiceRepaymentConsumptionError = OvhOpError;
@@ -13539,6 +14219,8 @@ export const getTelephonyServiceRepaymentConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceRepaymentConsumption",
 }));
 
 export type GetTelephonyServiceTaskError = OvhOpError;
@@ -13554,6 +14236,8 @@ export const getTelephonyServiceTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceTask",
 }));
 
 export type GetTelephonyServiceVoiceConsumptionError = OvhOpError;
@@ -13569,6 +14253,8 @@ export const getTelephonyServiceVoiceConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyServiceVoiceConsumption",
 }));
 
 export type GetTelephonySoftphoneBetaEligibilityError = OvhOpError;
@@ -13584,6 +14270,8 @@ export const getTelephonySoftphoneBetaEligibility: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySoftphoneBetaEligibility",
 }));
 
 export type GetTelephonySoftphoneLogoError = OvhOpError;
@@ -13599,6 +14287,8 @@ export const getTelephonySoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySoftphoneLogo",
 }));
 
 export type GetTelephonySoftphoneStoreLinksError = OvhOpError;
@@ -13614,6 +14304,8 @@ export const getTelephonySoftphoneStoreLinks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySoftphoneStoreLinks",
 }));
 
 export type GetTelephonySoftphoneThemeError = OvhOpError;
@@ -13629,6 +14321,8 @@ export const getTelephonySoftphoneTheme: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySoftphoneTheme",
 }));
 
 export type GetTelephonySoftphoneTheme2Error = OvhOpError;
@@ -13644,6 +14338,8 @@ export const getTelephonySoftphoneTheme2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySoftphoneTheme2",
 }));
 
 export type GetTelephonySoundError = OvhOpError;
@@ -13659,6 +14355,8 @@ export const getTelephonySound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySound",
 }));
 
 export type GetTelephonySpareError = OvhOpError;
@@ -13674,6 +14372,8 @@ export const getTelephonySpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySpare",
 }));
 
 export type GetTelephonySpareServiceInfosError = OvhOpError;
@@ -13689,6 +14389,8 @@ export const getTelephonySpareServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonySpareServiceInfos",
 }));
 
 export type GetTelephonyTaskError = OvhOpError;
@@ -13704,6 +14406,8 @@ export const getTelephonyTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTask",
 }));
 
 export type GetTelephonyTimeConditionError = OvhOpError;
@@ -13719,6 +14423,8 @@ export const getTelephonyTimeCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTimeCondition",
 }));
 
 export type GetTelephonyTimeConditionConditionError = OvhOpError;
@@ -13734,6 +14440,8 @@ export const getTelephonyTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTimeConditionCondition",
 }));
 
 export type GetTelephonyTimeConditionOptionsError = OvhOpError;
@@ -13749,6 +14457,8 @@ export const getTelephonyTimeConditionOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTimeConditionOptions",
 }));
 
 export type GetTelephonyTrunkError = OvhOpError;
@@ -13764,6 +14474,8 @@ export const getTelephonyTrunk: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTrunk",
 }));
 
 export type GetTelephonyTrunkByServiceNameError = OvhOpError;
@@ -13779,6 +14491,8 @@ export const getTelephonyTrunkByServiceName: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTrunkByServiceName",
 }));
 
 export type GetTelephonyTrunkExternalDisplayedNumberError = OvhOpError;
@@ -13794,6 +14508,8 @@ export const getTelephonyTrunkExternalDisplayedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTrunkExternalDisplayedNumber",
 }));
 
 export type GetTelephonyTrunkServiceInfosError = OvhOpError;
@@ -13809,6 +14525,8 @@ export const getTelephonyTrunkServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyTrunkServiceInfos",
 }));
 
 export type GetTelephonyVoicemailError = OvhOpError;
@@ -13824,6 +14542,8 @@ export const getTelephonyVoicemail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemail",
 }));
 
 export type GetTelephonyVoicemailDirectoryError = OvhOpError;
@@ -13839,6 +14559,8 @@ export const getTelephonyVoicemailDirectory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailDirectory",
 }));
 
 export type GetTelephonyVoicemailDirectoryDownloadError = OvhOpError;
@@ -13854,6 +14576,8 @@ export const getTelephonyVoicemailDirectoryDownload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailDirectoryDownload",
 }));
 
 export type GetTelephonyVoicemailGreetingError = OvhOpError;
@@ -13869,6 +14593,8 @@ export const getTelephonyVoicemailGreeting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailGreeting",
 }));
 
 export type GetTelephonyVoicemailGreetingDownloadError = OvhOpError;
@@ -13884,6 +14610,8 @@ export const getTelephonyVoicemailGreetingDownload: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailGreetingDownload",
 }));
 
 export type GetTelephonyVoicemailSettingsError = OvhOpError;
@@ -13899,6 +14627,8 @@ export const getTelephonyVoicemailSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailSettings",
 }));
 
 export type GetTelephonyVoicemailSettingsRoutingError = OvhOpError;
@@ -13914,6 +14644,8 @@ export const getTelephonyVoicemailSettingsRouting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailSettingsRouting",
 }));
 
 export type GetTelephonyVoicemailSettingsVoicemailNumbersError = OvhOpError;
@@ -13933,6 +14665,8 @@ export const getTelephonyVoicemailSettingsVoicemailNumbers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVoicemailSettingsVoicemailNumbers",
 }));
 
 export type GetTelephonyVxmlError = OvhOpError;
@@ -13948,6 +14682,8 @@ export const getTelephonyVxml: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVxml",
 }));
 
 export type GetTelephonyVxmlSettingsError = OvhOpError;
@@ -13963,6 +14699,8 @@ export const getTelephonyVxmlSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelephonyVxmlSettings",
 }));
 
 export type ImportTelephonyLinePhonePhonebookError = OvhOpError;
@@ -13978,6 +14716,8 @@ export const importTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTelephonyLinePhonePhonebook",
 }));
 
 export type ImportTelephonyPhonebookError = OvhOpError;
@@ -13993,6 +14733,8 @@ export const importTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTelephonyPhonebook",
 }));
 
 export type ImportTelephonySchedulerIcsCalendarError = OvhOpError;
@@ -14008,6 +14750,8 @@ export const importTelephonySchedulerIcsCalendar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTelephonySchedulerIcsCalendar",
 }));
 
 export type ListTelephonyError = OvhOpError;
@@ -14023,6 +14767,8 @@ export const listTelephony: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephony",
 }));
 
 export type ListTelephonyAbbreviatedNumberError = OvhOpError;
@@ -14038,6 +14784,8 @@ export const listTelephonyAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAbbreviatedNumber",
 }));
 
 export type ListTelephonyAccessoriesError = OvhOpError;
@@ -14053,6 +14801,8 @@ export const listTelephonyAccessories: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAccessories",
 }));
 
 export type ListTelephonyAliasesError = OvhOpError;
@@ -14068,6 +14818,8 @@ export const listTelephonyAliases: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAliases",
 }));
 
 export type ListTelephonyAllowedCreditThresholdError = OvhOpError;
@@ -14083,6 +14835,8 @@ export const listTelephonyAllowedCreditThreshold: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAllowedCreditThreshold",
 }));
 
 export type ListTelephonyAmountSecurityDepositError = OvhOpError;
@@ -14098,6 +14852,8 @@ export const listTelephonyAmountSecurityDeposit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAmountSecurityDeposit",
 }));
 
 export type ListTelephonyAvailableDefaultSipDomainsError = OvhOpError;
@@ -14113,6 +14869,8 @@ export const listTelephonyAvailableDefaultSipDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyAvailableDefaultSipDomains",
 }));
 
 export type ListTelephonyCarrierSipError = OvhOpError;
@@ -14128,6 +14886,8 @@ export const listTelephonyCarrierSip: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCarrierSip",
 }));
 
 export type ListTelephonyCarrierSipClusterDetailsError = OvhOpError;
@@ -14143,6 +14903,8 @@ export const listTelephonyCarrierSipClusterDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCarrierSipClusterDetails",
 }));
 
 export type ListTelephonyCarrierSipEndpointsError = OvhOpError;
@@ -14158,6 +14920,8 @@ export const listTelephonyCarrierSipEndpoints: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCarrierSipEndpoints",
 }));
 
 export type ListTelephonyCarrierSipVnoError = OvhOpError;
@@ -14173,6 +14937,8 @@ export const listTelephonyCarrierSipVno: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCarrierSipVno",
 }));
 
 export type ListTelephonyCarrierSipVnoRangesError = OvhOpError;
@@ -14188,6 +14954,8 @@ export const listTelephonyCarrierSipVnoRanges: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCarrierSipVnoRanges",
 }));
 
 export type ListTelephonyConferenceError = OvhOpError;
@@ -14203,6 +14971,8 @@ export const listTelephonyConference: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConference",
 }));
 
 export type ListTelephonyConferenceHistoriesError = OvhOpError;
@@ -14218,6 +14988,8 @@ export const listTelephonyConferenceHistories: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceHistories",
 }));
 
 export type ListTelephonyConferenceParticipantsError = OvhOpError;
@@ -14233,6 +15005,8 @@ export const listTelephonyConferenceParticipants: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceParticipants",
 }));
 
 export type ListTelephonyConferenceRoomHistoriesError = OvhOpError;
@@ -14248,6 +15022,8 @@ export const listTelephonyConferenceRoomHistories: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceRoomHistories",
 }));
 
 export type ListTelephonyConferenceRoomParticipantsError = OvhOpError;
@@ -14263,6 +15039,8 @@ export const listTelephonyConferenceRoomParticipants: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceRoomParticipants",
 }));
 
 export type ListTelephonyConferenceRoomsError = OvhOpError;
@@ -14278,6 +15056,8 @@ export const listTelephonyConferenceRooms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceRooms",
 }));
 
 export type ListTelephonyConferenceRoomWebAccessError = OvhOpError;
@@ -14293,6 +15073,8 @@ export const listTelephonyConferenceRoomWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceRoomWebAccess",
 }));
 
 export type ListTelephonyConferenceWebAccessError = OvhOpError;
@@ -14308,6 +15090,8 @@ export const listTelephonyConferenceWebAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyConferenceWebAccess",
 }));
 
 export type ListTelephonyCurrentOrderIdsError = OvhOpError;
@@ -14323,6 +15107,8 @@ export const listTelephonyCurrentOrderIds: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyCurrentOrderIds",
 }));
 
 export type ListTelephonyDdiError = OvhOpError;
@@ -14338,6 +15124,8 @@ export const listTelephonyDdi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyDdi",
 }));
 
 export type ListTelephonyDirectoryAvailableZipCodesError = OvhOpError;
@@ -14353,6 +15141,8 @@ export const listTelephonyDirectoryAvailableZipCodes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyDirectoryAvailableZipCodes",
 }));
 
 export type ListTelephonyDirectoryCitiesError = OvhOpError;
@@ -14368,6 +15158,8 @@ export const listTelephonyDirectoryCities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyDirectoryCities",
 }));
 
 export type ListTelephonyEasyHuntingError = OvhOpError;
@@ -14383,6 +15175,8 @@ export const listTelephonyEasyHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHunting",
 }));
 
 export type ListTelephonyEasyHuntingHuntingAgentError = OvhOpError;
@@ -14398,6 +15192,8 @@ export const listTelephonyEasyHuntingHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingAgent",
 }));
 
 export type ListTelephonyEasyHuntingHuntingAgentCallsError = OvhOpError;
@@ -14413,6 +15209,8 @@ export const listTelephonyEasyHuntingHuntingAgentCalls: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingAgentCalls",
 }));
 
 export type ListTelephonyEasyHuntingHuntingAgentQueueError = OvhOpError;
@@ -14428,6 +15226,8 @@ export const listTelephonyEasyHuntingHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingAgentQueue",
 }));
 
 export type ListTelephonyEasyHuntingHuntingCustomStatusError = OvhOpError;
@@ -14451,6 +15251,8 @@ export const listTelephonyEasyHuntingHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingCustomStatus",
 }));
 
 export type ListTelephonyEasyHuntingHuntingQueueError = OvhOpError;
@@ -14466,6 +15268,8 @@ export const listTelephonyEasyHuntingHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingQueue",
 }));
 
 export type ListTelephonyEasyHuntingHuntingQueueAgentError = OvhOpError;
@@ -14481,6 +15285,8 @@ export const listTelephonyEasyHuntingHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingQueueAgent",
 }));
 
 export type ListTelephonyEasyHuntingHuntingQueueLiveCallsError = OvhOpError;
@@ -14504,6 +15310,8 @@ export const listTelephonyEasyHuntingHuntingQueueLiveCalls: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingHuntingQueueLiveCalls",
 }));
 
 export type ListTelephonyEasyHuntingRecordsError = OvhOpError;
@@ -14519,6 +15327,8 @@ export const listTelephonyEasyHuntingRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingRecords",
 }));
 
 export type ListTelephonyEasyHuntingScreenListConditionConditionsError = OvhOpError;
@@ -14542,6 +15352,8 @@ export const listTelephonyEasyHuntingScreenListConditionConditions: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingScreenListConditionConditions",
 }));
 
 export type ListTelephonyEasyHuntingSoundError = OvhOpError;
@@ -14557,6 +15369,8 @@ export const listTelephonyEasyHuntingSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingSound",
 }));
 
 export type ListTelephonyEasyHuntingTimeConditionConditionsError = OvhOpError;
@@ -14580,6 +15394,8 @@ export const listTelephonyEasyHuntingTimeConditionConditions: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyEasyHuntingTimeConditionConditions",
 }));
 
 export type ListTelephonyFaxError = OvhOpError;
@@ -14595,6 +15411,8 @@ export const listTelephonyFax: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyFax",
 }));
 
 export type ListTelephonyFaxCampaignDetailError = OvhOpError;
@@ -14610,6 +15428,8 @@ export const listTelephonyFaxCampaignDetail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyFaxCampaignDetail",
 }));
 
 export type ListTelephonyFaxCampaignsError = OvhOpError;
@@ -14625,6 +15445,8 @@ export const listTelephonyFaxCampaigns: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyFaxCampaigns",
 }));
 
 export type ListTelephonyFaxOffersError = OvhOpError;
@@ -14640,6 +15462,8 @@ export const listTelephonyFaxOffers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyFaxOffers",
 }));
 
 export type ListTelephonyHistoryConsumptionError = OvhOpError;
@@ -14655,6 +15479,8 @@ export const listTelephonyHistoryConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyHistoryConsumption",
 }));
 
 export type ListTelephonyHistoryRepaymentConsumptionError = OvhOpError;
@@ -14670,6 +15496,8 @@ export const listTelephonyHistoryRepaymentConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyHistoryRepaymentConsumption",
 }));
 
 export type ListTelephonyHistoryTollfreeConsumptionError = OvhOpError;
@@ -14685,6 +15513,8 @@ export const listTelephonyHistoryTollfreeConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyHistoryTollfreeConsumption",
 }));
 
 export type ListTelephonyLineError = OvhOpError;
@@ -14700,6 +15530,8 @@ export const listTelephonyLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLine",
 }));
 
 export type ListTelephonyLineAbbreviatedNumberError = OvhOpError;
@@ -14715,6 +15547,8 @@ export const listTelephonyLineAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineAbbreviatedNumber",
 }));
 
 export type ListTelephonyLineAntihackError = OvhOpError;
@@ -14730,6 +15564,8 @@ export const listTelephonyLineAntihack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineAntihack",
 }));
 
 export type ListTelephonyLineAutomaticCallError = OvhOpError;
@@ -14745,6 +15581,8 @@ export const listTelephonyLineAutomaticCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineAutomaticCall",
 }));
 
 export type ListTelephonyLineAvailableSipDomainsError = OvhOpError;
@@ -14760,6 +15598,8 @@ export const listTelephonyLineAvailableSipDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineAvailableSipDomains",
 }));
 
 export type ListTelephonyLineClick2CallUserError = OvhOpError;
@@ -14775,6 +15615,8 @@ export const listTelephonyLineClick2CallUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineClick2CallUser",
 }));
 
 export type ListTelephonyLineEventsError = OvhOpError;
@@ -14790,6 +15632,8 @@ export const listTelephonyLineEvents: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineEvents",
 }));
 
 export type ListTelephonyLineIpsError = OvhOpError;
@@ -14805,6 +15649,8 @@ export const listTelephonyLineIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineIps",
 }));
 
 export type ListTelephonyLineLastRegistrationsError = OvhOpError;
@@ -14820,6 +15666,8 @@ export const listTelephonyLineLastRegistrations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineLastRegistrations",
 }));
 
 export type ListTelephonyLineListAssociablePhonesError = OvhOpError;
@@ -14835,6 +15683,8 @@ export const listTelephonyLineListAssociablePhones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineListAssociablePhones",
 }));
 
 export type ListTelephonyLineOfferPhonesError = OvhOpError;
@@ -14850,6 +15700,8 @@ export const listTelephonyLineOfferPhones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineOfferPhones",
 }));
 
 export type ListTelephonyLineOffersError = OvhOpError;
@@ -14865,6 +15717,8 @@ export const listTelephonyLineOffers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineOffers",
 }));
 
 export type ListTelephonyLineOptionAvailableCodecsError = OvhOpError;
@@ -14880,6 +15734,8 @@ export const listTelephonyLineOptionAvailableCodecs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineOptionAvailableCodecs",
 }));
 
 export type ListTelephonyLinePhoneFunctionKeyError = OvhOpError;
@@ -14895,6 +15751,8 @@ export const listTelephonyLinePhoneFunctionKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhoneFunctionKey",
 }));
 
 export type ListTelephonyLinePhoneFunctionKeyAvailableFunctionError = OvhOpError;
@@ -14918,6 +15776,8 @@ export const listTelephonyLinePhoneFunctionKeyAvailableFunction: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhoneFunctionKeyAvailableFunction",
 }));
 
 export type ListTelephonyLinePhoneMerchandiseAvailableError = OvhOpError;
@@ -14937,6 +15797,8 @@ export const listTelephonyLinePhoneMerchandiseAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhoneMerchandiseAvailable",
 }));
 
 export type ListTelephonyLinePhonePhonebookError = OvhOpError;
@@ -14952,6 +15814,8 @@ export const listTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhonePhonebook",
 }));
 
 export type ListTelephonyLinePhonePhonebookPhonebookContactError = OvhOpError;
@@ -14975,6 +15839,8 @@ export const listTelephonyLinePhonePhonebookPhonebookContact: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhonePhonebookPhonebookContact",
 }));
 
 export type ListTelephonyLinePhoneRmaError = OvhOpError;
@@ -14990,6 +15856,8 @@ export const listTelephonyLinePhoneRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLinePhoneRma",
 }));
 
 export type ListTelephonyLineRecordsError = OvhOpError;
@@ -15005,6 +15873,8 @@ export const listTelephonyLineRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineRecords",
 }));
 
 export type ListTelephonyLinesError = OvhOpError;
@@ -15020,6 +15890,8 @@ export const listTelephonyLines: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLines",
 }));
 
 export type ListTelephonyLineSoftphoneDevicesError = OvhOpError;
@@ -15035,6 +15907,8 @@ export const listTelephonyLineSoftphoneDevices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineSoftphoneDevices",
 }));
 
 export type ListTelephonyLineTrafficExtractsError = OvhOpError;
@@ -15050,6 +15924,8 @@ export const listTelephonyLineTrafficExtracts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyLineTrafficExtracts",
 }));
 
 export type ListTelephonyNumberError = OvhOpError;
@@ -15065,6 +15941,8 @@ export const listTelephonyNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumber",
 }));
 
 export type ListTelephonyNumberConvertToLineAvailableOffersError = OvhOpError;
@@ -15084,6 +15962,8 @@ export const listTelephonyNumberConvertToLineAvailableOffers: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumberConvertToLineAvailableOffers",
 }));
 
 export type ListTelephonyNumberDetailedZonesError = OvhOpError;
@@ -15099,6 +15979,8 @@ export const listTelephonyNumberDetailedZones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumberDetailedZones",
 }));
 
 export type ListTelephonyNumberRangesError = OvhOpError;
@@ -15114,6 +15996,8 @@ export const listTelephonyNumberRanges: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumberRanges",
 }));
 
 export type ListTelephonyNumberSpecificNumbersError = OvhOpError;
@@ -15129,6 +16013,8 @@ export const listTelephonyNumberSpecificNumbers: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumberSpecificNumbers",
 }));
 
 export type ListTelephonyNumberZonesError = OvhOpError;
@@ -15144,6 +16030,8 @@ export const listTelephonyNumberZones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyNumberZones",
 }));
 
 export type ListTelephonyOfferTaskError = OvhOpError;
@@ -15159,6 +16047,8 @@ export const listTelephonyOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOfferTask",
 }));
 
 export type ListTelephonyOldPhoneError = OvhOpError;
@@ -15174,6 +16064,8 @@ export const listTelephonyOldPhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOldPhone",
 }));
 
 export type ListTelephonyOutplanNotificationError = OvhOpError;
@@ -15189,6 +16081,8 @@ export const listTelephonyOutplanNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOutplanNotification",
 }));
 
 export type ListTelephonyOvhPabxError = OvhOpError;
@@ -15204,6 +16098,8 @@ export const listTelephonyOvhPabx: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabx",
 }));
 
 export type ListTelephonyOvhPabxDialplanError = OvhOpError;
@@ -15219,6 +16115,8 @@ export const listTelephonyOvhPabxDialplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxDialplan",
 }));
 
 export type ListTelephonyOvhPabxDialplanExtensionError = OvhOpError;
@@ -15234,6 +16132,8 @@ export const listTelephonyOvhPabxDialplanExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxDialplanExtension",
 }));
 
 export type ListTelephonyOvhPabxDialplanExtensionConditionScreenListError = OvhOpError;
@@ -15257,6 +16157,8 @@ export const listTelephonyOvhPabxDialplanExtensionConditionScreenList: API.Opera
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxDialplanExtensionConditionScreenList",
 }));
 
 export type ListTelephonyOvhPabxDialplanExtensionConditionTimeError = OvhOpError;
@@ -15280,6 +16182,8 @@ export const listTelephonyOvhPabxDialplanExtensionConditionTime: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxDialplanExtensionConditionTime",
 }));
 
 export type ListTelephonyOvhPabxDialplanExtensionRuleError = OvhOpError;
@@ -15295,6 +16199,8 @@ export const listTelephonyOvhPabxDialplanExtensionRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxDialplanExtensionRule",
 }));
 
 export type ListTelephonyOvhPabxHuntingAgentError = OvhOpError;
@@ -15310,6 +16216,8 @@ export const listTelephonyOvhPabxHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingAgent",
 }));
 
 export type ListTelephonyOvhPabxHuntingAgentCallsError = OvhOpError;
@@ -15325,6 +16233,8 @@ export const listTelephonyOvhPabxHuntingAgentCalls: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingAgentCalls",
 }));
 
 export type ListTelephonyOvhPabxHuntingAgentQueueError = OvhOpError;
@@ -15340,6 +16250,8 @@ export const listTelephonyOvhPabxHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingAgentQueue",
 }));
 
 export type ListTelephonyOvhPabxHuntingCustomStatusError = OvhOpError;
@@ -15355,6 +16267,8 @@ export const listTelephonyOvhPabxHuntingCustomStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingCustomStatus",
 }));
 
 export type ListTelephonyOvhPabxHuntingQueueError = OvhOpError;
@@ -15370,6 +16284,8 @@ export const listTelephonyOvhPabxHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingQueue",
 }));
 
 export type ListTelephonyOvhPabxHuntingQueueAgentError = OvhOpError;
@@ -15385,6 +16301,8 @@ export const listTelephonyOvhPabxHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingQueueAgent",
 }));
 
 export type ListTelephonyOvhPabxHuntingQueueLiveCallsError = OvhOpError;
@@ -15400,6 +16318,8 @@ export const listTelephonyOvhPabxHuntingQueueLiveCalls: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxHuntingQueueLiveCalls",
 }));
 
 export type ListTelephonyOvhPabxMenuError = OvhOpError;
@@ -15415,6 +16335,8 @@ export const listTelephonyOvhPabxMenu: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxMenu",
 }));
 
 export type ListTelephonyOvhPabxMenuEntryError = OvhOpError;
@@ -15430,6 +16352,8 @@ export const listTelephonyOvhPabxMenuEntry: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxMenuEntry",
 }));
 
 export type ListTelephonyOvhPabxRecordsError = OvhOpError;
@@ -15445,6 +16369,8 @@ export const listTelephonyOvhPabxRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxRecords",
 }));
 
 export type ListTelephonyOvhPabxSoundError = OvhOpError;
@@ -15460,6 +16386,8 @@ export const listTelephonyOvhPabxSound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxSound",
 }));
 
 export type ListTelephonyOvhPabxTtsError = OvhOpError;
@@ -15475,6 +16403,8 @@ export const listTelephonyOvhPabxTts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyOvhPabxTts",
 }));
 
 export type ListTelephonyPhonebookError = OvhOpError;
@@ -15490,6 +16420,8 @@ export const listTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPhonebook",
 }));
 
 export type ListTelephonyPhonebookPhonebookContactError = OvhOpError;
@@ -15505,6 +16437,8 @@ export const listTelephonyPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPhonebookPhonebookContact",
 }));
 
 export type ListTelephonyPortabilityError = OvhOpError;
@@ -15520,6 +16454,8 @@ export const listTelephonyPortability: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPortability",
 }));
 
 export type ListTelephonyPortabilityDocumentError = OvhOpError;
@@ -15535,6 +16471,8 @@ export const listTelephonyPortabilityDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPortabilityDocument",
 }));
 
 export type ListTelephonyPortabilityRelaunchError = OvhOpError;
@@ -15550,6 +16488,8 @@ export const listTelephonyPortabilityRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPortabilityRelaunch",
 }));
 
 export type ListTelephonyPortabilityStatusError = OvhOpError;
@@ -15565,6 +16505,8 @@ export const listTelephonyPortabilityStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyPortabilityStatus",
 }));
 
 export type ListTelephonyProcedureError = OvhOpError;
@@ -15580,6 +16522,8 @@ export const listTelephonyProcedure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyProcedure",
 }));
 
 export type ListTelephonyRedirectError = OvhOpError;
@@ -15595,6 +16539,8 @@ export const listTelephonyRedirect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyRedirect",
 }));
 
 export type ListTelephonyRsvaError = OvhOpError;
@@ -15610,6 +16556,8 @@ export const listTelephonyRsva: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyRsva",
 }));
 
 export type ListTelephonyRsvaAllowedRateCodesError = OvhOpError;
@@ -15625,6 +16573,8 @@ export const listTelephonyRsvaAllowedRateCodes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyRsvaAllowedRateCodes",
 }));
 
 export type ListTelephonySchedulerError = OvhOpError;
@@ -15640,6 +16590,8 @@ export const listTelephonyScheduler: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyScheduler",
 }));
 
 export type ListTelephonySchedulerEventsError = OvhOpError;
@@ -15655,6 +16607,8 @@ export const listTelephonySchedulerEvents: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySchedulerEvents",
 }));
 
 export type ListTelephonyScreenError = OvhOpError;
@@ -15670,6 +16624,8 @@ export const listTelephonyScreen: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyScreen",
 }));
 
 export type ListTelephonyScreenScreenListsError = OvhOpError;
@@ -15685,6 +16641,8 @@ export const listTelephonyScreenScreenLists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyScreenScreenLists",
 }));
 
 export type ListTelephonySearchServicesError = OvhOpError;
@@ -15700,6 +16658,8 @@ export const listTelephonySearchServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySearchServices",
 }));
 
 export type ListTelephonyServiceError = OvhOpError;
@@ -15715,6 +16675,8 @@ export const listTelephonyService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyService",
 }));
 
 export type ListTelephonyServiceDirectoryGetDirectoryServiceCodeError = OvhOpError;
@@ -15738,6 +16700,8 @@ export const listTelephonyServiceDirectoryGetDirectoryServiceCode: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceDirectoryGetDirectoryServiceCode",
 }));
 
 export type ListTelephonyServiceDirectoryGetWayTypesError = OvhOpError;
@@ -15753,6 +16717,8 @@ export const listTelephonyServiceDirectoryGetWayTypes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceDirectoryGetWayTypes",
 }));
 
 export type ListTelephonyServiceFaxConsumptionError = OvhOpError;
@@ -15768,6 +16734,8 @@ export const listTelephonyServiceFaxConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceFaxConsumption",
 }));
 
 export type ListTelephonyServiceOfferChangesError = OvhOpError;
@@ -15783,6 +16751,8 @@ export const listTelephonyServiceOfferChanges: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceOfferChanges",
 }));
 
 export type ListTelephonyServiceOfferTaskError = OvhOpError;
@@ -15798,6 +16768,8 @@ export const listTelephonyServiceOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceOfferTask",
 }));
 
 export type ListTelephonyServicePreviousVoiceConsumptionError = OvhOpError;
@@ -15821,6 +16793,8 @@ export const listTelephonyServicePreviousVoiceConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServicePreviousVoiceConsumption",
 }));
 
 export type ListTelephonyServiceRepaymentConsumptionError = OvhOpError;
@@ -15836,6 +16810,8 @@ export const listTelephonyServiceRepaymentConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceRepaymentConsumption",
 }));
 
 export type ListTelephonyServiceTaskError = OvhOpError;
@@ -15851,6 +16827,8 @@ export const listTelephonyServiceTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceTask",
 }));
 
 export type ListTelephonyServiceVoiceConsumptionError = OvhOpError;
@@ -15866,6 +16844,8 @@ export const listTelephonyServiceVoiceConsumption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyServiceVoiceConsumption",
 }));
 
 export type ListTelephonySoftphoneThemesError = OvhOpError;
@@ -15881,6 +16861,8 @@ export const listTelephonySoftphoneThemes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySoftphoneThemes",
 }));
 
 export type ListTelephonySoundsError = OvhOpError;
@@ -15896,6 +16878,8 @@ export const listTelephonySounds: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySounds",
 }));
 
 export type ListTelephonySpareError = OvhOpError;
@@ -15911,6 +16895,8 @@ export const listTelephonySpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySpare",
 }));
 
 export type ListTelephonySpareBrandsError = OvhOpError;
@@ -15926,6 +16912,8 @@ export const listTelephonySpareBrands: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySpareBrands",
 }));
 
 export type ListTelephonySpareCompatibleReplacementError = OvhOpError;
@@ -15941,6 +16929,8 @@ export const listTelephonySpareCompatibleReplacement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonySpareCompatibleReplacement",
 }));
 
 export type ListTelephonyTaskError = OvhOpError;
@@ -15956,6 +16946,8 @@ export const listTelephonyTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTask",
 }));
 
 export type ListTelephonyTimeConditionError = OvhOpError;
@@ -15971,6 +16963,8 @@ export const listTelephonyTimeCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTimeCondition",
 }));
 
 export type ListTelephonyTimeConditionConditionError = OvhOpError;
@@ -15986,6 +16980,8 @@ export const listTelephonyTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTimeConditionCondition",
 }));
 
 export type ListTelephonyTrunkError = OvhOpError;
@@ -16001,6 +16997,8 @@ export const listTelephonyTrunk: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTrunk",
 }));
 
 export type ListTelephonyTrunkChannelsPacksRepartitionError = OvhOpError;
@@ -16016,6 +17014,8 @@ export const listTelephonyTrunkChannelsPacksRepartition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTrunkChannelsPacksRepartition",
 }));
 
 export type ListTelephonyTrunkExternalDisplayedNumberError = OvhOpError;
@@ -16035,6 +17035,8 @@ export const listTelephonyTrunkExternalDisplayedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTrunkExternalDisplayedNumber",
 }));
 
 export type ListTelephonyTrunksError = OvhOpError;
@@ -16050,6 +17052,8 @@ export const listTelephonyTrunks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyTrunks",
 }));
 
 export type ListTelephonyVoicemailError = OvhOpError;
@@ -16065,6 +17069,8 @@ export const listTelephonyVoicemail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyVoicemail",
 }));
 
 export type ListTelephonyVoicemailDirectoriesError = OvhOpError;
@@ -16080,6 +17086,8 @@ export const listTelephonyVoicemailDirectories: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyVoicemailDirectories",
 }));
 
 export type ListTelephonyVoicemailGreetingsError = OvhOpError;
@@ -16095,6 +17103,8 @@ export const listTelephonyVoicemailGreetings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyVoicemailGreetings",
 }));
 
 export type ListTelephonyVxmlError = OvhOpError;
@@ -16110,6 +17120,8 @@ export const listTelephonyVxml: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelephonyVxml",
 }));
 
 export type LockTelephonyConferenceError = OvhOpError;
@@ -16125,6 +17137,8 @@ export const lockTelephonyConference: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockTelephonyConference",
 }));
 
 export type LockTelephonyConferenceRoomError = OvhOpError;
@@ -16140,6 +17154,8 @@ export const lockTelephonyConferenceRoom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockTelephonyConferenceRoom",
 }));
 
 export type MigrateTelephonyVoicemailOnNewVersionError = OvhOpError;
@@ -16155,6 +17171,8 @@ export const migrateTelephonyVoicemailOnNewVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateTelephonyVoicemailOnNewVersion",
 }));
 
 export type MoveTelephonyVoicemailDirectoryError = OvhOpError;
@@ -16170,6 +17188,8 @@ export const moveTelephonyVoicemailDirectory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveTelephonyVoicemailDirectory",
 }));
 
 export type MoveTelephonyVoicemailGreetingError = OvhOpError;
@@ -16185,6 +17205,8 @@ export const moveTelephonyVoicemailGreeting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveTelephonyVoicemailGreeting",
 }));
 
 export type MuteTelephonyConferenceParticipantError = OvhOpError;
@@ -16200,6 +17222,8 @@ export const muteTelephonyConferenceParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MuteTelephonyConferenceParticipant",
 }));
 
 export type MuteTelephonyConferenceRoomsParticipantError = OvhOpError;
@@ -16215,6 +17239,8 @@ export const muteTelephonyConferenceRoomsParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MuteTelephonyConferenceRoomsParticipant",
 }));
 
 export type PutTelephonyError = OvhOpError;
@@ -16230,6 +17256,8 @@ export const putTelephony: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephony",
 }));
 
 export type PutTelephonyAbbreviatedNumberError = OvhOpError;
@@ -16245,6 +17273,8 @@ export const putTelephonyAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyAbbreviatedNumber",
 }));
 
 export type PutTelephonyAliasServiceInfosError = OvhOpError;
@@ -16260,6 +17290,8 @@ export const putTelephonyAliasServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyAliasServiceInfos",
 }));
 
 export type PutTelephonyCarrierSipSettingsError = OvhOpError;
@@ -16275,6 +17307,8 @@ export const putTelephonyCarrierSipSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyCarrierSipSettings",
 }));
 
 export type PutTelephonyCarrierSipVnoRangeError = OvhOpError;
@@ -16290,6 +17324,8 @@ export const putTelephonyCarrierSipVnoRange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyCarrierSipVnoRange",
 }));
 
 export type PutTelephonyConferenceRoomError = OvhOpError;
@@ -16305,6 +17341,8 @@ export const putTelephonyConferenceRoom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyConferenceRoom",
 }));
 
 export type PutTelephonyConferenceSettingsError = OvhOpError;
@@ -16320,6 +17358,8 @@ export const putTelephonyConferenceSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyConferenceSettings",
 }));
 
 export type PutTelephonyDdiError = OvhOpError;
@@ -16335,6 +17375,8 @@ export const putTelephonyDdi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyDdi",
 }));
 
 export type PutTelephonyEasyHuntingError = OvhOpError;
@@ -16350,6 +17392,8 @@ export const putTelephonyEasyHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHunting",
 }));
 
 export type PutTelephonyEasyHuntingHuntingError = OvhOpError;
@@ -16365,6 +17409,8 @@ export const putTelephonyEasyHuntingHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingHunting",
 }));
 
 export type PutTelephonyEasyHuntingHuntingAgentError = OvhOpError;
@@ -16380,6 +17426,8 @@ export const putTelephonyEasyHuntingHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingHuntingAgent",
 }));
 
 export type PutTelephonyEasyHuntingHuntingAgentQueueError = OvhOpError;
@@ -16395,6 +17443,8 @@ export const putTelephonyEasyHuntingHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingHuntingAgentQueue",
 }));
 
 export type PutTelephonyEasyHuntingHuntingQueueError = OvhOpError;
@@ -16410,6 +17460,8 @@ export const putTelephonyEasyHuntingHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingHuntingQueue",
 }));
 
 export type PutTelephonyEasyHuntingHuntingQueueAgentError = OvhOpError;
@@ -16425,6 +17477,8 @@ export const putTelephonyEasyHuntingHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingHuntingQueueAgent",
 }));
 
 export type PutTelephonyEasyHuntingScreenListConditionConditionError = OvhOpError;
@@ -16448,6 +17502,8 @@ export const putTelephonyEasyHuntingScreenListConditionCondition: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingScreenListConditionCondition",
 }));
 
 export type PutTelephonyEasyHuntingScreenListConditionsError = OvhOpError;
@@ -16467,6 +17523,8 @@ export const putTelephonyEasyHuntingScreenListConditions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingScreenListConditions",
 }));
 
 export type PutTelephonyEasyHuntingTimeConditionConditionError = OvhOpError;
@@ -16486,6 +17544,8 @@ export const putTelephonyEasyHuntingTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingTimeConditionCondition",
 }));
 
 export type PutTelephonyEasyHuntingTimeConditionsError = OvhOpError;
@@ -16501,6 +17561,8 @@ export const putTelephonyEasyHuntingTimeConditions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyEasyHuntingTimeConditions",
 }));
 
 export type PutTelephonyFaxError = OvhOpError;
@@ -16516,6 +17578,8 @@ export const putTelephonyFax: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyFax",
 }));
 
 export type PutTelephonyFaxScreenListsError = OvhOpError;
@@ -16531,6 +17595,8 @@ export const putTelephonyFaxScreenLists: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyFaxScreenLists",
 }));
 
 export type PutTelephonyFaxSettingsError = OvhOpError;
@@ -16546,6 +17612,8 @@ export const putTelephonyFaxSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyFaxSettings",
 }));
 
 export type PutTelephonyLineError = OvhOpError;
@@ -16561,6 +17629,8 @@ export const putTelephonyLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLine",
 }));
 
 export type PutTelephonyLineAbbreviatedNumberError = OvhOpError;
@@ -16576,6 +17646,8 @@ export const putTelephonyLineAbbreviatedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineAbbreviatedNumber",
 }));
 
 export type PutTelephonyLineOptionsError = OvhOpError;
@@ -16591,6 +17663,8 @@ export const putTelephonyLineOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineOptions",
 }));
 
 export type PutTelephonyLinePhoneError = OvhOpError;
@@ -16606,6 +17680,8 @@ export const putTelephonyLinePhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLinePhone",
 }));
 
 export type PutTelephonyLinePhoneFunctionKeyError = OvhOpError;
@@ -16621,6 +17697,8 @@ export const putTelephonyLinePhoneFunctionKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLinePhoneFunctionKey",
 }));
 
 export type PutTelephonyLinePhonePhonebookError = OvhOpError;
@@ -16636,6 +17714,8 @@ export const putTelephonyLinePhonePhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLinePhonePhonebook",
 }));
 
 export type PutTelephonyLinePhonePhonebookPhonebookContactError = OvhOpError;
@@ -16659,6 +17739,8 @@ export const putTelephonyLinePhonePhonebookPhonebookContact: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLinePhonePhonebookPhonebookContact",
 }));
 
 export type PutTelephonyLinePhoneRmaError = OvhOpError;
@@ -16674,6 +17756,8 @@ export const putTelephonyLinePhoneRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLinePhoneRma",
 }));
 
 export type PutTelephonyLineServiceInfosError = OvhOpError;
@@ -16689,6 +17773,8 @@ export const putTelephonyLineServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineServiceInfos",
 }));
 
 export type PutTelephonyLineSoftphoneBetaError = OvhOpError;
@@ -16704,6 +17790,8 @@ export const putTelephonyLineSoftphoneBeta: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineSoftphoneBeta",
 }));
 
 export type PutTelephonyLineSoftphoneLogoError = OvhOpError;
@@ -16719,6 +17807,8 @@ export const putTelephonyLineSoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineSoftphoneLogo",
 }));
 
 export type PutTelephonyLineSoftphoneThemeError = OvhOpError;
@@ -16734,6 +17824,8 @@ export const putTelephonyLineSoftphoneTheme: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineSoftphoneTheme",
 }));
 
 export type PutTelephonyLineTonesError = OvhOpError;
@@ -16749,6 +17841,8 @@ export const putTelephonyLineTones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyLineTones",
 }));
 
 export type PutTelephonyNumberError = OvhOpError;
@@ -16764,6 +17858,8 @@ export const putTelephonyNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyNumber",
 }));
 
 export type PutTelephonyOfferTaskError = OvhOpError;
@@ -16779,6 +17875,8 @@ export const putTelephonyOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOfferTask",
 }));
 
 export type PutTelephonyOvhPabxError = OvhOpError;
@@ -16794,6 +17892,8 @@ export const putTelephonyOvhPabx: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabx",
 }));
 
 export type PutTelephonyOvhPabxDialplanError = OvhOpError;
@@ -16809,6 +17909,8 @@ export const putTelephonyOvhPabxDialplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxDialplan",
 }));
 
 export type PutTelephonyOvhPabxDialplanExtensionError = OvhOpError;
@@ -16824,6 +17926,8 @@ export const putTelephonyOvhPabxDialplanExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxDialplanExtension",
 }));
 
 export type PutTelephonyOvhPabxDialplanExtensionConditionTimeError = OvhOpError;
@@ -16847,6 +17951,8 @@ export const putTelephonyOvhPabxDialplanExtensionConditionTime: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxDialplanExtensionConditionTime",
 }));
 
 export type PutTelephonyOvhPabxDialplanExtensionRuleError = OvhOpError;
@@ -16862,6 +17968,8 @@ export const putTelephonyOvhPabxDialplanExtensionRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxDialplanExtensionRule",
 }));
 
 export type PutTelephonyOvhPabxHuntingError = OvhOpError;
@@ -16877,6 +17985,8 @@ export const putTelephonyOvhPabxHunting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxHunting",
 }));
 
 export type PutTelephonyOvhPabxHuntingAgentError = OvhOpError;
@@ -16892,6 +18002,8 @@ export const putTelephonyOvhPabxHuntingAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxHuntingAgent",
 }));
 
 export type PutTelephonyOvhPabxHuntingAgentQueueError = OvhOpError;
@@ -16907,6 +18019,8 @@ export const putTelephonyOvhPabxHuntingAgentQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxHuntingAgentQueue",
 }));
 
 export type PutTelephonyOvhPabxHuntingQueueError = OvhOpError;
@@ -16922,6 +18036,8 @@ export const putTelephonyOvhPabxHuntingQueue: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxHuntingQueue",
 }));
 
 export type PutTelephonyOvhPabxHuntingQueueAgentError = OvhOpError;
@@ -16937,6 +18053,8 @@ export const putTelephonyOvhPabxHuntingQueueAgent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxHuntingQueueAgent",
 }));
 
 export type PutTelephonyOvhPabxMenuError = OvhOpError;
@@ -16952,6 +18070,8 @@ export const putTelephonyOvhPabxMenu: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxMenu",
 }));
 
 export type PutTelephonyOvhPabxMenuEntryError = OvhOpError;
@@ -16967,6 +18087,8 @@ export const putTelephonyOvhPabxMenuEntry: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxMenuEntry",
 }));
 
 export type PutTelephonyOvhPabxTtsError = OvhOpError;
@@ -16982,6 +18104,8 @@ export const putTelephonyOvhPabxTts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyOvhPabxTts",
 }));
 
 export type PutTelephonyPhonebookError = OvhOpError;
@@ -16997,6 +18121,8 @@ export const putTelephonyPhonebook: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyPhonebook",
 }));
 
 export type PutTelephonyPhonebookPhonebookContactError = OvhOpError;
@@ -17012,6 +18138,8 @@ export const putTelephonyPhonebookPhonebookContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyPhonebookPhonebookContact",
 }));
 
 export type PutTelephonyPortabilityDocumentError = OvhOpError;
@@ -17027,6 +18155,8 @@ export const putTelephonyPortabilityDocument: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyPortabilityDocument",
 }));
 
 export type PutTelephonyRedirectError = OvhOpError;
@@ -17042,6 +18172,8 @@ export const putTelephonyRedirect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyRedirect",
 }));
 
 export type PutTelephonyRsvaError = OvhOpError;
@@ -17057,6 +18189,8 @@ export const putTelephonyRsva: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyRsva",
 }));
 
 export type PutTelephonySchedulerError = OvhOpError;
@@ -17072,6 +18206,8 @@ export const putTelephonyScheduler: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyScheduler",
 }));
 
 export type PutTelephonySchedulerEventError = OvhOpError;
@@ -17087,6 +18223,8 @@ export const putTelephonySchedulerEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonySchedulerEvent",
 }));
 
 export type PutTelephonyScreenError = OvhOpError;
@@ -17102,6 +18240,8 @@ export const putTelephonyScreen: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyScreen",
 }));
 
 export type PutTelephonyServiceError = OvhOpError;
@@ -17117,6 +18257,8 @@ export const putTelephonyService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyService",
 }));
 
 export type PutTelephonyServiceDirectoryError = OvhOpError;
@@ -17132,6 +18274,8 @@ export const putTelephonyServiceDirectory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyServiceDirectory",
 }));
 
 export type PutTelephonyServiceEventCallbackError = OvhOpError;
@@ -17147,6 +18291,8 @@ export const putTelephonyServiceEventCallback: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyServiceEventCallback",
 }));
 
 export type PutTelephonyServiceInfosError = OvhOpError;
@@ -17162,6 +18308,8 @@ export const putTelephonyServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyServiceInfos",
 }));
 
 export type PutTelephonyServiceOfferTaskError = OvhOpError;
@@ -17177,6 +18325,8 @@ export const putTelephonyServiceOfferTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyServiceOfferTask",
 }));
 
 export type PutTelephonySoftphoneLogoError = OvhOpError;
@@ -17192,6 +18342,8 @@ export const putTelephonySoftphoneLogo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonySoftphoneLogo",
 }));
 
 export type PutTelephonySoftphoneThemeError = OvhOpError;
@@ -17207,6 +18359,8 @@ export const putTelephonySoftphoneTheme: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonySoftphoneTheme",
 }));
 
 export type PutTelephonySoundError = OvhOpError;
@@ -17222,6 +18376,8 @@ export const putTelephonySound: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonySound",
 }));
 
 export type PutTelephonySpareServiceInfosError = OvhOpError;
@@ -17237,6 +18393,8 @@ export const putTelephonySpareServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonySpareServiceInfos",
 }));
 
 export type PutTelephonyTimeConditionConditionError = OvhOpError;
@@ -17252,6 +18410,8 @@ export const putTelephonyTimeConditionCondition: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyTimeConditionCondition",
 }));
 
 export type PutTelephonyTimeConditionOptionsError = OvhOpError;
@@ -17267,6 +18427,8 @@ export const putTelephonyTimeConditionOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyTimeConditionOptions",
 }));
 
 export type PutTelephonyTrunkServiceInfosError = OvhOpError;
@@ -17282,6 +18444,8 @@ export const putTelephonyTrunkServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyTrunkServiceInfos",
 }));
 
 export type PutTelephonyVoicemailError = OvhOpError;
@@ -17297,6 +18461,8 @@ export const putTelephonyVoicemail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyVoicemail",
 }));
 
 export type PutTelephonyVoicemailSettingsError = OvhOpError;
@@ -17312,6 +18478,8 @@ export const putTelephonyVoicemailSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyVoicemailSettings",
 }));
 
 export type PutTelephonyVxmlSettingsError = OvhOpError;
@@ -17327,6 +18495,8 @@ export const putTelephonyVxmlSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTelephonyVxmlSettings",
 }));
 
 export type RebootTelephonyLinePhoneError = OvhOpError;
@@ -17342,6 +18512,8 @@ export const rebootTelephonyLinePhone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootTelephonyLinePhone",
 }));
 
 export type RefreshTelephonyLinePhoneScreenError = OvhOpError;
@@ -17357,6 +18529,8 @@ export const refreshTelephonyLinePhoneScreen: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshTelephonyLinePhoneScreen",
 }));
 
 export type RegenerateTelephonyLineSoftphoneBetaTokenError = OvhOpError;
@@ -17372,6 +18546,8 @@ export const regenerateTelephonyLineSoftphoneBetaToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateTelephonyLineSoftphoneBetaToken",
 }));
 
 export type RemoveTelephonyLineSimultaneousLinesError = OvhOpError;
@@ -17387,6 +18563,8 @@ export const removeTelephonyLineSimultaneousLines: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTelephonyLineSimultaneousLines",
 }));
 
 export type ReplaceTelephonySpareError = OvhOpError;
@@ -17402,6 +18580,8 @@ export const replaceTelephonySpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceTelephonySpare",
 }));
 
 export type ResetTelephonyFaxScreenListError = OvhOpError;
@@ -17417,6 +18597,8 @@ export const resetTelephonyFaxScreenList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetTelephonyFaxScreenList",
 }));
 
 export type ResetTelephonyLinePhoneConfigError = OvhOpError;
@@ -17432,6 +18614,8 @@ export const resetTelephonyLinePhoneConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetTelephonyLinePhoneConfig",
 }));
 
 export type SendTelephonyFaxSettingsFaxError = OvhOpError;
@@ -17447,6 +18631,8 @@ export const sendTelephonyFaxSettingsFax: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTelephonyFaxSettingsFax",
 }));
 
 export type SetTelephonyDefaultSipDomainError = OvhOpError;
@@ -17462,6 +18648,8 @@ export const setTelephonyDefaultSipDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTelephonyDefaultSipDomain",
 }));
 
 export type StartTelephonyFaxCampaignError = OvhOpError;
@@ -17477,6 +18665,8 @@ export const startTelephonyFaxCampaign: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartTelephonyFaxCampaign",
 }));
 
 export type StopTelephonyFaxCampaignError = OvhOpError;
@@ -17492,6 +18682,8 @@ export const stopTelephonyFaxCampaign: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopTelephonyFaxCampaign",
 }));
 
 export type TransferTelephonyEasyHuntingHuntingAgentCallError = OvhOpError;
@@ -17511,6 +18703,8 @@ export const transferTelephonyEasyHuntingHuntingAgentCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTelephonyEasyHuntingHuntingAgentCall",
 }));
 
 export type TransferTelephonyEasyHuntingHuntingQueueLiveCallError = OvhOpError;
@@ -17530,6 +18724,8 @@ export const transferTelephonyEasyHuntingHuntingQueueLiveCall: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTelephonyEasyHuntingHuntingQueueLiveCall",
 }));
 
 export type TransferTelephonyOvhPabxHuntingAgentCallError = OvhOpError;
@@ -17545,6 +18741,8 @@ export const transferTelephonyOvhPabxHuntingAgentCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTelephonyOvhPabxHuntingAgentCall",
 }));
 
 export type TransferTelephonyOvhPabxHuntingQueueLiveCallError = OvhOpError;
@@ -17564,6 +18762,8 @@ export const transferTelephonyOvhPabxHuntingQueueLiveCall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTelephonyOvhPabxHuntingQueueLiveCall",
 }));
 
 export type TransferTelephonySecurityDepositError = OvhOpError;
@@ -17579,6 +18779,8 @@ export const transferTelephonySecurityDeposit: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferTelephonySecurityDeposit",
 }));
 
 export type UnblockTelephonyLineError = OvhOpError;
@@ -17594,6 +18796,8 @@ export const unblockTelephonyLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockTelephonyLine",
 }));
 
 export type UnlockTelephonyConferenceError = OvhOpError;
@@ -17609,6 +18813,8 @@ export const unlockTelephonyConference: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockTelephonyConference",
 }));
 
 export type UnlockTelephonyConferenceRoomError = OvhOpError;
@@ -17624,6 +18830,8 @@ export const unlockTelephonyConferenceRoom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockTelephonyConferenceRoom",
 }));
 
 export type UnmuteTelephonyConferenceParticipantError = OvhOpError;
@@ -17639,6 +18847,8 @@ export const unmuteTelephonyConferenceParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnmuteTelephonyConferenceParticipant",
 }));
 
 export type UnmuteTelephonyConferenceRoomsParticipantError = OvhOpError;
@@ -17654,6 +18864,8 @@ export const unmuteTelephonyConferenceRoomsParticipant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnmuteTelephonyConferenceRoomsParticipant",
 }));
 
 export type ValidateTelephonyTrunkExternalDisplayedNumberError = OvhOpError;
@@ -17673,6 +18885,8 @@ export const validateTelephonyTrunkExternalDisplayedNumber: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateTelephonyTrunkExternalDisplayedNumber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

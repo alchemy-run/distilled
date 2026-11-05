@@ -78,6 +78,16 @@ const METRICS: Metric[] = [
   },
 ];
 
+/** Whole-SDK import heap; tighter noise than per-program heap, since it is multi-MB. */
+const SDK_HEAP: Metric = {
+  id: "sdk-memory",
+  label: "Whole-SDK memory",
+  how: "",
+  read: () => undefined,
+  format: fmtBytes,
+  noise: (prev) => Math.max(64 * 1024, prev * 0.02),
+};
+
 const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const short = (sha: string) => sha.slice(0, 9);
@@ -150,11 +160,30 @@ export const summaryMarkdown = (head: CiRun, base: CiRun | undefined): string[] 
     const mark = c.noise ? "⚪" : c.diff < 0 ? "🟢" : "🔴";
     const word = c.noise ? "same as main" : c.diff < 0 ? "smaller than main" : "bigger than main";
     return `- ${mark} **${m.label}** ${v}: ${sign}${Math.abs(c.pct).toFixed(1)}% (${sign}${m.format(Math.abs(c.diff))}), ${word}`;
+  }).concat(sdkLine(head, base));
+};
+
+/** Whole-SDK heap as one markdown line: "aws 9.1 MB (+0.4%), cloudflare ...". */
+const sdkLine = (head: CiRun, base: CiRun | undefined): string[] => {
+  const entries = Object.entries(head.providers ?? {});
+  if (!entries.length) return [];
+  let worst = 0;
+  const parts = entries.map(([k, p]) => {
+    const b = base?.providers?.[k]?.heap;
+    if (p.reused) return `${k} ${fmtBytes(p.heap)} (unchanged)`;
+    if (b === undefined) return `${k} ${fmtBytes(p.heap)}`;
+    const d = p.heap - b;
+    if (Math.abs(d) >= SDK_HEAP.noise(b)) worst = Math.abs(d) > Math.abs(worst) ? d : worst;
+    const sign = d > 0 ? "+" : d < 0 ? "−" : "±";
+    return `${k} ${fmtBytes(p.heap)} (${sign}${Math.abs((d / b) * 100).toFixed(1)}%)`;
   });
+  const mark = worst > 0 ? "🔴" : worst < 0 ? "🟢" : "⚪";
+  return [`- ${mark} **Whole-SDK memory** ${parts.join(", ")}`];
 };
 
 /** One chart per page; the names are the PNG file names. */
 export const CHARTS = [
+  "sdk-memory",
   "bundle-programs",
   "memory-programs",
   "bundle",
@@ -210,20 +239,22 @@ export const imagePages = (
 
   // Per program: main as a faint bar with an edge, the PR on top, and next to
   // it the PR's size and its change from main.
-  const programs = (m: Metric) => {
-    const rows = keys
-      .flatMap((k) => {
+  type Row = { k: string; h: number; b: number | undefined; note?: string };
+  const programs = (m: Metric, custom?: { rows: Row[]; title: string; how: string }) => {
+    const rows = (
+      custom?.rows ??
+      keys.flatMap((k) => {
         const h = m.read(head.programs[k]!);
         if (h === undefined) return [];
         const b = base?.programs[k] && m.read(base.programs[k]!);
-        return [{ k, h, b }];
+        return [{ k, h, b } as Row];
       })
-      .sort((x, y) => y.h - x.h);
+    ).sort((x, y) => y.h - x.h);
     const max = Math.max(...rows.flatMap((r) => [r.h, r.b ?? 0]));
     const w = (n: number) => `${((n / max) * 100).toFixed(2)}%`;
     let changed = 0;
     const html = rows
-      .map(({ k, h, b }) => {
+      .map(({ k, h, b, note }) => {
         let cls = "";
         let diff = "new";
         if (!base) diff = "";
@@ -235,6 +266,7 @@ export const imagePages = (
           cls = noise ? "" : d > 0 ? "bad" : "good";
           diff = `${sign}${m.format(Math.abs(d))} (${sign}${Math.abs(b ? (d / b) * 100 : 0).toFixed(1)}%)`;
         }
+        if (note) diff = diff ? `${diff} ${note}` : note;
         return `<span class="name">${esc(k)}</span>
 <span class="track">${b !== undefined ? `<i class="main" style="width:${w(b)}"></i>` : ""}<i class="pr ${cls}" style="width:${w(h)}"></i></span>
 <span class="size">${esc(m.format(h))}</span><span class="diff ${cls}">${esc(diff)}</span>`;
@@ -242,8 +274,8 @@ export const imagePages = (
       .join("\n");
     const note = !base ? "" : changed ? ` · ${changed} changed vs main` : " · none changed vs main";
     return `<section class="panel chart-panel">
-  <div class="chart-head"><h3>${esc(m.label)} <span class="muted">· per program${note}</span></h3>
-  <div class="how">Faint wide bar = main. Bar on top = this PR (red bigger, teal smaller, grey within noise). Then the PR's ${m.id === "bundle" ? "size" : "heap"} and its change from main.</div></div>
+  <div class="chart-head"><h3>${esc(custom?.title ?? m.label)} <span class="muted">· ${custom ? "every service imported" : "per program"}${note}</span></h3>
+  <div class="how">${esc(custom?.how ?? `Faint wide bar = main. Bar on top = this PR (red bigger, teal smaller, grey within noise). Then the PR's ${m.id === "bundle" ? "size" : "heap"} and its change from main.`)}</div></div>
   <div class="rows"><span></span><span></span><span class="colhead">this PR</span><span class="colhead">vs main</span>
 ${html}</div>
 </section>`;
@@ -274,15 +306,31 @@ ${html}</div>
 </section>`;
   };
 
-  return CHARTS.map((name) => ({
+  const sdkMemory = () =>
+    programs(SDK_HEAP, {
+      title: "Whole-SDK memory",
+      how: "Heap after importing every service module of the SDK in one fresh Node process (what Alchemy loads). Faint wide bar = main. 'unchanged' = the SDK, core, build scripts and lockfile are the same as main's, so main's number is reused.",
+      rows: Object.entries(head.providers ?? {}).map(([k, p]) => ({
+        k: `${k} (${p.services} services)`,
+        h: p.heap,
+        b: base?.providers?.[k]?.heap,
+        note: p.reused ? "unchanged" : undefined,
+      })),
+    });
+
+  return CHARTS.filter(
+    (name) => name !== "sdk-memory" || Object.keys(head.providers ?? {}).length,
+  ).map((name) => ({
     name,
     html: page(
       css,
-      name === "bundle-programs"
-        ? programs(byId("bundle"))
-        : name === "memory-programs"
-          ? programs(byId("memory"))
-          : line(byId(name)),
+      name === "sdk-memory"
+        ? sdkMemory()
+        : name === "bundle-programs"
+          ? programs(byId("bundle"))
+          : name === "memory-programs"
+            ? programs(byId("memory"))
+            : line(byId(name)),
     ),
   }));
 };

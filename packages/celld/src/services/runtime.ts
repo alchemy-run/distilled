@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { CelldOpError, CelldOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "celld-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Celld",
+  service: "Runtime",
+  labels: "celld",
+  propagate: "w3c",
+} as const;
+
 /** The native D1 engine rejected SQL execution. Exec and prepared-statement requests may have already committed earlier statements; this error does not authorize automatic mutation replay. */
 export class D1ExecutionError
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -595,6 +608,8 @@ export const deleteKv: API.OperationMethod<
   output: __S(97, __c12, 1) as any as S.Schema<DeleteKvOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "DeleteKv",
 }));
 
 export type ExecD1Error =
@@ -610,6 +625,8 @@ export const execD1: API.OperationMethod<ExecD1Input, ExecD1Output, ExecD1Error,
     output: __S(115, __c14, 3) as any as S.Schema<ExecD1Output>,
     errors: [D1ExecutionError, PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
     protocol: CelldProtocol,
+    telemetry: TELEMETRY,
+    span: "ExecD1",
   }));
 
 export type ExecuteD1StatementsError =
@@ -629,6 +646,8 @@ export const executeD1Statements: API.OperationMethod<
   output: __S(131, __c16, 3) as any as S.Schema<ExecuteD1StatementsOutput>,
   errors: [D1ExecutionError, PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "ExecuteD1Statements",
 }));
 
 export type GetKvError =
@@ -643,6 +662,8 @@ export const getKv: API.OperationMethod<GetKvInput, GetKvOutput, GetKvError, Cel
     output: __S(138, __c17, 2) as any as S.Schema<GetKvOutput>,
     errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
     protocol: CelldProtocol,
+    telemetry: TELEMETRY,
+    span: "GetKv",
   }));
 
 export type GetKvInfoError =
@@ -661,6 +682,8 @@ export const getKvInfo: API.OperationMethod<
   output: __S(146, __c18, 2) as any as S.Schema<GetKvInfoOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "GetKvInfo",
 }));
 
 export type GetQueueInfoError =
@@ -679,6 +702,8 @@ export const getQueueInfo: API.OperationMethod<
   output: __S(154, __c19, 2) as any as S.Schema<GetQueueInfoOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "GetQueueInfo",
 }));
 
 export type ListKvError =
@@ -693,6 +718,8 @@ export const listKv: API.OperationMethod<ListKvInput, ListKvOutput, ListKvError,
     output: __S(4, __c0, 4) as any as S.Schema<ListKvOutput>,
     errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
     protocol: CelldProtocol,
+    telemetry: TELEMETRY,
+    span: "ListKv",
   }));
 
 export type MigrateD1Error =
@@ -712,6 +739,8 @@ export const migrateD1: API.OperationMethod<
   output: __S(10, __c1, 2) as any as S.Schema<MigrateD1Output>,
   errors: [D1ExecutionError, PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "MigrateD1",
 }));
 
 export type PauseQueueError =
@@ -730,6 +759,8 @@ export const pauseQueue: API.OperationMethod<
   output: __S(25, __c3, 1) as any as S.Schema<PauseQueueOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "PauseQueue",
 }));
 
 export type PeekQueueError =
@@ -748,6 +779,8 @@ export const peekQueue: API.OperationMethod<
   output: __S(36, __c4, 4) as any as S.Schema<PeekQueueOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "PeekQueue",
 }));
 
 export type PurgeQueueError =
@@ -766,6 +799,8 @@ export const purgeQueue: API.OperationMethod<
   output: __S(42, __c5, 2) as any as S.Schema<PurgeQueueOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "PurgeQueue",
 }));
 
 export type PutKvError =
@@ -780,6 +815,8 @@ export const putKv: API.OperationMethod<PutKvInput, PutKvOutput, PutKvError, Cel
     output: __S(97, __c12, 1) as any as S.Schema<PutKvOutput>,
     errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
     protocol: CelldProtocol,
+    telemetry: TELEMETRY,
+    span: "PutKv",
   }));
 
 export type PutKvBase64Error =
@@ -798,6 +835,8 @@ export const putKvBase64: API.OperationMethod<
   output: __S(97, __c12, 1) as any as S.Schema<PutKvBase64Output>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "PutKvBase64",
 }));
 
 export type RedriveQueueError =
@@ -816,6 +855,8 @@ export const redriveQueue: API.OperationMethod<
   output: __S(74, __c9, 2) as any as S.Schema<RedriveQueueOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "RedriveQueue",
 }));
 
 export type ResumeQueueError =
@@ -834,6 +875,8 @@ export const resumeQueue: API.OperationMethod<
   output: __S(25, __c3, 1) as any as S.Schema<ResumeQueueOutput>,
   errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "ResumeQueue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

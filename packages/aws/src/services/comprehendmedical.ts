@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://comprehendmedical.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ComprehendMedical",
+  service: "ComprehendMedical",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -722,7 +739,7 @@ export type DescribeEntitiesDetectionV2JobError =
  * to get the status of a detection job.
  */
 export const describeEntitiesDetectionV2Job: API.OperationMethod<
-  DescribeEntitiesDetectionV2JobRequest,
+  DescribeEntitiesDetectionV2JobRequest & RegionInput,
   DescribeEntitiesDetectionV2JobResponse,
   DescribeEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +755,8 @@ export const describeEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitiesDetectionV2Job",
+  telemetry: TELEMETRY,
+  span: "DescribeEntitiesDetectionV2Job",
 }));
 
 export type DescribeICD10CMInferenceJobError =
@@ -751,7 +770,7 @@ export type DescribeICD10CMInferenceJobError =
  * status of an inference job.
  */
 export const describeICD10CMInferenceJob: API.OperationMethod<
-  DescribeICD10CMInferenceJobRequest,
+  DescribeICD10CMInferenceJobRequest & RegionInput,
   DescribeICD10CMInferenceJobResponse,
   DescribeICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -767,6 +786,8 @@ export const describeICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeICD10CMInferenceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeICD10CMInferenceJob",
 }));
 
 export type DescribePHIDetectionJobError =
@@ -780,7 +801,7 @@ export type DescribePHIDetectionJobError =
  * Use this operation to get the status of a detection job.
  */
 export const describePHIDetectionJob: API.OperationMethod<
-  DescribePHIDetectionJobRequest,
+  DescribePHIDetectionJobRequest & RegionInput,
   DescribePHIDetectionJobResponse,
   DescribePHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -796,6 +817,8 @@ export const describePHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePHIDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribePHIDetectionJob",
 }));
 
 export type DescribeRxNormInferenceJobError =
@@ -809,7 +832,7 @@ export type DescribeRxNormInferenceJobError =
  * status of an inference job.
  */
 export const describeRxNormInferenceJob: API.OperationMethod<
-  DescribeRxNormInferenceJobRequest,
+  DescribeRxNormInferenceJobRequest & RegionInput,
   DescribeRxNormInferenceJobResponse,
   DescribeRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -825,6 +848,8 @@ export const describeRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRxNormInferenceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeRxNormInferenceJob",
 }));
 
 export type DescribeSNOMEDCTInferenceJobError =
@@ -837,7 +862,7 @@ export type DescribeSNOMEDCTInferenceJobError =
  * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
  */
 export const describeSNOMEDCTInferenceJob: API.OperationMethod<
-  DescribeSNOMEDCTInferenceJobRequest,
+  DescribeSNOMEDCTInferenceJobRequest & RegionInput,
   DescribeSNOMEDCTInferenceJobResponse,
   DescribeSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -853,6 +878,8 @@ export const describeSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSNOMEDCTInferenceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSNOMEDCTInferenceJob",
 }));
 
 export type DetectEntitiesError =
@@ -871,7 +898,7 @@ export type DetectEntitiesError =
  * information.
  */
 export const detectEntities: API.OperationMethod<
-  DetectEntitiesRequest,
+  DetectEntitiesRequest & RegionInput,
   DetectEntitiesResponse,
   DetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +916,8 @@ export const detectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntities",
+  telemetry: TELEMETRY,
+  span: "DetectEntities",
 }));
 
 export type DetectEntitiesV2Error =
@@ -914,7 +943,7 @@ export type DetectEntitiesV2Error =
  * `Direction` entities as attributes instead of types.
  */
 export const detectEntitiesV2: API.OperationMethod<
-  DetectEntitiesV2Request,
+  DetectEntitiesV2Request & RegionInput,
   DetectEntitiesV2Response,
   DetectEntitiesV2Error,
   Credentials | HttpClient.HttpClient
@@ -932,6 +961,8 @@ export const detectEntitiesV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntitiesV2",
+  telemetry: TELEMETRY,
+  span: "DetectEntitiesV2",
 }));
 
 export type DetectPHIError =
@@ -948,7 +979,7 @@ export type DetectPHIError =
  * only detects entities in English language texts.
  */
 export const detectPHI: API.OperationMethod<
-  DetectPHIRequest,
+  DetectPHIRequest & RegionInput,
   DetectPHIResponse,
   DetectPHIError,
   Credentials | HttpClient.HttpClient
@@ -966,6 +997,8 @@ export const detectPHI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectPHI",
+  telemetry: TELEMETRY,
+  span: "DetectPHI",
 }));
 
 export type InferICD10CMError =
@@ -983,7 +1016,7 @@ export type InferICD10CMError =
  * English language texts.
  */
 export const inferICD10CM: API.OperationMethod<
-  InferICD10CMRequest,
+  InferICD10CMRequest & RegionInput,
   InferICD10CMResponse,
   InferICD10CMError,
   Credentials | HttpClient.HttpClient
@@ -1001,6 +1034,8 @@ export const inferICD10CM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferICD10CM",
+  telemetry: TELEMETRY,
+  span: "InferICD10CM",
 }));
 
 export type InferRxNormError =
@@ -1017,7 +1052,7 @@ export type InferRxNormError =
  * Amazon Comprehend Medical only detects medical entities in English language texts.
  */
 export const inferRxNorm: API.OperationMethod<
-  InferRxNormRequest,
+  InferRxNormRequest & RegionInput,
   InferRxNormResponse,
   InferRxNormError,
   Credentials | HttpClient.HttpClient
@@ -1035,6 +1070,8 @@ export const inferRxNorm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferRxNorm",
+  telemetry: TELEMETRY,
+  span: "InferRxNorm",
 }));
 
 export type InferSNOMEDCTError =
@@ -1049,7 +1086,7 @@ export type InferSNOMEDCTError =
  * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
  */
 export const inferSNOMEDCT: API.OperationMethod<
-  InferSNOMEDCTRequest,
+  InferSNOMEDCTRequest & RegionInput,
   InferSNOMEDCTResponse,
   InferSNOMEDCTError,
   Credentials | HttpClient.HttpClient
@@ -1067,6 +1104,8 @@ export const inferSNOMEDCT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InferSNOMEDCT",
+  telemetry: TELEMETRY,
+  span: "InferSNOMEDCT",
 }));
 
 export type ListEntitiesDetectionV2JobsError =
@@ -1079,7 +1118,7 @@ export type ListEntitiesDetectionV2JobsError =
  * Gets a list of medical entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionV2Jobs: API.OperationMethod<
-  ListEntitiesDetectionV2JobsRequest,
+  ListEntitiesDetectionV2JobsRequest & RegionInput,
   ListEntitiesDetectionV2JobsResponse,
   ListEntitiesDetectionV2JobsError,
   Credentials | HttpClient.HttpClient
@@ -1095,6 +1134,8 @@ export const listEntitiesDetectionV2Jobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitiesDetectionV2Jobs",
+  telemetry: TELEMETRY,
+  span: "ListEntitiesDetectionV2Jobs",
 }));
 
 export type ListICD10CMInferenceJobsError =
@@ -1107,7 +1148,7 @@ export type ListICD10CMInferenceJobsError =
  * Gets a list of InferICD10CM jobs that you have submitted.
  */
 export const listICD10CMInferenceJobs: API.OperationMethod<
-  ListICD10CMInferenceJobsRequest,
+  ListICD10CMInferenceJobsRequest & RegionInput,
   ListICD10CMInferenceJobsResponse,
   ListICD10CMInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1123,6 +1164,8 @@ export const listICD10CMInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListICD10CMInferenceJobs",
+  telemetry: TELEMETRY,
+  span: "ListICD10CMInferenceJobs",
 }));
 
 export type ListPHIDetectionJobsError =
@@ -1136,7 +1179,7 @@ export type ListPHIDetectionJobsError =
  * submitted.
  */
 export const listPHIDetectionJobs: API.OperationMethod<
-  ListPHIDetectionJobsRequest,
+  ListPHIDetectionJobsRequest & RegionInput,
   ListPHIDetectionJobsResponse,
   ListPHIDetectionJobsError,
   Credentials | HttpClient.HttpClient
@@ -1152,6 +1195,8 @@ export const listPHIDetectionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPHIDetectionJobs",
+  telemetry: TELEMETRY,
+  span: "ListPHIDetectionJobs",
 }));
 
 export type ListRxNormInferenceJobsError =
@@ -1164,7 +1209,7 @@ export type ListRxNormInferenceJobsError =
  * Gets a list of InferRxNorm jobs that you have submitted.
  */
 export const listRxNormInferenceJobs: API.OperationMethod<
-  ListRxNormInferenceJobsRequest,
+  ListRxNormInferenceJobsRequest & RegionInput,
   ListRxNormInferenceJobsResponse,
   ListRxNormInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1180,6 +1225,8 @@ export const listRxNormInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRxNormInferenceJobs",
+  telemetry: TELEMETRY,
+  span: "ListRxNormInferenceJobs",
 }));
 
 export type ListSNOMEDCTInferenceJobsError =
@@ -1192,7 +1239,7 @@ export type ListSNOMEDCTInferenceJobsError =
  * Gets a list of InferSNOMEDCT jobs a user has submitted.
  */
 export const listSNOMEDCTInferenceJobs: API.OperationMethod<
-  ListSNOMEDCTInferenceJobsRequest,
+  ListSNOMEDCTInferenceJobsRequest & RegionInput,
   ListSNOMEDCTInferenceJobsResponse,
   ListSNOMEDCTInferenceJobsError,
   Credentials | HttpClient.HttpClient
@@ -1208,6 +1255,8 @@ export const listSNOMEDCTInferenceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSNOMEDCTInferenceJobs",
+  telemetry: TELEMETRY,
+  span: "ListSNOMEDCTInferenceJobs",
 }));
 
 export type StartEntitiesDetectionV2JobError =
@@ -1221,7 +1270,7 @@ export type StartEntitiesDetectionV2JobError =
  * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
  */
 export const startEntitiesDetectionV2Job: API.OperationMethod<
-  StartEntitiesDetectionV2JobRequest,
+  StartEntitiesDetectionV2JobRequest & RegionInput,
   StartEntitiesDetectionV2JobResponse,
   StartEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1237,6 +1286,8 @@ export const startEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEntitiesDetectionV2Job",
+  telemetry: TELEMETRY,
+  span: "StartEntitiesDetectionV2Job",
 }));
 
 export type StartICD10CMInferenceJobError =
@@ -1251,7 +1302,7 @@ export type StartICD10CMInferenceJobError =
  * job.
  */
 export const startICD10CMInferenceJob: API.OperationMethod<
-  StartICD10CMInferenceJobRequest,
+  StartICD10CMInferenceJobRequest & RegionInput,
   StartICD10CMInferenceJobResponse,
   StartICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1267,6 +1318,8 @@ export const startICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartICD10CMInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StartICD10CMInferenceJob",
 }));
 
 export type StartPHIDetectionJobError =
@@ -1280,7 +1333,7 @@ export type StartPHIDetectionJobError =
  * `DescribePHIDetectionJob` operation to track the status of a job.
  */
 export const startPHIDetectionJob: API.OperationMethod<
-  StartPHIDetectionJobRequest,
+  StartPHIDetectionJobRequest & RegionInput,
   StartPHIDetectionJobResponse,
   StartPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1296,6 +1349,8 @@ export const startPHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPHIDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartPHIDetectionJob",
 }));
 
 export type StartRxNormInferenceJobError =
@@ -1310,7 +1365,7 @@ export type StartRxNormInferenceJobError =
  * job.
  */
 export const startRxNormInferenceJob: API.OperationMethod<
-  StartRxNormInferenceJobRequest,
+  StartRxNormInferenceJobRequest & RegionInput,
   StartRxNormInferenceJobResponse,
   StartRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1326,6 +1381,8 @@ export const startRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRxNormInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StartRxNormInferenceJob",
 }));
 
 export type StartSNOMEDCTInferenceJobError =
@@ -1338,7 +1395,7 @@ export type StartSNOMEDCTInferenceJobError =
  * Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
  */
 export const startSNOMEDCTInferenceJob: API.OperationMethod<
-  StartSNOMEDCTInferenceJobRequest,
+  StartSNOMEDCTInferenceJobRequest & RegionInput,
   StartSNOMEDCTInferenceJobResponse,
   StartSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1354,6 +1411,8 @@ export const startSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSNOMEDCTInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StartSNOMEDCTInferenceJob",
 }));
 
 export type StopEntitiesDetectionV2JobError =
@@ -1365,7 +1424,7 @@ export type StopEntitiesDetectionV2JobError =
  * Stops a medical entities detection job in progress.
  */
 export const stopEntitiesDetectionV2Job: API.OperationMethod<
-  StopEntitiesDetectionV2JobRequest,
+  StopEntitiesDetectionV2JobRequest & RegionInput,
   StopEntitiesDetectionV2JobResponse,
   StopEntitiesDetectionV2JobError,
   Credentials | HttpClient.HttpClient
@@ -1376,6 +1435,8 @@ export const stopEntitiesDetectionV2Job: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionV2Job",
+  telemetry: TELEMETRY,
+  span: "StopEntitiesDetectionV2Job",
 }));
 
 export type StopICD10CMInferenceJobError =
@@ -1387,7 +1448,7 @@ export type StopICD10CMInferenceJobError =
  * Stops an InferICD10CM inference job in progress.
  */
 export const stopICD10CMInferenceJob: API.OperationMethod<
-  StopICD10CMInferenceJobRequest,
+  StopICD10CMInferenceJobRequest & RegionInput,
   StopICD10CMInferenceJobResponse,
   StopICD10CMInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1398,6 +1459,8 @@ export const stopICD10CMInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopICD10CMInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StopICD10CMInferenceJob",
 }));
 
 export type StopPHIDetectionJobError =
@@ -1409,7 +1472,7 @@ export type StopPHIDetectionJobError =
  * Stops a protected health information (PHI) detection job in progress.
  */
 export const stopPHIDetectionJob: API.OperationMethod<
-  StopPHIDetectionJobRequest,
+  StopPHIDetectionJobRequest & RegionInput,
   StopPHIDetectionJobResponse,
   StopPHIDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -1420,6 +1483,8 @@ export const stopPHIDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPHIDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopPHIDetectionJob",
 }));
 
 export type StopRxNormInferenceJobError =
@@ -1431,7 +1496,7 @@ export type StopRxNormInferenceJobError =
  * Stops an InferRxNorm inference job in progress.
  */
 export const stopRxNormInferenceJob: API.OperationMethod<
-  StopRxNormInferenceJobRequest,
+  StopRxNormInferenceJobRequest & RegionInput,
   StopRxNormInferenceJobResponse,
   StopRxNormInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1442,6 +1507,8 @@ export const stopRxNormInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRxNormInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StopRxNormInferenceJob",
 }));
 
 export type StopSNOMEDCTInferenceJobError =
@@ -1454,7 +1521,7 @@ export type StopSNOMEDCTInferenceJobError =
  * Stops an InferSNOMEDCT inference job in progress.
  */
 export const stopSNOMEDCTInferenceJob: API.OperationMethod<
-  StopSNOMEDCTInferenceJobRequest,
+  StopSNOMEDCTInferenceJobRequest & RegionInput,
   StopSNOMEDCTInferenceJobResponse,
   StopSNOMEDCTInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1470,6 +1537,8 @@ export const stopSNOMEDCTInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSNOMEDCTInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StopSNOMEDCTInferenceJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

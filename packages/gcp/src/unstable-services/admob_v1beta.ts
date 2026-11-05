@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "admob" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Admob",
+  service: "admob",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -940,6 +959,8 @@ export const batchCreateAccountsAdUnitMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateAccountsAdUnitMappings",
 }));
 
 export type CreateAccountsAdUnitsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -955,6 +976,8 @@ export const createAccountsAdUnits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAdUnits",
 }));
 
 export type CreateAccountsAdUnitsAdUnitMappingsError =
@@ -975,6 +998,8 @@ export const createAccountsAdUnitsAdUnitMappings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsAdUnitsAdUnitMappings",
 }));
 
 export type CreateAccountsAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -990,6 +1015,8 @@ export const createAccountsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsApps",
 }));
 
 export type CreateAccountsMediationGroupsError =
@@ -1010,6 +1037,8 @@ export const createAccountsMediationGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsMediationGroups",
 }));
 
 export type CreateAccountsMediationGroupsMediationAbExperimentsError =
@@ -1034,6 +1063,8 @@ export const createAccountsMediationGroupsMediationAbExperiments: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsMediationGroupsMediationAbExperiments",
 }));
 
 export type GenerateAccountsCampaignReportError =
@@ -1054,6 +1085,8 @@ export const generateAccountsCampaignReport: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccountsCampaignReport",
 }));
 
 export type GenerateAccountsMediationReportError =
@@ -1074,6 +1107,8 @@ export const generateAccountsMediationReport: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccountsMediationReport",
 }));
 
 export type GenerateAccountsNetworkReportError =
@@ -1094,6 +1129,8 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccountsNetworkReport",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1109,6 +1146,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1125,6 +1164,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1142,6 +1183,8 @@ export const listAccountsAdSources: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdSources",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1159,6 +1202,8 @@ export const listAccountsAdSourcesAdapters: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdSourcesAdapters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1176,6 +1221,8 @@ export const listAccountsAdUnits: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdUnits",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1193,6 +1240,8 @@ export const listAccountsAdUnitsAdUnitMappings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAdUnitsAdUnitMappings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1210,6 +1259,8 @@ export const listAccountsApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1227,6 +1278,8 @@ export const listAccountsMediationGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsMediationGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1248,6 +1301,8 @@ export const patchAccountsMediationGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsMediationGroups",
 }));
 
 export type StopAccountsMediationGroupsMediationAbExperimentsError =
@@ -1272,6 +1327,8 @@ export const stopAccountsMediationGroupsMediationAbExperiments: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopAccountsMediationGroupsMediationAbExperiments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

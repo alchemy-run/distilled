@@ -6,15 +6,15 @@
  * Output: src/services/<resource>.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Cloudflare's provider
+ * `@distilled.cloud/dev/codegen`; this script is Cloudflare's provider
  * spec: the envelope / form-data / nullable / key-dictionary trait
  * vocabulary and pipes, opaque union-cases, error matchers, resultInfo
  * injection, protocol/retry names, the import header, and route aliases.
  */
 
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { camel, lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
@@ -24,6 +24,7 @@ const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody"
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
 const HOST_TRAIT = "com.cloudflare.protocols#host";
+const JURISDICTION_TRAIT = "com.cloudflare.protocols#jurisdiction";
 const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
@@ -103,6 +104,9 @@ const makeCfSpec = (
     ...(typeof opTraits?.[HOST_TRAIT] === "string"
       ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
       : []),
+    // Sends the Jurisdiction layer as `cf-r2-jurisdiction` when the call
+    // has no `jurisdiction` (see scripts/jurisdiction-layer.ts).
+    ...(opTraits?.[JURISDICTION_TRAIT] !== undefined ? ["T.Jurisdiction()"] : []),
     // An operation whose request body is user data (Pipelines ingest
     // records) must not have its opaque content renamed through the
     // service key dictionary.
@@ -162,10 +166,15 @@ const makeCfSpec = (
 
 runGeneratorCli({
   description: "Generate the Cloudflare Effect SDK from the Smithy models",
+  convert: ({ resource }) =>
+    import("./spec-to-smithy.ts").then(({ convert }) => convert({ resource })),
   root: `${import.meta.dirname}/..`,
   excludeModel: (f) => f === "cloudflare.protocols.json",
   manualSpecsDir: "manual-specs",
   // Per-service fallback key dictionary and route aliases arrive via the
   // model's metadata (baked into .generated-specs by spec-to-smithy).
   spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
+  // R2's S3 API, under the R2 import path; the layer is hand-written.
+  append: (resource) =>
+    resource === "r2" ? 'export { layerS3, S3CredentialsError } from "../layer-s3.ts";' : undefined,
 });

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Query",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -16531,6 +16544,8 @@ export const createQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuery",
 }));
 
 export type CreateQueryCheckAuthForAsyncError = Forbidden | NotFound | PosthogOpError;
@@ -16545,6 +16560,8 @@ export const createQueryCheckAuthForAsync: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueryCheckAuthForAsync",
 }));
 
 export type CreateQueryUpgradeError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -16560,6 +16577,8 @@ export const createQueryUpgrade: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueryUpgrade",
 }));
 
 export type CreateQueryWithKindError = Forbidden | NotFound | PosthogOpError;
@@ -16574,6 +16593,8 @@ export const createQueryWithKind: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueryWithKind",
 }));
 
 export type GetQueryError = Forbidden | NotFound | PosthogOpError;
@@ -16589,6 +16610,8 @@ export const getQuery: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuery",
 }));
 
 export type GetQueryDraftSqlError = Forbidden | NotFound | PosthogOpError;
@@ -16603,6 +16626,8 @@ export const getQueryDraftSql: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryDraftSql",
 }));
 
 export type GetQueryLogError = Forbidden | NotFound | PosthogOpError;
@@ -16618,6 +16643,8 @@ export const getQueryLog: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryLog",
 }));
 
 export type GetQueryScanError = NotFound | PosthogOpError;
@@ -16633,6 +16660,8 @@ export const getQueryScan: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryScan",
 }));
 
 export type QueryDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -16648,6 +16677,8 @@ export const queryDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

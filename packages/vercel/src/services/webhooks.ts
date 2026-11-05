@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Webhooks",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -836,6 +850,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteWebhookError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -851,6 +867,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type GetWebhookError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -866,6 +884,8 @@ export const getWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhooksError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -881,6 +901,8 @@ export const getWebhooks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

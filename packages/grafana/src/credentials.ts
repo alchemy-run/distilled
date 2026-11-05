@@ -29,7 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "GrafanaCredentials",
   ) {}
 
@@ -68,5 +68,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: process.env.GRAFANA_URL ?? DEFAULT_API_BASE_URL,
       orgId: process.env.GRAFANA_ORG_ID,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

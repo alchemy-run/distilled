@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codecommit.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeCommit",
+  service: "CodeCommit",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActorDoesNotExistException
   extends /*@__PURE__*/ S.TaggedError<ActorDoesNotExistException>()("ActorDoesNotExistException", {
@@ -2325,7 +2342,7 @@ export type AssociateApprovalRuleTemplateWithRepositoryError =
  * that repository.
  */
 export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
-  AssociateApprovalRuleTemplateWithRepositoryInput,
+  AssociateApprovalRuleTemplateWithRepositoryInput & RegionInput,
   AssociateApprovalRuleTemplateWithRepositoryResponse,
   AssociateApprovalRuleTemplateWithRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2349,6 +2366,8 @@ export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApprovalRuleTemplateWithRepository",
+  telemetry: TELEMETRY,
+  span: "AssociateApprovalRuleTemplateWithRepository",
 }));
 
 export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
@@ -2367,7 +2386,7 @@ export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
  * Creates an association between an approval rule template and one or more specified repositories.
  */
 export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
-  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput & RegionInput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2397,6 +2416,8 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateApprovalRuleTemplateWithRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateApprovalRuleTemplateWithRepositories",
 }));
 
 export type BatchDescribeMergeConflictsError =
@@ -2426,7 +2447,7 @@ export type BatchDescribeMergeConflictsError =
  * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
  */
 export const batchDescribeMergeConflicts: API.OperationMethod<
-  BatchDescribeMergeConflictsInput,
+  BatchDescribeMergeConflictsInput & RegionInput,
   BatchDescribeMergeConflictsOutput,
   BatchDescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient
@@ -2459,6 +2480,8 @@ export const batchDescribeMergeConflicts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeMergeConflicts",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeMergeConflicts",
 }));
 
 export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
@@ -2477,7 +2500,7 @@ export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
  * Removes the association between an approval rule template and one or more specified repositories.
  */
 export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & RegionInput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2507,6 +2530,8 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateApprovalRuleTemplateFromRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateApprovalRuleTemplateFromRepositories",
 }));
 
 export type BatchGetCommitsError =
@@ -2525,7 +2550,7 @@ export type BatchGetCommitsError =
  * Returns information about the contents of one or more commits in a repository.
  */
 export const batchGetCommits: API.OperationMethod<
-  BatchGetCommitsInput,
+  BatchGetCommitsInput & RegionInput,
   BatchGetCommitsOutput,
   BatchGetCommitsError,
   Credentials | HttpClient.HttpClient
@@ -2547,6 +2572,8 @@ export const batchGetCommits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommits",
+  telemetry: TELEMETRY,
+  span: "BatchGetCommits",
 }));
 
 export type BatchGetRepositoriesError =
@@ -2569,7 +2596,7 @@ export type BatchGetRepositoriesError =
  * the repository description on a webpage.
  */
 export const batchGetRepositories: API.OperationMethod<
-  BatchGetRepositoriesInput,
+  BatchGetRepositoriesInput & RegionInput,
   BatchGetRepositoriesOutput,
   BatchGetRepositoriesError,
   Credentials | HttpClient.HttpClient
@@ -2589,6 +2616,8 @@ export const batchGetRepositories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchGetRepositories",
 }));
 
 export type CreateApprovalRuleTemplateError =
@@ -2608,7 +2637,7 @@ export type CreateApprovalRuleTemplateError =
  * AssociateApprovalRuleTemplateWithRepository.
  */
 export const createApprovalRuleTemplate: API.OperationMethod<
-  CreateApprovalRuleTemplateInput,
+  CreateApprovalRuleTemplateInput & RegionInput,
   CreateApprovalRuleTemplateOutput,
   CreateApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2627,6 +2656,8 @@ export const createApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRuleTemplate",
 }));
 
 export type CreateBranchError =
@@ -2651,7 +2682,7 @@ export type CreateBranchError =
  * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
  */
 export const createBranch: API.OperationMethod<
-  CreateBranchInput,
+  CreateBranchInput & RegionInput,
   CreateBranchResponse,
   CreateBranchError,
   Credentials | HttpClient.HttpClient
@@ -2677,6 +2708,8 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateCommitError =
@@ -2723,7 +2756,7 @@ export type CreateCommitError =
  * Creates a commit for a repository on the tip of a specified branch.
  */
 export const createCommit: API.OperationMethod<
-  CreateCommitInput,
+  CreateCommitInput & RegionInput,
   CreateCommitOutput,
   CreateCommitError,
   Credentials | HttpClient.HttpClient
@@ -2773,6 +2806,8 @@ export const createCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCommit",
+  telemetry: TELEMETRY,
+  span: "CreateCommit",
 }));
 
 export type CreatePullRequestError =
@@ -2806,7 +2841,7 @@ export type CreatePullRequestError =
  * Creates a pull request in the specified repository.
  */
 export const createPullRequest: API.OperationMethod<
-  CreatePullRequestInput,
+  CreatePullRequestInput & RegionInput,
   CreatePullRequestOutput,
   CreatePullRequestError,
   Credentials | HttpClient.HttpClient
@@ -2843,6 +2878,8 @@ export const createPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequest",
+  telemetry: TELEMETRY,
+  span: "CreatePullRequest",
 }));
 
 export type CreatePullRequestApprovalRuleError =
@@ -2866,7 +2903,7 @@ export type CreatePullRequestApprovalRuleError =
  * Creates an approval rule for a pull request.
  */
 export const createPullRequestApprovalRule: API.OperationMethod<
-  CreatePullRequestApprovalRuleInput,
+  CreatePullRequestApprovalRuleInput & RegionInput,
   CreatePullRequestApprovalRuleOutput,
   CreatePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -2893,6 +2930,8 @@ export const createPullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequestApprovalRule",
+  telemetry: TELEMETRY,
+  span: "CreatePullRequestApprovalRule",
 }));
 
 export type CreateRepositoryError =
@@ -2918,7 +2957,7 @@ export type CreateRepositoryError =
  * Creates a new, empty repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryInput,
+  CreateRepositoryInput & RegionInput,
   CreateRepositoryOutput,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2947,6 +2986,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type CreateUnreferencedMergeCommitError =
@@ -2997,7 +3038,7 @@ export type CreateUnreferencedMergeCommitError =
  * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
  */
 export const createUnreferencedMergeCommit: API.OperationMethod<
-  CreateUnreferencedMergeCommitInput,
+  CreateUnreferencedMergeCommitInput & RegionInput,
   CreateUnreferencedMergeCommitOutput,
   CreateUnreferencedMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -3045,6 +3086,8 @@ export const createUnreferencedMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUnreferencedMergeCommit",
+  telemetry: TELEMETRY,
+  span: "CreateUnreferencedMergeCommit",
 }));
 
 export type DeleteApprovalRuleTemplateError =
@@ -3056,7 +3099,7 @@ export type DeleteApprovalRuleTemplateError =
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
 export const deleteApprovalRuleTemplate: API.OperationMethod<
-  DeleteApprovalRuleTemplateInput,
+  DeleteApprovalRuleTemplateInput & RegionInput,
   DeleteApprovalRuleTemplateOutput,
   DeleteApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3071,6 +3114,8 @@ export const deleteApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteApprovalRuleTemplate",
 }));
 
 export type DeleteBranchError =
@@ -3090,7 +3135,7 @@ export type DeleteBranchError =
  * Deletes a branch from a repository, unless that branch is the default branch for the repository.
  */
 export const deleteBranch: API.OperationMethod<
-  DeleteBranchInput,
+  DeleteBranchInput & RegionInput,
   DeleteBranchOutput,
   DeleteBranchError,
   Credentials | HttpClient.HttpClient
@@ -3113,6 +3158,8 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteCommentContentError =
@@ -3125,7 +3172,7 @@ export type DeleteCommentContentError =
  * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
 export const deleteCommentContent: API.OperationMethod<
-  DeleteCommentContentInput,
+  DeleteCommentContentInput & RegionInput,
   DeleteCommentContentOutput,
   DeleteCommentContentError,
   Credentials | HttpClient.HttpClient
@@ -3141,6 +3188,8 @@ export const deleteCommentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCommentContent",
+  telemetry: TELEMETRY,
+  span: "DeleteCommentContent",
 }));
 
 export type DeleteFileError =
@@ -3173,7 +3222,7 @@ export type DeleteFileError =
  * that contains the deletion.
  */
 export const deleteFile: API.OperationMethod<
-  DeleteFileInput,
+  DeleteFileInput & RegionInput,
   DeleteFileOutput,
   DeleteFileError,
   Credentials | HttpClient.HttpClient
@@ -3207,6 +3256,8 @@ export const deleteFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFile",
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type DeletePullRequestApprovalRuleError =
@@ -3229,7 +3280,7 @@ export type DeletePullRequestApprovalRuleError =
  * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
  */
 export const deletePullRequestApprovalRule: API.OperationMethod<
-  DeletePullRequestApprovalRuleInput,
+  DeletePullRequestApprovalRuleInput & RegionInput,
   DeletePullRequestApprovalRuleOutput,
   DeletePullRequestApprovalRuleError,
   Credentials | HttpClient.HttpClient
@@ -3253,6 +3304,8 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePullRequestApprovalRule",
+  telemetry: TELEMETRY,
+  span: "DeletePullRequestApprovalRule",
 }));
 
 export type DeleteRepositoryError =
@@ -3272,7 +3325,7 @@ export type DeleteRepositoryError =
  * deleted, all future push calls to the deleted repository fail.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryInput,
+  DeleteRepositoryInput & RegionInput,
   DeleteRepositoryOutput,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3291,6 +3344,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DescribeMergeConflictsError =
@@ -3324,7 +3379,7 @@ export type DescribeMergeConflictsError =
  * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
  */
 export const describeMergeConflicts: API.PaginatedOperationMethod<
-  DescribeMergeConflictsInput,
+  DescribeMergeConflictsInput & RegionInput,
   DescribeMergeConflictsOutput,
   DescribeMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -3365,6 +3420,8 @@ export const describeMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxMergeHunks",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMergeConflicts",
 })) as any;
 
 export type DescribePullRequestEventsError =
@@ -3386,7 +3443,7 @@ export type DescribePullRequestEventsError =
  * Returns information about one or more pull request events.
  */
 export const describePullRequestEvents: API.PaginatedOperationMethod<
-  DescribePullRequestEventsInput,
+  DescribePullRequestEventsInput & RegionInput,
   DescribePullRequestEventsOutput,
   DescribePullRequestEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3417,6 +3474,8 @@ export const describePullRequestEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePullRequestEvents",
 })) as any;
 
 export type DisassociateApprovalRuleTemplateFromRepositoryError =
@@ -3439,7 +3498,7 @@ export type DisassociateApprovalRuleTemplateFromRepositoryError =
  * pull requests through the template association.
  */
 export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
-  DisassociateApprovalRuleTemplateFromRepositoryInput,
+  DisassociateApprovalRuleTemplateFromRepositoryInput & RegionInput,
   DisassociateApprovalRuleTemplateFromRepositoryResponse,
   DisassociateApprovalRuleTemplateFromRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -3466,6 +3525,8 @@ export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApprovalRuleTemplateFromRepository",
+  telemetry: TELEMETRY,
+  span: "DisassociateApprovalRuleTemplateFromRepository",
 }));
 
 export type EvaluatePullRequestApprovalRulesError =
@@ -3485,7 +3546,7 @@ export type EvaluatePullRequestApprovalRulesError =
  * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
  */
 export const evaluatePullRequestApprovalRules: API.OperationMethod<
-  EvaluatePullRequestApprovalRulesInput,
+  EvaluatePullRequestApprovalRulesInput & RegionInput,
   EvaluatePullRequestApprovalRulesOutput,
   EvaluatePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -3508,6 +3569,8 @@ export const evaluatePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluatePullRequestApprovalRules",
+  telemetry: TELEMETRY,
+  span: "EvaluatePullRequestApprovalRules",
 }));
 
 export type GetApprovalRuleTemplateError =
@@ -3519,7 +3582,7 @@ export type GetApprovalRuleTemplateError =
  * Returns information about a specified approval rule template.
  */
 export const getApprovalRuleTemplate: API.OperationMethod<
-  GetApprovalRuleTemplateInput,
+  GetApprovalRuleTemplateInput & RegionInput,
   GetApprovalRuleTemplateOutput,
   GetApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3534,6 +3597,8 @@ export const getApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "GetApprovalRuleTemplate",
 }));
 
 export type GetBlobError =
@@ -3554,7 +3619,7 @@ export type GetBlobError =
  * Returns the base-64 encoded content of an individual blob in a repository.
  */
 export const getBlob: API.OperationMethod<
-  GetBlobInput,
+  GetBlobInput & RegionInput,
   GetBlobOutput,
   GetBlobError,
   Credentials | HttpClient.HttpClient
@@ -3578,6 +3643,8 @@ export const getBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlob",
+  telemetry: TELEMETRY,
+  span: "GetBlob",
 }));
 
 export type GetBlobDifferencesError =
@@ -3608,7 +3675,7 @@ export type GetBlobDifferencesError =
  * For the typical usage workflow, see GetDifferences.
  */
 export const getBlobDifferences: API.PaginatedOperationMethod<
-  GetBlobDifferencesInput,
+  GetBlobDifferencesInput & RegionInput,
   GetBlobDifferencesOutput,
   GetBlobDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3642,6 +3709,8 @@ export const getBlobDifferences: API.PaginatedOperationMethod<
     items: "hunks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBlobDifferences",
 })) as any;
 
 export type GetBranchError =
@@ -3661,7 +3730,7 @@ export type GetBranchError =
  * Returns information about a repository branch, including its name and the last commit ID.
  */
 export const getBranch: API.OperationMethod<
-  GetBranchInput,
+  GetBranchInput & RegionInput,
   GetBranchOutput,
   GetBranchError,
   Credentials | HttpClient.HttpClient
@@ -3684,6 +3753,8 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetCommentError =
@@ -3704,7 +3775,7 @@ export type GetCommentError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getComment: API.OperationMethod<
-  GetCommentInput,
+  GetCommentInput & RegionInput,
   GetCommentOutput,
   GetCommentError,
   Credentials | HttpClient.HttpClient
@@ -3725,6 +3796,8 @@ export const getComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComment",
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetCommentReactionsError =
@@ -3740,7 +3813,7 @@ export type GetCommentReactionsError =
  * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
  */
 export const getCommentReactions: API.PaginatedOperationMethod<
-  GetCommentReactionsInput,
+  GetCommentReactionsInput & RegionInput,
   GetCommentReactionsOutput,
   GetCommentReactionsError,
   Credentials | HttpClient.HttpClient,
@@ -3765,6 +3838,8 @@ export const getCommentReactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentReactions",
 })) as any;
 
 export type GetCommentsForComparedCommitError =
@@ -3789,7 +3864,7 @@ export type GetCommentsForComparedCommitError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
-  GetCommentsForComparedCommitInput,
+  GetCommentsForComparedCommitInput & RegionInput,
   GetCommentsForComparedCommitOutput,
   GetCommentsForComparedCommitError,
   Credentials | HttpClient.HttpClient,
@@ -3820,6 +3895,8 @@ export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentsForComparedCommit",
 })) as any;
 
 export type GetCommentsForPullRequestError =
@@ -3848,7 +3925,7 @@ export type GetCommentsForPullRequestError =
  * reactions from active identities, use GetCommentReactions.
  */
 export const getCommentsForPullRequest: API.PaginatedOperationMethod<
-  GetCommentsForPullRequestInput,
+  GetCommentsForPullRequestInput & RegionInput,
   GetCommentsForPullRequestOutput,
   GetCommentsForPullRequestError,
   Credentials | HttpClient.HttpClient,
@@ -3883,6 +3960,8 @@ export const getCommentsForPullRequest: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentsForPullRequest",
 })) as any;
 
 export type GetCommitError =
@@ -3902,7 +3981,7 @@ export type GetCommitError =
  * Returns information about a commit, including commit message and committer information.
  */
 export const getCommit: API.OperationMethod<
-  GetCommitInput,
+  GetCommitInput & RegionInput,
   GetCommitOutput,
   GetCommitError,
   Credentials | HttpClient.HttpClient
@@ -3925,6 +4004,8 @@ export const getCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommit",
+  telemetry: TELEMETRY,
+  span: "GetCommit",
 }));
 
 export type GetDifferencesError =
@@ -3954,7 +4035,7 @@ export type GetDifferencesError =
  * `afterBlob.blobId` values from a `Difference` object to GetBlobDifferences.
  */
 export const getDifferences: API.PaginatedOperationMethod<
-  GetDifferencesInput,
+  GetDifferencesInput & RegionInput,
   GetDifferencesOutput,
   GetDifferencesError,
   Credentials | HttpClient.HttpClient,
@@ -3988,6 +4069,8 @@ export const getDifferences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDifferences",
 })) as any;
 
 export type GetFileError =
@@ -4010,7 +4093,7 @@ export type GetFileError =
  * Returns the base-64 encoded contents of a specified file and its metadata.
  */
 export const getFile: API.OperationMethod<
-  GetFileInput,
+  GetFileInput & RegionInput,
   GetFileOutput,
   GetFileError,
   Credentials | HttpClient.HttpClient
@@ -4036,6 +4119,8 @@ export const getFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFile",
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetFolderError =
@@ -4057,7 +4142,7 @@ export type GetFolderError =
  * Returns the contents of a specified folder in a repository.
  */
 export const getFolder: API.OperationMethod<
-  GetFolderInput,
+  GetFolderInput & RegionInput,
   GetFolderOutput,
   GetFolderError,
   Credentials | HttpClient.HttpClient
@@ -4082,6 +4167,8 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetMergeCommitError =
@@ -4103,7 +4190,7 @@ export type GetMergeCommitError =
  * Returns information about a specified merge commit.
  */
 export const getMergeCommit: API.OperationMethod<
-  GetMergeCommitInput,
+  GetMergeCommitInput & RegionInput,
   GetMergeCommitOutput,
   GetMergeCommitError,
   Credentials | HttpClient.HttpClient
@@ -4128,6 +4215,8 @@ export const getMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeCommit",
+  telemetry: TELEMETRY,
+  span: "GetMergeCommit",
 }));
 
 export type GetMergeConflictsError =
@@ -4158,7 +4247,7 @@ export type GetMergeConflictsError =
  * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
  */
 export const getMergeConflicts: API.PaginatedOperationMethod<
-  GetMergeConflictsInput,
+  GetMergeConflictsInput & RegionInput,
   GetMergeConflictsOutput,
   GetMergeConflictsError,
   Credentials | HttpClient.HttpClient,
@@ -4198,6 +4287,8 @@ export const getMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxConflictFiles",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMergeConflicts",
 })) as any;
 
 export type GetMergeOptionsError =
@@ -4224,7 +4315,7 @@ export type GetMergeOptionsError =
  * or DescribeMergeConflicts.
  */
 export const getMergeOptions: API.OperationMethod<
-  GetMergeOptionsInput,
+  GetMergeOptionsInput & RegionInput,
   GetMergeOptionsOutput,
   GetMergeOptionsError,
   Credentials | HttpClient.HttpClient
@@ -4252,6 +4343,8 @@ export const getMergeOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeOptions",
+  telemetry: TELEMETRY,
+  span: "GetMergeOptions",
 }));
 
 export type GetPullRequestError =
@@ -4268,7 +4361,7 @@ export type GetPullRequestError =
  * Gets information about a pull request in a specified repository.
  */
 export const getPullRequest: API.OperationMethod<
-  GetPullRequestInput,
+  GetPullRequestInput & RegionInput,
   GetPullRequestOutput,
   GetPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -4288,6 +4381,8 @@ export const getPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequest",
+  telemetry: TELEMETRY,
+  span: "GetPullRequest",
 }));
 
 export type GetPullRequestApprovalStatesError =
@@ -4307,7 +4402,7 @@ export type GetPullRequestApprovalStatesError =
  * approval rules applied to them.
  */
 export const getPullRequestApprovalStates: API.OperationMethod<
-  GetPullRequestApprovalStatesInput,
+  GetPullRequestApprovalStatesInput & RegionInput,
   GetPullRequestApprovalStatesOutput,
   GetPullRequestApprovalStatesError,
   Credentials | HttpClient.HttpClient
@@ -4329,6 +4424,8 @@ export const getPullRequestApprovalStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestApprovalStates",
+  telemetry: TELEMETRY,
+  span: "GetPullRequestApprovalStates",
 }));
 
 export type GetPullRequestOverrideStateError =
@@ -4348,7 +4445,7 @@ export type GetPullRequestOverrideStateError =
  * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
  */
 export const getPullRequestOverrideState: API.OperationMethod<
-  GetPullRequestOverrideStateInput,
+  GetPullRequestOverrideStateInput & RegionInput,
   GetPullRequestOverrideStateOutput,
   GetPullRequestOverrideStateError,
   Credentials | HttpClient.HttpClient
@@ -4370,6 +4467,8 @@ export const getPullRequestOverrideState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestOverrideState",
+  telemetry: TELEMETRY,
+  span: "GetPullRequestOverrideState",
 }));
 
 export type GetRepositoryError =
@@ -4392,7 +4491,7 @@ export type GetRepositoryError =
  * the repository description on a webpage.
  */
 export const getRepository: API.OperationMethod<
-  GetRepositoryInput,
+  GetRepositoryInput & RegionInput,
   GetRepositoryOutput,
   GetRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -4412,6 +4511,8 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRepositoryTriggersError =
@@ -4428,7 +4529,7 @@ export type GetRepositoryTriggersError =
  * Gets information about triggers configured for a repository.
  */
 export const getRepositoryTriggers: API.OperationMethod<
-  GetRepositoryTriggersInput,
+  GetRepositoryTriggersInput & RegionInput,
   GetRepositoryTriggersOutput,
   GetRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -4448,6 +4549,8 @@ export const getRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryTriggers",
 }));
 
 export type ListApprovalRuleTemplatesError =
@@ -4459,7 +4562,7 @@ export type ListApprovalRuleTemplatesError =
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
  */
 export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
-  ListApprovalRuleTemplatesInput,
+  ListApprovalRuleTemplatesInput & RegionInput,
   ListApprovalRuleTemplatesOutput,
   ListApprovalRuleTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4476,6 +4579,8 @@ export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovalRuleTemplates",
 })) as any;
 
 export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
@@ -4494,7 +4599,7 @@ export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
  * Lists all approval rule templates that are associated with a specified repository.
  */
 export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOperationMethod<
-  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput & RegionInput,
   ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
   ListAssociatedApprovalRuleTemplatesForRepositoryError,
   Credentials | HttpClient.HttpClient,
@@ -4530,6 +4635,8 @@ export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOper
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedApprovalRuleTemplatesForRepository",
 })) as any;
 
 export type ListBranchesError =
@@ -4547,7 +4654,7 @@ export type ListBranchesError =
  * Gets information about one or more branches in a repository.
  */
 export const listBranches: API.PaginatedOperationMethod<
-  ListBranchesInput,
+  ListBranchesInput & RegionInput,
   ListBranchesOutput,
   ListBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -4570,6 +4677,8 @@ export const listBranches: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBranches",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "branches" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 })) as any;
 
 export type ListFileCommitHistoryError =
@@ -4592,7 +4701,7 @@ export type ListFileCommitHistoryError =
  * Retrieves a list of commits and changes to a specified file.
  */
 export const listFileCommitHistory: API.PaginatedOperationMethod<
-  ListFileCommitHistoryRequest,
+  ListFileCommitHistoryRequest & RegionInput,
   ListFileCommitHistoryResponse,
   ListFileCommitHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4624,6 +4733,8 @@ export const listFileCommitHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFileCommitHistory",
 })) as any;
 
 export type ListPullRequestsError =
@@ -4646,7 +4757,7 @@ export type ListPullRequestsError =
  * status or pull request author ARN.
  */
 export const listPullRequests: API.PaginatedOperationMethod<
-  ListPullRequestsInput,
+  ListPullRequestsInput & RegionInput,
   ListPullRequestsOutput,
   ListPullRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4677,6 +4788,8 @@ export const listPullRequests: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPullRequests",
 })) as any;
 
 export type ListRepositoriesError =
@@ -4688,7 +4801,7 @@ export type ListRepositoriesError =
  * Gets information about one or more repositories.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesInput,
+  ListRepositoriesInput & RegionInput,
   ListRepositoriesOutput,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -4701,6 +4814,8 @@ export const listRepositories: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRepositories",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "repositories" } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositoriesForApprovalRuleTemplateError =
@@ -4719,7 +4834,7 @@ export type ListRepositoriesForApprovalRuleTemplateError =
  * Lists all repositories associated with the specified approval rule template.
  */
 export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMethod<
-  ListRepositoriesForApprovalRuleTemplateInput,
+  ListRepositoriesForApprovalRuleTemplateInput & RegionInput,
   ListRepositoriesForApprovalRuleTemplateOutput,
   ListRepositoriesForApprovalRuleTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -4747,6 +4862,8 @@ export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMeth
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoriesForApprovalRuleTemplate",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4760,7 +4877,7 @@ export type ListTagsForResourceError =
  * Guide.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4776,6 +4893,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type MergeBranchesByFastForwardError =
@@ -4803,7 +4922,7 @@ export type MergeBranchesByFastForwardError =
  * Merges two branches using the fast-forward merge strategy.
  */
 export const mergeBranchesByFastForward: API.OperationMethod<
-  MergeBranchesByFastForwardInput,
+  MergeBranchesByFastForwardInput & RegionInput,
   MergeBranchesByFastForwardOutput,
   MergeBranchesByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -4834,6 +4953,8 @@ export const mergeBranchesByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByFastForward",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesByFastForward",
 }));
 
 export type MergeBranchesBySquashError =
@@ -4881,7 +5002,7 @@ export type MergeBranchesBySquashError =
  * Merges two branches using the squash merge strategy.
  */
 export const mergeBranchesBySquash: API.OperationMethod<
-  MergeBranchesBySquashInput,
+  MergeBranchesBySquashInput & RegionInput,
   MergeBranchesBySquashOutput,
   MergeBranchesBySquashError,
   Credentials | HttpClient.HttpClient
@@ -4932,6 +5053,8 @@ export const mergeBranchesBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesBySquash",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesBySquash",
 }));
 
 export type MergeBranchesByThreeWayError =
@@ -4979,7 +5102,7 @@ export type MergeBranchesByThreeWayError =
  * Merges two specified branches using the three-way merge strategy.
  */
 export const mergeBranchesByThreeWay: API.OperationMethod<
-  MergeBranchesByThreeWayInput,
+  MergeBranchesByThreeWayInput & RegionInput,
   MergeBranchesByThreeWayOutput,
   MergeBranchesByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5030,6 +5153,8 @@ export const mergeBranchesByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByThreeWay",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesByThreeWay",
 }));
 
 export type MergePullRequestByFastForwardError =
@@ -5058,7 +5183,7 @@ export type MergePullRequestByFastForwardError =
  * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByFastForward: API.OperationMethod<
-  MergePullRequestByFastForwardInput,
+  MergePullRequestByFastForwardInput & RegionInput,
   MergePullRequestByFastForwardOutput,
   MergePullRequestByFastForwardError,
   Credentials | HttpClient.HttpClient
@@ -5089,6 +5214,8 @@ export const mergePullRequestByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByFastForward",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestByFastForward",
 }));
 
 export type MergePullRequestBySquashError =
@@ -5136,7 +5263,7 @@ export type MergePullRequestBySquashError =
  * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestBySquash: API.OperationMethod<
-  MergePullRequestBySquashInput,
+  MergePullRequestBySquashInput & RegionInput,
   MergePullRequestBySquashOutput,
   MergePullRequestBySquashError,
   Credentials | HttpClient.HttpClient
@@ -5186,6 +5313,8 @@ export const mergePullRequestBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestBySquash",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestBySquash",
 }));
 
 export type MergePullRequestByThreeWayError =
@@ -5233,7 +5362,7 @@ export type MergePullRequestByThreeWayError =
  * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
  */
 export const mergePullRequestByThreeWay: API.OperationMethod<
-  MergePullRequestByThreeWayInput,
+  MergePullRequestByThreeWayInput & RegionInput,
   MergePullRequestByThreeWayOutput,
   MergePullRequestByThreeWayError,
   Credentials | HttpClient.HttpClient
@@ -5283,6 +5412,8 @@ export const mergePullRequestByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByThreeWay",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestByThreeWay",
 }));
 
 export type OverridePullRequestApprovalRulesError =
@@ -5306,7 +5437,7 @@ export type OverridePullRequestApprovalRulesError =
  * Sets aside (overrides) all approval rule requirements for a specified pull request.
  */
 export const overridePullRequestApprovalRules: API.OperationMethod<
-  OverridePullRequestApprovalRulesInput,
+  OverridePullRequestApprovalRulesInput & RegionInput,
   OverridePullRequestApprovalRulesResponse,
   OverridePullRequestApprovalRulesError,
   Credentials | HttpClient.HttpClient
@@ -5333,6 +5464,8 @@ export const overridePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OverridePullRequestApprovalRules",
+  telemetry: TELEMETRY,
+  span: "OverridePullRequestApprovalRules",
 }));
 
 export type PostCommentForComparedCommitError =
@@ -5364,7 +5497,7 @@ export type PostCommentForComparedCommitError =
  * Posts a comment on the comparison between two commits.
  */
 export const postCommentForComparedCommit: API.OperationMethod<
-  PostCommentForComparedCommitInput,
+  PostCommentForComparedCommitInput & RegionInput,
   PostCommentForComparedCommitOutput,
   PostCommentForComparedCommitError,
   Credentials | HttpClient.HttpClient
@@ -5399,6 +5532,8 @@ export const postCommentForComparedCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForComparedCommit",
+  telemetry: TELEMETRY,
+  span: "PostCommentForComparedCommit",
 }));
 
 export type PostCommentForPullRequestError =
@@ -5434,7 +5569,7 @@ export type PostCommentForPullRequestError =
  * Posts a comment on a pull request.
  */
 export const postCommentForPullRequest: API.OperationMethod<
-  PostCommentForPullRequestInput,
+  PostCommentForPullRequestInput & RegionInput,
   PostCommentForPullRequestOutput,
   PostCommentForPullRequestError,
   Credentials | HttpClient.HttpClient
@@ -5473,6 +5608,8 @@ export const postCommentForPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForPullRequest",
+  telemetry: TELEMETRY,
+  span: "PostCommentForPullRequest",
 }));
 
 export type PostCommentReplyError =
@@ -5489,7 +5626,7 @@ export type PostCommentReplyError =
  * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
  */
 export const postCommentReply: API.OperationMethod<
-  PostCommentReplyInput,
+  PostCommentReplyInput & RegionInput,
   PostCommentReplyOutput,
   PostCommentReplyError,
   Credentials | HttpClient.HttpClient
@@ -5509,6 +5646,8 @@ export const postCommentReply: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentReply",
+  telemetry: TELEMETRY,
+  span: "PostCommentReply",
 }));
 
 export type PutCommentReactionError =
@@ -5525,7 +5664,7 @@ export type PutCommentReactionError =
  * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
  */
 export const putCommentReaction: API.OperationMethod<
-  PutCommentReactionInput,
+  PutCommentReactionInput & RegionInput,
   PutCommentReactionResponse,
   PutCommentReactionError,
   Credentials | HttpClient.HttpClient
@@ -5544,6 +5683,8 @@ export const putCommentReaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCommentReaction",
+  telemetry: TELEMETRY,
+  span: "PutCommentReaction",
 }));
 
 export type PutFileError =
@@ -5582,7 +5723,7 @@ export type PutFileError =
  * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
  */
 export const putFile: API.OperationMethod<
-  PutFileInput,
+  PutFileInput & RegionInput,
   PutFileOutput,
   PutFileError,
   Credentials | HttpClient.HttpClient
@@ -5624,6 +5765,8 @@ export const putFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFile",
+  telemetry: TELEMETRY,
+  span: "PutFile",
 }));
 
 export type PutRepositoryTriggersError =
@@ -5653,7 +5796,7 @@ export type PutRepositoryTriggersError =
  * Replaces all triggers for a repository. Used to create or delete triggers.
  */
 export const putRepositoryTriggers: API.OperationMethod<
-  PutRepositoryTriggersInput,
+  PutRepositoryTriggersInput & RegionInput,
   PutRepositoryTriggersOutput,
   PutRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5686,6 +5829,8 @@ export const putRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryTriggers",
 }));
 
 export type TagResourceError =
@@ -5705,7 +5850,7 @@ export type TagResourceError =
  * Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5726,6 +5871,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestRepositoryTriggersError =
@@ -5757,7 +5904,7 @@ export type TestRepositoryTriggersError =
  * commit. If no data is available, sample data is generated.
  */
 export const testRepositoryTriggers: API.OperationMethod<
-  TestRepositoryTriggersInput,
+  TestRepositoryTriggersInput & RegionInput,
   TestRepositoryTriggersOutput,
   TestRepositoryTriggersError,
   Credentials | HttpClient.HttpClient
@@ -5790,6 +5937,8 @@ export const testRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "TestRepositoryTriggers",
 }));
 
 export type UntagResourceError =
@@ -5808,7 +5957,7 @@ export type UntagResourceError =
  * Guide.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5829,6 +5978,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApprovalRuleTemplateContentError =
@@ -5845,7 +5996,7 @@ export type UpdateApprovalRuleTemplateContentError =
  * defined.
  */
 export const updateApprovalRuleTemplateContent: API.OperationMethod<
-  UpdateApprovalRuleTemplateContentInput,
+  UpdateApprovalRuleTemplateContentInput & RegionInput,
   UpdateApprovalRuleTemplateContentOutput,
   UpdateApprovalRuleTemplateContentError,
   Credentials | HttpClient.HttpClient
@@ -5863,6 +6014,8 @@ export const updateApprovalRuleTemplateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateContent",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateContent",
 }));
 
 export type UpdateApprovalRuleTemplateDescriptionError =
@@ -5875,7 +6028,7 @@ export type UpdateApprovalRuleTemplateDescriptionError =
  * Updates the description for a specified approval rule template.
  */
 export const updateApprovalRuleTemplateDescription: API.OperationMethod<
-  UpdateApprovalRuleTemplateDescriptionInput,
+  UpdateApprovalRuleTemplateDescriptionInput & RegionInput,
   UpdateApprovalRuleTemplateDescriptionOutput,
   UpdateApprovalRuleTemplateDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -5891,6 +6044,8 @@ export const updateApprovalRuleTemplateDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateDescription",
 }));
 
 export type UpdateApprovalRuleTemplateNameError =
@@ -5903,7 +6058,7 @@ export type UpdateApprovalRuleTemplateNameError =
  * Updates the name of a specified approval rule template.
  */
 export const updateApprovalRuleTemplateName: API.OperationMethod<
-  UpdateApprovalRuleTemplateNameInput,
+  UpdateApprovalRuleTemplateNameInput & RegionInput,
   UpdateApprovalRuleTemplateNameOutput,
   UpdateApprovalRuleTemplateNameError,
   Credentials | HttpClient.HttpClient
@@ -5919,6 +6074,8 @@ export const updateApprovalRuleTemplateName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateName",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateName",
 }));
 
 export type UpdateCommentError =
@@ -5934,7 +6091,7 @@ export type UpdateCommentError =
  * Replaces the contents of a comment.
  */
 export const updateComment: API.OperationMethod<
-  UpdateCommentInput,
+  UpdateCommentInput & RegionInput,
   UpdateCommentOutput,
   UpdateCommentError,
   Credentials | HttpClient.HttpClient
@@ -5953,6 +6110,8 @@ export const updateComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComment",
+  telemetry: TELEMETRY,
+  span: "UpdateComment",
 }));
 
 export type UpdateDefaultBranchError =
@@ -5974,7 +6133,7 @@ export type UpdateDefaultBranchError =
  * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
  */
 export const updateDefaultBranch: API.OperationMethod<
-  UpdateDefaultBranchInput,
+  UpdateDefaultBranchInput & RegionInput,
   UpdateDefaultBranchResponse,
   UpdateDefaultBranchError,
   Credentials | HttpClient.HttpClient
@@ -5997,6 +6156,8 @@ export const updateDefaultBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultBranch",
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultBranch",
 }));
 
 export type UpdatePullRequestApprovalRuleContentError =
@@ -6022,7 +6183,7 @@ export type UpdatePullRequestApprovalRuleContentError =
  * the approval pool for approvers.
  */
 export const updatePullRequestApprovalRuleContent: API.OperationMethod<
-  UpdatePullRequestApprovalRuleContentInput,
+  UpdatePullRequestApprovalRuleContentInput & RegionInput,
   UpdatePullRequestApprovalRuleContentOutput,
   UpdatePullRequestApprovalRuleContentError,
   Credentials | HttpClient.HttpClient
@@ -6050,6 +6211,8 @@ export const updatePullRequestApprovalRuleContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalRuleContent",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestApprovalRuleContent",
 }));
 
 export type UpdatePullRequestApprovalStateError =
@@ -6074,7 +6237,7 @@ export type UpdatePullRequestApprovalStateError =
  * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
  */
 export const updatePullRequestApprovalState: API.OperationMethod<
-  UpdatePullRequestApprovalStateInput,
+  UpdatePullRequestApprovalStateInput & RegionInput,
   UpdatePullRequestApprovalStateResponse,
   UpdatePullRequestApprovalStateError,
   Credentials | HttpClient.HttpClient
@@ -6102,6 +6265,8 @@ export const updatePullRequestApprovalState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalState",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestApprovalState",
 }));
 
 export type UpdatePullRequestDescriptionError =
@@ -6115,7 +6280,7 @@ export type UpdatePullRequestDescriptionError =
  * Replaces the contents of the description of a pull request.
  */
 export const updatePullRequestDescription: API.OperationMethod<
-  UpdatePullRequestDescriptionInput,
+  UpdatePullRequestDescriptionInput & RegionInput,
   UpdatePullRequestDescriptionOutput,
   UpdatePullRequestDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6132,6 +6297,8 @@ export const updatePullRequestDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestDescription",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestDescription",
 }));
 
 export type UpdatePullRequestStatusError =
@@ -6151,7 +6318,7 @@ export type UpdatePullRequestStatusError =
  * Updates the status of a pull request.
  */
 export const updatePullRequestStatus: API.OperationMethod<
-  UpdatePullRequestStatusInput,
+  UpdatePullRequestStatusInput & RegionInput,
   UpdatePullRequestStatusOutput,
   UpdatePullRequestStatusError,
   Credentials | HttpClient.HttpClient
@@ -6174,6 +6341,8 @@ export const updatePullRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestStatus",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestStatus",
 }));
 
 export type UpdatePullRequestTitleError =
@@ -6188,7 +6357,7 @@ export type UpdatePullRequestTitleError =
  * Replaces the title of a pull request.
  */
 export const updatePullRequestTitle: API.OperationMethod<
-  UpdatePullRequestTitleInput,
+  UpdatePullRequestTitleInput & RegionInput,
   UpdatePullRequestTitleOutput,
   UpdatePullRequestTitleError,
   Credentials | HttpClient.HttpClient
@@ -6206,6 +6375,8 @@ export const updatePullRequestTitle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestTitle",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestTitle",
 }));
 
 export type UpdateRepositoryDescriptionError =
@@ -6229,7 +6400,7 @@ export type UpdateRepositoryDescriptionError =
  * the repository description on a webpage.
  */
 export const updateRepositoryDescription: API.OperationMethod<
-  UpdateRepositoryDescriptionInput,
+  UpdateRepositoryDescriptionInput & RegionInput,
   UpdateRepositoryDescriptionResponse,
   UpdateRepositoryDescriptionError,
   Credentials | HttpClient.HttpClient
@@ -6250,6 +6421,8 @@ export const updateRepositoryDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryDescription",
 }));
 
 export type UpdateRepositoryEncryptionKeyError =
@@ -6269,7 +6442,7 @@ export type UpdateRepositoryEncryptionKeyError =
  * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
  */
 export const updateRepositoryEncryptionKey: API.OperationMethod<
-  UpdateRepositoryEncryptionKeyInput,
+  UpdateRepositoryEncryptionKeyInput & RegionInput,
   UpdateRepositoryEncryptionKeyOutput,
   UpdateRepositoryEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -6292,6 +6465,8 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryEncryptionKey",
 }));
 
 export type UpdateRepositoryNameError =
@@ -6308,7 +6483,7 @@ export type UpdateRepositoryNameError =
  * User Guide.
  */
 export const updateRepositoryName: API.OperationMethod<
-  UpdateRepositoryNameInput,
+  UpdateRepositoryNameInput & RegionInput,
   UpdateRepositoryNameResponse,
   UpdateRepositoryNameError,
   Credentials | HttpClient.HttpClient
@@ -6324,6 +6499,8 @@ export const updateRepositoryName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryName",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryName",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

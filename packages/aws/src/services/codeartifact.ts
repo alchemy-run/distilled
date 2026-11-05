@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeartifact.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "codeartifact",
+  service: "codeartifact",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1008,7 +1024,7 @@ export type AssociateExternalConnectionError =
  * A repository can have one or more upstream repositories, or an external connection.
  */
 export const associateExternalConnection: API.OperationMethod<
-  AssociateExternalConnectionRequest,
+  AssociateExternalConnectionRequest & RegionInput,
   AssociateExternalConnectionResult,
   AssociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1027,6 +1043,8 @@ export const associateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateExternalConnection",
+  telemetry: TELEMETRY,
+  span: "AssociateExternalConnection",
 }));
 
 export type CopyPackageVersionsError =
@@ -1044,7 +1062,7 @@ export type CopyPackageVersionsError =
  * You must specify `versions` or `versionRevisions`. You cannot specify both.
  */
 export const copyPackageVersions: API.OperationMethod<
-  CopyPackageVersionsRequest,
+  CopyPackageVersionsRequest & RegionInput,
   CopyPackageVersionsResult,
   CopyPackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1063,6 +1081,8 @@ export const copyPackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyPackageVersions",
+  telemetry: TELEMETRY,
+  span: "CopyPackageVersions",
 }));
 
 export type CreateDomainError =
@@ -1085,7 +1105,7 @@ export type CreateDomainError =
  * pre-production domain to test changes to the production domain configuration.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResult,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1104,6 +1124,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreatePackageGroupError =
@@ -1119,7 +1141,7 @@ export type CreatePackageGroupError =
  * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
  */
 export const createPackageGroup: API.OperationMethod<
-  CreatePackageGroupRequest,
+  CreatePackageGroupRequest & RegionInput,
   CreatePackageGroupResult,
   CreatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1138,6 +1160,8 @@ export const createPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackageGroup",
+  telemetry: TELEMETRY,
+  span: "CreatePackageGroup",
 }));
 
 export type CreateRepositoryError =
@@ -1153,7 +1177,7 @@ export type CreateRepositoryError =
  * Creates a repository.
  */
 export const createRepository: API.OperationMethod<
-  CreateRepositoryRequest,
+  CreateRepositoryRequest & RegionInput,
   CreateRepositoryResult,
   CreateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1172,6 +1196,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DeleteDomainError =
@@ -1186,7 +1212,7 @@ export type DeleteDomainError =
  * with repositories, first delete its repositories.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResult,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1229,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainPermissionsPolicyError =
@@ -1217,7 +1245,7 @@ export type DeleteDomainPermissionsPolicyError =
  * Deletes the resource policy set on a domain.
  */
 export const deleteDomainPermissionsPolicy: API.OperationMethod<
-  DeleteDomainPermissionsPolicyRequest,
+  DeleteDomainPermissionsPolicyRequest & RegionInput,
   DeleteDomainPermissionsPolicyResult,
   DeleteDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1235,6 +1263,8 @@ export const deleteDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainPermissionsPolicy",
 }));
 
 export type DeletePackageError =
@@ -1250,7 +1280,7 @@ export type DeletePackageError =
  * DeletePackageVersions API.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResult,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
@@ -1268,6 +1298,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeletePackageGroupError =
@@ -1287,7 +1319,7 @@ export type DeletePackageGroupError =
  * from the parent, those settings could change.
  */
 export const deletePackageGroup: API.OperationMethod<
-  DeletePackageGroupRequest,
+  DeletePackageGroupRequest & RegionInput,
   DeletePackageGroupResult,
   DeletePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1306,6 +1338,8 @@ export const deletePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageGroup",
+  telemetry: TELEMETRY,
+  span: "DeletePackageGroup",
 }));
 
 export type DeletePackageVersionsError =
@@ -1324,7 +1358,7 @@ export type DeletePackageVersionsError =
  * ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
  */
 export const deletePackageVersions: API.OperationMethod<
-  DeletePackageVersionsRequest,
+  DeletePackageVersionsRequest & RegionInput,
   DeletePackageVersionsResult,
   DeletePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1342,6 +1376,8 @@ export const deletePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageVersions",
+  telemetry: TELEMETRY,
+  span: "DeletePackageVersions",
 }));
 
 export type DeleteRepositoryError =
@@ -1356,7 +1392,7 @@ export type DeleteRepositoryError =
  * Deletes a repository.
  */
 export const deleteRepository: API.OperationMethod<
-  DeleteRepositoryRequest,
+  DeleteRepositoryRequest & RegionInput,
   DeleteRepositoryResult,
   DeleteRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1374,6 +1410,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryPermissionsPolicyError =
@@ -1392,7 +1430,7 @@ export type DeleteRepositoryPermissionsPolicyError =
  * the repository actions granted by the deleted policy.
  */
 export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
-  DeleteRepositoryPermissionsPolicyRequest,
+  DeleteRepositoryPermissionsPolicyRequest & RegionInput,
   DeleteRepositoryPermissionsPolicyResult,
   DeleteRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1410,6 +1448,8 @@ export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryPermissionsPolicy",
 }));
 
 export type DescribeDomainError =
@@ -1425,7 +1465,7 @@ export type DescribeDomainError =
  * object that contains information about the requested domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResult,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -1442,6 +1482,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribePackageError =
@@ -1457,7 +1499,7 @@ export type DescribePackageError =
  * object that contains information about the requested package.
  */
 export const describePackage: API.OperationMethod<
-  DescribePackageRequest,
+  DescribePackageRequest & RegionInput,
   DescribePackageResult,
   DescribePackageError,
   Credentials | HttpClient.HttpClient
@@ -1474,6 +1516,8 @@ export const describePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackage",
+  telemetry: TELEMETRY,
+  span: "DescribePackage",
 }));
 
 export type DescribePackageGroupError =
@@ -1488,7 +1532,7 @@ export type DescribePackageGroupError =
  * contains information about the requested package group.
  */
 export const describePackageGroup: API.OperationMethod<
-  DescribePackageGroupRequest,
+  DescribePackageGroupRequest & RegionInput,
   DescribePackageGroupResult,
   DescribePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1505,6 +1549,8 @@ export const describePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageGroup",
+  telemetry: TELEMETRY,
+  span: "DescribePackageGroup",
 }));
 
 export type DescribePackageVersionError =
@@ -1521,7 +1567,7 @@ export type DescribePackageVersionError =
  * object that contains information about the requested package version.
  */
 export const describePackageVersion: API.OperationMethod<
-  DescribePackageVersionRequest,
+  DescribePackageVersionRequest & RegionInput,
   DescribePackageVersionResult,
   DescribePackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -1539,6 +1585,8 @@ export const describePackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageVersion",
+  telemetry: TELEMETRY,
+  span: "DescribePackageVersion",
 }));
 
 export type DescribeRepositoryError =
@@ -1553,7 +1601,7 @@ export type DescribeRepositoryError =
  * about the requested repository.
  */
 export const describeRepository: API.OperationMethod<
-  DescribeRepositoryRequest,
+  DescribeRepositoryRequest & RegionInput,
   DescribeRepositoryResult,
   DescribeRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -1570,6 +1618,8 @@ export const describeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepository",
+  telemetry: TELEMETRY,
+  span: "DescribeRepository",
 }));
 
 export type DisassociateExternalConnectionError =
@@ -1585,7 +1635,7 @@ export type DisassociateExternalConnectionError =
  * Removes an existing external connection from a repository.
  */
 export const disassociateExternalConnection: API.OperationMethod<
-  DisassociateExternalConnectionRequest,
+  DisassociateExternalConnectionRequest & RegionInput,
   DisassociateExternalConnectionResult,
   DisassociateExternalConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1604,6 +1654,8 @@ export const disassociateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateExternalConnection",
+  telemetry: TELEMETRY,
+  span: "DisassociateExternalConnection",
 }));
 
 export type DisposePackageVersionsError =
@@ -1625,7 +1677,7 @@ export type DisposePackageVersionsError =
  * To view information about a disposed package version, use DescribePackageVersion.
  */
 export const disposePackageVersions: API.OperationMethod<
-  DisposePackageVersionsRequest,
+  DisposePackageVersionsRequest & RegionInput,
   DisposePackageVersionsResult,
   DisposePackageVersionsError,
   Credentials | HttpClient.HttpClient
@@ -1643,6 +1695,8 @@ export const disposePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisposePackageVersions",
+  telemetry: TELEMETRY,
+  span: "DisposePackageVersions",
 }));
 
 export type GetAssociatedPackageGroupError =
@@ -1661,7 +1715,7 @@ export type GetAssociatedPackageGroupError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const getAssociatedPackageGroup: API.OperationMethod<
-  GetAssociatedPackageGroupRequest,
+  GetAssociatedPackageGroupRequest & RegionInput,
   GetAssociatedPackageGroupResult,
   GetAssociatedPackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -1677,6 +1731,8 @@ export const getAssociatedPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedPackageGroup",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedPackageGroup",
 }));
 
 export type GetAuthorizationTokenError =
@@ -1709,7 +1765,7 @@ export type GetAuthorizationTokenError =
  * for more information on controlling session duration.
  */
 export const getAuthorizationToken: API.OperationMethod<
-  GetAuthorizationTokenRequest,
+  GetAuthorizationTokenRequest & RegionInput,
   GetAuthorizationTokenResult,
   GetAuthorizationTokenError,
   Credentials | HttpClient.HttpClient
@@ -1726,6 +1782,8 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationToken",
 }));
 
 export type GetDomainPermissionsPolicyError =
@@ -1743,7 +1801,7 @@ export type GetDomainPermissionsPolicyError =
  * and resource-based policies in the *IAM User Guide*.
  */
 export const getDomainPermissionsPolicy: API.OperationMethod<
-  GetDomainPermissionsPolicyRequest,
+  GetDomainPermissionsPolicyRequest & RegionInput,
   GetDomainPermissionsPolicyResult,
   GetDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1760,6 +1818,8 @@ export const getDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDomainPermissionsPolicy",
 }));
 
 export type GetPackageVersionAssetError =
@@ -1776,7 +1836,7 @@ export type GetPackageVersionAssetError =
  * or any other assets in the package version.
  */
 export const getPackageVersionAsset: API.OperationMethod<
-  GetPackageVersionAssetRequest,
+  GetPackageVersionAssetRequest & RegionInput,
   GetPackageVersionAssetResult,
   GetPackageVersionAssetError,
   Credentials | HttpClient.HttpClient
@@ -1794,6 +1854,8 @@ export const getPackageVersionAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionAsset",
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionAsset",
 }));
 
 export type GetPackageVersionReadmeError =
@@ -1809,7 +1871,7 @@ export type GetPackageVersionReadmeError =
  * The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
  */
 export const getPackageVersionReadme: API.OperationMethod<
-  GetPackageVersionReadmeRequest,
+  GetPackageVersionReadmeRequest & RegionInput,
   GetPackageVersionReadmeResult,
   GetPackageVersionReadmeError,
   Credentials | HttpClient.HttpClient
@@ -1826,6 +1888,8 @@ export const getPackageVersionReadme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionReadme",
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionReadme",
 }));
 
 export type GetRepositoryEndpointError =
@@ -1856,7 +1920,7 @@ export type GetRepositoryEndpointError =
  * - `swift`
  */
 export const getRepositoryEndpoint: API.OperationMethod<
-  GetRepositoryEndpointRequest,
+  GetRepositoryEndpointRequest & RegionInput,
   GetRepositoryEndpointResult,
   GetRepositoryEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1873,6 +1937,8 @@ export const getRepositoryEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryEndpoint",
 }));
 
 export type GetRepositoryPermissionsPolicyError =
@@ -1886,7 +1952,7 @@ export type GetRepositoryPermissionsPolicyError =
  * Returns the resource policy that is set on a repository.
  */
 export const getRepositoryPermissionsPolicy: API.OperationMethod<
-  GetRepositoryPermissionsPolicyRequest,
+  GetRepositoryPermissionsPolicyRequest & RegionInput,
   GetRepositoryPermissionsPolicyResult,
   GetRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1903,6 +1969,8 @@ export const getRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryPermissionsPolicy",
 }));
 
 export type ListAllowedRepositoriesForGroupError =
@@ -1918,7 +1986,7 @@ export type ListAllowedRepositoriesForGroupError =
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
  */
 export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
-  ListAllowedRepositoriesForGroupRequest,
+  ListAllowedRepositoriesForGroupRequest & RegionInput,
   ListAllowedRepositoriesForGroupResult,
   ListAllowedRepositoriesForGroupError,
   Credentials | HttpClient.HttpClient,
@@ -1943,6 +2011,8 @@ export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
     items: "allowedRepositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAllowedRepositoriesForGroup",
 })) as any;
 
 export type ListAssociatedPackagesError =
@@ -1957,7 +2027,7 @@ export type ListAssociatedPackagesError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listAssociatedPackages: API.PaginatedOperationMethod<
-  ListAssociatedPackagesRequest,
+  ListAssociatedPackagesRequest & RegionInput,
   ListAssociatedPackagesResult,
   ListAssociatedPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -1980,6 +2050,8 @@ export const listAssociatedPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedPackages",
 })) as any;
 
 export type ListDomainsError =
@@ -1994,7 +2066,7 @@ export type ListDomainsError =
  * domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResult,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2017,6 +2089,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListPackageGroupsError =
@@ -2030,7 +2104,7 @@ export type ListPackageGroupsError =
  * Returns a list of package groups in the requested domain.
  */
 export const listPackageGroups: API.PaginatedOperationMethod<
-  ListPackageGroupsRequest,
+  ListPackageGroupsRequest & RegionInput,
   ListPackageGroupsResult,
   ListPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2054,6 +2128,8 @@ export const listPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageGroups",
 })) as any;
 
 export type ListPackagesError =
@@ -2069,7 +2145,7 @@ export type ListPackagesError =
  * objects for packages in a repository that match the request parameters.
  */
 export const listPackages: API.PaginatedOperationMethod<
-  ListPackagesRequest,
+  ListPackagesRequest & RegionInput,
   ListPackagesResult,
   ListPackagesError,
   Credentials | HttpClient.HttpClient,
@@ -2093,6 +2169,8 @@ export const listPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackages",
 })) as any;
 
 export type ListPackageVersionAssetsError =
@@ -2108,7 +2186,7 @@ export type ListPackageVersionAssetsError =
  * objects for assets in a package version.
  */
 export const listPackageVersionAssets: API.PaginatedOperationMethod<
-  ListPackageVersionAssetsRequest,
+  ListPackageVersionAssetsRequest & RegionInput,
   ListPackageVersionAssetsResult,
   ListPackageVersionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -2132,6 +2210,8 @@ export const listPackageVersionAssets: API.PaginatedOperationMethod<
     items: "assets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageVersionAssets",
 })) as any;
 
 export type ListPackageVersionDependenciesError =
@@ -2149,7 +2229,7 @@ export type ListPackageVersionDependenciesError =
  * for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
  */
 export const listPackageVersionDependencies: API.OperationMethod<
-  ListPackageVersionDependenciesRequest,
+  ListPackageVersionDependenciesRequest & RegionInput,
   ListPackageVersionDependenciesResult,
   ListPackageVersionDependenciesError,
   Credentials | HttpClient.HttpClient
@@ -2166,6 +2246,8 @@ export const listPackageVersionDependencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPackageVersionDependencies",
+  telemetry: TELEMETRY,
+  span: "ListPackageVersionDependencies",
 }));
 
 export type ListPackageVersionsError =
@@ -2181,7 +2263,7 @@ export type ListPackageVersionsError =
  * objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling `list-package-versions` with no `--status` parameter.
  */
 export const listPackageVersions: API.PaginatedOperationMethod<
-  ListPackageVersionsRequest,
+  ListPackageVersionsRequest & RegionInput,
   ListPackageVersionsResult,
   ListPackageVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -2205,6 +2287,8 @@ export const listPackageVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageVersions",
 })) as any;
 
 export type ListRepositoriesError =
@@ -2220,7 +2304,7 @@ export type ListRepositoriesError =
  * parameters.
  */
 export const listRepositories: API.PaginatedOperationMethod<
-  ListRepositoriesRequest,
+  ListRepositoriesRequest & RegionInput,
   ListRepositoriesResult,
   ListRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2243,6 +2327,8 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositoriesInDomainError =
@@ -2259,7 +2345,7 @@ export type ListRepositoriesInDomainError =
  * parameters.
  */
 export const listRepositoriesInDomain: API.PaginatedOperationMethod<
-  ListRepositoriesInDomainRequest,
+  ListRepositoriesInDomainRequest & RegionInput,
   ListRepositoriesInDomainResult,
   ListRepositoriesInDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2283,6 +2369,8 @@ export const listRepositoriesInDomain: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoriesInDomain",
 })) as any;
 
 export type ListSubPackageGroupsError =
@@ -2300,7 +2388,7 @@ export type ListSubPackageGroupsError =
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
 export const listSubPackageGroups: API.PaginatedOperationMethod<
-  ListSubPackageGroupsRequest,
+  ListSubPackageGroupsRequest & RegionInput,
   ListSubPackageGroupsResult,
   ListSubPackageGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2324,6 +2412,8 @@ export const listSubPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubPackageGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2336,7 +2426,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2352,6 +2442,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishPackageVersionError =
@@ -2376,7 +2468,7 @@ export type PublishPackageVersionError =
  * packages in the *CodeArtifact User Guide*.
  */
 export const publishPackageVersion: API.OperationMethod<
-  PublishPackageVersionRequest,
+  PublishPackageVersionRequest & RegionInput,
   PublishPackageVersionResult,
   PublishPackageVersionError,
   Credentials | HttpClient.HttpClient
@@ -2395,6 +2487,8 @@ export const publishPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishPackageVersion",
+  telemetry: TELEMETRY,
+  span: "PublishPackageVersion",
 }));
 
 export type PutDomainPermissionsPolicyError =
@@ -2414,7 +2508,7 @@ export type PutDomainPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putDomainPermissionsPolicy: API.OperationMethod<
-  PutDomainPermissionsPolicyRequest,
+  PutDomainPermissionsPolicyRequest & RegionInput,
   PutDomainPermissionsPolicyResult,
   PutDomainPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2433,6 +2527,8 @@ export const putDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutDomainPermissionsPolicy",
 }));
 
 export type PutPackageOriginConfigurationError =
@@ -2455,7 +2551,7 @@ export type PutPackageOriginConfigurationError =
  * publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
  */
 export const putPackageOriginConfiguration: API.OperationMethod<
-  PutPackageOriginConfigurationRequest,
+  PutPackageOriginConfigurationRequest & RegionInput,
   PutPackageOriginConfigurationResult,
   PutPackageOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2472,6 +2568,8 @@ export const putPackageOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPackageOriginConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutPackageOriginConfiguration",
 }));
 
 export type PutRepositoryPermissionsPolicyError =
@@ -2491,7 +2589,7 @@ export type PutRepositoryPermissionsPolicyError =
  * able to update the resource policy.
  */
 export const putRepositoryPermissionsPolicy: API.OperationMethod<
-  PutRepositoryPermissionsPolicyRequest,
+  PutRepositoryPermissionsPolicyRequest & RegionInput,
   PutRepositoryPermissionsPolicyResult,
   PutRepositoryPermissionsPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2510,6 +2608,8 @@ export const putRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryPermissionsPolicy",
 }));
 
 export type TagResourceError =
@@ -2523,7 +2623,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource in CodeArtifact.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResult,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2540,6 +2640,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2552,7 +2654,7 @@ export type UntagResourceError =
  * Removes tags from a resource in CodeArtifact.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResult,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2568,6 +2670,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePackageGroupError =
@@ -2583,7 +2687,7 @@ export type UpdatePackageGroupError =
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
  */
 export const updatePackageGroup: API.OperationMethod<
-  UpdatePackageGroupRequest,
+  UpdatePackageGroupRequest & RegionInput,
   UpdatePackageGroupResult,
   UpdatePackageGroupError,
   Credentials | HttpClient.HttpClient
@@ -2601,6 +2705,8 @@ export const updatePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroup",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageGroup",
 }));
 
 export type UpdatePackageGroupOriginConfigurationError =
@@ -2621,7 +2727,7 @@ export type UpdatePackageGroupOriginConfigurationError =
  * in the *CodeArtifact User Guide*.
  */
 export const updatePackageGroupOriginConfiguration: API.OperationMethod<
-  UpdatePackageGroupOriginConfigurationRequest,
+  UpdatePackageGroupOriginConfigurationRequest & RegionInput,
   UpdatePackageGroupOriginConfigurationResult,
   UpdatePackageGroupOriginConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2639,6 +2745,8 @@ export const updatePackageGroupOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroupOriginConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageGroupOriginConfiguration",
 }));
 
 export type UpdatePackageVersionsStatusError =
@@ -2656,7 +2764,7 @@ export type UpdatePackageVersionsStatusError =
  * DisposePackageVersions.
  */
 export const updatePackageVersionsStatus: API.OperationMethod<
-  UpdatePackageVersionsStatusRequest,
+  UpdatePackageVersionsStatusRequest & RegionInput,
   UpdatePackageVersionsStatusResult,
   UpdatePackageVersionsStatusError,
   Credentials | HttpClient.HttpClient
@@ -2674,6 +2782,8 @@ export const updatePackageVersionsStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageVersionsStatus",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageVersionsStatus",
 }));
 
 export type UpdateRepositoryError =
@@ -2689,7 +2799,7 @@ export type UpdateRepositoryError =
  * Update the properties of a repository.
  */
 export const updateRepository: API.OperationMethod<
-  UpdateRepositoryRequest,
+  UpdateRepositoryRequest & RegionInput,
   UpdateRepositoryResult,
   UpdateRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -2708,6 +2818,8 @@ export const updateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepository",
+  telemetry: TELEMETRY,
+  span: "UpdateRepository",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

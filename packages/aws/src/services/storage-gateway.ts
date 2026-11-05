@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://storagegateway.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "StorageGateway",
+  service: "StorageGateway",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
@@ -1603,7 +1620,7 @@ export type ActivateGatewayError =
  * You must turn on the gateway VM before you can activate your gateway.
  */
 export const activateGateway: API.OperationMethod<
-  ActivateGatewayInput,
+  ActivateGatewayInput & RegionInput,
   ActivateGatewayOutput,
   ActivateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -1614,6 +1631,8 @@ export const activateGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateGateway",
+  telemetry: TELEMETRY,
+  span: "ActivateGateway",
 }));
 
 export type AddCacheError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -1625,7 +1644,7 @@ export type AddCacheError = InternalServerError | InvalidGatewayRequestException
  * add cache, and one or more disk IDs that you want to configure as cache.
  */
 export const addCache: API.OperationMethod<
-  AddCacheInput,
+  AddCacheInput & RegionInput,
   AddCacheOutput,
   AddCacheError,
   Credentials | HttpClient.HttpClient
@@ -1636,6 +1655,8 @@ export const addCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCache",
+  telemetry: TELEMETRY,
+  span: "AddCache",
 }));
 
 export type AddTagsToResourceError =
@@ -1662,7 +1683,7 @@ export type AddTagsToResourceError =
  * that are recovered to a new gateway maintain their tags.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceInput,
+  AddTagsToResourceInput & RegionInput,
   AddTagsToResourceOutput,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1673,6 +1694,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type AddUploadBufferError =
@@ -1689,7 +1712,7 @@ export type AddUploadBufferError =
  * buffer.
  */
 export const addUploadBuffer: API.OperationMethod<
-  AddUploadBufferInput,
+  AddUploadBufferInput & RegionInput,
   AddUploadBufferOutput,
   AddUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -1700,6 +1723,8 @@ export const addUploadBuffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUploadBuffer",
+  telemetry: TELEMETRY,
+  span: "AddUploadBuffer",
 }));
 
 export type AddWorkingStorageError =
@@ -1720,7 +1745,7 @@ export type AddWorkingStorageError =
  * storage.
  */
 export const addWorkingStorage: API.OperationMethod<
-  AddWorkingStorageInput,
+  AddWorkingStorageInput & RegionInput,
   AddWorkingStorageOutput,
   AddWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -1731,6 +1756,8 @@ export const addWorkingStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddWorkingStorage",
+  telemetry: TELEMETRY,
+  span: "AddWorkingStorage",
 }));
 
 export type AssignTapePoolError =
@@ -1744,7 +1771,7 @@ export type AssignTapePoolError =
  * S3 Glacier Deep Archive) that corresponds to the pool.
  */
 export const assignTapePool: API.OperationMethod<
-  AssignTapePoolInput,
+  AssignTapePoolInput & RegionInput,
   AssignTapePoolOutput,
   AssignTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -1755,6 +1782,8 @@ export const assignTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignTapePool",
+  telemetry: TELEMETRY,
+  span: "AssignTapePool",
 }));
 
 export type AssociateFileSystemError =
@@ -1768,7 +1797,7 @@ export type AssociateFileSystemError =
  * type.
  */
 export const associateFileSystem: API.OperationMethod<
-  AssociateFileSystemInput,
+  AssociateFileSystemInput & RegionInput,
   AssociateFileSystemOutput,
   AssociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -1779,6 +1808,8 @@ export const associateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFileSystem",
+  telemetry: TELEMETRY,
+  span: "AssociateFileSystem",
 }));
 
 export type AttachVolumeError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -1789,7 +1820,7 @@ export type AttachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
  */
 export const attachVolume: API.OperationMethod<
-  AttachVolumeInput,
+  AttachVolumeInput & RegionInput,
   AttachVolumeOutput,
   AttachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1800,6 +1831,8 @@ export const attachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachVolume",
+  telemetry: TELEMETRY,
+  span: "AttachVolume",
 }));
 
 export type CancelArchivalError =
@@ -1811,7 +1844,7 @@ export type CancelArchivalError =
  * process is initiated. This operation is only supported in the tape gateway type.
  */
 export const cancelArchival: API.OperationMethod<
-  CancelArchivalInput,
+  CancelArchivalInput & RegionInput,
   CancelArchivalOutput,
   CancelArchivalError,
   Credentials | HttpClient.HttpClient
@@ -1822,6 +1855,8 @@ export const cancelArchival: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelArchival",
+  telemetry: TELEMETRY,
+  span: "CancelArchival",
 }));
 
 export type CancelCacheReportError =
@@ -1836,7 +1871,7 @@ export type CancelCacheReportError =
  * error.
  */
 export const cancelCacheReport: API.OperationMethod<
-  CancelCacheReportInput,
+  CancelCacheReportInput & RegionInput,
   CancelCacheReportOutput,
   CancelCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -1847,6 +1882,8 @@ export const cancelCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCacheReport",
+  telemetry: TELEMETRY,
+  span: "CancelCacheReport",
 }));
 
 export type CancelRetrievalError =
@@ -1859,7 +1896,7 @@ export type CancelRetrievalError =
  * is only supported in the tape gateway type.
  */
 export const cancelRetrieval: API.OperationMethod<
-  CancelRetrievalInput,
+  CancelRetrievalInput & RegionInput,
   CancelRetrievalOutput,
   CancelRetrievalError,
   Credentials | HttpClient.HttpClient
@@ -1870,6 +1907,8 @@ export const cancelRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRetrieval",
+  telemetry: TELEMETRY,
+  span: "CancelRetrieval",
 }));
 
 export type CreateCachediSCSIVolumeError =
@@ -1895,7 +1934,7 @@ export type CreateCachediSCSIVolumeError =
  * equal to or larger than the size of the copied volume, in bytes.
  */
 export const createCachediSCSIVolume: API.OperationMethod<
-  CreateCachediSCSIVolumeInput,
+  CreateCachediSCSIVolumeInput & RegionInput,
   CreateCachediSCSIVolumeOutput,
   CreateCachediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1945,8 @@ export const createCachediSCSIVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachediSCSIVolume",
+  telemetry: TELEMETRY,
+  span: "CreateCachediSCSIVolume",
 }));
 
 export type CreateNFSFileShareError =
@@ -1930,7 +1971,7 @@ export type CreateNFSFileShareError =
  * share.
  */
 export const createNFSFileShare: API.OperationMethod<
-  CreateNFSFileShareInput,
+  CreateNFSFileShareInput & RegionInput,
   CreateNFSFileShareOutput,
   CreateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -1941,6 +1982,8 @@ export const createNFSFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNFSFileShare",
+  telemetry: TELEMETRY,
+  span: "CreateNFSFileShare",
 }));
 
 export type CreateSMBFileShareError =
@@ -1965,7 +2008,7 @@ export type CreateSMBFileShareError =
  * share.
  */
 export const createSMBFileShare: API.OperationMethod<
-  CreateSMBFileShareInput,
+  CreateSMBFileShareInput & RegionInput,
   CreateSMBFileShareOutput,
   CreateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -1976,6 +2019,8 @@ export const createSMBFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSMBFileShare",
+  telemetry: TELEMETRY,
+  span: "CreateSMBFileShare",
 }));
 
 export type CreateSnapshotError =
@@ -2010,7 +2055,7 @@ export type CreateSnapshotError =
  * information, see the important note on the Welcome page.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotInput,
+  CreateSnapshotInput & RegionInput,
   CreateSnapshotOutput,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2066,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSnapshotFromVolumeRecoveryPointError =
@@ -2050,7 +2097,7 @@ export type CreateSnapshotFromVolumeRecoveryPointError =
  * Reference.
  */
 export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
-  CreateSnapshotFromVolumeRecoveryPointInput,
+  CreateSnapshotFromVolumeRecoveryPointInput & RegionInput,
   CreateSnapshotFromVolumeRecoveryPointOutput,
   CreateSnapshotFromVolumeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -2061,6 +2108,8 @@ export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotFromVolumeRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotFromVolumeRecoveryPoint",
 }));
 
 export type CreateStorediSCSIVolumeError =
@@ -2082,7 +2131,7 @@ export type CreateStorediSCSIVolumeError =
  * ARN that initiators can use to connect to the volume target.
  */
 export const createStorediSCSIVolume: API.OperationMethod<
-  CreateStorediSCSIVolumeInput,
+  CreateStorediSCSIVolumeInput & RegionInput,
   CreateStorediSCSIVolumeOutput,
   CreateStorediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2093,6 +2142,8 @@ export const createStorediSCSIVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorediSCSIVolume",
+  telemetry: TELEMETRY,
+  span: "CreateStorediSCSIVolume",
 }));
 
 export type CreateTapePoolError =
@@ -2104,7 +2155,7 @@ export type CreateTapePoolError =
  * lock on tapes that are archived in the custom pool.
  */
 export const createTapePool: API.OperationMethod<
-  CreateTapePoolInput,
+  CreateTapePoolInput & RegionInput,
   CreateTapePoolOutput,
   CreateTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2115,6 +2166,8 @@ export const createTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapePool",
+  telemetry: TELEMETRY,
+  span: "CreateTapePool",
 }));
 
 export type CreateTapesError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -2126,7 +2179,7 @@ export type CreateTapesError = InternalServerError | InvalidGatewayRequestExcept
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapes: API.OperationMethod<
-  CreateTapesInput,
+  CreateTapesInput & RegionInput,
   CreateTapesOutput,
   CreateTapesError,
   Credentials | HttpClient.HttpClient
@@ -2137,6 +2190,8 @@ export const createTapes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapes",
+  telemetry: TELEMETRY,
+  span: "CreateTapes",
 }));
 
 export type CreateTapeWithBarcodeError =
@@ -2153,7 +2208,7 @@ export type CreateTapeWithBarcodeError =
  * Use the AddCache operation to add cache storage to a gateway.
  */
 export const createTapeWithBarcode: API.OperationMethod<
-  CreateTapeWithBarcodeInput,
+  CreateTapeWithBarcodeInput & RegionInput,
   CreateTapeWithBarcodeOutput,
   CreateTapeWithBarcodeError,
   Credentials | HttpClient.HttpClient
@@ -2164,6 +2219,8 @@ export const createTapeWithBarcode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTapeWithBarcode",
+  telemetry: TELEMETRY,
+  span: "CreateTapeWithBarcode",
 }));
 
 export type DeleteAutomaticTapeCreationPolicyError =
@@ -2176,7 +2233,7 @@ export type DeleteAutomaticTapeCreationPolicyError =
  * in your request to remove the policy.
  */
 export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
-  DeleteAutomaticTapeCreationPolicyInput,
+  DeleteAutomaticTapeCreationPolicyInput & RegionInput,
   DeleteAutomaticTapeCreationPolicyOutput,
   DeleteAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2187,6 +2244,8 @@ export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomaticTapeCreationPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomaticTapeCreationPolicy",
 }));
 
 export type DeleteBandwidthRateLimitError =
@@ -2201,7 +2260,7 @@ export type DeleteBandwidthRateLimitError =
  * for the stored volume, cached volume, and tape gateway types.
  */
 export const deleteBandwidthRateLimit: API.OperationMethod<
-  DeleteBandwidthRateLimitInput,
+  DeleteBandwidthRateLimitInput & RegionInput,
   DeleteBandwidthRateLimitOutput,
   DeleteBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2212,6 +2271,8 @@ export const deleteBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBandwidthRateLimit",
+  telemetry: TELEMETRY,
+  span: "DeleteBandwidthRateLimit",
 }));
 
 export type DeleteCacheReportError =
@@ -2226,7 +2287,7 @@ export type DeleteCacheReportError =
  * `DeleteCacheReport` does not delete the report object from your Amazon S3 bucket.
  */
 export const deleteCacheReport: API.OperationMethod<
-  DeleteCacheReportInput,
+  DeleteCacheReportInput & RegionInput,
   DeleteCacheReportOutput,
   DeleteCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2237,6 +2298,8 @@ export const deleteCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheReport",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheReport",
 }));
 
 export type DeleteChapCredentialsError =
@@ -2249,7 +2312,7 @@ export type DeleteChapCredentialsError =
  * types.
  */
 export const deleteChapCredentials: API.OperationMethod<
-  DeleteChapCredentialsInput,
+  DeleteChapCredentialsInput & RegionInput,
   DeleteChapCredentialsOutput,
   DeleteChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2260,6 +2323,8 @@ export const deleteChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChapCredentials",
+  telemetry: TELEMETRY,
+  span: "DeleteChapCredentials",
 }));
 
 export type DeleteFileShareError =
@@ -2271,7 +2336,7 @@ export type DeleteFileShareError =
  * File Gateways.
  */
 export const deleteFileShare: API.OperationMethod<
-  DeleteFileShareInput,
+  DeleteFileShareInput & RegionInput,
   DeleteFileShareOutput,
   DeleteFileShareError,
   Credentials | HttpClient.HttpClient
@@ -2282,6 +2347,8 @@ export const deleteFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileShare",
+  telemetry: TELEMETRY,
+  span: "DeleteFileShare",
 }));
 
 export type DeleteGatewayError =
@@ -2307,7 +2374,7 @@ export type DeleteGatewayError =
  * page.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayInput,
+  DeleteGatewayInput & RegionInput,
   DeleteGatewayOutput,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -2318,6 +2385,8 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteSnapshotScheduleError =
@@ -2339,7 +2408,7 @@ export type DeleteSnapshotScheduleError =
  * in the *Amazon Elastic Compute Cloud API Reference*.
  */
 export const deleteSnapshotSchedule: API.OperationMethod<
-  DeleteSnapshotScheduleInput,
+  DeleteSnapshotScheduleInput & RegionInput,
   DeleteSnapshotScheduleOutput,
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2350,6 +2419,8 @@ export const deleteSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotSchedule",
 }));
 
 export type DeleteTapeError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -2358,7 +2429,7 @@ export type DeleteTapeError = InternalServerError | InvalidGatewayRequestExcepti
  * type.
  */
 export const deleteTape: API.OperationMethod<
-  DeleteTapeInput,
+  DeleteTapeInput & RegionInput,
   DeleteTapeOutput,
   DeleteTapeError,
   Credentials | HttpClient.HttpClient
@@ -2369,6 +2440,8 @@ export const deleteTape: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTape",
+  telemetry: TELEMETRY,
+  span: "DeleteTape",
 }));
 
 export type DeleteTapeArchiveError =
@@ -2380,7 +2453,7 @@ export type DeleteTapeArchiveError =
  * only supported in the tape gateway type.
  */
 export const deleteTapeArchive: API.OperationMethod<
-  DeleteTapeArchiveInput,
+  DeleteTapeArchiveInput & RegionInput,
   DeleteTapeArchiveOutput,
   DeleteTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2391,6 +2464,8 @@ export const deleteTapeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTapeArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteTapeArchive",
 }));
 
 export type DeleteTapePoolError =
@@ -2403,7 +2478,7 @@ export type DeleteTapePoolError =
  * tape pool.
  */
 export const deleteTapePool: API.OperationMethod<
-  DeleteTapePoolInput,
+  DeleteTapePoolInput & RegionInput,
   DeleteTapePoolOutput,
   DeleteTapePoolError,
   Credentials | HttpClient.HttpClient
@@ -2414,6 +2489,8 @@ export const deleteTapePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTapePool",
+  telemetry: TELEMETRY,
+  span: "DeleteTapePool",
 }));
 
 export type DeleteVolumeError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -2433,7 +2510,7 @@ export type DeleteVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * you want to delete.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeInput,
+  DeleteVolumeInput & RegionInput,
   DeleteVolumeOutput,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2444,6 +2521,8 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DescribeAvailabilityMonitorTestError =
@@ -2456,7 +2535,7 @@ export type DescribeAvailabilityMonitorTestError =
  * time in the response would be null.
  */
 export const describeAvailabilityMonitorTest: API.OperationMethod<
-  DescribeAvailabilityMonitorTestInput,
+  DescribeAvailabilityMonitorTestInput & RegionInput,
   DescribeAvailabilityMonitorTestOutput,
   DescribeAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -2467,6 +2546,8 @@ export const describeAvailabilityMonitorTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityMonitorTest",
+  telemetry: TELEMETRY,
+  span: "DescribeAvailabilityMonitorTest",
 }));
 
 export type DescribeBandwidthRateLimitError =
@@ -2485,7 +2566,7 @@ export type DescribeBandwidthRateLimitError =
  * the gateway in your request.
  */
 export const describeBandwidthRateLimit: API.OperationMethod<
-  DescribeBandwidthRateLimitInput,
+  DescribeBandwidthRateLimitInput & RegionInput,
   DescribeBandwidthRateLimitOutput,
   DescribeBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -2496,6 +2577,8 @@ export const describeBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBandwidthRateLimit",
+  telemetry: TELEMETRY,
+  span: "DescribeBandwidthRateLimit",
 }));
 
 export type DescribeBandwidthRateLimitScheduleError =
@@ -2522,7 +2605,7 @@ export type DescribeBandwidthRateLimitScheduleError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeBandwidthRateLimitSchedule: API.OperationMethod<
-  DescribeBandwidthRateLimitScheduleInput,
+  DescribeBandwidthRateLimitScheduleInput & RegionInput,
   DescribeBandwidthRateLimitScheduleOutput,
   DescribeBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2533,6 +2616,8 @@ export const describeBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeBandwidthRateLimitSchedule",
 }));
 
 export type DescribeCacheError =
@@ -2547,7 +2632,7 @@ export type DescribeCacheError =
  * of cache allocated and used.
  */
 export const describeCache: API.OperationMethod<
-  DescribeCacheInput,
+  DescribeCacheInput & RegionInput,
   DescribeCacheOutput,
   DescribeCacheError,
   Credentials | HttpClient.HttpClient
@@ -2558,6 +2643,8 @@ export const describeCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCache",
+  telemetry: TELEMETRY,
+  span: "DescribeCache",
 }));
 
 export type DescribeCachediSCSIVolumesError =
@@ -2573,7 +2660,7 @@ export type DescribeCachediSCSIVolumesError =
  * (ARN).
  */
 export const describeCachediSCSIVolumes: API.OperationMethod<
-  DescribeCachediSCSIVolumesInput,
+  DescribeCachediSCSIVolumesInput & RegionInput,
   DescribeCachediSCSIVolumesOutput,
   DescribeCachediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2584,6 +2671,8 @@ export const describeCachediSCSIVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCachediSCSIVolumes",
+  telemetry: TELEMETRY,
+  span: "DescribeCachediSCSIVolumes",
 }));
 
 export type DescribeCacheReportError =
@@ -2595,7 +2684,7 @@ export type DescribeCacheReportError =
  * generation progress.
  */
 export const describeCacheReport: API.OperationMethod<
-  DescribeCacheReportInput,
+  DescribeCacheReportInput & RegionInput,
   DescribeCacheReportOutput,
   DescribeCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -2606,6 +2695,8 @@ export const describeCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheReport",
+  telemetry: TELEMETRY,
+  span: "DescribeCacheReport",
 }));
 
 export type DescribeChapCredentialsError =
@@ -2618,7 +2709,7 @@ export type DescribeChapCredentialsError =
  * operation is supported in the volume and tape gateway types.
  */
 export const describeChapCredentials: API.OperationMethod<
-  DescribeChapCredentialsInput,
+  DescribeChapCredentialsInput & RegionInput,
   DescribeChapCredentialsOutput,
   DescribeChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2629,6 +2720,8 @@ export const describeChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChapCredentials",
+  telemetry: TELEMETRY,
+  span: "DescribeChapCredentials",
 }));
 
 export type DescribeFileSystemAssociationsError =
@@ -2640,7 +2733,7 @@ export type DescribeFileSystemAssociationsError =
  * File Gateways.
  */
 export const describeFileSystemAssociations: API.OperationMethod<
-  DescribeFileSystemAssociationsInput,
+  DescribeFileSystemAssociationsInput & RegionInput,
   DescribeFileSystemAssociationsOutput,
   DescribeFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2651,6 +2744,8 @@ export const describeFileSystemAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFileSystemAssociations",
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystemAssociations",
 }));
 
 export type DescribeGatewayInformationError =
@@ -2663,7 +2758,7 @@ export type DescribeGatewayInformationError =
  * Name (ARN) of the gateway in your request.
  */
 export const describeGatewayInformation: API.OperationMethod<
-  DescribeGatewayInformationInput,
+  DescribeGatewayInformationInput & RegionInput,
   DescribeGatewayInformationOutput,
   DescribeGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -2674,6 +2769,8 @@ export const describeGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInformation",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayInformation",
 }));
 
 export type DescribeMaintenanceStartTimeError =
@@ -2686,7 +2783,7 @@ export type DescribeMaintenanceStartTimeError =
  * updates to apply. Time values returned are for the gateway's time zone.
  */
 export const describeMaintenanceStartTime: API.OperationMethod<
-  DescribeMaintenanceStartTimeInput,
+  DescribeMaintenanceStartTimeInput & RegionInput,
   DescribeMaintenanceStartTimeOutput,
   DescribeMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -2697,6 +2794,8 @@ export const describeMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceStartTime",
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceStartTime",
 }));
 
 export type DescribeNFSFileSharesError =
@@ -2708,7 +2807,7 @@ export type DescribeNFSFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeNFSFileShares: API.OperationMethod<
-  DescribeNFSFileSharesInput,
+  DescribeNFSFileSharesInput & RegionInput,
   DescribeNFSFileSharesOutput,
   DescribeNFSFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2719,6 +2818,8 @@ export const describeNFSFileShares: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNFSFileShares",
+  telemetry: TELEMETRY,
+  span: "DescribeNFSFileShares",
 }));
 
 export type DescribeSMBFileSharesError =
@@ -2730,7 +2831,7 @@ export type DescribeSMBFileSharesError =
  * Gateway. This operation is only supported for S3 File Gateways.
  */
 export const describeSMBFileShares: API.OperationMethod<
-  DescribeSMBFileSharesInput,
+  DescribeSMBFileSharesInput & RegionInput,
   DescribeSMBFileSharesOutput,
   DescribeSMBFileSharesError,
   Credentials | HttpClient.HttpClient
@@ -2741,6 +2842,8 @@ export const describeSMBFileShares: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSMBFileShares",
+  telemetry: TELEMETRY,
+  span: "DescribeSMBFileShares",
 }));
 
 export type DescribeSMBSettingsError =
@@ -2752,7 +2855,7 @@ export type DescribeSMBSettingsError =
  * gateway. This operation is only supported for file gateways.
  */
 export const describeSMBSettings: API.OperationMethod<
-  DescribeSMBSettingsInput,
+  DescribeSMBSettingsInput & RegionInput,
   DescribeSMBSettingsOutput,
   DescribeSMBSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2763,6 +2866,8 @@ export const describeSMBSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSMBSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeSMBSettings",
 }));
 
 export type DescribeSnapshotScheduleError =
@@ -2776,7 +2881,7 @@ export type DescribeSnapshotScheduleError =
  * types.
  */
 export const describeSnapshotSchedule: API.OperationMethod<
-  DescribeSnapshotScheduleInput,
+  DescribeSnapshotScheduleInput & RegionInput,
   DescribeSnapshotScheduleOutput,
   DescribeSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2787,6 +2892,8 @@ export const describeSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshotSchedule",
 }));
 
 export type DescribeStorediSCSIVolumesError =
@@ -2799,7 +2906,7 @@ export type DescribeStorediSCSIVolumesError =
  * supported in stored volume gateway type.
  */
 export const describeStorediSCSIVolumes: API.OperationMethod<
-  DescribeStorediSCSIVolumesInput,
+  DescribeStorediSCSIVolumesInput & RegionInput,
   DescribeStorediSCSIVolumesOutput,
   DescribeStorediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2810,6 +2917,8 @@ export const describeStorediSCSIVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStorediSCSIVolumes",
+  telemetry: TELEMETRY,
+  span: "DescribeStorediSCSIVolumes",
 }));
 
 export type DescribeTapeArchivesError =
@@ -2824,7 +2933,7 @@ export type DescribeTapeArchivesError =
  * description of all virtual tapes found in the VTS associated with your account.
  */
 export const describeTapeArchives: API.PaginatedOperationMethod<
-  DescribeTapeArchivesInput,
+  DescribeTapeArchivesInput & RegionInput,
   DescribeTapeArchivesOutput,
   DescribeTapeArchivesError,
   Credentials | HttpClient.HttpClient,
@@ -2842,6 +2951,8 @@ export const describeTapeArchives: API.PaginatedOperationMethod<
     items: "TapeArchives",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTapeArchives",
 })) as any;
 
 export type DescribeTapeRecoveryPointsError =
@@ -2858,7 +2969,7 @@ export type DescribeTapeRecoveryPointsError =
  * gateway type.
  */
 export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
-  DescribeTapeRecoveryPointsInput,
+  DescribeTapeRecoveryPointsInput & RegionInput,
   DescribeTapeRecoveryPointsOutput,
   DescribeTapeRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -2876,6 +2987,8 @@ export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
     items: "TapeRecoveryPointInfos",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTapeRecoveryPoints",
 })) as any;
 
 export type DescribeTapesError =
@@ -2896,7 +3009,7 @@ export type DescribeTapesError =
  * tapes.
  */
 export const describeTapes: API.PaginatedOperationMethod<
-  DescribeTapesInput,
+  DescribeTapesInput & RegionInput,
   DescribeTapesOutput,
   DescribeTapesError,
   Credentials | HttpClient.HttpClient,
@@ -2914,6 +3027,8 @@ export const describeTapes: API.PaginatedOperationMethod<
     items: "Tapes",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTapes",
 })) as any;
 
 export type DescribeUploadBufferError =
@@ -2928,7 +3043,7 @@ export type DescribeUploadBufferError =
  * includes the amount of upload buffer space allocated and used.
  */
 export const describeUploadBuffer: API.OperationMethod<
-  DescribeUploadBufferInput,
+  DescribeUploadBufferInput & RegionInput,
   DescribeUploadBufferOutput,
   DescribeUploadBufferError,
   Credentials | HttpClient.HttpClient
@@ -2939,6 +3054,8 @@ export const describeUploadBuffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUploadBuffer",
+  telemetry: TELEMETRY,
+  span: "DescribeUploadBuffer",
 }));
 
 export type DescribeVTLDevicesError =
@@ -2952,7 +3069,7 @@ export type DescribeVTLDevicesError =
  * This operation is only supported in the tape gateway type.
  */
 export const describeVTLDevices: API.PaginatedOperationMethod<
-  DescribeVTLDevicesInput,
+  DescribeVTLDevicesInput & RegionInput,
   DescribeVTLDevicesOutput,
   DescribeVTLDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -2970,6 +3087,8 @@ export const describeVTLDevices: API.PaginatedOperationMethod<
     items: "VTLDevices",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeVTLDevices",
 })) as any;
 
 export type DescribeWorkingStorageError =
@@ -2988,7 +3107,7 @@ export type DescribeWorkingStorageError =
  * the amount of working storage allocated and used.
  */
 export const describeWorkingStorage: API.OperationMethod<
-  DescribeWorkingStorageInput,
+  DescribeWorkingStorageInput & RegionInput,
   DescribeWorkingStorageOutput,
   DescribeWorkingStorageError,
   Credentials | HttpClient.HttpClient
@@ -2999,6 +3118,8 @@ export const describeWorkingStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkingStorage",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkingStorage",
 }));
 
 export type DetachVolumeError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3010,7 +3131,7 @@ export type DetachVolumeError = InternalServerError | InvalidGatewayRequestExcep
  * instance. This operation is only supported in the volume gateway type.
  */
 export const detachVolume: API.OperationMethod<
-  DetachVolumeInput,
+  DetachVolumeInput & RegionInput,
   DetachVolumeOutput,
   DetachVolumeError,
   Credentials | HttpClient.HttpClient
@@ -3021,6 +3142,8 @@ export const detachVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachVolume",
+  telemetry: TELEMETRY,
+  span: "DetachVolume",
 }));
 
 export type DisableGatewayError =
@@ -3037,7 +3160,7 @@ export type DisableGatewayError =
  * After a gateway is disabled, it cannot be enabled.
  */
 export const disableGateway: API.OperationMethod<
-  DisableGatewayInput,
+  DisableGatewayInput & RegionInput,
   DisableGatewayOutput,
   DisableGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3048,6 +3171,8 @@ export const disableGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableGateway",
+  telemetry: TELEMETRY,
+  span: "DisableGateway",
 }));
 
 export type DisassociateFileSystemError =
@@ -3060,7 +3185,7 @@ export type DisassociateFileSystemError =
  * file system. This operation is only supported in the FSx File Gateway type.
  */
 export const disassociateFileSystem: API.OperationMethod<
-  DisassociateFileSystemInput,
+  DisassociateFileSystemInput & RegionInput,
   DisassociateFileSystemOutput,
   DisassociateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -3071,6 +3196,8 @@ export const disassociateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFileSystem",
+  telemetry: TELEMETRY,
+  span: "DisassociateFileSystem",
 }));
 
 export type EvictFilesFailingUploadError =
@@ -3092,7 +3219,7 @@ export type EvictFilesFailingUploadError =
  * loss.
  */
 export const evictFilesFailingUpload: API.OperationMethod<
-  EvictFilesFailingUploadInput,
+  EvictFilesFailingUploadInput & RegionInput,
   EvictFilesFailingUploadOutput,
   EvictFilesFailingUploadError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3230,8 @@ export const evictFilesFailingUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvictFilesFailingUpload",
+  telemetry: TELEMETRY,
+  span: "EvictFilesFailingUpload",
 }));
 
 export type JoinDomainError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3120,7 +3249,7 @@ export type JoinDomainError = InternalServerError | InvalidGatewayRequestExcepti
  * default, you must specify the organizational unit when joining the domain.
  */
 export const joinDomain: API.OperationMethod<
-  JoinDomainInput,
+  JoinDomainInput & RegionInput,
   JoinDomainOutput,
   JoinDomainError,
   Credentials | HttpClient.HttpClient
@@ -3131,6 +3260,8 @@ export const joinDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinDomain",
+  telemetry: TELEMETRY,
+  span: "JoinDomain",
 }));
 
 export type ListAutomaticTapeCreationPoliciesError =
@@ -3144,7 +3275,7 @@ export type ListAutomaticTapeCreationPoliciesError =
  * This operation is only supported for tape gateways.
  */
 export const listAutomaticTapeCreationPolicies: API.OperationMethod<
-  ListAutomaticTapeCreationPoliciesInput,
+  ListAutomaticTapeCreationPoliciesInput & RegionInput,
   ListAutomaticTapeCreationPoliciesOutput,
   ListAutomaticTapeCreationPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -3155,6 +3286,8 @@ export const listAutomaticTapeCreationPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomaticTapeCreationPolicies",
+  telemetry: TELEMETRY,
+  span: "ListAutomaticTapeCreationPolicies",
 }));
 
 export type ListCacheReportsError =
@@ -3168,7 +3301,7 @@ export type ListCacheReportsError =
  * progress, start time, end time, filters, and tags.
  */
 export const listCacheReports: API.PaginatedOperationMethod<
-  ListCacheReportsInput,
+  ListCacheReportsInput & RegionInput,
   ListCacheReportsOutput,
   ListCacheReportsError,
   Credentials | HttpClient.HttpClient,
@@ -3181,6 +3314,8 @@ export const listCacheReports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCacheReports",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "CacheReportList" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCacheReports",
 })) as any;
 
 export type ListFileSharesError =
@@ -3193,7 +3328,7 @@ export type ListFileSharesError =
  * supported for S3 File Gateways.
  */
 export const listFileShares: API.PaginatedOperationMethod<
-  ListFileSharesInput,
+  ListFileSharesInput & RegionInput,
   ListFileSharesOutput,
   ListFileSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3211,6 +3346,8 @@ export const listFileShares: API.PaginatedOperationMethod<
     items: "FileShareInfoList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFileShares",
 })) as any;
 
 export type ListFileSystemAssociationsError =
@@ -3223,7 +3360,7 @@ export type ListFileSystemAssociationsError =
  * Gateways.
  */
 export const listFileSystemAssociations: API.PaginatedOperationMethod<
-  ListFileSystemAssociationsInput,
+  ListFileSystemAssociationsInput & RegionInput,
   ListFileSystemAssociationsOutput,
   ListFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -3241,6 +3378,8 @@ export const listFileSystemAssociations: API.PaginatedOperationMethod<
     items: "FileSystemAssociationSummaryList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFileSystemAssociations",
 })) as any;
 
 export type ListGatewaysError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3258,7 +3397,7 @@ export type ListGatewaysError = InternalServerError | InvalidGatewayRequestExcep
  * specify in your next request to fetch the next page of gateways.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysInput,
+  ListGatewaysInput & RegionInput,
   ListGatewaysOutput,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -3276,6 +3415,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListLocalDisksError =
@@ -3294,7 +3435,7 @@ export type ListLocalDisksError =
  * corrupted).
  */
 export const listLocalDisks: API.OperationMethod<
-  ListLocalDisksInput,
+  ListLocalDisksInput & RegionInput,
   ListLocalDisksOutput,
   ListLocalDisksError,
   Credentials | HttpClient.HttpClient
@@ -3305,6 +3446,8 @@ export const listLocalDisks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLocalDisks",
+  telemetry: TELEMETRY,
+  span: "ListLocalDisks",
 }));
 
 export type ListTagsForResourceError =
@@ -3316,7 +3459,7 @@ export type ListTagsForResourceError =
  * supported in storage gateways of all types.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3334,6 +3477,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTapePoolsError =
@@ -3352,7 +3497,7 @@ export type ListTapePoolsError =
  * next set of tape pools.
  */
 export const listTapePools: API.PaginatedOperationMethod<
-  ListTapePoolsInput,
+  ListTapePoolsInput & RegionInput,
   ListTapePoolsOutput,
   ListTapePoolsError,
   Credentials | HttpClient.HttpClient,
@@ -3370,6 +3515,8 @@ export const listTapePools: API.PaginatedOperationMethod<
     items: "PoolInfos",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTapePools",
 })) as any;
 
 export type ListTapesError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3387,7 +3534,7 @@ export type ListTapesError = InternalServerError | InvalidGatewayRequestExceptio
  * the tape gateway type.
  */
 export const listTapes: API.PaginatedOperationMethod<
-  ListTapesInput,
+  ListTapesInput & RegionInput,
   ListTapesOutput,
   ListTapesError,
   Credentials | HttpClient.HttpClient,
@@ -3405,6 +3552,8 @@ export const listTapes: API.PaginatedOperationMethod<
     items: "TapeInfos",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTapes",
 })) as any;
 
 export type ListVolumeInitiatorsError =
@@ -3417,7 +3566,7 @@ export type ListVolumeInitiatorsError =
  * cached volume and stored volume gateway types.
  */
 export const listVolumeInitiators: API.OperationMethod<
-  ListVolumeInitiatorsInput,
+  ListVolumeInitiatorsInput & RegionInput,
   ListVolumeInitiatorsOutput,
   ListVolumeInitiatorsError,
   Credentials | HttpClient.HttpClient
@@ -3428,6 +3577,8 @@ export const listVolumeInitiators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVolumeInitiators",
+  telemetry: TELEMETRY,
+  span: "ListVolumeInitiators",
 }));
 
 export type ListVolumeRecoveryPointsError =
@@ -3444,7 +3595,7 @@ export type ListVolumeRecoveryPointsError =
  * point use the CreateSnapshotFromVolumeRecoveryPoint operation.
  */
 export const listVolumeRecoveryPoints: API.OperationMethod<
-  ListVolumeRecoveryPointsInput,
+  ListVolumeRecoveryPointsInput & RegionInput,
   ListVolumeRecoveryPointsOutput,
   ListVolumeRecoveryPointsError,
   Credentials | HttpClient.HttpClient
@@ -3455,6 +3606,8 @@ export const listVolumeRecoveryPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVolumeRecoveryPoints",
+  telemetry: TELEMETRY,
+  span: "ListVolumeRecoveryPoints",
 }));
 
 export type ListVolumesError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3471,7 +3624,7 @@ export type ListVolumesError = InternalServerError | InvalidGatewayRequestExcept
  * the cached volume and stored volume gateway types.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesInput,
+  ListVolumesInput & RegionInput,
   ListVolumesOutput,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
@@ -3489,6 +3642,8 @@ export const listVolumes: API.PaginatedOperationMethod<
     items: "VolumeInfos",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 })) as any;
 
 export type NotifyWhenUploadedError =
@@ -3511,7 +3666,7 @@ export type NotifyWhenUploadedError =
  * Guide.
  */
 export const notifyWhenUploaded: API.OperationMethod<
-  NotifyWhenUploadedInput,
+  NotifyWhenUploadedInput & RegionInput,
   NotifyWhenUploadedOutput,
   NotifyWhenUploadedError,
   Credentials | HttpClient.HttpClient
@@ -3522,6 +3677,8 @@ export const notifyWhenUploaded: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyWhenUploaded",
+  telemetry: TELEMETRY,
+  span: "NotifyWhenUploaded",
 }));
 
 export type RefreshCacheError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3566,7 +3723,7 @@ export type RefreshCacheError = InternalServerError | InvalidGatewayRequestExcep
  * Guide.
  */
 export const refreshCache: API.OperationMethod<
-  RefreshCacheInput,
+  RefreshCacheInput & RegionInput,
   RefreshCacheOutput,
   RefreshCacheError,
   Credentials | HttpClient.HttpClient
@@ -3577,6 +3734,8 @@ export const refreshCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshCache",
+  telemetry: TELEMETRY,
+  span: "RefreshCache",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -3588,7 +3747,7 @@ export type RemoveTagsFromResourceError =
  * storage gateways of all types.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceInput,
+  RemoveTagsFromResourceInput & RegionInput,
   RemoveTagsFromResourceOutput,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3599,6 +3758,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetCacheError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3616,7 +3777,7 @@ export type ResetCacheError = InternalServerError | InvalidGatewayRequestExcepti
  * cache disk for your gateway to function properly.
  */
 export const resetCache: API.OperationMethod<
-  ResetCacheInput,
+  ResetCacheInput & RegionInput,
   ResetCacheOutput,
   ResetCacheError,
   Credentials | HttpClient.HttpClient
@@ -3627,6 +3788,8 @@ export const resetCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCache",
+  telemetry: TELEMETRY,
+  span: "ResetCache",
 }));
 
 export type RetrieveTapeArchiveError =
@@ -3644,7 +3807,7 @@ export type RetrieveTapeArchiveError =
  * gateway. This operation is only supported in the tape gateway type.
  */
 export const retrieveTapeArchive: API.OperationMethod<
-  RetrieveTapeArchiveInput,
+  RetrieveTapeArchiveInput & RegionInput,
   RetrieveTapeArchiveOutput,
   RetrieveTapeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3655,6 +3818,8 @@ export const retrieveTapeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveTapeArchive",
+  telemetry: TELEMETRY,
+  span: "RetrieveTapeArchive",
 }));
 
 export type RetrieveTapeRecoveryPointError =
@@ -3674,7 +3839,7 @@ export type RetrieveTapeRecoveryPointError =
  * for retrieving recovery points.
  */
 export const retrieveTapeRecoveryPoint: API.OperationMethod<
-  RetrieveTapeRecoveryPointInput,
+  RetrieveTapeRecoveryPointInput & RegionInput,
   RetrieveTapeRecoveryPointOutput,
   RetrieveTapeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3685,6 +3850,8 @@ export const retrieveTapeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveTapeRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "RetrieveTapeRecoveryPoint",
 }));
 
 export type SetLocalConsolePasswordError =
@@ -3698,7 +3865,7 @@ export type SetLocalConsolePasswordError =
  * password.
  */
 export const setLocalConsolePassword: API.OperationMethod<
-  SetLocalConsolePasswordInput,
+  SetLocalConsolePasswordInput & RegionInput,
   SetLocalConsolePasswordOutput,
   SetLocalConsolePasswordError,
   Credentials | HttpClient.HttpClient
@@ -3709,6 +3876,8 @@ export const setLocalConsolePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLocalConsolePassword",
+  telemetry: TELEMETRY,
+  span: "SetLocalConsolePassword",
 }));
 
 export type SetSMBGuestPasswordError =
@@ -3721,7 +3890,7 @@ export type SetSMBGuestPasswordError =
  * `GuestAccess`. This operation only supported for S3 File Gateways
  */
 export const setSMBGuestPassword: API.OperationMethod<
-  SetSMBGuestPasswordInput,
+  SetSMBGuestPasswordInput & RegionInput,
   SetSMBGuestPasswordOutput,
   SetSMBGuestPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3732,6 +3901,8 @@ export const setSMBGuestPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSMBGuestPassword",
+  telemetry: TELEMETRY,
+  span: "SetSMBGuestPassword",
 }));
 
 export type ShutdownGatewayError =
@@ -3764,7 +3935,7 @@ export type ShutdownGatewayError =
  * gateway.
  */
 export const shutdownGateway: API.OperationMethod<
-  ShutdownGatewayInput,
+  ShutdownGatewayInput & RegionInput,
   ShutdownGatewayOutput,
   ShutdownGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3775,6 +3946,8 @@ export const shutdownGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShutdownGateway",
+  telemetry: TELEMETRY,
+  span: "ShutdownGateway",
 }));
 
 export type StartAvailabilityMonitorTestError =
@@ -3791,7 +3964,7 @@ export type StartAvailabilityMonitorTestError =
  * Starting this test will cause your gateway to go offline for a brief period.
  */
 export const startAvailabilityMonitorTest: API.OperationMethod<
-  StartAvailabilityMonitorTestInput,
+  StartAvailabilityMonitorTestInput & RegionInput,
   StartAvailabilityMonitorTestOutput,
   StartAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
@@ -3802,6 +3975,8 @@ export const startAvailabilityMonitorTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAvailabilityMonitorTest",
+  telemetry: TELEMETRY,
+  span: "StartAvailabilityMonitorTest",
 }));
 
 export type StartCacheReportError =
@@ -3839,7 +4014,7 @@ export type StartCacheReportError =
  * `ExclusionFilters` in the request.
  */
 export const startCacheReport: API.OperationMethod<
-  StartCacheReportInput,
+  StartCacheReportInput & RegionInput,
   StartCacheReportOutput,
   StartCacheReportError,
   Credentials | HttpClient.HttpClient
@@ -3850,6 +4025,8 @@ export const startCacheReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCacheReport",
+  telemetry: TELEMETRY,
+  span: "StartCacheReport",
 }));
 
 export type StartGatewayError = InternalServerError | InvalidGatewayRequestException | CommonErrors;
@@ -3867,7 +4044,7 @@ export type StartGatewayError = InternalServerError | InvalidGatewayRequestExcep
  * your request.
  */
 export const startGateway: API.OperationMethod<
-  StartGatewayInput,
+  StartGatewayInput & RegionInput,
   StartGatewayOutput,
   StartGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3878,6 +4055,8 @@ export const startGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGateway",
+  telemetry: TELEMETRY,
+  span: "StartGateway",
 }));
 
 export type UpdateAutomaticTapeCreationPolicyError =
@@ -3894,7 +4073,7 @@ export type UpdateAutomaticTapeCreationPolicyError =
  * A gateway can have only one automatic tape creation policy.
  */
 export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
-  UpdateAutomaticTapeCreationPolicyInput,
+  UpdateAutomaticTapeCreationPolicyInput & RegionInput,
   UpdateAutomaticTapeCreationPolicyOutput,
   UpdateAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3905,6 +4084,8 @@ export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomaticTapeCreationPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomaticTapeCreationPolicy",
 }));
 
 export type UpdateBandwidthRateLimitError =
@@ -3926,7 +4107,7 @@ export type UpdateBandwidthRateLimitError =
  * your request.
  */
 export const updateBandwidthRateLimit: API.OperationMethod<
-  UpdateBandwidthRateLimitInput,
+  UpdateBandwidthRateLimitInput & RegionInput,
   UpdateBandwidthRateLimitOutput,
   UpdateBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
@@ -3937,6 +4118,8 @@ export const updateBandwidthRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBandwidthRateLimit",
+  telemetry: TELEMETRY,
+  span: "UpdateBandwidthRateLimit",
 }));
 
 export type UpdateBandwidthRateLimitScheduleError =
@@ -3952,7 +4135,7 @@ export type UpdateBandwidthRateLimitScheduleError =
  * limits.
  */
 export const updateBandwidthRateLimitSchedule: API.OperationMethod<
-  UpdateBandwidthRateLimitScheduleInput,
+  UpdateBandwidthRateLimitScheduleInput & RegionInput,
   UpdateBandwidthRateLimitScheduleOutput,
   UpdateBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
@@ -3963,6 +4146,8 @@ export const updateBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateBandwidthRateLimitSchedule",
 }));
 
 export type UpdateChapCredentialsError =
@@ -3979,7 +4164,7 @@ export type UpdateChapCredentialsError =
  * and initiators must reconnect with the new credentials.
  */
 export const updateChapCredentials: API.OperationMethod<
-  UpdateChapCredentialsInput,
+  UpdateChapCredentialsInput & RegionInput,
   UpdateChapCredentialsOutput,
   UpdateChapCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -3990,6 +4175,8 @@ export const updateChapCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChapCredentials",
+  telemetry: TELEMETRY,
+  span: "UpdateChapCredentials",
 }));
 
 export type UpdateFileSystemAssociationError =
@@ -4001,7 +4188,7 @@ export type UpdateFileSystemAssociationError =
  * Gateways.
  */
 export const updateFileSystemAssociation: API.OperationMethod<
-  UpdateFileSystemAssociationInput,
+  UpdateFileSystemAssociationInput & RegionInput,
   UpdateFileSystemAssociationOutput,
   UpdateFileSystemAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4012,6 +4199,8 @@ export const updateFileSystemAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystemAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemAssociation",
 }));
 
 export type UpdateGatewayInformationError =
@@ -4028,7 +4217,7 @@ export type UpdateGatewayInformationError =
  * no effect on the gateway's ARN.
  */
 export const updateGatewayInformation: API.OperationMethod<
-  UpdateGatewayInformationInput,
+  UpdateGatewayInformationInput & RegionInput,
   UpdateGatewayInformationOutput,
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
@@ -4039,6 +4228,8 @@ export const updateGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayInformation",
 }));
 
 export type UpdateGatewaySoftwareNowError =
@@ -4060,7 +4251,7 @@ export type UpdateGatewaySoftwareNowError =
  * Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
-  UpdateGatewaySoftwareNowInput,
+  UpdateGatewaySoftwareNowInput & RegionInput,
   UpdateGatewaySoftwareNowOutput,
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
@@ -4071,6 +4262,8 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewaySoftwareNow",
 }));
 
 export type UpdateMaintenanceStartTimeError =
@@ -4096,7 +4289,7 @@ export type UpdateMaintenanceStartTimeError =
  * deployment.
  */
 export const updateMaintenanceStartTime: API.OperationMethod<
-  UpdateMaintenanceStartTimeInput,
+  UpdateMaintenanceStartTimeInput & RegionInput,
   UpdateMaintenanceStartTimeOutput,
   UpdateMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
@@ -4107,6 +4300,8 @@ export const updateMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceStartTime",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceStartTime",
 }));
 
 export type UpdateNFSFileShareError =
@@ -4133,7 +4328,7 @@ export type UpdateNFSFileShareError =
  * - Write status of your file share
  */
 export const updateNFSFileShare: API.OperationMethod<
-  UpdateNFSFileShareInput,
+  UpdateNFSFileShareInput & RegionInput,
   UpdateNFSFileShareOutput,
   UpdateNFSFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4144,6 +4339,8 @@ export const updateNFSFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNFSFileShare",
+  telemetry: TELEMETRY,
+  span: "UpdateNFSFileShare",
 }));
 
 export type UpdateSMBFileShareError =
@@ -4169,7 +4366,7 @@ export type UpdateSMBFileShareError =
  * share.
  */
 export const updateSMBFileShare: API.OperationMethod<
-  UpdateSMBFileShareInput,
+  UpdateSMBFileShareInput & RegionInput,
   UpdateSMBFileShareOutput,
   UpdateSMBFileShareError,
   Credentials | HttpClient.HttpClient
@@ -4180,6 +4377,8 @@ export const updateSMBFileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBFileShare",
+  telemetry: TELEMETRY,
+  span: "UpdateSMBFileShare",
 }));
 
 export type UpdateSMBFileShareVisibilityError =
@@ -4191,7 +4390,7 @@ export type UpdateSMBFileShareVisibilityError =
  * list. The operation is only supported for S3 File Gateways.
  */
 export const updateSMBFileShareVisibility: API.OperationMethod<
-  UpdateSMBFileShareVisibilityInput,
+  UpdateSMBFileShareVisibilityInput & RegionInput,
   UpdateSMBFileShareVisibilityOutput,
   UpdateSMBFileShareVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -4202,6 +4401,8 @@ export const updateSMBFileShareVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBFileShareVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateSMBFileShareVisibility",
 }));
 
 export type UpdateSMBLocalGroupsError =
@@ -4213,7 +4414,7 @@ export type UpdateSMBLocalGroupsError =
  * SMB file shares on the gateway.
  */
 export const updateSMBLocalGroups: API.OperationMethod<
-  UpdateSMBLocalGroupsInput,
+  UpdateSMBLocalGroupsInput & RegionInput,
   UpdateSMBLocalGroupsOutput,
   UpdateSMBLocalGroupsError,
   Credentials | HttpClient.HttpClient
@@ -4224,6 +4425,8 @@ export const updateSMBLocalGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBLocalGroups",
+  telemetry: TELEMETRY,
+  span: "UpdateSMBLocalGroups",
 }));
 
 export type UpdateSMBSecurityStrategyError =
@@ -4241,7 +4444,7 @@ export type UpdateSMBSecurityStrategyError =
  * A higher security strategy level can affect performance of the gateway.
  */
 export const updateSMBSecurityStrategy: API.OperationMethod<
-  UpdateSMBSecurityStrategyInput,
+  UpdateSMBSecurityStrategyInput & RegionInput,
   UpdateSMBSecurityStrategyOutput,
   UpdateSMBSecurityStrategyError,
   Credentials | HttpClient.HttpClient
@@ -4252,6 +4455,8 @@ export const updateSMBSecurityStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSMBSecurityStrategy",
+  telemetry: TELEMETRY,
+  span: "UpdateSMBSecurityStrategy",
 }));
 
 export type UpdateSnapshotScheduleError =
@@ -4271,7 +4476,7 @@ export type UpdateSnapshotScheduleError =
  * day and the frequency (in hours) of snapshots.
  */
 export const updateSnapshotSchedule: API.OperationMethod<
-  UpdateSnapshotScheduleInput,
+  UpdateSnapshotScheduleInput & RegionInput,
   UpdateSnapshotScheduleOutput,
   UpdateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
@@ -4282,6 +4487,8 @@ export const updateSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshotSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshotSchedule",
 }));
 
 export type UpdateVTLDeviceTypeError =
@@ -4295,7 +4502,7 @@ export type UpdateVTLDeviceTypeError =
  * only supported in the tape gateway type.
  */
 export const updateVTLDeviceType: API.OperationMethod<
-  UpdateVTLDeviceTypeInput,
+  UpdateVTLDeviceTypeInput & RegionInput,
   UpdateVTLDeviceTypeOutput,
   UpdateVTLDeviceTypeError,
   Credentials | HttpClient.HttpClient
@@ -4306,6 +4513,8 @@ export const updateVTLDeviceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVTLDeviceType",
+  telemetry: TELEMETRY,
+  span: "UpdateVTLDeviceType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

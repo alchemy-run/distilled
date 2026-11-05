@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataLakeStore" },
+  prefix: "DatalakeStore",
+  service: "DatalakeStore",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeStore/accounts */
 export type CheckAccountNameAvailabilityRequestType = "Microsoft.DataLakeStore/accounts";
 export interface CheckAccountNameAvailabilityRequest {
@@ -968,6 +989,8 @@ export const CheckAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAccountNameAvailability",
 }));
 
 export type CreateAccountError = AzureOpError;
@@ -983,6 +1006,8 @@ export const CreateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -998,6 +1023,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
@@ -1013,6 +1040,8 @@ export const DeleteFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteTrustedIdProviderError = AzureOpError;
@@ -1028,6 +1057,8 @@ export const DeleteTrustedIdProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrustedIdProvider",
 }));
 
 export type DeleteVirtualNetworkRuleError = AzureOpError;
@@ -1043,6 +1074,8 @@ export const DeleteVirtualNetworkRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNetworkRule",
 }));
 
 export type EnableAccountKeyVaultError = AzureOpError;
@@ -1058,6 +1091,8 @@ export const EnableAccountKeyVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableAccountKeyVault",
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
@@ -1073,6 +1108,8 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FirewallRulesCreateOrUpdate",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -1088,6 +1125,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetFirewallRuleError = AzureOpError;
@@ -1103,6 +1142,8 @@ export const GetFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetLocationCapabilityError = AzureOpError;
@@ -1118,6 +1159,8 @@ export const GetLocationCapability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationCapability",
 }));
 
 export type GetLocationUsageError = AzureOpError;
@@ -1133,6 +1176,8 @@ export const GetLocationUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationUsage",
 }));
 
 export type GetTrustedIdProviderError = AzureOpError;
@@ -1148,6 +1193,8 @@ export const GetTrustedIdProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrustedIdProvider",
 }));
 
 export type GetVirtualNetworkRuleError = AzureOpError;
@@ -1163,6 +1210,8 @@ export const GetVirtualNetworkRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetworkRule",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -1178,6 +1227,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountsError = AzureOpError;
@@ -1193,6 +1244,8 @@ export const ListAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 }));
 
 export type ListFirewallRuleByAccountError = AzureOpError;
@@ -1208,6 +1261,8 @@ export const ListFirewallRuleByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleByAccount",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1223,6 +1278,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListTrustedIdProviderByAccountError = AzureOpError;
@@ -1238,6 +1295,8 @@ export const ListTrustedIdProviderByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrustedIdProviderByAccount",
 }));
 
 export type ListVirtualNetworkRuleByAccountError = AzureOpError;
@@ -1253,6 +1312,8 @@ export const ListVirtualNetworkRuleByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkRuleByAccount",
 }));
 
 export type TrustedIdProvidersCreateOrUpdateError = AzureOpError;
@@ -1268,6 +1329,8 @@ export const TrustedIdProvidersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrustedIdProvidersCreateOrUpdate",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1283,6 +1346,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateFirewallRuleError = AzureOpError;
@@ -1298,6 +1363,8 @@ export const UpdateFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRule",
 }));
 
 export type UpdateTrustedIdProviderError = AzureOpError;
@@ -1313,6 +1380,8 @@ export const UpdateTrustedIdProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrustedIdProvider",
 }));
 
 export type UpdateVirtualNetworkRuleError = AzureOpError;
@@ -1328,6 +1397,8 @@ export const UpdateVirtualNetworkRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNetworkRule",
 }));
 
 export type VirtualNetworkRulesCreateOrUpdateError = AzureOpError;
@@ -1343,6 +1414,8 @@ export const VirtualNetworkRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualNetworkRulesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

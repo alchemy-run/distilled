@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudproductregistry" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudproductregistry",
+  service: "cloudproductregistry",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -186,6 +205,8 @@ export const getLogicalProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogicalProducts",
 }));
 
 export type GetLogicalProductsVariantsError = NotFound | Forbidden | GcpOpError;
@@ -201,6 +222,8 @@ export const getLogicalProductsVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogicalProductsVariants",
 }));
 
 export type GetProductSuitesError = NotFound | Forbidden | GcpOpError;
@@ -216,6 +239,8 @@ export const getProductSuites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductSuites",
 }));
 
 export type ListLogicalProductsError = NotFound | Forbidden | GcpOpError;
@@ -232,6 +257,8 @@ export const listLogicalProducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogicalProducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -249,6 +276,8 @@ export const listLogicalProductsVariants: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogicalProductsVariants",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -266,6 +295,8 @@ export const listProductSuites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductSuites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -282,6 +313,8 @@ export const lookupEntityLogicalProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupEntityLogicalProducts",
 }));
 
 export type LookupEntityLogicalProductsVariantsError = NotFound | Forbidden | GcpOpError;
@@ -297,6 +330,8 @@ export const lookupEntityLogicalProductsVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupEntityLogicalProductsVariants",
 }));
 
 export type LookupEntityProductSuitesError = NotFound | Forbidden | GcpOpError;
@@ -312,6 +347,8 @@ export const lookupEntityProductSuites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupEntityProductSuites",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

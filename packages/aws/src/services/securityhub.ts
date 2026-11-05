@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://securityhub.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityHub",
+  service: "SecurityHub",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -7694,7 +7710,7 @@ export type AcceptAdministratorInvitationError =
  * account to view findings generated in the member account.
  */
 export const acceptAdministratorInvitation: API.OperationMethod<
-  AcceptAdministratorInvitationRequest,
+  AcceptAdministratorInvitationRequest & RegionInput,
   AcceptAdministratorInvitationResponse,
   AcceptAdministratorInvitationError,
   Credentials | HttpClient.HttpClient
@@ -7711,6 +7727,8 @@ export const acceptAdministratorInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAdministratorInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptAdministratorInvitation",
 }));
 
 export type AcceptInvitationError =
@@ -7735,7 +7753,7 @@ export type AcceptInvitationError =
  * account to view findings generated in the member account.
  */
 export const acceptInvitation: API.OperationMethod<
-  AcceptInvitationRequest,
+  AcceptInvitationRequest & RegionInput,
   AcceptInvitationResponse,
   AcceptInvitationError,
   Credentials | HttpClient.HttpClient
@@ -7752,6 +7770,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type BatchDeleteAutomationRulesError =
@@ -7765,7 +7785,7 @@ export type BatchDeleteAutomationRulesError =
  * Deletes one or more automation rules.
  */
 export const batchDeleteAutomationRules: API.OperationMethod<
-  BatchDeleteAutomationRulesRequest,
+  BatchDeleteAutomationRulesRequest & RegionInput,
   BatchDeleteAutomationRulesResponse,
   BatchDeleteAutomationRulesError,
   Credentials | HttpClient.HttpClient
@@ -7782,6 +7802,8 @@ export const batchDeleteAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAutomationRules",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAutomationRules",
 }));
 
 export type BatchDisableStandardsError =
@@ -7799,7 +7821,7 @@ export type BatchDisableStandardsError =
  * Guide.
  */
 export const batchDisableStandards: API.OperationMethod<
-  BatchDisableStandardsRequest,
+  BatchDisableStandardsRequest & RegionInput,
   BatchDisableStandardsResponse,
   BatchDisableStandardsError,
   Credentials | HttpClient.HttpClient
@@ -7816,6 +7838,8 @@ export const batchDisableStandards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisableStandards",
+  telemetry: TELEMETRY,
+  span: "BatchDisableStandards",
 }));
 
 export type BatchEnableStandardsError =
@@ -7834,7 +7858,7 @@ export type BatchEnableStandardsError =
  * section of the *Security Hub CSPM User Guide*.
  */
 export const batchEnableStandards: API.OperationMethod<
-  BatchEnableStandardsRequest,
+  BatchEnableStandardsRequest & RegionInput,
   BatchEnableStandardsResponse,
   BatchEnableStandardsError,
   Credentials | HttpClient.HttpClient
@@ -7851,6 +7875,8 @@ export const batchEnableStandards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchEnableStandards",
+  telemetry: TELEMETRY,
+  span: "BatchEnableStandards",
 }));
 
 export type BatchGetAutomationRulesError =
@@ -7866,7 +7892,7 @@ export type BatchGetAutomationRulesError =
  * (ARNs).
  */
 export const batchGetAutomationRules: API.OperationMethod<
-  BatchGetAutomationRulesRequest,
+  BatchGetAutomationRulesRequest & RegionInput,
   BatchGetAutomationRulesResponse,
   BatchGetAutomationRulesError,
   Credentials | HttpClient.HttpClient
@@ -7884,6 +7910,8 @@ export const batchGetAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAutomationRules",
+  telemetry: TELEMETRY,
+  span: "BatchGetAutomationRules",
 }));
 
 export type BatchGetConfigurationPolicyAssociationsError =
@@ -7900,7 +7928,7 @@ export type BatchGetConfigurationPolicyAssociationsError =
  * can refer to a configuration policy or to a self-managed configuration.
  */
 export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
-  BatchGetConfigurationPolicyAssociationsRequest,
+  BatchGetConfigurationPolicyAssociationsRequest & RegionInput,
   BatchGetConfigurationPolicyAssociationsResponse,
   BatchGetConfigurationPolicyAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -7918,6 +7946,8 @@ export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetConfigurationPolicyAssociations",
+  telemetry: TELEMETRY,
+  span: "BatchGetConfigurationPolicyAssociations",
 }));
 
 export type BatchGetSecurityControlsError =
@@ -7930,7 +7960,7 @@ export type BatchGetSecurityControlsError =
  * Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
  */
 export const batchGetSecurityControls: API.OperationMethod<
-  BatchGetSecurityControlsRequest,
+  BatchGetSecurityControlsRequest & RegionInput,
   BatchGetSecurityControlsResponse,
   BatchGetSecurityControlsError,
   Credentials | HttpClient.HttpClient
@@ -7946,6 +7976,8 @@ export const batchGetSecurityControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityControls",
+  telemetry: TELEMETRY,
+  span: "BatchGetSecurityControls",
 }));
 
 export type BatchGetStandardsControlAssociationsError =
@@ -7960,7 +7992,7 @@ export type BatchGetStandardsControlAssociationsError =
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the association has a `NOT_READY_FOR_UPDATES` value for `StandardsControlsUpdatable`.
  */
 export const batchGetStandardsControlAssociations: API.OperationMethod<
-  BatchGetStandardsControlAssociationsRequest,
+  BatchGetStandardsControlAssociationsRequest & RegionInput,
   BatchGetStandardsControlAssociationsResponse,
   BatchGetStandardsControlAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -7976,6 +8008,8 @@ export const batchGetStandardsControlAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStandardsControlAssociations",
+  telemetry: TELEMETRY,
+  span: "BatchGetStandardsControlAssociations",
 }));
 
 export type BatchImportFindingsError =
@@ -8031,7 +8065,7 @@ export type BatchImportFindingsError =
  * Instead, finding providers use `FindingProviderFields` to provide values for these attributes.
  */
 export const batchImportFindings: API.OperationMethod<
-  BatchImportFindingsRequest,
+  BatchImportFindingsRequest & RegionInput,
   BatchImportFindingsResponse,
   BatchImportFindingsError,
   Credentials | HttpClient.HttpClient
@@ -8047,6 +8081,8 @@ export const batchImportFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchImportFindings",
+  telemetry: TELEMETRY,
+  span: "BatchImportFindings",
 }));
 
 export type BatchUpdateAutomationRulesError =
@@ -8061,7 +8097,7 @@ export type BatchUpdateAutomationRulesError =
  * and input parameters.
  */
 export const batchUpdateAutomationRules: API.OperationMethod<
-  BatchUpdateAutomationRulesRequest,
+  BatchUpdateAutomationRulesRequest & RegionInput,
   BatchUpdateAutomationRulesResponse,
   BatchUpdateAutomationRulesError,
   Credentials | HttpClient.HttpClient
@@ -8078,6 +8114,8 @@ export const batchUpdateAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomationRules",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAutomationRules",
 }));
 
 export type BatchUpdateFindingsError =
@@ -8119,7 +8157,7 @@ export type BatchUpdateFindingsError =
  * For more information see Configuring access to BatchUpdateFindings in the *Security Hub CSPM User Guide*.
  */
 export const batchUpdateFindings: API.OperationMethod<
-  BatchUpdateFindingsRequest,
+  BatchUpdateFindingsRequest & RegionInput,
   BatchUpdateFindingsResponse,
   BatchUpdateFindingsError,
   Credentials | HttpClient.HttpClient
@@ -8135,6 +8173,8 @@ export const batchUpdateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindings",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateFindings",
 }));
 
 export type BatchUpdateFindingsV2Error =
@@ -8157,7 +8197,7 @@ export type BatchUpdateFindingsV2Error =
  * Updates from `BatchUpdateFindingsV2` don't affect the value of `finding_info.modified_time`, `finding_info.modified_time_dt`, `time`, or `time_dt` for a finding.
  */
 export const batchUpdateFindingsV2: API.OperationMethod<
-  BatchUpdateFindingsV2Request,
+  BatchUpdateFindingsV2Request & RegionInput,
   BatchUpdateFindingsV2Response,
   BatchUpdateFindingsV2Error,
   Credentials | HttpClient.HttpClient
@@ -8174,6 +8214,8 @@ export const batchUpdateFindingsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindingsV2",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateFindingsV2",
 }));
 
 export type BatchUpdateStandardsControlAssociationsError =
@@ -8187,7 +8229,7 @@ export type BatchUpdateStandardsControlAssociationsError =
  * For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
  */
 export const batchUpdateStandardsControlAssociations: API.OperationMethod<
-  BatchUpdateStandardsControlAssociationsRequest,
+  BatchUpdateStandardsControlAssociationsRequest & RegionInput,
   BatchUpdateStandardsControlAssociationsResponse,
   BatchUpdateStandardsControlAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -8204,6 +8246,8 @@ export const batchUpdateStandardsControlAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateStandardsControlAssociations",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateStandardsControlAssociations",
 }));
 
 export type CreateActionTargetError =
@@ -8220,7 +8264,7 @@ export type CreateActionTargetError =
  * in Amazon CloudWatch Events.
  */
 export const createActionTarget: API.OperationMethod<
-  CreateActionTargetRequest,
+  CreateActionTargetRequest & RegionInput,
   CreateActionTargetResponse,
   CreateActionTargetError,
   Credentials | HttpClient.HttpClient
@@ -8237,6 +8281,8 @@ export const createActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActionTarget",
+  telemetry: TELEMETRY,
+  span: "CreateActionTarget",
 }));
 
 export type CreateAggregatorV2Error =
@@ -8252,7 +8298,7 @@ export type CreateAggregatorV2Error =
  * Enables aggregation across Amazon Web Services Regions.
  */
 export const createAggregatorV2: API.OperationMethod<
-  CreateAggregatorV2Request,
+  CreateAggregatorV2Request & RegionInput,
   CreateAggregatorV2Response,
   CreateAggregatorV2Error,
   Credentials | HttpClient.HttpClient
@@ -8271,6 +8317,8 @@ export const createAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAggregatorV2",
+  telemetry: TELEMETRY,
+  span: "CreateAggregatorV2",
 }));
 
 export type CreateAutomationRuleError =
@@ -8284,7 +8332,7 @@ export type CreateAutomationRuleError =
  * Creates an automation rule based on input parameters.
  */
 export const createAutomationRule: API.OperationMethod<
-  CreateAutomationRuleRequest,
+  CreateAutomationRuleRequest & RegionInput,
   CreateAutomationRuleResponse,
   CreateAutomationRuleError,
   Credentials | HttpClient.HttpClient
@@ -8301,6 +8349,8 @@ export const createAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
+  telemetry: TELEMETRY,
+  span: "CreateAutomationRule",
 }));
 
 export type CreateAutomationRuleV2Error =
@@ -8315,7 +8365,7 @@ export type CreateAutomationRuleV2Error =
  * Creates a V2 automation rule.
  */
 export const createAutomationRuleV2: API.OperationMethod<
-  CreateAutomationRuleV2Request,
+  CreateAutomationRuleV2Request & RegionInput,
   CreateAutomationRuleV2Response,
   CreateAutomationRuleV2Error,
   Credentials | HttpClient.HttpClient
@@ -8333,6 +8383,8 @@ export const createAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRuleV2",
+  telemetry: TELEMETRY,
+  span: "CreateAutomationRuleV2",
 }));
 
 export type CreateConfigurationPolicyError =
@@ -8348,7 +8400,7 @@ export type CreateConfigurationPolicyError =
  * can invoke this operation from the home Region.
  */
 export const createConfigurationPolicy: API.OperationMethod<
-  CreateConfigurationPolicyRequest,
+  CreateConfigurationPolicyRequest & RegionInput,
   CreateConfigurationPolicyResponse,
   CreateConfigurationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8366,6 +8418,8 @@ export const createConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationPolicy",
 }));
 
 export type CreateConnectorError =
@@ -8382,7 +8436,7 @@ export type CreateConnectorError =
  * Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -8402,6 +8456,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateConnectorV2Error =
@@ -8417,7 +8473,7 @@ export type CreateConnectorV2Error =
  * Grants permission to create a connectorV2 based on input parameters.
  */
 export const createConnectorV2: API.OperationMethod<
-  CreateConnectorV2Request,
+  CreateConnectorV2Request & RegionInput,
   CreateConnectorV2Response,
   CreateConnectorV2Error,
   Credentials | HttpClient.HttpClient
@@ -8436,6 +8492,8 @@ export const createConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorV2",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorV2",
 }));
 
 export type CreateFindingAggregatorError =
@@ -8453,7 +8511,7 @@ export type CreateFindingAggregatorError =
  * For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub CSPM in the *Security Hub CSPM User Guide*.
  */
 export const createFindingAggregator: API.OperationMethod<
-  CreateFindingAggregatorRequest,
+  CreateFindingAggregatorRequest & RegionInput,
   CreateFindingAggregatorResponse,
   CreateFindingAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -8470,6 +8528,8 @@ export const createFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingAggregator",
+  telemetry: TELEMETRY,
+  span: "CreateFindingAggregator",
 }));
 
 export type CreateInsightError =
@@ -8487,7 +8547,7 @@ export type CreateInsightError =
  * `GroupByAttribute`.
  */
 export const createInsight: API.OperationMethod<
-  CreateInsightRequest,
+  CreateInsightRequest & RegionInput,
   CreateInsightResponse,
   CreateInsightError,
   Credentials | HttpClient.HttpClient
@@ -8504,6 +8564,8 @@ export const createInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInsight",
+  telemetry: TELEMETRY,
+  span: "CreateInsight",
 }));
 
 export type CreateMembersError =
@@ -8550,7 +8612,7 @@ export type CreateMembersError =
  * To remove the association between the administrator and member accounts, use the `DisassociateFromMasterAccount` or `DisassociateMembers` operation.
  */
 export const createMembers: API.OperationMethod<
-  CreateMembersRequest,
+  CreateMembersRequest & RegionInput,
   CreateMembersResponse,
   CreateMembersError,
   Credentials | HttpClient.HttpClient
@@ -8568,6 +8630,8 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  telemetry: TELEMETRY,
+  span: "CreateMembers",
 }));
 
 export type CreateTicketV2Error =
@@ -8582,7 +8646,7 @@ export type CreateTicketV2Error =
  * Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
  */
 export const createTicketV2: API.OperationMethod<
-  CreateTicketV2Request,
+  CreateTicketV2Request & RegionInput,
   CreateTicketV2Response,
   CreateTicketV2Error,
   Credentials | HttpClient.HttpClient
@@ -8600,6 +8664,8 @@ export const createTicketV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTicketV2",
+  telemetry: TELEMETRY,
+  span: "CreateTicketV2",
 }));
 
 export type DeclineInvitationsError =
@@ -8621,7 +8687,7 @@ export type DeclineInvitationsError =
  * Organization accounts don't receive invitations.
  */
 export const declineInvitations: API.OperationMethod<
-  DeclineInvitationsRequest,
+  DeclineInvitationsRequest & RegionInput,
   DeclineInvitationsResponse,
   DeclineInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -8637,6 +8703,8 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  telemetry: TELEMETRY,
+  span: "DeclineInvitations",
 }));
 
 export type DeleteActionTargetError =
@@ -8652,7 +8720,7 @@ export type DeleteActionTargetError =
  * already sent to Amazon CloudWatch Events using the custom action.
  */
 export const deleteActionTarget: API.OperationMethod<
-  DeleteActionTargetRequest,
+  DeleteActionTargetRequest & RegionInput,
   DeleteActionTargetResponse,
   DeleteActionTargetError,
   Credentials | HttpClient.HttpClient
@@ -8668,6 +8736,8 @@ export const deleteActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActionTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteActionTarget",
 }));
 
 export type DeleteAggregatorV2Error =
@@ -8682,7 +8752,7 @@ export type DeleteAggregatorV2Error =
  * Deletes the Aggregator V2.
  */
 export const deleteAggregatorV2: API.OperationMethod<
-  DeleteAggregatorV2Request,
+  DeleteAggregatorV2Request & RegionInput,
   DeleteAggregatorV2Response,
   DeleteAggregatorV2Error,
   Credentials | HttpClient.HttpClient
@@ -8700,6 +8770,8 @@ export const deleteAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregatorV2",
+  telemetry: TELEMETRY,
+  span: "DeleteAggregatorV2",
 }));
 
 export type DeleteAutomationRuleV2Error =
@@ -8714,7 +8786,7 @@ export type DeleteAutomationRuleV2Error =
  * Deletes a V2 automation rule.
  */
 export const deleteAutomationRuleV2: API.OperationMethod<
-  DeleteAutomationRuleV2Request,
+  DeleteAutomationRuleV2Request & RegionInput,
   DeleteAutomationRuleV2Response,
   DeleteAutomationRuleV2Error,
   Credentials | HttpClient.HttpClient
@@ -8732,6 +8804,8 @@ export const deleteAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRuleV2",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomationRuleV2",
 }));
 
 export type DeleteConfigurationPolicyError =
@@ -8749,7 +8823,7 @@ export type DeleteConfigurationPolicyError =
  * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
  */
 export const deleteConfigurationPolicy: API.OperationMethod<
-  DeleteConfigurationPolicyRequest,
+  DeleteConfigurationPolicyRequest & RegionInput,
   DeleteConfigurationPolicyResponse,
   DeleteConfigurationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8768,6 +8842,8 @@ export const deleteConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationPolicy",
 }));
 
 export type DeleteConnectorError =
@@ -8783,7 +8859,7 @@ export type DeleteConnectorError =
  * Deletes a CSPM connector. When you delete a connector, Security Hub CSPM stops ingesting findings and resource data from the connected cloud provider environment.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -8802,6 +8878,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteConnectorV2Error =
@@ -8816,7 +8894,7 @@ export type DeleteConnectorV2Error =
  * Grants permission to delete a connectorV2.
  */
 export const deleteConnectorV2: API.OperationMethod<
-  DeleteConnectorV2Request,
+  DeleteConnectorV2Request & RegionInput,
   DeleteConnectorV2Response,
   DeleteConnectorV2Error,
   Credentials | HttpClient.HttpClient
@@ -8834,6 +8912,8 @@ export const deleteConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorV2",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorV2",
 }));
 
 export type DeleteFindingAggregatorError =
@@ -8854,7 +8934,7 @@ export type DeleteFindingAggregatorError =
  * the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
  */
 export const deleteFindingAggregator: API.OperationMethod<
-  DeleteFindingAggregatorRequest,
+  DeleteFindingAggregatorRequest & RegionInput,
   DeleteFindingAggregatorResponse,
   DeleteFindingAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -8872,6 +8952,8 @@ export const deleteFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingAggregator",
+  telemetry: TELEMETRY,
+  span: "DeleteFindingAggregator",
 }));
 
 export type DeleteInsightError =
@@ -8885,7 +8967,7 @@ export type DeleteInsightError =
  * Deletes the insight specified by the `InsightArn`.
  */
 export const deleteInsight: API.OperationMethod<
-  DeleteInsightRequest,
+  DeleteInsightRequest & RegionInput,
   DeleteInsightResponse,
   DeleteInsightError,
   Credentials | HttpClient.HttpClient
@@ -8902,6 +8984,8 @@ export const deleteInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
+  telemetry: TELEMETRY,
+  span: "DeleteInsight",
 }));
 
 export type DeleteInvitationsError =
@@ -8924,7 +9008,7 @@ export type DeleteInvitationsError =
  * Organization accounts don't receive invitations.
  */
 export const deleteInvitations: API.OperationMethod<
-  DeleteInvitationsRequest,
+  DeleteInvitationsRequest & RegionInput,
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
@@ -8941,6 +9025,8 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  telemetry: TELEMETRY,
+  span: "DeleteInvitations",
 }));
 
 export type DeleteMembersError =
@@ -8957,7 +9043,7 @@ export type DeleteMembersError =
  * API to delete accounts that belong to an Organizations organization.
  */
 export const deleteMembers: API.OperationMethod<
-  DeleteMembersRequest,
+  DeleteMembersRequest & RegionInput,
   DeleteMembersResponse,
   DeleteMembersError,
   Credentials | HttpClient.HttpClient
@@ -8974,6 +9060,8 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DescribeActionTargetsError =
@@ -8986,7 +9074,7 @@ export type DescribeActionTargetsError =
  * Returns a list of the custom action targets in Security Hub CSPM in your account.
  */
 export const describeActionTargets: API.PaginatedOperationMethod<
-  DescribeActionTargetsRequest,
+  DescribeActionTargetsRequest & RegionInput,
   DescribeActionTargetsResponse,
   DescribeActionTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -9009,6 +9097,8 @@ export const describeActionTargets: API.PaginatedOperationMethod<
     items: "ActionTargets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeActionTargets",
 })) as any;
 
 export type DescribeHubError =
@@ -9023,7 +9113,7 @@ export type DescribeHubError =
  * `HubArn` and the time when you enabled Security Hub CSPM.
  */
 export const describeHub: API.OperationMethod<
-  DescribeHubRequest,
+  DescribeHubRequest & RegionInput,
   DescribeHubResponse,
   DescribeHubError,
   Credentials | HttpClient.HttpClient
@@ -9040,6 +9130,8 @@ export const describeHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHub",
+  telemetry: TELEMETRY,
+  span: "DescribeHub",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -9053,7 +9145,7 @@ export type DescribeOrganizationConfigurationError =
  * Security Hub CSPM administrator account can invoke this operation.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9069,6 +9161,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DescribeProductsError =
@@ -9087,7 +9181,7 @@ export type DescribeProductsError =
  * product integrations.
  */
 export const describeProducts: API.PaginatedOperationMethod<
-  DescribeProductsRequest,
+  DescribeProductsRequest & RegionInput,
   DescribeProductsResponse,
   DescribeProductsError,
   Credentials | HttpClient.HttpClient,
@@ -9110,6 +9204,8 @@ export const describeProducts: API.PaginatedOperationMethod<
     items: "Products",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProducts",
 })) as any;
 
 export type DescribeProductsV2Error =
@@ -9123,7 +9219,7 @@ export type DescribeProductsV2Error =
  * Gets information about the product integration.
  */
 export const describeProductsV2: API.PaginatedOperationMethod<
-  DescribeProductsV2Request,
+  DescribeProductsV2Request & RegionInput,
   DescribeProductsV2Response,
   DescribeProductsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -9147,6 +9243,8 @@ export const describeProductsV2: API.PaginatedOperationMethod<
     items: "ProductsV2",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProductsV2",
 })) as any;
 
 export type DescribeSecurityHubV2Error =
@@ -9159,7 +9257,7 @@ export type DescribeSecurityHubV2Error =
  * Returns details about the service resource in your account.
  */
 export const describeSecurityHubV2: API.OperationMethod<
-  DescribeSecurityHubV2Request,
+  DescribeSecurityHubV2Request & RegionInput,
   DescribeSecurityHubV2Response,
   DescribeSecurityHubV2Error,
   Credentials | HttpClient.HttpClient
@@ -9175,6 +9273,8 @@ export const describeSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityHubV2",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityHubV2",
 }));
 
 export type DescribeStandardsError =
@@ -9188,7 +9288,7 @@ export type DescribeStandardsError =
  * For each standard, the results include the standard ARN, the name, and a description.
  */
 export const describeStandards: API.PaginatedOperationMethod<
-  DescribeStandardsRequest,
+  DescribeStandardsRequest & RegionInput,
   DescribeStandardsResponse,
   DescribeStandardsError,
   Credentials | HttpClient.HttpClient,
@@ -9206,6 +9306,8 @@ export const describeStandards: API.PaginatedOperationMethod<
     items: "Standards",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStandards",
 })) as any;
 
 export type DescribeStandardsControlsError =
@@ -9223,7 +9325,7 @@ export type DescribeStandardsControlsError =
  * This operation returns an empty list for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
 export const describeStandardsControls: API.PaginatedOperationMethod<
-  DescribeStandardsControlsRequest,
+  DescribeStandardsControlsRequest & RegionInput,
   DescribeStandardsControlsResponse,
   DescribeStandardsControlsError,
   Credentials | HttpClient.HttpClient,
@@ -9246,6 +9348,8 @@ export const describeStandardsControls: API.PaginatedOperationMethod<
     items: "Controls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStandardsControls",
 })) as any;
 
 export type DisableImportFindingsForProductError =
@@ -9260,7 +9364,7 @@ export type DisableImportFindingsForProductError =
  * disabled, findings from that product are no longer sent to Security Hub CSPM.
  */
 export const disableImportFindingsForProduct: API.OperationMethod<
-  DisableImportFindingsForProductRequest,
+  DisableImportFindingsForProductRequest & RegionInput,
   DisableImportFindingsForProductResponse,
   DisableImportFindingsForProductError,
   Credentials | HttpClient.HttpClient
@@ -9277,6 +9381,8 @@ export const disableImportFindingsForProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImportFindingsForProduct",
+  telemetry: TELEMETRY,
+  span: "DisableImportFindingsForProduct",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -9291,7 +9397,7 @@ export type DisableOrganizationAdminAccountError =
  * management account.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
-  DisableOrganizationAdminAccountRequest,
+  DisableOrganizationAdminAccountRequest & RegionInput,
   DisableOrganizationAdminAccountResponse,
   DisableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -9308,6 +9414,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisableSecurityHubError =
@@ -9331,7 +9439,7 @@ export type DisableSecurityHubError =
  * Security Hub CSPM.
  */
 export const disableSecurityHub: API.OperationMethod<
-  DisableSecurityHubRequest,
+  DisableSecurityHubRequest & RegionInput,
   DisableSecurityHubResponse,
   DisableSecurityHubError,
   Credentials | HttpClient.HttpClient
@@ -9348,6 +9456,8 @@ export const disableSecurityHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHub",
+  telemetry: TELEMETRY,
+  span: "DisableSecurityHub",
 }));
 
 export type DisableSecurityHubFeatureV2Error =
@@ -9361,7 +9471,7 @@ export type DisableSecurityHubFeatureV2Error =
  * Disables an opt-in feature for the calling account in the current Amazon Web Services Region. The operation is idempotent. If the feature is already disabled, no changes are made. You cannot disable a feature that is managed by an organization policy.
  */
 export const disableSecurityHubFeatureV2: API.OperationMethod<
-  DisableSecurityHubFeatureV2Request,
+  DisableSecurityHubFeatureV2Request & RegionInput,
   DisableSecurityHubFeatureV2Response,
   DisableSecurityHubFeatureV2Error,
   Credentials | HttpClient.HttpClient
@@ -9378,6 +9488,8 @@ export const disableSecurityHubFeatureV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubFeatureV2",
+  telemetry: TELEMETRY,
+  span: "DisableSecurityHubFeatureV2",
 }));
 
 export type DisableSecurityHubV2Error =
@@ -9390,7 +9502,7 @@ export type DisableSecurityHubV2Error =
  * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.
  */
 export const disableSecurityHubV2: API.OperationMethod<
-  DisableSecurityHubV2Request,
+  DisableSecurityHubV2Request & RegionInput,
   DisableSecurityHubV2Response,
   DisableSecurityHubV2Error,
   Credentials | HttpClient.HttpClient
@@ -9406,6 +9518,8 @@ export const disableSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubV2",
+  telemetry: TELEMETRY,
+  span: "DisableSecurityHubV2",
 }));
 
 export type DisassociateFromAdministratorAccountError =
@@ -9424,7 +9538,7 @@ export type DisassociateFromAdministratorAccountError =
  * disassociate a member account.
  */
 export const disassociateFromAdministratorAccount: API.OperationMethod<
-  DisassociateFromAdministratorAccountRequest,
+  DisassociateFromAdministratorAccountRequest & RegionInput,
   DisassociateFromAdministratorAccountResponse,
   DisassociateFromAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -9441,6 +9555,8 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromAdministratorAccount",
 }));
 
 export type DisassociateFromMasterAccountError =
@@ -9463,7 +9579,7 @@ export type DisassociateFromMasterAccountError =
  * disassociate a member account.
  */
 export const disassociateFromMasterAccount: API.OperationMethod<
-  DisassociateFromMasterAccountRequest,
+  DisassociateFromMasterAccountRequest & RegionInput,
   DisassociateFromMasterAccountResponse,
   DisassociateFromMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -9480,6 +9596,8 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromMasterAccount",
 }));
 
 export type DisassociateMembersError =
@@ -9497,7 +9615,7 @@ export type DisassociateMembersError =
  * were invited manually.
  */
 export const disassociateMembers: API.OperationMethod<
-  DisassociateMembersRequest,
+  DisassociateMembersRequest & RegionInput,
   DisassociateMembersResponse,
   DisassociateMembersError,
   Credentials | HttpClient.HttpClient
@@ -9515,6 +9633,8 @@ export const disassociateMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembers",
+  telemetry: TELEMETRY,
+  span: "DisassociateMembers",
 }));
 
 export type EnableImportFindingsForProductError =
@@ -9532,7 +9652,7 @@ export type EnableImportFindingsForProductError =
  * the product to send findings to Security Hub CSPM is applied.
  */
 export const enableImportFindingsForProduct: API.OperationMethod<
-  EnableImportFindingsForProductRequest,
+  EnableImportFindingsForProductRequest & RegionInput,
   EnableImportFindingsForProductResponse,
   EnableImportFindingsForProductError,
   Credentials | HttpClient.HttpClient
@@ -9549,6 +9669,8 @@ export const enableImportFindingsForProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImportFindingsForProduct",
+  telemetry: TELEMETRY,
+  span: "EnableImportFindingsForProduct",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -9563,7 +9685,7 @@ export type EnableOrganizationAdminAccountError =
  * the organization management account.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
-  EnableOrganizationAdminAccountRequest,
+  EnableOrganizationAdminAccountRequest & RegionInput,
   EnableOrganizationAdminAccountResponse,
   EnableOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -9580,6 +9702,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type EnableSecurityHubError =
@@ -9614,7 +9738,7 @@ export type EnableSecurityHubError =
  * To learn more, see the setup information in the *Security Hub CSPM User Guide*.
  */
 export const enableSecurityHub: API.OperationMethod<
-  EnableSecurityHubRequest,
+  EnableSecurityHubRequest & RegionInput,
   EnableSecurityHubResponse,
   EnableSecurityHubError,
   Credentials | HttpClient.HttpClient
@@ -9631,6 +9755,8 @@ export const enableSecurityHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHub",
+  telemetry: TELEMETRY,
+  span: "EnableSecurityHub",
 }));
 
 export type EnableSecurityHubFeatureV2Error =
@@ -9644,7 +9770,7 @@ export type EnableSecurityHubFeatureV2Error =
  * Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy.
  */
 export const enableSecurityHubFeatureV2: API.OperationMethod<
-  EnableSecurityHubFeatureV2Request,
+  EnableSecurityHubFeatureV2Request & RegionInput,
   EnableSecurityHubFeatureV2Response,
   EnableSecurityHubFeatureV2Error,
   Credentials | HttpClient.HttpClient
@@ -9661,6 +9787,8 @@ export const enableSecurityHubFeatureV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubFeatureV2",
+  telemetry: TELEMETRY,
+  span: "EnableSecurityHubFeatureV2",
 }));
 
 export type EnableSecurityHubV2Error =
@@ -9673,7 +9801,7 @@ export type EnableSecurityHubV2Error =
  * Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
  */
 export const enableSecurityHubV2: API.OperationMethod<
-  EnableSecurityHubV2Request,
+  EnableSecurityHubV2Request & RegionInput,
   EnableSecurityHubV2Response,
   EnableSecurityHubV2Error,
   Credentials | HttpClient.HttpClient
@@ -9689,6 +9817,8 @@ export const enableSecurityHubV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubV2",
+  telemetry: TELEMETRY,
+  span: "EnableSecurityHubV2",
 }));
 
 export type GenerateRecommendedPolicyV2Error =
@@ -9704,7 +9834,7 @@ export type GenerateRecommendedPolicyV2Error =
  * `GenerateRecommendedPolicyV2` only supports findings for unused permissions.
  */
 export const generateRecommendedPolicyV2: API.OperationMethod<
-  GenerateRecommendedPolicyV2Request,
+  GenerateRecommendedPolicyV2Request & RegionInput,
   GenerateRecommendedPolicyV2Response,
   GenerateRecommendedPolicyV2Error,
   Credentials | HttpClient.HttpClient
@@ -9722,6 +9852,8 @@ export const generateRecommendedPolicyV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRecommendedPolicyV2",
+  telemetry: TELEMETRY,
+  span: "GenerateRecommendedPolicyV2",
 }));
 
 export type GetAdministratorAccountError =
@@ -9738,7 +9870,7 @@ export type GetAdministratorAccountError =
  * invited manually.
  */
 export const getAdministratorAccount: API.OperationMethod<
-  GetAdministratorAccountRequest,
+  GetAdministratorAccountRequest & RegionInput,
   GetAdministratorAccountResponse,
   GetAdministratorAccountError,
   Credentials | HttpClient.HttpClient
@@ -9755,6 +9887,8 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdministratorAccount",
 }));
 
 export type GetAggregatorV2Error =
@@ -9769,7 +9903,7 @@ export type GetAggregatorV2Error =
  * Returns the configuration of the specified Aggregator V2.
  */
 export const getAggregatorV2: API.OperationMethod<
-  GetAggregatorV2Request,
+  GetAggregatorV2Request & RegionInput,
   GetAggregatorV2Response,
   GetAggregatorV2Error,
   Credentials | HttpClient.HttpClient
@@ -9787,6 +9921,8 @@ export const getAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregatorV2",
+  telemetry: TELEMETRY,
+  span: "GetAggregatorV2",
 }));
 
 export type GetAutomationRuleV2Error =
@@ -9801,7 +9937,7 @@ export type GetAutomationRuleV2Error =
  * Returns an automation rule for the V2 service.
  */
 export const getAutomationRuleV2: API.OperationMethod<
-  GetAutomationRuleV2Request,
+  GetAutomationRuleV2Request & RegionInput,
   GetAutomationRuleV2Response,
   GetAutomationRuleV2Error,
   Credentials | HttpClient.HttpClient
@@ -9819,6 +9955,8 @@ export const getAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRuleV2",
+  telemetry: TELEMETRY,
+  span: "GetAutomationRuleV2",
 }));
 
 export type GetConfigurationPolicyError =
@@ -9834,7 +9972,7 @@ export type GetConfigurationPolicyError =
  * this operation from the home Region.
  */
 export const getConfigurationPolicy: API.OperationMethod<
-  GetConfigurationPolicyRequest,
+  GetConfigurationPolicyRequest & RegionInput,
   GetConfigurationPolicyResponse,
   GetConfigurationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -9852,6 +9990,8 @@ export const getConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationPolicy",
 }));
 
 export type GetConfigurationPolicyAssociationError =
@@ -9868,7 +10008,7 @@ export type GetConfigurationPolicyAssociationError =
  * invoke this operation from the home Region.
  */
 export const getConfigurationPolicyAssociation: API.OperationMethod<
-  GetConfigurationPolicyAssociationRequest,
+  GetConfigurationPolicyAssociationRequest & RegionInput,
   GetConfigurationPolicyAssociationResponse,
   GetConfigurationPolicyAssociationError,
   Credentials | HttpClient.HttpClient
@@ -9886,6 +10026,8 @@ export const getConfigurationPolicyAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicyAssociation",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationPolicyAssociation",
 }));
 
 export type GetConnectorError =
@@ -9901,7 +10043,7 @@ export type GetConnectorError =
  * Retrieves details for a CSPM connector based on the connector ID.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -9920,6 +10062,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetConnectorV2Error =
@@ -9934,7 +10078,7 @@ export type GetConnectorV2Error =
  * Grants permission to retrieve details for a connectorV2 based on connector id.
  */
 export const getConnectorV2: API.OperationMethod<
-  GetConnectorV2Request,
+  GetConnectorV2Request & RegionInput,
   GetConnectorV2Response,
   GetConnectorV2Error,
   Credentials | HttpClient.HttpClient
@@ -9952,6 +10096,8 @@ export const getConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorV2",
+  telemetry: TELEMETRY,
+  span: "GetConnectorV2",
 }));
 
 export type GetEnabledStandardsError =
@@ -9964,7 +10110,7 @@ export type GetEnabledStandardsError =
  * Returns a list of the standards that are currently enabled.
  */
 export const getEnabledStandards: API.PaginatedOperationMethod<
-  GetEnabledStandardsRequest,
+  GetEnabledStandardsRequest & RegionInput,
   GetEnabledStandardsResponse,
   GetEnabledStandardsError,
   Credentials | HttpClient.HttpClient,
@@ -9987,6 +10133,8 @@ export const getEnabledStandards: API.PaginatedOperationMethod<
     items: "StandardsSubscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEnabledStandards",
 })) as any;
 
 export type GetFindingAggregatorError =
@@ -10004,7 +10152,7 @@ export type GetFindingAggregatorError =
  * the home Region and any linked Regions.
  */
 export const getFindingAggregator: API.OperationMethod<
-  GetFindingAggregatorRequest,
+  GetFindingAggregatorRequest & RegionInput,
   GetFindingAggregatorResponse,
   GetFindingAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -10022,6 +10170,8 @@ export const getFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingAggregator",
+  telemetry: TELEMETRY,
+  span: "GetFindingAggregator",
 }));
 
 export type GetFindingHistoryError =
@@ -10042,7 +10192,7 @@ export type GetFindingHistoryError =
  * response that doesn't include this value.
  */
 export const getFindingHistory: API.PaginatedOperationMethod<
-  GetFindingHistoryRequest,
+  GetFindingHistoryRequest & RegionInput,
   GetFindingHistoryResponse,
   GetFindingHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -10065,6 +10215,8 @@ export const getFindingHistory: API.PaginatedOperationMethod<
     items: "Records",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingHistory",
 })) as any;
 
 export type GetFindingsError =
@@ -10079,7 +10231,7 @@ export type GetFindingsError =
  * If cross-Region aggregation is enabled, then when you call `GetFindings` from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
  */
 export const getFindings: API.PaginatedOperationMethod<
-  GetFindingsRequest,
+  GetFindingsRequest & RegionInput,
   GetFindingsResponse,
   GetFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -10102,6 +10254,8 @@ export const getFindings: API.PaginatedOperationMethod<
     items: "Findings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindings",
 })) as any;
 
 export type GetFindingStatisticsV2Error =
@@ -10122,7 +10276,7 @@ export type GetFindingStatisticsV2Error =
  * You must have permission to perform the `securityhub:GetAdhocInsightResults` action.
  */
 export const getFindingStatisticsV2: API.OperationMethod<
-  GetFindingStatisticsV2Request,
+  GetFindingStatisticsV2Request & RegionInput,
   GetFindingStatisticsV2Response,
   GetFindingStatisticsV2Error,
   Credentials | HttpClient.HttpClient
@@ -10141,6 +10295,8 @@ export const getFindingStatisticsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatisticsV2",
+  telemetry: TELEMETRY,
+  span: "GetFindingStatisticsV2",
 }));
 
 export type GetFindingsTrendsV2Error =
@@ -10153,7 +10309,7 @@ export type GetFindingsTrendsV2Error =
  * Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time.
  */
 export const getFindingsTrendsV2: API.PaginatedOperationMethod<
-  GetFindingsTrendsV2Request,
+  GetFindingsTrendsV2Request & RegionInput,
   GetFindingsTrendsV2Response,
   GetFindingsTrendsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10176,6 +10332,8 @@ export const getFindingsTrendsV2: API.PaginatedOperationMethod<
     items: "TrendsMetrics",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingsTrendsV2",
 })) as any;
 
 export type GetFindingsV2Error =
@@ -10198,7 +10356,7 @@ export type GetFindingsV2Error =
  * You must have permission to perform the `securityhub:GetFindings` action.
  */
 export const getFindingsV2: API.PaginatedOperationMethod<
-  GetFindingsV2Request,
+  GetFindingsV2Request & RegionInput,
   GetFindingsV2Response,
   GetFindingsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10224,6 +10382,8 @@ export const getFindingsV2: API.PaginatedOperationMethod<
     items: "Findings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingsV2",
 })) as any;
 
 export type GetInsightResultsError =
@@ -10237,7 +10397,7 @@ export type GetInsightResultsError =
  * Lists the results of the Security Hub CSPM insight specified by the insight ARN.
  */
 export const getInsightResults: API.OperationMethod<
-  GetInsightResultsRequest,
+  GetInsightResultsRequest & RegionInput,
   GetInsightResultsResponse,
   GetInsightResultsError,
   Credentials | HttpClient.HttpClient
@@ -10254,6 +10414,8 @@ export const getInsightResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightResults",
+  telemetry: TELEMETRY,
+  span: "GetInsightResults",
 }));
 
 export type GetInsightsError =
@@ -10267,7 +10429,7 @@ export type GetInsightsError =
  * Lists and describes insights for the specified insight ARNs.
  */
 export const getInsights: API.PaginatedOperationMethod<
-  GetInsightsRequest,
+  GetInsightsRequest & RegionInput,
   GetInsightsResponse,
   GetInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -10291,6 +10453,8 @@ export const getInsights: API.PaginatedOperationMethod<
     items: "Insights",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInsights",
 })) as any;
 
 export type GetInvitationsCountError =
@@ -10308,7 +10472,7 @@ export type GetInvitationsCountError =
  * calling member account, not including the currently accepted invitation.
  */
 export const getInvitationsCount: API.OperationMethod<
-  GetInvitationsCountRequest,
+  GetInvitationsCountRequest & RegionInput,
   GetInvitationsCountResponse,
   GetInvitationsCountError,
   Credentials | HttpClient.HttpClient
@@ -10324,6 +10488,8 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  telemetry: TELEMETRY,
+  span: "GetInvitationsCount",
 }));
 
 export type GetMasterAccountError =
@@ -10344,7 +10510,7 @@ export type GetMasterAccountError =
  * invited manually.
  */
 export const getMasterAccount: API.OperationMethod<
-  GetMasterAccountRequest,
+  GetMasterAccountRequest & RegionInput,
   GetMasterAccountResponse,
   GetMasterAccountError,
   Credentials | HttpClient.HttpClient
@@ -10361,6 +10527,8 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  telemetry: TELEMETRY,
+  span: "GetMasterAccount",
 }));
 
 export type GetMembersError =
@@ -10380,7 +10548,7 @@ export type GetMembersError =
  * were invited manually.
  */
 export const getMembers: API.OperationMethod<
-  GetMembersRequest,
+  GetMembersRequest & RegionInput,
   GetMembersResponse,
   GetMembersError,
   Credentials | HttpClient.HttpClient
@@ -10397,6 +10565,8 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type GetRecommendedPolicyV2Error =
@@ -10412,7 +10582,7 @@ export type GetRecommendedPolicyV2Error =
  * `GetRecommendedPolicyV2` only supports findings for unused permissions.
  */
 export const getRecommendedPolicyV2: API.PaginatedOperationMethod<
-  GetRecommendedPolicyV2Request,
+  GetRecommendedPolicyV2Request & RegionInput,
   GetRecommendedPolicyV2Response,
   GetRecommendedPolicyV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10437,6 +10607,8 @@ export const getRecommendedPolicyV2: API.PaginatedOperationMethod<
     items: "RecommendationSteps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRecommendedPolicyV2",
 })) as any;
 
 export type GetRemediationsV2Error =
@@ -10453,7 +10625,7 @@ export type GetRemediationsV2Error =
  * or finding.
  */
 export const getRemediationsV2: API.PaginatedOperationMethod<
-  GetRemediationsV2Request,
+  GetRemediationsV2Request & RegionInput,
   GetRemediationsV2Response,
   GetRemediationsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10477,6 +10649,8 @@ export const getRemediationsV2: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRemediationsV2",
 })) as any;
 
 export type GetResourcesStatisticsV2Error =
@@ -10497,7 +10671,7 @@ export type GetResourcesStatisticsV2Error =
  * If you set `GroupByField` to `ResourceSubCategory`, `ResourceInfo.AIDetails.HostResourceType`, or `ResourceInfo.AIDetails.CanonicalId`, you must include a `ResourceCategory` string filter with comparison set to `EQUALS` and value `AI/ML` in the corresponding `ResourceGroupByRule`.
  */
 export const getResourcesStatisticsV2: API.OperationMethod<
-  GetResourcesStatisticsV2Request,
+  GetResourcesStatisticsV2Request & RegionInput,
   GetResourcesStatisticsV2Response,
   GetResourcesStatisticsV2Error,
   Credentials | HttpClient.HttpClient
@@ -10517,6 +10691,8 @@ export const getResourcesStatisticsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesStatisticsV2",
+  telemetry: TELEMETRY,
+  span: "GetResourcesStatisticsV2",
 }));
 
 export type GetResourcesTrendsV2Error =
@@ -10529,7 +10705,7 @@ export type GetResourcesTrendsV2Error =
  * Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time.
  */
 export const getResourcesTrendsV2: API.PaginatedOperationMethod<
-  GetResourcesTrendsV2Request,
+  GetResourcesTrendsV2Request & RegionInput,
   GetResourcesTrendsV2Response,
   GetResourcesTrendsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10552,6 +10728,8 @@ export const getResourcesTrendsV2: API.PaginatedOperationMethod<
     items: "TrendsMetrics",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcesTrendsV2",
 })) as any;
 
 export type GetResourcesV2Error =
@@ -10576,7 +10754,7 @@ export type GetResourcesV2Error =
  * If you filter by `ResourceSubCategory`, you must also include a `ResourceCategory` string filter with comparison set to `EQUALS` and value `AI/ML` in the same request.
  */
 export const getResourcesV2: API.PaginatedOperationMethod<
-  GetResourcesV2Request,
+  GetResourcesV2Request & RegionInput,
   GetResourcesV2Response,
   GetResourcesV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10603,6 +10781,8 @@ export const getResourcesV2: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcesV2",
 })) as any;
 
 export type GetSecurityControlDefinitionError =
@@ -10616,7 +10796,7 @@ export type GetSecurityControlDefinitionError =
  * Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
  */
 export const getSecurityControlDefinition: API.OperationMethod<
-  GetSecurityControlDefinitionRequest,
+  GetSecurityControlDefinitionRequest & RegionInput,
   GetSecurityControlDefinitionResponse,
   GetSecurityControlDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -10633,6 +10813,8 @@ export const getSecurityControlDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityControlDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSecurityControlDefinition",
 }));
 
 export type InviteMembersError =
@@ -10659,7 +10841,7 @@ export type InviteMembersError =
  * account, the administrator account can view the findings generated in the member account.
  */
 export const inviteMembers: API.OperationMethod<
-  InviteMembersRequest,
+  InviteMembersRequest & RegionInput,
   InviteMembersResponse,
   InviteMembersError,
   Credentials | HttpClient.HttpClient
@@ -10676,6 +10858,8 @@ export const inviteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteMembers",
+  telemetry: TELEMETRY,
+  span: "InviteMembers",
 }));
 
 export type ListAggregatorsV2Error =
@@ -10690,7 +10874,7 @@ export type ListAggregatorsV2Error =
  * Retrieves a list of V2 aggregators.
  */
 export const listAggregatorsV2: API.PaginatedOperationMethod<
-  ListAggregatorsV2Request,
+  ListAggregatorsV2Request & RegionInput,
   ListAggregatorsV2Response,
   ListAggregatorsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10715,6 +10899,8 @@ export const listAggregatorsV2: API.PaginatedOperationMethod<
     items: "AggregatorsV2",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregatorsV2",
 })) as any;
 
 export type ListAutomationRulesError =
@@ -10728,7 +10914,7 @@ export type ListAutomationRulesError =
  * A list of automation rules and their metadata for the calling account.
  */
 export const listAutomationRules: API.OperationMethod<
-  ListAutomationRulesRequest,
+  ListAutomationRulesRequest & RegionInput,
   ListAutomationRulesResponse,
   ListAutomationRulesError,
   Credentials | HttpClient.HttpClient
@@ -10745,6 +10931,8 @@ export const listAutomationRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRules",
+  telemetry: TELEMETRY,
+  span: "ListAutomationRules",
 }));
 
 export type ListAutomationRulesV2Error =
@@ -10758,7 +10946,7 @@ export type ListAutomationRulesV2Error =
  * Returns a list of automation rules and metadata for the calling account.
  */
 export const listAutomationRulesV2: API.OperationMethod<
-  ListAutomationRulesV2Request,
+  ListAutomationRulesV2Request & RegionInput,
   ListAutomationRulesV2Response,
   ListAutomationRulesV2Error,
   Credentials | HttpClient.HttpClient
@@ -10775,6 +10963,8 @@ export const listAutomationRulesV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRulesV2",
+  telemetry: TELEMETRY,
+  span: "ListAutomationRulesV2",
 }));
 
 export type ListConfigurationPoliciesError =
@@ -10789,7 +10979,7 @@ export type ListConfigurationPoliciesError =
  * organization. Only the delegated administrator can invoke this operation from the home Region.
  */
 export const listConfigurationPolicies: API.PaginatedOperationMethod<
-  ListConfigurationPoliciesRequest,
+  ListConfigurationPoliciesRequest & RegionInput,
   ListConfigurationPoliciesResponse,
   ListConfigurationPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -10813,6 +11003,8 @@ export const listConfigurationPolicies: API.PaginatedOperationMethod<
     items: "ConfigurationPolicySummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationPolicies",
 })) as any;
 
 export type ListConfigurationPolicyAssociationsError =
@@ -10827,7 +11019,7 @@ export type ListConfigurationPolicyAssociationsError =
  * Security Hub CSPM delegated administrator can invoke this operation from the home Region.
  */
 export const listConfigurationPolicyAssociations: API.PaginatedOperationMethod<
-  ListConfigurationPolicyAssociationsRequest,
+  ListConfigurationPolicyAssociationsRequest & RegionInput,
   ListConfigurationPolicyAssociationsResponse,
   ListConfigurationPolicyAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -10851,6 +11043,8 @@ export const listConfigurationPolicyAssociations: API.PaginatedOperationMethod<
     items: "ConfigurationPolicyAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationPolicyAssociations",
 })) as any;
 
 export type ListConnectorsError =
@@ -10866,7 +11060,7 @@ export type ListConnectorsError =
  * Lists the CSPM connectors and their metadata for the calling account.
  */
 export const listConnectors: API.OperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient
@@ -10885,6 +11079,8 @@ export const listConnectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectors",
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 }));
 
 export type ListConnectorsV2Error =
@@ -10899,7 +11095,7 @@ export type ListConnectorsV2Error =
  * Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account.
  */
 export const listConnectorsV2: API.OperationMethod<
-  ListConnectorsV2Request,
+  ListConnectorsV2Request & RegionInput,
   ListConnectorsV2Response,
   ListConnectorsV2Error,
   Credentials | HttpClient.HttpClient
@@ -10917,6 +11113,8 @@ export const listConnectorsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorsV2",
+  telemetry: TELEMETRY,
+  span: "ListConnectorsV2",
 }));
 
 export type ListEnabledProductsForImportError =
@@ -10929,7 +11127,7 @@ export type ListEnabledProductsForImportError =
  * findings from in Security Hub CSPM.
  */
 export const listEnabledProductsForImport: API.PaginatedOperationMethod<
-  ListEnabledProductsForImportRequest,
+  ListEnabledProductsForImportRequest & RegionInput,
   ListEnabledProductsForImportResponse,
   ListEnabledProductsForImportError,
   Credentials | HttpClient.HttpClient,
@@ -10947,6 +11145,8 @@ export const listEnabledProductsForImport: API.PaginatedOperationMethod<
     items: "ProductSubscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnabledProductsForImport",
 })) as any;
 
 export type ListExposuresByRemediationV2Error =
@@ -10961,7 +11161,7 @@ export type ListExposuresByRemediationV2Error =
  * previous severity, highest first, and are paginated.
  */
 export const listExposuresByRemediationV2: API.PaginatedOperationMethod<
-  ListExposuresByRemediationV2Request,
+  ListExposuresByRemediationV2Request & RegionInput,
   ListExposuresByRemediationV2Response,
   ListExposuresByRemediationV2Error,
   Credentials | HttpClient.HttpClient,
@@ -10985,6 +11185,8 @@ export const listExposuresByRemediationV2: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExposuresByRemediationV2",
 })) as any;
 
 export type ListFindingAggregatorsError =
@@ -10999,7 +11201,7 @@ export type ListFindingAggregatorsError =
  * of the finding aggregator. You can run this operation from any Amazon Web Services Region.
  */
 export const listFindingAggregators: API.PaginatedOperationMethod<
-  ListFindingAggregatorsRequest,
+  ListFindingAggregatorsRequest & RegionInput,
   ListFindingAggregatorsResponse,
   ListFindingAggregatorsError,
   Credentials | HttpClient.HttpClient,
@@ -11023,6 +11225,8 @@ export const listFindingAggregators: API.PaginatedOperationMethod<
     items: "FindingAggregators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingAggregators",
 })) as any;
 
 export type ListFreeTrialStatusesV2Error =
@@ -11036,7 +11240,7 @@ export type ListFreeTrialStatusesV2Error =
  * Lists the free trial status of Security Hub features. A delegated Security Hub administrator can list the status for accounts in its organization. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled.
  */
 export const listFreeTrialStatusesV2: API.PaginatedOperationMethod<
-  ListFreeTrialStatusesV2Request,
+  ListFreeTrialStatusesV2Request & RegionInput,
   ListFreeTrialStatusesV2Response,
   ListFreeTrialStatusesV2Error,
   Credentials | HttpClient.HttpClient,
@@ -11060,6 +11264,8 @@ export const listFreeTrialStatusesV2: API.PaginatedOperationMethod<
     items: "AccountFreeTrialStatuses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFreeTrialStatusesV2",
 })) as any;
 
 export type ListInvitationsError =
@@ -11079,7 +11285,7 @@ export type ListInvitationsError =
  * Accounts that are managed using the integration with Organizations don't receive invitations.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsRequest,
+  ListInvitationsRequest & RegionInput,
   ListInvitationsResponse,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -11102,6 +11308,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "Invitations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -11118,7 +11326,7 @@ export type ListMembersError =
  * accounts that were invited manually.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -11141,6 +11349,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -11154,7 +11364,7 @@ export type ListOrganizationAdminAccountsError =
  * management account.
  */
 export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
-  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsRequest & RegionInput,
   ListOrganizationAdminAccountsResponse,
   ListOrganizationAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -11177,6 +11387,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListSecurityControlDefinitionsError =
@@ -11189,7 +11401,7 @@ export type ListSecurityControlDefinitionsError =
  * Lists all of the security controls that apply to a specified standard.
  */
 export const listSecurityControlDefinitions: API.PaginatedOperationMethod<
-  ListSecurityControlDefinitionsRequest,
+  ListSecurityControlDefinitionsRequest & RegionInput,
   ListSecurityControlDefinitionsResponse,
   ListSecurityControlDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -11212,6 +11424,8 @@ export const listSecurityControlDefinitions: API.PaginatedOperationMethod<
     items: "SecurityControlDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityControlDefinitions",
 })) as any;
 
 export type ListStandardsControlAssociationsError =
@@ -11226,7 +11440,7 @@ export type ListStandardsControlAssociationsError =
  * This operation omits standards control associations for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
 export const listStandardsControlAssociations: API.PaginatedOperationMethod<
-  ListStandardsControlAssociationsRequest,
+  ListStandardsControlAssociationsRequest & RegionInput,
   ListStandardsControlAssociationsResponse,
   ListStandardsControlAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -11249,6 +11463,8 @@ export const listStandardsControlAssociations: API.PaginatedOperationMethod<
     items: "StandardsControlAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStandardsControlAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -11260,7 +11476,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags associated with a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -11271,6 +11487,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterConnectorV2Error =
@@ -11285,7 +11503,7 @@ export type RegisterConnectorV2Error =
  * Grants permission to complete the authorization based on input parameters.
  */
 export const registerConnectorV2: API.OperationMethod<
-  RegisterConnectorV2Request,
+  RegisterConnectorV2Request & RegionInput,
   RegisterConnectorV2Response,
   RegisterConnectorV2Error,
   Credentials | HttpClient.HttpClient
@@ -11303,6 +11521,8 @@ export const registerConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterConnectorV2",
+  telemetry: TELEMETRY,
+  span: "RegisterConnectorV2",
 }));
 
 export type StartConfigurationPolicyAssociationError =
@@ -11319,7 +11539,7 @@ export type StartConfigurationPolicyAssociationError =
  * invoke this operation from the home Region.
  */
 export const startConfigurationPolicyAssociation: API.OperationMethod<
-  StartConfigurationPolicyAssociationRequest,
+  StartConfigurationPolicyAssociationRequest & RegionInput,
   StartConfigurationPolicyAssociationResponse,
   StartConfigurationPolicyAssociationError,
   Credentials | HttpClient.HttpClient
@@ -11337,6 +11557,8 @@ export const startConfigurationPolicyAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyAssociation",
+  telemetry: TELEMETRY,
+  span: "StartConfigurationPolicyAssociation",
 }));
 
 export type StartConfigurationPolicyDisassociationError =
@@ -11355,7 +11577,7 @@ export type StartConfigurationPolicyDisassociationError =
  * operation from the home Region.
  */
 export const startConfigurationPolicyDisassociation: API.OperationMethod<
-  StartConfigurationPolicyDisassociationRequest,
+  StartConfigurationPolicyDisassociationRequest & RegionInput,
   StartConfigurationPolicyDisassociationResponse,
   StartConfigurationPolicyDisassociationError,
   Credentials | HttpClient.HttpClient
@@ -11373,6 +11595,8 @@ export const startConfigurationPolicyDisassociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyDisassociation",
+  telemetry: TELEMETRY,
+  span: "StartConfigurationPolicyDisassociation",
 }));
 
 export type TagResourceError =
@@ -11384,7 +11608,7 @@ export type TagResourceError =
  * Adds one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -11395,6 +11619,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -11406,7 +11632,7 @@ export type UntagResourceError =
  * Removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -11417,6 +11643,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateActionTargetError =
@@ -11429,7 +11657,7 @@ export type UpdateActionTargetError =
  * Updates the name and description of a custom action target in Security Hub CSPM.
  */
 export const updateActionTarget: API.OperationMethod<
-  UpdateActionTargetRequest,
+  UpdateActionTargetRequest & RegionInput,
   UpdateActionTargetResponse,
   UpdateActionTargetError,
   Credentials | HttpClient.HttpClient
@@ -11445,6 +11673,8 @@ export const updateActionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionTarget",
+  telemetry: TELEMETRY,
+  span: "UpdateActionTarget",
 }));
 
 export type UpdateAggregatorV2Error =
@@ -11459,7 +11689,7 @@ export type UpdateAggregatorV2Error =
  * Udpates the configuration for the Aggregator V2.
  */
 export const updateAggregatorV2: API.OperationMethod<
-  UpdateAggregatorV2Request,
+  UpdateAggregatorV2Request & RegionInput,
   UpdateAggregatorV2Response,
   UpdateAggregatorV2Error,
   Credentials | HttpClient.HttpClient
@@ -11477,6 +11707,8 @@ export const updateAggregatorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAggregatorV2",
+  telemetry: TELEMETRY,
+  span: "UpdateAggregatorV2",
 }));
 
 export type UpdateAutomationRuleV2Error =
@@ -11491,7 +11723,7 @@ export type UpdateAutomationRuleV2Error =
  * Updates a V2 automation rule.
  */
 export const updateAutomationRuleV2: API.OperationMethod<
-  UpdateAutomationRuleV2Request,
+  UpdateAutomationRuleV2Request & RegionInput,
   UpdateAutomationRuleV2Response,
   UpdateAutomationRuleV2Error,
   Credentials | HttpClient.HttpClient
@@ -11509,6 +11741,8 @@ export const updateAutomationRuleV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRuleV2",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomationRuleV2",
 }));
 
 export type UpdateConfigurationPolicyError =
@@ -11525,7 +11759,7 @@ export type UpdateConfigurationPolicyError =
  * administrator can invoke this operation from the home Region.
  */
 export const updateConfigurationPolicy: API.OperationMethod<
-  UpdateConfigurationPolicyRequest,
+  UpdateConfigurationPolicyRequest & RegionInput,
   UpdateConfigurationPolicyResponse,
   UpdateConfigurationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -11544,6 +11778,8 @@ export const updateConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationPolicy",
 }));
 
 export type UpdateConnectorError =
@@ -11559,7 +11795,7 @@ export type UpdateConnectorError =
  * Updates a CSPM connector's configuration, such as the scope or regions for the connected cloud provider.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -11578,6 +11814,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateConnectorV2Error =
@@ -11592,7 +11830,7 @@ export type UpdateConnectorV2Error =
  * Grants permission to update a connectorV2 based on its id and input parameters.
  */
 export const updateConnectorV2: API.OperationMethod<
-  UpdateConnectorV2Request,
+  UpdateConnectorV2Request & RegionInput,
   UpdateConnectorV2Response,
   UpdateConnectorV2Error,
   Credentials | HttpClient.HttpClient
@@ -11610,6 +11848,8 @@ export const updateConnectorV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorV2",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorV2",
 }));
 
 export type UpdateFindingAggregatorError =
@@ -11629,7 +11869,7 @@ export type UpdateFindingAggregatorError =
  * You can invoke this operation from the current home Region only.
  */
 export const updateFindingAggregator: API.OperationMethod<
-  UpdateFindingAggregatorRequest,
+  UpdateFindingAggregatorRequest & RegionInput,
   UpdateFindingAggregatorResponse,
   UpdateFindingAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -11647,6 +11887,8 @@ export const updateFindingAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingAggregator",
+  telemetry: TELEMETRY,
+  span: "UpdateFindingAggregator",
 }));
 
 export type UpdateFindingsError =
@@ -11669,7 +11911,7 @@ export type UpdateFindingsError =
  * record updates made with `UpdateFindings` in the finding history.
  */
 export const updateFindings: API.OperationMethod<
-  UpdateFindingsRequest,
+  UpdateFindingsRequest & RegionInput,
   UpdateFindingsResponse,
   UpdateFindingsError,
   Credentials | HttpClient.HttpClient
@@ -11686,6 +11928,8 @@ export const updateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
+  telemetry: TELEMETRY,
+  span: "UpdateFindings",
 }));
 
 export type UpdateInsightError =
@@ -11699,7 +11943,7 @@ export type UpdateInsightError =
  * Updates the Security Hub CSPM insight identified by the specified insight ARN.
  */
 export const updateInsight: API.OperationMethod<
-  UpdateInsightRequest,
+  UpdateInsightRequest & RegionInput,
   UpdateInsightResponse,
   UpdateInsightError,
   Credentials | HttpClient.HttpClient
@@ -11716,6 +11960,8 @@ export const updateInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInsight",
+  telemetry: TELEMETRY,
+  span: "UpdateInsight",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -11732,7 +11978,7 @@ export type UpdateOrganizationConfigurationError =
  * Security Hub CSPM administrator account can invoke this operation.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11751,6 +11997,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 export type UpdateSecurityControlError =
@@ -11766,7 +12014,7 @@ export type UpdateSecurityControlError =
  * Updates the properties of a security control.
  */
 export const updateSecurityControl: API.OperationMethod<
-  UpdateSecurityControlRequest,
+  UpdateSecurityControlRequest & RegionInput,
   UpdateSecurityControlResponse,
   UpdateSecurityControlError,
   Credentials | HttpClient.HttpClient
@@ -11785,6 +12033,8 @@ export const updateSecurityControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityControl",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityControl",
 }));
 
 export type UpdateSecurityHubConfigurationError =
@@ -11799,7 +12049,7 @@ export type UpdateSecurityHubConfigurationError =
  * Updates configuration options for Security Hub CSPM.
  */
 export const updateSecurityHubConfiguration: API.OperationMethod<
-  UpdateSecurityHubConfigurationRequest,
+  UpdateSecurityHubConfigurationRequest & RegionInput,
   UpdateSecurityHubConfigurationResponse,
   UpdateSecurityHubConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -11817,6 +12067,8 @@ export const updateSecurityHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityHubConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityHubConfiguration",
 }));
 
 export type UpdateStandardsControlError =
@@ -11833,7 +12085,7 @@ export type UpdateStandardsControlError =
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
  */
 export const updateStandardsControl: API.OperationMethod<
-  UpdateStandardsControlRequest,
+  UpdateStandardsControlRequest & RegionInput,
   UpdateStandardsControlResponse,
   UpdateStandardsControlError,
   Credentials | HttpClient.HttpClient
@@ -11850,6 +12102,8 @@ export const updateStandardsControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStandardsControl",
+  telemetry: TELEMETRY,
+  span: "UpdateStandardsControl",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

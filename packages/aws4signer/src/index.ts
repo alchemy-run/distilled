@@ -12,6 +12,7 @@ import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import * as P256 from "./p256.ts";
 
 /**
  * Headers left out of the signature by default (matches aws4fetch). Callers
@@ -201,6 +202,7 @@ export const SigningKeyCache = /*@__PURE__*/ Context.Reference<SigningKeyStore |
  * derives from the URL and headers. `finish` writes the signature in.
  */
 interface Canonical {
+  readonly algorithm: string;
   readonly method: string;
   readonly date: string;
   readonly datetime: string;
@@ -248,8 +250,17 @@ const headerRecord = (input: Record<string, string> | undefined): Record<string,
   return out;
 };
 
+/** SigV4 (`AWS4-HMAC-SHA256`) or SigV4A (`AWS4-ECDSA-P256-SHA256`) scoping. */
+interface Algorithm {
+  readonly name: string;
+  /** SigV4A: the `X-Amz-Region-Set` value; the credential scope then omits the region. */
+  readonly regionSet?: string;
+}
+
+const SIGV4: Algorithm = { name: "AWS4-HMAC-SHA256" };
+
 /** Canonicalise `options`; throws {@link InvalidSigningUrl} / {@link InvalidSigningHeaders}. */
-const canonicalize = (options: SignOptions): Canonical => {
+const canonicalize = (options: SignOptions, algorithm: Algorithm = SIGV4): Canonical => {
   const { accessKeyId, service, region, signQuery, allHeaders, body } = options;
   const sessionToken = options.sessionToken ? Redacted.value(options.sessionToken) : undefined;
   const method = options.method ?? (body ? "POST" : "GET");
@@ -266,6 +277,11 @@ const canonicalize = (options: SignOptions): Canonical => {
 
   if (service === "s3" && !signQuery && headers["x-amz-content-sha256"] === undefined) {
     headers["x-amz-content-sha256"] = "UNSIGNED-PAYLOAD";
+  }
+
+  if (algorithm.regionSet !== undefined) {
+    if (signQuery) url.searchParams.set("X-Amz-Region-Set", algorithm.regionSet);
+    else headers["x-amz-region-set"] = algorithm.regionSet;
   }
 
   if (signQuery) {
@@ -289,13 +305,17 @@ const canonicalize = (options: SignOptions): Canonical => {
     )
     .join("\n");
   const date = datetime.slice(0, 8);
-  const credentialString = [date, region, service, "aws4_request"].join("/");
+  const credentialString = (
+    algorithm.regionSet === undefined
+      ? [date, region, service, "aws4_request"]
+      : [date, service, "aws4_request"]
+  ).join("/");
 
   if (signQuery) {
     if (service === "s3" && !url.searchParams.has("X-Amz-Expires")) {
       url.searchParams.set("X-Amz-Expires", "86400");
     }
-    url.searchParams.set("X-Amz-Algorithm", "AWS4-HMAC-SHA256");
+    url.searchParams.set("X-Amz-Algorithm", algorithm.name);
     url.searchParams.set("X-Amz-Credential", accessKeyId + "/" + credentialString);
     url.searchParams.set("X-Amz-SignedHeaders", signedHeaders);
   }
@@ -337,6 +357,7 @@ const canonicalize = (options: SignOptions): Canonical => {
     (service === "s3" && signQuery ? "UNSIGNED-PAYLOAD" : undefined);
 
   return {
+    algorithm: algorithm.name,
     method,
     date,
     datetime,
@@ -357,7 +378,7 @@ const canonicalize = (options: SignOptions): Canonical => {
         }
       } else {
         headers.authorization = [
-          "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/" + credentialString,
+          algorithm.name + " Credential=" + accessKeyId + "/" + credentialString,
           "SignedHeaders=" + signedHeaders,
           "Signature=" + signature,
         ].join(", ");
@@ -370,7 +391,7 @@ const canonicalize = (options: SignOptions): Canonical => {
 };
 
 const stringToSignOf = (c: Canonical, canonicalRequestHash: string): string =>
-  ["AWS4-HMAC-SHA256", c.datetime, c.credentialString, canonicalRequestHash].join("\n");
+  [c.algorithm, c.datetime, c.credentialString, canonicalRequestHash].join("\n");
 
 /**
  * Derived keys for the synchronous path, per secret (by `Redacted` identity,
@@ -512,6 +533,224 @@ const signAsync: (options: SignOptions) => Effect.Effect<SignedRequest, SigningE
     );
     return canonical.finish(signature);
   });
+
+//#region SigV4A
+
+export interface SignV4aOptions extends Omit<SignOptions, "region" | "signQuery"> {
+  /**
+   * Regions the signature is valid in (`X-Amz-Region-Set`), e.g. `["*"]` for
+   * every region -- what EventBridge global endpoints and S3 Multi-Region
+   * Access Points use. Replaces SigV4's single signing region.
+   */
+  readonly regionSet: readonly string[];
+}
+
+const SIGV4A = "AWS4-ECDSA-P256-SHA256";
+const encoder = /*@__PURE__*/ new TextEncoder();
+
+/**
+ * A SigV4A signing key: the credential-derived P-256 private scalar as PKCS#8,
+ * plus the platform key objects imported from it, filled in on first use.
+ */
+interface SigningKeyV4a {
+  readonly d: bigint;
+  readonly der: Uint8Array<ArrayBuffer>;
+  node?: object;
+  web?: CryptoKey;
+}
+
+/** Derived SigV4A keys per secret (by `Redacted` identity) and access key id. */
+const signingKeysV4a = /*@__PURE__*/ new WeakMap<
+  Redacted.Redacted<string>,
+  Map<string, SigningKeyV4a>
+>();
+
+/**
+ * Derive the SigV4A ECDSA P-256 key from AWS credentials: the NIST SP 800-108
+ * HMAC-SHA256 counter-mode KDF over `"AWS4A" + secret`, with the access key id
+ * and a retry counter as context, until the candidate scalar is below `n - 1`.
+ */
+const deriveSigningKeyV4a = Effect.fnUntraced(function* (
+  accessKeyId: string,
+  secretAccessKey: Redacted.Redacted<string>,
+) {
+  let scopes = signingKeysV4a.get(secretAccessKey);
+  if (scopes === undefined) signingKeysV4a.set(secretAccessKey, (scopes = new Map()));
+  const hit = scopes.get(accessKeyId);
+  if (hit !== undefined) return hit;
+
+  const c = yield* CoreCrypto.Crypto;
+  const inputKey = yield* Effect.mapError(
+    c.importHmacKey("AWS4A" + Redacted.value(secretAccessKey)),
+    fromCore,
+  );
+  const label = encoder.encode(SIGV4A);
+  const keyId = encoder.encode(accessKeyId);
+  for (let counter = 1; counter <= 254; counter++) {
+    // [i = 1]_32 || Label || 0x00 || Context (accessKeyId || counter) || [L = 256]_32
+    const fixedInput = new Uint8Array(4 + label.length + 1 + keyId.length + 1 + 4);
+    fixedInput.set([0, 0, 0, 1], 0);
+    fixedInput.set(label, 4);
+    fixedInput.set(keyId, 4 + label.length + 1);
+    fixedInput[4 + label.length + 1 + keyId.length] = counter;
+    fixedInput.set([0, 0, 1, 0], fixedInput.length - 4);
+    const k0 = P256.toBigInt(yield* Effect.mapError(c.hmacSha256(inputKey, fixedInput), fromCore));
+    if (k0 > P256.N - 2n) continue;
+    const d = k0 + 1n;
+    const key: SigningKeyV4a = { d, der: P256.pkcs8(d) };
+    if (scopes.size >= 16) scopes.clear();
+    scopes.set(accessKeyId, key);
+    return key;
+  }
+  return yield* new CryptoError({
+    operation: "hmac",
+    cause: "SigV4A key derivation did not converge",
+  });
+});
+
+interface NodeEcdsa {
+  createPrivateKey(options: { key: Uint8Array; format: "der"; type: "pkcs8" }): object;
+  createPublicKey(key: object): { export(options: { format: "jwk" }): JsonWebKey };
+  sign(algorithm: string, data: Uint8Array, key: { key: object; dsaEncoding: "der" }): Uint8Array;
+}
+
+/** `node:crypto`, found without a static import so this module loads in any runtime. */
+const nodeEcdsa = (): NodeEcdsa | undefined => {
+  try {
+    const p = (globalThis as { process?: { getBuiltinModule?: (id: string) => unknown } }).process;
+    return p?.getBuiltinModule?.("node:crypto") as NodeEcdsa | undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const ECDSA_P256 = { name: "ECDSA", namedCurve: "P-256" } as const;
+
+/** The key's point as a JWK, computed in JavaScript: the last resort. */
+const jwkOf = (d: bigint): JsonWebKey => {
+  const { x, y } = P256.publicPoint(d);
+  return {
+    kty: "EC",
+    crv: "P-256",
+    d: P256.base64Url(P256.toBytes32(d)),
+    x: P256.base64Url(P256.toBytes32(x)),
+    y: P256.base64Url(P256.toBytes32(y)),
+  };
+};
+
+/**
+ * Import into WebCrypto. PKCS#8 without the public point lets the platform
+ * derive it (Bun, workerd, Node all do); a WebCrypto that rejects that gets
+ * a JWK whose point is computed by {@link P256.publicPoint}.
+ */
+const importWebKey = (key: SigningKeyV4a, extractable: boolean): Promise<CryptoKey> =>
+  crypto.subtle
+    .importKey("pkcs8", key.der, ECDSA_P256, extractable, ["sign"])
+    .catch(() => crypto.subtle.importKey("jwk", jwkOf(key.d), ECDSA_P256, extractable, ["sign"]));
+
+/**
+ * DER-encoded ECDSA P-256 / SHA-256 signature of `data`: with `node:crypto`
+ * when the runtime has it, else WebCrypto.
+ */
+const ecdsaSign = (key: SigningKeyV4a, data: string): Effect.Effect<Uint8Array, CryptoError> => {
+  const bytes = encoder.encode(data);
+  const node = nodeEcdsa();
+  if (node !== undefined) {
+    return Effect.try({
+      try: () =>
+        node.sign("sha256", bytes, {
+          key: (key.node ??= node.createPrivateKey({ key: key.der, format: "der", type: "pkcs8" })),
+          dsaEncoding: "der",
+        }),
+      catch: (cause) => new CryptoError({ operation: "hmac", cause }),
+    });
+  }
+  return Effect.tryPromise({
+    try: async () => {
+      const web = (key.web ??= await importWebKey(key, false));
+      const raw = await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, web, bytes);
+      return P256.p1363ToDer(new Uint8Array(raw));
+    },
+    catch: (cause) => new CryptoError({ operation: "hmac", cause }),
+  });
+};
+
+/**
+ * Sign a request with SigV4A (`AWS4-ECDSA-P256-SHA256`), the asymmetric
+ * variant AWS requires for multi-region endpoints such as EventBridge global
+ * endpoints and S3 Multi-Region Access Points. The canonical request is
+ * SigV4's, plus a signed `X-Amz-Region-Set` header; the credential scope
+ * omits the region.
+ *
+ * ```ts
+ * const signed = yield* SigV4.signV4a({
+ *   url: "https://abcde.veo.endpoint.events.amazonaws.com/",
+ *   method: "POST",
+ *   headers: { "X-Amz-Target": "AWSEvents.PutEvents", ... },
+ *   body,
+ *   accessKeyId,
+ *   secretAccessKey,
+ *   service: "events",
+ *   regionSet: ["*"],
+ * });
+ * ```
+ */
+export const signV4a: (options: SignV4aOptions) => Effect.Effect<SignedRequest, SigningError> =
+  /*@__PURE__*/ Effect.fnUntraced(function* (input: SignV4aOptions) {
+    let options: SignOptions = { ...input, region: "" };
+    if (options.hashPayload) {
+      options = withPayloadHash(options, yield* sha256Hex(options.body || ""));
+    }
+    const canonical = yield* Effect.try({
+      try: () => canonicalize(options, { name: SIGV4A, regionSet: input.regionSet.join(",") }),
+      catch: (e) => e as InvalidSigningUrl | InvalidSigningHeaders,
+    });
+    const payloadHash = canonical.payloadHash ?? (yield* sha256Hex(options.body || ""));
+    const stringToSign = stringToSignOf(
+      canonical,
+      yield* sha256Hex(canonical.canonicalPrefix + "\n" + payloadHash),
+    );
+    const key = yield* deriveSigningKeyV4a(input.accessKeyId, input.secretAccessKey);
+    return canonical.finish(CoreCrypto.hex(yield* ecdsaSign(key, stringToSign)));
+  });
+
+/**
+ * The SigV4A public key (hex affine coordinates) derived from a credential,
+ * e.g. to check it against published test vectors. `via` picks the
+ * implementation that computes the point; by default the one signing uses.
+ */
+export const signingPublicKeyV4a = (
+  accessKeyId: string,
+  secretAccessKey: Redacted.Redacted<string>,
+  via: "auto" | "webcrypto" | "javascript" = "auto",
+): Effect.Effect<{ readonly x: string; readonly y: string }, CryptoError> =>
+  Effect.flatMap(deriveSigningKeyV4a(accessKeyId, secretAccessKey), (key) => {
+    const hexOf = (jwk: JsonWebKey) => ({
+      x: CoreCrypto.hex(P256.fromBase64Url(jwk.x!)),
+      y: CoreCrypto.hex(P256.fromBase64Url(jwk.y!)),
+    });
+    const node = via === "auto" ? nodeEcdsa() : undefined;
+    if (via === "javascript") return Effect.sync(() => hexOf(jwkOf(key.d)));
+    if (node !== undefined) {
+      return Effect.try({
+        try: () =>
+          hexOf(
+            node
+              .createPublicKey(
+                node.createPrivateKey({ key: key.der, format: "der", type: "pkcs8" }),
+              )
+              .export({ format: "jwk" }),
+          ),
+        catch: (cause) => new CryptoError({ operation: "hmac", cause }),
+      });
+    }
+    return Effect.tryPromise({
+      try: async () => hexOf(await crypto.subtle.exportKey("jwk", await importWebKey(key, true))),
+      catch: (cause) => new CryptoError({ operation: "hmac", cause }),
+    });
+  });
+
+//#endregion
 
 //#region presign
 

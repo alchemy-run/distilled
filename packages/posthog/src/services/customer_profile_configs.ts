@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomerProfileConfigs",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `person` - Person * `group_0` - Group 0 * `group_1` - Group 1 * `group_2` - Group 2 * `group_3` - Group 3 * `group_4` - Group 4 */
 export type CustomerProfileConfigScopeEnum =
   | "person"
@@ -87,6 +100,8 @@ export const createCustomerProfileConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerProfileConfig",
 }));
 
 export type CustomerProfileConfigsDestroyError = PosthogOpError;
@@ -101,6 +116,8 @@ export const customerProfileConfigsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerProfileConfigsDestroy",
 }));
 
 export type GetCustomerProfileConfigError = PosthogOpError;
@@ -115,6 +132,8 @@ export const getCustomerProfileConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerProfileConfig",
 }));
 
 export type ListCustomerProfileConfigsError = PosthogOpError;
@@ -129,6 +148,8 @@ export const listCustomerProfileConfigs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerProfileConfigs",
 }));
 
 export type UpdateCustomerProfileConfigError = PosthogOpError;
@@ -143,6 +164,8 @@ export const updateCustomerProfileConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerProfileConfig",
 }));
 
 export type UpdateCustomerProfileConfigsPartialError = PosthogOpError;
@@ -157,6 +180,8 @@ export const updateCustomerProfileConfigsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerProfileConfigsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://finspace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "finspace",
+  service: "finspace",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1282,7 +1298,7 @@ export type CreateEnvironmentError =
  * Create a new FinSpace environment.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1300,6 +1316,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateKxChangesetError =
@@ -1315,7 +1333,7 @@ export type CreateKxChangesetError =
  * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
  */
 export const createKxChangeset: API.OperationMethod<
-  CreateKxChangesetRequest,
+  CreateKxChangesetRequest & RegionInput,
   CreateKxChangesetResponse,
   CreateKxChangesetError,
   Credentials | HttpClient.HttpClient
@@ -1334,6 +1352,8 @@ export const createKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxChangeset",
+  telemetry: TELEMETRY,
+  span: "CreateKxChangeset",
 }));
 
 export type CreateKxClusterError =
@@ -1349,7 +1369,7 @@ export type CreateKxClusterError =
  * Creates a new kdb cluster.
  */
 export const createKxCluster: API.OperationMethod<
-  CreateKxClusterRequest,
+  CreateKxClusterRequest & RegionInput,
   CreateKxClusterResponse,
   CreateKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -1368,6 +1388,8 @@ export const createKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxCluster",
+  telemetry: TELEMETRY,
+  span: "CreateKxCluster",
 }));
 
 export type CreateKxDatabaseError =
@@ -1384,7 +1406,7 @@ export type CreateKxDatabaseError =
  * Creates a new kdb database in the environment.
  */
 export const createKxDatabase: API.OperationMethod<
-  CreateKxDatabaseRequest,
+  CreateKxDatabaseRequest & RegionInput,
   CreateKxDatabaseResponse,
   CreateKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1404,6 +1426,8 @@ export const createKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateKxDatabase",
 }));
 
 export type CreateKxDataviewError =
@@ -1420,7 +1444,7 @@ export type CreateKxDataviewError =
  * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
  */
 export const createKxDataview: API.OperationMethod<
-  CreateKxDataviewRequest,
+  CreateKxDataviewRequest & RegionInput,
   CreateKxDataviewResponse,
   CreateKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -1440,6 +1464,8 @@ export const createKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDataview",
+  telemetry: TELEMETRY,
+  span: "CreateKxDataview",
 }));
 
 export type CreateKxEnvironmentError =
@@ -1455,7 +1481,7 @@ export type CreateKxEnvironmentError =
  * Creates a managed kdb environment for the account.
  */
 export const createKxEnvironment: API.OperationMethod<
-  CreateKxEnvironmentRequest,
+  CreateKxEnvironmentRequest & RegionInput,
   CreateKxEnvironmentResponse,
   CreateKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1474,6 +1500,8 @@ export const createKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateKxEnvironment",
 }));
 
 export type CreateKxScalingGroupError =
@@ -1489,7 +1517,7 @@ export type CreateKxScalingGroupError =
  * Creates a new scaling group.
  */
 export const createKxScalingGroup: API.OperationMethod<
-  CreateKxScalingGroupRequest,
+  CreateKxScalingGroupRequest & RegionInput,
   CreateKxScalingGroupResponse,
   CreateKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1508,6 +1536,8 @@ export const createKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateKxScalingGroup",
 }));
 
 export type CreateKxUserError =
@@ -1524,7 +1554,7 @@ export type CreateKxUserError =
  * Creates a user in FinSpace kdb environment with an associated IAM role.
  */
 export const createKxUser: API.OperationMethod<
-  CreateKxUserRequest,
+  CreateKxUserRequest & RegionInput,
   CreateKxUserResponse,
   CreateKxUserError,
   Credentials | HttpClient.HttpClient
@@ -1544,6 +1574,8 @@ export const createKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxUser",
+  telemetry: TELEMETRY,
+  span: "CreateKxUser",
 }));
 
 export type CreateKxVolumeError =
@@ -1560,7 +1592,7 @@ export type CreateKxVolumeError =
  * Creates a new volume with a specific amount of throughput and storage capacity.
  */
 export const createKxVolume: API.OperationMethod<
-  CreateKxVolumeRequest,
+  CreateKxVolumeRequest & RegionInput,
   CreateKxVolumeResponse,
   CreateKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1580,6 +1612,8 @@ export const createKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxVolume",
+  telemetry: TELEMETRY,
+  span: "CreateKxVolume",
 }));
 
 export type DeleteEnvironmentError =
@@ -1593,7 +1627,7 @@ export type DeleteEnvironmentError =
  * Delete an FinSpace environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1610,6 +1644,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteKxClusterError =
@@ -1625,7 +1661,7 @@ export type DeleteKxClusterError =
  * Deletes a kdb cluster.
  */
 export const deleteKxCluster: API.OperationMethod<
-  DeleteKxClusterRequest,
+  DeleteKxClusterRequest & RegionInput,
   DeleteKxClusterResponse,
   DeleteKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -1644,6 +1680,8 @@ export const deleteKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteKxCluster",
 }));
 
 export type DeleteKxClusterNodeError =
@@ -1657,7 +1695,7 @@ export type DeleteKxClusterNodeError =
  * Deletes the specified nodes from a cluster.
  */
 export const deleteKxClusterNode: API.OperationMethod<
-  DeleteKxClusterNodeRequest,
+  DeleteKxClusterNodeRequest & RegionInput,
   DeleteKxClusterNodeResponse,
   DeleteKxClusterNodeError,
   Credentials | HttpClient.HttpClient
@@ -1674,6 +1712,8 @@ export const deleteKxClusterNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxClusterNode",
+  telemetry: TELEMETRY,
+  span: "DeleteKxClusterNode",
 }));
 
 export type DeleteKxDatabaseError =
@@ -1688,7 +1728,7 @@ export type DeleteKxDatabaseError =
  * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
  */
 export const deleteKxDatabase: API.OperationMethod<
-  DeleteKxDatabaseRequest,
+  DeleteKxDatabaseRequest & RegionInput,
   DeleteKxDatabaseResponse,
   DeleteKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -1706,6 +1746,8 @@ export const deleteKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteKxDatabase",
 }));
 
 export type DeleteKxDataviewError =
@@ -1720,7 +1762,7 @@ export type DeleteKxDataviewError =
  * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
  */
 export const deleteKxDataview: API.OperationMethod<
-  DeleteKxDataviewRequest,
+  DeleteKxDataviewRequest & RegionInput,
   DeleteKxDataviewResponse,
   DeleteKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -1738,6 +1780,8 @@ export const deleteKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDataview",
+  telemetry: TELEMETRY,
+  span: "DeleteKxDataview",
 }));
 
 export type DeleteKxEnvironmentError =
@@ -1752,7 +1796,7 @@ export type DeleteKxEnvironmentError =
  * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
  */
 export const deleteKxEnvironment: API.OperationMethod<
-  DeleteKxEnvironmentRequest,
+  DeleteKxEnvironmentRequest & RegionInput,
   DeleteKxEnvironmentResponse,
   DeleteKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1770,6 +1814,8 @@ export const deleteKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteKxEnvironment",
 }));
 
 export type DeleteKxScalingGroupError =
@@ -1785,7 +1831,7 @@ export type DeleteKxScalingGroupError =
  * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
  */
 export const deleteKxScalingGroup: API.OperationMethod<
-  DeleteKxScalingGroupRequest,
+  DeleteKxScalingGroupRequest & RegionInput,
   DeleteKxScalingGroupResponse,
   DeleteKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1804,6 +1850,8 @@ export const deleteKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteKxScalingGroup",
 }));
 
 export type DeleteKxUserError =
@@ -1818,7 +1866,7 @@ export type DeleteKxUserError =
  * Deletes a user in the specified kdb environment.
  */
 export const deleteKxUser: API.OperationMethod<
-  DeleteKxUserRequest,
+  DeleteKxUserRequest & RegionInput,
   DeleteKxUserResponse,
   DeleteKxUserError,
   Credentials | HttpClient.HttpClient
@@ -1836,6 +1884,8 @@ export const deleteKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxUser",
+  telemetry: TELEMETRY,
+  span: "DeleteKxUser",
 }));
 
 export type DeleteKxVolumeError =
@@ -1851,7 +1901,7 @@ export type DeleteKxVolumeError =
  * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
  */
 export const deleteKxVolume: API.OperationMethod<
-  DeleteKxVolumeRequest,
+  DeleteKxVolumeRequest & RegionInput,
   DeleteKxVolumeResponse,
   DeleteKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -1870,6 +1920,8 @@ export const deleteKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxVolume",
+  telemetry: TELEMETRY,
+  span: "DeleteKxVolume",
 }));
 
 export type GetEnvironmentError =
@@ -1882,7 +1934,7 @@ export type GetEnvironmentError =
  * Returns the FinSpace environment object.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1898,6 +1950,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetKxChangesetError =
@@ -1911,7 +1965,7 @@ export type GetKxChangesetError =
  * Returns information about a kdb changeset.
  */
 export const getKxChangeset: API.OperationMethod<
-  GetKxChangesetRequest,
+  GetKxChangesetRequest & RegionInput,
   GetKxChangesetResponse,
   GetKxChangesetError,
   Credentials | HttpClient.HttpClient
@@ -1928,6 +1982,8 @@ export const getKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxChangeset",
+  telemetry: TELEMETRY,
+  span: "GetKxChangeset",
 }));
 
 export type GetKxClusterError =
@@ -1943,7 +1999,7 @@ export type GetKxClusterError =
  * Retrieves information about a kdb cluster.
  */
 export const getKxCluster: API.OperationMethod<
-  GetKxClusterRequest,
+  GetKxClusterRequest & RegionInput,
   GetKxClusterResponse,
   GetKxClusterError,
   Credentials | HttpClient.HttpClient
@@ -1962,6 +2018,8 @@ export const getKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxCluster",
+  telemetry: TELEMETRY,
+  span: "GetKxCluster",
 }));
 
 export type GetKxConnectionStringError =
@@ -1975,7 +2033,7 @@ export type GetKxConnectionStringError =
  * Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
  */
 export const getKxConnectionString: API.OperationMethod<
-  GetKxConnectionStringRequest,
+  GetKxConnectionStringRequest & RegionInput,
   GetKxConnectionStringResponse,
   GetKxConnectionStringError,
   Credentials | HttpClient.HttpClient
@@ -1992,6 +2050,8 @@ export const getKxConnectionString: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxConnectionString",
+  telemetry: TELEMETRY,
+  span: "GetKxConnectionString",
 }));
 
 export type GetKxDatabaseError =
@@ -2005,7 +2065,7 @@ export type GetKxDatabaseError =
  * Returns database information for the specified environment ID.
  */
 export const getKxDatabase: API.OperationMethod<
-  GetKxDatabaseRequest,
+  GetKxDatabaseRequest & RegionInput,
   GetKxDatabaseResponse,
   GetKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2022,6 +2082,8 @@ export const getKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDatabase",
+  telemetry: TELEMETRY,
+  span: "GetKxDatabase",
 }));
 
 export type GetKxDataviewError =
@@ -2035,7 +2097,7 @@ export type GetKxDataviewError =
  * Retrieves details of the dataview.
  */
 export const getKxDataview: API.OperationMethod<
-  GetKxDataviewRequest,
+  GetKxDataviewRequest & RegionInput,
   GetKxDataviewResponse,
   GetKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -2052,6 +2114,8 @@ export const getKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDataview",
+  telemetry: TELEMETRY,
+  span: "GetKxDataview",
 }));
 
 export type GetKxEnvironmentError =
@@ -2065,7 +2129,7 @@ export type GetKxEnvironmentError =
  * Retrieves all the information for the specified kdb environment.
  */
 export const getKxEnvironment: API.OperationMethod<
-  GetKxEnvironmentRequest,
+  GetKxEnvironmentRequest & RegionInput,
   GetKxEnvironmentResponse,
   GetKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2082,6 +2146,8 @@ export const getKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetKxEnvironment",
 }));
 
 export type GetKxScalingGroupError =
@@ -2097,7 +2163,7 @@ export type GetKxScalingGroupError =
  * Retrieves details of a scaling group.
  */
 export const getKxScalingGroup: API.OperationMethod<
-  GetKxScalingGroupRequest,
+  GetKxScalingGroupRequest & RegionInput,
   GetKxScalingGroupResponse,
   GetKxScalingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2116,6 +2182,8 @@ export const getKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "GetKxScalingGroup",
 }));
 
 export type GetKxUserError =
@@ -2129,7 +2197,7 @@ export type GetKxUserError =
  * Retrieves information about the specified kdb user.
  */
 export const getKxUser: API.OperationMethod<
-  GetKxUserRequest,
+  GetKxUserRequest & RegionInput,
   GetKxUserResponse,
   GetKxUserError,
   Credentials | HttpClient.HttpClient
@@ -2146,6 +2214,8 @@ export const getKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxUser",
+  telemetry: TELEMETRY,
+  span: "GetKxUser",
 }));
 
 export type GetKxVolumeError =
@@ -2161,7 +2231,7 @@ export type GetKxVolumeError =
  * Retrieves the information about the volume.
  */
 export const getKxVolume: API.OperationMethod<
-  GetKxVolumeRequest,
+  GetKxVolumeRequest & RegionInput,
   GetKxVolumeResponse,
   GetKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2180,6 +2250,8 @@ export const getKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxVolume",
+  telemetry: TELEMETRY,
+  span: "GetKxVolume",
 }));
 
 export type ListEnvironmentsError =
@@ -2191,7 +2263,7 @@ export type ListEnvironmentsError =
  * A list of all of your FinSpace environments.
  */
 export const listEnvironments: API.OperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -2202,6 +2274,8 @@ export const listEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListKxChangesetsError =
@@ -2215,7 +2289,7 @@ export type ListKxChangesetsError =
  * Returns a list of all the changesets for a database.
  */
 export const listKxChangesets: API.PaginatedOperationMethod<
-  ListKxChangesetsRequest,
+  ListKxChangesetsRequest & RegionInput,
   ListKxChangesetsResponse,
   ListKxChangesetsError,
   Credentials | HttpClient.HttpClient,
@@ -2238,6 +2312,8 @@ export const listKxChangesets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxChangesets",
 })) as any;
 
 export type ListKxClusterNodesError =
@@ -2252,7 +2328,7 @@ export type ListKxClusterNodesError =
  * Lists all the nodes in a kdb cluster.
  */
 export const listKxClusterNodes: API.PaginatedOperationMethod<
-  ListKxClusterNodesRequest,
+  ListKxClusterNodesRequest & RegionInput,
   ListKxClusterNodesResponse,
   ListKxClusterNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2276,6 +2352,8 @@ export const listKxClusterNodes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxClusterNodes",
 })) as any;
 
 export type ListKxClustersError =
@@ -2291,7 +2369,7 @@ export type ListKxClustersError =
  * Returns a list of clusters.
  */
 export const listKxClusters: API.OperationMethod<
-  ListKxClustersRequest,
+  ListKxClustersRequest & RegionInput,
   ListKxClustersResponse,
   ListKxClustersError,
   Credentials | HttpClient.HttpClient
@@ -2310,6 +2388,8 @@ export const listKxClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxClusters",
+  telemetry: TELEMETRY,
+  span: "ListKxClusters",
 }));
 
 export type ListKxDatabasesError =
@@ -2323,7 +2403,7 @@ export type ListKxDatabasesError =
  * Returns a list of all the databases in the kdb environment.
  */
 export const listKxDatabases: API.PaginatedOperationMethod<
-  ListKxDatabasesRequest,
+  ListKxDatabasesRequest & RegionInput,
   ListKxDatabasesResponse,
   ListKxDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -2346,6 +2426,8 @@ export const listKxDatabases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxDatabases",
 })) as any;
 
 export type ListKxDataviewsError =
@@ -2359,7 +2441,7 @@ export type ListKxDataviewsError =
  * Returns a list of all the dataviews in the database.
  */
 export const listKxDataviews: API.PaginatedOperationMethod<
-  ListKxDataviewsRequest,
+  ListKxDataviewsRequest & RegionInput,
   ListKxDataviewsResponse,
   ListKxDataviewsError,
   Credentials | HttpClient.HttpClient,
@@ -2382,6 +2464,8 @@ export const listKxDataviews: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxDataviews",
 })) as any;
 
 export type ListKxEnvironmentsError =
@@ -2393,7 +2477,7 @@ export type ListKxEnvironmentsError =
  * Returns a list of kdb environments created in an account.
  */
 export const listKxEnvironments: API.PaginatedOperationMethod<
-  ListKxEnvironmentsRequest,
+  ListKxEnvironmentsRequest & RegionInput,
   ListKxEnvironmentsResponse,
   ListKxEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2411,6 +2495,8 @@ export const listKxEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxEnvironments",
 })) as any;
 
 export type ListKxScalingGroupsError =
@@ -2426,7 +2512,7 @@ export type ListKxScalingGroupsError =
  * Returns a list of scaling groups in a kdb environment.
  */
 export const listKxScalingGroups: API.PaginatedOperationMethod<
-  ListKxScalingGroupsRequest,
+  ListKxScalingGroupsRequest & RegionInput,
   ListKxScalingGroupsResponse,
   ListKxScalingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2451,6 +2537,8 @@ export const listKxScalingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxScalingGroups",
 })) as any;
 
 export type ListKxUsersError =
@@ -2464,7 +2552,7 @@ export type ListKxUsersError =
  * Lists all the users in a kdb environment.
  */
 export const listKxUsers: API.OperationMethod<
-  ListKxUsersRequest,
+  ListKxUsersRequest & RegionInput,
   ListKxUsersResponse,
   ListKxUsersError,
   Credentials | HttpClient.HttpClient
@@ -2481,6 +2569,8 @@ export const listKxUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxUsers",
+  telemetry: TELEMETRY,
+  span: "ListKxUsers",
 }));
 
 export type ListKxVolumesError =
@@ -2496,7 +2586,7 @@ export type ListKxVolumesError =
  * Lists all the volumes in a kdb environment.
  */
 export const listKxVolumes: API.OperationMethod<
-  ListKxVolumesRequest,
+  ListKxVolumesRequest & RegionInput,
   ListKxVolumesResponse,
   ListKxVolumesError,
   Credentials | HttpClient.HttpClient
@@ -2515,6 +2605,8 @@ export const listKxVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxVolumes",
+  telemetry: TELEMETRY,
+  span: "ListKxVolumes",
 }));
 
 export type ListTagsForResourceError =
@@ -2526,7 +2618,7 @@ export type ListTagsForResourceError =
  * A list of all tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2537,6 +2629,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -2548,7 +2642,7 @@ export type TagResourceError =
  * Adds metadata tags to a FinSpace resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2559,6 +2653,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2570,7 +2666,7 @@ export type UntagResourceError =
  * Removes metadata tags from a FinSpace resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2581,6 +2677,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnvironmentError =
@@ -2594,7 +2692,7 @@ export type UpdateEnvironmentError =
  * Update your FinSpace environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2611,6 +2709,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateKxClusterCodeConfigurationError =
@@ -2627,7 +2727,7 @@ export type UpdateKxClusterCodeConfigurationError =
  * The configuration that you want to update will override any existing configurations on the cluster.
  */
 export const updateKxClusterCodeConfiguration: API.OperationMethod<
-  UpdateKxClusterCodeConfigurationRequest,
+  UpdateKxClusterCodeConfigurationRequest & RegionInput,
   UpdateKxClusterCodeConfigurationResponse,
   UpdateKxClusterCodeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2646,6 +2746,8 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateKxClusterCodeConfiguration",
 }));
 
 export type UpdateKxClusterDatabasesError =
@@ -2663,7 +2765,7 @@ export type UpdateKxClusterDatabasesError =
  * Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
  */
 export const updateKxClusterDatabases: API.OperationMethod<
-  UpdateKxClusterDatabasesRequest,
+  UpdateKxClusterDatabasesRequest & RegionInput,
   UpdateKxClusterDatabasesResponse,
   UpdateKxClusterDatabasesError,
   Credentials | HttpClient.HttpClient
@@ -2682,6 +2784,8 @@ export const updateKxClusterDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterDatabases",
+  telemetry: TELEMETRY,
+  span: "UpdateKxClusterDatabases",
 }));
 
 export type UpdateKxDatabaseError =
@@ -2696,7 +2800,7 @@ export type UpdateKxDatabaseError =
  * Updates information for the given kdb database.
  */
 export const updateKxDatabase: API.OperationMethod<
-  UpdateKxDatabaseRequest,
+  UpdateKxDatabaseRequest & RegionInput,
   UpdateKxDatabaseResponse,
   UpdateKxDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -2714,6 +2818,8 @@ export const updateKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateKxDatabase",
 }));
 
 export type UpdateKxDataviewError =
@@ -2729,7 +2835,7 @@ export type UpdateKxDataviewError =
  * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
  */
 export const updateKxDataview: API.OperationMethod<
-  UpdateKxDataviewRequest,
+  UpdateKxDataviewRequest & RegionInput,
   UpdateKxDataviewResponse,
   UpdateKxDataviewError,
   Credentials | HttpClient.HttpClient
@@ -2748,6 +2854,8 @@ export const updateKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDataview",
+  telemetry: TELEMETRY,
+  span: "UpdateKxDataview",
 }));
 
 export type UpdateKxEnvironmentError =
@@ -2762,7 +2870,7 @@ export type UpdateKxEnvironmentError =
  * Updates information for the given kdb environment.
  */
 export const updateKxEnvironment: API.OperationMethod<
-  UpdateKxEnvironmentRequest,
+  UpdateKxEnvironmentRequest & RegionInput,
   UpdateKxEnvironmentResponse,
   UpdateKxEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -2780,6 +2888,8 @@ export const updateKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateKxEnvironment",
 }));
 
 export type UpdateKxEnvironmentNetworkError =
@@ -2796,7 +2906,7 @@ export type UpdateKxEnvironmentNetworkError =
  * Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
  */
 export const updateKxEnvironmentNetwork: API.OperationMethod<
-  UpdateKxEnvironmentNetworkRequest,
+  UpdateKxEnvironmentNetworkRequest & RegionInput,
   UpdateKxEnvironmentNetworkResponse,
   UpdateKxEnvironmentNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2814,6 +2924,8 @@ export const updateKxEnvironmentNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironmentNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateKxEnvironmentNetwork",
 }));
 
 export type UpdateKxUserError =
@@ -2829,7 +2941,7 @@ export type UpdateKxUserError =
  * Updates the user details. You can only update the IAM role associated with a user.
  */
 export const updateKxUser: API.OperationMethod<
-  UpdateKxUserRequest,
+  UpdateKxUserRequest & RegionInput,
   UpdateKxUserResponse,
   UpdateKxUserError,
   Credentials | HttpClient.HttpClient
@@ -2848,6 +2960,8 @@ export const updateKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxUser",
+  telemetry: TELEMETRY,
+  span: "UpdateKxUser",
 }));
 
 export type UpdateKxVolumeError =
@@ -2864,7 +2978,7 @@ export type UpdateKxVolumeError =
  * might be unavailable for a few minutes. You can retry any operations after the update is complete.
  */
 export const updateKxVolume: API.OperationMethod<
-  UpdateKxVolumeRequest,
+  UpdateKxVolumeRequest & RegionInput,
   UpdateKxVolumeResponse,
   UpdateKxVolumeError,
   Credentials | HttpClient.HttpClient
@@ -2883,6 +2997,8 @@ export const updateKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxVolume",
+  telemetry: TELEMETRY,
+  span: "UpdateKxVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

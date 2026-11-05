@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { BoatOpError, BoatOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "boat-dev-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Boat",
+  service: "Boat",
+  labels: "boat_dev",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2866,6 +2879,8 @@ export const addCredentialAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCredentialAccount",
 }));
 
 export type AddEnvironmentRepoError = BadRequest | NotFound | BoatOpError;
@@ -2881,6 +2896,8 @@ export const addEnvironmentRepo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEnvironmentRepo",
 }));
 
 export type AttachCommandError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -2896,6 +2913,8 @@ export const attachCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachCommand",
 }));
 
 export type CommandHistoryError = BadRequest | NotFound | BoatOpError;
@@ -2911,6 +2930,8 @@ export const commandHistory: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommandHistory",
 }));
 
 export type CommandLogsError = BadRequest | NotFound | BoatOpError;
@@ -2926,6 +2947,8 @@ export const commandLogs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommandLogs",
 }));
 
 export type ConfigureSshKeyError = BadRequest | NotFound | BoatOpError;
@@ -2941,6 +2964,8 @@ export const configureSshKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureSshKey",
 }));
 
 export type CreateCredentialProfileError = BadRequest | Forbidden | Conflict | BoatOpError;
@@ -2956,6 +2981,8 @@ export const createCredentialProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredentialProfile",
 }));
 
 export type CreateDownloadUrlError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -2971,6 +2998,8 @@ export const createDownloadUrl: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDownloadUrl",
 }));
 
 export type CreateEnvironmentError = BadRequest | Conflict | BoatOpError;
@@ -2986,6 +3015,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateSandboxError = Conflict | BoatOpError;
@@ -3001,6 +3032,8 @@ export const createSandbox: API.OperationMethod<
   errors: [Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
 }));
 
 export type CreateScopedApiKeyError = BadRequest | Forbidden | BoatOpError;
@@ -3016,6 +3049,8 @@ export const createScopedApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScopedApiKey",
 }));
 
 export type CreateSnapshotShareError = NotFound | BoatOpError;
@@ -3031,6 +3066,8 @@ export const createSnapshotShare: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotShare",
 }));
 
 export type CreateUploadUrlError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -3046,6 +3083,8 @@ export const createUploadUrl: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUploadUrl",
 }));
 
 export type CreateWebhookError = BadRequest | Conflict | BoatOpError;
@@ -3061,6 +3100,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteCredentialAccountError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -3076,6 +3117,8 @@ export const deleteCredentialAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialAccount",
 }));
 
 export type DeleteCredentialProfileError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -3091,6 +3134,8 @@ export const deleteCredentialProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialProfile",
 }));
 
 export type DeleteCredentialProfileCustomApiError = Forbidden | NotFound | BoatOpError;
@@ -3106,6 +3151,8 @@ export const deleteCredentialProfileCustomApi: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialProfileCustomApi",
 }));
 
 export type DeleteCredentialProfileKeyError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -3121,6 +3168,8 @@ export const deleteCredentialProfileKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialProfileKey",
 }));
 
 export type DeleteEnvironmentError = NotFound | Conflict | BoatOpError;
@@ -3136,6 +3185,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentRepoError = NotFound | BoatOpError;
@@ -3151,6 +3202,8 @@ export const deleteEnvironmentRepo: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentRepo",
 }));
 
 export type DeleteEnvironmentSecretFileError = NotFound | BoatOpError;
@@ -3166,6 +3219,8 @@ export const deleteEnvironmentSecretFile: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentSecretFile",
 }));
 
 export type DeleteEnvironmentVarError = NotFound | BoatOpError;
@@ -3181,6 +3236,8 @@ export const deleteEnvironmentVar: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentVar",
 }));
 
 export type DeleteNamedSnapshotError = NotFound | Conflict | BoatOpError;
@@ -3196,6 +3253,8 @@ export const deleteNamedSnapshot: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamedSnapshot",
 }));
 
 export type DeleteSandboxError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -3211,6 +3270,8 @@ export const deleteSandbox: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandbox",
 }));
 
 export type DeleteSandboxSnapshotsError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -3226,6 +3287,8 @@ export const deleteSandboxSnapshots: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxSnapshots",
 }));
 
 export type DeleteSnapshotError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -3241,6 +3304,8 @@ export const deleteSnapshot: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteTelemetryError = NotFound | BoatOpError;
@@ -3256,6 +3321,8 @@ export const deleteTelemetry: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelemetry",
 }));
 
 export type DeleteWebhookError = NotFound | BoatOpError;
@@ -3271,6 +3338,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DownloadSandboxArtifactError = BoatOpError;
@@ -3286,6 +3355,8 @@ export const downloadSandboxArtifact: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadSandboxArtifact",
 }));
 
 export type ExecuteSandboxCommandError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -3301,6 +3372,8 @@ export const executeSandboxCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSandboxCommand",
 }));
 
 export type ForkSandboxError = NotFound | Conflict | BoatOpError;
@@ -3316,6 +3389,8 @@ export const forkSandbox: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkSandbox",
 }));
 
 export type GetAiProxyError = BoatOpError;
@@ -3331,6 +3406,8 @@ export const getAiProxy: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiProxy",
 }));
 
 export type GetAiUsageError = BoatOpError;
@@ -3346,6 +3423,8 @@ export const getAiUsage: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiUsage",
 }));
 
 export type GetApiKeyUsageError = NotFound | BoatOpError;
@@ -3361,6 +3440,8 @@ export const getApiKeyUsage: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKeyUsage",
 }));
 
 export type GetCommandError = NotFound | BoatOpError;
@@ -3376,6 +3457,8 @@ export const getCommand: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommand",
 }));
 
 export type GetCommandStatusError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -3391,6 +3474,8 @@ export const getCommandStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommandStatus",
 }));
 
 export type GetCurrentUserError = BoatOpError;
@@ -3406,6 +3491,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDataRetentionError = Forbidden | BoatOpError;
@@ -3421,6 +3508,8 @@ export const getDataRetention: API.OperationMethod<
   errors: [Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataRetention",
 }));
 
 export type GetDeletionOperationError = NotFound | BoatOpError;
@@ -3436,6 +3525,8 @@ export const getDeletionOperation: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletionOperation",
 }));
 
 export type GetDesktopStreamingUrlError = BadRequest | NotFound | BoatOpError;
@@ -3451,6 +3542,8 @@ export const getDesktopStreamingUrl: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDesktopStreamingUrl",
 }));
 
 export type GetLatestSandboxSnapshotError = NotFound | BoatOpError;
@@ -3466,6 +3559,8 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestSandboxSnapshot",
 }));
 
 export type GetLimitsError = BoatOpError;
@@ -3481,6 +3576,8 @@ export const getLimits: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLimits",
 }));
 
 export type GetNamedSnapshotError = NotFound | BoatOpError;
@@ -3496,6 +3593,8 @@ export const getNamedSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamedSnapshot",
 }));
 
 export type GetPromptRunStatusError = NotFound | BoatOpError;
@@ -3511,6 +3610,8 @@ export const getPromptRunStatus: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromptRunStatus",
 }));
 
 export type GetSandboxError = NotFound | BoatOpError;
@@ -3526,6 +3627,8 @@ export const getSandbox: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandbox",
 }));
 
 export type GetSandboxAiUsageError = NotFound | BoatOpError;
@@ -3541,6 +3644,8 @@ export const getSandboxAiUsage: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxAiUsage",
 }));
 
 export type GetSandboxUsageError = BadRequest | NotFound | BoatOpError;
@@ -3556,6 +3661,8 @@ export const getSandboxUsage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxUsage",
 }));
 
 export type GetSecretsError = BoatOpError;
@@ -3571,6 +3678,8 @@ export const getSecrets: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecrets",
 }));
 
 export type GetSnapshotDownloadError = NotFound | BoatOpError;
@@ -3586,6 +3695,8 @@ export const getSnapshotDownload: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotDownload",
 }));
 
 export type GetSnapshotFileError = NotFound | Conflict | BoatOpError;
@@ -3601,6 +3712,8 @@ export const getSnapshotFile: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotFile",
 }));
 
 export type GetSnapshotTreeError = NotFound | BoatOpError;
@@ -3616,6 +3729,8 @@ export const getSnapshotTree: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotTree",
 }));
 
 export type GetStopError = NotFound | BoatOpError;
@@ -3631,6 +3746,8 @@ export const getStop: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStop",
 }));
 
 export type GetTelemetryError = BoatOpError;
@@ -3646,6 +3763,8 @@ export const getTelemetry: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelemetry",
 }));
 
 export type GetWebhookError = NotFound | BoatOpError;
@@ -3661,6 +3780,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type HostPortError = BadRequest | NotFound | BoatOpError;
@@ -3676,6 +3797,8 @@ export const hostPort: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostPort",
 }));
 
 export type InterruptSandboxError = NotFound | Conflict | BoatOpError;
@@ -3691,6 +3814,8 @@ export const interruptSandbox: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InterruptSandbox",
 }));
 
 export type ListApiKeysError = Forbidden | BoatOpError;
@@ -3706,6 +3831,8 @@ export const listApiKeys: API.OperationMethod<
   errors: [Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 }));
 
 export type ListCredentialAccountsError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -3721,6 +3848,8 @@ export const listCredentialAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentialAccounts",
 }));
 
 export type ListCredentialProfilesError = BoatOpError;
@@ -3736,6 +3865,8 @@ export const listCredentialProfiles: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentialProfiles",
 }));
 
 export type ListEnvironmentsError = BoatOpError;
@@ -3751,6 +3882,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListNamedSnapshotsError = BoatOpError;
@@ -3766,6 +3899,8 @@ export const listNamedSnapshots: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamedSnapshots",
 }));
 
 export type ListOrganizationsError = BoatOpError;
@@ -3781,6 +3916,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListReposError = Conflict | BoatOpError;
@@ -3798,6 +3935,8 @@ export const listRepos: API.PaginatedOperationMethod<
     errors: [Conflict, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRepos",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3823,6 +3962,8 @@ export const listSandboxConversations: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxConversations",
 }));
 
 export type ListSandboxesError = BoatOpError;
@@ -3840,6 +3981,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
     errors: [UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSandboxes",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3867,6 +4010,8 @@ export const listSandboxEvents: API.PaginatedOperationMethod<
     errors: [NotFound, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSandboxEvents",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3892,6 +4037,8 @@ export const listSandboxProcesses: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxProcesses",
 }));
 
 export type ListSandboxSnapshotsError = BadRequest | NotFound | BoatOpError;
@@ -3909,6 +4056,8 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSandboxSnapshots",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3936,6 +4085,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
     errors: [BadRequest, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSnapshots",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3961,6 +4112,8 @@ export const listSnapshotShares: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotShares",
 }));
 
 export type ListWebhooksError = BoatOpError;
@@ -3976,6 +4129,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type PromptSandboxError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -3991,6 +4146,8 @@ export const promptSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromptSandbox",
 }));
 
 export type ReadSandboxFileError = BadRequest | BoatOpError;
@@ -4006,6 +4163,8 @@ export const readSandboxFile: API.OperationMethod<
   errors: [BadRequest, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSandboxFile",
 }));
 
 export type RecoverSandboxError = NotFound | Conflict | BoatOpError;
@@ -4021,6 +4180,8 @@ export const recoverSandbox: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverSandbox",
 }));
 
 export type ResumeSandboxError = NotFound | Conflict | BoatOpError;
@@ -4036,6 +4197,8 @@ export const resumeSandbox: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeSandbox",
 }));
 
 export type RevokeApiKeyError = Forbidden | NotFound | BoatOpError;
@@ -4051,6 +4214,8 @@ export const revokeApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeApiKey",
 }));
 
 export type RevokeSnapshotShareError = NotFound | BoatOpError;
@@ -4066,6 +4231,8 @@ export const revokeSnapshotShare: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSnapshotShare",
 }));
 
 export type RotateApiKeyError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -4081,6 +4248,8 @@ export const rotateApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateApiKey",
 }));
 
 export type RotateWebhookSigningSecretError = NotFound | BoatOpError;
@@ -4096,6 +4265,8 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateWebhookSigningSecret",
 }));
 
 export type SaveNamedSnapshotError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -4111,6 +4282,8 @@ export const saveNamedSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SaveNamedSnapshot",
 }));
 
 export type SelectRepoError = BadRequest | Conflict | BoatOpError;
@@ -4126,6 +4299,8 @@ export const selectRepo: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SelectRepo",
 }));
 
 export type SetActiveOrganizationError = BadRequest | Forbidden | Conflict | BoatOpError;
@@ -4141,6 +4316,8 @@ export const setActiveOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActiveOrganization",
 }));
 
 export type SetCredentialProfileCustomApiError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4156,6 +4333,8 @@ export const setCredentialProfileCustomApi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCredentialProfileCustomApi",
 }));
 
 export type SetCredentialProfileKeyError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4171,6 +4350,8 @@ export const setCredentialProfileKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCredentialProfileKey",
 }));
 
 export type SetEnvironmentSecretFileError = BadRequest | NotFound | BoatOpError;
@@ -4186,6 +4367,8 @@ export const setEnvironmentSecretFile: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEnvironmentSecretFile",
 }));
 
 export type SetEnvironmentVarError = BadRequest | NotFound | BoatOpError;
@@ -4201,6 +4384,8 @@ export const setEnvironmentVar: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEnvironmentVar",
 }));
 
 export type SetSandboxAiAccessError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4216,6 +4401,8 @@ export const setSandboxAiAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSandboxAiAccess",
 }));
 
 export type SetTelemetryError = BadRequest | BoatOpError;
@@ -4231,6 +4418,8 @@ export const setTelemetry: API.OperationMethod<
   errors: [BadRequest, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTelemetry",
 }));
 
 export type ShareSandboxError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4246,6 +4435,8 @@ export const shareSandbox: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareSandbox",
 }));
 
 export type SteerSandboxError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -4261,6 +4452,8 @@ export const steerSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SteerSandbox",
 }));
 
 export type StopCommandError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -4276,6 +4469,8 @@ export const stopCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopCommand",
 }));
 
 export type StopSandboxError = BadRequest | NotFound | BoatOpError;
@@ -4291,6 +4486,8 @@ export const stopSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSandbox",
 }));
 
 export type SwitchCredentialAccountError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4306,6 +4503,8 @@ export const switchCredentialAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwitchCredentialAccount",
 }));
 
 export type UnshareSandboxError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4321,6 +4520,8 @@ export const unshareSandbox: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnshareSandbox",
 }));
 
 export type UpdateAiProxyError = BadRequest | Forbidden | BoatOpError;
@@ -4336,6 +4537,8 @@ export const updateAiProxy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiProxy",
 }));
 
 export type UpdateCredentialProfileError =
@@ -4356,6 +4559,8 @@ export const updateCredentialProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCredentialProfile",
 }));
 
 export type UpdateDataRetentionError = BadRequest | Forbidden | Conflict | BoatOpError;
@@ -4371,6 +4576,8 @@ export const updateDataRetention: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetention",
 }));
 
 export type UpdateEnvironmentError = BadRequest | NotFound | BoatOpError;
@@ -4386,6 +4593,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | BoatOpError;
@@ -4401,6 +4610,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateSandboxError = BadRequest | NotFound | BoatOpError;
@@ -4416,6 +4627,8 @@ export const updateSandbox: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandbox",
 }));
 
 export type UpdateSecretsError = BoatOpError;
@@ -4431,6 +4644,8 @@ export const updateSecrets: API.OperationMethod<
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecrets",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | Conflict | BoatOpError;
@@ -4446,6 +4661,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpgradeEnvironmentError = NotFound | BoatOpError;
@@ -4461,6 +4678,8 @@ export const upgradeEnvironment: API.OperationMethod<
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradeEnvironment",
 }));
 
 export type WriteSandboxFileError = BadRequest | BoatOpError;
@@ -4476,6 +4695,8 @@ export const writeSandboxFile: API.OperationMethod<
   errors: [BadRequest, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteSandboxFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

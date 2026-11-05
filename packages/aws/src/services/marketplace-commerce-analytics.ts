@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://marketplacecommerceanalytics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceCommerceAnalytics",
+  service: "MarketplaceCommerceAnalytics",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class MarketplaceCommerceAnalyticsException
   extends /*@__PURE__*/ S.TaggedError<MarketplaceCommerceAnalyticsException>()(
@@ -160,7 +177,7 @@ export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | Commo
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const generateDataSet: API.OperationMethod<
-  GenerateDataSetRequest,
+  GenerateDataSetRequest & RegionInput,
   GenerateDataSetResult,
   GenerateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -171,6 +188,8 @@ export const generateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataSet",
+  telemetry: TELEMETRY,
+  span: "GenerateDataSet",
 }));
 
 export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException | CommonErrors;
@@ -185,7 +204,7 @@ export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException 
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
 export const startSupportDataExport: API.OperationMethod<
-  StartSupportDataExportRequest,
+  StartSupportDataExportRequest & RegionInput,
   StartSupportDataExportResult,
   StartSupportDataExportError,
   Credentials | HttpClient.HttpClient
@@ -196,6 +215,8 @@ export const startSupportDataExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSupportDataExport",
+  telemetry: TELEMETRY,
+  span: "StartSupportDataExport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

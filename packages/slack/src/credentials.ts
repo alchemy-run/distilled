@@ -36,7 +36,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("SlackCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "SlackCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // SLACK_BOT_TOKEN is the spelling Bolt and most hosting platforms use;
@@ -62,7 +64,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       token: Redacted.make(token),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );
 

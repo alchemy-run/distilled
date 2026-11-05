@@ -30,7 +30,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OvhCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "OvhCredentials",
+  ) {}
 
 const baseUrlFromEnv = (): string => {
   const explicit = process.env.OVH_API_BASE_URL;
@@ -71,5 +73,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: baseUrlFromEnv(),
     };
-  }).pipe(Effect.orDie),
+  }),
 );

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -8,16 +8,16 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/typesense.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Typesense's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Typesense's provider spec:
  * the OpenAPI trait vocabulary (nullable / raw-response / sensitive / error
  * matchers), protocol/retry names, and the import header.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 /** Typesense's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
@@ -69,6 +69,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Typesense Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — there is no smithy-model patch chain.

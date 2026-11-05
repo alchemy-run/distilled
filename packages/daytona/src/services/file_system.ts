@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "FileSystem",
+  propagate: "w3c",
+} as const;
+
 export interface CreateFolderRequest {
   /** Folder path to create */
   path: string;
@@ -140,6 +152,8 @@ export const createFolder: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type DeleteFileError = DaytonaOpError;
@@ -155,6 +169,8 @@ export const deleteFile: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type DownloadFileError = DaytonaOpError;
@@ -170,6 +186,8 @@ export const downloadFile: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadFile",
 }));
 
 export type DownloadFilesError = DaytonaOpError;
@@ -185,6 +203,8 @@ export const downloadFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadFiles",
 }));
 
 export type FindInFilesError = DaytonaOpError;
@@ -200,6 +220,8 @@ export const findInFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindInFiles",
 }));
 
 export type GetFileInfoError = DaytonaOpError;
@@ -215,6 +237,8 @@ export const getFileInfo: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileInfo",
 }));
 
 export type ListFilesError = DaytonaOpError;
@@ -230,6 +254,8 @@ export const listFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type MoveFileError = DaytonaOpError;
@@ -245,6 +271,8 @@ export const moveFile: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveFile",
 }));
 
 export type ReplaceInFilesError = DaytonaOpError;
@@ -260,6 +288,8 @@ export const replaceInFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInFiles",
 }));
 
 export type SearchFilesError = DaytonaOpError;
@@ -275,6 +305,8 @@ export const searchFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFiles",
 }));
 
 export type SetFilePermissionsError = DaytonaOpError;
@@ -290,6 +322,8 @@ export const setFilePermissions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFilePermissions",
 }));
 
 export type UploadFileError = DaytonaOpError;
@@ -305,6 +339,8 @@ export const uploadFile: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFile",
 }));
 
 export type UploadFilesError = DaytonaOpError;
@@ -320,6 +356,8 @@ export const uploadFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFiles",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

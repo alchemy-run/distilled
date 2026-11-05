@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomPropertyDefinitions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
 export type CustomPropertyDisplayTypeEnum =
   | "text"
@@ -296,6 +309,8 @@ export const createCustomPropertyDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomPropertyDefinition",
 }));
 
 export type CustomPropertyDefinitionsDestroyError = PosthogOpError;
@@ -310,6 +325,8 @@ export const customPropertyDefinitionsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertyDefinitionsDestroy",
 }));
 
 export type GetCustomPropertyDefinitionError = PosthogOpError;
@@ -324,6 +341,8 @@ export const getCustomPropertyDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomPropertyDefinition",
 }));
 
 export type GetCustomPropertyDefinitionsValueError = PosthogOpError;
@@ -338,6 +357,8 @@ export const getCustomPropertyDefinitionsValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomPropertyDefinitionsValue",
 }));
 
 export type ListCustomPropertyDefinitionsError = PosthogOpError;
@@ -352,6 +373,8 @@ export const listCustomPropertyDefinitions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomPropertyDefinitions",
 }));
 
 export type UpdateCustomPropertyDefinitionError = PosthogOpError;
@@ -366,6 +389,8 @@ export const updateCustomPropertyDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomPropertyDefinition",
 }));
 
 export type UpdateCustomPropertyDefinitionsPartialError = PosthogOpError;
@@ -380,6 +405,8 @@ export const updateCustomPropertyDefinitionsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomPropertyDefinitionsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

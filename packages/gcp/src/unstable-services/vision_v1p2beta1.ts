@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "vision" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Vision",
+  service: "vision",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -974,6 +993,8 @@ export const annotateFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateFiles",
 }));
 
 export type AnnotateImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -993,6 +1014,8 @@ export const annotateImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateImages",
 }));
 
 export type AnnotateProjectsFilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1012,6 +1035,8 @@ export const annotateProjectsFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateProjectsFiles",
 }));
 
 export type AnnotateProjectsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1031,6 +1056,8 @@ export const annotateProjectsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateProjectsImages",
 }));
 
 export type AnnotateProjectsLocationsFilesError =
@@ -1055,6 +1082,8 @@ export const annotateProjectsLocationsFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateProjectsLocationsFiles",
 }));
 
 export type AnnotateProjectsLocationsImagesError =
@@ -1079,6 +1108,8 @@ export const annotateProjectsLocationsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateProjectsLocationsImages",
 }));
 
 export type AsyncBatchAnnotateFilesError =
@@ -1099,6 +1130,8 @@ export const asyncBatchAnnotateFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateFiles",
 }));
 
 export type AsyncBatchAnnotateImagesError =
@@ -1119,6 +1152,8 @@ export const asyncBatchAnnotateImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateImages",
 }));
 
 export type AsyncBatchAnnotateProjectsFilesError =
@@ -1139,6 +1174,8 @@ export const asyncBatchAnnotateProjectsFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateProjectsFiles",
 }));
 
 export type AsyncBatchAnnotateProjectsImagesError =
@@ -1159,6 +1196,8 @@ export const asyncBatchAnnotateProjectsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateProjectsImages",
 }));
 
 export type AsyncBatchAnnotateProjectsLocationsFilesError =
@@ -1179,6 +1218,8 @@ export const asyncBatchAnnotateProjectsLocationsFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateProjectsLocationsFiles",
 }));
 
 export type AsyncBatchAnnotateProjectsLocationsImagesError =
@@ -1199,6 +1240,8 @@ export const asyncBatchAnnotateProjectsLocationsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AsyncBatchAnnotateProjectsLocationsImages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Invoicing",
+  service: "Invoicing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -737,7 +754,7 @@ export type BatchGetInvoiceProfileError =
  * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
  */
 export const batchGetInvoiceProfile: API.OperationMethod<
-  BatchGetInvoiceProfileRequest,
+  BatchGetInvoiceProfileRequest & RegionInput,
   BatchGetInvoiceProfileResponse,
   BatchGetInvoiceProfileError,
   Credentials | HttpClient.HttpClient
@@ -754,6 +771,8 @@ export const batchGetInvoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetInvoiceProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetInvoiceProfile",
 }));
 
 export type CreateInvoiceUnitError =
@@ -766,7 +785,7 @@ export type CreateInvoiceUnitError =
  * This creates a new invoice unit with the provided definition.
  */
 export const createInvoiceUnit: API.OperationMethod<
-  CreateInvoiceUnitRequest,
+  CreateInvoiceUnitRequest & RegionInput,
   CreateInvoiceUnitResponse,
   CreateInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -782,6 +801,8 @@ export const createInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceUnit",
 }));
 
 export type CreateProcurementPortalPreferenceError =
@@ -798,7 +819,7 @@ export type CreateProcurementPortalPreferenceError =
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
  */
 export const createProcurementPortalPreference: API.OperationMethod<
-  CreateProcurementPortalPreferenceRequest,
+  CreateProcurementPortalPreferenceRequest & RegionInput,
   CreateProcurementPortalPreferenceResponse,
   CreateProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +837,8 @@ export const createProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "CreateProcurementPortalPreference",
 }));
 
 export type DeleteInvoiceUnitError =
@@ -829,7 +852,7 @@ export type DeleteInvoiceUnitError =
  * This deletes an invoice unit with the provided invoice unit ARN.
  */
 export const deleteInvoiceUnit: API.OperationMethod<
-  DeleteInvoiceUnitRequest,
+  DeleteInvoiceUnitRequest & RegionInput,
   DeleteInvoiceUnitResponse,
   DeleteInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -846,6 +869,8 @@ export const deleteInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "DeleteInvoiceUnit",
 }));
 
 export type DeleteProcurementPortalPreferenceError =
@@ -863,7 +888,7 @@ export type DeleteProcurementPortalPreferenceError =
  * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
  */
 export const deleteProcurementPortalPreference: API.OperationMethod<
-  DeleteProcurementPortalPreferenceRequest,
+  DeleteProcurementPortalPreferenceRequest & RegionInput,
   DeleteProcurementPortalPreferenceResponse,
   DeleteProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -882,6 +907,8 @@ export const deleteProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "DeleteProcurementPortalPreference",
 }));
 
 export type GetInvoicePDFError =
@@ -895,7 +922,7 @@ export type GetInvoicePDFError =
  * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
  */
 export const getInvoicePDF: API.OperationMethod<
-  GetInvoicePDFRequest,
+  GetInvoicePDFRequest & RegionInput,
   GetInvoicePDFResponse,
   GetInvoicePDFError,
   Credentials | HttpClient.HttpClient
@@ -912,6 +939,8 @@ export const getInvoicePDF: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoicePDF",
+  telemetry: TELEMETRY,
+  span: "GetInvoicePDF",
 }));
 
 export type GetInvoiceUnitError =
@@ -925,7 +954,7 @@ export type GetInvoiceUnitError =
  * This retrieves the invoice unit definition.
  */
 export const getInvoiceUnit: API.OperationMethod<
-  GetInvoiceUnitRequest,
+  GetInvoiceUnitRequest & RegionInput,
   GetInvoiceUnitResponse,
   GetInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -942,6 +971,8 @@ export const getInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "GetInvoiceUnit",
 }));
 
 export type GetProcurementPortalPreferenceError =
@@ -959,7 +990,7 @@ export type GetProcurementPortalPreferenceError =
  * Retrieves the details of a specific procurement portal preference configuration.
  */
 export const getProcurementPortalPreference: API.OperationMethod<
-  GetProcurementPortalPreferenceRequest,
+  GetProcurementPortalPreferenceRequest & RegionInput,
   GetProcurementPortalPreferenceResponse,
   GetProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -978,6 +1009,8 @@ export const getProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "GetProcurementPortalPreference",
 }));
 
 export type ListInvoiceSummariesError =
@@ -991,7 +1024,7 @@ export type ListInvoiceSummariesError =
  * Retrieves your invoice details programmatically, without line item details.
  */
 export const listInvoiceSummaries: API.PaginatedOperationMethod<
-  ListInvoiceSummariesRequest,
+  ListInvoiceSummariesRequest & RegionInput,
   ListInvoiceSummariesResponse,
   ListInvoiceSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -1015,6 +1048,8 @@ export const listInvoiceSummaries: API.PaginatedOperationMethod<
     items: "InvoiceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceSummaries",
 })) as any;
 
 export type ListInvoiceUnitsError =
@@ -1027,7 +1062,7 @@ export type ListInvoiceUnitsError =
  * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
  */
 export const listInvoiceUnits: API.PaginatedOperationMethod<
-  ListInvoiceUnitsRequest,
+  ListInvoiceUnitsRequest & RegionInput,
   ListInvoiceUnitsResponse,
   ListInvoiceUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -1050,6 +1085,8 @@ export const listInvoiceUnits: API.PaginatedOperationMethod<
     items: "InvoiceUnits",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceUnits",
 })) as any;
 
 export type ListProcurementPortalPreferencesError =
@@ -1066,7 +1103,7 @@ export type ListProcurementPortalPreferencesError =
  * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
  */
 export const listProcurementPortalPreferences: API.PaginatedOperationMethod<
-  ListProcurementPortalPreferencesRequest,
+  ListProcurementPortalPreferencesRequest & RegionInput,
   ListProcurementPortalPreferencesResponse,
   ListProcurementPortalPreferencesError,
   Credentials | HttpClient.HttpClient,
@@ -1091,6 +1128,8 @@ export const listProcurementPortalPreferences: API.PaginatedOperationMethod<
     items: "ProcurementPortalPreferences",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortalPreferences",
 })) as any;
 
 export type ListProcurementPortalsError =
@@ -1103,7 +1142,7 @@ export type ListProcurementPortalsError =
  * Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination.
  */
 export const listProcurementPortals: API.PaginatedOperationMethod<
-  ListProcurementPortalsRequest,
+  ListProcurementPortalsRequest & RegionInput,
   ListProcurementPortalsResponse,
   ListProcurementPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -1126,6 +1165,8 @@ export const listProcurementPortals: API.PaginatedOperationMethod<
     items: "ProcurementPortals",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortals",
 })) as any;
 
 export type ListProcurementPortalSuppliersError =
@@ -1139,7 +1180,7 @@ export type ListProcurementPortalSuppliersError =
  * Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination.
  */
 export const listProcurementPortalSuppliers: API.PaginatedOperationMethod<
-  ListProcurementPortalSuppliersRequest,
+  ListProcurementPortalSuppliersRequest & RegionInput,
   ListProcurementPortalSuppliersResponse,
   ListProcurementPortalSuppliersError,
   Credentials | HttpClient.HttpClient,
@@ -1163,6 +1204,8 @@ export const listProcurementPortalSuppliers: API.PaginatedOperationMethod<
     items: "ProcurementPortalSuppliers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortalSuppliers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1176,7 +1219,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1193,6 +1236,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutProcurementPortalPreferenceError =
@@ -1210,7 +1255,7 @@ export type PutProcurementPortalPreferenceError =
  * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
  */
 export const putProcurementPortalPreference: API.OperationMethod<
-  PutProcurementPortalPreferenceRequest,
+  PutProcurementPortalPreferenceRequest & RegionInput,
   PutProcurementPortalPreferenceResponse,
   PutProcurementPortalPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -1229,6 +1274,8 @@ export const putProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "PutProcurementPortalPreference",
 }));
 
 export type SendProcurementPortalValidationError =
@@ -1244,7 +1291,7 @@ export type SendProcurementPortalValidationError =
  * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use `VerifyProcurementPortalValidation` to submit the received code and complete validation.
  */
 export const sendProcurementPortalValidation: API.OperationMethod<
-  SendProcurementPortalValidationRequest,
+  SendProcurementPortalValidationRequest & RegionInput,
   SendProcurementPortalValidationResponse,
   SendProcurementPortalValidationError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1308,8 @@ export const sendProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProcurementPortalValidation",
+  telemetry: TELEMETRY,
+  span: "SendProcurementPortalValidation",
 }));
 
 export type TagResourceError =
@@ -1275,7 +1324,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1293,6 +1342,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1306,7 +1357,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1323,6 +1374,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateInvoiceUnitError =
@@ -1336,7 +1389,7 @@ export type UpdateInvoiceUnitError =
  * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
  */
 export const updateInvoiceUnit: API.OperationMethod<
-  UpdateInvoiceUnitRequest,
+  UpdateInvoiceUnitRequest & RegionInput,
   UpdateInvoiceUnitResponse,
   UpdateInvoiceUnitError,
   Credentials | HttpClient.HttpClient
@@ -1353,6 +1406,8 @@ export const updateInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "UpdateInvoiceUnit",
 }));
 
 export type UpdateProcurementPortalPreferenceStatusError =
@@ -1370,7 +1425,7 @@ export type UpdateProcurementPortalPreferenceStatusError =
  * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
  */
 export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
-  UpdateProcurementPortalPreferenceStatusRequest,
+  UpdateProcurementPortalPreferenceStatusRequest & RegionInput,
   UpdateProcurementPortalPreferenceStatusResponse,
   UpdateProcurementPortalPreferenceStatusError,
   Credentials | HttpClient.HttpClient
@@ -1389,6 +1444,8 @@ export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProcurementPortalPreferenceStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateProcurementPortalPreferenceStatus",
 }));
 
 export type VerifyProcurementPortalValidationError =
@@ -1404,7 +1461,7 @@ export type VerifyProcurementPortalValidationError =
  * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling `SendProcurementPortalValidation` to confirm ownership and connectivity of the configured procurement portal endpoint.
  */
 export const verifyProcurementPortalValidation: API.OperationMethod<
-  VerifyProcurementPortalValidationRequest,
+  VerifyProcurementPortalValidationRequest & RegionInput,
   VerifyProcurementPortalValidationResponse,
   VerifyProcurementPortalValidationError,
   Credentials | HttpClient.HttpClient
@@ -1421,6 +1478,8 @@ export const verifyProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyProcurementPortalValidation",
+  telemetry: TELEMETRY,
+  span: "VerifyProcurementPortalValidation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

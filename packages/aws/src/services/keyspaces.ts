@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cassandra.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Keyspaces",
+  service: "Keyspaces",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -527,7 +544,7 @@ export type CreateKeyspaceError =
  * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const createKeyspace: API.OperationMethod<
-  CreateKeyspaceRequest,
+  CreateKeyspaceRequest & RegionInput,
   CreateKeyspaceResponse,
   CreateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -544,6 +561,8 @@ export const createKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyspace",
+  telemetry: TELEMETRY,
+  span: "CreateKeyspace",
 }));
 
 export type CreateTableError =
@@ -562,7 +581,7 @@ export type CreateTableError =
  * For more information, see Create a table in the *Amazon Keyspaces Developer Guide*.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -580,6 +599,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type CreateTypeError =
@@ -598,7 +619,7 @@ export type CreateTypeError =
  * For more information, see User-defined types (UDTs) in the *Amazon Keyspaces Developer Guide*.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -616,6 +637,8 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
+  telemetry: TELEMETRY,
+  span: "CreateType",
 }));
 
 export type DeleteKeyspaceError =
@@ -630,7 +653,7 @@ export type DeleteKeyspaceError =
  * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
  */
 export const deleteKeyspace: API.OperationMethod<
-  DeleteKeyspaceRequest,
+  DeleteKeyspaceRequest & RegionInput,
   DeleteKeyspaceResponse,
   DeleteKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -648,6 +671,8 @@ export const deleteKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyspace",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyspace",
 }));
 
 export type DeleteTableError =
@@ -662,7 +687,7 @@ export type DeleteTableError =
  * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -680,6 +705,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DeleteTypeError =
@@ -696,7 +723,7 @@ export type DeleteTypeError =
  * To configure the required permissions, see Permissions to delete a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +741,8 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
+  telemetry: TELEMETRY,
+  span: "DeleteType",
 }));
 
 export type GetKeyspaceError =
@@ -727,7 +756,7 @@ export type GetKeyspaceError =
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
 export const getKeyspace: API.OperationMethod<
-  GetKeyspaceRequest,
+  GetKeyspaceRequest & RegionInput,
   GetKeyspaceResponse,
   GetKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -744,6 +773,8 @@ export const getKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyspace",
+  telemetry: TELEMETRY,
+  span: "GetKeyspace",
 }));
 
 export type GetTableError =
@@ -759,7 +790,7 @@ export type GetTableError =
  * To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions for the table and the system keyspace.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -776,6 +807,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableAutoScalingSettingsError =
@@ -799,7 +832,7 @@ export type GetTableAutoScalingSettingsError =
  * - `application-autoscaling:DescribeScalingPolicies`
  */
 export const getTableAutoScalingSettings: API.OperationMethod<
-  GetTableAutoScalingSettingsRequest,
+  GetTableAutoScalingSettingsRequest & RegionInput,
   GetTableAutoScalingSettingsResponse,
   GetTableAutoScalingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +849,8 @@ export const getTableAutoScalingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableAutoScalingSettings",
+  telemetry: TELEMETRY,
+  span: "GetTableAutoScalingSettings",
 }));
 
 export type GetTypeError =
@@ -831,7 +866,7 @@ export type GetTypeError =
  * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -848,6 +883,8 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
+  telemetry: TELEMETRY,
+  span: "GetType",
 }));
 
 export type ListKeyspacesError =
@@ -861,7 +898,7 @@ export type ListKeyspacesError =
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
 export const listKeyspaces: API.PaginatedOperationMethod<
-  ListKeyspacesRequest,
+  ListKeyspacesRequest & RegionInput,
   ListKeyspacesResponse,
   ListKeyspacesError,
   Credentials | HttpClient.HttpClient,
@@ -885,6 +922,8 @@ export const listKeyspaces: API.PaginatedOperationMethod<
     items: "keyspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyspaces",
 })) as any;
 
 export type ListTablesError =
@@ -900,7 +939,7 @@ export type ListTablesError =
  * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -924,6 +963,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -939,7 +980,7 @@ export type ListTagsForResourceError =
  * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -963,6 +1004,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTypesError =
@@ -978,7 +1021,7 @@ export type ListTypesError =
  * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1002,6 +1045,8 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypes",
 })) as any;
 
 export type RestoreTableError =
@@ -1042,7 +1087,7 @@ export type RestoreTableError =
  * - Amazon CloudWatch metrics and alarms
  */
 export const restoreTable: API.OperationMethod<
-  RestoreTableRequest,
+  RestoreTableRequest & RegionInput,
   RestoreTableResponse,
   RestoreTableError,
   Credentials | HttpClient.HttpClient
@@ -1060,6 +1105,8 @@ export const restoreTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTable",
+  telemetry: TELEMETRY,
+  span: "RestoreTable",
 }));
 
 export type TagResourceError =
@@ -1076,7 +1123,7 @@ export type TagResourceError =
  * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1094,6 +1141,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1108,7 +1157,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Amazon Keyspaces resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1126,6 +1175,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateKeyspaceError =
@@ -1180,7 +1231,7 @@ export type UpdateKeyspaceError =
  * For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const updateKeyspace: API.OperationMethod<
-  UpdateKeyspaceRequest,
+  UpdateKeyspaceRequest & RegionInput,
   UpdateKeyspaceResponse,
   UpdateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -1198,6 +1249,8 @@ export const updateKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyspace",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyspace",
 }));
 
 export type UpdateTableError =
@@ -1212,7 +1265,7 @@ export type UpdateTableError =
  * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -1230,6 +1283,8 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ds.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DirectoryService",
+  service: "DirectoryService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -1619,7 +1636,7 @@ export type AcceptSharedDirectoryError =
  * Accepts a directory sharing request that was sent from the directory owner account.
  */
 export const acceptSharedDirectory: API.OperationMethod<
-  AcceptSharedDirectoryRequest,
+  AcceptSharedDirectoryRequest & RegionInput,
   AcceptSharedDirectoryResult,
   AcceptSharedDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1636,6 +1653,8 @@ export const acceptSharedDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptSharedDirectory",
+  telemetry: TELEMETRY,
+  span: "AcceptSharedDirectory",
 }));
 
 export type AddIpRoutesError =
@@ -1659,7 +1678,7 @@ export type AddIpRoutesError =
  * permissions are required to run the *AddIpRoutes* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const addIpRoutes: API.OperationMethod<
-  AddIpRoutesRequest,
+  AddIpRoutesRequest & RegionInput,
   AddIpRoutesResult,
   AddIpRoutesError,
   Credentials | HttpClient.HttpClient
@@ -1678,6 +1697,8 @@ export const addIpRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddIpRoutes",
+  telemetry: TELEMETRY,
+  span: "AddIpRoutes",
 }));
 
 export type AddRegionError =
@@ -1696,7 +1717,7 @@ export type AddRegionError =
  * Adds two domain controllers in the specified Region for the specified directory.
  */
 export const addRegion: API.OperationMethod<
-  AddRegionRequest,
+  AddRegionRequest & RegionInput,
   AddRegionResult,
   AddRegionError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1739,8 @@ export const addRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRegion",
+  telemetry: TELEMETRY,
+  span: "AddRegion",
 }));
 
 export type AddTagsToResourceError =
@@ -1733,7 +1756,7 @@ export type AddTagsToResourceError =
  * unique to each resource.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResult,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1750,6 +1773,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type CancelSchemaExtensionError =
@@ -1765,7 +1790,7 @@ export type CancelSchemaExtensionError =
  * `UpdatingSchema`.
  */
 export const cancelSchemaExtension: API.OperationMethod<
-  CancelSchemaExtensionRequest,
+  CancelSchemaExtensionRequest & RegionInput,
   CancelSchemaExtensionResult,
   CancelSchemaExtensionError,
   Credentials | HttpClient.HttpClient
@@ -1776,6 +1801,8 @@ export const cancelSchemaExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSchemaExtension",
+  telemetry: TELEMETRY,
+  span: "CancelSchemaExtension",
 }));
 
 export type ConnectDirectoryError =
@@ -1792,7 +1819,7 @@ export type ConnectDirectoryError =
  * to run the `ConnectDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const connectDirectory: API.OperationMethod<
-  ConnectDirectoryRequest,
+  ConnectDirectoryRequest & RegionInput,
   ConnectDirectoryResult,
   ConnectDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1808,6 +1835,8 @@ export const connectDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectDirectory",
+  telemetry: TELEMETRY,
+  span: "ConnectDirectory",
 }));
 
 export type CreateAliasError =
@@ -1825,7 +1854,7 @@ export type CreateAliasError =
  * After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasRequest,
+  CreateAliasRequest & RegionInput,
   CreateAliasResult,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -1842,6 +1871,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateComputerError =
@@ -1858,7 +1889,7 @@ export type CreateComputerError =
  * Creates an Active Directory computer object in the specified directory.
  */
 export const createComputer: API.OperationMethod<
-  CreateComputerRequest,
+  CreateComputerRequest & RegionInput,
   CreateComputerResult,
   CreateComputerError,
   Credentials | HttpClient.HttpClient
@@ -1878,6 +1909,8 @@ export const createComputer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputer",
+  telemetry: TELEMETRY,
+  span: "CreateComputer",
 }));
 
 export type CreateConditionalForwarderError =
@@ -1895,7 +1928,7 @@ export type CreateConditionalForwarderError =
  * conditional forwarder points to the trusted domain.
  */
 export const createConditionalForwarder: API.OperationMethod<
-  CreateConditionalForwarderRequest,
+  CreateConditionalForwarderRequest & RegionInput,
   CreateConditionalForwarderResult,
   CreateConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -1914,6 +1947,8 @@ export const createConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConditionalForwarder",
+  telemetry: TELEMETRY,
+  span: "CreateConditionalForwarder",
 }));
 
 export type CreateDirectoryError =
@@ -1931,7 +1966,7 @@ export type CreateDirectoryError =
  * to run the `CreateDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const createDirectory: API.OperationMethod<
-  CreateDirectoryRequest,
+  CreateDirectoryRequest & RegionInput,
   CreateDirectoryResult,
   CreateDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -1948,6 +1983,8 @@ export const createDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectory",
+  telemetry: TELEMETRY,
+  span: "CreateDirectory",
 }));
 
 export type CreateHybridADError =
@@ -1970,7 +2007,7 @@ export type CreateHybridADError =
  * monitor the progress of directory creation.
  */
 export const createHybridAD: API.OperationMethod<
-  CreateHybridADRequest,
+  CreateHybridADRequest & RegionInput,
   CreateHybridADResult,
   CreateHybridADError,
   Credentials | HttpClient.HttpClient
@@ -1989,6 +2026,8 @@ export const createHybridAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHybridAD",
+  telemetry: TELEMETRY,
+  span: "CreateHybridAD",
 }));
 
 export type CreateLogSubscriptionError =
@@ -2004,7 +2043,7 @@ export type CreateLogSubscriptionError =
  * logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
  */
 export const createLogSubscription: API.OperationMethod<
-  CreateLogSubscriptionRequest,
+  CreateLogSubscriptionRequest & RegionInput,
   CreateLogSubscriptionResult,
   CreateLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2022,6 +2061,8 @@ export const createLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateLogSubscription",
 }));
 
 export type CreateMicrosoftADError =
@@ -2039,7 +2080,7 @@ export type CreateMicrosoftADError =
  * are required to run the *CreateMicrosoftAD* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const createMicrosoftAD: API.OperationMethod<
-  CreateMicrosoftADRequest,
+  CreateMicrosoftADRequest & RegionInput,
   CreateMicrosoftADResult,
   CreateMicrosoftADError,
   Credentials | HttpClient.HttpClient
@@ -2056,6 +2097,8 @@ export const createMicrosoftAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftAD",
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftAD",
 }));
 
 export type CreateSnapshotError =
@@ -2071,7 +2114,7 @@ export type CreateSnapshotError =
  * You cannot take snapshots of AD Connector directories.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResult,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2088,6 +2131,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateTrustError =
@@ -2109,7 +2154,7 @@ export type CreateTrustError =
  * external trust.
  */
 export const createTrust: API.OperationMethod<
-  CreateTrustRequest,
+  CreateTrustRequest & RegionInput,
   CreateTrustResult,
   CreateTrustError,
   Credentials | HttpClient.HttpClient
@@ -2127,6 +2172,8 @@ export const createTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrust",
+  telemetry: TELEMETRY,
+  span: "CreateTrust",
 }));
 
 export type DeleteADAssessmentError =
@@ -2145,7 +2192,7 @@ export type DeleteADAssessmentError =
  * assessments even if they are in progress.
  */
 export const deleteADAssessment: API.OperationMethod<
-  DeleteADAssessmentRequest,
+  DeleteADAssessmentRequest & RegionInput,
   DeleteADAssessmentResult,
   DeleteADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2162,6 +2209,8 @@ export const deleteADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteADAssessment",
+  telemetry: TELEMETRY,
+  span: "DeleteADAssessment",
 }));
 
 export type DeleteConditionalForwarderError =
@@ -2177,7 +2226,7 @@ export type DeleteConditionalForwarderError =
  * directory.
  */
 export const deleteConditionalForwarder: API.OperationMethod<
-  DeleteConditionalForwarderRequest,
+  DeleteConditionalForwarderRequest & RegionInput,
   DeleteConditionalForwarderResult,
   DeleteConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -2195,6 +2244,8 @@ export const deleteConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConditionalForwarder",
+  telemetry: TELEMETRY,
+  span: "DeleteConditionalForwarder",
 }));
 
 export type DeleteDirectoryError =
@@ -2210,7 +2261,7 @@ export type DeleteDirectoryError =
  * to run the `DeleteDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
 export const deleteDirectory: API.OperationMethod<
-  DeleteDirectoryRequest,
+  DeleteDirectoryRequest & RegionInput,
   DeleteDirectoryResult,
   DeleteDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -2221,6 +2272,8 @@ export const deleteDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectory",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectory",
 }));
 
 export type DeleteLogSubscriptionError =
@@ -2233,7 +2286,7 @@ export type DeleteLogSubscriptionError =
  * Deletes the specified log subscription.
  */
 export const deleteLogSubscription: API.OperationMethod<
-  DeleteLogSubscriptionRequest,
+  DeleteLogSubscriptionRequest & RegionInput,
   DeleteLogSubscriptionResult,
   DeleteLogSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -2249,6 +2302,8 @@ export const deleteLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteLogSubscription",
 }));
 
 export type DeleteSnapshotError =
@@ -2261,7 +2316,7 @@ export type DeleteSnapshotError =
  * Deletes a directory snapshot.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResult,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -2277,6 +2332,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteTrustError =
@@ -2291,7 +2348,7 @@ export type DeleteTrustError =
  * domain.
  */
 export const deleteTrust: API.OperationMethod<
-  DeleteTrustRequest,
+  DeleteTrustRequest & RegionInput,
   DeleteTrustResult,
   DeleteTrustError,
   Credentials | HttpClient.HttpClient
@@ -2308,6 +2365,8 @@ export const deleteTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrust",
+  telemetry: TELEMETRY,
+  span: "DeleteTrust",
 }));
 
 export type DeregisterCertificateError =
@@ -2325,7 +2384,7 @@ export type DeregisterCertificateError =
  * certificate authentication.
  */
 export const deregisterCertificate: API.OperationMethod<
-  DeregisterCertificateRequest,
+  DeregisterCertificateRequest & RegionInput,
   DeregisterCertificateResult,
   DeregisterCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2345,6 +2404,8 @@ export const deregisterCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCertificate",
+  telemetry: TELEMETRY,
+  span: "DeregisterCertificate",
 }));
 
 export type DeregisterEventTopicError =
@@ -2357,7 +2418,7 @@ export type DeregisterEventTopicError =
  * Removes the specified directory as a publisher to the specified Amazon SNS topic.
  */
 export const deregisterEventTopic: API.OperationMethod<
-  DeregisterEventTopicRequest,
+  DeregisterEventTopicRequest & RegionInput,
   DeregisterEventTopicResult,
   DeregisterEventTopicError,
   Credentials | HttpClient.HttpClient
@@ -2373,6 +2434,8 @@ export const deregisterEventTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterEventTopic",
+  telemetry: TELEMETRY,
+  span: "DeregisterEventTopic",
 }));
 
 export type DescribeADAssessmentError =
@@ -2388,7 +2451,7 @@ export type DescribeADAssessmentError =
  * assessment progress and review results.
  */
 export const describeADAssessment: API.OperationMethod<
-  DescribeADAssessmentRequest,
+  DescribeADAssessmentRequest & RegionInput,
   DescribeADAssessmentResult,
   DescribeADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2405,6 +2468,8 @@ export const describeADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeADAssessment",
+  telemetry: TELEMETRY,
+  span: "DescribeADAssessment",
 }));
 
 export type DescribeCAEnrollmentPolicyError =
@@ -2419,7 +2484,7 @@ export type DescribeCAEnrollmentPolicyError =
  * managed through Amazon Web Services Private Certificate Authority.
  */
 export const describeCAEnrollmentPolicy: API.OperationMethod<
-  DescribeCAEnrollmentPolicyRequest,
+  DescribeCAEnrollmentPolicyRequest & RegionInput,
   DescribeCAEnrollmentPolicyResult,
   DescribeCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2435,6 +2500,8 @@ export const describeCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCAEnrollmentPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeCAEnrollmentPolicy",
 }));
 
 export type DescribeCertificateError =
@@ -2450,7 +2517,7 @@ export type DescribeCertificateError =
  * certificate authentication.
  */
 export const describeCertificate: API.OperationMethod<
-  DescribeCertificateRequest,
+  DescribeCertificateRequest & RegionInput,
   DescribeCertificateResult,
   DescribeCertificateError,
   Credentials | HttpClient.HttpClient
@@ -2468,6 +2535,8 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificate",
 }));
 
 export type DescribeClientAuthenticationSettingsError =
@@ -2485,7 +2554,7 @@ export type DescribeClientAuthenticationSettingsError =
  * `SmartCard` is supported.
  */
 export const describeClientAuthenticationSettings: API.PaginatedOperationMethod<
-  DescribeClientAuthenticationSettingsRequest,
+  DescribeClientAuthenticationSettingsRequest & RegionInput,
   DescribeClientAuthenticationSettingsResult,
   DescribeClientAuthenticationSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2510,6 +2579,8 @@ export const describeClientAuthenticationSettings: API.PaginatedOperationMethod<
     items: "ClientAuthenticationSettingsInfo",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClientAuthenticationSettings",
 })) as any;
 
 export type DescribeConditionalForwardersError =
@@ -2527,7 +2598,7 @@ export type DescribeConditionalForwardersError =
  * conditional forwarders for the specified directory ID.
  */
 export const describeConditionalForwarders: API.OperationMethod<
-  DescribeConditionalForwardersRequest,
+  DescribeConditionalForwardersRequest & RegionInput,
   DescribeConditionalForwardersResult,
   DescribeConditionalForwardersError,
   Credentials | HttpClient.HttpClient
@@ -2545,6 +2616,8 @@ export const describeConditionalForwarders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConditionalForwarders",
+  telemetry: TELEMETRY,
+  span: "DescribeConditionalForwarders",
 }));
 
 export type DescribeDirectoriesError =
@@ -2571,7 +2644,7 @@ export type DescribeDirectoriesError =
  * parameter.
  */
 export const describeDirectories: API.PaginatedOperationMethod<
-  DescribeDirectoriesRequest,
+  DescribeDirectoriesRequest & RegionInput,
   DescribeDirectoriesResult,
   DescribeDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2595,6 +2668,8 @@ export const describeDirectories: API.PaginatedOperationMethod<
     items: "DirectoryDescriptions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDirectories",
 })) as any;
 
 export type DescribeDirectoryDataAccessError =
@@ -2609,7 +2684,7 @@ export type DescribeDirectoryDataAccessError =
  * specified directory.
  */
 export const describeDirectoryDataAccess: API.OperationMethod<
-  DescribeDirectoryDataAccessRequest,
+  DescribeDirectoryDataAccessRequest & RegionInput,
   DescribeDirectoryDataAccessResult,
   DescribeDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -2626,6 +2701,8 @@ export const describeDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectoryDataAccess",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectoryDataAccess",
 }));
 
 export type DescribeDomainControllersError =
@@ -2640,7 +2717,7 @@ export type DescribeDomainControllersError =
  * Provides information about any domain controllers in your directory.
  */
 export const describeDomainControllers: API.PaginatedOperationMethod<
-  DescribeDomainControllersRequest,
+  DescribeDomainControllersRequest & RegionInput,
   DescribeDomainControllersResult,
   DescribeDomainControllersError,
   Credentials | HttpClient.HttpClient,
@@ -2660,6 +2737,8 @@ export const describeDomainControllers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeDomainControllers",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDomainControllers",
 })) as any;
 
 export type DescribeEventTopicsError =
@@ -2676,7 +2755,7 @@ export type DescribeEventTopicsError =
  * describes all of the associations in the account.
  */
 export const describeEventTopics: API.OperationMethod<
-  DescribeEventTopicsRequest,
+  DescribeEventTopicsRequest & RegionInput,
   DescribeEventTopicsResult,
   DescribeEventTopicsError,
   Credentials | HttpClient.HttpClient
@@ -2692,6 +2771,8 @@ export const describeEventTopics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTopics",
+  telemetry: TELEMETRY,
+  span: "DescribeEventTopics",
 }));
 
 export type DescribeHybridADUpdateError =
@@ -2708,7 +2789,7 @@ export type DescribeHybridADUpdateError =
  * self-managed instance settings (IDs and DNS IPs).
  */
 export const describeHybridADUpdate: API.OperationMethod<
-  DescribeHybridADUpdateRequest,
+  DescribeHybridADUpdateRequest & RegionInput,
   DescribeHybridADUpdateResult,
   DescribeHybridADUpdateError,
   Credentials | HttpClient.HttpClient
@@ -2726,6 +2807,8 @@ export const describeHybridADUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHybridADUpdate",
+  telemetry: TELEMETRY,
+  span: "DescribeHybridADUpdate",
 }));
 
 export type DescribeLDAPSSettingsError =
@@ -2740,7 +2823,7 @@ export type DescribeLDAPSSettingsError =
  * Describes the status of LDAP security for the specified directory.
  */
 export const describeLDAPSSettings: API.PaginatedOperationMethod<
-  DescribeLDAPSSettingsRequest,
+  DescribeLDAPSSettingsRequest & RegionInput,
   DescribeLDAPSSettingsResult,
   DescribeLDAPSSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -2765,6 +2848,8 @@ export const describeLDAPSSettings: API.PaginatedOperationMethod<
     items: "LDAPSSettingsInfo",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLDAPSSettings",
 })) as any;
 
 export type DescribeRegionsError =
@@ -2781,7 +2866,7 @@ export type DescribeRegionsError =
  * replication.
  */
 export const describeRegions: API.PaginatedOperationMethod<
-  DescribeRegionsRequest,
+  DescribeRegionsRequest & RegionInput,
   DescribeRegionsResult,
   DescribeRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -2806,6 +2891,8 @@ export const describeRegions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RegionsDescription",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegions",
 })) as any;
 
 export type DescribeSettingsError =
@@ -2820,7 +2907,7 @@ export type DescribeSettingsError =
  * Retrieves information about the configurable settings for the specified directory.
  */
 export const describeSettings: API.OperationMethod<
-  DescribeSettingsRequest,
+  DescribeSettingsRequest & RegionInput,
   DescribeSettingsResult,
   DescribeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2838,6 +2925,8 @@ export const describeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeSettings",
 }));
 
 export type DescribeSharedDirectoriesError =
@@ -2852,7 +2941,7 @@ export type DescribeSharedDirectoriesError =
  * Returns the shared directories in your account.
  */
 export const describeSharedDirectories: API.PaginatedOperationMethod<
-  DescribeSharedDirectoriesRequest,
+  DescribeSharedDirectoriesRequest & RegionInput,
   DescribeSharedDirectoriesResult,
   DescribeSharedDirectoriesError,
   Credentials | HttpClient.HttpClient,
@@ -2877,6 +2966,8 @@ export const describeSharedDirectories: API.PaginatedOperationMethod<
     items: "SharedDirectories",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSharedDirectories",
 })) as any;
 
 export type DescribeSnapshotsError =
@@ -2898,7 +2989,7 @@ export type DescribeSnapshotsError =
  * parameter.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResult,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2922,6 +3013,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeTrustsError =
@@ -2939,7 +3032,7 @@ export type DescribeTrustsError =
  * describes all the trust relationships belonging to the account.
  */
 export const describeTrusts: API.PaginatedOperationMethod<
-  DescribeTrustsRequest,
+  DescribeTrustsRequest & RegionInput,
   DescribeTrustsResult,
   DescribeTrustsError,
   Credentials | HttpClient.HttpClient,
@@ -2964,6 +3057,8 @@ export const describeTrusts: API.PaginatedOperationMethod<
     items: "Trusts",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrusts",
 })) as any;
 
 export type DescribeUpdateDirectoryError =
@@ -2978,7 +3073,7 @@ export type DescribeUpdateDirectoryError =
  * Describes the updates of a directory for a particular update type.
  */
 export const describeUpdateDirectory: API.PaginatedOperationMethod<
-  DescribeUpdateDirectoryRequest,
+  DescribeUpdateDirectoryRequest & RegionInput,
   DescribeUpdateDirectoryResult,
   DescribeUpdateDirectoryError,
   Credentials | HttpClient.HttpClient,
@@ -3002,6 +3097,8 @@ export const describeUpdateDirectory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "UpdateActivities",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUpdateDirectory",
 })) as any;
 
 export type DisableCAEnrollmentPolicyError =
@@ -3023,7 +3120,7 @@ export type DisableCAEnrollmentPolicyError =
  * enrolled, but existing certificates remain valid and functional until they expire.
  */
 export const disableCAEnrollmentPolicy: API.OperationMethod<
-  DisableCAEnrollmentPolicyRequest,
+  DisableCAEnrollmentPolicyRequest & RegionInput,
   DisableCAEnrollmentPolicyResult,
   DisableCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3043,6 +3140,8 @@ export const disableCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCAEnrollmentPolicy",
+  telemetry: TELEMETRY,
+  span: "DisableCAEnrollmentPolicy",
 }));
 
 export type DisableClientAuthenticationError =
@@ -3057,7 +3156,7 @@ export type DisableClientAuthenticationError =
  * Disables alternative client authentication methods for the specified directory.
  */
 export const disableClientAuthentication: API.OperationMethod<
-  DisableClientAuthenticationRequest,
+  DisableClientAuthenticationRequest & RegionInput,
   DisableClientAuthenticationResult,
   DisableClientAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -3075,6 +3174,8 @@ export const disableClientAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableClientAuthentication",
+  telemetry: TELEMETRY,
+  span: "DisableClientAuthentication",
 }));
 
 export type DisableDirectoryDataAccessError =
@@ -3091,7 +3192,7 @@ export type DisableDirectoryDataAccessError =
  * more information, see Directory Service Data API Reference.
  */
 export const disableDirectoryDataAccess: API.OperationMethod<
-  DisableDirectoryDataAccessRequest,
+  DisableDirectoryDataAccessRequest & RegionInput,
   DisableDirectoryDataAccessResult,
   DisableDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -3110,6 +3211,8 @@ export const disableDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDirectoryDataAccess",
+  telemetry: TELEMETRY,
+  span: "DisableDirectoryDataAccess",
 }));
 
 export type DisableLDAPSError =
@@ -3125,7 +3228,7 @@ export type DisableLDAPSError =
  * Deactivates LDAP secure calls for the specified directory.
  */
 export const disableLDAPS: API.OperationMethod<
-  DisableLDAPSRequest,
+  DisableLDAPSRequest & RegionInput,
   DisableLDAPSResult,
   DisableLDAPSError,
   Credentials | HttpClient.HttpClient
@@ -3144,6 +3247,8 @@ export const disableLDAPS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableLDAPS",
+  telemetry: TELEMETRY,
+  span: "DisableLDAPS",
 }));
 
 export type DisableRadiusError =
@@ -3156,7 +3261,7 @@ export type DisableRadiusError =
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
 export const disableRadius: API.OperationMethod<
-  DisableRadiusRequest,
+  DisableRadiusRequest & RegionInput,
   DisableRadiusResult,
   DisableRadiusError,
   Credentials | HttpClient.HttpClient
@@ -3167,6 +3272,8 @@ export const disableRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRadius",
+  telemetry: TELEMETRY,
+  span: "DisableRadius",
 }));
 
 export type DisableSsoError =
@@ -3180,7 +3287,7 @@ export type DisableSsoError =
  * Disables single-sign on for a directory.
  */
 export const disableSso: API.OperationMethod<
-  DisableSsoRequest,
+  DisableSsoRequest & RegionInput,
   DisableSsoResult,
   DisableSsoError,
   Credentials | HttpClient.HttpClient
@@ -3197,6 +3304,8 @@ export const disableSso: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSso",
+  telemetry: TELEMETRY,
+  span: "DisableSso",
 }));
 
 export type EnableCAEnrollmentPolicyError =
@@ -3220,7 +3329,7 @@ export type EnableCAEnrollmentPolicyError =
  * necessary permissions.
  */
 export const enableCAEnrollmentPolicy: API.OperationMethod<
-  EnableCAEnrollmentPolicyRequest,
+  EnableCAEnrollmentPolicyRequest & RegionInput,
   EnableCAEnrollmentPolicyResult,
   EnableCAEnrollmentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3241,6 +3350,8 @@ export const enableCAEnrollmentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCAEnrollmentPolicy",
+  telemetry: TELEMETRY,
+  span: "EnableCAEnrollmentPolicy",
 }));
 
 export type EnableClientAuthenticationError =
@@ -3256,7 +3367,7 @@ export type EnableClientAuthenticationError =
  * Enables alternative client authentication methods for the specified directory.
  */
 export const enableClientAuthentication: API.OperationMethod<
-  EnableClientAuthenticationRequest,
+  EnableClientAuthenticationRequest & RegionInput,
   EnableClientAuthenticationResult,
   EnableClientAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -3275,6 +3386,8 @@ export const enableClientAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableClientAuthentication",
+  telemetry: TELEMETRY,
+  span: "EnableClientAuthentication",
 }));
 
 export type EnableDirectoryDataAccessError =
@@ -3291,7 +3404,7 @@ export type EnableDirectoryDataAccessError =
  * more information, see Directory Service Data API Reference.
  */
 export const enableDirectoryDataAccess: API.OperationMethod<
-  EnableDirectoryDataAccessRequest,
+  EnableDirectoryDataAccessRequest & RegionInput,
   EnableDirectoryDataAccessResult,
   EnableDirectoryDataAccessError,
   Credentials | HttpClient.HttpClient
@@ -3310,6 +3423,8 @@ export const enableDirectoryDataAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDirectoryDataAccess",
+  telemetry: TELEMETRY,
+  span: "EnableDirectoryDataAccess",
 }));
 
 export type EnableLDAPSError =
@@ -3326,7 +3441,7 @@ export type EnableLDAPSError =
  * Activates the switch for the specific directory to always use LDAP secure calls.
  */
 export const enableLDAPS: API.OperationMethod<
-  EnableLDAPSRequest,
+  EnableLDAPSRequest & RegionInput,
   EnableLDAPSResult,
   EnableLDAPSError,
   Credentials | HttpClient.HttpClient
@@ -3346,6 +3461,8 @@ export const enableLDAPS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableLDAPS",
+  telemetry: TELEMETRY,
+  span: "EnableLDAPS",
 }));
 
 export type EnableRadiusError =
@@ -3360,7 +3477,7 @@ export type EnableRadiusError =
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
 export const enableRadius: API.OperationMethod<
-  EnableRadiusRequest,
+  EnableRadiusRequest & RegionInput,
   EnableRadiusResult,
   EnableRadiusError,
   Credentials | HttpClient.HttpClient
@@ -3377,6 +3494,8 @@ export const enableRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRadius",
+  telemetry: TELEMETRY,
+  span: "EnableRadius",
 }));
 
 export type EnableSsoError =
@@ -3392,7 +3511,7 @@ export type EnableSsoError =
  * their credentials separately.
  */
 export const enableSso: API.OperationMethod<
-  EnableSsoRequest,
+  EnableSsoRequest & RegionInput,
   EnableSsoResult,
   EnableSsoError,
   Credentials | HttpClient.HttpClient
@@ -3409,6 +3528,8 @@ export const enableSso: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSso",
+  telemetry: TELEMETRY,
+  span: "EnableSso",
 }));
 
 export type GetDirectoryLimitsError =
@@ -3420,7 +3541,7 @@ export type GetDirectoryLimitsError =
  * Obtains directory limit information for the current Region.
  */
 export const getDirectoryLimits: API.OperationMethod<
-  GetDirectoryLimitsRequest,
+  GetDirectoryLimitsRequest & RegionInput,
   GetDirectoryLimitsResult,
   GetDirectoryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3431,6 +3552,8 @@ export const getDirectoryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectoryLimits",
+  telemetry: TELEMETRY,
+  span: "GetDirectoryLimits",
 }));
 
 export type GetSnapshotLimitsError =
@@ -3442,7 +3565,7 @@ export type GetSnapshotLimitsError =
  * Obtains the manual snapshot limits for a directory.
  */
 export const getSnapshotLimits: API.OperationMethod<
-  GetSnapshotLimitsRequest,
+  GetSnapshotLimitsRequest & RegionInput,
   GetSnapshotLimitsResult,
   GetSnapshotLimitsError,
   Credentials | HttpClient.HttpClient
@@ -3453,6 +3576,8 @@ export const getSnapshotLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotLimits",
+  telemetry: TELEMETRY,
+  span: "GetSnapshotLimits",
 }));
 
 export type ListADAssessmentsError =
@@ -3468,7 +3593,7 @@ export type ListADAssessmentsError =
  * multiple assessments.
  */
 export const listADAssessments: API.PaginatedOperationMethod<
-  ListADAssessmentsRequest,
+  ListADAssessmentsRequest & RegionInput,
   ListADAssessmentsResult,
   ListADAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3492,6 +3617,8 @@ export const listADAssessments: API.PaginatedOperationMethod<
     items: "Assessments",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListADAssessments",
 })) as any;
 
 export type ListCertificatesError =
@@ -3507,7 +3634,7 @@ export type ListCertificatesError =
  * client certificate authentication.
  */
 export const listCertificates: API.PaginatedOperationMethod<
-  ListCertificatesRequest,
+  ListCertificatesRequest & RegionInput,
   ListCertificatesResult,
   ListCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -3532,6 +3659,8 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "CertificatesInfo",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificates",
 })) as any;
 
 export type ListIpRoutesError =
@@ -3545,7 +3674,7 @@ export type ListIpRoutesError =
  * Lists the address blocks that you have added to a directory.
  */
 export const listIpRoutes: API.PaginatedOperationMethod<
-  ListIpRoutesRequest,
+  ListIpRoutesRequest & RegionInput,
   ListIpRoutesResult,
   ListIpRoutesError,
   Credentials | HttpClient.HttpClient,
@@ -3569,6 +3698,8 @@ export const listIpRoutes: API.PaginatedOperationMethod<
     items: "IpRoutesInfo",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIpRoutes",
 })) as any;
 
 export type ListLogSubscriptionsError =
@@ -3581,7 +3712,7 @@ export type ListLogSubscriptionsError =
  * Lists the active log subscriptions for the Amazon Web Services account.
  */
 export const listLogSubscriptions: API.PaginatedOperationMethod<
-  ListLogSubscriptionsRequest,
+  ListLogSubscriptionsRequest & RegionInput,
   ListLogSubscriptionsResult,
   ListLogSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3604,6 +3735,8 @@ export const listLogSubscriptions: API.PaginatedOperationMethod<
     items: "LogSubscriptions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogSubscriptions",
 })) as any;
 
 export type ListSchemaExtensionsError =
@@ -3616,7 +3749,7 @@ export type ListSchemaExtensionsError =
  * Lists all schema extensions applied to a Microsoft AD Directory.
  */
 export const listSchemaExtensions: API.PaginatedOperationMethod<
-  ListSchemaExtensionsRequest,
+  ListSchemaExtensionsRequest & RegionInput,
   ListSchemaExtensionsResult,
   ListSchemaExtensionsError,
   Credentials | HttpClient.HttpClient,
@@ -3639,6 +3772,8 @@ export const listSchemaExtensions: API.PaginatedOperationMethod<
     items: "SchemaExtensionsInfo",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemaExtensions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3652,7 +3787,7 @@ export type ListTagsForResourceError =
  * Lists all tags on a directory.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResult,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3676,6 +3811,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type RegisterCertificateError =
@@ -3693,7 +3830,7 @@ export type RegisterCertificateError =
  * Registers a certificate for a secure LDAP or client certificate authentication.
  */
 export const registerCertificate: API.OperationMethod<
-  RegisterCertificateRequest,
+  RegisterCertificateRequest & RegionInput,
   RegisterCertificateResult,
   RegisterCertificateError,
   Credentials | HttpClient.HttpClient
@@ -3714,6 +3851,8 @@ export const registerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCertificate",
+  telemetry: TELEMETRY,
+  span: "RegisterCertificate",
 }));
 
 export type RegisterEventTopicError =
@@ -3730,7 +3869,7 @@ export type RegisterEventTopicError =
  * returns to an Active status.
  */
 export const registerEventTopic: API.OperationMethod<
-  RegisterEventTopicRequest,
+  RegisterEventTopicRequest & RegionInput,
   RegisterEventTopicResult,
   RegisterEventTopicError,
   Credentials | HttpClient.HttpClient
@@ -3746,6 +3885,8 @@ export const registerEventTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterEventTopic",
+  telemetry: TELEMETRY,
+  span: "RegisterEventTopic",
 }));
 
 export type RejectSharedDirectoryError =
@@ -3759,7 +3900,7 @@ export type RejectSharedDirectoryError =
  * Rejects a directory sharing request that was sent from the directory owner account.
  */
 export const rejectSharedDirectory: API.OperationMethod<
-  RejectSharedDirectoryRequest,
+  RejectSharedDirectoryRequest & RegionInput,
   RejectSharedDirectoryResult,
   RejectSharedDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -3776,6 +3917,8 @@ export const rejectSharedDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSharedDirectory",
+  telemetry: TELEMETRY,
+  span: "RejectSharedDirectory",
 }));
 
 export type RemoveIpRoutesError =
@@ -3789,7 +3932,7 @@ export type RemoveIpRoutesError =
  * Removes IP address blocks from a directory.
  */
 export const removeIpRoutes: API.OperationMethod<
-  RemoveIpRoutesRequest,
+  RemoveIpRoutesRequest & RegionInput,
   RemoveIpRoutesResult,
   RemoveIpRoutesError,
   Credentials | HttpClient.HttpClient
@@ -3806,6 +3949,8 @@ export const removeIpRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveIpRoutes",
+  telemetry: TELEMETRY,
+  span: "RemoveIpRoutes",
 }));
 
 export type RemoveRegionError =
@@ -3822,7 +3967,7 @@ export type RemoveRegionError =
  * `DeleteDirectory` API.
  */
 export const removeRegion: API.OperationMethod<
-  RemoveRegionRequest,
+  RemoveRegionRequest & RegionInput,
   RemoveRegionResult,
   RemoveRegionError,
   Credentials | HttpClient.HttpClient
@@ -3840,6 +3985,8 @@ export const removeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegion",
+  telemetry: TELEMETRY,
+  span: "RemoveRegion",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -3852,7 +3999,7 @@ export type RemoveTagsFromResourceError =
  * Removes tags from a directory.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResult,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3868,6 +4015,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetUserPasswordError =
@@ -3898,7 +4047,7 @@ export type ResetUserPasswordError =
  * Guide.
  */
 export const resetUserPassword: API.OperationMethod<
-  ResetUserPasswordRequest,
+  ResetUserPasswordRequest & RegionInput,
   ResetUserPasswordResult,
   ResetUserPasswordError,
   Credentials | HttpClient.HttpClient
@@ -3917,6 +4066,8 @@ export const resetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetUserPassword",
+  telemetry: TELEMETRY,
+  span: "ResetUserPassword",
 }));
 
 export type RestoreFromSnapshotError =
@@ -3936,7 +4087,7 @@ export type RestoreFromSnapshotError =
  * `Active`, the restore operation is complete.
  */
 export const restoreFromSnapshot: API.OperationMethod<
-  RestoreFromSnapshotRequest,
+  RestoreFromSnapshotRequest & RegionInput,
   RestoreFromSnapshotResult,
   RestoreFromSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3952,6 +4103,8 @@ export const restoreFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreFromSnapshot",
 }));
 
 export type ShareDirectoryError =
@@ -3985,7 +4138,7 @@ export type ShareDirectoryError =
  * which sends a directory sharing request to the directory consumer.
  */
 export const shareDirectory: API.OperationMethod<
-  ShareDirectoryRequest,
+  ShareDirectoryRequest & RegionInput,
   ShareDirectoryResult,
   ShareDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -4007,6 +4160,8 @@ export const shareDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShareDirectory",
+  telemetry: TELEMETRY,
+  span: "ShareDirectory",
 }));
 
 export type StartADAssessmentError =
@@ -4041,7 +4196,7 @@ export type StartADAssessmentError =
  * `AssessmentConfiguration`.
  */
 export const startADAssessment: API.OperationMethod<
-  StartADAssessmentRequest,
+  StartADAssessmentRequest & RegionInput,
   StartADAssessmentResult,
   StartADAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -4059,6 +4214,8 @@ export const startADAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartADAssessment",
+  telemetry: TELEMETRY,
+  span: "StartADAssessment",
 }));
 
 export type StartSchemaExtensionError =
@@ -4073,7 +4230,7 @@ export type StartSchemaExtensionError =
  * Applies a schema extension to a Microsoft AD directory.
  */
 export const startSchemaExtension: API.OperationMethod<
-  StartSchemaExtensionRequest,
+  StartSchemaExtensionRequest & RegionInput,
   StartSchemaExtensionResult,
   StartSchemaExtensionError,
   Credentials | HttpClient.HttpClient
@@ -4091,6 +4248,8 @@ export const startSchemaExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaExtension",
+  telemetry: TELEMETRY,
+  span: "StartSchemaExtension",
 }));
 
 export type UnshareDirectoryError =
@@ -4104,7 +4263,7 @@ export type UnshareDirectoryError =
  * Stops the directory sharing between the directory owner and consumer accounts.
  */
 export const unshareDirectory: API.OperationMethod<
-  UnshareDirectoryRequest,
+  UnshareDirectoryRequest & RegionInput,
   UnshareDirectoryResult,
   UnshareDirectoryError,
   Credentials | HttpClient.HttpClient
@@ -4121,6 +4280,8 @@ export const unshareDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnshareDirectory",
+  telemetry: TELEMETRY,
+  span: "UnshareDirectory",
 }));
 
 export type UpdateConditionalForwarderError =
@@ -4136,7 +4297,7 @@ export type UpdateConditionalForwarderError =
  * directory.
  */
 export const updateConditionalForwarder: API.OperationMethod<
-  UpdateConditionalForwarderRequest,
+  UpdateConditionalForwarderRequest & RegionInput,
   UpdateConditionalForwarderResult,
   UpdateConditionalForwarderError,
   Credentials | HttpClient.HttpClient
@@ -4154,6 +4315,8 @@ export const updateConditionalForwarder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConditionalForwarder",
+  telemetry: TELEMETRY,
+  span: "UpdateConditionalForwarder",
 }));
 
 export type UpdateDirectorySetupError =
@@ -4171,7 +4334,7 @@ export type UpdateDirectorySetupError =
  * Updates directory configuration for the specified update type.
  */
 export const updateDirectorySetup: API.OperationMethod<
-  UpdateDirectorySetupRequest,
+  UpdateDirectorySetupRequest & RegionInput,
   UpdateDirectorySetupResult,
   UpdateDirectorySetupError,
   Credentials | HttpClient.HttpClient
@@ -4192,6 +4355,8 @@ export const updateDirectorySetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectorySetup",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectorySetup",
 }));
 
 export type UpdateHybridADError =
@@ -4219,7 +4384,7 @@ export type UpdateHybridADError =
  * You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
  */
 export const updateHybridAD: API.OperationMethod<
-  UpdateHybridADRequest,
+  UpdateHybridADRequest & RegionInput,
   UpdateHybridADResult,
   UpdateHybridADError,
   Credentials | HttpClient.HttpClient
@@ -4237,6 +4402,8 @@ export const updateHybridAD: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHybridAD",
+  telemetry: TELEMETRY,
+  span: "UpdateHybridAD",
 }));
 
 export type UpdateNumberOfDomainControllersError =
@@ -4256,7 +4423,7 @@ export type UpdateNumberOfDomainControllersError =
  * cannot make another update request.
  */
 export const updateNumberOfDomainControllers: API.OperationMethod<
-  UpdateNumberOfDomainControllersRequest,
+  UpdateNumberOfDomainControllersRequest & RegionInput,
   UpdateNumberOfDomainControllersResult,
   UpdateNumberOfDomainControllersError,
   Credentials | HttpClient.HttpClient
@@ -4275,6 +4442,8 @@ export const updateNumberOfDomainControllers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNumberOfDomainControllers",
+  telemetry: TELEMETRY,
+  span: "UpdateNumberOfDomainControllers",
 }));
 
 export type UpdateRadiusError =
@@ -4288,7 +4457,7 @@ export type UpdateRadiusError =
  * an AD Connector or Microsoft AD directory.
  */
 export const updateRadius: API.OperationMethod<
-  UpdateRadiusRequest,
+  UpdateRadiusRequest & RegionInput,
   UpdateRadiusResult,
   UpdateRadiusError,
   Credentials | HttpClient.HttpClient
@@ -4304,6 +4473,8 @@ export const updateRadius: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRadius",
+  telemetry: TELEMETRY,
+  span: "UpdateRadius",
 }));
 
 export type UpdateSettingsError =
@@ -4320,7 +4491,7 @@ export type UpdateSettingsError =
  * Updates the configurable settings for the specified directory.
  */
 export const updateSettings: API.OperationMethod<
-  UpdateSettingsRequest,
+  UpdateSettingsRequest & RegionInput,
   UpdateSettingsResult,
   UpdateSettingsError,
   Credentials | HttpClient.HttpClient
@@ -4340,6 +4511,8 @@ export const updateSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateSettings",
 }));
 
 export type UpdateTrustError =
@@ -4353,7 +4526,7 @@ export type UpdateTrustError =
  * self-managed Active Directory.
  */
 export const updateTrust: API.OperationMethod<
-  UpdateTrustRequest,
+  UpdateTrustRequest & RegionInput,
   UpdateTrustResult,
   UpdateTrustError,
   Credentials | HttpClient.HttpClient
@@ -4369,6 +4542,8 @@ export const updateTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrust",
+  telemetry: TELEMETRY,
+  span: "UpdateTrust",
 }));
 
 export type VerifyTrustError =
@@ -4386,7 +4561,7 @@ export type VerifyTrustError =
  * external domain.
  */
 export const verifyTrust: API.OperationMethod<
-  VerifyTrustRequest,
+  VerifyTrustRequest & RegionInput,
   VerifyTrustResult,
   VerifyTrustError,
   Credentials | HttpClient.HttpClient
@@ -4403,6 +4578,8 @@ export const verifyTrust: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyTrust",
+  telemetry: TELEMETRY,
+  span: "VerifyTrust",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

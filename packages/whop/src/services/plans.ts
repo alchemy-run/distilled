@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Plans",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -953,6 +966,8 @@ export const calculatePlanTax: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculatePlanTax",
 }));
 
 export type CreatePlanError = BadRequest | Conflict | WhopOpError;
@@ -968,6 +983,8 @@ export const createPlan: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlan",
 }));
 
 export type DeletePlanError = NotFound | WhopOpError;
@@ -983,6 +1000,8 @@ export const deletePlan: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlan",
 }));
 
 export type GetPlanError = NotFound | WhopOpError;
@@ -994,6 +1013,8 @@ export const getPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, Wh
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPlan",
   }));
 
 export type ListPlansError = BadRequest | WhopOpError;
@@ -1011,6 +1032,8 @@ export const listPlans: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPlans",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1036,6 +1059,8 @@ export const updatePlan: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlan",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

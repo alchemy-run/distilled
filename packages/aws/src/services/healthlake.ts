@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://healthlake.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "HealthLake",
+  service: "HealthLake",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -803,7 +820,7 @@ export type CreateDataTransformationProfileError =
  * Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
  */
 export const createDataTransformationProfile: API.OperationMethod<
-  CreateDataTransformationProfileRequest,
+  CreateDataTransformationProfileRequest & RegionInput,
   CreateDataTransformationProfileResponse,
   CreateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -823,6 +840,11 @@ export const createDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile" },
+  },
 }));
 
 export type CreateFHIRDatastoreError =
@@ -835,7 +857,7 @@ export type CreateFHIRDatastoreError =
  * Create a FHIR-enabled data store.
  */
 export const createFHIRDatastore: API.OperationMethod<
-  CreateFHIRDatastoreRequest,
+  CreateFHIRDatastoreRequest & RegionInput,
   CreateFHIRDatastoreResponse,
   CreateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -851,6 +873,8 @@ export const createFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "CreateFHIRDatastore",
 }));
 
 export type DeleteDataTransformationProfileError =
@@ -864,7 +888,7 @@ export type DeleteDataTransformationProfileError =
  * Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
  */
 export const deleteDataTransformationProfile: API.OperationMethod<
-  DeleteDataTransformationProfileRequest,
+  DeleteDataTransformationProfileRequest & RegionInput,
   DeleteDataTransformationProfileResponse,
   DeleteDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -882,6 +906,11 @@ export const deleteDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type DeleteFHIRDatastoreError =
@@ -896,7 +925,7 @@ export type DeleteFHIRDatastoreError =
  * Delete a FHIR-enabled data store.
  */
 export const deleteFHIRDatastore: API.OperationMethod<
-  DeleteFHIRDatastoreRequest,
+  DeleteFHIRDatastoreRequest & RegionInput,
   DeleteFHIRDatastoreResponse,
   DeleteFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -914,6 +943,8 @@ export const deleteFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "DeleteFHIRDatastore",
 }));
 
 export type DescribeDataTransformationJobError =
@@ -927,7 +958,7 @@ export type DescribeDataTransformationJobError =
  * Describes a data transformation job, including its current status, configuration, and progress information.
  */
 export const describeDataTransformationJob: API.OperationMethod<
-  DescribeDataTransformationJobRequest,
+  DescribeDataTransformationJobRequest & RegionInput,
   DescribeDataTransformationJobResponse,
   DescribeDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -945,6 +976,11 @@ export const describeDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeDataTransformationJob",
+    attributes: { "url.template": "/data-transformation-job/{JobId}" },
+  },
 }));
 
 export type DescribeFHIRDatastoreError =
@@ -957,7 +993,7 @@ export type DescribeFHIRDatastoreError =
  * Get properties for a FHIR-enabled data store.
  */
 export const describeFHIRDatastore: API.OperationMethod<
-  DescribeFHIRDatastoreRequest,
+  DescribeFHIRDatastoreRequest & RegionInput,
   DescribeFHIRDatastoreResponse,
   DescribeFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -973,6 +1009,8 @@ export const describeFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRDatastore",
 }));
 
 export type DescribeFHIRExportJobError =
@@ -985,7 +1023,7 @@ export type DescribeFHIRExportJobError =
  * Get FHIR export job properties.
  */
 export const describeFHIRExportJob: API.OperationMethod<
-  DescribeFHIRExportJobRequest,
+  DescribeFHIRExportJobRequest & RegionInput,
   DescribeFHIRExportJobResponse,
   DescribeFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1001,6 +1039,8 @@ export const describeFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRExportJob",
 }));
 
 export type DescribeFHIRImportJobError =
@@ -1013,7 +1053,7 @@ export type DescribeFHIRImportJobError =
  * Get the import job properties to learn more about the job or job progress.
  */
 export const describeFHIRImportJob: API.OperationMethod<
-  DescribeFHIRImportJobRequest,
+  DescribeFHIRImportJobRequest & RegionInput,
   DescribeFHIRImportJobResponse,
   DescribeFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1029,6 +1069,8 @@ export const describeFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRImportJob",
 }));
 
 export type GetDataTransformationProfileError =
@@ -1042,7 +1084,7 @@ export type GetDataTransformationProfileError =
  * Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
  */
 export const getDataTransformationProfile: API.OperationMethod<
-  GetDataTransformationProfileRequest,
+  GetDataTransformationProfileRequest & RegionInput,
   GetDataTransformationProfileResponse,
   GetDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1060,6 +1102,11 @@ export const getDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type ListDataTransformationJobsError =
@@ -1072,7 +1119,7 @@ export type ListDataTransformationJobsError =
  * Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationJobs: API.PaginatedOperationMethod<
-  ListDataTransformationJobsRequest,
+  ListDataTransformationJobsRequest & RegionInput,
   ListDataTransformationJobsResponse,
   ListDataTransformationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1096,6 +1143,11 @@ export const listDataTransformationJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationJobs",
+    attributes: { "url.template": "/data-transformation-jobs" },
+  },
 })) as any;
 
 export type ListDataTransformationProfilesError =
@@ -1108,7 +1160,7 @@ export type ListDataTransformationProfilesError =
  * Lists all data transformation profiles in your account, returning the latest version summary for each. Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfiles: API.PaginatedOperationMethod<
-  ListDataTransformationProfilesRequest,
+  ListDataTransformationProfilesRequest & RegionInput,
   ListDataTransformationProfilesResponse,
   ListDataTransformationProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -1132,6 +1184,11 @@ export const listDataTransformationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationProfiles",
+    attributes: { "url.template": "/data-transformation-profile" },
+  },
 })) as any;
 
 export type ListDataTransformationProfileVersionsError =
@@ -1145,7 +1202,7 @@ export type ListDataTransformationProfileVersionsError =
  * Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use `GetDataTransformationProfile` to retrieve profile content. Results are paginated. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataTransformationProfileVersions: API.PaginatedOperationMethod<
-  ListDataTransformationProfileVersionsRequest,
+  ListDataTransformationProfileVersionsRequest & RegionInput,
   ListDataTransformationProfileVersionsResponse,
   ListDataTransformationProfileVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1170,6 +1227,11 @@ export const listDataTransformationProfileVersions: API.PaginatedOperationMethod
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationProfileVersions",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}/versions" },
+  },
 })) as any;
 
 export type ListFHIRDatastoresError =
@@ -1181,7 +1243,7 @@ export type ListFHIRDatastoresError =
  * List all FHIR-enabled data stores in a user's account, regardless of data store status.
  */
 export const listFHIRDatastores: API.PaginatedOperationMethod<
-  ListFHIRDatastoresRequest,
+  ListFHIRDatastoresRequest & RegionInput,
   ListFHIRDatastoresResponse,
   ListFHIRDatastoresError,
   Credentials | HttpClient.HttpClient,
@@ -1198,6 +1260,8 @@ export const listFHIRDatastores: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRDatastores",
 })) as any;
 
 export type ListFHIRExportJobsError =
@@ -1211,7 +1275,7 @@ export type ListFHIRExportJobsError =
  * Lists all FHIR export jobs associated with an account and their statuses.
  */
 export const listFHIRExportJobs: API.PaginatedOperationMethod<
-  ListFHIRExportJobsRequest,
+  ListFHIRExportJobsRequest & RegionInput,
   ListFHIRExportJobsResponse,
   ListFHIRExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1234,6 +1298,8 @@ export const listFHIRExportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRExportJobs",
 })) as any;
 
 export type ListFHIRImportJobsError =
@@ -1247,7 +1313,7 @@ export type ListFHIRImportJobsError =
  * List all FHIR import jobs associated with an account and their statuses.
  */
 export const listFHIRImportJobs: API.PaginatedOperationMethod<
-  ListFHIRImportJobsRequest,
+  ListFHIRImportJobsRequest & RegionInput,
   ListFHIRImportJobsResponse,
   ListFHIRImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1270,6 +1336,8 @@ export const listFHIRImportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRImportJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1280,7 +1348,7 @@ export type ListTagsForResourceError =
  * Returns a list of all existing tags associated with a data store.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1291,6 +1359,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishDataTransformationProfileError =
@@ -1305,7 +1375,7 @@ export type PublishDataTransformationProfileError =
  * Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
  */
 export const publishDataTransformationProfile: API.OperationMethod<
-  PublishDataTransformationProfileRequest,
+  PublishDataTransformationProfileRequest & RegionInput,
   PublishDataTransformationProfileResponse,
   PublishDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1324,6 +1394,11 @@ export const publishDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "PublishDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PublishDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}/publish" },
+  },
 }));
 
 export type RestoreFHIRDatastoreError =
@@ -1338,7 +1413,7 @@ export type RestoreFHIRDatastoreError =
  * Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
  */
 export const restoreFHIRDatastore: API.OperationMethod<
-  RestoreFHIRDatastoreRequest,
+  RestoreFHIRDatastoreRequest & RegionInput,
   RestoreFHIRDatastoreResponse,
   RestoreFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1356,6 +1431,8 @@ export const restoreFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "RestoreFHIRDatastore",
 }));
 
 export type StartDataTransformationJobError =
@@ -1369,7 +1446,7 @@ export type StartDataTransformationJobError =
  * Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
  */
 export const startDataTransformationJob: API.OperationMethod<
-  StartDataTransformationJobRequest,
+  StartDataTransformationJobRequest & RegionInput,
   StartDataTransformationJobResponse,
   StartDataTransformationJobError,
   Credentials | HttpClient.HttpClient
@@ -1387,6 +1464,11 @@ export const startDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartDataTransformationJob",
+    attributes: { "url.template": "/data-transformation-job" },
+  },
 }));
 
 export type StartFHIRExportJobError =
@@ -1401,7 +1483,7 @@ export type StartFHIRExportJobError =
  * Start a FHIR export job.
  */
 export const startFHIRExportJob: API.OperationMethod<
-  StartFHIRExportJobRequest,
+  StartFHIRExportJobRequest & RegionInput,
   StartFHIRExportJobResponse,
   StartFHIRExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1419,6 +1501,8 @@ export const startFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRExportJob",
+  telemetry: TELEMETRY,
+  span: "StartFHIRExportJob",
 }));
 
 export type StartFHIRImportJobError =
@@ -1433,7 +1517,7 @@ export type StartFHIRImportJobError =
  * Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the `InputDataConfig` object and stores processing results in the `JobOutputDataConfig` object.
  */
 export const startFHIRImportJob: API.OperationMethod<
-  StartFHIRImportJobRequest,
+  StartFHIRImportJobRequest & RegionInput,
   StartFHIRImportJobResponse,
   StartFHIRImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1451,6 +1535,8 @@ export const startFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRImportJob",
+  telemetry: TELEMETRY,
+  span: "StartFHIRImportJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1458,7 +1544,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Add a user-specifed key and value tag to a data store.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1469,6 +1555,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1476,7 +1564,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Remove a user-specifed key and value tag from a data store.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1487,6 +1575,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataTransformationProfileError =
@@ -1500,7 +1590,7 @@ export type UpdateDataTransformationProfileError =
  * Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
  */
 export const updateDataTransformationProfile: API.OperationMethod<
-  UpdateDataTransformationProfileRequest,
+  UpdateDataTransformationProfileRequest & RegionInput,
   UpdateDataTransformationProfileResponse,
   UpdateDataTransformationProfileError,
   Credentials | HttpClient.HttpClient
@@ -1518,6 +1608,11 @@ export const updateDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type UpdateFHIRDatastoreError =
@@ -1532,7 +1627,7 @@ export type UpdateFHIRDatastoreError =
  * Update the properties of a FHIR-enabled data store.
  */
 export const updateFHIRDatastore: API.OperationMethod<
-  UpdateFHIRDatastoreRequest,
+  UpdateFHIRDatastoreRequest & RegionInput,
   UpdateFHIRDatastoreResponse,
   UpdateFHIRDatastoreError,
   Credentials | HttpClient.HttpClient
@@ -1550,6 +1645,8 @@ export const updateFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "UpdateFHIRDatastore",
 }));
 
 export type UpdateProfileWithAgentError =
@@ -1568,7 +1665,7 @@ export type UpdateProfileWithAgentError =
  * Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
  */
 export const updateProfileWithAgent: API.OperationMethod<
-  UpdateProfileWithAgentRequest,
+  UpdateProfileWithAgentRequest & RegionInput,
   UpdateProfileWithAgentResponse,
   UpdateProfileWithAgentError,
   Credentials | HttpClient.HttpClient
@@ -1591,6 +1688,11 @@ export const updateProfileWithAgent: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProfileWithAgent",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateProfileWithAgent",
+    attributes: { "url.template": "/update-profile-with-agent" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

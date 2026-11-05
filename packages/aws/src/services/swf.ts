@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -88,6 +90,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://swf.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SWF",
+  service: "SWF",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DefaultUndefinedFault
   extends /*@__PURE__*/ S.TaggedError<DefaultUndefinedFault>()("DefaultUndefinedFault", {
@@ -1309,7 +1326,7 @@ export type CountClosedWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countClosedWorkflowExecutions: API.OperationMethod<
-  CountClosedWorkflowExecutionsInput,
+  CountClosedWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionCount,
   CountClosedWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1320,6 +1337,8 @@ export const countClosedWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountClosedWorkflowExecutions",
+  telemetry: TELEMETRY,
+  span: "CountClosedWorkflowExecutions",
 }));
 
 export type CountOpenWorkflowExecutionsError =
@@ -1363,7 +1382,7 @@ export type CountOpenWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countOpenWorkflowExecutions: API.OperationMethod<
-  CountOpenWorkflowExecutionsInput,
+  CountOpenWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionCount,
   CountOpenWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1374,6 +1393,8 @@ export const countOpenWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountOpenWorkflowExecutions",
+  telemetry: TELEMETRY,
+  span: "CountOpenWorkflowExecutions",
 }));
 
 export type CountPendingActivityTasksError =
@@ -1407,7 +1428,7 @@ export type CountPendingActivityTasksError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countPendingActivityTasks: API.OperationMethod<
-  CountPendingActivityTasksInput,
+  CountPendingActivityTasksInput & RegionInput,
   PendingTaskCount,
   CountPendingActivityTasksError,
   Credentials | HttpClient.HttpClient
@@ -1418,6 +1439,8 @@ export const countPendingActivityTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingActivityTasks",
+  telemetry: TELEMETRY,
+  span: "CountPendingActivityTasks",
 }));
 
 export type CountPendingDecisionTasksError =
@@ -1451,7 +1474,7 @@ export type CountPendingDecisionTasksError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const countPendingDecisionTasks: API.OperationMethod<
-  CountPendingDecisionTasksInput,
+  CountPendingDecisionTasksInput & RegionInput,
   PendingTaskCount,
   CountPendingDecisionTasksError,
   Credentials | HttpClient.HttpClient
@@ -1462,6 +1485,8 @@ export const countPendingDecisionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingDecisionTasks",
+  telemetry: TELEMETRY,
+  span: "CountPendingDecisionTasks",
 }));
 
 export type DeleteActivityTypeError =
@@ -1502,7 +1527,7 @@ export type DeleteActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deleteActivityType: API.OperationMethod<
-  DeleteActivityTypeInput,
+  DeleteActivityTypeInput & RegionInput,
   DeleteActivityTypeResponse,
   DeleteActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1538,8 @@ export const deleteActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivityType",
+  telemetry: TELEMETRY,
+  span: "DeleteActivityType",
 }));
 
 export type DeleteWorkflowTypeError =
@@ -1554,7 +1581,7 @@ export type DeleteWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deleteWorkflowType: API.OperationMethod<
-  DeleteWorkflowTypeInput,
+  DeleteWorkflowTypeInput & RegionInput,
   DeleteWorkflowTypeResponse,
   DeleteWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -1565,6 +1592,8 @@ export const deleteWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowType",
 }));
 
 export type DeprecateActivityTypeError =
@@ -1604,7 +1633,7 @@ export type DeprecateActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateActivityType: API.OperationMethod<
-  DeprecateActivityTypeInput,
+  DeprecateActivityTypeInput & RegionInput,
   DeprecateActivityTypeResponse,
   DeprecateActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1615,6 +1644,8 @@ export const deprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateActivityType",
+  telemetry: TELEMETRY,
+  span: "DeprecateActivityType",
 }));
 
 export type DeprecateDomainError =
@@ -1652,7 +1683,7 @@ export type DeprecateDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateDomain: API.OperationMethod<
-  DeprecateDomainInput,
+  DeprecateDomainInput & RegionInput,
   DeprecateDomainResponse,
   DeprecateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1663,6 +1694,8 @@ export const deprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateDomain",
+  telemetry: TELEMETRY,
+  span: "DeprecateDomain",
 }));
 
 export type DeprecateWorkflowTypeError =
@@ -1706,7 +1739,7 @@ export type DeprecateWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const deprecateWorkflowType: API.OperationMethod<
-  DeprecateWorkflowTypeInput,
+  DeprecateWorkflowTypeInput & RegionInput,
   DeprecateWorkflowTypeResponse,
   DeprecateWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -1717,6 +1750,8 @@ export const deprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DeprecateWorkflowType",
 }));
 
 export type DescribeActivityTypeError =
@@ -1755,7 +1790,7 @@ export type DescribeActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeActivityType: API.OperationMethod<
-  DescribeActivityTypeInput,
+  DescribeActivityTypeInput & RegionInput,
   ActivityTypeDetail,
   DescribeActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -1766,6 +1801,8 @@ export const describeActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivityType",
+  telemetry: TELEMETRY,
+  span: "DescribeActivityType",
 }));
 
 export type DescribeDomainError = OperationNotPermittedFault | UnknownResourceFault | CommonErrors;
@@ -1793,7 +1830,7 @@ export type DescribeDomainError = OperationNotPermittedFault | UnknownResourceFa
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainInput,
+  DescribeDomainInput & RegionInput,
   DomainDetail,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -1804,6 +1841,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeWorkflowExecutionError =
@@ -1837,7 +1876,7 @@ export type DescribeWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeWorkflowExecution: API.OperationMethod<
-  DescribeWorkflowExecutionInput,
+  DescribeWorkflowExecutionInput & RegionInput,
   WorkflowExecutionDetail,
   DescribeWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1848,6 +1887,8 @@ export const describeWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowExecution",
 }));
 
 export type DescribeWorkflowTypeError =
@@ -1886,7 +1927,7 @@ export type DescribeWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const describeWorkflowType: API.OperationMethod<
-  DescribeWorkflowTypeInput,
+  DescribeWorkflowTypeInput & RegionInput,
   WorkflowTypeDetail,
   DescribeWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -1897,6 +1938,8 @@ export const describeWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowType",
 }));
 
 export type GetWorkflowExecutionHistoryError =
@@ -1931,7 +1974,7 @@ export type GetWorkflowExecutionHistoryError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const getWorkflowExecutionHistory: API.PaginatedOperationMethod<
-  GetWorkflowExecutionHistoryInput,
+  GetWorkflowExecutionHistoryInput & RegionInput,
   History,
   GetWorkflowExecutionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1949,6 +1992,8 @@ export const getWorkflowExecutionHistory: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecutionHistory",
 })) as any;
 
 export type ListActivityTypesError =
@@ -1982,7 +2027,7 @@ export type ListActivityTypesError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listActivityTypes: API.PaginatedOperationMethod<
-  ListActivityTypesInput,
+  ListActivityTypesInput & RegionInput,
   ActivityTypeInfos,
   ListActivityTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2000,6 +2045,8 @@ export const listActivityTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActivityTypes",
 })) as any;
 
 export type ListClosedWorkflowExecutionsError =
@@ -2044,7 +2091,7 @@ export type ListClosedWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listClosedWorkflowExecutions: API.PaginatedOperationMethod<
-  ListClosedWorkflowExecutionsInput,
+  ListClosedWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionInfos,
   ListClosedWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2062,6 +2109,8 @@ export const listClosedWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClosedWorkflowExecutions",
 })) as any;
 
 export type ListDomainsError = OperationNotPermittedFault | CommonErrors;
@@ -2095,7 +2144,7 @@ export type ListDomainsError = OperationNotPermittedFault | CommonErrors;
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsInput,
+  ListDomainsInput & RegionInput,
   DomainInfos,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2113,6 +2162,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domainInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListOpenWorkflowExecutionsError =
@@ -2157,7 +2208,7 @@ export type ListOpenWorkflowExecutionsError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listOpenWorkflowExecutions: API.PaginatedOperationMethod<
-  ListOpenWorkflowExecutionsInput,
+  ListOpenWorkflowExecutionsInput & RegionInput,
   WorkflowExecutionInfos,
   ListOpenWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2175,6 +2226,8 @@ export const listOpenWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpenWorkflowExecutions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2186,7 +2239,7 @@ export type ListTagsForResourceError =
  * List tags for a given domain.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2197,6 +2250,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkflowTypesError =
@@ -2227,7 +2282,7 @@ export type ListWorkflowTypesError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const listWorkflowTypes: API.PaginatedOperationMethod<
-  ListWorkflowTypesInput,
+  ListWorkflowTypesInput & RegionInput,
   WorkflowTypeInfos,
   ListWorkflowTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2245,6 +2300,8 @@ export const listWorkflowTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowTypes",
 })) as any;
 
 export type PollForActivityTaskError =
@@ -2286,7 +2343,7 @@ export type PollForActivityTaskError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const pollForActivityTask: API.OperationMethod<
-  PollForActivityTaskInput,
+  PollForActivityTaskInput & RegionInput,
   ActivityTask,
   PollForActivityTaskError,
   Credentials | HttpClient.HttpClient
@@ -2297,6 +2354,8 @@ export const pollForActivityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForActivityTask",
+  telemetry: TELEMETRY,
+  span: "PollForActivityTask",
 }));
 
 export type PollForDecisionTaskError =
@@ -2350,7 +2409,7 @@ export type PollForDecisionTaskError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const pollForDecisionTask: API.PaginatedOperationMethod<
-  PollForDecisionTaskInput,
+  PollForDecisionTaskInput & RegionInput,
   DecisionTask,
   PollForDecisionTaskError,
   Credentials | HttpClient.HttpClient,
@@ -2368,6 +2427,8 @@ export const pollForDecisionTask: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "PollForDecisionTask",
 })) as any;
 
 export type RecordActivityTaskHeartbeatError =
@@ -2420,7 +2481,7 @@ export type RecordActivityTaskHeartbeatError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const recordActivityTaskHeartbeat: API.OperationMethod<
-  RecordActivityTaskHeartbeatInput,
+  RecordActivityTaskHeartbeatInput & RegionInput,
   ActivityTaskStatus,
   RecordActivityTaskHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -2431,6 +2492,8 @@ export const recordActivityTaskHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordActivityTaskHeartbeat",
+  telemetry: TELEMETRY,
+  span: "RecordActivityTaskHeartbeat",
 }));
 
 export type RegisterActivityTypeError =
@@ -2476,7 +2539,7 @@ export type RegisterActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerActivityType: API.OperationMethod<
-  RegisterActivityTypeInput,
+  RegisterActivityTypeInput & RegionInput,
   RegisterActivityTypeResponse,
   RegisterActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -2492,6 +2555,8 @@ export const registerActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterActivityType",
+  telemetry: TELEMETRY,
+  span: "RegisterActivityType",
 }));
 
 export type RegisterDomainError =
@@ -2523,7 +2588,7 @@ export type RegisterDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerDomain: API.OperationMethod<
-  RegisterDomainInput,
+  RegisterDomainInput & RegionInput,
   RegisterDomainResponse,
   RegisterDomainError,
   Credentials | HttpClient.HttpClient
@@ -2539,6 +2604,8 @@ export const registerDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDomain",
+  telemetry: TELEMETRY,
+  span: "RegisterDomain",
 }));
 
 export type RegisterWorkflowTypeError =
@@ -2586,7 +2653,7 @@ export type RegisterWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const registerWorkflowType: API.OperationMethod<
-  RegisterWorkflowTypeInput,
+  RegisterWorkflowTypeInput & RegionInput,
   RegisterWorkflowTypeResponse,
   RegisterWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -2602,6 +2669,8 @@ export const registerWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWorkflowType",
+  telemetry: TELEMETRY,
+  span: "RegisterWorkflowType",
 }));
 
 export type RequestCancelWorkflowExecutionError =
@@ -2642,7 +2711,7 @@ export type RequestCancelWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const requestCancelWorkflowExecution: API.OperationMethod<
-  RequestCancelWorkflowExecutionInput,
+  RequestCancelWorkflowExecutionInput & RegionInput,
   RequestCancelWorkflowExecutionResponse,
   RequestCancelWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2653,6 +2722,8 @@ export const requestCancelWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCancelWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "RequestCancelWorkflowExecution",
 }));
 
 export type RespondActivityTaskCanceledError =
@@ -2697,7 +2768,7 @@ export type RespondActivityTaskCanceledError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskCanceled: API.OperationMethod<
-  RespondActivityTaskCanceledInput,
+  RespondActivityTaskCanceledInput & RegionInput,
   RespondActivityTaskCanceledResponse,
   RespondActivityTaskCanceledError,
   Credentials | HttpClient.HttpClient
@@ -2708,6 +2779,8 @@ export const respondActivityTaskCanceled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCanceled",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCanceled",
 }));
 
 export type RespondActivityTaskCompletedError =
@@ -2750,7 +2823,7 @@ export type RespondActivityTaskCompletedError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskCompleted: API.OperationMethod<
-  RespondActivityTaskCompletedInput,
+  RespondActivityTaskCompletedInput & RegionInput,
   RespondActivityTaskCompletedResponse,
   RespondActivityTaskCompletedError,
   Credentials | HttpClient.HttpClient
@@ -2761,6 +2834,8 @@ export const respondActivityTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCompleted",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCompleted",
 }));
 
 export type RespondActivityTaskFailedError =
@@ -2798,7 +2873,7 @@ export type RespondActivityTaskFailedError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const respondActivityTaskFailed: API.OperationMethod<
-  RespondActivityTaskFailedInput,
+  RespondActivityTaskFailedInput & RegionInput,
   RespondActivityTaskFailedResponse,
   RespondActivityTaskFailedError,
   Credentials | HttpClient.HttpClient
@@ -2809,6 +2884,8 @@ export const respondActivityTaskFailed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskFailed",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskFailed",
 }));
 
 export type RespondDecisionTaskCompletedError =
@@ -2836,7 +2913,7 @@ export type RespondDecisionTaskCompletedError =
  * *Amazon SWF Developer Guide*.
  */
 export const respondDecisionTaskCompleted: API.OperationMethod<
-  RespondDecisionTaskCompletedInput,
+  RespondDecisionTaskCompletedInput & RegionInput,
   RespondDecisionTaskCompletedResponse,
   RespondDecisionTaskCompletedError,
   Credentials | HttpClient.HttpClient
@@ -2847,6 +2924,8 @@ export const respondDecisionTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondDecisionTaskCompleted",
+  telemetry: TELEMETRY,
+  span: "RespondDecisionTaskCompleted",
 }));
 
 export type SignalWorkflowExecutionError =
@@ -2886,7 +2965,7 @@ export type SignalWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const signalWorkflowExecution: API.OperationMethod<
-  SignalWorkflowExecutionInput,
+  SignalWorkflowExecutionInput & RegionInput,
   SignalWorkflowExecutionResponse,
   SignalWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2897,6 +2976,8 @@ export const signalWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignalWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "SignalWorkflowExecution",
 }));
 
 export type StartWorkflowExecutionError =
@@ -2953,7 +3034,7 @@ export type StartWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const startWorkflowExecution: API.OperationMethod<
-  StartWorkflowExecutionInput,
+  StartWorkflowExecutionInput & RegionInput,
   Run,
   StartWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2971,6 +3052,8 @@ export const startWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowExecution",
 }));
 
 export type TagResourceError =
@@ -2985,7 +3068,7 @@ export type TagResourceError =
  * Amazon SWF supports a maximum of 50 tags per resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2996,6 +3079,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateWorkflowExecutionError =
@@ -3038,7 +3123,7 @@ export type TerminateWorkflowExecutionError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const terminateWorkflowExecution: API.OperationMethod<
-  TerminateWorkflowExecutionInput,
+  TerminateWorkflowExecutionInput & RegionInput,
   TerminateWorkflowExecutionResponse,
   TerminateWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3049,6 +3134,8 @@ export const terminateWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "TerminateWorkflowExecution",
 }));
 
 export type UndeprecateActivityTypeError =
@@ -3090,7 +3177,7 @@ export type UndeprecateActivityTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateActivityType: API.OperationMethod<
-  UndeprecateActivityTypeInput,
+  UndeprecateActivityTypeInput & RegionInput,
   UndeprecateActivityTypeResponse,
   UndeprecateActivityTypeError,
   Credentials | HttpClient.HttpClient
@@ -3101,6 +3188,8 @@ export const undeprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateActivityType",
+  telemetry: TELEMETRY,
+  span: "UndeprecateActivityType",
 }));
 
 export type UndeprecateDomainError =
@@ -3135,7 +3224,7 @@ export type UndeprecateDomainError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateDomain: API.OperationMethod<
-  UndeprecateDomainInput,
+  UndeprecateDomainInput & RegionInput,
   UndeprecateDomainResponse,
   UndeprecateDomainError,
   Credentials | HttpClient.HttpClient
@@ -3146,6 +3235,8 @@ export const undeprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateDomain",
+  telemetry: TELEMETRY,
+  span: "UndeprecateDomain",
 }));
 
 export type UndeprecateWorkflowTypeError =
@@ -3187,7 +3278,7 @@ export type UndeprecateWorkflowTypeError =
  * Workflows in the *Amazon SWF Developer Guide*.
  */
 export const undeprecateWorkflowType: API.OperationMethod<
-  UndeprecateWorkflowTypeInput,
+  UndeprecateWorkflowTypeInput & RegionInput,
   UndeprecateWorkflowTypeResponse,
   UndeprecateWorkflowTypeError,
   Credentials | HttpClient.HttpClient
@@ -3198,6 +3289,8 @@ export const undeprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateWorkflowType",
+  telemetry: TELEMETRY,
+  span: "UndeprecateWorkflowType",
 }));
 
 export type UntagResourceError =
@@ -3209,7 +3302,7 @@ export type UntagResourceError =
  * Remove a tag from a Amazon SWF domain.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3220,6 +3313,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

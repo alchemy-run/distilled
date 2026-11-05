@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Repos",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -685,6 +698,8 @@ export const createRepository: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DuplicateRepositoryError = HuggingFaceOpError;
@@ -700,6 +715,8 @@ export const duplicateRepository: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateRepository",
 }));
 
 export type DuplicationStatusError = HuggingFaceOpError;
@@ -715,6 +732,8 @@ export const duplicationStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicationStatus",
 }));
 
 export type MoveRepoError = HuggingFaceOpError;
@@ -730,6 +749,8 @@ export const moveRepo: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveRepo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

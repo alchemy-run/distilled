@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -740,6 +742,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Kinesis",
+  service: "Kinesis",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -1711,7 +1728,7 @@ export type AddTagsToStreamError =
  * account.
  */
 export const addTagsToStream: API.OperationMethod<
-  AddTagsToStreamInput,
+  AddTagsToStreamInput & RegionInput,
   AddTagsToStreamResponse,
   AddTagsToStreamError,
   Credentials | HttpClient.HttpClient
@@ -1728,6 +1745,14 @@ export const addTagsToStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddTagsToStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type CreateChannelError =
@@ -1758,7 +1783,7 @@ export type CreateChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const createChannel: API.OperationMethod<
-  CreateChannelInput,
+  CreateChannelInput & RegionInput,
   CreateChannelOutput,
   CreateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1782,6 +1807,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateStreamError =
@@ -1832,7 +1859,7 @@ export type CreateStreamError =
  * You can add tags to the stream when making a `CreateStream` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream` permission for the stream that will be created. The `kinesis:TagResource` permission won't work to tag streams on creation. Tags will take effect from the `CREATING` status of the stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamResponse,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -1848,6 +1875,8 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  telemetry: TELEMETRY,
+  span: { op: "CreateStream", input: { StreamName: [{ name: "aws.kinesis.stream_name" }] } },
 }));
 
 export type DecreaseStreamRetentionPeriodError =
@@ -1871,7 +1900,7 @@ export type DecreaseStreamRetentionPeriodError =
  * than 24 hours is inaccessible.
  */
 export const decreaseStreamRetentionPeriod: API.OperationMethod<
-  DecreaseStreamRetentionPeriodInput,
+  DecreaseStreamRetentionPeriodInput & RegionInput,
   DecreaseStreamRetentionPeriodResponse,
   DecreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -1888,6 +1917,14 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DecreaseStreamRetentionPeriod",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DeleteChannelError =
@@ -1905,7 +1942,7 @@ export type DeleteChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const deleteChannel: API.OperationMethod<
-  DeleteChannelInput,
+  DeleteChannelInput & RegionInput,
   DeleteChannelResponse,
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
@@ -1922,6 +1959,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1939,7 +1978,7 @@ export type DeleteResourcePolicyError =
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1956,6 +1995,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteStreamError =
@@ -1994,7 +2035,7 @@ export type DeleteStreamError =
  * account.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamResponse,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -2011,6 +2052,14 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DeregisterStreamConsumerError =
@@ -2030,7 +2079,7 @@ export type DeregisterStreamConsumerError =
  * This operation has a limit of five transactions per second per stream.
  */
 export const deregisterStreamConsumer: API.OperationMethod<
-  DeregisterStreamConsumerInput,
+  DeregisterStreamConsumerInput & RegionInput,
   DeregisterStreamConsumerResponse,
   DeregisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2041,6 +2090,11 @@ export const deregisterStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeregisterStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type DescribeAccountSettingsError = LimitExceededException | CommonErrors;
@@ -2050,7 +2104,7 @@ export type DescribeAccountSettingsError = LimitExceededException | CommonErrors
  * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsInput,
+  DescribeAccountSettingsInput & RegionInput,
   DescribeAccountSettingsOutput,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2061,6 +2115,8 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeChannelError =
@@ -2078,7 +2134,7 @@ export type DescribeChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const describeChannel: API.OperationMethod<
-  DescribeChannelInput,
+  DescribeChannelInput & RegionInput,
   DescribeChannelOutput,
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
@@ -2095,6 +2151,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeLimitsError = LimitExceededException | CommonErrors;
@@ -2107,7 +2165,7 @@ export type DescribeLimitsError = LimitExceededException | CommonErrors;
  * This operation has a limit of one transaction per second per account.
  */
 export const describeLimits: API.OperationMethod<
-  DescribeLimitsInput,
+  DescribeLimitsInput & RegionInput,
   DescribeLimitsOutput,
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
@@ -2118,6 +2176,8 @@ export const describeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeLimits",
 }));
 
 export type DescribeStreamError =
@@ -2156,7 +2216,7 @@ export type DescribeStreamError =
  * This operation has a limit of 10 transactions per second per account.
  */
 export const describeStream: API.OperationMethod<
-  DescribeStreamInput,
+  DescribeStreamInput & RegionInput,
   DescribeStreamOutput,
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
@@ -2172,6 +2232,14 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DescribeStreamConsumerError =
@@ -2193,7 +2261,7 @@ export type DescribeStreamConsumerError =
  * When making a cross-account call with `DescribeStreamConsumer`, make sure to provide the ARN of the consumer.
  */
 export const describeStreamConsumer: API.OperationMethod<
-  DescribeStreamConsumerInput,
+  DescribeStreamConsumerInput & RegionInput,
   DescribeStreamConsumerOutput,
   DescribeStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2204,6 +2272,11 @@ export const describeStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type DescribeStreamSummaryError =
@@ -2228,7 +2301,7 @@ export type DescribeStreamSummaryError =
  * account.
  */
 export const describeStreamSummary: API.OperationMethod<
-  DescribeStreamSummaryInput,
+  DescribeStreamSummaryInput & RegionInput,
   DescribeStreamSummaryOutput,
   DescribeStreamSummaryError,
   Credentials | HttpClient.HttpClient
@@ -2244,6 +2317,14 @@ export const describeStreamSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamSummary",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStreamSummary",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DisableEnhancedMonitoringError =
@@ -2261,7 +2342,7 @@ export type DisableEnhancedMonitoringError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const disableEnhancedMonitoring: API.OperationMethod<
-  DisableEnhancedMonitoringInput,
+  DisableEnhancedMonitoringInput & RegionInput,
   EnhancedMonitoringOutput,
   DisableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
@@ -2278,6 +2359,14 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEnhancedMonitoring",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DisableEnhancedMonitoring",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type EnableEnhancedMonitoringError =
@@ -2295,7 +2384,7 @@ export type EnableEnhancedMonitoringError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const enableEnhancedMonitoring: API.OperationMethod<
-  EnableEnhancedMonitoringInput,
+  EnableEnhancedMonitoringInput & RegionInput,
   EnhancedMonitoringOutput,
   EnableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
@@ -2312,6 +2401,14 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEnhancedMonitoring",
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnableEnhancedMonitoring",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type GetRecordsError =
@@ -2394,7 +2491,7 @@ export type GetRecordsError =
  * This operation has a limit of five transactions per second per shard.
  */
 export const getRecords: API.OperationMethod<
-  GetRecordsInput,
+  GetRecordsInput & RegionInput,
   GetRecordsOutput,
   GetRecordsError,
   Credentials | HttpClient.HttpClient
@@ -2419,6 +2516,11 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRecords",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type GetResourcePolicyError =
@@ -2436,7 +2538,7 @@ export type GetResourcePolicyError =
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2453,6 +2555,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetShardIteratorError =
@@ -2509,7 +2613,7 @@ export type GetShardIteratorError =
  * account per open shard.
  */
 export const getShardIterator: API.OperationMethod<
-  GetShardIteratorInput,
+  GetShardIteratorInput & RegionInput,
   GetShardIteratorOutput,
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
@@ -2527,6 +2631,14 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetShardIterator",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type IncreaseStreamRetentionPeriodError =
@@ -2553,7 +2665,7 @@ export type IncreaseStreamRetentionPeriodError =
  * hours remains inaccessible to consumer applications.
  */
 export const increaseStreamRetentionPeriod: API.OperationMethod<
-  IncreaseStreamRetentionPeriodInput,
+  IncreaseStreamRetentionPeriodInput & RegionInput,
   IncreaseStreamRetentionPeriodResponse,
   IncreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
@@ -2570,6 +2682,14 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
+  telemetry: TELEMETRY,
+  span: {
+    op: "IncreaseStreamRetentionPeriod",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type ListChannelsError =
@@ -2587,7 +2707,7 @@ export type ListChannelsError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsInput,
+  ListChannelsInput & RegionInput,
   ListChannelsOutput,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -2611,6 +2731,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "ChannelSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListShardsError =
@@ -2639,7 +2761,7 @@ export type ListShardsError =
  * IAM.
  */
 export const listShards: API.OperationMethod<
-  ListShardsInput,
+  ListShardsInput & RegionInput,
   ListShardsOutput,
   ListShardsError,
   Credentials | HttpClient.HttpClient
@@ -2657,6 +2779,14 @@ export const listShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShards",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListShards",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type ListStreamConsumersError =
@@ -2673,7 +2803,7 @@ export type ListStreamConsumersError =
  * This operation has a limit of 5 transactions per second per stream.
  */
 export const listStreamConsumers: API.PaginatedOperationMethod<
-  ListStreamConsumersInput,
+  ListStreamConsumersInput & RegionInput,
   ListStreamConsumersOutput,
   ListStreamConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -2696,6 +2826,11 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListStreamConsumers",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 })) as any;
 
 export type ListStreamsError =
@@ -2724,7 +2859,7 @@ export type ListStreamsError =
  * account.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -2737,6 +2872,8 @@ export const listStreams: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStreams",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2752,7 +2889,7 @@ export type ListTagsForResourceError =
  * For more information about tagging Kinesis resources, see Tag your Amazon Kinesis Data Streams resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2769,6 +2906,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTagsForStreamError =
@@ -2786,7 +2925,7 @@ export type ListTagsForStreamError =
  * `StreamARN` input parameter when you invoke this API.
  */
 export const listTagsForStream: API.OperationMethod<
-  ListTagsForStreamInput,
+  ListTagsForStreamInput & RegionInput,
   ListTagsForStreamOutput,
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
@@ -2802,6 +2941,14 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTagsForStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type MergeShardsError =
@@ -2860,7 +3007,7 @@ export type MergeShardsError =
  * `MergeShards` has a limit of five transactions per second per account.
  */
 export const mergeShards: API.OperationMethod<
-  MergeShardsInput,
+  MergeShardsInput & RegionInput,
   MergeShardsResponse,
   MergeShardsError,
   Credentials | HttpClient.HttpClient
@@ -2878,6 +3025,14 @@ export const mergeShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeShards",
+  telemetry: TELEMETRY,
+  span: {
+    op: "MergeShards",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutRecordError =
@@ -2943,7 +3098,7 @@ export type PutRecordError =
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordInput,
+  PutRecordInput & RegionInput,
   PutRecordOutput,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -2967,6 +3122,14 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutRecord",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutRecordsError =
@@ -3055,7 +3218,7 @@ export type PutRecordsError =
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
 export const putRecords: API.OperationMethod<
-  PutRecordsInput,
+  PutRecordsInput & RegionInput,
   PutRecordsOutput,
   PutRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3079,6 +3242,14 @@ export const putRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecords",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutRecords",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutResourcePolicyError =
@@ -3104,7 +3275,7 @@ export type PutResourcePolicyError =
  * For more information, see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3121,6 +3292,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterStreamConsumerError =
@@ -3151,7 +3324,7 @@ export type RegisterStreamConsumerError =
  * `LimitExceededException`.
  */
 export const registerStreamConsumer: API.OperationMethod<
-  RegisterStreamConsumerInput,
+  RegisterStreamConsumerInput & RegionInput,
   RegisterStreamConsumerOutput,
   RegisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
@@ -3167,6 +3340,11 @@ export const registerStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegisterStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type RemoveTagsFromStreamError =
@@ -3190,7 +3368,7 @@ export type RemoveTagsFromStreamError =
  * account.
  */
 export const removeTagsFromStream: API.OperationMethod<
-  RemoveTagsFromStreamInput,
+  RemoveTagsFromStreamInput & RegionInput,
   RemoveTagsFromStreamResponse,
   RemoveTagsFromStreamError,
   Credentials | HttpClient.HttpClient
@@ -3207,6 +3385,14 @@ export const removeTagsFromStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemoveTagsFromStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type SplitShardError =
@@ -3271,7 +3457,7 @@ export type SplitShardError =
  * `SplitShard` has a limit of five transactions per second per account.
  */
 export const splitShard: API.OperationMethod<
-  SplitShardInput,
+  SplitShardInput & RegionInput,
   SplitShardResponse,
   SplitShardError,
   Credentials | HttpClient.HttpClient
@@ -3289,6 +3475,14 @@ export const splitShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SplitShard",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SplitShard",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type StartStreamEncryptionError =
@@ -3330,7 +3524,7 @@ export type StartStreamEncryptionError =
  * `PutRecord` or `PutRecords`.
  */
 export const startStreamEncryption: API.OperationMethod<
-  StartStreamEncryptionInput,
+  StartStreamEncryptionInput & RegionInput,
   StartStreamEncryptionResponse,
   StartStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -3353,6 +3547,14 @@ export const startStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamEncryption",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartStreamEncryption",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type StopStreamEncryptionError =
@@ -3387,7 +3589,7 @@ export type StopStreamEncryptionError =
  * response from `PutRecord` or `PutRecords`.
  */
 export const stopStreamEncryption: API.OperationMethod<
-  StopStreamEncryptionInput,
+  StopStreamEncryptionInput & RegionInput,
   StopStreamEncryptionResponse,
   StopStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -3404,6 +3606,14 @@ export const stopStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamEncryption",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StopStreamEncryption",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type SubscribeToShardError =
@@ -3444,7 +3654,7 @@ export type SubscribeToShardError =
  * Using the Kinesis Data Streams API.
  */
 export const subscribeToShard: API.OperationMethod<
-  SubscribeToShardInput,
+  SubscribeToShardInput & RegionInput,
   SubscribeToShardOutput,
   SubscribeToShardError,
   Credentials | HttpClient.HttpClient
@@ -3462,6 +3672,8 @@ export const subscribeToShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToShard",
+  telemetry: TELEMETRY,
+  span: "SubscribeToShard",
 }));
 
 export type TagResourceError =
@@ -3475,7 +3687,7 @@ export type TagResourceError =
  * Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3492,6 +3704,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3505,7 +3719,7 @@ export type UntagResourceError =
  * Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3522,6 +3736,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -3541,7 +3757,7 @@ export type UpdateAccountSettingsError =
  * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3552,6 +3768,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateChannelError =
@@ -3570,7 +3788,7 @@ export type UpdateChannelError =
  * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
  */
 export const updateChannel: API.OperationMethod<
-  UpdateChannelInput,
+  UpdateChannelInput & RegionInput,
   UpdateChannelOutput,
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
@@ -3588,6 +3806,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateMaxRecordSizeError =
@@ -3602,7 +3822,7 @@ export type UpdateMaxRecordSizeError =
  * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
  */
 export const updateMaxRecordSize: API.OperationMethod<
-  UpdateMaxRecordSizeInput,
+  UpdateMaxRecordSizeInput & RegionInput,
   UpdateMaxRecordSizeResponse,
   UpdateMaxRecordSizeError,
   Credentials | HttpClient.HttpClient
@@ -3620,6 +3840,11 @@ export const updateMaxRecordSize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaxRecordSize",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateMaxRecordSize",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateShardCountError =
@@ -3680,7 +3905,7 @@ export type UpdateShardCountError =
  * this API, or your overall shard limit, use the limits form.
  */
 export const updateShardCount: API.OperationMethod<
-  UpdateShardCountInput,
+  UpdateShardCountInput & RegionInput,
   UpdateShardCountOutput,
   UpdateShardCountError,
   Credentials | HttpClient.HttpClient
@@ -3698,6 +3923,14 @@ export const updateShardCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShardCount",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateShardCount",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type UpdateStreamModeError =
@@ -3715,7 +3948,7 @@ export type UpdateStreamModeError =
  * If you'd still like to proactively scale your on-demand data stream's capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
  */
 export const updateStreamMode: API.OperationMethod<
-  UpdateStreamModeInput,
+  UpdateStreamModeInput & RegionInput,
   UpdateStreamModeResponse,
   UpdateStreamModeError,
   Credentials | HttpClient.HttpClient
@@ -3732,6 +3965,11 @@ export const updateStreamMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamMode",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateStreamRecordDistributionStrategyError =
@@ -3773,7 +4011,7 @@ export type UpdateStreamRecordDistributionStrategyError =
  * not redistributed.
  */
 export const updateStreamRecordDistributionStrategy: API.OperationMethod<
-  UpdateStreamRecordDistributionStrategyInput,
+  UpdateStreamRecordDistributionStrategyInput & RegionInput,
   UpdateStreamRecordDistributionStrategyResponse,
   UpdateStreamRecordDistributionStrategyError,
   Credentials | HttpClient.HttpClient
@@ -3791,6 +4029,11 @@ export const updateStreamRecordDistributionStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamRecordDistributionStrategy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamRecordDistributionStrategy",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateStreamWarmThroughputError =
@@ -3822,7 +4065,7 @@ export type UpdateStreamWarmThroughputError =
  * Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
  */
 export const updateStreamWarmThroughput: API.OperationMethod<
-  UpdateStreamWarmThroughputInput,
+  UpdateStreamWarmThroughputInput & RegionInput,
   UpdateStreamWarmThroughputOutput,
   UpdateStreamWarmThroughputError,
   Credentials | HttpClient.HttpClient
@@ -3840,6 +4083,14 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamWarmThroughput",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamWarmThroughput",
+    input: {
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

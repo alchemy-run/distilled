@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -92,6 +94,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://query.timestream.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamQuery",
+  service: "TimestreamQuery",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -596,7 +613,7 @@ export type CancelQueryError =
  * sample for details.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryRequest,
+  CancelQueryRequest & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -613,6 +630,8 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateScheduledQueryError =
@@ -632,7 +651,7 @@ export type CreateScheduledQueryError =
  * scheduled query operations.
  */
 export const createScheduledQuery: API.OperationMethod<
-  CreateScheduledQueryRequest,
+  CreateScheduledQueryRequest & RegionInput,
   CreateScheduledQueryResponse,
   CreateScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -651,6 +670,8 @@ export const createScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "CreateScheduledQuery",
 }));
 
 export type DeleteScheduledQueryError =
@@ -665,7 +686,7 @@ export type DeleteScheduledQueryError =
  * Deletes a given scheduled query. This is an irreversible operation.
  */
 export const deleteScheduledQuery: API.OperationMethod<
-  DeleteScheduledQueryRequest,
+  DeleteScheduledQueryRequest & RegionInput,
   DeleteScheduledQueryResponse,
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -683,6 +704,8 @@ export const deleteScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledQuery",
 }));
 
 export type DescribeAccountSettingsError =
@@ -697,7 +720,7 @@ export type DescribeAccountSettingsError =
  * You're charged only for the duration of compute units used for your workloads.
  */
 export const describeAccountSettings: API.OperationMethod<
-  DescribeAccountSettingsRequest,
+  DescribeAccountSettingsRequest & RegionInput,
   DescribeAccountSettingsResponse,
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -713,6 +736,8 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeEndpointsError =
@@ -740,7 +765,7 @@ export type DescribeEndpointsError =
  * The Endpoint Discovery Pattern.
  */
 export const describeEndpoints: API.OperationMethod<
-  DescribeEndpointsRequest,
+  DescribeEndpointsRequest & RegionInput,
   DescribeEndpointsResponse,
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -756,6 +781,8 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 }));
 
 export type DescribeScheduledQueryError =
@@ -770,7 +797,7 @@ export type DescribeScheduledQueryError =
  * Provides detailed information about a scheduled query.
  */
 export const describeScheduledQuery: API.OperationMethod<
-  DescribeScheduledQueryRequest,
+  DescribeScheduledQueryRequest & RegionInput,
   DescribeScheduledQueryResponse,
   DescribeScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -788,6 +815,8 @@ export const describeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledQuery",
 }));
 
 export type ExecuteScheduledQueryError =
@@ -804,7 +833,7 @@ export type ExecuteScheduledQueryError =
  * If you enabled `QueryInsights`, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. `QueryInsights` helps with performance tuning of your query. For more information about `QueryInsights`, see Using query insights to optimize queries in Amazon Timestream.
  */
 export const executeScheduledQuery: API.OperationMethod<
-  ExecuteScheduledQueryRequest,
+  ExecuteScheduledQueryRequest & RegionInput,
   ExecuteScheduledQueryResponse,
   ExecuteScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -822,6 +851,8 @@ export const executeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteScheduledQuery",
 }));
 
 export type ListScheduledQueriesError =
@@ -836,7 +867,7 @@ export type ListScheduledQueriesError =
  * `ListScheduledQueries` is eventually consistent.
  */
 export const listScheduledQueries: API.PaginatedOperationMethod<
-  ListScheduledQueriesRequest,
+  ListScheduledQueriesRequest & RegionInput,
   ListScheduledQueriesResponse,
   ListScheduledQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -860,6 +891,8 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
     items: "ScheduledQueries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledQueries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -872,7 +905,7 @@ export type ListTagsForResourceError =
  * List all tags on a Timestream query resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -895,6 +928,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PrepareQueryError =
@@ -910,7 +945,7 @@ export type PrepareQueryError =
  * `ValidateOnly` set to `true`.
  */
 export const prepareQuery: API.OperationMethod<
-  PrepareQueryRequest,
+  PrepareQueryRequest & RegionInput,
   PrepareQueryResponse,
   PrepareQueryError,
   Credentials | HttpClient.HttpClient
@@ -927,6 +962,8 @@ export const prepareQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareQuery",
+  telemetry: TELEMETRY,
+  span: "PrepareQuery",
 }));
 
 export type QueryError =
@@ -972,7 +1009,7 @@ export type QueryError =
  * pagination token error.
  */
 export const query: API.PaginatedOperationMethod<
-  QueryRequest,
+  QueryRequest & RegionInput,
   QueryResponse,
   QueryError,
   Credentials | HttpClient.HttpClient,
@@ -999,6 +1036,8 @@ export const query: API.PaginatedOperationMethod<
     items: "Rows",
     pageSize: "MaxRows",
   } as const,
+  telemetry: TELEMETRY,
+  span: "Query",
 })) as any;
 
 export type TagResourceError =
@@ -1014,7 +1053,7 @@ export type TagResourceError =
  * cost allocation tracking.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1031,6 +1070,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1043,7 +1084,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Timestream query resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1059,6 +1100,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -1074,7 +1117,7 @@ export type UpdateAccountSettingsError =
  * After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1091,6 +1134,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateScheduledQueryError =
@@ -1105,7 +1150,7 @@ export type UpdateScheduledQueryError =
  * Update a scheduled query.
  */
 export const updateScheduledQuery: API.OperationMethod<
-  UpdateScheduledQueryRequest,
+  UpdateScheduledQueryRequest & RegionInput,
   UpdateScheduledQueryResponse,
   UpdateScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -1123,6 +1168,8 @@ export const updateScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

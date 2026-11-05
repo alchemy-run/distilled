@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-agentcore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockAgentCore",
+  service: "BedrockAgentCore",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3261,7 +3277,7 @@ export type BatchCreateMemoryRecordsError =
  * Creates multiple memory records in a single batch operation for the specified memory with custom content.
  */
 export const batchCreateMemoryRecords: API.OperationMethod<
-  BatchCreateMemoryRecordsInput,
+  BatchCreateMemoryRecordsInput & RegionInput,
   BatchCreateMemoryRecordsOutput,
   BatchCreateMemoryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3279,6 +3295,8 @@ export const batchCreateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchCreateMemoryRecords",
 }));
 
 export type BatchDeleteMemoryRecordsError =
@@ -3293,7 +3311,7 @@ export type BatchDeleteMemoryRecordsError =
  * Deletes multiple memory records in a single batch operation from the specified memory.
  */
 export const batchDeleteMemoryRecords: API.OperationMethod<
-  BatchDeleteMemoryRecordsInput,
+  BatchDeleteMemoryRecordsInput & RegionInput,
   BatchDeleteMemoryRecordsOutput,
   BatchDeleteMemoryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3311,6 +3329,8 @@ export const batchDeleteMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteMemoryRecords",
 }));
 
 export type BatchUpdateMemoryRecordsError =
@@ -3325,7 +3345,7 @@ export type BatchUpdateMemoryRecordsError =
  * Updates multiple memory records with custom content in a single batch operation within the specified memory.
  */
 export const batchUpdateMemoryRecords: API.OperationMethod<
-  BatchUpdateMemoryRecordsInput,
+  BatchUpdateMemoryRecordsInput & RegionInput,
   BatchUpdateMemoryRecordsOutput,
   BatchUpdateMemoryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -3343,6 +3363,8 @@ export const batchUpdateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMemoryRecords",
 }));
 
 export type CompleteResourceTokenAuthError =
@@ -3357,7 +3379,7 @@ export type CompleteResourceTokenAuthError =
  * Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
  */
 export const completeResourceTokenAuth: API.OperationMethod<
-  CompleteResourceTokenAuthRequest,
+  CompleteResourceTokenAuthRequest & RegionInput,
   CompleteResourceTokenAuthResponse,
   CompleteResourceTokenAuthError,
   Credentials | HttpClient.HttpClient
@@ -3375,6 +3397,8 @@ export const completeResourceTokenAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteResourceTokenAuth",
+  telemetry: TELEMETRY,
+  span: "CompleteResourceTokenAuth",
 }));
 
 export type CreateABTestError =
@@ -3390,7 +3414,7 @@ export type CreateABTestError =
  * Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configurations to determine which variant performs better.
  */
 export const createABTest: API.OperationMethod<
-  CreateABTestRequest,
+  CreateABTestRequest & RegionInput,
   CreateABTestResponse,
   CreateABTestError,
   Credentials | HttpClient.HttpClient
@@ -3409,6 +3433,8 @@ export const createABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateABTest",
+  telemetry: TELEMETRY,
+  span: "CreateABTest",
 }));
 
 export type CreateEventError =
@@ -3429,7 +3455,7 @@ export type CreateEventError =
  * This operation is subject to request rate limiting.
  */
 export const createEvent: API.OperationMethod<
-  CreateEventInput,
+  CreateEventInput & RegionInput,
   CreateEventOutput,
   CreateEventError,
   Credentials | HttpClient.HttpClient
@@ -3449,6 +3475,8 @@ export const createEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvent",
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreatePaymentInstrumentError =
@@ -3465,7 +3493,7 @@ export type CreatePaymentInstrumentError =
  * Create a new payment instrument for a connector.
  */
 export const createPaymentInstrument: API.OperationMethod<
-  CreatePaymentInstrumentRequest,
+  CreatePaymentInstrumentRequest & RegionInput,
   CreatePaymentInstrumentResponse,
   CreatePaymentInstrumentError,
   Credentials | HttpClient.HttpClient
@@ -3485,6 +3513,8 @@ export const createPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "CreatePaymentInstrument",
 }));
 
 export type CreatePaymentSessionError =
@@ -3500,7 +3530,7 @@ export type CreatePaymentSessionError =
  * Create a new payment session.
  */
 export const createPaymentSession: API.OperationMethod<
-  CreatePaymentSessionRequest,
+  CreatePaymentSessionRequest & RegionInput,
   CreatePaymentSessionResponse,
   CreatePaymentSessionError,
   Credentials | HttpClient.HttpClient
@@ -3519,6 +3549,8 @@ export const createPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentSession",
+  telemetry: TELEMETRY,
+  span: "CreatePaymentSession",
 }));
 
 export type DeleteABTestError =
@@ -3534,7 +3566,7 @@ export type DeleteABTestError =
  * Deletes an A/B test and its associated gateway rules.
  */
 export const deleteABTest: API.OperationMethod<
-  DeleteABTestRequest,
+  DeleteABTestRequest & RegionInput,
   DeleteABTestResponse,
   DeleteABTestError,
   Credentials | HttpClient.HttpClient
@@ -3553,6 +3585,8 @@ export const deleteABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteABTest",
+  telemetry: TELEMETRY,
+  span: "DeleteABTest",
 }));
 
 export type DeleteBatchEvaluationError =
@@ -3568,7 +3602,7 @@ export type DeleteBatchEvaluationError =
  * Deletes a batch evaluation and its associated results.
  */
 export const deleteBatchEvaluation: API.OperationMethod<
-  DeleteBatchEvaluationRequest,
+  DeleteBatchEvaluationRequest & RegionInput,
   DeleteBatchEvaluationResponse,
   DeleteBatchEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -3587,6 +3621,8 @@ export const deleteBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchEvaluation",
 }));
 
 export type DeleteCapacityProviderSessionError =
@@ -3600,7 +3636,7 @@ export type DeleteCapacityProviderSessionError =
  * Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it.
  */
 export const deleteCapacityProviderSession: API.OperationMethod<
-  DeleteCapacityProviderSessionRequest,
+  DeleteCapacityProviderSessionRequest & RegionInput,
   DeleteCapacityProviderSessionResponse,
   DeleteCapacityProviderSessionError,
   Credentials | HttpClient.HttpClient
@@ -3617,6 +3653,8 @@ export const deleteCapacityProviderSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProviderSession",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityProviderSession",
 }));
 
 export type DeleteEventError =
@@ -3634,7 +3672,7 @@ export type DeleteEventError =
  * To use this operation, you must have the `bedrock-agentcore:DeleteEvent` permission.
  */
 export const deleteEvent: API.OperationMethod<
-  DeleteEventInput,
+  DeleteEventInput & RegionInput,
   DeleteEventOutput,
   DeleteEventError,
   Credentials | HttpClient.HttpClient
@@ -3653,6 +3691,8 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
+  telemetry: TELEMETRY,
+  span: "DeleteEvent",
 }));
 
 export type DeleteMemoryRecordError =
@@ -3670,7 +3710,7 @@ export type DeleteMemoryRecordError =
  * To use this operation, you must have the `bedrock-agentcore:DeleteMemoryRecord` permission.
  */
 export const deleteMemoryRecord: API.OperationMethod<
-  DeleteMemoryRecordInput,
+  DeleteMemoryRecordInput & RegionInput,
   DeleteMemoryRecordOutput,
   DeleteMemoryRecordError,
   Credentials | HttpClient.HttpClient
@@ -3689,6 +3729,8 @@ export const deleteMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemoryRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteMemoryRecord",
 }));
 
 export type DeletePaymentInstrumentError =
@@ -3702,7 +3744,7 @@ export type DeletePaymentInstrumentError =
  * Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes.
  */
 export const deletePaymentInstrument: API.OperationMethod<
-  DeletePaymentInstrumentRequest,
+  DeletePaymentInstrumentRequest & RegionInput,
   DeletePaymentInstrumentResponse,
   DeletePaymentInstrumentError,
   Credentials | HttpClient.HttpClient
@@ -3719,6 +3761,8 @@ export const deletePaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "DeletePaymentInstrument",
 }));
 
 export type DeletePaymentSessionError =
@@ -3732,7 +3776,7 @@ export type DeletePaymentSessionError =
  * Deletes a payment session. This permanently removes the payment session record.
  */
 export const deletePaymentSession: API.OperationMethod<
-  DeletePaymentSessionRequest,
+  DeletePaymentSessionRequest & RegionInput,
   DeletePaymentSessionResponse,
   DeletePaymentSessionError,
   Credentials | HttpClient.HttpClient
@@ -3749,6 +3793,8 @@ export const deletePaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentSession",
+  telemetry: TELEMETRY,
+  span: "DeletePaymentSession",
 }));
 
 export type DeleteRecommendationError =
@@ -3763,7 +3809,7 @@ export type DeleteRecommendationError =
  * Deletes a recommendation and its associated results.
  */
 export const deleteRecommendation: API.OperationMethod<
-  DeleteRecommendationRequest,
+  DeleteRecommendationRequest & RegionInput,
   DeleteRecommendationResponse,
   DeleteRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -3781,6 +3827,8 @@ export const deleteRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendation",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommendation",
 }));
 
 export type EvaluateError =
@@ -3798,7 +3846,7 @@ export type EvaluateError =
  * Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
  */
 export const evaluate: API.OperationMethod<
-  EvaluateRequest,
+  EvaluateRequest & RegionInput,
   EvaluateResponse,
   EvaluateError,
   Credentials | HttpClient.HttpClient
@@ -3819,6 +3867,8 @@ export const evaluate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Evaluate",
+  telemetry: TELEMETRY,
+  span: "Evaluate",
 }));
 
 export type GetABTestError =
@@ -3833,7 +3883,7 @@ export type GetABTestError =
  * Retrieves detailed information about an A/B test, including its configuration, status, and statistical results.
  */
 export const getABTest: API.OperationMethod<
-  GetABTestRequest,
+  GetABTestRequest & RegionInput,
   GetABTestResponse,
   GetABTestError,
   Credentials | HttpClient.HttpClient
@@ -3851,6 +3901,8 @@ export const getABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetABTest",
+  telemetry: TELEMETRY,
+  span: "GetABTest",
 }));
 
 export type GetAgentCardError =
@@ -3867,7 +3919,7 @@ export type GetAgentCardError =
  * Retrieves the A2A agent card associated with an AgentCore Runtime agent.
  */
 export const getAgentCard: API.OperationMethod<
-  GetAgentCardRequest,
+  GetAgentCardRequest & RegionInput,
   GetAgentCardResponse,
   GetAgentCardError,
   Credentials | HttpClient.HttpClient
@@ -3887,6 +3939,8 @@ export const getAgentCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentCard",
+  telemetry: TELEMETRY,
+  span: "GetAgentCard",
 }));
 
 export type GetBatchEvaluationError =
@@ -3901,7 +3955,7 @@ export type GetBatchEvaluationError =
  * Retrieves detailed information about a batch evaluation, including its status, configuration, results, and any error details.
  */
 export const getBatchEvaluation: API.OperationMethod<
-  GetBatchEvaluationRequest,
+  GetBatchEvaluationRequest & RegionInput,
   GetBatchEvaluationResponse,
   GetBatchEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -3919,6 +3973,8 @@ export const getBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "GetBatchEvaluation",
 }));
 
 export type GetBrowserSessionError =
@@ -3942,7 +3998,7 @@ export type GetBrowserSessionError =
  * - StopBrowserSession
  */
 export const getBrowserSession: API.OperationMethod<
-  GetBrowserSessionRequest,
+  GetBrowserSessionRequest & RegionInput,
   GetBrowserSessionResponse,
   GetBrowserSessionError,
   Credentials | HttpClient.HttpClient
@@ -3959,6 +4015,8 @@ export const getBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSession",
+  telemetry: TELEMETRY,
+  span: "GetBrowserSession",
 }));
 
 export type GetCodeInterpreterSessionError =
@@ -3982,7 +4040,7 @@ export type GetCodeInterpreterSessionError =
  * - StopCodeInterpreterSession
  */
 export const getCodeInterpreterSession: API.OperationMethod<
-  GetCodeInterpreterSessionRequest,
+  GetCodeInterpreterSessionRequest & RegionInput,
   GetCodeInterpreterSessionResponse,
   GetCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
@@ -3999,6 +4057,8 @@ export const getCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "GetCodeInterpreterSession",
 }));
 
 export type GetEventError =
@@ -4016,7 +4076,7 @@ export type GetEventError =
  * To use this operation, you must have the `bedrock-agentcore:GetEvent` permission.
  */
 export const getEvent: API.OperationMethod<
-  GetEventInput,
+  GetEventInput & RegionInput,
   GetEventOutput,
   GetEventError,
   Credentials | HttpClient.HttpClient
@@ -4035,6 +4095,8 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetMemoryRecordError =
@@ -4052,7 +4114,7 @@ export type GetMemoryRecordError =
  * To use this operation, you must have the `bedrock-agentcore:GetMemoryRecord` permission.
  */
 export const getMemoryRecord: API.OperationMethod<
-  GetMemoryRecordInput,
+  GetMemoryRecordInput & RegionInput,
   GetMemoryRecordOutput,
   GetMemoryRecordError,
   Credentials | HttpClient.HttpClient
@@ -4071,6 +4133,8 @@ export const getMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemoryRecord",
+  telemetry: TELEMETRY,
+  span: "GetMemoryRecord",
 }));
 
 export type GetPaymentInstrumentError =
@@ -4084,7 +4148,7 @@ export type GetPaymentInstrumentError =
  * Get a payment instrument by ID.
  */
 export const getPaymentInstrument: API.OperationMethod<
-  GetPaymentInstrumentRequest,
+  GetPaymentInstrumentRequest & RegionInput,
   GetPaymentInstrumentResponse,
   GetPaymentInstrumentError,
   Credentials | HttpClient.HttpClient
@@ -4101,6 +4165,8 @@ export const getPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "GetPaymentInstrument",
 }));
 
 export type GetPaymentInstrumentBalanceError =
@@ -4114,7 +4180,7 @@ export type GetPaymentInstrumentBalanceError =
  * Get the balance of a payment instrument.
  */
 export const getPaymentInstrumentBalance: API.OperationMethod<
-  GetPaymentInstrumentBalanceRequest,
+  GetPaymentInstrumentBalanceRequest & RegionInput,
   GetPaymentInstrumentBalanceResponse,
   GetPaymentInstrumentBalanceError,
   Credentials | HttpClient.HttpClient
@@ -4131,6 +4197,8 @@ export const getPaymentInstrumentBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrumentBalance",
+  telemetry: TELEMETRY,
+  span: "GetPaymentInstrumentBalance",
 }));
 
 export type GetPaymentSessionError =
@@ -4144,7 +4212,7 @@ export type GetPaymentSessionError =
  * Get a payment session.
  */
 export const getPaymentSession: API.OperationMethod<
-  GetPaymentSessionRequest,
+  GetPaymentSessionRequest & RegionInput,
   GetPaymentSessionResponse,
   GetPaymentSessionError,
   Credentials | HttpClient.HttpClient
@@ -4161,6 +4229,8 @@ export const getPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentSession",
+  telemetry: TELEMETRY,
+  span: "GetPaymentSession",
 }));
 
 export type GetRecommendationError =
@@ -4174,7 +4244,7 @@ export type GetRecommendationError =
  * Retrieves detailed information about a recommendation, including its configuration, status, and results.
  */
 export const getRecommendation: API.OperationMethod<
-  GetRecommendationRequest,
+  GetRecommendationRequest & RegionInput,
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -4191,6 +4261,8 @@ export const getRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetRecommendation",
 }));
 
 export type GetResourceApiKeyError =
@@ -4205,7 +4277,7 @@ export type GetResourceApiKeyError =
  * Retrieves the API key associated with an API key credential provider.
  */
 export const getResourceApiKey: API.OperationMethod<
-  GetResourceApiKeyRequest,
+  GetResourceApiKeyRequest & RegionInput,
   GetResourceApiKeyResponse,
   GetResourceApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -4223,6 +4295,8 @@ export const getResourceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceApiKey",
+  telemetry: TELEMETRY,
+  span: "GetResourceApiKey",
 }));
 
 export type GetResourceOauth2TokenError =
@@ -4237,7 +4311,7 @@ export type GetResourceOauth2TokenError =
  * Returns the OAuth 2.0 token of the provided resource.
  */
 export const getResourceOauth2Token: API.OperationMethod<
-  GetResourceOauth2TokenRequest,
+  GetResourceOauth2TokenRequest & RegionInput,
   GetResourceOauth2TokenResponse,
   GetResourceOauth2TokenError,
   Credentials | HttpClient.HttpClient
@@ -4255,6 +4329,8 @@ export const getResourceOauth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceOauth2Token",
+  telemetry: TELEMETRY,
+  span: "GetResourceOauth2Token",
 }));
 
 export type GetResourcePaymentTokenError =
@@ -4269,7 +4345,7 @@ export type GetResourcePaymentTokenError =
  * Generates authentication tokens for payment providers that use vendor-specific authentication mechanisms.
  */
 export const getResourcePaymentToken: API.OperationMethod<
-  GetResourcePaymentTokenRequest,
+  GetResourcePaymentTokenRequest & RegionInput,
   GetResourcePaymentTokenResponse,
   GetResourcePaymentTokenError,
   Credentials | HttpClient.HttpClient
@@ -4287,6 +4363,8 @@ export const getResourcePaymentToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePaymentToken",
+  telemetry: TELEMETRY,
+  span: "GetResourcePaymentToken",
 }));
 
 export type GetWorkloadAccessTokenError =
@@ -4301,7 +4379,7 @@ export type GetWorkloadAccessTokenError =
  * Obtains a workload access token for agentic workloads not acting on behalf of a user.
  */
 export const getWorkloadAccessToken: API.OperationMethod<
-  GetWorkloadAccessTokenRequest,
+  GetWorkloadAccessTokenRequest & RegionInput,
   GetWorkloadAccessTokenResponse,
   GetWorkloadAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -4319,6 +4397,8 @@ export const getWorkloadAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessToken",
 }));
 
 export type GetWorkloadAccessTokenForJWTError =
@@ -4333,7 +4413,7 @@ export type GetWorkloadAccessTokenForJWTError =
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
  */
 export const getWorkloadAccessTokenForJWT: API.OperationMethod<
-  GetWorkloadAccessTokenForJWTRequest,
+  GetWorkloadAccessTokenForJWTRequest & RegionInput,
   GetWorkloadAccessTokenForJWTResponse,
   GetWorkloadAccessTokenForJWTError,
   Credentials | HttpClient.HttpClient
@@ -4351,6 +4431,8 @@ export const getWorkloadAccessTokenForJWT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForJWT",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessTokenForJWT",
 }));
 
 export type GetWorkloadAccessTokenForUserIdError =
@@ -4365,7 +4447,7 @@ export type GetWorkloadAccessTokenForUserIdError =
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
  */
 export const getWorkloadAccessTokenForUserId: API.OperationMethod<
-  GetWorkloadAccessTokenForUserIdRequest,
+  GetWorkloadAccessTokenForUserIdRequest & RegionInput,
   GetWorkloadAccessTokenForUserIdResponse,
   GetWorkloadAccessTokenForUserIdError,
   Credentials | HttpClient.HttpClient
@@ -4383,6 +4465,8 @@ export const getWorkloadAccessTokenForUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForUserId",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessTokenForUserId",
 }));
 
 export type IngestDataError =
@@ -4399,7 +4483,7 @@ export type IngestDataError =
  * To use this operation, you must have the `bedrock-agentcore:IngestData` permission.
  */
 export const ingestData: API.OperationMethod<
-  IngestDataInput,
+  IngestDataInput & RegionInput,
   IngestDataOutput,
   IngestDataError,
   Credentials | HttpClient.HttpClient
@@ -4417,6 +4501,8 @@ export const ingestData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IngestData",
+  telemetry: TELEMETRY,
+  span: "IngestData",
 }));
 
 export type InvokeAgentRuntimeError =
@@ -4443,7 +4529,7 @@ export type InvokeAgentRuntimeError =
  * To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntime` permission. If you are making a call to `InvokeAgentRuntime` on behalf of a user ID with the `X-Amzn-Bedrock-AgentCore-Runtime-User-Id` header, You require permissions to both actions (`bedrock-agentcore:InvokeAgentRuntime` and `bedrock-agentcore:InvokeAgentRuntimeForUser`).
  */
 export const invokeAgentRuntime: API.OperationMethod<
-  InvokeAgentRuntimeRequest,
+  InvokeAgentRuntimeRequest & RegionInput,
   InvokeAgentRuntimeResponse,
   InvokeAgentRuntimeError,
   Credentials | HttpClient.HttpClient
@@ -4463,6 +4549,8 @@ export const invokeAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntime",
+  telemetry: TELEMETRY,
+  span: "InvokeAgentRuntime",
 }));
 
 export type InvokeAgentRuntimeCommandError =
@@ -4483,7 +4571,7 @@ export type InvokeAgentRuntimeCommandError =
  * To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntimeCommand` permission.
  */
 export const invokeAgentRuntimeCommand: API.OperationMethod<
-  InvokeAgentRuntimeCommandRequest,
+  InvokeAgentRuntimeCommandRequest & RegionInput,
   InvokeAgentRuntimeCommandResponse,
   InvokeAgentRuntimeCommandError,
   Credentials | HttpClient.HttpClient
@@ -4503,6 +4591,8 @@ export const invokeAgentRuntimeCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntimeCommand",
+  telemetry: TELEMETRY,
+  span: "InvokeAgentRuntimeCommand",
 }));
 
 export type InvokeBrowserError =
@@ -4527,7 +4617,7 @@ export type InvokeBrowserError =
  * - StopBrowserSession
  */
 export const invokeBrowser: API.OperationMethod<
-  InvokeBrowserRequest,
+  InvokeBrowserRequest & RegionInput,
   InvokeBrowserResponse,
   InvokeBrowserError,
   Credentials | HttpClient.HttpClient
@@ -4545,6 +4635,8 @@ export const invokeBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBrowser",
+  telemetry: TELEMETRY,
+  span: "InvokeBrowser",
 }));
 
 export type InvokeCodeInterpreterError =
@@ -4570,7 +4662,7 @@ export type InvokeCodeInterpreterError =
  * - GetCodeInterpreterSession
  */
 export const invokeCodeInterpreter: API.OperationMethod<
-  InvokeCodeInterpreterRequest,
+  InvokeCodeInterpreterRequest & RegionInput,
   InvokeCodeInterpreterResponse,
   InvokeCodeInterpreterError,
   Credentials | HttpClient.HttpClient
@@ -4589,6 +4681,8 @@ export const invokeCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeCodeInterpreter",
+  telemetry: TELEMETRY,
+  span: "InvokeCodeInterpreter",
 }));
 
 export type InvokeHarnessError =
@@ -4604,7 +4698,7 @@ export type InvokeHarnessError =
  * Operation to invoke a Harness.
  */
 export const invokeHarness: API.OperationMethod<
-  InvokeHarnessRequest,
+  InvokeHarnessRequest & RegionInput,
   InvokeHarnessResponse,
   InvokeHarnessError,
   Credentials | HttpClient.HttpClient
@@ -4623,6 +4717,8 @@ export const invokeHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeHarness",
+  telemetry: TELEMETRY,
+  span: "InvokeHarness",
 }));
 
 export type ListABTestsError =
@@ -4636,7 +4732,7 @@ export type ListABTestsError =
  * Lists all A/B tests in the account.
  */
 export const listABTests: API.PaginatedOperationMethod<
-  ListABTestsRequest,
+  ListABTestsRequest & RegionInput,
   ListABTestsResponse,
   ListABTestsError,
   Credentials | HttpClient.HttpClient,
@@ -4660,6 +4756,8 @@ export const listABTests: API.PaginatedOperationMethod<
     items: "abTests",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListABTests",
 })) as any;
 
 export type ListActorsError =
@@ -4677,7 +4775,7 @@ export type ListActorsError =
  * To use this operation, you must have the `bedrock-agentcore:ListActors` permission.
  */
 export const listActors: API.PaginatedOperationMethod<
-  ListActorsInput,
+  ListActorsInput & RegionInput,
   ListActorsOutput,
   ListActorsError,
   Credentials | HttpClient.HttpClient,
@@ -4703,6 +4801,8 @@ export const listActors: API.PaginatedOperationMethod<
     items: "actorSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActors",
 })) as any;
 
 export type ListBatchEvaluationsError =
@@ -4716,7 +4816,7 @@ export type ListBatchEvaluationsError =
  * Lists all batch evaluations in the account, providing summary information about each evaluation's status and configuration.
  */
 export const listBatchEvaluations: API.PaginatedOperationMethod<
-  ListBatchEvaluationsRequest,
+  ListBatchEvaluationsRequest & RegionInput,
   ListBatchEvaluationsResponse,
   ListBatchEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -4740,6 +4840,8 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
     items: "batchEvaluations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchEvaluations",
 })) as any;
 
 export type ListBrowserSessionsError =
@@ -4763,7 +4865,7 @@ export type ListBrowserSessionsError =
  * - GetBrowserSession
  */
 export const listBrowserSessions: API.OperationMethod<
-  ListBrowserSessionsRequest,
+  ListBrowserSessionsRequest & RegionInput,
   ListBrowserSessionsResponse,
   ListBrowserSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4780,6 +4882,8 @@ export const listBrowserSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowserSessions",
+  telemetry: TELEMETRY,
+  span: "ListBrowserSessions",
 }));
 
 export type ListCodeInterpreterSessionsError =
@@ -4803,7 +4907,7 @@ export type ListCodeInterpreterSessionsError =
  * - GetCodeInterpreterSession
  */
 export const listCodeInterpreterSessions: API.OperationMethod<
-  ListCodeInterpreterSessionsRequest,
+  ListCodeInterpreterSessionsRequest & RegionInput,
   ListCodeInterpreterSessionsResponse,
   ListCodeInterpreterSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4820,6 +4924,8 @@ export const listCodeInterpreterSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeInterpreterSessions",
+  telemetry: TELEMETRY,
+  span: "ListCodeInterpreterSessions",
 }));
 
 export type ListEventsError =
@@ -4837,7 +4943,7 @@ export type ListEventsError =
  * To use this operation, you must have the `bedrock-agentcore:ListEvents` permission.
  */
 export const listEvents: API.PaginatedOperationMethod<
-  ListEventsInput,
+  ListEventsInput & RegionInput,
   ListEventsOutput,
   ListEventsError,
   Credentials | HttpClient.HttpClient,
@@ -4863,6 +4969,8 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 })) as any;
 
 export type ListMemoryExtractionJobsError =
@@ -4879,7 +4987,7 @@ export type ListMemoryExtractionJobsError =
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryExtractionJobs` permission.
  */
 export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
-  ListMemoryExtractionJobsInput,
+  ListMemoryExtractionJobsInput & RegionInput,
   ListMemoryExtractionJobsOutput,
   ListMemoryExtractionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4904,6 +5012,8 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemoryExtractionJobs",
 })) as any;
 
 export type ListMemoryRecordsError =
@@ -4921,7 +5031,7 @@ export type ListMemoryRecordsError =
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryRecords` permission.
  */
 export const listMemoryRecords: API.PaginatedOperationMethod<
-  ListMemoryRecordsInput,
+  ListMemoryRecordsInput & RegionInput,
   ListMemoryRecordsOutput,
   ListMemoryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -4947,6 +5057,8 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemoryRecords",
 })) as any;
 
 export type ListPaymentInstrumentsError =
@@ -4959,7 +5071,7 @@ export type ListPaymentInstrumentsError =
  * List payment instruments for a manager.
  */
 export const listPaymentInstruments: API.PaginatedOperationMethod<
-  ListPaymentInstrumentsRequest,
+  ListPaymentInstrumentsRequest & RegionInput,
   ListPaymentInstrumentsResponse,
   ListPaymentInstrumentsError,
   Credentials | HttpClient.HttpClient,
@@ -4982,6 +5094,8 @@ export const listPaymentInstruments: API.PaginatedOperationMethod<
     items: "paymentInstruments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPaymentInstruments",
 })) as any;
 
 export type ListPaymentSessionsError =
@@ -4994,7 +5108,7 @@ export type ListPaymentSessionsError =
  * List payment sessions.
  */
 export const listPaymentSessions: API.PaginatedOperationMethod<
-  ListPaymentSessionsRequest,
+  ListPaymentSessionsRequest & RegionInput,
   ListPaymentSessionsResponse,
   ListPaymentSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -5017,6 +5131,8 @@ export const listPaymentSessions: API.PaginatedOperationMethod<
     items: "paymentSessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessions",
 })) as any;
 
 export type ListRecommendationsError =
@@ -5029,7 +5145,7 @@ export type ListRecommendationsError =
  * Lists all recommendations in the account, with optional filtering by status.
  */
 export const listRecommendations: API.PaginatedOperationMethod<
-  ListRecommendationsRequest,
+  ListRecommendationsRequest & RegionInput,
   ListRecommendationsResponse,
   ListRecommendationsError,
   Credentials | HttpClient.HttpClient,
@@ -5052,6 +5168,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type ListSessionsError =
@@ -5071,7 +5189,7 @@ export type ListSessionsError =
  * To use this operation, you must have the `bedrock-agentcore:ListSessions` permission.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsInput,
+  ListSessionsInput & RegionInput,
   ListSessionsOutput,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -5097,6 +5215,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ProcessPaymentError =
@@ -5113,7 +5233,7 @@ export type ProcessPaymentError =
  * Processes a payment using a payment instrument within a payment session.
  */
 export const processPayment: API.OperationMethod<
-  ProcessPaymentRequest,
+  ProcessPaymentRequest & RegionInput,
   ProcessPaymentResponse,
   ProcessPaymentError,
   Credentials | HttpClient.HttpClient
@@ -5133,6 +5253,8 @@ export const processPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProcessPayment",
+  telemetry: TELEMETRY,
+  span: "ProcessPayment",
 }));
 
 export type RetrieveMemoryRecordsError =
@@ -5150,7 +5272,7 @@ export type RetrieveMemoryRecordsError =
  * To use this operation, you must have the `bedrock-agentcore:RetrieveMemoryRecords` permission.
  */
 export const retrieveMemoryRecords: API.PaginatedOperationMethod<
-  RetrieveMemoryRecordsInput,
+  RetrieveMemoryRecordsInput & RegionInput,
   RetrieveMemoryRecordsOutput,
   RetrieveMemoryRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -5176,6 +5298,8 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "RetrieveMemoryRecords",
 })) as any;
 
 export type SaveBrowserSessionProfileError =
@@ -5200,7 +5324,7 @@ export type SaveBrowserSessionProfileError =
  * - GetBrowserSession
  */
 export const saveBrowserSessionProfile: API.OperationMethod<
-  SaveBrowserSessionProfileRequest,
+  SaveBrowserSessionProfileRequest & RegionInput,
   SaveBrowserSessionProfileResponse,
   SaveBrowserSessionProfileError,
   Credentials | HttpClient.HttpClient
@@ -5218,6 +5342,8 @@ export const saveBrowserSessionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SaveBrowserSessionProfile",
+  telemetry: TELEMETRY,
+  span: "SaveBrowserSessionProfile",
 }));
 
 export type SearchRegistryRecordsError =
@@ -5232,7 +5358,7 @@ export type SearchRegistryRecordsError =
  * Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry.
  */
 export const searchRegistryRecords: API.OperationMethod<
-  SearchRegistryRecordsRequest,
+  SearchRegistryRecordsRequest & RegionInput,
   SearchRegistryRecordsResponse,
   SearchRegistryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -5250,6 +5376,8 @@ export const searchRegistryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRegistryRecords",
+  telemetry: TELEMETRY,
+  span: "SearchRegistryRecords",
 }));
 
 export type StartBatchEvaluationError =
@@ -5265,7 +5393,7 @@ export type StartBatchEvaluationError =
  * Starts a batch evaluation job that evaluates agent performance across multiple sessions. Batch evaluations pull agent traces from CloudWatch Logs or an existing online evaluation configuration and run specified evaluators and insights against them.
  */
 export const startBatchEvaluation: API.OperationMethod<
-  StartBatchEvaluationRequest,
+  StartBatchEvaluationRequest & RegionInput,
   StartBatchEvaluationResponse,
   StartBatchEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -5284,6 +5412,8 @@ export const startBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartBatchEvaluation",
 }));
 
 export type StartBrowserSessionError =
@@ -5313,7 +5443,7 @@ export type StartBrowserSessionError =
  * - InvokeBrowser
  */
 export const startBrowserSession: API.OperationMethod<
-  StartBrowserSessionRequest,
+  StartBrowserSessionRequest & RegionInput,
   StartBrowserSessionResponse,
   StartBrowserSessionError,
   Credentials | HttpClient.HttpClient
@@ -5332,6 +5462,8 @@ export const startBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBrowserSession",
+  telemetry: TELEMETRY,
+  span: "StartBrowserSession",
 }));
 
 export type StartCodeInterpreterSessionError =
@@ -5357,7 +5489,7 @@ export type StartCodeInterpreterSessionError =
  * - StopCodeInterpreterSession
  */
 export const startCodeInterpreterSession: API.OperationMethod<
-  StartCodeInterpreterSessionRequest,
+  StartCodeInterpreterSessionRequest & RegionInput,
   StartCodeInterpreterSessionResponse,
   StartCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
@@ -5376,6 +5508,8 @@ export const startCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "StartCodeInterpreterSession",
 }));
 
 export type StartMemoryExtractionJobError =
@@ -5392,7 +5526,7 @@ export type StartMemoryExtractionJobError =
  * To use this operation, you must have the `bedrock-agentcore:StartMemoryExtractionJob` permission.
  */
 export const startMemoryExtractionJob: API.OperationMethod<
-  StartMemoryExtractionJobInput,
+  StartMemoryExtractionJobInput & RegionInput,
   StartMemoryExtractionJobOutput,
   StartMemoryExtractionJobError,
   Credentials | HttpClient.HttpClient
@@ -5410,6 +5544,8 @@ export const startMemoryExtractionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMemoryExtractionJob",
+  telemetry: TELEMETRY,
+  span: "StartMemoryExtractionJob",
 }));
 
 export type StartRecommendationError =
@@ -5424,7 +5560,7 @@ export type StartRecommendationError =
  * Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to improve agent performance.
  */
 export const startRecommendation: API.OperationMethod<
-  StartRecommendationRequest,
+  StartRecommendationRequest & RegionInput,
   StartRecommendationResponse,
   StartRecommendationError,
   Credentials | HttpClient.HttpClient
@@ -5442,6 +5578,8 @@ export const startRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendation",
+  telemetry: TELEMETRY,
+  span: "StartRecommendation",
 }));
 
 export type StopBatchEvaluationError =
@@ -5457,7 +5595,7 @@ export type StopBatchEvaluationError =
  * Stops a running batch evaluation. Sessions that have already been evaluated retain their results.
  */
 export const stopBatchEvaluation: API.OperationMethod<
-  StopBatchEvaluationRequest,
+  StopBatchEvaluationRequest & RegionInput,
   StopBatchEvaluationResponse,
   StopBatchEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -5476,6 +5614,8 @@ export const stopBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "StopBatchEvaluation",
 }));
 
 export type StopBrowserSessionError =
@@ -5499,7 +5639,7 @@ export type StopBrowserSessionError =
  * - GetBrowserSession
  */
 export const stopBrowserSession: API.OperationMethod<
-  StopBrowserSessionRequest,
+  StopBrowserSessionRequest & RegionInput,
   StopBrowserSessionResponse,
   StopBrowserSessionError,
   Credentials | HttpClient.HttpClient
@@ -5518,6 +5658,8 @@ export const stopBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBrowserSession",
+  telemetry: TELEMETRY,
+  span: "StopBrowserSession",
 }));
 
 export type StopCodeInterpreterSessionError =
@@ -5541,7 +5683,7 @@ export type StopCodeInterpreterSessionError =
  * - GetCodeInterpreterSession
  */
 export const stopCodeInterpreterSession: API.OperationMethod<
-  StopCodeInterpreterSessionRequest,
+  StopCodeInterpreterSessionRequest & RegionInput,
   StopCodeInterpreterSessionResponse,
   StopCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
@@ -5560,6 +5702,8 @@ export const stopCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "StopCodeInterpreterSession",
 }));
 
 export type StopRuntimeSessionError =
@@ -5578,7 +5722,7 @@ export type StopRuntimeSessionError =
  * Stops a session that is running in an running AgentCore Runtime agent.
  */
 export const stopRuntimeSession: API.OperationMethod<
-  StopRuntimeSessionRequest,
+  StopRuntimeSessionRequest & RegionInput,
   StopRuntimeSessionResponse,
   StopRuntimeSessionError,
   Credentials | HttpClient.HttpClient
@@ -5600,6 +5744,8 @@ export const stopRuntimeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRuntimeSession",
+  telemetry: TELEMETRY,
+  span: "StopRuntimeSession",
 }));
 
 export type UpdateABTestError =
@@ -5616,7 +5762,7 @@ export type UpdateABTestError =
  * Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status.
  */
 export const updateABTest: API.OperationMethod<
-  UpdateABTestRequest,
+  UpdateABTestRequest & RegionInput,
   UpdateABTestResponse,
   UpdateABTestError,
   Credentials | HttpClient.HttpClient
@@ -5636,6 +5782,8 @@ export const updateABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateABTest",
+  telemetry: TELEMETRY,
+  span: "UpdateABTest",
 }));
 
 export type UpdateBrowserStreamError =
@@ -5651,7 +5799,7 @@ export type UpdateBrowserStreamError =
  * Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
  */
 export const updateBrowserStream: API.OperationMethod<
-  UpdateBrowserStreamRequest,
+  UpdateBrowserStreamRequest & RegionInput,
   UpdateBrowserStreamResponse,
   UpdateBrowserStreamError,
   Credentials | HttpClient.HttpClient
@@ -5670,6 +5818,8 @@ export const updateBrowserStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserStream",
+  telemetry: TELEMETRY,
+  span: "UpdateBrowserStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

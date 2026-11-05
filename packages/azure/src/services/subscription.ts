@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Subscription" },
+  prefix: "Subscription",
+  service: "Subscription",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Tags for the subscription */
 export type AcceptOwnershipRequestPropertiesTagsMap = { [key: string]: string | undefined };
 /** Accept subscription ownership request properties. */
@@ -403,6 +423,8 @@ export const AcceptSubscriptionOwnership: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptSubscriptionOwnership",
 }));
 
 export type AcceptSubscriptionOwnershipStatusError = AzureOpError;
@@ -418,6 +440,8 @@ export const AcceptSubscriptionOwnershipStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptSubscriptionOwnershipStatus",
 }));
 
 export type CancelSubscriptionError = AzureOpError;
@@ -433,6 +457,8 @@ export const CancelSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type CreateAliasError = AzureOpError;
@@ -448,6 +474,8 @@ export const CreateAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type DeleteAliasError = AzureOpError;
@@ -463,6 +491,8 @@ export const DeleteAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type EnableSubscriptionError = AzureOpError;
@@ -478,6 +508,8 @@ export const EnableSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSubscription",
 }));
 
 export type GetAliasError = AzureOpError;
@@ -493,6 +525,8 @@ export const GetAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlias",
 }));
 
 export type GetBillingAccountPolicyError = AzureOpError;
@@ -508,6 +542,8 @@ export const GetBillingAccountPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAccountPolicy",
 }));
 
 export type GetSubscriptionOperationError = AzureOpError;
@@ -523,6 +559,8 @@ export const GetSubscriptionOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionOperation",
 }));
 
 export type GetSubscriptionPolicyPolicyForTenantError = AzureOpError;
@@ -538,6 +576,8 @@ export const GetSubscriptionPolicyPolicyForTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionPolicyPolicyForTenant",
 }));
 
 export type ListAliasError = AzureOpError;
@@ -553,6 +593,8 @@ export const ListAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlias",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -568,6 +610,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSubscriptionPolicyPolicyForTenantError = AzureOpError;
@@ -583,6 +627,8 @@ export const ListSubscriptionPolicyPolicyForTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionPolicyPolicyForTenant",
 }));
 
 export type RenameSubscriptionError = AzureOpError;
@@ -598,6 +644,8 @@ export const RenameSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameSubscription",
 }));
 
 export type SubscriptionPolicyAddUpdatePolicyForTenantError = AzureOpError;
@@ -613,6 +661,8 @@ export const SubscriptionPolicyAddUpdatePolicyForTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionPolicyAddUpdatePolicyForTenant",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codebuild.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeBuild",
+  service: "CodeBuild",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccountLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<AccountLimitExceededException>()(
@@ -1534,7 +1551,7 @@ export type BatchDeleteBuildsError = InvalidInputException | CommonErrors;
  * Deletes one or more builds.
  */
 export const batchDeleteBuilds: API.OperationMethod<
-  BatchDeleteBuildsInput,
+  BatchDeleteBuildsInput & RegionInput,
   BatchDeleteBuildsOutput,
   BatchDeleteBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1545,6 +1562,8 @@ export const batchDeleteBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBuilds",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteBuilds",
 }));
 
 export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
@@ -1552,7 +1571,7 @@ export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves information about one or more batch builds.
  */
 export const batchGetBuildBatches: API.OperationMethod<
-  BatchGetBuildBatchesInput,
+  BatchGetBuildBatchesInput & RegionInput,
   BatchGetBuildBatchesOutput,
   BatchGetBuildBatchesError,
   Credentials | HttpClient.HttpClient
@@ -1563,6 +1582,8 @@ export const batchGetBuildBatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuildBatches",
+  telemetry: TELEMETRY,
+  span: "BatchGetBuildBatches",
 }));
 
 export type BatchGetBuildsError = InvalidInputException | CommonErrors;
@@ -1570,7 +1591,7 @@ export type BatchGetBuildsError = InvalidInputException | CommonErrors;
  * Gets information about one or more builds.
  */
 export const batchGetBuilds: API.OperationMethod<
-  BatchGetBuildsInput,
+  BatchGetBuildsInput & RegionInput,
   BatchGetBuildsOutput,
   BatchGetBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1581,6 +1602,8 @@ export const batchGetBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuilds",
+  telemetry: TELEMETRY,
+  span: "BatchGetBuilds",
 }));
 
 export type BatchGetCommandExecutionsError = InvalidInputException | CommonErrors;
@@ -1588,7 +1611,7 @@ export type BatchGetCommandExecutionsError = InvalidInputException | CommonError
  * Gets information about the command executions.
  */
 export const batchGetCommandExecutions: API.OperationMethod<
-  BatchGetCommandExecutionsInput,
+  BatchGetCommandExecutionsInput & RegionInput,
   BatchGetCommandExecutionsOutput,
   BatchGetCommandExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1622,8 @@ export const batchGetCommandExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommandExecutions",
+  telemetry: TELEMETRY,
+  span: "BatchGetCommandExecutions",
 }));
 
 export type BatchGetFleetsError = InvalidInputException | CommonErrors;
@@ -1606,7 +1631,7 @@ export type BatchGetFleetsError = InvalidInputException | CommonErrors;
  * Gets information about one or more compute fleets.
  */
 export const batchGetFleets: API.OperationMethod<
-  BatchGetFleetsInput,
+  BatchGetFleetsInput & RegionInput,
   BatchGetFleetsOutput,
   BatchGetFleetsError,
   Credentials | HttpClient.HttpClient
@@ -1617,6 +1642,8 @@ export const batchGetFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFleets",
+  telemetry: TELEMETRY,
+  span: "BatchGetFleets",
 }));
 
 export type BatchGetProjectsError = InvalidInputException | CommonErrors;
@@ -1624,7 +1651,7 @@ export type BatchGetProjectsError = InvalidInputException | CommonErrors;
  * Gets information about one or more build projects.
  */
 export const batchGetProjects: API.OperationMethod<
-  BatchGetProjectsInput,
+  BatchGetProjectsInput & RegionInput,
   BatchGetProjectsOutput,
   BatchGetProjectsError,
   Credentials | HttpClient.HttpClient
@@ -1635,6 +1662,8 @@ export const batchGetProjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProjects",
+  telemetry: TELEMETRY,
+  span: "BatchGetProjects",
 }));
 
 export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
@@ -1642,7 +1671,7 @@ export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
  * Returns an array of report groups.
  */
 export const batchGetReportGroups: API.OperationMethod<
-  BatchGetReportGroupsInput,
+  BatchGetReportGroupsInput & RegionInput,
   BatchGetReportGroupsOutput,
   BatchGetReportGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1653,6 +1682,8 @@ export const batchGetReportGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReportGroups",
+  telemetry: TELEMETRY,
+  span: "BatchGetReportGroups",
 }));
 
 export type BatchGetReportsError = InvalidInputException | CommonErrors;
@@ -1660,7 +1691,7 @@ export type BatchGetReportsError = InvalidInputException | CommonErrors;
  * Returns an array of reports.
  */
 export const batchGetReports: API.OperationMethod<
-  BatchGetReportsInput,
+  BatchGetReportsInput & RegionInput,
   BatchGetReportsOutput,
   BatchGetReportsError,
   Credentials | HttpClient.HttpClient
@@ -1671,6 +1702,8 @@ export const batchGetReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReports",
+  telemetry: TELEMETRY,
+  span: "BatchGetReports",
 }));
 
 export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
@@ -1678,7 +1711,7 @@ export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
  * Gets information about the sandbox status.
  */
 export const batchGetSandboxes: API.OperationMethod<
-  BatchGetSandboxesInput,
+  BatchGetSandboxesInput & RegionInput,
   BatchGetSandboxesOutput,
   BatchGetSandboxesError,
   Credentials | HttpClient.HttpClient
@@ -1689,6 +1722,8 @@ export const batchGetSandboxes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSandboxes",
+  telemetry: TELEMETRY,
+  span: "BatchGetSandboxes",
 }));
 
 export type CreateFleetError =
@@ -1700,7 +1735,7 @@ export type CreateFleetError =
  * Creates a compute fleet.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -1711,6 +1746,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateProjectError =
@@ -1722,7 +1759,7 @@ export type CreateProjectError =
  * Creates a build project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectInput,
+  CreateProjectInput & RegionInput,
   CreateProjectOutput,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1733,6 +1770,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateReportGroupError =
@@ -1744,7 +1783,7 @@ export type CreateReportGroupError =
  * Creates a report group. A report group contains a collection of reports.
  */
 export const createReportGroup: API.OperationMethod<
-  CreateReportGroupInput,
+  CreateReportGroupInput & RegionInput,
   CreateReportGroupOutput,
   CreateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1755,6 +1794,8 @@ export const createReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportGroup",
+  telemetry: TELEMETRY,
+  span: "CreateReportGroup",
 }));
 
 export type CreateWebhookError =
@@ -1776,7 +1817,7 @@ export type CreateWebhookError =
  * Webhook box. For more information, see step 5 in Change a Build Project's Settings.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookInput,
+  CreateWebhookInput & RegionInput,
   CreateWebhookOutput,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1792,6 +1833,8 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
@@ -1799,7 +1842,7 @@ export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
  * Deletes a batch build.
  */
 export const deleteBuildBatch: API.OperationMethod<
-  DeleteBuildBatchInput,
+  DeleteBuildBatchInput & RegionInput,
   DeleteBuildBatchOutput,
   DeleteBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -1810,6 +1853,8 @@ export const deleteBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuildBatch",
+  telemetry: TELEMETRY,
+  span: "DeleteBuildBatch",
 }));
 
 export type DeleteFleetError = InvalidInputException | CommonErrors;
@@ -1817,7 +1862,7 @@ export type DeleteFleetError = InvalidInputException | CommonErrors;
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetOutput,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -1828,6 +1873,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteProjectError = InvalidInputException | CommonErrors;
@@ -1835,7 +1882,7 @@ export type DeleteProjectError = InvalidInputException | CommonErrors;
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectInput,
+  DeleteProjectInput & RegionInput,
   DeleteProjectOutput,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1846,6 +1893,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteReportError = InvalidInputException | CommonErrors;
@@ -1853,7 +1902,7 @@ export type DeleteReportError = InvalidInputException | CommonErrors;
  * Deletes a report.
  */
 export const deleteReport: API.OperationMethod<
-  DeleteReportInput,
+  DeleteReportInput & RegionInput,
   DeleteReportOutput,
   DeleteReportError,
   Credentials | HttpClient.HttpClient
@@ -1864,6 +1913,8 @@ export const deleteReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReport",
+  telemetry: TELEMETRY,
+  span: "DeleteReport",
 }));
 
 export type DeleteReportGroupError = InvalidInputException | CommonErrors;
@@ -1871,7 +1922,7 @@ export type DeleteReportGroupError = InvalidInputException | CommonErrors;
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
 export const deleteReportGroup: API.OperationMethod<
-  DeleteReportGroupInput,
+  DeleteReportGroupInput & RegionInput,
   DeleteReportGroupOutput,
   DeleteReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1882,6 +1933,8 @@ export const deleteReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteReportGroup",
 }));
 
 export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
@@ -1889,7 +1942,7 @@ export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
  * Deletes a resource policy that is identified by its resource ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1900,6 +1953,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSourceCredentialsError =
@@ -1910,7 +1965,7 @@ export type DeleteSourceCredentialsError =
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
 export const deleteSourceCredentials: API.OperationMethod<
-  DeleteSourceCredentialsInput,
+  DeleteSourceCredentialsInput & RegionInput,
   DeleteSourceCredentialsOutput,
   DeleteSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1921,6 +1976,8 @@ export const deleteSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceCredentials",
 }));
 
 export type DeleteWebhookError =
@@ -1934,7 +1991,7 @@ export type DeleteWebhookError =
  * change is pushed to the repository.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookInput,
+  DeleteWebhookInput & RegionInput,
   DeleteWebhookOutput,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1945,6 +2002,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
@@ -1952,7 +2011,7 @@ export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
  * Retrieves one or more code coverage reports.
  */
 export const describeCodeCoverages: API.PaginatedOperationMethod<
-  DescribeCodeCoveragesInput,
+  DescribeCodeCoveragesInput & RegionInput,
   DescribeCodeCoveragesOutput,
   DescribeCodeCoveragesError,
   Credentials | HttpClient.HttpClient,
@@ -1970,6 +2029,8 @@ export const describeCodeCoverages: API.PaginatedOperationMethod<
     items: "codeCoverages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCodeCoverages",
 })) as any;
 
 export type DescribeTestCasesError =
@@ -1980,7 +2041,7 @@ export type DescribeTestCasesError =
  * Returns a list of details about test cases for a report.
  */
 export const describeTestCases: API.PaginatedOperationMethod<
-  DescribeTestCasesInput,
+  DescribeTestCasesInput & RegionInput,
   DescribeTestCasesOutput,
   DescribeTestCasesError,
   Credentials | HttpClient.HttpClient,
@@ -1998,6 +2059,8 @@ export const describeTestCases: API.PaginatedOperationMethod<
     items: "testCases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTestCases",
 })) as any;
 
 export type GetReportGroupTrendError =
@@ -2008,7 +2071,7 @@ export type GetReportGroupTrendError =
  * Analyzes and accumulates test report values for the specified test reports.
  */
 export const getReportGroupTrend: API.OperationMethod<
-  GetReportGroupTrendInput,
+  GetReportGroupTrendInput & RegionInput,
   GetReportGroupTrendOutput,
   GetReportGroupTrendError,
   Credentials | HttpClient.HttpClient
@@ -2019,6 +2082,8 @@ export const getReportGroupTrend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportGroupTrend",
+  telemetry: TELEMETRY,
+  span: "GetReportGroupTrend",
 }));
 
 export type GetResourcePolicyError =
@@ -2029,7 +2094,7 @@ export type GetResourcePolicyError =
  * Gets a resource policy that is identified by its resource ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2040,6 +2105,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ImportSourceCredentialsError =
@@ -2052,7 +2119,7 @@ export type ImportSourceCredentialsError =
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
 export const importSourceCredentials: API.OperationMethod<
-  ImportSourceCredentialsInput,
+  ImportSourceCredentialsInput & RegionInput,
   ImportSourceCredentialsOutput,
   ImportSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2063,6 +2130,8 @@ export const importSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "ImportSourceCredentials",
 }));
 
 export type InvalidateProjectCacheError =
@@ -2073,7 +2142,7 @@ export type InvalidateProjectCacheError =
  * Resets the cache for a project.
  */
 export const invalidateProjectCache: API.OperationMethod<
-  InvalidateProjectCacheInput,
+  InvalidateProjectCacheInput & RegionInput,
   InvalidateProjectCacheOutput,
   InvalidateProjectCacheError,
   Credentials | HttpClient.HttpClient
@@ -2084,6 +2153,8 @@ export const invalidateProjectCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvalidateProjectCache",
+  telemetry: TELEMETRY,
+  span: "InvalidateProjectCache",
 }));
 
 export type ListBuildBatchesError = InvalidInputException | CommonErrors;
@@ -2091,7 +2162,7 @@ export type ListBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves the identifiers of your build batches in the current region.
  */
 export const listBuildBatches: API.PaginatedOperationMethod<
-  ListBuildBatchesInput,
+  ListBuildBatchesInput & RegionInput,
   ListBuildBatchesOutput,
   ListBuildBatchesError,
   Credentials | HttpClient.HttpClient,
@@ -2109,6 +2180,8 @@ export const listBuildBatches: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildBatches",
 })) as any;
 
 export type ListBuildBatchesForProjectError =
@@ -2119,7 +2192,7 @@ export type ListBuildBatchesForProjectError =
  * Retrieves the identifiers of the build batches for a specific project.
  */
 export const listBuildBatchesForProject: API.PaginatedOperationMethod<
-  ListBuildBatchesForProjectInput,
+  ListBuildBatchesForProjectInput & RegionInput,
   ListBuildBatchesForProjectOutput,
   ListBuildBatchesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2137,6 +2210,8 @@ export const listBuildBatchesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildBatchesForProject",
 })) as any;
 
 export type ListBuildsError = InvalidInputException | CommonErrors;
@@ -2144,7 +2219,7 @@ export type ListBuildsError = InvalidInputException | CommonErrors;
  * Gets a list of build IDs, with each build ID representing a single build.
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -2157,6 +2232,8 @@ export const listBuilds: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuilds",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuilds",
 })) as any;
 
 export type ListBuildsForProjectError =
@@ -2168,7 +2245,7 @@ export type ListBuildsForProjectError =
  * identifier representing a single build.
  */
 export const listBuildsForProject: API.PaginatedOperationMethod<
-  ListBuildsForProjectInput,
+  ListBuildsForProjectInput & RegionInput,
   ListBuildsForProjectOutput,
   ListBuildsForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2181,6 +2258,8 @@ export const listBuildsForProject: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuildsForProject",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildsForProject",
 })) as any;
 
 export type ListCommandExecutionsForSandboxError =
@@ -2191,7 +2270,7 @@ export type ListCommandExecutionsForSandboxError =
  * Gets a list of command executions for a sandbox.
  */
 export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
-  ListCommandExecutionsForSandboxInput,
+  ListCommandExecutionsForSandboxInput & RegionInput,
   ListCommandExecutionsForSandboxOutput,
   ListCommandExecutionsForSandboxError,
   Credentials | HttpClient.HttpClient,
@@ -2209,6 +2288,8 @@ export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
     items: "commandExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommandExecutionsForSandbox",
 })) as any;
 
 export type ListCuratedEnvironmentImagesError = CommonErrors;
@@ -2216,7 +2297,7 @@ export type ListCuratedEnvironmentImagesError = CommonErrors;
  * Gets information about Docker images that are managed by CodeBuild.
  */
 export const listCuratedEnvironmentImages: API.OperationMethod<
-  ListCuratedEnvironmentImagesInput,
+  ListCuratedEnvironmentImagesInput & RegionInput,
   ListCuratedEnvironmentImagesOutput,
   ListCuratedEnvironmentImagesError,
   Credentials | HttpClient.HttpClient
@@ -2227,6 +2308,8 @@ export const listCuratedEnvironmentImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCuratedEnvironmentImages",
+  telemetry: TELEMETRY,
+  span: "ListCuratedEnvironmentImages",
 }));
 
 export type ListFleetsError = InvalidInputException | CommonErrors;
@@ -2234,7 +2317,7 @@ export type ListFleetsError = InvalidInputException | CommonErrors;
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -2251,6 +2334,8 @@ export const listFleets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListProjectsError = InvalidInputException | CommonErrors;
@@ -2259,7 +2344,7 @@ export type ListProjectsError = InvalidInputException | CommonErrors;
  * build project.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsInput,
+  ListProjectsInput & RegionInput,
   ListProjectsOutput,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2272,6 +2357,8 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListReportGroupsError = InvalidInputException | CommonErrors;
@@ -2279,7 +2366,7 @@ export type ListReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
 export const listReportGroups: API.PaginatedOperationMethod<
-  ListReportGroupsInput,
+  ListReportGroupsInput & RegionInput,
   ListReportGroupsOutput,
   ListReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2297,6 +2384,8 @@ export const listReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportGroups",
 })) as any;
 
 export type ListReportsError = InvalidInputException | CommonErrors;
@@ -2304,7 +2393,7 @@ export type ListReportsError = InvalidInputException | CommonErrors;
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsInput,
+  ListReportsInput & RegionInput,
   ListReportsOutput,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -2322,6 +2411,8 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReports",
 })) as any;
 
 export type ListReportsForReportGroupError =
@@ -2332,7 +2423,7 @@ export type ListReportsForReportGroupError =
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
 export const listReportsForReportGroup: API.PaginatedOperationMethod<
-  ListReportsForReportGroupInput,
+  ListReportsForReportGroupInput & RegionInput,
   ListReportsForReportGroupOutput,
   ListReportsForReportGroupError,
   Credentials | HttpClient.HttpClient,
@@ -2350,6 +2441,8 @@ export const listReportsForReportGroup: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportsForReportGroup",
 })) as any;
 
 export type ListSandboxesError = InvalidInputException | CommonErrors;
@@ -2357,7 +2450,7 @@ export type ListSandboxesError = InvalidInputException | CommonErrors;
  * Gets a list of sandboxes.
  */
 export const listSandboxes: API.PaginatedOperationMethod<
-  ListSandboxesInput,
+  ListSandboxesInput & RegionInput,
   ListSandboxesOutput,
   ListSandboxesError,
   Credentials | HttpClient.HttpClient,
@@ -2375,6 +2468,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSandboxes",
 })) as any;
 
 export type ListSandboxesForProjectError =
@@ -2385,7 +2480,7 @@ export type ListSandboxesForProjectError =
  * Gets a list of sandboxes for a given project.
  */
 export const listSandboxesForProject: API.PaginatedOperationMethod<
-  ListSandboxesForProjectInput,
+  ListSandboxesForProjectInput & RegionInput,
   ListSandboxesForProjectOutput,
   ListSandboxesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2403,6 +2498,8 @@ export const listSandboxesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSandboxesForProject",
 })) as any;
 
 export type ListSharedProjectsError = InvalidInputException | CommonErrors;
@@ -2410,7 +2507,7 @@ export type ListSharedProjectsError = InvalidInputException | CommonErrors;
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedProjects: API.PaginatedOperationMethod<
-  ListSharedProjectsInput,
+  ListSharedProjectsInput & RegionInput,
   ListSharedProjectsOutput,
   ListSharedProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2428,6 +2525,8 @@ export const listSharedProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedProjects",
 })) as any;
 
 export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
@@ -2435,7 +2534,7 @@ export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedReportGroups: API.PaginatedOperationMethod<
-  ListSharedReportGroupsInput,
+  ListSharedReportGroupsInput & RegionInput,
   ListSharedReportGroupsOutput,
   ListSharedReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2453,6 +2552,8 @@ export const listSharedReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedReportGroups",
 })) as any;
 
 export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
@@ -2460,7 +2561,7 @@ export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
  * Returns a list of `SourceCredentialsInfo` objects.
  */
 export const listSourceCredentials: API.OperationMethod<
-  ListSourceCredentialsInput,
+  ListSourceCredentialsInput & RegionInput,
   ListSourceCredentialsOutput,
   ListSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2471,6 +2572,8 @@ export const listSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "ListSourceCredentials",
 }));
 
 export type PutResourcePolicyError =
@@ -2482,7 +2585,7 @@ export type PutResourcePolicyError =
  * `ReportGroup` object.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2493,6 +2596,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RetryBuildError =
@@ -2504,7 +2609,7 @@ export type RetryBuildError =
  * Restarts a build.
  */
 export const retryBuild: API.OperationMethod<
-  RetryBuildInput,
+  RetryBuildInput & RegionInput,
   RetryBuildOutput,
   RetryBuildError,
   Credentials | HttpClient.HttpClient
@@ -2515,6 +2620,8 @@ export const retryBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuild",
+  telemetry: TELEMETRY,
+  span: "RetryBuild",
 }));
 
 export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2522,7 +2629,7 @@ export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
 export const retryBuildBatch: API.OperationMethod<
-  RetryBuildBatchInput,
+  RetryBuildBatchInput & RegionInput,
   RetryBuildBatchOutput,
   RetryBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2533,6 +2640,8 @@ export const retryBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuildBatch",
+  telemetry: TELEMETRY,
+  span: "RetryBuildBatch",
 }));
 
 export type StartBuildError =
@@ -2548,7 +2657,7 @@ export type StartBuildError =
  * specific start build request. The settings in the project are unaltered.
  */
 export const startBuild: API.OperationMethod<
-  StartBuildInput,
+  StartBuildInput & RegionInput,
   StartBuildOutput,
   StartBuildError,
   Credentials | HttpClient.HttpClient
@@ -2559,6 +2668,8 @@ export const startBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuild",
+  telemetry: TELEMETRY,
+  span: "StartBuild",
 }));
 
 export type StartBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2566,7 +2677,7 @@ export type StartBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Starts a batch build for a project.
  */
 export const startBuildBatch: API.OperationMethod<
-  StartBuildBatchInput,
+  StartBuildBatchInput & RegionInput,
   StartBuildBatchOutput,
   StartBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2577,6 +2688,8 @@ export const startBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuildBatch",
+  telemetry: TELEMETRY,
+  span: "StartBuildBatch",
 }));
 
 export type StartCommandExecutionError =
@@ -2587,7 +2700,7 @@ export type StartCommandExecutionError =
  * Starts a command execution.
  */
 export const startCommandExecution: API.OperationMethod<
-  StartCommandExecutionInput,
+  StartCommandExecutionInput & RegionInput,
   StartCommandExecutionOutput,
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2598,6 +2711,8 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
+  telemetry: TELEMETRY,
+  span: "StartCommandExecution",
 }));
 
 export type StartSandboxError =
@@ -2609,7 +2724,7 @@ export type StartSandboxError =
  * Starts a sandbox.
  */
 export const startSandbox: API.OperationMethod<
-  StartSandboxInput,
+  StartSandboxInput & RegionInput,
   StartSandboxOutput,
   StartSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2620,6 +2735,8 @@ export const startSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandbox",
+  telemetry: TELEMETRY,
+  span: "StartSandbox",
 }));
 
 export type StartSandboxConnectionError =
@@ -2630,7 +2747,7 @@ export type StartSandboxConnectionError =
  * Starts a sandbox connection.
  */
 export const startSandboxConnection: API.OperationMethod<
-  StartSandboxConnectionInput,
+  StartSandboxConnectionInput & RegionInput,
   StartSandboxConnectionOutput,
   StartSandboxConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2641,6 +2758,8 @@ export const startSandboxConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandboxConnection",
+  telemetry: TELEMETRY,
+  span: "StartSandboxConnection",
 }));
 
 export type StopBuildError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2648,7 +2767,7 @@ export type StopBuildError = InvalidInputException | ResourceNotFoundException |
  * Attempts to stop running a build.
  */
 export const stopBuild: API.OperationMethod<
-  StopBuildInput,
+  StopBuildInput & RegionInput,
   StopBuildOutput,
   StopBuildError,
   Credentials | HttpClient.HttpClient
@@ -2659,6 +2778,8 @@ export const stopBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuild",
+  telemetry: TELEMETRY,
+  span: "StopBuild",
 }));
 
 export type StopBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2666,7 +2787,7 @@ export type StopBuildBatchError = InvalidInputException | ResourceNotFoundExcept
  * Stops a running batch build.
  */
 export const stopBuildBatch: API.OperationMethod<
-  StopBuildBatchInput,
+  StopBuildBatchInput & RegionInput,
   StopBuildBatchOutput,
   StopBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2677,6 +2798,8 @@ export const stopBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuildBatch",
+  telemetry: TELEMETRY,
+  span: "StopBuildBatch",
 }));
 
 export type StopSandboxError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2684,7 +2807,7 @@ export type StopSandboxError = InvalidInputException | ResourceNotFoundException
  * Stops a sandbox.
  */
 export const stopSandbox: API.OperationMethod<
-  StopSandboxInput,
+  StopSandboxInput & RegionInput,
   StopSandboxOutput,
   StopSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2695,6 +2818,8 @@ export const stopSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSandbox",
+  telemetry: TELEMETRY,
+  span: "StopSandbox",
 }));
 
 export type UpdateFleetError =
@@ -2706,7 +2831,7 @@ export type UpdateFleetError =
  * Updates a compute fleet.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetInput,
+  UpdateFleetInput & RegionInput,
   UpdateFleetOutput,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2717,6 +2842,8 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateProjectError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2724,7 +2851,7 @@ export type UpdateProjectError = InvalidInputException | ResourceNotFoundExcepti
  * Changes the settings of a build project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
+  UpdateProjectInput & RegionInput,
   UpdateProjectOutput,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2735,6 +2862,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectVisibilityError =
@@ -2771,7 +2900,7 @@ export type UpdateProjectVisibilityError =
  * correct artifacts are being downloaded.
  */
 export const updateProjectVisibility: API.OperationMethod<
-  UpdateProjectVisibilityInput,
+  UpdateProjectVisibilityInput & RegionInput,
   UpdateProjectVisibilityOutput,
   UpdateProjectVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -2782,6 +2911,8 @@ export const updateProjectVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateProjectVisibility",
 }));
 
 export type UpdateReportGroupError =
@@ -2792,7 +2923,7 @@ export type UpdateReportGroupError =
  * Updates a report group.
  */
 export const updateReportGroup: API.OperationMethod<
-  UpdateReportGroupInput,
+  UpdateReportGroupInput & RegionInput,
   UpdateReportGroupOutput,
   UpdateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -2803,6 +2934,8 @@ export const updateReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateReportGroup",
 }));
 
 export type UpdateWebhookError =
@@ -2816,7 +2949,7 @@ export type UpdateWebhookError =
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookInput,
+  UpdateWebhookInput & RegionInput,
   UpdateWebhookOutput,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2827,6 +2960,8 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

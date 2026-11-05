@@ -30,6 +30,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Cache",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -976,6 +990,8 @@ export const bulkDeleteOriginCloudRegions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteOriginCloudRegions",
 }));
 
 export type BulkPutOriginCloudRegionsError = CloudflareOpError;
@@ -991,6 +1007,8 @@ export const bulkPutOriginCloudRegions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPutOriginCloudRegions",
 }));
 
 export type ClearCacheReserveError = CloudflareOpError;
@@ -1006,6 +1024,8 @@ export const clearCacheReserve: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearCacheReserve",
 }));
 
 export type CreateSmartTieredCacheError = CloudflareOpError;
@@ -1021,6 +1041,8 @@ export const createSmartTieredCache: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmartTieredCache",
 }));
 
 export type DeleteOriginCloudRegionError =
@@ -1039,6 +1061,8 @@ export const deleteOriginCloudRegion: API.OperationMethod<
   errors: [OriginCloudRegionNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOriginCloudRegion",
 }));
 
 export type DeleteSmartTieredCacheError = CloudflareOpError;
@@ -1054,6 +1078,8 @@ export const deleteSmartTieredCache: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmartTieredCache",
 }));
 
 export type DeleteVariantError = VariantsNotConfigured | Forbidden | CloudflareOpError;
@@ -1069,6 +1095,8 @@ export const deleteVariant: API.OperationMethod<
   errors: [VariantsNotConfigured, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVariant",
 }));
 
 export type GetCacheReserveError = SettingUnavailableForPlan | Forbidden | CloudflareOpError;
@@ -1084,6 +1112,8 @@ export const getCacheReserve: API.OperationMethod<
   errors: [SettingUnavailableForPlan, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCacheReserve",
 }));
 
 export type GetOriginCloudRegionError = OriginCloudRegionNotFound | Forbidden | CloudflareOpError;
@@ -1099,6 +1129,8 @@ export const getOriginCloudRegion: API.OperationMethod<
   errors: [OriginCloudRegionNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOriginCloudRegion",
 }));
 
 export type GetRegionalTieredCacheError =
@@ -1124,6 +1156,8 @@ export const getRegionalTieredCache: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionalTieredCache",
 }));
 
 export type GetSmartTieredCacheError = Forbidden | CloudflareOpError;
@@ -1139,6 +1173,8 @@ export const getSmartTieredCache: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmartTieredCache",
 }));
 
 export type GetVariantError = VariantsNotConfigured | Forbidden | CloudflareOpError;
@@ -1154,6 +1190,8 @@ export const getVariant: API.OperationMethod<
   errors: [VariantsNotConfigured, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariant",
 }));
 
 export type InvalidateError = CloudflareOpError;
@@ -1169,6 +1207,8 @@ export const invalidate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Invalidate",
 }));
 
 export type InvalidateEnvironmentError = CloudflareOpError;
@@ -1184,6 +1224,8 @@ export const invalidateEnvironment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateEnvironment",
 }));
 
 export type ListOriginCloudRegionsError = Forbidden | CloudflareOpError;
@@ -1201,6 +1243,8 @@ export const listOriginCloudRegions: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOriginCloudRegions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1225,6 +1269,8 @@ export const originCloudRegionsBulkDeleteV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsBulkDeleteV1",
 }));
 
 export type OriginCloudRegionsBulkEditV1Error = CloudflareOpError;
@@ -1240,6 +1286,8 @@ export const originCloudRegionsBulkEditV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsBulkEditV1",
 }));
 
 export type OriginCloudRegionsCreateV1Error = CloudflareOpError;
@@ -1255,6 +1303,8 @@ export const originCloudRegionsCreateV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsCreateV1",
 }));
 
 export type OriginCloudRegionsDeleteV1Error = CloudflareOpError;
@@ -1270,6 +1320,8 @@ export const originCloudRegionsDeleteV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsDeleteV1",
 }));
 
 export type OriginCloudRegionsEditV1Error = CloudflareOpError;
@@ -1285,6 +1337,8 @@ export const originCloudRegionsEditV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsEditV1",
 }));
 
 export type OriginCloudRegionsGetV1Error = CloudflareOpError;
@@ -1300,6 +1354,8 @@ export const originCloudRegionsGetV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsGetV1",
 }));
 
 export type OriginCloudRegionsListV1Error = CloudflareOpError;
@@ -1315,6 +1371,8 @@ export const originCloudRegionsListV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsListV1",
 }));
 
 export type OriginCloudRegionsSupportedRegionsV1Error = CloudflareOpError;
@@ -1330,6 +1388,8 @@ export const originCloudRegionsSupportedRegionsV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginCloudRegionsSupportedRegionsV1",
 }));
 
 export type PatchCacheReserveError = SettingUnavailableForPlan | Forbidden | CloudflareOpError;
@@ -1345,6 +1405,8 @@ export const patchCacheReserve: API.OperationMethod<
   errors: [SettingUnavailableForPlan, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCacheReserve",
 }));
 
 export type PatchRegionalTieredCacheError =
@@ -1363,6 +1425,8 @@ export const patchRegionalTieredCache: API.OperationMethod<
   errors: [SettingUnavailableForPlan, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRegionalTieredCache",
 }));
 
 export type PatchSmartTieredCacheError = Forbidden | CloudflareOpError;
@@ -1378,6 +1442,8 @@ export const patchSmartTieredCache: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSmartTieredCache",
 }));
 
 export type PatchVariantError = Forbidden | CloudflareOpError;
@@ -1393,6 +1459,8 @@ export const patchVariant: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVariant",
 }));
 
 export type PurgeCacheError = CloudflareOpError;
@@ -1408,6 +1476,8 @@ export const purgeCache: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeCache",
 }));
 
 export type PurgeEnvironmentCacheError = CloudflareOpError;
@@ -1423,6 +1493,8 @@ export const purgeEnvironmentCache: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeEnvironmentCache",
 }));
 
 export type PutOriginCloudRegionError = Forbidden | CloudflareOpError;
@@ -1438,6 +1510,8 @@ export const putOriginCloudRegion: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOriginCloudRegion",
 }));
 
 export type StatusCacheReserveError = CloudflareOpError;
@@ -1453,6 +1527,8 @@ export const statusCacheReserve: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StatusCacheReserve",
 }));
 
 export type SupportedRegionsOriginCloudRegionError = CloudflareOpError;
@@ -1468,6 +1544,8 @@ export const supportedRegionsOriginCloudRegion: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SupportedRegionsOriginCloudRegion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "language" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Language",
+  service: "language",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -558,6 +576,8 @@ export const analyzeEntitiesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeEntitiesDocuments",
 }));
 
 export type AnalyzeEntitySentimentDocumentsError =
@@ -578,6 +598,8 @@ export const analyzeEntitySentimentDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeEntitySentimentDocuments",
 }));
 
 export type AnalyzeSentimentDocumentsError =
@@ -598,6 +620,8 @@ export const analyzeSentimentDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeSentimentDocuments",
 }));
 
 export type AnalyzeSyntaxDocumentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -613,6 +637,8 @@ export const analyzeSyntaxDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeSyntaxDocuments",
 }));
 
 export type AnnotateTextDocumentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -628,6 +654,8 @@ export const annotateTextDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnnotateTextDocuments",
 }));
 
 export type ClassifyTextDocumentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -643,6 +671,8 @@ export const classifyTextDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClassifyTextDocuments",
 }));
 
 export type ModerateTextDocumentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -658,6 +688,8 @@ export const moderateTextDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModerateTextDocuments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

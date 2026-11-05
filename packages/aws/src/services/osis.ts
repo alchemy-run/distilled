@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -72,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://osis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OSIS",
+  service: "OSIS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -489,7 +505,7 @@ export type CreatePipelineError =
  * Ingestion pipelines.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
+  CreatePipelineRequest & RegionInput,
   CreatePipelineResponse,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -508,6 +524,8 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePipelineEndpointError =
@@ -523,7 +541,7 @@ export type CreatePipelineEndpointError =
  * ingest data from your VPC into pipelines that you have access to.
  */
 export const createPipelineEndpoint: API.OperationMethod<
-  CreatePipelineEndpointRequest,
+  CreatePipelineEndpointRequest & RegionInput,
   CreatePipelineEndpointResponse,
   CreatePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -541,6 +559,8 @@ export const createPipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipelineEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePipelineEndpoint",
 }));
 
 export type DeletePipelineError =
@@ -556,7 +576,7 @@ export type DeletePipelineError =
  * Ingestion pipelines.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineRequest,
+  DeletePipelineRequest & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -574,6 +594,8 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePipelineEndpointError =
@@ -586,7 +608,7 @@ export type DeletePipelineEndpointError =
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
 export const deletePipelineEndpoint: API.OperationMethod<
-  DeletePipelineEndpointRequest,
+  DeletePipelineEndpointRequest & RegionInput,
   DeletePipelineEndpointResponse,
   DeletePipelineEndpointError,
   Credentials | HttpClient.HttpClient
@@ -602,6 +624,8 @@ export const deletePipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipelineEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeletePipelineEndpoint",
 }));
 
 export type DeleteResourcePolicyError =
@@ -616,7 +640,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy from an OpenSearch Ingestion resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -634,6 +658,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type GetPipelineError =
@@ -647,7 +673,7 @@ export type GetPipelineError =
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
 export const getPipeline: API.OperationMethod<
-  GetPipelineRequest,
+  GetPipelineRequest & RegionInput,
   GetPipelineResponse,
   GetPipelineError,
   Credentials | HttpClient.HttpClient
@@ -664,6 +690,8 @@ export const getPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetPipelineBlueprintError =
@@ -680,7 +708,7 @@ export type GetPipelineBlueprintError =
  * blueprints to create a pipeline.
  */
 export const getPipelineBlueprint: API.OperationMethod<
-  GetPipelineBlueprintRequest,
+  GetPipelineBlueprintRequest & RegionInput,
   GetPipelineBlueprintResponse,
   GetPipelineBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -697,6 +725,8 @@ export const getPipelineBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineBlueprint",
+  telemetry: TELEMETRY,
+  span: "GetPipelineBlueprint",
 }));
 
 export type GetPipelineChangeProgressError =
@@ -714,7 +744,7 @@ export type GetPipelineChangeProgressError =
  * For more information, see Tracking the status of pipeline creation.
  */
 export const getPipelineChangeProgress: API.OperationMethod<
-  GetPipelineChangeProgressRequest,
+  GetPipelineChangeProgressRequest & RegionInput,
   GetPipelineChangeProgressResponse,
   GetPipelineChangeProgressError,
   Credentials | HttpClient.HttpClient
@@ -731,6 +761,8 @@ export const getPipelineChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineChangeProgress",
+  telemetry: TELEMETRY,
+  span: "GetPipelineChangeProgress",
 }));
 
 export type GetResourcePolicyError =
@@ -745,7 +777,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -763,6 +795,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListPipelineBlueprintsError =
@@ -778,7 +812,7 @@ export type ListPipelineBlueprintsError =
  * blueprints to create a pipeline.
  */
 export const listPipelineBlueprints: API.OperationMethod<
-  ListPipelineBlueprintsRequest,
+  ListPipelineBlueprintsRequest & RegionInput,
   ListPipelineBlueprintsResponse,
   ListPipelineBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -795,6 +829,8 @@ export const listPipelineBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPipelineBlueprints",
+  telemetry: TELEMETRY,
+  span: "ListPipelineBlueprints",
 }));
 
 export type ListPipelineEndpointConnectionsError =
@@ -808,7 +844,7 @@ export type ListPipelineEndpointConnectionsError =
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
 export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
-  ListPipelineEndpointConnectionsRequest,
+  ListPipelineEndpointConnectionsRequest & RegionInput,
   ListPipelineEndpointConnectionsResponse,
   ListPipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -832,6 +868,8 @@ export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
     items: "PipelineEndpointConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineEndpointConnections",
 })) as any;
 
 export type ListPipelineEndpointsError =
@@ -845,7 +883,7 @@ export type ListPipelineEndpointsError =
  * Lists all pipeline endpoints in your account.
  */
 export const listPipelineEndpoints: API.PaginatedOperationMethod<
-  ListPipelineEndpointsRequest,
+  ListPipelineEndpointsRequest & RegionInput,
   ListPipelineEndpointsResponse,
   ListPipelineEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -869,6 +907,8 @@ export const listPipelineEndpoints: API.PaginatedOperationMethod<
     items: "PipelineEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineEndpoints",
 })) as any;
 
 export type ListPipelinesError =
@@ -884,7 +924,7 @@ export type ListPipelinesError =
  * Ingestion pipelines.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesRequest,
+  ListPipelinesRequest & RegionInput,
   ListPipelinesResponse,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -907,6 +947,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -921,7 +963,7 @@ export type ListTagsForResourceError =
  * see Tagging Amazon OpenSearch Ingestion pipelines.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -938,6 +980,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -953,7 +997,7 @@ export type PutResourcePolicyError =
  * policies grant permissions to principals to perform actions on the resource.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -971,6 +1015,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RevokePipelineEndpointConnectionsError =
@@ -984,7 +1030,7 @@ export type RevokePipelineEndpointConnectionsError =
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
 export const revokePipelineEndpointConnections: API.OperationMethod<
-  RevokePipelineEndpointConnectionsRequest,
+  RevokePipelineEndpointConnectionsRequest & RegionInput,
   RevokePipelineEndpointConnectionsResponse,
   RevokePipelineEndpointConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -1001,6 +1047,8 @@ export const revokePipelineEndpointConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePipelineEndpointConnections",
+  telemetry: TELEMETRY,
+  span: "RevokePipelineEndpointConnections",
 }));
 
 export type StartPipelineError =
@@ -1015,7 +1063,7 @@ export type StartPipelineError =
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
 export const startPipeline: API.OperationMethod<
-  StartPipelineRequest,
+  StartPipelineRequest & RegionInput,
   StartPipelineResponse,
   StartPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1033,6 +1081,8 @@ export const startPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipeline",
+  telemetry: TELEMETRY,
+  span: "StartPipeline",
 }));
 
 export type StopPipelineError =
@@ -1048,7 +1098,7 @@ export type StopPipelineError =
  * an OpenSearch Ingestion pipeline.
  */
 export const stopPipeline: API.OperationMethod<
-  StopPipelineRequest,
+  StopPipelineRequest & RegionInput,
   StopPipelineResponse,
   StopPipelineError,
   Credentials | HttpClient.HttpClient
@@ -1066,6 +1116,8 @@ export const stopPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipeline",
+  telemetry: TELEMETRY,
+  span: "StopPipeline",
 }));
 
 export type TagResourceError =
@@ -1081,7 +1133,7 @@ export type TagResourceError =
  * Ingestion pipelines.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1099,6 +1151,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1113,7 +1167,7 @@ export type UntagResourceError =
  * Amazon OpenSearch Ingestion pipelines.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1130,6 +1184,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePipelineError =
@@ -1145,7 +1201,7 @@ export type UpdatePipelineError =
  * Ingestion pipelines.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineRequest,
+  UpdatePipelineRequest & RegionInput,
   UpdatePipelineResponse,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1163,6 +1219,8 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type ValidatePipelineError =
@@ -1177,7 +1235,7 @@ export type ValidatePipelineError =
  * Ingestion pipelines.
  */
 export const validatePipeline: API.OperationMethod<
-  ValidatePipelineRequest,
+  ValidatePipelineRequest & RegionInput,
   ValidatePipelineResponse,
   ValidatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -1193,6 +1251,8 @@ export const validatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipeline",
+  telemetry: TELEMETRY,
+  span: "ValidatePipeline",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

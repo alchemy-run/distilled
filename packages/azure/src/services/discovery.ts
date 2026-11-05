@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Discovery" },
+  prefix: "Discovery",
+  service: "Discovery",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
 /** The private endpoint connection status. */
@@ -2536,6 +2557,8 @@ export const BookshelfPrivateEndpointConnectionsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BookshelfPrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type BookshelvesCreateOrUpdateError = AzureOpError;
@@ -2551,6 +2574,8 @@ export const BookshelvesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BookshelvesCreateOrUpdate",
 }));
 
 export type ChatModelDeploymentsCreateOrUpdateError = AzureOpError;
@@ -2566,6 +2591,8 @@ export const ChatModelDeploymentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChatModelDeploymentsCreateOrUpdate",
 }));
 
 export type DeleteBookshelfPrivateEndpointConnectionError = AzureOpError;
@@ -2581,6 +2608,8 @@ export const DeleteBookshelfPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookshelfPrivateEndpointConnection",
 }));
 
 export type DeleteBookshelveError = AzureOpError;
@@ -2596,6 +2625,8 @@ export const DeleteBookshelve: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookshelve",
 }));
 
 export type DeleteChatModelDeploymentError = AzureOpError;
@@ -2611,6 +2642,8 @@ export const DeleteChatModelDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChatModelDeployment",
 }));
 
 export type DeleteNodePoolError = AzureOpError;
@@ -2626,6 +2659,8 @@ export const DeleteNodePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNodePool",
 }));
 
 export type DeleteProjectError = AzureOpError;
@@ -2641,6 +2676,8 @@ export const DeleteProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteStorageAssetError = AzureOpError;
@@ -2656,6 +2693,8 @@ export const DeleteStorageAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageAsset",
 }));
 
 export type DeleteStorageContainerError = AzureOpError;
@@ -2671,6 +2710,8 @@ export const DeleteStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageContainer",
 }));
 
 export type DeleteSupercomputerError = AzureOpError;
@@ -2686,6 +2727,8 @@ export const DeleteSupercomputer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSupercomputer",
 }));
 
 export type DeleteToolError = AzureOpError;
@@ -2701,6 +2744,8 @@ export const DeleteTool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTool",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -2716,6 +2761,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspacePrivateEndpointConnectionError = AzureOpError;
@@ -2731,6 +2778,8 @@ export const DeleteWorkspacePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspacePrivateEndpointConnection",
 }));
 
 export type GetBookshelfPrivateEndpointConnectionError = AzureOpError;
@@ -2746,6 +2795,8 @@ export const GetBookshelfPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookshelfPrivateEndpointConnection",
 }));
 
 export type GetBookshelfPrivateLinkResourceError = AzureOpError;
@@ -2761,6 +2812,8 @@ export const GetBookshelfPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookshelfPrivateLinkResource",
 }));
 
 export type GetBookshelveError = AzureOpError;
@@ -2776,6 +2829,8 @@ export const GetBookshelve: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookshelve",
 }));
 
 export type GetChatModelDeploymentError = AzureOpError;
@@ -2791,6 +2846,8 @@ export const GetChatModelDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChatModelDeployment",
 }));
 
 export type GetNodePoolError = AzureOpError;
@@ -2806,6 +2863,8 @@ export const GetNodePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNodePool",
 }));
 
 export type GetProjectError = AzureOpError;
@@ -2821,6 +2880,8 @@ export const GetProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetStorageAssetError = AzureOpError;
@@ -2836,6 +2897,8 @@ export const GetStorageAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAsset",
 }));
 
 export type GetStorageContainerError = AzureOpError;
@@ -2851,6 +2914,8 @@ export const GetStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageContainer",
 }));
 
 export type GetSupercomputerError = AzureOpError;
@@ -2866,6 +2931,8 @@ export const GetSupercomputer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupercomputer",
 }));
 
 export type GetToolError = AzureOpError;
@@ -2881,6 +2948,8 @@ export const GetTool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTool",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -2896,6 +2965,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GetWorkspacePrivateEndpointConnectionError = AzureOpError;
@@ -2911,6 +2982,8 @@ export const GetWorkspacePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspacePrivateEndpointConnection",
 }));
 
 export type GetWorkspacePrivateLinkResourceError = AzureOpError;
@@ -2926,6 +2999,8 @@ export const GetWorkspacePrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspacePrivateLinkResource",
 }));
 
 export type ListBookshelfPrivateEndpointConnectionByBookshelfError = AzureOpError;
@@ -2945,6 +3020,8 @@ export const ListBookshelfPrivateEndpointConnectionByBookshelf: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelfPrivateEndpointConnectionByBookshelf",
 }));
 
 export type ListBookshelfPrivateLinkResourceByBookshelfError = AzureOpError;
@@ -2960,6 +3037,8 @@ export const ListBookshelfPrivateLinkResourceByBookshelf: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelfPrivateLinkResourceByBookshelf",
 }));
 
 export type ListBookshelveByResourceGroupError = AzureOpError;
@@ -2975,6 +3054,8 @@ export const ListBookshelveByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelveByResourceGroup",
 }));
 
 export type ListBookshelveBySubscriptionError = AzureOpError;
@@ -2990,6 +3071,8 @@ export const ListBookshelveBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelveBySubscription",
 }));
 
 export type ListChatModelDeploymentByWorkspaceError = AzureOpError;
@@ -3005,6 +3088,8 @@ export const ListChatModelDeploymentByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChatModelDeploymentByWorkspace",
 }));
 
 export type ListNodePoolBySupercomputerError = AzureOpError;
@@ -3020,6 +3105,8 @@ export const ListNodePoolBySupercomputer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNodePoolBySupercomputer",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3035,6 +3122,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProjectByWorkspaceError = AzureOpError;
@@ -3050,6 +3139,8 @@ export const ListProjectByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectByWorkspace",
 }));
 
 export type ListStorageAssetByStorageContainerError = AzureOpError;
@@ -3065,6 +3156,8 @@ export const ListStorageAssetByStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAssetByStorageContainer",
 }));
 
 export type ListStorageContainerByResourceGroupError = AzureOpError;
@@ -3080,6 +3173,8 @@ export const ListStorageContainerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageContainerByResourceGroup",
 }));
 
 export type ListStorageContainerBySubscriptionError = AzureOpError;
@@ -3095,6 +3190,8 @@ export const ListStorageContainerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageContainerBySubscription",
 }));
 
 export type ListSupercomputerByResourceGroupError = AzureOpError;
@@ -3110,6 +3207,8 @@ export const ListSupercomputerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupercomputerByResourceGroup",
 }));
 
 export type ListSupercomputerBySubscriptionError = AzureOpError;
@@ -3125,6 +3224,8 @@ export const ListSupercomputerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupercomputerBySubscription",
 }));
 
 export type ListToolByResourceGroupError = AzureOpError;
@@ -3140,6 +3241,8 @@ export const ListToolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolByResourceGroup",
 }));
 
 export type ListToolBySubscriptionError = AzureOpError;
@@ -3155,6 +3258,8 @@ export const ListToolBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolBySubscription",
 }));
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
@@ -3170,6 +3275,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceByResourceGroup",
 }));
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
@@ -3185,6 +3292,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceBySubscription",
 }));
 
 export type ListWorkspacePrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -3204,6 +3313,8 @@ export const ListWorkspacePrivateEndpointConnectionByWorkspace: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePrivateEndpointConnectionByWorkspace",
 }));
 
 export type ListWorkspacePrivateLinkResourceByWorkspaceError = AzureOpError;
@@ -3219,6 +3330,8 @@ export const ListWorkspacePrivateLinkResourceByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePrivateLinkResourceByWorkspace",
 }));
 
 export type NodePoolsCreateOrUpdateError = AzureOpError;
@@ -3234,6 +3347,8 @@ export const NodePoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodePoolsCreateOrUpdate",
 }));
 
 export type ProjectsCreateOrUpdateError = AzureOpError;
@@ -3249,6 +3364,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectsCreateOrUpdate",
 }));
 
 export type StorageAssetsCreateOrUpdateError = AzureOpError;
@@ -3264,6 +3381,8 @@ export const StorageAssetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageAssetsCreateOrUpdate",
 }));
 
 export type StorageContainersCreateOrUpdateError = AzureOpError;
@@ -3279,6 +3398,8 @@ export const StorageContainersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageContainersCreateOrUpdate",
 }));
 
 export type SupercomputersCreateOrUpdateError = AzureOpError;
@@ -3294,6 +3415,8 @@ export const SupercomputersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SupercomputersCreateOrUpdate",
 }));
 
 export type ToolsCreateOrUpdateError = AzureOpError;
@@ -3309,6 +3432,8 @@ export const ToolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolsCreateOrUpdate",
 }));
 
 export type UpdateBookshelveError = AzureOpError;
@@ -3324,6 +3449,8 @@ export const UpdateBookshelve: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBookshelve",
 }));
 
 export type UpdateChatModelDeploymentError = AzureOpError;
@@ -3339,6 +3466,8 @@ export const UpdateChatModelDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChatModelDeployment",
 }));
 
 export type UpdateNodePoolError = AzureOpError;
@@ -3354,6 +3483,8 @@ export const UpdateNodePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNodePool",
 }));
 
 export type UpdateProjectError = AzureOpError;
@@ -3369,6 +3500,8 @@ export const UpdateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateStorageAssetError = AzureOpError;
@@ -3384,6 +3517,8 @@ export const UpdateStorageAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageAsset",
 }));
 
 export type UpdateStorageContainerError = AzureOpError;
@@ -3399,6 +3534,8 @@ export const UpdateStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageContainer",
 }));
 
 export type UpdateSupercomputerError = AzureOpError;
@@ -3414,6 +3551,8 @@ export const UpdateSupercomputer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupercomputer",
 }));
 
 export type UpdateToolError = AzureOpError;
@@ -3429,6 +3568,8 @@ export const UpdateTool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTool",
 }));
 
 export type UpdateWorkspaceError = AzureOpError;
@@ -3444,6 +3585,8 @@ export const UpdateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type WorkspacePrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -3467,6 +3610,8 @@ export const WorkspacePrivateEndpointConnectionsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacePrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type WorkspacesCreateOrUpdateError = AzureOpError;
@@ -3482,6 +3627,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

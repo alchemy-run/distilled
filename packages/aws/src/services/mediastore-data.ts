@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://data.mediastore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaStoreData",
+  service: "MediaStoreData",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ContainerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ContainerNotFoundException>()(
@@ -184,7 +200,7 @@ export type DeleteObjectError =
  * Deletes an object at the specified path.
  */
 export const deleteObject: API.OperationMethod<
-  DeleteObjectRequest,
+  DeleteObjectRequest & RegionInput,
   DeleteObjectResponse,
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
@@ -195,6 +211,8 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  telemetry: TELEMETRY,
+  span: "DeleteObject",
 }));
 
 export type DescribeObjectError =
@@ -206,7 +224,7 @@ export type DescribeObjectError =
  * Gets the headers for an object at the specified path.
  */
 export const describeObject: API.OperationMethod<
-  DescribeObjectRequest,
+  DescribeObjectRequest & RegionInput,
   DescribeObjectResponse,
   DescribeObjectError,
   Credentials | HttpClient.HttpClient
@@ -217,6 +235,8 @@ export const describeObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObject",
+  telemetry: TELEMETRY,
+  span: "DescribeObject",
 }));
 
 export type GetObjectError =
@@ -229,7 +249,7 @@ export type GetObjectError =
  * Downloads the object at the specified path. If the object's upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it's still uploading the object.
  */
 export const getObject: API.OperationMethod<
-  GetObjectRequest,
+  GetObjectRequest & RegionInput,
   GetObjectResponse,
   GetObjectError,
   Credentials | HttpClient.HttpClient
@@ -245,6 +265,8 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
+  telemetry: TELEMETRY,
+  span: "GetObject",
 }));
 
 export type ListItemsError = ContainerNotFoundException | InternalServerError | CommonErrors;
@@ -253,7 +275,7 @@ export type ListItemsError = ContainerNotFoundException | InternalServerError | 
  * folder.
  */
 export const listItems: API.PaginatedOperationMethod<
-  ListItemsRequest,
+  ListItemsRequest & RegionInput,
   ListItemsResponse,
   ListItemsError,
   Credentials | HttpClient.HttpClient,
@@ -270,6 +292,8 @@ export const listItems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListItems",
 })) as any;
 
 export type PutObjectError = ContainerNotFoundException | InternalServerError | CommonErrors;
@@ -277,7 +301,7 @@ export type PutObjectError = ContainerNotFoundException | InternalServerError | 
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
 export const putObject: API.OperationMethod<
-  PutObjectRequest,
+  PutObjectRequest & RegionInput,
   PutObjectResponse,
   PutObjectError,
   Credentials | HttpClient.HttpClient
@@ -288,6 +312,8 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
+  telemetry: TELEMETRY,
+  span: "PutObject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

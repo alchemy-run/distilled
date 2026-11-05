@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   GatewayTimeout,
@@ -7,6 +6,7 @@ import {
   InternalServerError,
   ServiceUnavailable,
   Unauthorized,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -16,8 +16,7 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
@@ -69,7 +68,11 @@ import {
  * SlackOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type SlackOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type SlackOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;
@@ -153,7 +156,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
     const token = Redacted.value(creds.token);
-    return buildRequest({
+    return yield* buildRequest({
       input: serializeForWire(unwrapRedactedDeep(input), inputAst),
       inputAst,
       baseUrl: creds.apiBaseUrl,
@@ -176,13 +179,11 @@ const decode = ({
     // Read as BYTES first: the analytics export answers a successful call
     // with a gzipped file, which a text read would corrupt. Everything else
     // decodes from the same buffer.
-    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
+    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
     const text = new TextDecoder().decode(bytes);
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
 
     let json: Record<string, unknown> | undefined;
+    let nonJson = false;
     if (text.trim().length > 0) {
       try {
         const parsed = JSON.parse(text);
@@ -191,6 +192,7 @@ const decode = ({
         }
       } catch {
         // non-JSON -- a binary success payload or an HTML error page
+        nonJson = true;
       }
     }
     const status = response.status;
@@ -281,24 +283,22 @@ const decode = ({
     // Successful non-JSON body: raw bytes (the analytics file download --
     // modeled as a Document output, so the bytes pass through verbatim).
     // Strict mode fails them for every other (struct) output.
-    if (json === undefined) {
-      return yield* validateResponse(
-        outputAst,
-        bytes,
-        (cause) => new SlackParseError({ body: text, cause }),
-      ).pipe(Effect.catch(fail));
-    }
-
+    //
     // 2xx envelope: the body IS the payload (`ok` rides along as a modeled
     // member). Wire->TS key mapping is schema-driven; sensitive members
     // (OAuth access/refresh tokens) wrap in Redacted. Strict mode checks the
     // mapped payload against the output schema first.
-    const mapped = yield* validateResponse(
+    //
+    // Either way, parse errors withhold a body that can hold a secret, and a
+    // body that is not JSON at all fails for such an output in every mode
+    // (core `validateSuccess`).
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, json, "decode"),
-      (cause) => new SlackParseError({ body: json, cause }),
+      json === undefined
+        ? { value: bytes, body: text, nonJson }
+        : { value: mapKeys(outputAst, json, "decode"), body: json, nonJson },
+      (info) => new SlackParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 export const SlackProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

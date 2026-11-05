@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rekognition.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Rekognition",
+  service: "Rekognition",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -2161,7 +2178,7 @@ export type AssociateFacesError =
  * disassociations of FaceID(s) taking place.
  */
 export const associateFaces: API.OperationMethod<
-  AssociateFacesRequest,
+  AssociateFacesRequest & RegionInput,
   AssociateFacesResponse,
   AssociateFacesError,
   Credentials | HttpClient.HttpClient
@@ -2182,6 +2199,8 @@ export const associateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFaces",
+  telemetry: TELEMETRY,
+  span: "AssociateFaces",
 }));
 
 export type CompareFacesError =
@@ -2253,7 +2272,7 @@ export type CompareFacesError =
  * `rekognition:CompareFaces` action.
  */
 export const compareFaces: API.OperationMethod<
-  CompareFacesRequest,
+  CompareFacesRequest & RegionInput,
   CompareFacesResponse,
   CompareFacesError,
   Credentials | HttpClient.HttpClient
@@ -2273,6 +2292,8 @@ export const compareFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompareFaces",
+  telemetry: TELEMETRY,
+  span: "CompareFaces",
 }));
 
 export type CopyProjectVersionError =
@@ -2315,7 +2336,7 @@ export type CopyProjectVersionError =
  * This operation requires permissions to perform the `rekognition:CopyProjectVersion` action.
  */
 export const copyProjectVersion: API.OperationMethod<
-  CopyProjectVersionRequest,
+  CopyProjectVersionRequest & RegionInput,
   CopyProjectVersionResponse,
   CopyProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -2336,6 +2357,8 @@ export const copyProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProjectVersion",
+  telemetry: TELEMETRY,
+  span: "CopyProjectVersion",
 }));
 
 export type CreateCollectionError =
@@ -2367,7 +2390,7 @@ export type CreateCollectionError =
  * operation.
  */
 export const createCollection: API.OperationMethod<
-  CreateCollectionRequest,
+  CreateCollectionRequest & RegionInput,
   CreateCollectionResponse,
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2386,6 +2409,8 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateDatasetError =
@@ -2426,7 +2451,7 @@ export type CreateDatasetError =
  * If you want to copy an existing dataset, you also require permission to perform the `rekognition:ListDatasetEntries` action.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2447,6 +2472,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateFaceLivenessSessionError =
@@ -2478,7 +2505,7 @@ export type CreateFaceLivenessSessionError =
  * the 'FaceMovementAndLightChallenge' settings is applied by default.
  */
 export const createFaceLivenessSession: API.OperationMethod<
-  CreateFaceLivenessSessionRequest,
+  CreateFaceLivenessSessionRequest & RegionInput,
   CreateFaceLivenessSessionResponse,
   CreateFaceLivenessSessionError,
   Credentials | HttpClient.HttpClient
@@ -2495,6 +2522,8 @@ export const createFaceLivenessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFaceLivenessSession",
+  telemetry: TELEMETRY,
+  span: "CreateFaceLivenessSession",
 }));
 
 export type CreateProjectError =
@@ -2515,7 +2544,7 @@ export type CreateProjectError =
  * perform the `rekognition:CreateProject` action.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2534,6 +2563,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectVersionError =
@@ -2579,7 +2610,7 @@ export type CreateProjectVersionError =
  * files to create training and test datasets for the project.
  */
 export const createProjectVersion: API.OperationMethod<
-  CreateProjectVersionRequest,
+  CreateProjectVersionRequest & RegionInput,
   CreateProjectVersionResponse,
   CreateProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -2600,6 +2631,8 @@ export const createProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectVersion",
+  telemetry: TELEMETRY,
+  span: "CreateProjectVersion",
 }));
 
 export type CreateStreamProcessorError =
@@ -2649,7 +2682,7 @@ export type CreateStreamProcessorError =
  * `rekognition:CreateStreamProcessor` action. If you want to tag your stream processor, you also require permission to perform the `rekognition:TagResource` operation.
  */
 export const createStreamProcessor: API.OperationMethod<
-  CreateStreamProcessorRequest,
+  CreateStreamProcessorRequest & RegionInput,
   CreateStreamProcessorResponse,
   CreateStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -2669,6 +2702,8 @@ export const createStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "CreateStreamProcessor",
 }));
 
 export type CreateUserError =
@@ -2694,7 +2729,7 @@ export type CreateUserError =
  * results from making multiple `CreateUser` calls.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -2715,6 +2750,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteCollectionError =
@@ -2734,7 +2771,7 @@ export type DeleteCollectionError =
  * `rekognition:DeleteCollection` action.
  */
 export const deleteCollection: API.OperationMethod<
-  DeleteCollectionRequest,
+  DeleteCollectionRequest & RegionInput,
   DeleteCollectionResponse,
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2752,6 +2789,8 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteDatasetError =
@@ -2779,7 +2818,7 @@ export type DeleteDatasetError =
  * This operation requires permissions to perform the `rekognition:DeleteDataset` action.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2799,6 +2838,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteFacesError =
@@ -2817,7 +2858,7 @@ export type DeleteFacesError =
  * action.
  */
 export const deleteFaces: API.OperationMethod<
-  DeleteFacesRequest,
+  DeleteFacesRequest & RegionInput,
   DeleteFacesResponse,
   DeleteFacesError,
   Credentials | HttpClient.HttpClient
@@ -2835,6 +2876,8 @@ export const deleteFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFaces",
+  telemetry: TELEMETRY,
+  span: "DeleteFaces",
 }));
 
 export type DeleteProjectError =
@@ -2859,7 +2902,7 @@ export type DeleteProjectError =
  * `rekognition:DeleteProject` action.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -2878,6 +2921,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectPolicyError =
@@ -2899,7 +2944,7 @@ export type DeleteProjectPolicyError =
  * This operation requires permissions to perform the `rekognition:DeleteProjectPolicy` action.
  */
 export const deleteProjectPolicy: API.OperationMethod<
-  DeleteProjectPolicyRequest,
+  DeleteProjectPolicyRequest & RegionInput,
   DeleteProjectPolicyResponse,
   DeleteProjectPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2918,6 +2963,8 @@ export const deleteProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteProjectPolicy",
 }));
 
 export type DeleteProjectVersionError =
@@ -2941,7 +2988,7 @@ export type DeleteProjectVersionError =
  * `rekognition:DeleteProjectVersion` action.
  */
 export const deleteProjectVersion: API.OperationMethod<
-  DeleteProjectVersionRequest,
+  DeleteProjectVersionRequest & RegionInput,
   DeleteProjectVersionResponse,
   DeleteProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -2960,6 +3007,8 @@ export const deleteProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteProjectVersion",
 }));
 
 export type DeleteStreamProcessorError =
@@ -2981,7 +3030,7 @@ export type DeleteStreamProcessorError =
  * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
  */
 export const deleteStreamProcessor: API.OperationMethod<
-  DeleteStreamProcessorRequest,
+  DeleteStreamProcessorRequest & RegionInput,
   DeleteStreamProcessorResponse,
   DeleteStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -3000,6 +3049,8 @@ export const deleteStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamProcessor",
 }));
 
 export type DeleteUserError =
@@ -3020,7 +3071,7 @@ export type DeleteUserError =
  * 200 response, an empty HTTP body is returned.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -3040,6 +3091,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeCollectionError =
@@ -3059,7 +3112,7 @@ export type DescribeCollectionError =
  * Amazon Rekognition Developer Guide.
  */
 export const describeCollection: API.OperationMethod<
-  DescribeCollectionRequest,
+  DescribeCollectionRequest & RegionInput,
   DescribeCollectionResponse,
   DescribeCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3077,6 +3130,8 @@ export const describeCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCollection",
+  telemetry: TELEMETRY,
+  span: "DescribeCollection",
 }));
 
 export type DescribeDatasetError =
@@ -3096,7 +3151,7 @@ export type DescribeDatasetError =
  * This operation requires permissions to perform the `rekognition:DescribeDataset` action.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3114,6 +3169,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeProjectsError =
@@ -3130,7 +3187,7 @@ export type DescribeProjectsError =
  * This operation requires permissions to perform the `rekognition:DescribeProjects` action.
  */
 export const describeProjects: API.PaginatedOperationMethod<
-  DescribeProjectsRequest,
+  DescribeProjectsRequest & RegionInput,
   DescribeProjectsResponse,
   DescribeProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -3155,6 +3212,8 @@ export const describeProjects: API.PaginatedOperationMethod<
     items: "ProjectDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProjects",
 })) as any;
 
 export type DescribeProjectVersionsError =
@@ -3175,7 +3234,7 @@ export type DescribeProjectVersionsError =
  * action.
  */
 export const describeProjectVersions: API.PaginatedOperationMethod<
-  DescribeProjectVersionsRequest,
+  DescribeProjectVersionsRequest & RegionInput,
   DescribeProjectVersionsResponse,
   DescribeProjectVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3201,6 +3260,8 @@ export const describeProjectVersions: API.PaginatedOperationMethod<
     items: "ProjectVersionDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProjectVersions",
 })) as any;
 
 export type DescribeStreamProcessorError =
@@ -3221,7 +3282,7 @@ export type DescribeStreamProcessorError =
  * and the current status of the stream processor.
  */
 export const describeStreamProcessor: API.OperationMethod<
-  DescribeStreamProcessorRequest,
+  DescribeStreamProcessorRequest & RegionInput,
   DescribeStreamProcessorResponse,
   DescribeStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -3239,6 +3300,8 @@ export const describeStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "DescribeStreamProcessor",
 }));
 
 export type DetectCustomLabelsError =
@@ -3299,7 +3362,7 @@ export type DetectCustomLabelsError =
  * *Analyzing an image* in the Amazon Rekognition Custom Labels Developer Guide.
  */
 export const detectCustomLabels: API.OperationMethod<
-  DetectCustomLabelsRequest,
+  DetectCustomLabelsRequest & RegionInput,
   DetectCustomLabelsResponse,
   DetectCustomLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3322,6 +3385,8 @@ export const detectCustomLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectCustomLabels",
+  telemetry: TELEMETRY,
+  span: "DetectCustomLabels",
 }));
 
 export type DetectFacesError =
@@ -3358,7 +3423,7 @@ export type DetectFacesError =
  * action.
  */
 export const detectFaces: API.OperationMethod<
-  DetectFacesRequest,
+  DetectFacesRequest & RegionInput,
   DetectFacesResponse,
   DetectFacesError,
   Credentials | HttpClient.HttpClient
@@ -3378,6 +3443,8 @@ export const detectFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectFaces",
+  telemetry: TELEMETRY,
+  span: "DetectFaces",
 }));
 
 export type DetectLabelsError =
@@ -3497,7 +3564,7 @@ export type DetectLabelsError =
  * `rekognition:DetectLabels` action.
  */
 export const detectLabels: API.OperationMethod<
-  DetectLabelsRequest,
+  DetectLabelsRequest & RegionInput,
   DetectLabelsResponse,
   DetectLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3517,6 +3584,8 @@ export const detectLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectLabels",
+  telemetry: TELEMETRY,
+  span: "DetectLabels",
 }));
 
 export type DetectModerationLabelsError =
@@ -3554,7 +3623,7 @@ export type DetectModerationLabelsError =
  * `ProjectVersionArn` to the `ProjectVersion` argument.
  */
 export const detectModerationLabels: API.OperationMethod<
-  DetectModerationLabelsRequest,
+  DetectModerationLabelsRequest & RegionInput,
   DetectModerationLabelsResponse,
   DetectModerationLabelsError,
   Credentials | HttpClient.HttpClient
@@ -3577,6 +3646,8 @@ export const detectModerationLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectModerationLabels",
+  telemetry: TELEMETRY,
+  span: "DetectModerationLabels",
 }));
 
 export type DetectProtectiveEquipmentError =
@@ -3624,7 +3695,7 @@ export type DetectProtectiveEquipmentError =
  * This operation requires permissions to perform the `rekognition:DetectProtectiveEquipment` action.
  */
 export const detectProtectiveEquipment: API.OperationMethod<
-  DetectProtectiveEquipmentRequest,
+  DetectProtectiveEquipmentRequest & RegionInput,
   DetectProtectiveEquipmentResponse,
   DetectProtectiveEquipmentError,
   Credentials | HttpClient.HttpClient
@@ -3644,6 +3715,8 @@ export const detectProtectiveEquipment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProtectiveEquipment",
+  telemetry: TELEMETRY,
+  span: "DetectProtectiveEquipment",
 }));
 
 export type DetectTextError =
@@ -3689,7 +3762,7 @@ export type DetectTextError =
  * Guide.
  */
 export const detectText: API.OperationMethod<
-  DetectTextRequest,
+  DetectTextRequest & RegionInput,
   DetectTextResponse,
   DetectTextError,
   Credentials | HttpClient.HttpClient
@@ -3709,6 +3782,8 @@ export const detectText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectText",
+  telemetry: TELEMETRY,
+  span: "DetectText",
 }));
 
 export type DisassociateFacesError =
@@ -3732,7 +3807,7 @@ export type DisassociateFacesError =
  * at one time.
  */
 export const disassociateFaces: API.OperationMethod<
-  DisassociateFacesRequest,
+  DisassociateFacesRequest & RegionInput,
   DisassociateFacesResponse,
   DisassociateFacesError,
   Credentials | HttpClient.HttpClient
@@ -3752,6 +3827,8 @@ export const disassociateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFaces",
+  telemetry: TELEMETRY,
+  span: "DisassociateFaces",
 }));
 
 export type DistributeDatasetEntriesError =
@@ -3781,7 +3858,7 @@ export type DistributeDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:DistributeDatasetEntries` action.
  */
 export const distributeDatasetEntries: API.OperationMethod<
-  DistributeDatasetEntriesRequest,
+  DistributeDatasetEntriesRequest & RegionInput,
   DistributeDatasetEntriesResponse,
   DistributeDatasetEntriesError,
   Credentials | HttpClient.HttpClient
@@ -3800,6 +3877,8 @@ export const distributeDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeDatasetEntries",
+  telemetry: TELEMETRY,
+  span: "DistributeDatasetEntries",
 }));
 
 export type GetCelebrityInfoError =
@@ -3822,7 +3901,7 @@ export type GetCelebrityInfoError =
  * `rekognition:GetCelebrityInfo` action.
  */
 export const getCelebrityInfo: API.OperationMethod<
-  GetCelebrityInfoRequest,
+  GetCelebrityInfoRequest & RegionInput,
   GetCelebrityInfoResponse,
   GetCelebrityInfoError,
   Credentials | HttpClient.HttpClient
@@ -3840,6 +3919,8 @@ export const getCelebrityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCelebrityInfo",
+  telemetry: TELEMETRY,
+  span: "GetCelebrityInfo",
 }));
 
 export type GetCelebrityRecognitionError =
@@ -3898,7 +3979,7 @@ export type GetCelebrityRecognitionError =
  * value returned from the previous call to `GetCelebrityRecognition`.
  */
 export const getCelebrityRecognition: API.PaginatedOperationMethod<
-  GetCelebrityRecognitionRequest,
+  GetCelebrityRecognitionRequest & RegionInput,
   GetCelebrityRecognitionResponse,
   GetCelebrityRecognitionError,
   Credentials | HttpClient.HttpClient,
@@ -3923,6 +4004,8 @@ export const getCelebrityRecognition: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCelebrityRecognition",
 })) as any;
 
 export type GetContentModerationError =
@@ -3968,7 +4051,7 @@ export type GetContentModerationError =
  * For more information, see moderating content in the Amazon Rekognition Developer Guide.
  */
 export const getContentModeration: API.PaginatedOperationMethod<
-  GetContentModerationRequest,
+  GetContentModerationRequest & RegionInput,
   GetContentModerationResponse,
   GetContentModerationError,
   Credentials | HttpClient.HttpClient,
@@ -3993,6 +4076,8 @@ export const getContentModeration: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetContentModeration",
 })) as any;
 
 export type GetFaceDetectionError =
@@ -4025,7 +4110,7 @@ export type GetFaceDetectionError =
  * `FaceOccluded` and `EyeDirection` will always be "null".
  */
 export const getFaceDetection: API.PaginatedOperationMethod<
-  GetFaceDetectionRequest,
+  GetFaceDetectionRequest & RegionInput,
   GetFaceDetectionResponse,
   GetFaceDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4050,6 +4135,8 @@ export const getFaceDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFaceDetection",
 })) as any;
 
 export type GetFaceLivenessSessionResultsError =
@@ -4077,7 +4164,7 @@ export type GetFaceLivenessSessionResultsError =
  * obstructed face, and `Metadata` about the client that streamed the session.
  */
 export const getFaceLivenessSessionResults: API.OperationMethod<
-  GetFaceLivenessSessionResultsRequest,
+  GetFaceLivenessSessionResultsRequest & RegionInput,
   GetFaceLivenessSessionResultsResponse,
   GetFaceLivenessSessionResultsError,
   Credentials | HttpClient.HttpClient
@@ -4095,6 +4182,8 @@ export const getFaceLivenessSessionResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFaceLivenessSessionResults",
+  telemetry: TELEMETRY,
+  span: "GetFaceLivenessSessionResults",
 }));
 
 export type GetFaceSearchError =
@@ -4140,7 +4229,7 @@ export type GetFaceSearchError =
  * parameter.
  */
 export const getFaceSearch: API.PaginatedOperationMethod<
-  GetFaceSearchRequest,
+  GetFaceSearchRequest & RegionInput,
   GetFaceSearchResponse,
   GetFaceSearchError,
   Credentials | HttpClient.HttpClient,
@@ -4165,6 +4254,8 @@ export const getFaceSearch: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFaceSearch",
 })) as any;
 
 export type GetLabelDetectionError =
@@ -4245,7 +4336,7 @@ export type GetLabelDetectionError =
  * "ERROR" notification if the job encounters an issue.
  */
 export const getLabelDetection: API.PaginatedOperationMethod<
-  GetLabelDetectionRequest,
+  GetLabelDetectionRequest & RegionInput,
   GetLabelDetectionResponse,
   GetLabelDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4270,6 +4361,8 @@ export const getLabelDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLabelDetection",
 })) as any;
 
 export type GetMediaAnalysisJobError =
@@ -4290,7 +4383,7 @@ export type GetMediaAnalysisJobError =
  * Takes a `JobId` returned by StartMediaAnalysisJob.
  */
 export const getMediaAnalysisJob: API.OperationMethod<
-  GetMediaAnalysisJobRequest,
+  GetMediaAnalysisJobRequest & RegionInput,
   GetMediaAnalysisJobResponse,
   GetMediaAnalysisJobError,
   Credentials | HttpClient.HttpClient
@@ -4308,6 +4401,8 @@ export const getMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaAnalysisJob",
+  telemetry: TELEMETRY,
+  span: "GetMediaAnalysisJob",
 }));
 
 export type GetPersonTrackingError =
@@ -4355,7 +4450,7 @@ export type GetPersonTrackingError =
  * value returned from the previous call to `GetPersonTracking`.
  */
 export const getPersonTracking: API.PaginatedOperationMethod<
-  GetPersonTrackingRequest,
+  GetPersonTrackingRequest & RegionInput,
   GetPersonTrackingResponse,
   GetPersonTrackingError,
   Credentials | HttpClient.HttpClient,
@@ -4380,6 +4475,8 @@ export const getPersonTracking: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPersonTracking",
 })) as any;
 
 export type GetSegmentDetectionError =
@@ -4420,7 +4517,7 @@ export type GetSegmentDetectionError =
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
 export const getSegmentDetection: API.PaginatedOperationMethod<
-  GetSegmentDetectionRequest,
+  GetSegmentDetectionRequest & RegionInput,
   GetSegmentDetectionResponse,
   GetSegmentDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4445,6 +4542,8 @@ export const getSegmentDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSegmentDetection",
 })) as any;
 
 export type GetTextDetectionError =
@@ -4481,7 +4580,7 @@ export type GetTextDetectionError =
  * call to `GetTextDetection`.
  */
 export const getTextDetection: API.PaginatedOperationMethod<
-  GetTextDetectionRequest,
+  GetTextDetectionRequest & RegionInput,
   GetTextDetectionResponse,
   GetTextDetectionError,
   Credentials | HttpClient.HttpClient,
@@ -4506,6 +4605,8 @@ export const getTextDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTextDetection",
 })) as any;
 
 export type IndexFacesError =
@@ -4615,7 +4716,7 @@ export type IndexFacesError =
  * action.
  */
 export const indexFaces: API.OperationMethod<
-  IndexFacesRequest,
+  IndexFacesRequest & RegionInput,
   IndexFacesResponse,
   IndexFacesError,
   Credentials | HttpClient.HttpClient
@@ -4637,6 +4738,8 @@ export const indexFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexFaces",
+  telemetry: TELEMETRY,
+  span: "IndexFaces",
 }));
 
 export type ListCollectionsError =
@@ -4660,7 +4763,7 @@ export type ListCollectionsError =
  * `rekognition:ListCollections` action.
  */
 export const listCollections: API.PaginatedOperationMethod<
-  ListCollectionsRequest,
+  ListCollectionsRequest & RegionInput,
   ListCollectionsResponse,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4686,6 +4789,8 @@ export const listCollections: API.PaginatedOperationMethod<
     items: "CollectionIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollections",
 })) as any;
 
 export type ListDatasetEntriesError =
@@ -4718,7 +4823,7 @@ export type ListDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:ListDatasetEntries` action.
  */
 export const listDatasetEntries: API.PaginatedOperationMethod<
-  ListDatasetEntriesRequest,
+  ListDatasetEntriesRequest & RegionInput,
   ListDatasetEntriesResponse,
   ListDatasetEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -4746,6 +4851,8 @@ export const listDatasetEntries: API.PaginatedOperationMethod<
     items: "DatasetEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetEntries",
 })) as any;
 
 export type ListDatasetLabelsError =
@@ -4769,7 +4876,7 @@ export type ListDatasetLabelsError =
  * in the *Amazon Rekognition Custom Labels Developer Guide*.
  */
 export const listDatasetLabels: API.PaginatedOperationMethod<
-  ListDatasetLabelsRequest,
+  ListDatasetLabelsRequest & RegionInput,
   ListDatasetLabelsResponse,
   ListDatasetLabelsError,
   Credentials | HttpClient.HttpClient,
@@ -4797,6 +4904,8 @@ export const listDatasetLabels: API.PaginatedOperationMethod<
     items: "DatasetLabelDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetLabels",
 })) as any;
 
 export type ListFacesError =
@@ -4818,7 +4927,7 @@ export type ListFacesError =
  * action.
  */
 export const listFaces: API.PaginatedOperationMethod<
-  ListFacesRequest,
+  ListFacesRequest & RegionInput,
   ListFacesResponse,
   ListFacesError,
   Credentials | HttpClient.HttpClient,
@@ -4844,6 +4953,8 @@ export const listFaces: API.PaginatedOperationMethod<
     items: "Faces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFaces",
 })) as any;
 
 export type ListMediaAnalysisJobsError =
@@ -4863,7 +4974,7 @@ export type ListMediaAnalysisJobsError =
  * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
  */
 export const listMediaAnalysisJobs: API.PaginatedOperationMethod<
-  ListMediaAnalysisJobsRequest,
+  ListMediaAnalysisJobsRequest & RegionInput,
   ListMediaAnalysisJobsResponse,
   ListMediaAnalysisJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4887,6 +4998,8 @@ export const listMediaAnalysisJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaAnalysisJobs",
 })) as any;
 
 export type ListProjectPoliciesError =
@@ -4908,7 +5021,7 @@ export type ListProjectPoliciesError =
  * This operation requires permissions to perform the `rekognition:ListProjectPolicies` action.
  */
 export const listProjectPolicies: API.PaginatedOperationMethod<
-  ListProjectPoliciesRequest,
+  ListProjectPoliciesRequest & RegionInput,
   ListProjectPoliciesResponse,
   ListProjectPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4934,6 +5047,8 @@ export const listProjectPolicies: API.PaginatedOperationMethod<
     items: "ProjectPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjectPolicies",
 })) as any;
 
 export type ListStreamProcessorsError =
@@ -4953,7 +5068,7 @@ export type ListStreamProcessorsError =
  * Gets a list of stream processors that you have created with CreateStreamProcessor.
  */
 export const listStreamProcessors: API.PaginatedOperationMethod<
-  ListStreamProcessorsRequest,
+  ListStreamProcessorsRequest & RegionInput,
   ListStreamProcessorsResponse,
   ListStreamProcessorsError,
   Credentials | HttpClient.HttpClient,
@@ -4977,6 +5092,8 @@ export const listStreamProcessors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamProcessors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4995,7 +5112,7 @@ export type ListTagsForResourceError =
  * `rekognition:ListTagsForResource` action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5013,6 +5130,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUsersError =
@@ -5032,7 +5151,7 @@ export type ListUsersError =
  * subsequent request to retrieve the next set of identities.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -5058,6 +5177,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type PutProjectPolicyError =
@@ -5097,7 +5218,7 @@ export type PutProjectPolicyError =
  * This operation requires permissions to perform the `rekognition:PutProjectPolicy` action.
  */
 export const putProjectPolicy: API.OperationMethod<
-  PutProjectPolicyRequest,
+  PutProjectPolicyRequest & RegionInput,
   PutProjectPolicyResponse,
   PutProjectPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5120,6 +5241,8 @@ export const putProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProjectPolicy",
+  telemetry: TELEMETRY,
+  span: "PutProjectPolicy",
 }));
 
 export type RecognizeCelebritiesError =
@@ -5167,7 +5290,7 @@ export type RecognizeCelebritiesError =
  * `rekognition:RecognizeCelebrities` operation.
  */
 export const recognizeCelebrities: API.OperationMethod<
-  RecognizeCelebritiesRequest,
+  RecognizeCelebritiesRequest & RegionInput,
   RecognizeCelebritiesResponse,
   RecognizeCelebritiesError,
   Credentials | HttpClient.HttpClient
@@ -5187,6 +5310,8 @@ export const recognizeCelebrities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeCelebrities",
+  telemetry: TELEMETRY,
+  span: "RecognizeCelebrities",
 }));
 
 export type SearchFacesError =
@@ -5218,7 +5343,7 @@ export type SearchFacesError =
  * action.
  */
 export const searchFaces: API.OperationMethod<
-  SearchFacesRequest,
+  SearchFacesRequest & RegionInput,
   SearchFacesResponse,
   SearchFacesError,
   Credentials | HttpClient.HttpClient
@@ -5236,6 +5361,8 @@ export const searchFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFaces",
+  telemetry: TELEMETRY,
+  span: "SearchFaces",
 }));
 
 export type SearchFacesByImageError =
@@ -5294,7 +5421,7 @@ export type SearchFacesByImageError =
  * `rekognition:SearchFacesByImage` action.
  */
 export const searchFacesByImage: API.OperationMethod<
-  SearchFacesByImageRequest,
+  SearchFacesByImageRequest & RegionInput,
   SearchFacesByImageResponse,
   SearchFacesByImageError,
   Credentials | HttpClient.HttpClient
@@ -5315,6 +5442,8 @@ export const searchFacesByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFacesByImage",
+  telemetry: TELEMETRY,
+  span: "SearchFacesByImage",
 }));
 
 export type SearchUsersError =
@@ -5334,7 +5463,7 @@ export type SearchUsersError =
  * similarity first.
  */
 export const searchUsers: API.OperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResponse,
   SearchUsersError,
   Credentials | HttpClient.HttpClient
@@ -5352,6 +5481,8 @@ export const searchUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsers",
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 }));
 
 export type SearchUsersByImageError =
@@ -5379,7 +5510,7 @@ export type SearchUsersByImageError =
  * `SearchedFace` object.
  */
 export const searchUsersByImage: API.OperationMethod<
-  SearchUsersByImageRequest,
+  SearchUsersByImageRequest & RegionInput,
   SearchUsersByImageResponse,
   SearchUsersByImageError,
   Credentials | HttpClient.HttpClient
@@ -5400,6 +5531,8 @@ export const searchUsersByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsersByImage",
+  telemetry: TELEMETRY,
+  span: "SearchUsersByImage",
 }));
 
 export type StartCelebrityRecognitionError =
@@ -5429,7 +5562,7 @@ export type StartCelebrityRecognitionError =
  * For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
  */
 export const startCelebrityRecognition: API.OperationMethod<
-  StartCelebrityRecognitionRequest,
+  StartCelebrityRecognitionRequest & RegionInput,
   StartCelebrityRecognitionResponse,
   StartCelebrityRecognitionError,
   Credentials | HttpClient.HttpClient
@@ -5450,6 +5583,8 @@ export const startCelebrityRecognition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCelebrityRecognition",
+  telemetry: TELEMETRY,
+  span: "StartCelebrityRecognition",
 }));
 
 export type StartContentModerationError =
@@ -5480,7 +5615,7 @@ export type StartContentModerationError =
  * For more information, see Moderating content in the Amazon Rekognition Developer Guide.
  */
 export const startContentModeration: API.OperationMethod<
-  StartContentModerationRequest,
+  StartContentModerationRequest & RegionInput,
   StartContentModerationResponse,
   StartContentModerationError,
   Credentials | HttpClient.HttpClient
@@ -5501,6 +5636,8 @@ export const startContentModeration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentModeration",
+  telemetry: TELEMETRY,
+  span: "StartContentModeration",
 }));
 
 export type StartFaceDetectionError =
@@ -5531,7 +5668,7 @@ export type StartFaceDetectionError =
  * Amazon Rekognition Developer Guide.
  */
 export const startFaceDetection: API.OperationMethod<
-  StartFaceDetectionRequest,
+  StartFaceDetectionRequest & RegionInput,
   StartFaceDetectionResponse,
   StartFaceDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5552,6 +5689,8 @@ export const startFaceDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceDetection",
+  telemetry: TELEMETRY,
+  span: "StartFaceDetection",
 }));
 
 export type StartFaceSearchError =
@@ -5580,7 +5719,7 @@ export type StartFaceSearchError =
  * Searching stored videos for faces.
  */
 export const startFaceSearch: API.OperationMethod<
-  StartFaceSearchRequest,
+  StartFaceSearchRequest & RegionInput,
   StartFaceSearchResponse,
   StartFaceSearchError,
   Credentials | HttpClient.HttpClient
@@ -5602,6 +5741,8 @@ export const startFaceSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceSearch",
+  telemetry: TELEMETRY,
+  span: "StartFaceSearch",
 }));
 
 export type StartLabelDetectionError =
@@ -5646,7 +5787,7 @@ export type StartLabelDetectionError =
  * labels returned. The default is 50.
  */
 export const startLabelDetection: API.OperationMethod<
-  StartLabelDetectionRequest,
+  StartLabelDetectionRequest & RegionInput,
   StartLabelDetectionResponse,
   StartLabelDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5667,6 +5808,8 @@ export const startLabelDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLabelDetection",
+  telemetry: TELEMETRY,
+  span: "StartLabelDetection",
 }));
 
 export type StartMediaAnalysisJobError =
@@ -5692,7 +5835,7 @@ export type StartMediaAnalysisJobError =
  * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
  */
 export const startMediaAnalysisJob: API.OperationMethod<
-  StartMediaAnalysisJobRequest,
+  StartMediaAnalysisJobRequest & RegionInput,
   StartMediaAnalysisJobResponse,
   StartMediaAnalysisJobError,
   Credentials | HttpClient.HttpClient
@@ -5715,6 +5858,8 @@ export const startMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMediaAnalysisJob",
+  telemetry: TELEMETRY,
+  span: "StartMediaAnalysisJob",
 }));
 
 export type StartPersonTrackingError =
@@ -5747,7 +5892,7 @@ export type StartPersonTrackingError =
  * (`JobId`) from the initial call to `StartPersonTracking`.
  */
 export const startPersonTracking: API.OperationMethod<
-  StartPersonTrackingRequest,
+  StartPersonTrackingRequest & RegionInput,
   StartPersonTrackingResponse,
   StartPersonTrackingError,
   Credentials | HttpClient.HttpClient
@@ -5768,6 +5913,8 @@ export const startPersonTracking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPersonTracking",
+  telemetry: TELEMETRY,
+  span: "StartPersonTracking",
 }));
 
 export type StartProjectVersionError =
@@ -5796,7 +5943,7 @@ export type StartProjectVersionError =
  * `rekognition:StartProjectVersion` action.
  */
 export const startProjectVersion: API.OperationMethod<
-  StartProjectVersionRequest,
+  StartProjectVersionRequest & RegionInput,
   StartProjectVersionResponse,
   StartProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -5816,6 +5963,8 @@ export const startProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectVersion",
+  telemetry: TELEMETRY,
+  span: "StartProjectVersion",
 }));
 
 export type StartSegmentDetectionError =
@@ -5850,7 +5999,7 @@ export type StartSegmentDetectionError =
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
 export const startSegmentDetection: API.OperationMethod<
-  StartSegmentDetectionRequest,
+  StartSegmentDetectionRequest & RegionInput,
   StartSegmentDetectionResponse,
   StartSegmentDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5871,6 +6020,8 @@ export const startSegmentDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSegmentDetection",
+  telemetry: TELEMETRY,
+  span: "StartSegmentDetection",
 }));
 
 export type StartStreamProcessorError =
@@ -5895,7 +6046,7 @@ export type StartStreamProcessorError =
  * If you are using a label detection stream processor to detect labels, you need to provide a `Start selector` and a `Stop selector` to determine the length of the stream processing time.
  */
 export const startStreamProcessor: API.OperationMethod<
-  StartStreamProcessorRequest,
+  StartStreamProcessorRequest & RegionInput,
   StartStreamProcessorResponse,
   StartStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -5914,6 +6065,8 @@ export const startStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "StartStreamProcessor",
 }));
 
 export type StartTextDetectionError =
@@ -5940,7 +6093,7 @@ export type StartTextDetectionError =
  * from the initial call to `StartTextDetection`.
  */
 export const startTextDetection: API.OperationMethod<
-  StartTextDetectionRequest,
+  StartTextDetectionRequest & RegionInput,
   StartTextDetectionResponse,
   StartTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -5961,6 +6114,8 @@ export const startTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextDetection",
+  telemetry: TELEMETRY,
+  span: "StartTextDetection",
 }));
 
 export type StopProjectVersionError =
@@ -5982,7 +6137,7 @@ export type StopProjectVersionError =
  * This operation requires permissions to perform the `rekognition:StopProjectVersion` action.
  */
 export const stopProjectVersion: API.OperationMethod<
-  StopProjectVersionRequest,
+  StopProjectVersionRequest & RegionInput,
   StopProjectVersionResponse,
   StopProjectVersionError,
   Credentials | HttpClient.HttpClient
@@ -6001,6 +6156,8 @@ export const stopProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProjectVersion",
+  telemetry: TELEMETRY,
+  span: "StopProjectVersion",
 }));
 
 export type StopStreamProcessorError =
@@ -6021,7 +6178,7 @@ export type StopStreamProcessorError =
  * Stops a running stream processor that was created by CreateStreamProcessor.
  */
 export const stopStreamProcessor: API.OperationMethod<
-  StopStreamProcessorRequest,
+  StopStreamProcessorRequest & RegionInput,
   StopStreamProcessorResponse,
   StopStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -6040,6 +6197,8 @@ export const stopStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "StopStreamProcessor",
 }));
 
 export type TagResourceError =
@@ -6060,7 +6219,7 @@ export type TagResourceError =
  * action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6079,6 +6238,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6097,7 +6258,7 @@ export type UntagResourceError =
  * `rekognition:UntagResource` action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6115,6 +6276,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasetEntriesError =
@@ -6157,7 +6320,7 @@ export type UpdateDatasetEntriesError =
  * This operation requires permissions to perform the `rekognition:UpdateDatasetEntries` action.
  */
 export const updateDatasetEntries: API.OperationMethod<
-  UpdateDatasetEntriesRequest,
+  UpdateDatasetEntriesRequest & RegionInput,
   UpdateDatasetEntriesResponse,
   UpdateDatasetEntriesError,
   Credentials | HttpClient.HttpClient
@@ -6177,6 +6340,8 @@ export const updateDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetEntries",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetEntries",
 }));
 
 export type UpdateStreamProcessorError =
@@ -6197,7 +6362,7 @@ export type UpdateStreamProcessorError =
  * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
  */
 export const updateStreamProcessor: API.OperationMethod<
-  UpdateStreamProcessorRequest,
+  UpdateStreamProcessorRequest & RegionInput,
   UpdateStreamProcessorResponse,
   UpdateStreamProcessorError,
   Credentials | HttpClient.HttpClient
@@ -6216,6 +6381,8 @@ export const updateStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamProcessor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -159,6 +161,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://sts.{R}.{D}","properties":{},"headers":{}}',
   ["aws-global"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "STS",
+  service: "STS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ExpiredTokenException
   extends /*@__PURE__*/ S.TaggedError<ExpiredTokenException>()(
@@ -610,7 +627,7 @@ export type AssumeRoleError =
  * produces.
  */
 export const assumeRole: API.OperationMethod<
-  AssumeRoleRequest,
+  AssumeRoleRequest & RegionInput,
   AssumeRoleResponse,
   AssumeRoleError,
   Creds | HttpClient.HttpClient
@@ -626,6 +643,8 @@ export const assumeRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRole",
+  telemetry: TELEMETRY,
+  span: "AssumeRole",
 }));
 
 export type AssumeRoleWithSAMLError =
@@ -763,7 +782,7 @@ export type AssumeRoleWithSAMLError =
  * *IAM User Guide*.
  */
 export const assumeRoleWithSAML: API.OperationMethod<
-  AssumeRoleWithSAMLRequest,
+  AssumeRoleWithSAMLRequest & RegionInput,
   AssumeRoleWithSAMLResponse,
   AssumeRoleWithSAMLError,
   Creds | HttpClient.HttpClient
@@ -781,6 +800,8 @@ export const assumeRoleWithSAML: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithSAML",
+  telemetry: TELEMETRY,
+  span: "AssumeRoleWithSAML",
 }));
 
 export type AssumeRoleWithWebIdentityError =
@@ -913,7 +934,7 @@ export type AssumeRoleWithWebIdentityError =
  * security credentials.
  */
 export const assumeRoleWithWebIdentity: API.OperationMethod<
-  AssumeRoleWithWebIdentityRequest,
+  AssumeRoleWithWebIdentityRequest & RegionInput,
   AssumeRoleWithWebIdentityResponse,
   AssumeRoleWithWebIdentityError,
   Creds | HttpClient.HttpClient
@@ -932,6 +953,8 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithWebIdentity",
+  telemetry: TELEMETRY,
+  span: "AssumeRoleWithWebIdentity",
 }));
 
 export type AssumeRootError = ExpiredTokenException | RegionDisabledException | CommonErrors;
@@ -959,7 +982,7 @@ export type AssumeRootError = ExpiredTokenException | RegionDisabledException | 
  * Guide for more information on SCPs.
  */
 export const assumeRoot: API.OperationMethod<
-  AssumeRootRequest,
+  AssumeRootRequest & RegionInput,
   AssumeRootResponse,
   AssumeRootError,
   Creds | HttpClient.HttpClient
@@ -970,6 +993,8 @@ export const assumeRoot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoot",
+  telemetry: TELEMETRY,
+  span: "AssumeRoot",
 }));
 
 export type DecodeAuthorizationMessageError = InvalidAuthorizationMessageException | CommonErrors;
@@ -1007,7 +1032,7 @@ export type DecodeAuthorizationMessageError = InvalidAuthorizationMessageExcepti
  * - The values of condition keys in the context of the user's request.
  */
 export const decodeAuthorizationMessage: API.OperationMethod<
-  DecodeAuthorizationMessageRequest,
+  DecodeAuthorizationMessageRequest & RegionInput,
   DecodeAuthorizationMessageResponse,
   DecodeAuthorizationMessageError,
   Creds | HttpClient.HttpClient
@@ -1018,6 +1043,8 @@ export const decodeAuthorizationMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecodeAuthorizationMessage",
+  telemetry: TELEMETRY,
+  span: "DecodeAuthorizationMessage",
 }));
 
 export type GetAccessKeyInfoError = CommonErrors;
@@ -1044,7 +1071,7 @@ export type GetAccessKeyInfoError = CommonErrors;
  * Providing a deleted access key might return an error that the key doesn't exist.
  */
 export const getAccessKeyInfo: API.OperationMethod<
-  GetAccessKeyInfoRequest,
+  GetAccessKeyInfoRequest & RegionInput,
   GetAccessKeyInfoResponse,
   GetAccessKeyInfoError,
   Creds | HttpClient.HttpClient
@@ -1055,6 +1082,8 @@ export const getAccessKeyInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyInfo",
+  telemetry: TELEMETRY,
+  span: "GetAccessKeyInfo",
 }));
 
 export type GetCallerIdentityError = CommonErrors;
@@ -1070,7 +1099,7 @@ export type GetCallerIdentityError = CommonErrors;
  * *IAM User Guide*.
  */
 export const getCallerIdentity: API.OperationMethod<
-  GetCallerIdentityRequest,
+  GetCallerIdentityRequest & RegionInput,
   GetCallerIdentityResponse,
   GetCallerIdentityError,
   Creds | HttpClient.HttpClient
@@ -1081,6 +1110,8 @@ export const getCallerIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallerIdentity",
+  telemetry: TELEMETRY,
+  span: "GetCallerIdentity",
 }));
 
 export type GetDelegatedAccessTokenError =
@@ -1095,7 +1126,7 @@ export type GetDelegatedAccessTokenError =
  * resources.
  */
 export const getDelegatedAccessToken: API.OperationMethod<
-  GetDelegatedAccessTokenRequest,
+  GetDelegatedAccessTokenRequest & RegionInput,
   GetDelegatedAccessTokenResponse,
   GetDelegatedAccessTokenError,
   Creds | HttpClient.HttpClient
@@ -1106,6 +1137,8 @@ export const getDelegatedAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetDelegatedAccessToken",
 }));
 
 export type GetFederationTokenError =
@@ -1207,7 +1240,7 @@ export type GetFederationTokenError =
  * the request takes precedence over the user tag.
  */
 export const getFederationToken: API.OperationMethod<
-  GetFederationTokenRequest,
+  GetFederationTokenRequest & RegionInput,
   GetFederationTokenResponse,
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
@@ -1222,6 +1255,8 @@ export const getFederationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFederationToken",
+  telemetry: TELEMETRY,
+  span: "GetFederationToken",
 }));
 
 export type GetSessionTokenError = RegionDisabledException | CommonErrors;
@@ -1283,7 +1318,7 @@ export type GetSessionTokenError = RegionDisabledException | CommonErrors;
  * *IAM User Guide*.
  */
 export const getSessionToken: API.OperationMethod<
-  GetSessionTokenRequest,
+  GetSessionTokenRequest & RegionInput,
   GetSessionTokenResponse,
   GetSessionTokenError,
   Creds | HttpClient.HttpClient
@@ -1294,6 +1329,8 @@ export const getSessionToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionToken",
+  telemetry: TELEMETRY,
+  span: "GetSessionToken",
 }));
 
 export type GetWebIdentityTokenError =
@@ -1309,7 +1346,7 @@ export type GetWebIdentityTokenError =
  * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
 export const getWebIdentityToken: API.OperationMethod<
-  GetWebIdentityTokenRequest,
+  GetWebIdentityTokenRequest & RegionInput,
   GetWebIdentityTokenResponse,
   GetWebIdentityTokenError,
   Creds | HttpClient.HttpClient
@@ -1324,6 +1361,8 @@ export const getWebIdentityToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebIdentityToken",
+  telemetry: TELEMETRY,
+  span: "GetWebIdentityToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

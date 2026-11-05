@@ -19,6 +19,19 @@ const __s: any[] = [];
 
 export type { DopplerOpError, DopplerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "doppler-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Doppler",
+  service: "Doppler",
+  labels: "doppler",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2935,6 +2948,8 @@ export const activityLogsList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivityLogsList",
 }));
 
 export type ActivityLogsRetrieveError = DopplerOpError;
@@ -2950,6 +2965,8 @@ export const activityLogsRetrieve: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivityLogsRetrieve",
 }));
 
 export type AddWebhookError = BadRequest | DopplerOpError;
@@ -2965,6 +2982,8 @@ export const addWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddWebhook",
 }));
 
 export type AuditGetUserError = DopplerOpError;
@@ -2980,6 +2999,8 @@ export const auditGetUser: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditGetUser",
 }));
 
 export type AuthMeError = BadRequest | DopplerOpError;
@@ -2995,6 +3016,8 @@ export const authMe: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthMe",
 }));
 
 export type AuthOidcError = DopplerOpError;
@@ -3010,6 +3033,8 @@ export const authOidc: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthOidc",
 }));
 
 export type AuthorizeCliAuthError = Conflict | DopplerOpError;
@@ -3025,6 +3050,8 @@ export const authorizeCliAuth: API.OperationMethod<
   errors: [Conflict, UnknownDopplerError],
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeCliAuth",
 }));
 
 export type CloneConfigError = DopplerOpError;
@@ -3040,6 +3067,8 @@ export const cloneConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneConfig",
 }));
 
 export type ConfigLogsGetError = DopplerOpError;
@@ -3055,6 +3084,8 @@ export const configLogsGet: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigLogsGet",
 }));
 
 export type ConfigLogsListError = DopplerOpError;
@@ -3070,6 +3101,8 @@ export const configLogsList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigLogsList",
 }));
 
 export type ConfigLogsRollbackError = DopplerOpError;
@@ -3085,6 +3118,8 @@ export const configLogsRollback: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigLogsRollback",
 }));
 
 export type ConfigsAddTrustedIpError = DopplerOpError;
@@ -3100,6 +3135,8 @@ export const configsAddTrustedIp: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigsAddTrustedIp",
 }));
 
 export type ConfigsDeleteTrustedIpError = NotFound | DopplerOpError;
@@ -3115,6 +3152,8 @@ export const configsDeleteTrustedIp: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigsDeleteTrustedIp",
 }));
 
 export type ConfigsInheritableError = DopplerOpError;
@@ -3130,6 +3169,8 @@ export const configsInheritable: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigsInheritable",
 }));
 
 export type ConfigsInheritsError = DopplerOpError;
@@ -3145,6 +3186,8 @@ export const configsInherits: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigsInherits",
 }));
 
 export type ConfigsListTrustedIpsError = DopplerOpError;
@@ -3160,6 +3203,8 @@ export const configsListTrustedIps: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigsListTrustedIps",
 }));
 
 export type CreateChangeRequestPolicyError = DopplerOpError;
@@ -3175,6 +3220,8 @@ export const createChangeRequestPolicy: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeRequestPolicy",
 }));
 
 export type CreateConfigError = DopplerOpError;
@@ -3190,6 +3237,8 @@ export const createConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type CreateEnvironmentError = DopplerOpError;
@@ -3205,6 +3254,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateGroupError = NotFound | DopplerOpError;
@@ -3220,6 +3271,8 @@ export const createGroup: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateIntegrationError = BadRequest | DopplerOpError;
@@ -3235,6 +3288,8 @@ export const createIntegration: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateIntegrationsIntegrationMemberError = DopplerOpError;
@@ -3250,6 +3305,8 @@ export const createIntegrationsIntegrationMember: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationsIntegrationMember",
 }));
 
 export type CreateProjectError = DopplerOpError;
@@ -3265,6 +3322,8 @@ export const createProject: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateSyncError = BadRequest | DopplerOpError;
@@ -3280,6 +3339,8 @@ export const createSync: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSync",
 }));
 
 export type DeleteChangeRequestPolicyError = DopplerOpError;
@@ -3295,6 +3356,8 @@ export const deleteChangeRequestPolicy: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChangeRequestPolicy",
 }));
 
 export type DeleteConfigError = DopplerOpError;
@@ -3310,6 +3373,8 @@ export const deleteConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type DeleteEnvironmentError = DopplerOpError;
@@ -3325,6 +3390,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteGroupError = DopplerOpError;
@@ -3340,6 +3407,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteIntegrationError = BadRequest | DopplerOpError;
@@ -3355,6 +3424,8 @@ export const deleteIntegration: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteProjectError = DopplerOpError;
@@ -3370,6 +3441,8 @@ export const deleteProject: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteSecretError = DopplerOpError;
@@ -3385,6 +3458,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type DeleteSyncError = BadRequest | DopplerOpError;
@@ -3400,6 +3475,8 @@ export const deleteSync: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSync",
 }));
 
 export type DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewError =
@@ -3423,6 +3500,8 @@ export const deleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsuni
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReview",
 }));
 
 export type DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityError =
@@ -3446,6 +3525,8 @@ export const deleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentit
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentity",
 }));
 
 export type DeleteWebhookError = BadRequest | DopplerOpError;
@@ -3461,6 +3542,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeleteWorkplaceIntegrationsIntegrationMemberError = DopplerOpError;
@@ -3480,6 +3563,8 @@ export const deleteWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkplaceIntegrationsIntegrationMember",
 }));
 
 export type DisableWebhookError = BadRequest | DopplerOpError;
@@ -3495,6 +3580,8 @@ export const disableWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableWebhook",
 }));
 
 export type DownloadSecretError = DopplerOpError;
@@ -3510,6 +3597,8 @@ export const downloadSecret: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadSecret",
 }));
 
 export type DynamicSecretsIssueLeaseError = DopplerOpError;
@@ -3525,6 +3614,8 @@ export const dynamicSecretsIssueLease: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DynamicSecretsIssueLease",
 }));
 
 export type DynamicSecretsRevokeLeaseError = DopplerOpError;
@@ -3540,6 +3631,8 @@ export const dynamicSecretsRevokeLease: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DynamicSecretsRevokeLease",
 }));
 
 export type EnableWebhookError = BadRequest | DopplerOpError;
@@ -3555,6 +3648,8 @@ export const enableWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableWebhook",
 }));
 
 export type GenerateCliAuthError = DopplerOpError;
@@ -3570,6 +3665,8 @@ export const generateCliAuth: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCliAuth",
 }));
 
 export type GetChangeRequestPolicyError = DopplerOpError;
@@ -3585,6 +3682,8 @@ export const getChangeRequestPolicy: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeRequestPolicy",
 }));
 
 export type GetConfigError = DopplerOpError;
@@ -3600,6 +3699,8 @@ export const getConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetEnvironmentError = DopplerOpError;
@@ -3615,6 +3716,8 @@ export const getEnvironment: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetGroupError = NotFound | DopplerOpError;
@@ -3630,6 +3733,8 @@ export const getGroup: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetIntegrationError = BadRequest | DopplerOpError;
@@ -3645,6 +3750,8 @@ export const getIntegration: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationsIntegrationMembersError = DopplerOpError;
@@ -3660,6 +3767,8 @@ export const getIntegrationsIntegrationMembers: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsIntegrationMembers",
 }));
 
 export type GetMemberError = NotFound | DopplerOpError;
@@ -3675,6 +3784,8 @@ export const getMember: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetOptionsError = BadRequest | DopplerOpError;
@@ -3690,6 +3801,8 @@ export const getOptions: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOptions",
 }));
 
 export type GetProjectError = DopplerOpError;
@@ -3705,6 +3818,8 @@ export const getProject: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetSecretError = DopplerOpError;
@@ -3720,6 +3835,8 @@ export const getSecret: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecret",
 }));
 
 export type GetSyncError = BadRequest | DopplerOpError;
@@ -3735,6 +3852,8 @@ export const getSync: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSync",
 }));
 
 export type GetUserError = DopplerOpError;
@@ -3750,6 +3869,8 @@ export const getUser: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetV3workplacechangeRequestsError = DopplerOpError;
@@ -3764,6 +3885,8 @@ export const getV3workplacechangeRequests: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV3workplacechangeRequests",
 }));
 
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdError = DopplerOpError;
@@ -3786,6 +3909,8 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV3workplacechangeRequestschangeRequestChangeRequestId",
 }));
 
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdError =
@@ -3809,6 +3934,8 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitId",
 }));
 
 export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesError =
@@ -3832,6 +3959,8 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentities",
 }));
 
 export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityError =
@@ -3855,6 +3984,8 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentity",
 }));
 
 export type GetWebhookError = BadRequest | DopplerOpError;
@@ -3870,6 +4001,8 @@ export const getWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWorkplaceError = DopplerOpError;
@@ -3885,6 +4018,8 @@ export const getWorkplace: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkplace",
 }));
 
 export type GetWorkplaceIntegrationsIntegrationMemberError = DopplerOpError;
@@ -3900,6 +4035,8 @@ export const getWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkplaceIntegrationsIntegrationMember",
 }));
 
 export type GroupsAddMemberError = Conflict | DopplerOpError;
@@ -3915,6 +4052,8 @@ export const groupsAddMember: API.OperationMethod<
   errors: [Conflict, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsAddMember",
 }));
 
 export type GroupsDeleteMemberError = DopplerOpError;
@@ -3930,6 +4069,8 @@ export const groupsDeleteMember: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsDeleteMember",
 }));
 
 export type ListChangeRequestPoliciesError = BadRequest | DopplerOpError;
@@ -3945,6 +4086,8 @@ export const listChangeRequestPolicies: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeRequestPolicies",
 }));
 
 export type ListConfigsError = DopplerOpError;
@@ -3960,6 +4103,8 @@ export const listConfigs: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigs",
 }));
 
 export type ListEnvironmentsError = DopplerOpError;
@@ -3975,6 +4120,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListGroupsError = DopplerOpError;
@@ -3990,6 +4137,8 @@ export const listGroups: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListIntegrationsError = DopplerOpError;
@@ -4005,6 +4154,8 @@ export const listIntegrations: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 }));
 
 export type ListInvitesError = DopplerOpError;
@@ -4020,6 +4171,8 @@ export const listInvites: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvites",
 }));
 
 export type ListProjectsError = DopplerOpError;
@@ -4035,6 +4188,8 @@ export const listProjects: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListSecretsError = DopplerOpError;
@@ -4050,6 +4205,8 @@ export const listSecrets: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecrets",
 }));
 
 export type ListUsersError = DopplerOpError;
@@ -4065,6 +4222,8 @@ export const listUsers: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListWebhooksError = BadRequest | DopplerOpError;
@@ -4080,6 +4239,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type LockConfigError = DopplerOpError;
@@ -4095,6 +4256,8 @@ export const lockConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockConfig",
 }));
 
 export type PostV3workplacechangeRequestsError = DopplerOpError;
@@ -4109,6 +4272,8 @@ export const postV3workplacechangeRequests: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequests",
 }));
 
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdError = DopplerOpError;
@@ -4131,6 +4296,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestId: API.Oper
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequestschangeRequestChangeRequestId",
 }));
 
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseError = DopplerOpError;
@@ -4153,6 +4320,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdClose: API
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequestschangeRequestChangeRequestIdClose",
 }));
 
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyError =
@@ -4176,6 +4345,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApply",
 }));
 
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewError =
@@ -4199,6 +4370,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReview",
 }));
 
 export type PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusError =
@@ -4222,6 +4395,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatus",
 }));
 
 export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesError =
@@ -4245,6 +4420,8 @@ export const postV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentities",
 }));
 
 export type ProjectMembersAddError = DopplerOpError;
@@ -4260,6 +4437,8 @@ export const projectMembersAdd: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersAdd",
 }));
 
 export type ProjectMembersDeleteError = DopplerOpError;
@@ -4275,6 +4454,8 @@ export const projectMembersDelete: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersDelete",
 }));
 
 export type ProjectMembersGetError = DopplerOpError;
@@ -4290,6 +4471,8 @@ export const projectMembersGet: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersGet",
 }));
 
 export type ProjectMembersListError = DopplerOpError;
@@ -4305,6 +4488,8 @@ export const projectMembersList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersList",
 }));
 
 export type ProjectMembersUpdateError = DopplerOpError;
@@ -4320,6 +4505,8 @@ export const projectMembersUpdate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersUpdate",
 }));
 
 export type ProjectRolesCreateError = DopplerOpError;
@@ -4335,6 +4522,8 @@ export const projectRolesCreate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesCreate",
 }));
 
 export type ProjectRolesDeleteError = NotFound | DopplerOpError;
@@ -4350,6 +4539,8 @@ export const projectRolesDelete: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesDelete",
 }));
 
 export type ProjectRolesGetError = NotFound | DopplerOpError;
@@ -4365,6 +4556,8 @@ export const projectRolesGet: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesGet",
 }));
 
 export type ProjectRolesListError = DopplerOpError;
@@ -4380,6 +4573,8 @@ export const projectRolesList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesList",
 }));
 
 export type ProjectRolesListPermissionsError = DopplerOpError;
@@ -4395,6 +4590,8 @@ export const projectRolesListPermissions: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesListPermissions",
 }));
 
 export type ProjectRolesUpdateError = NotFound | DopplerOpError;
@@ -4410,6 +4607,8 @@ export const projectRolesUpdate: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectRolesUpdate",
 }));
 
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdError = DopplerOpError;
@@ -4432,6 +4631,8 @@ export const putV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV3workplacechangeRequestschangeRequestChangeRequestId",
 }));
 
 export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityError =
@@ -4455,6 +4656,8 @@ export const putV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentity",
 }));
 
 export type RenameEnvironmentError = DopplerOpError;
@@ -4470,6 +4673,8 @@ export const renameEnvironment: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameEnvironment",
 }));
 
 export type RevokeAuthError = DopplerOpError;
@@ -4485,6 +4690,8 @@ export const revokeAuth: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAuth",
 }));
 
 export type RevokeCliAuthError = DopplerOpError;
@@ -4500,6 +4707,8 @@ export const revokeCliAuth: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCliAuth",
 }));
 
 export type SecretsNamesError = DopplerOpError;
@@ -4515,6 +4724,8 @@ export const secretsNames: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretsNames",
 }));
 
 export type SecretsUpdateNoteError = DopplerOpError;
@@ -4530,6 +4741,8 @@ export const secretsUpdateNote: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretsUpdateNote",
 }));
 
 export type ServiceAccountsCreateError = DopplerOpError;
@@ -4545,6 +4758,8 @@ export const serviceAccountsCreate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountsCreate",
 }));
 
 export type ServiceAccountsDeleteError = NotFound | DopplerOpError;
@@ -4560,6 +4775,8 @@ export const serviceAccountsDelete: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountsDelete",
 }));
 
 export type ServiceAccountsGetError = NotFound | DopplerOpError;
@@ -4575,6 +4792,8 @@ export const serviceAccountsGet: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountsGet",
 }));
 
 export type ServiceAccountsListError = DopplerOpError;
@@ -4590,6 +4809,8 @@ export const serviceAccountsList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountsList",
 }));
 
 export type ServiceAccountsUpdateError = NotFound | DopplerOpError;
@@ -4605,6 +4826,8 @@ export const serviceAccountsUpdate: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountsUpdate",
 }));
 
 export type ServiceAccountTokensCreateError = DopplerOpError;
@@ -4620,6 +4843,8 @@ export const serviceAccountTokensCreate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountTokensCreate",
 }));
 
 export type ServiceAccountTokensDeleteError = NotFound | DopplerOpError;
@@ -4635,6 +4860,8 @@ export const serviceAccountTokensDelete: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountTokensDelete",
 }));
 
 export type ServiceAccountTokensGetError = NotFound | DopplerOpError;
@@ -4650,6 +4877,8 @@ export const serviceAccountTokensGet: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountTokensGet",
 }));
 
 export type ServiceAccountTokensListError = DopplerOpError;
@@ -4665,6 +4894,8 @@ export const serviceAccountTokensList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceAccountTokensList",
 }));
 
 export type ServiceTokensCreateError = DopplerOpError;
@@ -4680,6 +4911,8 @@ export const serviceTokensCreate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceTokensCreate",
 }));
 
 export type ServiceTokensDeleteError = DopplerOpError;
@@ -4695,6 +4928,8 @@ export const serviceTokensDelete: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceTokensDelete",
 }));
 
 export type ServiceTokensListError = DopplerOpError;
@@ -4710,6 +4945,8 @@ export const serviceTokensList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceTokensList",
 }));
 
 export type ShareSecretError = DopplerOpError;
@@ -4725,6 +4962,8 @@ export const shareSecret: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareSecret",
 }));
 
 export type ShareSecretEncryptedError = DopplerOpError;
@@ -4740,6 +4979,8 @@ export const shareSecretEncrypted: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareSecretEncrypted",
 }));
 
 export type UnlockConfigError = DopplerOpError;
@@ -4755,6 +4996,8 @@ export const unlockConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockConfig",
 }));
 
 export type UpdateChangeRequestPolicyError = DopplerOpError;
@@ -4770,6 +5013,8 @@ export const updateChangeRequestPolicy: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeRequestPolicy",
 }));
 
 export type UpdateConfigError = DopplerOpError;
@@ -4785,6 +5030,8 @@ export const updateConfig: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateGroupError = NotFound | DopplerOpError;
@@ -4800,6 +5047,8 @@ export const updateGroup: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIntegrationError = BadRequest | DopplerOpError;
@@ -4815,6 +5064,8 @@ export const updateIntegration: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateIntegrationsIntegrationMemberError = DopplerOpError;
@@ -4830,6 +5081,8 @@ export const updateIntegrationsIntegrationMember: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationsIntegrationMember",
 }));
 
 export type UpdateProjectError = DopplerOpError;
@@ -4845,6 +5098,8 @@ export const updateProject: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateSecretError = DopplerOpError;
@@ -4860,6 +5115,8 @@ export const updateSecret: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecret",
 }));
 
 export type UpdateUserError = DopplerOpError;
@@ -4875,6 +5132,8 @@ export const updateUser: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateWebhookError = BadRequest | DopplerOpError;
@@ -4890,6 +5149,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpdateWorkplaceError = DopplerOpError;
@@ -4905,6 +5166,8 @@ export const updateWorkplace: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkplace",
 }));
 
 export type WorkplaceRolesCreateError = DopplerOpError;
@@ -4920,6 +5183,8 @@ export const workplaceRolesCreate: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesCreate",
 }));
 
 export type WorkplaceRolesDeleteError = NotFound | DopplerOpError;
@@ -4935,6 +5200,8 @@ export const workplaceRolesDelete: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesDelete",
 }));
 
 export type WorkplaceRolesGetError = NotFound | DopplerOpError;
@@ -4950,6 +5217,8 @@ export const workplaceRolesGet: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesGet",
 }));
 
 export type WorkplaceRolesListError = DopplerOpError;
@@ -4965,6 +5234,8 @@ export const workplaceRolesList: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesList",
 }));
 
 export type WorkplaceRolesListPermissionsError = DopplerOpError;
@@ -4980,6 +5251,8 @@ export const workplaceRolesListPermissions: API.OperationMethod<
   errors: [UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesListPermissions",
 }));
 
 export type WorkplaceRolesUpdateError = NotFound | DopplerOpError;
@@ -4995,6 +5268,8 @@ export const workplaceRolesUpdate: API.OperationMethod<
   errors: [NotFound, UnknownDopplerError],
   protocol: DopplerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkplaceRolesUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -67,12 +67,16 @@ export const metadataServerSource = (config: MetadataServerConfig = {}): TokenSo
     );
     const token = yield* oauthToken(step, body, issuedAt);
     if (config.project !== undefined) return token;
+    // No project (404 or an empty answer) is not an error; a failed read is.
     const project = yield* requestText(
       "Reading the project id from the metadata server",
       metadataRequest("project/project-id"),
     ).pipe(
-      Effect.map(({ text }) => text.trim() || undefined),
-      Effect.orElseSucceed(() => undefined),
+      Effect.map(({ text }): string | undefined => text.trim() || undefined),
+      Effect.catchIf(
+        (error) => error.status === 404,
+        () => Effect.succeed(undefined),
+      ),
     );
     return { ...token, project };
   });

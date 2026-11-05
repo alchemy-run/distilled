@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Projects",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -559,6 +577,7 @@ export interface NullableIntegrationPermissions {
   metadata?: string;
   contents?: string;
   deployments?: string;
+  [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
 export type NullableIntegrationEventsList = Array<string>;
@@ -1448,6 +1467,8 @@ export const addFieldForOrg: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFieldForOrg",
 }));
 
 export type AddFieldForUserError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1463,6 +1484,8 @@ export const addFieldForUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFieldForUser",
 }));
 
 export type AddItemForOrgError = Forbidden | GithubOpError;
@@ -1478,6 +1501,8 @@ export const addItemForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddItemForOrg",
 }));
 
 export type AddItemForUserError = Forbidden | GithubOpError;
@@ -1493,6 +1518,8 @@ export const addItemForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddItemForUser",
 }));
 
 export type CreateDraftItemForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1508,6 +1535,8 @@ export const createDraftItemForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDraftItemForAuthenticatedUser",
 }));
 
 export type CreateDraftItemForOrgError = Forbidden | GithubOpError;
@@ -1523,6 +1552,8 @@ export const createDraftItemForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDraftItemForOrg",
 }));
 
 export type CreateViewForOrgError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1538,6 +1569,8 @@ export const createViewForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateViewForOrg",
 }));
 
 export type CreateViewForUserError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1553,6 +1586,8 @@ export const createViewForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateViewForUser",
 }));
 
 export type DeleteItemForOrgError = Forbidden | GithubOpError;
@@ -1568,6 +1603,8 @@ export const deleteItemForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItemForOrg",
 }));
 
 export type DeleteItemForUserError = Forbidden | GithubOpError;
@@ -1583,6 +1620,8 @@ export const deleteItemForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItemForUser",
 }));
 
 export type GetFieldForOrgError = Forbidden | GithubOpError;
@@ -1598,6 +1637,8 @@ export const getFieldForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldForOrg",
 }));
 
 export type GetFieldForUserError = Forbidden | GithubOpError;
@@ -1613,6 +1654,8 @@ export const getFieldForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldForUser",
 }));
 
 export type GetForOrgError = Forbidden | GithubOpError;
@@ -1628,6 +1671,8 @@ export const getForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForOrg",
 }));
 
 export type GetForUserError = Forbidden | GithubOpError;
@@ -1643,6 +1688,8 @@ export const getForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForUser",
 }));
 
 export type GetOrgItemError = Forbidden | GithubOpError;
@@ -1658,6 +1705,8 @@ export const getOrgItem: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgItem",
 }));
 
 export type GetUserItemError = Forbidden | GithubOpError;
@@ -1673,6 +1722,8 @@ export const getUserItem: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserItem",
 }));
 
 export type ListFieldsForOrgError = Forbidden | GithubOpError;
@@ -1688,6 +1739,8 @@ export const listFieldsForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFieldsForOrg",
 }));
 
 export type ListFieldsForUserError = Forbidden | GithubOpError;
@@ -1703,6 +1756,8 @@ export const listFieldsForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFieldsForUser",
 }));
 
 export type ListForOrgError = Forbidden | GithubOpError;
@@ -1718,6 +1773,8 @@ export const listForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForOrg",
 }));
 
 export type ListForUserError = Forbidden | GithubOpError;
@@ -1733,6 +1790,8 @@ export const listForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForUser",
 }));
 
 export type ListItemsForOrgError = Forbidden | GithubOpError;
@@ -1748,6 +1807,8 @@ export const listItemsForOrg: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItemsForOrg",
 }));
 
 export type ListItemsForUserError = Forbidden | GithubOpError;
@@ -1763,6 +1824,8 @@ export const listItemsForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItemsForUser",
 }));
 
 export type ListViewItemsForOrgError = Forbidden | NotFound | GithubOpError;
@@ -1778,6 +1841,8 @@ export const listViewItemsForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListViewItemsForOrg",
 }));
 
 export type ListViewItemsForUserError = Forbidden | NotFound | GithubOpError;
@@ -1793,6 +1858,8 @@ export const listViewItemsForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListViewItemsForUser",
 }));
 
 export type UpdateItemForOrgError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1808,6 +1875,8 @@ export const updateItemForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItemForOrg",
 }));
 
 export type UpdateItemForUserError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1823,6 +1892,8 @@ export const updateItemForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItemForUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

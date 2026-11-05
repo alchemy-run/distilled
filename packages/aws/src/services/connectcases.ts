@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cases.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectCases",
+  service: "ConnectCases",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1228,7 +1244,7 @@ export type BatchGetCaseRuleError =
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const batchGetCaseRule: API.OperationMethod<
-  BatchGetCaseRuleRequest,
+  BatchGetCaseRuleRequest & RegionInput,
   BatchGetCaseRuleResponse,
   BatchGetCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1245,6 +1261,8 @@ export const batchGetCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCaseRule",
+  telemetry: TELEMETRY,
+  span: "BatchGetCaseRule",
 }));
 
 export type BatchGetFieldError =
@@ -1258,7 +1276,7 @@ export type BatchGetFieldError =
  * Returns the description for the list of fields in the request parameters.
  */
 export const batchGetField: API.OperationMethod<
-  BatchGetFieldRequest,
+  BatchGetFieldRequest & RegionInput,
   BatchGetFieldResponse,
   BatchGetFieldError,
   Credentials | HttpClient.HttpClient
@@ -1275,6 +1293,8 @@ export const batchGetField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetField",
+  telemetry: TELEMETRY,
+  span: "BatchGetField",
 }));
 
 export type BatchPutFieldOptionsError =
@@ -1289,7 +1309,7 @@ export type BatchPutFieldOptionsError =
  * Creates and updates a set of field options for a single select field in a Cases domain.
  */
 export const batchPutFieldOptions: API.OperationMethod<
-  BatchPutFieldOptionsRequest,
+  BatchPutFieldOptionsRequest & RegionInput,
   BatchPutFieldOptionsResponse,
   BatchPutFieldOptionsError,
   Credentials | HttpClient.HttpClient
@@ -1307,6 +1327,8 @@ export const batchPutFieldOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutFieldOptions",
+  telemetry: TELEMETRY,
+  span: "BatchPutFieldOptions",
 }));
 
 export type CreateCaseError =
@@ -1331,7 +1353,7 @@ export type CreateCaseError =
  * - `title`
  */
 export const createCase: API.OperationMethod<
-  CreateCaseRequest,
+  CreateCaseRequest & RegionInput,
   CreateCaseResponse,
   CreateCaseError,
   Credentials | HttpClient.HttpClient
@@ -1349,6 +1371,8 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type CreateCaseRuleError =
@@ -1364,7 +1388,7 @@ export type CreateCaseRuleError =
  * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const createCaseRule: API.OperationMethod<
-  CreateCaseRuleRequest,
+  CreateCaseRuleRequest & RegionInput,
   CreateCaseRuleResponse,
   CreateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1383,6 +1407,8 @@ export const createCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseRule",
+  telemetry: TELEMETRY,
+  span: "CreateCaseRule",
 }));
 
 export type CreateDomainError =
@@ -1399,7 +1425,7 @@ export type CreateDomainError =
  * This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1417,6 +1443,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateFieldError =
@@ -1432,7 +1460,7 @@ export type CreateFieldError =
  * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
  */
 export const createField: API.OperationMethod<
-  CreateFieldRequest,
+  CreateFieldRequest & RegionInput,
   CreateFieldResponse,
   CreateFieldError,
   Credentials | HttpClient.HttpClient
@@ -1451,6 +1479,8 @@ export const createField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateField",
+  telemetry: TELEMETRY,
+  span: "CreateField",
 }));
 
 export type CreateLayoutError =
@@ -1472,7 +1502,7 @@ export type CreateLayoutError =
  * Title and Status fields cannot be part of layouts since they are not configurable.
  */
 export const createLayout: API.OperationMethod<
-  CreateLayoutRequest,
+  CreateLayoutRequest & RegionInput,
   CreateLayoutResponse,
   CreateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1491,6 +1521,8 @@ export const createLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLayout",
+  telemetry: TELEMETRY,
+  span: "CreateLayout",
 }));
 
 export type CreateRelatedItemError =
@@ -1535,7 +1567,7 @@ export type CreateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const createRelatedItem: API.OperationMethod<
-  CreateRelatedItemRequest,
+  CreateRelatedItemRequest & RegionInput,
   CreateRelatedItemResponse,
   CreateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1553,6 +1585,8 @@ export const createRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelatedItem",
+  telemetry: TELEMETRY,
+  span: "CreateRelatedItem",
 }));
 
 export type CreateTemplateError =
@@ -1578,7 +1612,7 @@ export type CreateTemplateError =
  * - UpdateTemplate
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1597,6 +1631,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type DeleteCaseError =
@@ -1618,7 +1654,7 @@ export type DeleteCaseError =
  * This action is irreversible. After you delete a case, you cannot recover its data.
  */
 export const deleteCase: API.OperationMethod<
-  DeleteCaseRequest,
+  DeleteCaseRequest & RegionInput,
   DeleteCaseResponse,
   DeleteCaseError,
   Credentials | HttpClient.HttpClient
@@ -1635,6 +1671,8 @@ export const deleteCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCase",
+  telemetry: TELEMETRY,
+  span: "DeleteCase",
 }));
 
 export type DeleteCaseRuleError =
@@ -1648,7 +1686,7 @@ export type DeleteCaseRuleError =
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const deleteCaseRule: API.OperationMethod<
-  DeleteCaseRuleRequest,
+  DeleteCaseRuleRequest & RegionInput,
   DeleteCaseRuleResponse,
   DeleteCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -1665,6 +1703,8 @@ export const deleteCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCaseRule",
+  telemetry: TELEMETRY,
+  span: "DeleteCaseRule",
 }));
 
 export type DeleteDomainError =
@@ -1681,7 +1721,7 @@ export type DeleteDomainError =
  * After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1699,6 +1739,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteFieldError =
@@ -1740,7 +1782,7 @@ export type DeleteFieldError =
  * - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
  */
 export const deleteField: API.OperationMethod<
-  DeleteFieldRequest,
+  DeleteFieldRequest & RegionInput,
   DeleteFieldResponse,
   DeleteFieldError,
   Credentials | HttpClient.HttpClient
@@ -1759,6 +1801,8 @@ export const deleteField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteField",
+  telemetry: TELEMETRY,
+  span: "DeleteField",
 }));
 
 export type DeleteLayoutError =
@@ -1781,7 +1825,7 @@ export type DeleteLayoutError =
  * - Deleted layouts are not included in the `ListLayouts` response.
  */
 export const deleteLayout: API.OperationMethod<
-  DeleteLayoutRequest,
+  DeleteLayoutRequest & RegionInput,
   DeleteLayoutResponse,
   DeleteLayoutError,
   Credentials | HttpClient.HttpClient
@@ -1799,6 +1843,8 @@ export const deleteLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayout",
+  telemetry: TELEMETRY,
+  span: "DeleteLayout",
 }));
 
 export type DeleteRelatedItemError =
@@ -1814,7 +1860,7 @@ export type DeleteRelatedItemError =
  * This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
  */
 export const deleteRelatedItem: API.OperationMethod<
-  DeleteRelatedItemRequest,
+  DeleteRelatedItemRequest & RegionInput,
   DeleteRelatedItemResponse,
   DeleteRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -1831,6 +1877,8 @@ export const deleteRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelatedItem",
+  telemetry: TELEMETRY,
+  span: "DeleteRelatedItem",
 }));
 
 export type DeleteTemplateError =
@@ -1855,7 +1903,7 @@ export type DeleteTemplateError =
  * - Deleted templates are not included in the `ListTemplates` response.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1873,6 +1921,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type GetCaseError =
@@ -1886,7 +1936,7 @@ export type GetCaseError =
  * Returns information about a specific case if it exists.
  */
 export const getCase: API.PaginatedOperationMethod<
-  GetCaseRequest,
+  GetCaseRequest & RegionInput,
   GetCaseResponse,
   GetCaseError,
   Credentials | HttpClient.HttpClient,
@@ -1905,6 +1955,8 @@ export const getCase: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCase",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetCase",
 })) as any;
 
 export type GetCaseAuditEventsError =
@@ -1918,7 +1970,7 @@ export type GetCaseAuditEventsError =
  * Returns the audit history about a specific case if it exists.
  */
 export const getCaseAuditEvents: API.PaginatedOperationMethod<
-  GetCaseAuditEventsRequest,
+  GetCaseAuditEventsRequest & RegionInput,
   GetCaseAuditEventsResponse,
   GetCaseAuditEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1941,6 +1993,8 @@ export const getCaseAuditEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCaseAuditEvents",
 })) as any;
 
 export type GetCaseEventConfigurationError =
@@ -1954,7 +2008,7 @@ export type GetCaseEventConfigurationError =
  * Returns the case event publishing configuration.
  */
 export const getCaseEventConfiguration: API.OperationMethod<
-  GetCaseEventConfigurationRequest,
+  GetCaseEventConfigurationRequest & RegionInput,
   GetCaseEventConfigurationResponse,
   GetCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1971,6 +2025,8 @@ export const getCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCaseEventConfiguration",
 }));
 
 export type GetDomainError =
@@ -1984,7 +2040,7 @@ export type GetDomainError =
  * Returns information about a specific domain if it exists.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -2001,6 +2057,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetLayoutError =
@@ -2014,7 +2072,7 @@ export type GetLayoutError =
  * Returns the details for the requested layout.
  */
 export const getLayout: API.OperationMethod<
-  GetLayoutRequest,
+  GetLayoutRequest & RegionInput,
   GetLayoutResponse,
   GetLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2031,6 +2089,8 @@ export const getLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayout",
+  telemetry: TELEMETRY,
+  span: "GetLayout",
 }));
 
 export type GetTemplateError =
@@ -2052,7 +2112,7 @@ export type GetTemplateError =
  * - UpdateTemplate
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2069,6 +2129,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type ListCaseRulesError =
@@ -2082,7 +2144,7 @@ export type ListCaseRulesError =
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const listCaseRules: API.PaginatedOperationMethod<
-  ListCaseRulesRequest,
+  ListCaseRulesRequest & RegionInput,
   ListCaseRulesResponse,
   ListCaseRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2106,6 +2168,8 @@ export const listCaseRules: API.PaginatedOperationMethod<
     items: "caseRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCaseRules",
 })) as any;
 
 export type ListCasesForContactError =
@@ -2119,7 +2183,7 @@ export type ListCasesForContactError =
  * Lists cases for a given contact.
  */
 export const listCasesForContact: API.PaginatedOperationMethod<
-  ListCasesForContactRequest,
+  ListCasesForContactRequest & RegionInput,
   ListCasesForContactResponse,
   ListCasesForContactError,
   Credentials | HttpClient.HttpClient,
@@ -2142,6 +2206,8 @@ export const listCasesForContact: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCasesForContact",
 })) as any;
 
 export type ListDomainsError =
@@ -2154,7 +2220,7 @@ export type ListDomainsError =
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2176,6 +2242,8 @@ export const listDomains: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListFieldOptionsError =
@@ -2189,7 +2257,7 @@ export type ListFieldOptionsError =
  * Lists all of the field options for a field identifier in the domain.
  */
 export const listFieldOptions: API.PaginatedOperationMethod<
-  ListFieldOptionsRequest,
+  ListFieldOptionsRequest & RegionInput,
   ListFieldOptionsResponse,
   ListFieldOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -2212,6 +2280,8 @@ export const listFieldOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFieldOptions",
 })) as any;
 
 export type ListFieldsError =
@@ -2225,7 +2295,7 @@ export type ListFieldsError =
  * Lists all fields in a Cases domain.
  */
 export const listFields: API.PaginatedOperationMethod<
-  ListFieldsRequest,
+  ListFieldsRequest & RegionInput,
   ListFieldsResponse,
   ListFieldsError,
   Credentials | HttpClient.HttpClient,
@@ -2248,6 +2318,8 @@ export const listFields: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFields",
 })) as any;
 
 export type ListLayoutsError =
@@ -2261,7 +2333,7 @@ export type ListLayoutsError =
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
 export const listLayouts: API.PaginatedOperationMethod<
-  ListLayoutsRequest,
+  ListLayoutsRequest & RegionInput,
   ListLayoutsResponse,
   ListLayoutsError,
   Credentials | HttpClient.HttpClient,
@@ -2284,6 +2356,8 @@ export const listLayouts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLayouts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2297,7 +2371,7 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2314,6 +2388,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -2337,7 +2413,7 @@ export type ListTemplatesError =
  * - UpdateTemplate
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2360,6 +2436,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type PutCaseEventConfigurationError =
@@ -2374,7 +2452,7 @@ export type PutCaseEventConfigurationError =
  * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
  */
 export const putCaseEventConfiguration: API.OperationMethod<
-  PutCaseEventConfigurationRequest,
+  PutCaseEventConfigurationRequest & RegionInput,
   PutCaseEventConfigurationResponse,
   PutCaseEventConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2392,6 +2470,8 @@ export const putCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCaseEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutCaseEventConfiguration",
 }));
 
 export type SearchAllRelatedItemsError =
@@ -2423,7 +2503,7 @@ export type SearchAllRelatedItemsError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const searchAllRelatedItems: API.PaginatedOperationMethod<
-  SearchAllRelatedItemsRequest,
+  SearchAllRelatedItemsRequest & RegionInput,
   SearchAllRelatedItemsResponse,
   SearchAllRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2447,6 +2527,8 @@ export const searchAllRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAllRelatedItems",
 })) as any;
 
 export type SearchCasesError =
@@ -2462,7 +2544,7 @@ export type SearchCasesError =
  * For `customer_id` you must provide the full customer profile ARN in this format: ` arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
  */
 export const searchCases: API.PaginatedOperationMethod<
-  SearchCasesRequest,
+  SearchCasesRequest & RegionInput,
   SearchCasesResponse,
   SearchCasesError,
   Credentials | HttpClient.HttpClient,
@@ -2486,6 +2568,8 @@ export const searchCases: API.PaginatedOperationMethod<
     items: "cases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchCases",
 })) as any;
 
 export type SearchRelatedItemsError =
@@ -2501,7 +2585,7 @@ export type SearchRelatedItemsError =
  * If no filters are provided, this returns all related items associated with a case.
  */
 export const searchRelatedItems: API.PaginatedOperationMethod<
-  SearchRelatedItemsRequest,
+  SearchRelatedItemsRequest & RegionInput,
   SearchRelatedItemsResponse,
   SearchRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2525,6 +2609,8 @@ export const searchRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRelatedItems",
 })) as any;
 
 export type TagResourceError =
@@ -2538,7 +2624,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2555,6 +2641,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2568,7 +2656,7 @@ export type UntagResourceError =
  * Untags a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2585,6 +2673,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCaseError =
@@ -2602,7 +2692,7 @@ export type UpdateCaseError =
  * If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
  */
 export const updateCase: API.OperationMethod<
-  UpdateCaseRequest,
+  UpdateCaseRequest & RegionInput,
   UpdateCaseResponse,
   UpdateCaseError,
   Credentials | HttpClient.HttpClient
@@ -2619,6 +2709,8 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
+  telemetry: TELEMETRY,
+  span: "UpdateCase",
 }));
 
 export type UpdateCaseRuleError =
@@ -2634,7 +2726,7 @@ export type UpdateCaseRuleError =
  * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
 export const updateCaseRule: API.OperationMethod<
-  UpdateCaseRuleRequest,
+  UpdateCaseRuleRequest & RegionInput,
   UpdateCaseRuleResponse,
   UpdateCaseRuleError,
   Credentials | HttpClient.HttpClient
@@ -2653,6 +2745,8 @@ export const updateCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseRule",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseRule",
 }));
 
 export type UpdateFieldError =
@@ -2667,7 +2761,7 @@ export type UpdateFieldError =
  * Updates the properties of an existing field.
  */
 export const updateField: API.OperationMethod<
-  UpdateFieldRequest,
+  UpdateFieldRequest & RegionInput,
   UpdateFieldResponse,
   UpdateFieldError,
   Credentials | HttpClient.HttpClient
@@ -2685,6 +2779,8 @@ export const updateField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateField",
+  telemetry: TELEMETRY,
+  span: "UpdateField",
 }));
 
 export type UpdateLayoutError =
@@ -2706,7 +2802,7 @@ export type UpdateLayoutError =
  * Title and Status fields cannot be part of layouts because they are not configurable.
  */
 export const updateLayout: API.OperationMethod<
-  UpdateLayoutRequest,
+  UpdateLayoutRequest & RegionInput,
   UpdateLayoutResponse,
   UpdateLayoutError,
   Credentials | HttpClient.HttpClient
@@ -2725,6 +2821,8 @@ export const updateLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLayout",
+  telemetry: TELEMETRY,
+  span: "UpdateLayout",
 }));
 
 export type UpdateRelatedItemError =
@@ -2753,7 +2851,7 @@ export type UpdateRelatedItemError =
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
 export const updateRelatedItem: API.OperationMethod<
-  UpdateRelatedItemRequest,
+  UpdateRelatedItemRequest & RegionInput,
   UpdateRelatedItemResponse,
   UpdateRelatedItemError,
   Credentials | HttpClient.HttpClient
@@ -2771,6 +2869,8 @@ export const updateRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItem",
+  telemetry: TELEMETRY,
+  span: "UpdateRelatedItem",
 }));
 
 export type UpdateTemplateError =
@@ -2796,7 +2896,7 @@ export type UpdateTemplateError =
  * - ListTemplates
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2815,6 +2915,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

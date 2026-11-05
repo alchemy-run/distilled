@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://networkmonitor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkMonitor",
+  service: "NetworkMonitor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -357,7 +373,7 @@ export type CreateMonitorError =
  * probe.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorInput,
+  CreateMonitorInput & RegionInput,
   CreateMonitorOutput,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -375,6 +391,8 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateProbeError =
@@ -393,7 +411,7 @@ export type CreateProbeError =
  * probe for.
  */
 export const createProbe: API.OperationMethod<
-  CreateProbeInput,
+  CreateProbeInput & RegionInput,
   CreateProbeOutput,
   CreateProbeError,
   Credentials | HttpClient.HttpClient
@@ -411,6 +429,8 @@ export const createProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProbe",
+  telemetry: TELEMETRY,
+  span: "CreateProbe",
 }));
 
 export type DeleteMonitorError =
@@ -427,7 +447,7 @@ export type DeleteMonitorError =
  * `ListMonitors` to get a list of monitor names.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorInput,
+  DeleteMonitorInput & RegionInput,
   DeleteMonitorOutput,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
@@ -444,6 +464,8 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteProbeError =
@@ -464,7 +486,7 @@ export type DeleteProbeError =
  * single probe at a time using this action.
  */
 export const deleteProbe: API.OperationMethod<
-  DeleteProbeInput,
+  DeleteProbeInput & RegionInput,
   DeleteProbeOutput,
   DeleteProbeError,
   Credentials | HttpClient.HttpClient
@@ -482,6 +504,8 @@ export const deleteProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProbe",
+  telemetry: TELEMETRY,
+  span: "DeleteProbe",
 }));
 
 export type GetMonitorError =
@@ -498,7 +522,7 @@ export type GetMonitorError =
  * `ListMonitors` to get a list of monitor names.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorInput,
+  GetMonitorInput & RegionInput,
   GetMonitorOutput,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
@@ -515,6 +539,8 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetProbeError =
@@ -531,7 +557,7 @@ export type GetProbeError =
  * `GetMonitor` to get a list of probes and probe IDs.
  */
 export const getProbe: API.OperationMethod<
-  GetProbeInput,
+  GetProbeInput & RegionInput,
   GetProbeOutput,
   GetProbeError,
   Credentials | HttpClient.HttpClient
@@ -548,6 +574,8 @@ export const getProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProbe",
+  telemetry: TELEMETRY,
+  span: "GetProbe",
 }));
 
 export type ListMonitorsError =
@@ -560,7 +588,7 @@ export type ListMonitorsError =
  * Returns a list of all of your monitors.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsInput,
+  ListMonitorsInput & RegionInput,
   ListMonitorsOutput,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
@@ -583,6 +611,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -597,7 +627,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to this resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -615,6 +645,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -629,7 +661,7 @@ export type TagResourceError =
  * Adds key-value pairs to a monitor or probe.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -647,6 +679,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -661,7 +695,7 @@ export type UntagResourceError =
  * Removes a key-value pair from a monitor or probe.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -679,6 +713,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMonitorError =
@@ -696,7 +732,7 @@ export type UpdateMonitorError =
  * Run `ListMonitors` to get a list of monitor names.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorInput,
+  UpdateMonitorInput & RegionInput,
   UpdateMonitorOutput,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
@@ -714,6 +750,8 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateProbeError =
@@ -748,7 +786,7 @@ export type UpdateProbeError =
  * probe.
  */
 export const updateProbe: API.OperationMethod<
-  UpdateProbeInput,
+  UpdateProbeInput & RegionInput,
   UpdateProbeOutput,
   UpdateProbeError,
   Credentials | HttpClient.HttpClient
@@ -766,6 +804,8 @@ export const updateProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProbe",
+  telemetry: TELEMETRY,
+  span: "UpdateProbe",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

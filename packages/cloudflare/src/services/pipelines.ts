@@ -54,6 +54,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workerBinding: "worker_binding",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Pipelines",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 /** 1000: the stream does not exist (HTTP ingest). */
 export class IngestStreamNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -2528,6 +2542,8 @@ export const createPipeline: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreateSinkError =
@@ -2553,6 +2569,8 @@ export const createSink: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSink",
 }));
 
 export type CreateStreamError = InvalidStreamName | StreamAlreadyExists | CloudflareOpError;
@@ -2568,6 +2586,8 @@ export const createStream: API.OperationMethod<
   errors: [InvalidStreamName, StreamAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type CreateV1PipelineError =
@@ -2593,6 +2613,8 @@ export const createV1Pipeline: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV1Pipeline",
 }));
 
 export type DeletePipelineError = PipelineNotExists | CloudflareOpError;
@@ -2608,6 +2630,8 @@ export const deletePipeline: API.OperationMethod<
   errors: [PipelineNotExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeleteSinkError = SinkNotFound | InvalidSinkId | SinkInUse | CloudflareOpError;
@@ -2623,6 +2647,8 @@ export const deleteSink: API.OperationMethod<
   errors: [SinkNotFound, InvalidSinkId, SinkInUse, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSink",
 }));
 
 export type DeleteStreamError =
@@ -2650,6 +2676,8 @@ export const deleteStream: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type DeleteV1PipelineError = PipelineNotExists | CloudflareOpError;
@@ -2665,6 +2693,8 @@ export const deleteV1Pipeline: API.OperationMethod<
   errors: [PipelineNotExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1Pipeline",
 }));
 
 export type GetPipelineError = PipelineNotExists | CloudflareOpError;
@@ -2680,6 +2710,8 @@ export const getPipeline: API.OperationMethod<
   errors: [PipelineNotExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetSinkError = SinkNotFound | InvalidSinkId | CloudflareOpError;
@@ -2695,6 +2727,8 @@ export const getSink: API.OperationMethod<
   errors: [SinkNotFound, InvalidSinkId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSink",
 }));
 
 export type GetStreamError = StreamNotFound | InvalidStreamId | CloudflareOpError;
@@ -2710,6 +2744,8 @@ export const getStream: API.OperationMethod<
   errors: [StreamNotFound, InvalidStreamId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStream",
 }));
 
 export type GetV1PipelineError = PipelineNotExists | CloudflareOpError;
@@ -2725,6 +2761,8 @@ export const getV1Pipeline: API.OperationMethod<
   errors: [PipelineNotExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1Pipeline",
 }));
 
 export type ListPipelinesError = CloudflareOpError;
@@ -2742,6 +2780,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPipelines",
     pagination: { inputToken: "page", pageSize: "per_page", items: "results" } as const,
   }),
   cloudflarePaginate,
@@ -2762,6 +2802,8 @@ export const listSinks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSinks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2788,6 +2830,8 @@ export const listStreams: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStreams",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2814,6 +2858,8 @@ export const listV1Pipeline: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV1Pipeline",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -2838,6 +2884,8 @@ export const patchStream: API.OperationMethod<
   errors: [StreamNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStream",
 }));
 
 export type SendStreamRecordsError = IngestStreamNotFound | InvalidIngestData | CloudflareOpError;
@@ -2853,6 +2901,8 @@ export const sendStreamRecords: API.OperationMethod<
   errors: [IngestStreamNotFound, InvalidIngestData, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendStreamRecords",
 }));
 
 export type UpdatePipelineError = PipelineNotExists | CloudflareOpError;
@@ -2868,6 +2918,8 @@ export const updatePipeline: API.OperationMethod<
   errors: [PipelineNotExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type ValidateSqlPipelineError = TableNotFound | InvalidSql | CloudflareOpError;
@@ -2883,6 +2935,8 @@ export const validateSqlPipeline: API.OperationMethod<
   errors: [TableNotFound, InvalidSql, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSqlPipeline",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

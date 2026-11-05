@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://connect-campaigns.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectCampaignsV2",
+  service: "ConnectCampaignsV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -794,7 +810,7 @@ export type CreateCampaignError =
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -813,6 +829,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type DeleteCampaignError =
@@ -825,7 +843,7 @@ export type DeleteCampaignError =
  * Deletes a campaign from the specified Amazon Connect account.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -841,6 +859,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteCampaignChannelSubtypeConfigError =
@@ -854,7 +874,7 @@ export type DeleteCampaignChannelSubtypeConfigError =
  * Deletes the channel subtype config of a campaign. This API is idempotent.
  */
 export const deleteCampaignChannelSubtypeConfig: API.OperationMethod<
-  DeleteCampaignChannelSubtypeConfigRequest,
+  DeleteCampaignChannelSubtypeConfigRequest & RegionInput,
   DeleteCampaignChannelSubtypeConfigResponse,
   DeleteCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -871,6 +891,8 @@ export const deleteCampaignChannelSubtypeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignChannelSubtypeConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignChannelSubtypeConfig",
 }));
 
 export type DeleteCampaignCommunicationLimitsError =
@@ -885,7 +907,7 @@ export type DeleteCampaignCommunicationLimitsError =
  * Deletes the communication limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationLimits: API.OperationMethod<
-  DeleteCampaignCommunicationLimitsRequest,
+  DeleteCampaignCommunicationLimitsRequest & RegionInput,
   DeleteCampaignCommunicationLimitsResponse,
   DeleteCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -903,6 +925,8 @@ export const deleteCampaignCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignCommunicationLimits",
 }));
 
 export type DeleteCampaignCommunicationTimeError =
@@ -917,7 +941,7 @@ export type DeleteCampaignCommunicationTimeError =
  * Deletes the communication time config for a campaign. This API is idempotent.
  */
 export const deleteCampaignCommunicationTime: API.OperationMethod<
-  DeleteCampaignCommunicationTimeRequest,
+  DeleteCampaignCommunicationTimeRequest & RegionInput,
   DeleteCampaignCommunicationTimeResponse,
   DeleteCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -935,6 +959,8 @@ export const deleteCampaignCommunicationTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignCommunicationTime",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignCommunicationTime",
 }));
 
 export type DeleteCampaignEntryLimitsError =
@@ -949,7 +975,7 @@ export type DeleteCampaignEntryLimitsError =
  * Deletes the entry limits config for a campaign. This API is idempotent.
  */
 export const deleteCampaignEntryLimits: API.OperationMethod<
-  DeleteCampaignEntryLimitsRequest,
+  DeleteCampaignEntryLimitsRequest & RegionInput,
   DeleteCampaignEntryLimitsResponse,
   DeleteCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -967,6 +993,8 @@ export const deleteCampaignEntryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignEntryLimits",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignEntryLimits",
 }));
 
 export type DeleteConnectInstanceConfigError =
@@ -981,7 +1009,7 @@ export type DeleteConnectInstanceConfigError =
  * Deletes a connect instance config from the specified AWS account.
  */
 export const deleteConnectInstanceConfig: API.OperationMethod<
-  DeleteConnectInstanceConfigRequest,
+  DeleteConnectInstanceConfigRequest & RegionInput,
   DeleteConnectInstanceConfigResponse,
   DeleteConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -999,6 +1027,8 @@ export const deleteConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectInstanceConfig",
 }));
 
 export type DeleteConnectInstanceIntegrationError =
@@ -1012,7 +1042,7 @@ export type DeleteConnectInstanceIntegrationError =
  * Delete the integration for the specified Amazon Connect instance.
  */
 export const deleteConnectInstanceIntegration: API.OperationMethod<
-  DeleteConnectInstanceIntegrationRequest,
+  DeleteConnectInstanceIntegrationRequest & RegionInput,
   DeleteConnectInstanceIntegrationResponse,
   DeleteConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1029,6 +1059,8 @@ export const deleteConnectInstanceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectInstanceIntegration",
 }));
 
 export type DeleteInstanceOnboardingJobError =
@@ -1042,7 +1074,7 @@ export type DeleteInstanceOnboardingJobError =
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
 export const deleteInstanceOnboardingJob: API.OperationMethod<
-  DeleteInstanceOnboardingJobRequest,
+  DeleteInstanceOnboardingJobRequest & RegionInput,
   DeleteInstanceOnboardingJobResponse,
   DeleteInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1059,6 +1091,8 @@ export const deleteInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceOnboardingJob",
 }));
 
 export type DescribeCampaignError =
@@ -1071,7 +1105,7 @@ export type DescribeCampaignError =
  * Describes the specific campaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1087,6 +1121,8 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  telemetry: TELEMETRY,
+  span: "DescribeCampaign",
 }));
 
 export type GetCampaignStateError =
@@ -1100,7 +1136,7 @@ export type GetCampaignStateError =
  * Get state of a campaign for the specified Amazon Connect account.
  */
 export const getCampaignState: API.OperationMethod<
-  GetCampaignStateRequest,
+  GetCampaignStateRequest & RegionInput,
   GetCampaignStateResponse,
   GetCampaignStateError,
   Credentials | HttpClient.HttpClient
@@ -1117,6 +1153,8 @@ export const getCampaignState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignState",
+  telemetry: TELEMETRY,
+  span: "GetCampaignState",
 }));
 
 export type GetCampaignStateBatchError =
@@ -1129,7 +1167,7 @@ export type GetCampaignStateBatchError =
  * Get state of campaigns for the specified Amazon Connect account.
  */
 export const getCampaignStateBatch: API.OperationMethod<
-  GetCampaignStateBatchRequest,
+  GetCampaignStateBatchRequest & RegionInput,
   GetCampaignStateBatchResponse,
   GetCampaignStateBatchError,
   Credentials | HttpClient.HttpClient
@@ -1145,6 +1183,8 @@ export const getCampaignStateBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignStateBatch",
+  telemetry: TELEMETRY,
+  span: "GetCampaignStateBatch",
 }));
 
 export type GetConnectInstanceConfigError =
@@ -1157,7 +1197,7 @@ export type GetConnectInstanceConfigError =
  * Get the specific Connect instance config.
  */
 export const getConnectInstanceConfig: API.OperationMethod<
-  GetConnectInstanceConfigRequest,
+  GetConnectInstanceConfigRequest & RegionInput,
   GetConnectInstanceConfigResponse,
   GetConnectInstanceConfigError,
   Credentials | HttpClient.HttpClient
@@ -1173,6 +1213,8 @@ export const getConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "GetConnectInstanceConfig",
 }));
 
 export type GetInstanceCommunicationLimitsError =
@@ -1185,7 +1227,7 @@ export type GetInstanceCommunicationLimitsError =
  * Get the instance communication limits.
  */
 export const getInstanceCommunicationLimits: API.OperationMethod<
-  GetInstanceCommunicationLimitsRequest,
+  GetInstanceCommunicationLimitsRequest & RegionInput,
   GetInstanceCommunicationLimitsResponse,
   GetInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1201,6 +1243,8 @@ export const getInstanceCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "GetInstanceCommunicationLimits",
 }));
 
 export type GetInstanceOnboardingJobStatusError =
@@ -1213,7 +1257,7 @@ export type GetInstanceOnboardingJobStatusError =
  * Get the specific instance onboarding job status.
  */
 export const getInstanceOnboardingJobStatus: API.OperationMethod<
-  GetInstanceOnboardingJobStatusRequest,
+  GetInstanceOnboardingJobStatusRequest & RegionInput,
   GetInstanceOnboardingJobStatusResponse,
   GetInstanceOnboardingJobStatusError,
   Credentials | HttpClient.HttpClient
@@ -1229,6 +1273,8 @@ export const getInstanceOnboardingJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceOnboardingJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetInstanceOnboardingJobStatus",
 }));
 
 export type ListCampaignsError =
@@ -1240,7 +1286,7 @@ export type ListCampaignsError =
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -1258,6 +1304,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListConnectInstanceIntegrationsError =
@@ -1271,7 +1319,7 @@ export type ListConnectInstanceIntegrationsError =
  * Provides summary information about the integration under the specified Connect instance.
  */
 export const listConnectInstanceIntegrations: API.PaginatedOperationMethod<
-  ListConnectInstanceIntegrationsRequest,
+  ListConnectInstanceIntegrationsRequest & RegionInput,
   ListConnectInstanceIntegrationsResponse,
   ListConnectInstanceIntegrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1295,6 +1343,8 @@ export const listConnectInstanceIntegrations: API.PaginatedOperationMethod<
     items: "integrationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectInstanceIntegrations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1308,7 +1358,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1325,6 +1375,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PauseCampaignError =
@@ -1340,7 +1392,7 @@ export type PauseCampaignError =
  * Pauses a campaign for the specified Amazon Connect account.
  */
 export const pauseCampaign: API.OperationMethod<
-  PauseCampaignRequest,
+  PauseCampaignRequest & RegionInput,
   PauseCampaignResponse,
   PauseCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1411,8 @@ export const pauseCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCampaign",
+  telemetry: TELEMETRY,
+  span: "PauseCampaign",
 }));
 
 export type PutConnectInstanceIntegrationError =
@@ -1373,7 +1427,7 @@ export type PutConnectInstanceIntegrationError =
  * Put or update the integration for the specified Amazon Connect instance.
  */
 export const putConnectInstanceIntegration: API.OperationMethod<
-  PutConnectInstanceIntegrationRequest,
+  PutConnectInstanceIntegrationRequest & RegionInput,
   PutConnectInstanceIntegrationResponse,
   PutConnectInstanceIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -1391,6 +1445,8 @@ export const putConnectInstanceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnectInstanceIntegration",
+  telemetry: TELEMETRY,
+  span: "PutConnectInstanceIntegration",
 }));
 
 export type PutInstanceCommunicationLimitsError =
@@ -1404,7 +1460,7 @@ export type PutInstanceCommunicationLimitsError =
  * Put the instance communication limits. This API is idempotent.
  */
 export const putInstanceCommunicationLimits: API.OperationMethod<
-  PutInstanceCommunicationLimitsRequest,
+  PutInstanceCommunicationLimitsRequest & RegionInput,
   PutInstanceCommunicationLimitsResponse,
   PutInstanceCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1421,6 +1477,8 @@ export const putInstanceCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInstanceCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "PutInstanceCommunicationLimits",
 }));
 
 export type PutOutboundRequestBatchError =
@@ -1436,7 +1494,7 @@ export type PutOutboundRequestBatchError =
  * Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
 export const putOutboundRequestBatch: API.OperationMethod<
-  PutOutboundRequestBatchRequest,
+  PutOutboundRequestBatchRequest & RegionInput,
   PutOutboundRequestBatchResponse,
   PutOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1455,6 +1513,8 @@ export const putOutboundRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOutboundRequestBatch",
+  telemetry: TELEMETRY,
+  span: "PutOutboundRequestBatch",
 }));
 
 export type PutProfileOutboundRequestBatchError =
@@ -1470,7 +1530,7 @@ export type PutProfileOutboundRequestBatchError =
  * Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
  */
 export const putProfileOutboundRequestBatch: API.OperationMethod<
-  PutProfileOutboundRequestBatchRequest,
+  PutProfileOutboundRequestBatchRequest & RegionInput,
   PutProfileOutboundRequestBatchResponse,
   PutProfileOutboundRequestBatchError,
   Credentials | HttpClient.HttpClient
@@ -1489,6 +1549,8 @@ export const putProfileOutboundRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileOutboundRequestBatch",
+  telemetry: TELEMETRY,
+  span: "PutProfileOutboundRequestBatch",
 }));
 
 export type ResumeCampaignError =
@@ -1504,7 +1566,7 @@ export type ResumeCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const resumeCampaign: API.OperationMethod<
-  ResumeCampaignRequest,
+  ResumeCampaignRequest & RegionInput,
   ResumeCampaignResponse,
   ResumeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1523,6 +1585,8 @@ export const resumeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCampaign",
+  telemetry: TELEMETRY,
+  span: "ResumeCampaign",
 }));
 
 export type StartCampaignError =
@@ -1538,7 +1602,7 @@ export type StartCampaignError =
  * Starts a campaign for the specified Amazon Connect account.
  */
 export const startCampaign: API.OperationMethod<
-  StartCampaignRequest,
+  StartCampaignRequest & RegionInput,
   StartCampaignResponse,
   StartCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1557,6 +1621,8 @@ export const startCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaign",
+  telemetry: TELEMETRY,
+  span: "StartCampaign",
 }));
 
 export type StartInstanceOnboardingJobError =
@@ -1571,7 +1637,7 @@ export type StartInstanceOnboardingJobError =
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
 export const startInstanceOnboardingJob: API.OperationMethod<
-  StartInstanceOnboardingJobRequest,
+  StartInstanceOnboardingJobRequest & RegionInput,
   StartInstanceOnboardingJobResponse,
   StartInstanceOnboardingJobError,
   Credentials | HttpClient.HttpClient
@@ -1589,6 +1655,8 @@ export const startInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "StartInstanceOnboardingJob",
 }));
 
 export type StopCampaignError =
@@ -1604,7 +1672,7 @@ export type StopCampaignError =
  * Stops a campaign for the specified Amazon Connect account.
  */
 export const stopCampaign: API.OperationMethod<
-  StopCampaignRequest,
+  StopCampaignRequest & RegionInput,
   StopCampaignResponse,
   StopCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1623,6 +1691,8 @@ export const stopCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCampaign",
+  telemetry: TELEMETRY,
+  span: "StopCampaign",
 }));
 
 export type TagResourceError =
@@ -1636,7 +1706,7 @@ export type TagResourceError =
  * Tag a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1653,6 +1723,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1666,7 +1738,7 @@ export type UntagResourceError =
  * Untag a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1683,6 +1755,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignChannelSubtypeConfigError =
@@ -1696,7 +1770,7 @@ export type UpdateCampaignChannelSubtypeConfigError =
  * Updates the channel subtype config of a campaign. This API is idempotent.
  */
 export const updateCampaignChannelSubtypeConfig: API.OperationMethod<
-  UpdateCampaignChannelSubtypeConfigRequest,
+  UpdateCampaignChannelSubtypeConfigRequest & RegionInput,
   UpdateCampaignChannelSubtypeConfigResponse,
   UpdateCampaignChannelSubtypeConfigError,
   Credentials | HttpClient.HttpClient
@@ -1713,6 +1787,8 @@ export const updateCampaignChannelSubtypeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignChannelSubtypeConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignChannelSubtypeConfig",
 }));
 
 export type UpdateCampaignCommunicationLimitsError =
@@ -1727,7 +1803,7 @@ export type UpdateCampaignCommunicationLimitsError =
  * Updates the communication limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationLimits: API.OperationMethod<
-  UpdateCampaignCommunicationLimitsRequest,
+  UpdateCampaignCommunicationLimitsRequest & RegionInput,
   UpdateCampaignCommunicationLimitsResponse,
   UpdateCampaignCommunicationLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1745,6 +1821,8 @@ export const updateCampaignCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignCommunicationLimits",
 }));
 
 export type UpdateCampaignCommunicationTimeError =
@@ -1759,7 +1837,7 @@ export type UpdateCampaignCommunicationTimeError =
  * Updates the communication time config for a campaign. This API is idempotent.
  */
 export const updateCampaignCommunicationTime: API.OperationMethod<
-  UpdateCampaignCommunicationTimeRequest,
+  UpdateCampaignCommunicationTimeRequest & RegionInput,
   UpdateCampaignCommunicationTimeResponse,
   UpdateCampaignCommunicationTimeError,
   Credentials | HttpClient.HttpClient
@@ -1777,6 +1855,8 @@ export const updateCampaignCommunicationTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignCommunicationTime",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignCommunicationTime",
 }));
 
 export type UpdateCampaignEntryLimitsError =
@@ -1791,7 +1871,7 @@ export type UpdateCampaignEntryLimitsError =
  * Updates the entry limits config for a campaign. This API is idempotent.
  */
 export const updateCampaignEntryLimits: API.OperationMethod<
-  UpdateCampaignEntryLimitsRequest,
+  UpdateCampaignEntryLimitsRequest & RegionInput,
   UpdateCampaignEntryLimitsResponse,
   UpdateCampaignEntryLimitsError,
   Credentials | HttpClient.HttpClient
@@ -1809,6 +1889,8 @@ export const updateCampaignEntryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignEntryLimits",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignEntryLimits",
 }));
 
 export type UpdateCampaignFlowAssociationError =
@@ -1823,7 +1905,7 @@ export type UpdateCampaignFlowAssociationError =
  * Updates the campaign flow associated with a campaign. This API is idempotent.
  */
 export const updateCampaignFlowAssociation: API.OperationMethod<
-  UpdateCampaignFlowAssociationRequest,
+  UpdateCampaignFlowAssociationRequest & RegionInput,
   UpdateCampaignFlowAssociationResponse,
   UpdateCampaignFlowAssociationError,
   Credentials | HttpClient.HttpClient
@@ -1841,6 +1923,8 @@ export const updateCampaignFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignFlowAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignFlowAssociation",
 }));
 
 export type UpdateCampaignNameError =
@@ -1854,7 +1938,7 @@ export type UpdateCampaignNameError =
  * Updates the name of a campaign. This API is idempotent.
  */
 export const updateCampaignName: API.OperationMethod<
-  UpdateCampaignNameRequest,
+  UpdateCampaignNameRequest & RegionInput,
   UpdateCampaignNameResponse,
   UpdateCampaignNameError,
   Credentials | HttpClient.HttpClient
@@ -1871,6 +1955,8 @@ export const updateCampaignName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignName",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignName",
 }));
 
 export type UpdateCampaignScheduleError =
@@ -1885,7 +1971,7 @@ export type UpdateCampaignScheduleError =
  * Updates the schedule for a campaign. This API is idempotent.
  */
 export const updateCampaignSchedule: API.OperationMethod<
-  UpdateCampaignScheduleRequest,
+  UpdateCampaignScheduleRequest & RegionInput,
   UpdateCampaignScheduleResponse,
   UpdateCampaignScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1903,6 +1989,8 @@ export const updateCampaignSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignSchedule",
 }));
 
 export type UpdateCampaignSourceError =
@@ -1917,7 +2005,7 @@ export type UpdateCampaignSourceError =
  * Updates the campaign source with a campaign. This API is idempotent.
  */
 export const updateCampaignSource: API.OperationMethod<
-  UpdateCampaignSourceRequest,
+  UpdateCampaignSourceRequest & RegionInput,
   UpdateCampaignSourceResponse,
   UpdateCampaignSourceError,
   Credentials | HttpClient.HttpClient
@@ -1935,6 +2023,8 @@ export const updateCampaignSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignSource",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignSource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { StripeOpError, StripeOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stripe-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Stripe",
+  service: "Stripe",
+  labels: "stripe",
+  propagate: "w3c",
+} as const;
+
 /** The product cannot be deleted because it has one or more user-created prices (Stripe `invalid_request_error`, HTTP 400). */
 export class ProductHasPrices
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -92521,6 +92534,8 @@ export const CreateAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateAccountExternalAccountError = StripeOpError;
@@ -92536,6 +92551,8 @@ export const CreateAccountExternalAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountExternalAccount",
 }));
 
 export type CreateAccountLinkError = StripeOpError;
@@ -92551,6 +92568,8 @@ export const CreateAccountLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountLink",
 }));
 
 export type CreateAccountLoginLinkError = StripeOpError;
@@ -92566,6 +92585,8 @@ export const CreateAccountLoginLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountLoginLink",
 }));
 
 export type CreateAccountPersonError = StripeOpError;
@@ -92581,6 +92602,8 @@ export const CreateAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountPerson",
 }));
 
 export type CreateAccountRejectError = StripeOpError;
@@ -92596,6 +92619,8 @@ export const CreateAccountReject: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountReject",
 }));
 
 export type CreateAccountSessionError = StripeOpError;
@@ -92611,6 +92636,8 @@ export const CreateAccountSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountSession",
 }));
 
 export type CreateAccountUnrejectError = StripeOpError;
@@ -92626,6 +92653,8 @@ export const CreateAccountUnreject: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountUnreject",
 }));
 
 export type CreateApplePayDomainError = StripeOpError;
@@ -92641,6 +92670,8 @@ export const CreateApplePayDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplePayDomain",
 }));
 
 export type CreateApplicationFeeRefundError = StripeOpError;
@@ -92656,6 +92687,8 @@ export const CreateApplicationFeeRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationFeeRefund",
 }));
 
 export type CreateAppsInstallError = StripeOpError;
@@ -92671,6 +92704,8 @@ export const CreateAppsInstall: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsInstall",
 }));
 
 export type CreateAppsInstallUninstallError = StripeOpError;
@@ -92686,6 +92721,8 @@ export const CreateAppsInstallUninstall: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsInstallUninstall",
 }));
 
 export type CreateAppsSecretError = StripeOpError;
@@ -92701,6 +92738,8 @@ export const CreateAppsSecret: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsSecret",
 }));
 
 export type CreateAppsSecretsDeleteError = StripeOpError;
@@ -92716,6 +92755,8 @@ export const CreateAppsSecretsDelete: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsSecretsDelete",
 }));
 
 export type CreateBalanceSettingsError = StripeOpError;
@@ -92731,6 +92772,8 @@ export const CreateBalanceSettings: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBalanceSettings",
 }));
 
 export type CreateBillingAlertError = StripeOpError;
@@ -92746,6 +92789,8 @@ export const CreateBillingAlert: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlert",
 }));
 
 export type CreateBillingAlertActivateError = StripeOpError;
@@ -92761,6 +92806,8 @@ export const CreateBillingAlertActivate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlertActivate",
 }));
 
 export type CreateBillingAlertArchiveError = StripeOpError;
@@ -92776,6 +92823,8 @@ export const CreateBillingAlertArchive: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlertArchive",
 }));
 
 export type CreateBillingAlertDeactivateError = StripeOpError;
@@ -92791,6 +92840,8 @@ export const CreateBillingAlertDeactivate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingAlertDeactivate",
 }));
 
 export type CreateBillingCreditGrantError = StripeOpError;
@@ -92806,6 +92857,8 @@ export const CreateBillingCreditGrant: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCreditGrant",
 }));
 
 export type CreateBillingCreditGrantExpireError = StripeOpError;
@@ -92821,6 +92874,8 @@ export const CreateBillingCreditGrantExpire: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCreditGrantExpire",
 }));
 
 export type CreateBillingCreditGrantVoidError = StripeOpError;
@@ -92836,6 +92891,8 @@ export const CreateBillingCreditGrantVoid: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingCreditGrantVoid",
 }));
 
 export type CreateBillingFeedbackOptionError = StripeOpError;
@@ -92851,6 +92908,8 @@ export const CreateBillingFeedbackOption: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingFeedbackOption",
 }));
 
 export type CreateBillingFeedbackOptionDeactivateError = StripeOpError;
@@ -92866,6 +92925,8 @@ export const CreateBillingFeedbackOptionDeactivate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingFeedbackOptionDeactivate",
 }));
 
 export type CreateBillingMeterError = StripeOpError;
@@ -92881,6 +92942,8 @@ export const CreateBillingMeter: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeter",
 }));
 
 export type CreateBillingMeterDeactivateError = StripeOpError;
@@ -92896,6 +92959,8 @@ export const CreateBillingMeterDeactivate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterDeactivate",
 }));
 
 export type CreateBillingMeterEventError = StripeOpError;
@@ -92911,6 +92976,8 @@ export const CreateBillingMeterEvent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEvent",
 }));
 
 export type CreateBillingMeterEvent2Error = StripeOpError;
@@ -92926,6 +92993,8 @@ export const CreateBillingMeterEvent2: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEvent2",
 }));
 
 export type CreateBillingMeterEventAdjustmentError = StripeOpError;
@@ -92941,6 +93010,8 @@ export const CreateBillingMeterEventAdjustment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEventAdjustment",
 }));
 
 export type CreateBillingMeterEventAdjustment2Error = StripeOpError;
@@ -92956,6 +93027,8 @@ export const CreateBillingMeterEventAdjustment2: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEventAdjustment2",
 }));
 
 export type CreateBillingMeterEventSessionError = StripeOpError;
@@ -92971,6 +93044,8 @@ export const CreateBillingMeterEventSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEventSession",
 }));
 
 export type CreateBillingMeterEventStreamError = StripeOpError;
@@ -92986,6 +93061,8 @@ export const CreateBillingMeterEventStream: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterEventStream",
 }));
 
 export type CreateBillingMeterReactivateError = StripeOpError;
@@ -93001,6 +93078,8 @@ export const CreateBillingMeterReactivate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingMeterReactivate",
 }));
 
 export type CreateBillingPortalConfigurationError = StripeOpError;
@@ -93016,6 +93095,8 @@ export const CreateBillingPortalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPortalConfiguration",
 }));
 
 export type CreateBillingPortalSessionError = StripeOpError;
@@ -93031,6 +93112,8 @@ export const CreateBillingPortalSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPortalSession",
 }));
 
 export type CreateChargeError = StripeOpError;
@@ -93046,6 +93129,8 @@ export const CreateCharge: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCharge",
 }));
 
 export type CreateChargeCaptureError = StripeOpError;
@@ -93061,6 +93146,8 @@ export const CreateChargeCapture: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChargeCapture",
 }));
 
 export type CreateCheckoutSessionError = StripeOpError;
@@ -93076,6 +93163,8 @@ export const CreateCheckoutSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCheckoutSession",
 }));
 
 export type CreateCheckoutSessionExpireError = StripeOpError;
@@ -93091,6 +93180,8 @@ export const CreateCheckoutSessionExpire: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCheckoutSessionExpire",
 }));
 
 export type CreateClimateOrderError = StripeOpError;
@@ -93106,6 +93197,8 @@ export const CreateClimateOrder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClimateOrder",
 }));
 
 export type CreateClimateOrderCancelError = StripeOpError;
@@ -93121,6 +93214,8 @@ export const CreateClimateOrderCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClimateOrderCancel",
 }));
 
 export type CreateCommerceProductCatalogImportError = StripeOpError;
@@ -93136,6 +93231,8 @@ export const CreateCommerceProductCatalogImport: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommerceProductCatalogImport",
 }));
 
 export type CreateCoreAccountError = StripeOpError;
@@ -93151,6 +93248,8 @@ export const CreateCoreAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccount",
 }));
 
 export type CreateCoreAccountCloseError = StripeOpError;
@@ -93166,6 +93265,8 @@ export const CreateCoreAccountClose: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccountClose",
 }));
 
 export type CreateCoreAccountLinkError = StripeOpError;
@@ -93181,6 +93282,8 @@ export const CreateCoreAccountLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccountLink",
 }));
 
 export type CreateCoreAccountPersonError = StripeOpError;
@@ -93196,6 +93299,8 @@ export const CreateCoreAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccountPerson",
 }));
 
 export type CreateCoreAccountPersonTokenError = StripeOpError;
@@ -93211,6 +93316,8 @@ export const CreateCoreAccountPersonToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccountPersonToken",
 }));
 
 export type CreateCoreAccountTokenError = StripeOpError;
@@ -93226,6 +93333,8 @@ export const CreateCoreAccountToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreAccountToken",
 }));
 
 export type CreateCoreEventDestinationError = StripeOpError;
@@ -93241,6 +93350,8 @@ export const CreateCoreEventDestination: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreEventDestination",
 }));
 
 export type CreateCoreEventDestinationDisableError = StripeOpError;
@@ -93256,6 +93367,8 @@ export const CreateCoreEventDestinationDisable: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreEventDestinationDisable",
 }));
 
 export type CreateCoreEventDestinationEnableError = StripeOpError;
@@ -93271,6 +93384,8 @@ export const CreateCoreEventDestinationEnable: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreEventDestinationEnable",
 }));
 
 export type CreateCoreEventDestinationPingError = StripeOpError;
@@ -93286,6 +93401,8 @@ export const CreateCoreEventDestinationPing: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreEventDestinationPing",
 }));
 
 export type CreateCouponError = StripeOpError;
@@ -93301,6 +93418,8 @@ export const CreateCoupon: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoupon",
 }));
 
 export type CreateCreditNoteError = StripeOpError;
@@ -93316,6 +93435,8 @@ export const CreateCreditNote: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCreditNote",
 }));
 
 export type CreateCreditNoteVoidError = StripeOpError;
@@ -93331,6 +93452,8 @@ export const CreateCreditNoteVoid: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCreditNoteVoid",
 }));
 
 export type CreateCustomerError = StripeOpError;
@@ -93346,6 +93469,8 @@ export const CreateCustomer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomer",
 }));
 
 export type CreateCustomerBalanceTransactionError = StripeOpError;
@@ -93361,6 +93486,8 @@ export const CreateCustomerBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerBalanceTransaction",
 }));
 
 export type CreateCustomerCashBalanceError = StripeOpError;
@@ -93376,6 +93503,8 @@ export const CreateCustomerCashBalance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerCashBalance",
 }));
 
 export type CreateCustomerFundingInstructionError = StripeOpError;
@@ -93391,6 +93520,8 @@ export const CreateCustomerFundingInstruction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerFundingInstruction",
 }));
 
 export type CreateCustomerSessionError = StripeOpError;
@@ -93406,6 +93537,8 @@ export const CreateCustomerSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerSession",
 }));
 
 export type CreateCustomerSourceError = StripeOpError;
@@ -93421,6 +93554,8 @@ export const CreateCustomerSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerSource",
 }));
 
 export type CreateCustomerSourceVerifyError = StripeOpError;
@@ -93436,6 +93571,8 @@ export const CreateCustomerSourceVerify: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerSourceVerify",
 }));
 
 export type CreateCustomerTaxIdsError = StripeOpError;
@@ -93451,6 +93588,8 @@ export const CreateCustomerTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerTaxIds",
 }));
 
 export type CreateDisputeCloseError = StripeOpError;
@@ -93466,6 +93605,8 @@ export const CreateDisputeClose: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDisputeClose",
 }));
 
 export type CreateEntitlementsFeatureError = StripeOpError;
@@ -93481,6 +93622,8 @@ export const CreateEntitlementsFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEntitlementsFeature",
 }));
 
 export type CreateEphemeralKeyError = StripeOpError;
@@ -93496,6 +93639,8 @@ export const CreateEphemeralKey: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEphemeralKey",
 }));
 
 export type CreateFileError = StripeOpError;
@@ -93511,6 +93656,8 @@ export const CreateFile: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFile",
 }));
 
 export type CreateFileLinkError = StripeOpError;
@@ -93526,6 +93673,8 @@ export const CreateFileLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileLink",
 }));
 
 export type CreateFinancialConnectionsAccountDisconnectError = StripeOpError;
@@ -93545,6 +93694,8 @@ export const CreateFinancialConnectionsAccountDisconnect: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinancialConnectionsAccountDisconnect",
 }));
 
 export type CreateFinancialConnectionsAccountRefreshError = StripeOpError;
@@ -93560,6 +93711,8 @@ export const CreateFinancialConnectionsAccountRefresh: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinancialConnectionsAccountRefresh",
 }));
 
 export type CreateFinancialConnectionsAccountSubscribeError = StripeOpError;
@@ -93579,6 +93732,8 @@ export const CreateFinancialConnectionsAccountSubscribe: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinancialConnectionsAccountSubscribe",
 }));
 
 export type CreateFinancialConnectionsAccountUnsubscribeError = StripeOpError;
@@ -93598,6 +93753,8 @@ export const CreateFinancialConnectionsAccountUnsubscribe: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinancialConnectionsAccountUnsubscribe",
 }));
 
 export type CreateFinancialConnectionsSessionError = StripeOpError;
@@ -93613,6 +93770,8 @@ export const CreateFinancialConnectionsSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFinancialConnectionsSession",
 }));
 
 export type CreateForwardingRequestError = StripeOpError;
@@ -93628,6 +93787,8 @@ export const CreateForwardingRequest: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForwardingRequest",
 }));
 
 export type CreateIdentityVerificationSessionError = StripeOpError;
@@ -93643,6 +93804,8 @@ export const CreateIdentityVerificationSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationSession",
 }));
 
 export type CreateIdentityVerificationSessionCancelError = StripeOpError;
@@ -93658,6 +93821,8 @@ export const CreateIdentityVerificationSessionCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationSessionCancel",
 }));
 
 export type CreateIdentityVerificationSessionRedactError = StripeOpError;
@@ -93673,6 +93838,8 @@ export const CreateIdentityVerificationSessionRedact: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationSessionRedact",
 }));
 
 export type CreateInvoiceError = StripeOpError;
@@ -93688,6 +93855,8 @@ export const CreateInvoice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoice",
 }));
 
 export type CreateInvoiceAddLineError = StripeOpError;
@@ -93703,6 +93872,8 @@ export const CreateInvoiceAddLine: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceAddLine",
 }));
 
 export type CreateInvoiceAttachPaymentError = StripeOpError;
@@ -93718,6 +93889,8 @@ export const CreateInvoiceAttachPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceAttachPayment",
 }));
 
 export type CreateInvoiceFinalizeError = StripeOpError;
@@ -93733,6 +93906,8 @@ export const CreateInvoiceFinalize: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceFinalize",
 }));
 
 export type CreateInvoiceitemError = StripeOpError;
@@ -93748,6 +93923,8 @@ export const CreateInvoiceitem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceitem",
 }));
 
 export type CreateInvoiceMarkUncollectibleError = StripeOpError;
@@ -93763,6 +93940,8 @@ export const CreateInvoiceMarkUncollectible: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceMarkUncollectible",
 }));
 
 export type CreateInvoicePayError = StripeOpError;
@@ -93778,6 +93957,8 @@ export const CreateInvoicePay: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoicePay",
 }));
 
 export type CreateInvoiceRemoveLineError = StripeOpError;
@@ -93793,6 +93974,8 @@ export const CreateInvoiceRemoveLine: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceRemoveLine",
 }));
 
 export type CreateInvoiceRenderingTemplateArchiveError = StripeOpError;
@@ -93808,6 +93991,8 @@ export const CreateInvoiceRenderingTemplateArchive: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceRenderingTemplateArchive",
 }));
 
 export type CreateInvoiceRenderingTemplateUnarchiveError = StripeOpError;
@@ -93823,6 +94008,8 @@ export const CreateInvoiceRenderingTemplateUnarchive: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceRenderingTemplateUnarchive",
 }));
 
 export type CreateInvoicesCreatePreviewError = StripeOpError;
@@ -93838,6 +94025,8 @@ export const CreateInvoicesCreatePreview: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoicesCreatePreview",
 }));
 
 export type CreateInvoiceSendError = StripeOpError;
@@ -93853,6 +94042,8 @@ export const CreateInvoiceSend: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceSend",
 }));
 
 export type CreateInvoiceUpdateLineError = StripeOpError;
@@ -93868,6 +94059,8 @@ export const CreateInvoiceUpdateLine: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceUpdateLine",
 }));
 
 export type CreateInvoiceVoidError = StripeOpError;
@@ -93883,6 +94076,8 @@ export const CreateInvoiceVoid: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceVoid",
 }));
 
 export type CreateIssuingCardError = StripeOpError;
@@ -93898,6 +94093,8 @@ export const CreateIssuingCard: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuingCard",
 }));
 
 export type CreateIssuingCardholderError = StripeOpError;
@@ -93913,6 +94110,8 @@ export const CreateIssuingCardholder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuingCardholder",
 }));
 
 export type CreateIssuingDisputeError = StripeOpError;
@@ -93928,6 +94127,8 @@ export const CreateIssuingDispute: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuingDispute",
 }));
 
 export type CreateIssuingDisputeSubmitError = StripeOpError;
@@ -93943,6 +94144,8 @@ export const CreateIssuingDisputeSubmit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuingDisputeSubmit",
 }));
 
 export type CreateIssuingPersonalizationDesignError = StripeOpError;
@@ -93958,6 +94161,8 @@ export const CreateIssuingPersonalizationDesign: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuingPersonalizationDesign",
 }));
 
 export type CreatePaymentIntentError = StripeOpError;
@@ -93973,6 +94178,8 @@ export const CreatePaymentIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntent",
 }));
 
 export type CreatePaymentIntentApplyCustomerBalanceError = StripeOpError;
@@ -93988,6 +94195,8 @@ export const CreatePaymentIntentApplyCustomerBalance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentApplyCustomerBalance",
 }));
 
 export type CreatePaymentIntentCancelError = StripeOpError;
@@ -94003,6 +94212,8 @@ export const CreatePaymentIntentCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentCancel",
 }));
 
 export type CreatePaymentIntentCaptureError = StripeOpError;
@@ -94018,6 +94229,8 @@ export const CreatePaymentIntentCapture: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentCapture",
 }));
 
 export type CreatePaymentIntentConfirmError = StripeOpError;
@@ -94033,6 +94246,8 @@ export const CreatePaymentIntentConfirm: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentConfirm",
 }));
 
 export type CreatePaymentIntentIncrementAuthorizationError = StripeOpError;
@@ -94048,6 +94263,8 @@ export const CreatePaymentIntentIncrementAuthorization: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentIncrementAuthorization",
 }));
 
 export type CreatePaymentIntentVerifyMicrodepositError = StripeOpError;
@@ -94063,6 +94280,8 @@ export const CreatePaymentIntentVerifyMicrodeposit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentIntentVerifyMicrodeposit",
 }));
 
 export type CreatePaymentLinkError = StripeOpError;
@@ -94078,6 +94297,8 @@ export const CreatePaymentLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentLink",
 }));
 
 export type CreatePaymentMethodError = StripeOpError;
@@ -94093,6 +94314,8 @@ export const CreatePaymentMethod: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethod",
 }));
 
 export type CreatePaymentMethodAttachError = StripeOpError;
@@ -94108,6 +94331,8 @@ export const CreatePaymentMethodAttach: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodAttach",
 }));
 
 export type CreatePaymentMethodConfigurationError = StripeOpError;
@@ -94123,6 +94348,8 @@ export const CreatePaymentMethodConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodConfiguration",
 }));
 
 export type CreatePaymentMethodDetachError = StripeOpError;
@@ -94138,6 +94365,8 @@ export const CreatePaymentMethodDetach: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodDetach",
 }));
 
 export type CreatePaymentMethodDomainError = StripeOpError;
@@ -94153,6 +94382,8 @@ export const CreatePaymentMethodDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodDomain",
 }));
 
 export type CreatePaymentMethodDomainValidateError = StripeOpError;
@@ -94168,6 +94399,8 @@ export const CreatePaymentMethodDomainValidate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodDomainValidate",
 }));
 
 export type CreatePaymentRecordReportPaymentAttemptError = StripeOpError;
@@ -94183,6 +94416,8 @@ export const CreatePaymentRecordReportPaymentAttempt: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportPaymentAttempt",
 }));
 
 export type CreatePaymentRecordReportPaymentAttemptCanceledError = StripeOpError;
@@ -94202,6 +94437,8 @@ export const CreatePaymentRecordReportPaymentAttemptCanceled: API.OperationMetho
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportPaymentAttemptCanceled",
 }));
 
 export type CreatePaymentRecordReportPaymentAttemptFailedError = StripeOpError;
@@ -94221,6 +94458,8 @@ export const CreatePaymentRecordReportPaymentAttemptFailed: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportPaymentAttemptFailed",
 }));
 
 export type CreatePaymentRecordReportPaymentAttemptGuaranteedError = StripeOpError;
@@ -94240,6 +94479,8 @@ export const CreatePaymentRecordReportPaymentAttemptGuaranteed: API.OperationMet
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportPaymentAttemptGuaranteed",
 }));
 
 export type CreatePaymentRecordReportPaymentAttemptInformationalError = StripeOpError;
@@ -94259,6 +94500,8 @@ export const CreatePaymentRecordReportPaymentAttemptInformational: API.Operation
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportPaymentAttemptInformational",
 }));
 
 export type CreatePaymentRecordReportRefundError = StripeOpError;
@@ -94274,6 +94517,8 @@ export const CreatePaymentRecordReportRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordReportRefund",
 }));
 
 export type CreatePaymentRecordsReportPaymentError = StripeOpError;
@@ -94289,6 +94534,8 @@ export const CreatePaymentRecordsReportPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentRecordsReportPayment",
 }));
 
 export type CreatePayoutError = StripeOpError;
@@ -94304,6 +94551,8 @@ export const CreatePayout: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayout",
 }));
 
 export type CreatePayoutCancelError = StripeOpError;
@@ -94319,6 +94568,8 @@ export const CreatePayoutCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayoutCancel",
 }));
 
 export type CreatePayoutReverseError = StripeOpError;
@@ -94334,6 +94585,8 @@ export const CreatePayoutReverse: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayoutReverse",
 }));
 
 export type CreatePlanError = StripeOpError;
@@ -94349,6 +94602,8 @@ export const CreatePlan: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlan",
 }));
 
 export type CreatePriceError = StripeOpError;
@@ -94364,6 +94619,8 @@ export const CreatePrice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrice",
 }));
 
 export type CreateProductError = StripeOpError;
@@ -94379,6 +94636,8 @@ export const CreateProduct: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type CreateProductCatalogTrialOfferError = StripeOpError;
@@ -94394,6 +94653,8 @@ export const CreateProductCatalogTrialOffer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductCatalogTrialOffer",
 }));
 
 export type CreateProductFeatureError = StripeOpError;
@@ -94409,6 +94670,8 @@ export const CreateProductFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductFeature",
 }));
 
 export type CreatePromotionCodeError = StripeOpError;
@@ -94424,6 +94687,8 @@ export const CreatePromotionCode: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePromotionCode",
 }));
 
 export type CreateQuoteError = StripeOpError;
@@ -94439,6 +94704,8 @@ export const CreateQuote: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuote",
 }));
 
 export type CreateQuoteAcceptError = StripeOpError;
@@ -94454,6 +94721,8 @@ export const CreateQuoteAccept: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuoteAccept",
 }));
 
 export type CreateQuoteCancelError = StripeOpError;
@@ -94469,6 +94738,8 @@ export const CreateQuoteCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuoteCancel",
 }));
 
 export type CreateQuoteFinalizeError = StripeOpError;
@@ -94484,6 +94755,8 @@ export const CreateQuoteFinalize: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuoteFinalize",
 }));
 
 export type CreateRadarPaymentEvaluationError = StripeOpError;
@@ -94499,6 +94772,8 @@ export const CreateRadarPaymentEvaluation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRadarPaymentEvaluation",
 }));
 
 export type CreateRadarValueListError = StripeOpError;
@@ -94514,6 +94789,8 @@ export const CreateRadarValueList: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRadarValueList",
 }));
 
 export type CreateRadarValueListItemError = StripeOpError;
@@ -94529,6 +94806,8 @@ export const CreateRadarValueListItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRadarValueListItem",
 }));
 
 export type CreateRefundError = StripeOpError;
@@ -94544,6 +94823,8 @@ export const CreateRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRefund",
 }));
 
 export type CreateRefundCancelError = StripeOpError;
@@ -94559,6 +94840,8 @@ export const CreateRefundCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRefundCancel",
 }));
 
 export type CreateReportingReportRunError = StripeOpError;
@@ -94574,6 +94857,8 @@ export const CreateReportingReportRun: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReportingReportRun",
 }));
 
 export type CreateReviewApproveError = StripeOpError;
@@ -94589,6 +94874,8 @@ export const CreateReviewApprove: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewApprove",
 }));
 
 export type CreateSetupIntentError = StripeOpError;
@@ -94604,6 +94891,8 @@ export const CreateSetupIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupIntent",
 }));
 
 export type CreateSetupIntentCancelError = StripeOpError;
@@ -94619,6 +94908,8 @@ export const CreateSetupIntentCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupIntentCancel",
 }));
 
 export type CreateSetupIntentConfirmError = StripeOpError;
@@ -94634,6 +94925,8 @@ export const CreateSetupIntentConfirm: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupIntentConfirm",
 }));
 
 export type CreateSetupIntentVerifyMicrodepositError = StripeOpError;
@@ -94649,6 +94942,8 @@ export const CreateSetupIntentVerifyMicrodeposit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupIntentVerifyMicrodeposit",
 }));
 
 export type CreateShippingRateError = StripeOpError;
@@ -94664,6 +94959,8 @@ export const CreateShippingRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShippingRate",
 }));
 
 export type CreateSourceError = StripeOpError;
@@ -94679,6 +94976,8 @@ export const CreateSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSource",
 }));
 
 export type CreateSourceVerifyError = StripeOpError;
@@ -94694,6 +94993,8 @@ export const CreateSourceVerify: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSourceVerify",
 }));
 
 export type CreateSubscriptionError = StripeOpError;
@@ -94709,6 +95010,8 @@ export const CreateSubscription: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateSubscriptionItemError = StripeOpError;
@@ -94724,6 +95027,8 @@ export const CreateSubscriptionItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionItem",
 }));
 
 export type CreateSubscriptionMigrateError = StripeOpError;
@@ -94739,6 +95044,8 @@ export const CreateSubscriptionMigrate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionMigrate",
 }));
 
 export type CreateSubscriptionPauseError = StripeOpError;
@@ -94754,6 +95061,8 @@ export const CreateSubscriptionPause: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionPause",
 }));
 
 export type CreateSubscriptionResumeError = StripeOpError;
@@ -94769,6 +95078,8 @@ export const CreateSubscriptionResume: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionResume",
 }));
 
 export type CreateSubscriptionScheduleError = StripeOpError;
@@ -94784,6 +95095,8 @@ export const CreateSubscriptionSchedule: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionSchedule",
 }));
 
 export type CreateSubscriptionScheduleCancelError = StripeOpError;
@@ -94799,6 +95112,8 @@ export const CreateSubscriptionScheduleCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionScheduleCancel",
 }));
 
 export type CreateSubscriptionScheduleReleaseError = StripeOpError;
@@ -94814,6 +95129,8 @@ export const CreateSubscriptionScheduleRelease: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionScheduleRelease",
 }));
 
 export type CreateTaxCalculationError = StripeOpError;
@@ -94829,6 +95146,8 @@ export const CreateTaxCalculation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxCalculation",
 }));
 
 export type CreateTaxIdsError = StripeOpError;
@@ -94844,6 +95163,8 @@ export const CreateTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxIds",
 }));
 
 export type CreateTaxLocationError = StripeOpError;
@@ -94859,6 +95180,8 @@ export const CreateTaxLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxLocation",
 }));
 
 export type CreateTaxRateError = StripeOpError;
@@ -94874,6 +95197,8 @@ export const CreateTaxRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxRate",
 }));
 
 export type CreateTaxRegistrationError = StripeOpError;
@@ -94889,6 +95214,8 @@ export const CreateTaxRegistration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxRegistration",
 }));
 
 export type CreateTaxSettingsError = StripeOpError;
@@ -94904,6 +95231,8 @@ export const CreateTaxSettings: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxSettings",
 }));
 
 export type CreateTaxTransactionsCreateFromCalculationError = StripeOpError;
@@ -94919,6 +95248,8 @@ export const CreateTaxTransactionsCreateFromCalculation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxTransactionsCreateFromCalculation",
 }));
 
 export type CreateTaxTransactionsCreateReversalError = StripeOpError;
@@ -94934,6 +95265,8 @@ export const CreateTaxTransactionsCreateReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaxTransactionsCreateReversal",
 }));
 
 export type CreateTerminalConfigurationError = StripeOpError;
@@ -94949,6 +95282,8 @@ export const CreateTerminalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalConfiguration",
 }));
 
 export type CreateTerminalConnectionTokenError = StripeOpError;
@@ -94964,6 +95299,8 @@ export const CreateTerminalConnectionToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalConnectionToken",
 }));
 
 export type CreateTerminalLocationError = StripeOpError;
@@ -94979,6 +95316,8 @@ export const CreateTerminalLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalLocation",
 }));
 
 export type CreateTerminalOnboardingLinkError = StripeOpError;
@@ -94994,6 +95333,8 @@ export const CreateTerminalOnboardingLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalOnboardingLink",
 }));
 
 export type CreateTerminalReaderError = StripeOpError;
@@ -95009,6 +95350,8 @@ export const CreateTerminalReader: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReader",
 }));
 
 export type CreateTerminalReaderCancelActionError = StripeOpError;
@@ -95024,6 +95367,8 @@ export const CreateTerminalReaderCancelAction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderCancelAction",
 }));
 
 export type CreateTerminalReaderCollectInputError = StripeOpError;
@@ -95039,6 +95384,8 @@ export const CreateTerminalReaderCollectInput: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderCollectInput",
 }));
 
 export type CreateTerminalReaderCollectPaymentMethodError = StripeOpError;
@@ -95054,6 +95401,8 @@ export const CreateTerminalReaderCollectPaymentMethod: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderCollectPaymentMethod",
 }));
 
 export type CreateTerminalReaderConfirmPaymentIntentError = StripeOpError;
@@ -95069,6 +95418,8 @@ export const CreateTerminalReaderConfirmPaymentIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderConfirmPaymentIntent",
 }));
 
 export type CreateTerminalReaderProcessPaymentIntentError = StripeOpError;
@@ -95084,6 +95435,8 @@ export const CreateTerminalReaderProcessPaymentIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderProcessPaymentIntent",
 }));
 
 export type CreateTerminalReaderProcessSetupIntentError = StripeOpError;
@@ -95099,6 +95452,8 @@ export const CreateTerminalReaderProcessSetupIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderProcessSetupIntent",
 }));
 
 export type CreateTerminalReaderRefundPaymentError = StripeOpError;
@@ -95114,6 +95469,8 @@ export const CreateTerminalReaderRefundPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderRefundPayment",
 }));
 
 export type CreateTerminalReaderSetReaderDisplayError = StripeOpError;
@@ -95129,6 +95486,8 @@ export const CreateTerminalReaderSetReaderDisplay: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerminalReaderSetReaderDisplay",
 }));
 
 export type CreateTestHelpersConfirmationTokenError = StripeOpError;
@@ -95144,6 +95503,8 @@ export const CreateTestHelpersConfirmationToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersConfirmationToken",
 }));
 
 export type CreateTestHelpersCustomerFundCashBalanceError = StripeOpError;
@@ -95159,6 +95520,8 @@ export const CreateTestHelpersCustomerFundCashBalance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersCustomerFundCashBalance",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationError = StripeOpError;
@@ -95174,6 +95537,8 @@ export const CreateTestHelpersIssuingAuthorization: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorization",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationCaptureError = StripeOpError;
@@ -95193,6 +95558,8 @@ export const CreateTestHelpersIssuingAuthorizationCapture: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationCapture",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationExpireError = StripeOpError;
@@ -95212,6 +95579,8 @@ export const CreateTestHelpersIssuingAuthorizationExpire: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationExpire",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationFinalizeAmountError = StripeOpError;
@@ -95231,6 +95600,8 @@ export const CreateTestHelpersIssuingAuthorizationFinalizeAmount: API.OperationM
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationFinalizeAmount",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationFraudChallengesRespondError = StripeOpError;
@@ -95250,6 +95621,8 @@ export const CreateTestHelpersIssuingAuthorizationFraudChallengesRespond: API.Op
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationFraudChallengesRespond",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationIncrementError = StripeOpError;
@@ -95269,6 +95642,8 @@ export const CreateTestHelpersIssuingAuthorizationIncrement: API.OperationMethod
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationIncrement",
 }));
 
 export type CreateTestHelpersIssuingAuthorizationReverseError = StripeOpError;
@@ -95288,6 +95663,8 @@ export const CreateTestHelpersIssuingAuthorizationReverse: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingAuthorizationReverse",
 }));
 
 export type CreateTestHelpersIssuingCardShippingDeliverError = StripeOpError;
@@ -95307,6 +95684,8 @@ export const CreateTestHelpersIssuingCardShippingDeliver: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingCardShippingDeliver",
 }));
 
 export type CreateTestHelpersIssuingCardShippingFailError = StripeOpError;
@@ -95322,6 +95701,8 @@ export const CreateTestHelpersIssuingCardShippingFail: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingCardShippingFail",
 }));
 
 export type CreateTestHelpersIssuingCardShippingReturnError = StripeOpError;
@@ -95337,6 +95718,8 @@ export const CreateTestHelpersIssuingCardShippingReturn: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingCardShippingReturn",
 }));
 
 export type CreateTestHelpersIssuingCardShippingShipError = StripeOpError;
@@ -95352,6 +95735,8 @@ export const CreateTestHelpersIssuingCardShippingShip: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingCardShippingShip",
 }));
 
 export type CreateTestHelpersIssuingCardShippingSubmitError = StripeOpError;
@@ -95367,6 +95752,8 @@ export const CreateTestHelpersIssuingCardShippingSubmit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingCardShippingSubmit",
 }));
 
 export type CreateTestHelpersIssuingPersonalizationDesignActivateError = StripeOpError;
@@ -95386,6 +95773,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignActivate: API.Operatio
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingPersonalizationDesignActivate",
 }));
 
 export type CreateTestHelpersIssuingPersonalizationDesignDeactivateError = StripeOpError;
@@ -95405,6 +95794,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignDeactivate: API.Operat
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingPersonalizationDesignDeactivate",
 }));
 
 export type CreateTestHelpersIssuingPersonalizationDesignRejectError = StripeOpError;
@@ -95424,6 +95815,8 @@ export const CreateTestHelpersIssuingPersonalizationDesignReject: API.OperationM
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingPersonalizationDesignReject",
 }));
 
 export type CreateTestHelpersIssuingTransactionRefundError = StripeOpError;
@@ -95439,6 +95832,8 @@ export const CreateTestHelpersIssuingTransactionRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingTransactionRefund",
 }));
 
 export type CreateTestHelpersIssuingTransactionsCreateForceCaptureError = StripeOpError;
@@ -95458,6 +95853,8 @@ export const CreateTestHelpersIssuingTransactionsCreateForceCapture: API.Operati
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingTransactionsCreateForceCapture",
 }));
 
 export type CreateTestHelpersIssuingTransactionsCreateUnlinkedRefundError = StripeOpError;
@@ -95477,6 +95874,8 @@ export const CreateTestHelpersIssuingTransactionsCreateUnlinkedRefund: API.Opera
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersIssuingTransactionsCreateUnlinkedRefund",
 }));
 
 export type CreateTestHelpersRefundExpireError = StripeOpError;
@@ -95492,6 +95891,8 @@ export const CreateTestHelpersRefundExpire: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersRefundExpire",
 }));
 
 export type CreateTestHelpersTerminalReaderPresentPaymentMethodError = StripeOpError;
@@ -95511,6 +95912,8 @@ export const CreateTestHelpersTerminalReaderPresentPaymentMethod: API.OperationM
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTerminalReaderPresentPaymentMethod",
 }));
 
 export type CreateTestHelpersTerminalReaderSucceedInputCollectionError = StripeOpError;
@@ -95530,6 +95933,8 @@ export const CreateTestHelpersTerminalReaderSucceedInputCollection: API.Operatio
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTerminalReaderSucceedInputCollection",
 }));
 
 export type CreateTestHelpersTerminalReaderTimeoutInputCollectionError = StripeOpError;
@@ -95549,6 +95954,8 @@ export const CreateTestHelpersTerminalReaderTimeoutInputCollection: API.Operatio
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTerminalReaderTimeoutInputCollection",
 }));
 
 export type CreateTestHelpersTestClockError = StripeOpError;
@@ -95564,6 +95971,8 @@ export const CreateTestHelpersTestClock: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTestClock",
 }));
 
 export type CreateTestHelpersTestClockAdvanceError = StripeOpError;
@@ -95579,6 +95988,8 @@ export const CreateTestHelpersTestClockAdvance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTestClockAdvance",
 }));
 
 export type CreateTestHelpersTreasuryInboundTransferFailError = StripeOpError;
@@ -95598,6 +96009,8 @@ export const CreateTestHelpersTreasuryInboundTransferFail: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryInboundTransferFail",
 }));
 
 export type CreateTestHelpersTreasuryInboundTransferReturnError = StripeOpError;
@@ -95617,6 +96030,8 @@ export const CreateTestHelpersTreasuryInboundTransferReturn: API.OperationMethod
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryInboundTransferReturn",
 }));
 
 export type CreateTestHelpersTreasuryInboundTransferSucceedError = StripeOpError;
@@ -95636,6 +96051,8 @@ export const CreateTestHelpersTreasuryInboundTransferSucceed: API.OperationMetho
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryInboundTransferSucceed",
 }));
 
 export type CreateTestHelpersTreasuryOutboundPaymentFailError = StripeOpError;
@@ -95655,6 +96072,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentFail: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundPaymentFail",
 }));
 
 export type CreateTestHelpersTreasuryOutboundPaymentPostError = StripeOpError;
@@ -95674,6 +96093,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentPost: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundPaymentPost",
 }));
 
 export type CreateTestHelpersTreasuryOutboundPaymentReturnError = StripeOpError;
@@ -95693,6 +96114,8 @@ export const CreateTestHelpersTreasuryOutboundPaymentReturn: API.OperationMethod
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundPaymentReturn",
 }));
 
 export type CreateTestHelpersTreasuryOutboundTransferFailError = StripeOpError;
@@ -95712,6 +96135,8 @@ export const CreateTestHelpersTreasuryOutboundTransferFail: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundTransferFail",
 }));
 
 export type CreateTestHelpersTreasuryOutboundTransferPostError = StripeOpError;
@@ -95731,6 +96156,8 @@ export const CreateTestHelpersTreasuryOutboundTransferPost: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundTransferPost",
 }));
 
 export type CreateTestHelpersTreasuryOutboundTransferReturnError = StripeOpError;
@@ -95750,6 +96177,8 @@ export const CreateTestHelpersTreasuryOutboundTransferReturn: API.OperationMetho
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryOutboundTransferReturn",
 }));
 
 export type CreateTestHelpersTreasuryReceivedCreditError = StripeOpError;
@@ -95765,6 +96194,8 @@ export const CreateTestHelpersTreasuryReceivedCredit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryReceivedCredit",
 }));
 
 export type CreateTestHelpersTreasuryReceivedDebitError = StripeOpError;
@@ -95780,6 +96211,8 @@ export const CreateTestHelpersTreasuryReceivedDebit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestHelpersTreasuryReceivedDebit",
 }));
 
 export type CreateThreeDSecureAuthenticationError = StripeOpError;
@@ -95795,6 +96228,8 @@ export const CreateThreeDSecureAuthentication: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreeDSecureAuthentication",
 }));
 
 export type CreateThreeDSecureAuthenticationCancelError = StripeOpError;
@@ -95810,6 +96245,8 @@ export const CreateThreeDSecureAuthenticationCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreeDSecureAuthenticationCancel",
 }));
 
 export type CreateThreeDSecureAuthenticationSubmitError = StripeOpError;
@@ -95825,6 +96262,8 @@ export const CreateThreeDSecureAuthenticationSubmit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreeDSecureAuthenticationSubmit",
 }));
 
 export type CreateTokenError = StripeOpError;
@@ -95840,6 +96279,8 @@ export const CreateToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type CreateTopupError = StripeOpError;
@@ -95855,6 +96296,8 @@ export const CreateTopup: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopup",
 }));
 
 export type CreateTopupCancelError = StripeOpError;
@@ -95870,6 +96313,8 @@ export const CreateTopupCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopupCancel",
 }));
 
 export type CreateTransferError = StripeOpError;
@@ -95885,6 +96330,8 @@ export const CreateTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransfer",
 }));
 
 export type CreateTransferReversalError = StripeOpError;
@@ -95900,6 +96347,8 @@ export const CreateTransferReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferReversal",
 }));
 
 export type CreateTreasuryCreditReversalError = StripeOpError;
@@ -95915,6 +96364,8 @@ export const CreateTreasuryCreditReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryCreditReversal",
 }));
 
 export type CreateTreasuryDebitReversalError = StripeOpError;
@@ -95930,6 +96381,8 @@ export const CreateTreasuryDebitReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryDebitReversal",
 }));
 
 export type CreateTreasuryFinancialAccountError = StripeOpError;
@@ -95945,6 +96398,8 @@ export const CreateTreasuryFinancialAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryFinancialAccount",
 }));
 
 export type CreateTreasuryFinancialAccountCloseError = StripeOpError;
@@ -95960,6 +96415,8 @@ export const CreateTreasuryFinancialAccountClose: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryFinancialAccountClose",
 }));
 
 export type CreateTreasuryFinancialAccountFeatureError = StripeOpError;
@@ -95975,6 +96432,8 @@ export const CreateTreasuryFinancialAccountFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryFinancialAccountFeature",
 }));
 
 export type CreateTreasuryInboundTransferError = StripeOpError;
@@ -95990,6 +96449,8 @@ export const CreateTreasuryInboundTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryInboundTransfer",
 }));
 
 export type CreateTreasuryInboundTransferCancelError = StripeOpError;
@@ -96005,6 +96466,8 @@ export const CreateTreasuryInboundTransferCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryInboundTransferCancel",
 }));
 
 export type CreateTreasuryOutboundPaymentError = StripeOpError;
@@ -96020,6 +96483,8 @@ export const CreateTreasuryOutboundPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryOutboundPayment",
 }));
 
 export type CreateTreasuryOutboundPaymentCancelError = StripeOpError;
@@ -96035,6 +96500,8 @@ export const CreateTreasuryOutboundPaymentCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryOutboundPaymentCancel",
 }));
 
 export type CreateTreasuryOutboundTransferError = StripeOpError;
@@ -96050,6 +96517,8 @@ export const CreateTreasuryOutboundTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryOutboundTransfer",
 }));
 
 export type CreateTreasuryOutboundTransferCancelError = StripeOpError;
@@ -96065,6 +96534,8 @@ export const CreateTreasuryOutboundTransferCancel: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTreasuryOutboundTransferCancel",
 }));
 
 export type CreateWebhookEndpointError = StripeOpError;
@@ -96080,6 +96551,8 @@ export const CreateWebhookEndpoint: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookEndpoint",
 }));
 
 export type DeleteAccountError = StripeOpError;
@@ -96095,6 +96568,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteAccountExternalAccountError = StripeOpError;
@@ -96110,6 +96585,8 @@ export const DeleteAccountExternalAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountExternalAccount",
 }));
 
 export type DeleteAccountPersonError = StripeOpError;
@@ -96125,6 +96602,8 @@ export const DeleteAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountPerson",
 }));
 
 export type DeleteApplePayDomainError = StripeOpError;
@@ -96140,6 +96619,8 @@ export const DeleteApplePayDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplePayDomain",
 }));
 
 export type DeleteCoreAccountPersonError = StripeOpError;
@@ -96155,6 +96636,8 @@ export const DeleteCoreAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreAccountPerson",
 }));
 
 export type DeleteCoreEventDestinationError = StripeOpError;
@@ -96170,6 +96653,8 @@ export const DeleteCoreEventDestination: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreEventDestination",
 }));
 
 export type DeleteCouponError = StripeOpError;
@@ -96185,6 +96670,8 @@ export const DeleteCoupon: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoupon",
 }));
 
 export type DeleteCustomerError = StripeOpError;
@@ -96200,6 +96687,8 @@ export const DeleteCustomer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomer",
 }));
 
 export type DeleteCustomerDiscountError = StripeOpError;
@@ -96215,6 +96704,8 @@ export const DeleteCustomerDiscount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomerDiscount",
 }));
 
 export type DeleteCustomerSourceError = StripeOpError;
@@ -96230,6 +96721,8 @@ export const DeleteCustomerSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomerSource",
 }));
 
 export type DeleteCustomerTaxIdsError = StripeOpError;
@@ -96245,6 +96738,8 @@ export const DeleteCustomerTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomerTaxIds",
 }));
 
 export type DeleteEphemeralKeyError = StripeOpError;
@@ -96260,6 +96755,8 @@ export const DeleteEphemeralKey: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEphemeralKey",
 }));
 
 export type DeleteInvoiceError = StripeOpError;
@@ -96275,6 +96772,8 @@ export const DeleteInvoice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoice",
 }));
 
 export type DeleteInvoiceitemError = StripeOpError;
@@ -96290,6 +96789,8 @@ export const DeleteInvoiceitem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoiceitem",
 }));
 
 export type DeletePlanError = StripeOpError;
@@ -96305,6 +96806,8 @@ export const DeletePlan: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlan",
 }));
 
 export type DeleteProductError = ProductHasPrices | StripeOpError;
@@ -96320,6 +96823,8 @@ export const DeleteProduct: API.OperationMethod<
   errors: [ProductHasPrices, UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeleteProductFeatureError = StripeOpError;
@@ -96335,6 +96840,8 @@ export const DeleteProductFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProductFeature",
 }));
 
 export type DeleteRadarValueListError = StripeOpError;
@@ -96350,6 +96857,8 @@ export const DeleteRadarValueList: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRadarValueList",
 }));
 
 export type DeleteRadarValueListItemError = StripeOpError;
@@ -96365,6 +96874,8 @@ export const DeleteRadarValueListItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRadarValueListItem",
 }));
 
 export type DeleteSubscriptionError = StripeOpError;
@@ -96380,6 +96891,8 @@ export const DeleteSubscription: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteSubscriptionDiscountError = StripeOpError;
@@ -96395,6 +96908,8 @@ export const DeleteSubscriptionDiscount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptionDiscount",
 }));
 
 export type DeleteSubscriptionItemError = StripeOpError;
@@ -96410,6 +96925,8 @@ export const DeleteSubscriptionItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptionItem",
 }));
 
 export type DeleteTaxIdsError = StripeOpError;
@@ -96425,6 +96942,8 @@ export const DeleteTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTaxIds",
 }));
 
 export type DeleteTerminalConfigurationError = StripeOpError;
@@ -96440,6 +96959,8 @@ export const DeleteTerminalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTerminalConfiguration",
 }));
 
 export type DeleteTerminalLocationError = StripeOpError;
@@ -96455,6 +96976,8 @@ export const DeleteTerminalLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTerminalLocation",
 }));
 
 export type DeleteTerminalReaderError = StripeOpError;
@@ -96470,6 +96993,8 @@ export const DeleteTerminalReader: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTerminalReader",
 }));
 
 export type DeleteTestHelpersTestClockError = StripeOpError;
@@ -96485,6 +97010,8 @@ export const DeleteTestHelpersTestClock: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTestHelpersTestClock",
 }));
 
 export type DeleteWebhookEndpointError = StripeOpError;
@@ -96500,6 +97027,8 @@ export const DeleteWebhookEndpoint: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookEndpoint",
 }));
 
 export type GetAccountError = StripeOpError;
@@ -96515,6 +97044,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountByAccountError = StripeOpError;
@@ -96530,6 +97061,8 @@ export const GetAccountByAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountByAccount",
 }));
 
 export type GetAccountCapabilitiesError = StripeOpError;
@@ -96545,6 +97078,8 @@ export const GetAccountCapabilities: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountCapabilities",
 }));
 
 export type GetAccountCapabilityError = StripeOpError;
@@ -96560,6 +97095,8 @@ export const GetAccountCapability: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountCapability",
 }));
 
 export type GetAccountExternalAccountError = StripeOpError;
@@ -96575,6 +97112,8 @@ export const GetAccountExternalAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountExternalAccount",
 }));
 
 export type GetAccountExternalAccountsError = StripeOpError;
@@ -96590,6 +97129,8 @@ export const GetAccountExternalAccounts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountExternalAccounts",
 }));
 
 export type GetAccountPersonError = StripeOpError;
@@ -96605,6 +97146,8 @@ export const GetAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPerson",
 }));
 
 export type GetAccountPersonsError = StripeOpError;
@@ -96620,6 +97163,8 @@ export const GetAccountPersons: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPersons",
 }));
 
 export type GetAccountsError = StripeOpError;
@@ -96635,6 +97180,8 @@ export const GetAccounts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetApplePayDomainError = StripeOpError;
@@ -96650,6 +97197,8 @@ export const GetApplePayDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplePayDomain",
 }));
 
 export type GetApplePayDomainsError = StripeOpError;
@@ -96665,6 +97214,8 @@ export const GetApplePayDomains: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplePayDomains",
 }));
 
 export type GetApplicationFeeError = StripeOpError;
@@ -96680,6 +97231,8 @@ export const GetApplicationFee: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationFee",
 }));
 
 export type GetApplicationFeeRefundError = StripeOpError;
@@ -96695,6 +97248,8 @@ export const GetApplicationFeeRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationFeeRefund",
 }));
 
 export type GetApplicationFeeRefundsError = StripeOpError;
@@ -96710,6 +97265,8 @@ export const GetApplicationFeeRefunds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationFeeRefunds",
 }));
 
 export type GetApplicationFeesError = StripeOpError;
@@ -96725,6 +97282,8 @@ export const GetApplicationFees: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationFees",
 }));
 
 export type GetAppsInstallError = StripeOpError;
@@ -96740,6 +97299,8 @@ export const GetAppsInstall: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsInstall",
 }));
 
 export type GetAppsInstallsError = StripeOpError;
@@ -96755,6 +97316,8 @@ export const GetAppsInstalls: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsInstalls",
 }));
 
 export type GetAppsSecretsError = StripeOpError;
@@ -96770,6 +97333,8 @@ export const GetAppsSecrets: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsSecrets",
 }));
 
 export type GetAppsSecretsFindError = StripeOpError;
@@ -96785,6 +97350,8 @@ export const GetAppsSecretsFind: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsSecretsFind",
 }));
 
 export type GetBalanceError = StripeOpError;
@@ -96800,6 +97367,8 @@ export const GetBalance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalance",
 }));
 
 export type GetBalanceSettingsError = StripeOpError;
@@ -96815,6 +97384,8 @@ export const GetBalanceSettings: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceSettings",
 }));
 
 export type GetBalanceTransactionError = StripeOpError;
@@ -96830,6 +97401,8 @@ export const GetBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceTransaction",
 }));
 
 export type GetBalanceTransactionsError = StripeOpError;
@@ -96845,6 +97418,8 @@ export const GetBalanceTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceTransactions",
 }));
 
 export type GetBillingAlertError = StripeOpError;
@@ -96860,6 +97435,8 @@ export const GetBillingAlert: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAlert",
 }));
 
 export type GetBillingAlertsError = StripeOpError;
@@ -96875,6 +97452,8 @@ export const GetBillingAlerts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAlerts",
 }));
 
 export type GetBillingCreditBalanceSummaryError = StripeOpError;
@@ -96890,6 +97469,8 @@ export const GetBillingCreditBalanceSummary: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditBalanceSummary",
 }));
 
 export type GetBillingCreditBalanceTransactionError = StripeOpError;
@@ -96905,6 +97486,8 @@ export const GetBillingCreditBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditBalanceTransaction",
 }));
 
 export type GetBillingCreditBalanceTransactionsError = StripeOpError;
@@ -96920,6 +97503,8 @@ export const GetBillingCreditBalanceTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditBalanceTransactions",
 }));
 
 export type GetBillingCreditGrantError = StripeOpError;
@@ -96935,6 +97520,8 @@ export const GetBillingCreditGrant: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditGrant",
 }));
 
 export type GetBillingCreditGrantsError = StripeOpError;
@@ -96950,6 +97537,8 @@ export const GetBillingCreditGrants: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingCreditGrants",
 }));
 
 export type GetBillingFeedbackOptionError = StripeOpError;
@@ -96965,6 +97554,8 @@ export const GetBillingFeedbackOption: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingFeedbackOption",
 }));
 
 export type GetBillingFeedbackOptionsError = StripeOpError;
@@ -96980,6 +97571,8 @@ export const GetBillingFeedbackOptions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingFeedbackOptions",
 }));
 
 export type GetBillingMeterError = StripeOpError;
@@ -96995,6 +97588,8 @@ export const GetBillingMeter: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingMeter",
 }));
 
 export type GetBillingMeterEventSummariesError = StripeOpError;
@@ -97010,6 +97605,8 @@ export const GetBillingMeterEventSummaries: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingMeterEventSummaries",
 }));
 
 export type GetBillingMetersError = StripeOpError;
@@ -97025,6 +97622,8 @@ export const GetBillingMeters: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingMeters",
 }));
 
 export type GetBillingPortalConfigurationError = StripeOpError;
@@ -97040,6 +97639,8 @@ export const GetBillingPortalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPortalConfiguration",
 }));
 
 export type GetBillingPortalConfigurationsError = StripeOpError;
@@ -97055,6 +97656,8 @@ export const GetBillingPortalConfigurations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPortalConfigurations",
 }));
 
 export type GetChargeError = StripeOpError;
@@ -97070,6 +97673,8 @@ export const GetCharge: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCharge",
 }));
 
 export type GetChargeRefundError = StripeOpError;
@@ -97085,6 +97690,8 @@ export const GetChargeRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChargeRefund",
 }));
 
 export type GetChargeRefundsError = StripeOpError;
@@ -97100,6 +97707,8 @@ export const GetChargeRefunds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChargeRefunds",
 }));
 
 export type GetChargesError = StripeOpError;
@@ -97115,6 +97724,8 @@ export const GetCharges: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCharges",
 }));
 
 export type GetChargesSearchError = StripeOpError;
@@ -97132,6 +97743,8 @@ export const GetChargesSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetChargesSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -97155,6 +97768,8 @@ export const GetCheckoutSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckoutSession",
 }));
 
 export type GetCheckoutSessionLineItemsError = StripeOpError;
@@ -97170,6 +97785,8 @@ export const GetCheckoutSessionLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckoutSessionLineItems",
 }));
 
 export type GetCheckoutSessionsError = StripeOpError;
@@ -97185,6 +97802,8 @@ export const GetCheckoutSessions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckoutSessions",
 }));
 
 export type GetClimateOrderError = StripeOpError;
@@ -97200,6 +97819,8 @@ export const GetClimateOrder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateOrder",
 }));
 
 export type GetClimateOrdersError = StripeOpError;
@@ -97215,6 +97836,8 @@ export const GetClimateOrders: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateOrders",
 }));
 
 export type GetClimateProductError = StripeOpError;
@@ -97230,6 +97853,8 @@ export const GetClimateProduct: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateProduct",
 }));
 
 export type GetClimateProductsError = StripeOpError;
@@ -97245,6 +97870,8 @@ export const GetClimateProducts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateProducts",
 }));
 
 export type GetClimateSupplierError = StripeOpError;
@@ -97260,6 +97887,8 @@ export const GetClimateSupplier: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateSupplier",
 }));
 
 export type GetClimateSuppliersError = StripeOpError;
@@ -97275,6 +97904,8 @@ export const GetClimateSuppliers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClimateSuppliers",
 }));
 
 export type GetCommerceProductCatalogImportError = StripeOpError;
@@ -97290,6 +97921,8 @@ export const GetCommerceProductCatalogImport: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommerceProductCatalogImport",
 }));
 
 export type GetCommerceProductCatalogImportsError = StripeOpError;
@@ -97305,6 +97938,8 @@ export const GetCommerceProductCatalogImports: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommerceProductCatalogImports",
 }));
 
 export type GetConfirmationTokenError = StripeOpError;
@@ -97320,6 +97955,8 @@ export const GetConfirmationToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfirmationToken",
 }));
 
 export type GetCoreAccountError = StripeOpError;
@@ -97335,6 +97972,8 @@ export const GetCoreAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccount",
 }));
 
 export type GetCoreAccountPersonError = StripeOpError;
@@ -97350,6 +97989,8 @@ export const GetCoreAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccountPerson",
 }));
 
 export type GetCoreAccountPersonsError = StripeOpError;
@@ -97365,6 +98006,8 @@ export const GetCoreAccountPersons: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccountPersons",
 }));
 
 export type GetCoreAccountPersonTokenError = StripeOpError;
@@ -97380,6 +98023,8 @@ export const GetCoreAccountPersonToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccountPersonToken",
 }));
 
 export type GetCoreAccountsError = StripeOpError;
@@ -97395,6 +98040,8 @@ export const GetCoreAccounts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccounts",
 }));
 
 export type GetCoreAccountTokenError = StripeOpError;
@@ -97410,6 +98057,8 @@ export const GetCoreAccountToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAccountToken",
 }));
 
 export type GetCoreEventError = StripeOpError;
@@ -97425,6 +98074,8 @@ export const GetCoreEvent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreEvent",
 }));
 
 export type GetCoreEventDestinationError = StripeOpError;
@@ -97440,6 +98091,8 @@ export const GetCoreEventDestination: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreEventDestination",
 }));
 
 export type GetCoreEventDestinationsError = StripeOpError;
@@ -97455,6 +98108,8 @@ export const GetCoreEventDestinations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreEventDestinations",
 }));
 
 export type GetCoreEventsError = StripeOpError;
@@ -97470,6 +98125,8 @@ export const GetCoreEvents: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreEvents",
 }));
 
 export type GetCountrySpecsError = StripeOpError;
@@ -97485,6 +98142,8 @@ export const GetCountrySpecs: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountrySpecs",
 }));
 
 export type GetCountrySpecsCountryError = StripeOpError;
@@ -97500,6 +98159,8 @@ export const GetCountrySpecsCountry: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountrySpecsCountry",
 }));
 
 export type GetCouponError = StripeOpError;
@@ -97515,6 +98176,8 @@ export const GetCoupon: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoupon",
 }));
 
 export type GetCouponsError = StripeOpError;
@@ -97530,6 +98193,8 @@ export const GetCoupons: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoupons",
 }));
 
 export type GetCreditNoteError = StripeOpError;
@@ -97545,6 +98210,8 @@ export const GetCreditNote: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditNote",
 }));
 
 export type GetCreditNoteLinesError = StripeOpError;
@@ -97560,6 +98227,8 @@ export const GetCreditNoteLines: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditNoteLines",
 }));
 
 export type GetCreditNotesError = StripeOpError;
@@ -97575,6 +98244,8 @@ export const GetCreditNotes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditNotes",
 }));
 
 export type GetCreditNotesPreviewError = StripeOpError;
@@ -97590,6 +98261,8 @@ export const GetCreditNotesPreview: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditNotesPreview",
 }));
 
 export type GetCreditNotesPreviewLinesError = StripeOpError;
@@ -97605,6 +98278,8 @@ export const GetCreditNotesPreviewLines: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditNotesPreviewLines",
 }));
 
 export type GetCustomerError = StripeOpError;
@@ -97620,6 +98295,8 @@ export const GetCustomer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomer",
 }));
 
 export type GetCustomerBalanceTransactionError = StripeOpError;
@@ -97635,6 +98312,8 @@ export const GetCustomerBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerBalanceTransaction",
 }));
 
 export type GetCustomerBalanceTransactionsError = StripeOpError;
@@ -97650,6 +98329,8 @@ export const GetCustomerBalanceTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerBalanceTransactions",
 }));
 
 export type GetCustomerCashBalanceError = StripeOpError;
@@ -97665,6 +98346,8 @@ export const GetCustomerCashBalance: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerCashBalance",
 }));
 
 export type GetCustomerCashBalanceTransactionError = StripeOpError;
@@ -97680,6 +98363,8 @@ export const GetCustomerCashBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerCashBalanceTransaction",
 }));
 
 export type GetCustomerCashBalanceTransactionsError = StripeOpError;
@@ -97695,6 +98380,8 @@ export const GetCustomerCashBalanceTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerCashBalanceTransactions",
 }));
 
 export type GetCustomerPaymentMethodError = StripeOpError;
@@ -97710,6 +98397,8 @@ export const GetCustomerPaymentMethod: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerPaymentMethod",
 }));
 
 export type GetCustomerPaymentMethodsError = StripeOpError;
@@ -97725,6 +98414,8 @@ export const GetCustomerPaymentMethods: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerPaymentMethods",
 }));
 
 export type GetCustomersError = StripeOpError;
@@ -97740,6 +98431,8 @@ export const GetCustomers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomers",
 }));
 
 export type GetCustomerSourceError = StripeOpError;
@@ -97755,6 +98448,8 @@ export const GetCustomerSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerSource",
 }));
 
 export type GetCustomerSourcesError = StripeOpError;
@@ -97770,6 +98465,8 @@ export const GetCustomerSources: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerSources",
 }));
 
 export type GetCustomersSearchError = StripeOpError;
@@ -97787,6 +98484,8 @@ export const GetCustomersSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCustomersSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -97810,6 +98509,8 @@ export const GetCustomerTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerTaxIds",
 }));
 
 export type GetCustomerTaxIdsByIdError = StripeOpError;
@@ -97825,6 +98526,8 @@ export const GetCustomerTaxIdsById: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerTaxIdsById",
 }));
 
 export type GetDisputeError = StripeOpError;
@@ -97840,6 +98543,8 @@ export const GetDispute: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDispute",
 }));
 
 export type GetDisputesError = StripeOpError;
@@ -97855,6 +98560,8 @@ export const GetDisputes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDisputes",
 }));
 
 export type GetEntitlementsActiveEntitlementError = StripeOpError;
@@ -97870,6 +98577,8 @@ export const GetEntitlementsActiveEntitlement: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlementsActiveEntitlement",
 }));
 
 export type GetEntitlementsActiveEntitlementsError = StripeOpError;
@@ -97885,6 +98594,8 @@ export const GetEntitlementsActiveEntitlements: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlementsActiveEntitlements",
 }));
 
 export type GetEntitlementsFeatureError = StripeOpError;
@@ -97900,6 +98611,8 @@ export const GetEntitlementsFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlementsFeature",
 }));
 
 export type GetEntitlementsFeaturesError = StripeOpError;
@@ -97915,6 +98628,8 @@ export const GetEntitlementsFeatures: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlementsFeatures",
 }));
 
 export type GetEventError = StripeOpError;
@@ -97926,6 +98641,8 @@ export const GetEvent: API.OperationMethod<GetEventRequest, Event, GetEventError
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEvent",
   }));
 
 export type GetEventsError = StripeOpError;
@@ -97941,6 +98658,8 @@ export const GetEvents: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvents",
 }));
 
 export type GetExchangeRateError = StripeOpError;
@@ -97956,6 +98675,8 @@ export const GetExchangeRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExchangeRate",
 }));
 
 export type GetExchangeRatesError = StripeOpError;
@@ -97971,6 +98692,8 @@ export const GetExchangeRates: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExchangeRates",
 }));
 
 export type GetFileError = StripeOpError;
@@ -97982,6 +98705,8 @@ export const GetFile: API.OperationMethod<GetFileRequest, File, GetFileError, St
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFile",
   }));
 
 export type GetFileLinkError = StripeOpError;
@@ -97997,6 +98722,8 @@ export const GetFileLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileLink",
 }));
 
 export type GetFileLinksError = StripeOpError;
@@ -98012,6 +98739,8 @@ export const GetFileLinks: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileLinks",
 }));
 
 export type GetFilesError = StripeOpError;
@@ -98027,6 +98756,8 @@ export const GetFiles: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFiles",
 }));
 
 export type GetFinancialConnectionsAccountError = StripeOpError;
@@ -98042,6 +98773,8 @@ export const GetFinancialConnectionsAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsAccount",
 }));
 
 export type GetFinancialConnectionsAccountOwnersError = StripeOpError;
@@ -98057,6 +98790,8 @@ export const GetFinancialConnectionsAccountOwners: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsAccountOwners",
 }));
 
 export type GetFinancialConnectionsAccountsError = StripeOpError;
@@ -98072,6 +98807,8 @@ export const GetFinancialConnectionsAccounts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsAccounts",
 }));
 
 export type GetFinancialConnectionsSessionError = StripeOpError;
@@ -98087,6 +98824,8 @@ export const GetFinancialConnectionsSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsSession",
 }));
 
 export type GetFinancialConnectionsTransactionError = StripeOpError;
@@ -98102,6 +98841,8 @@ export const GetFinancialConnectionsTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsTransaction",
 }));
 
 export type GetFinancialConnectionsTransactionsError = StripeOpError;
@@ -98117,6 +98858,8 @@ export const GetFinancialConnectionsTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialConnectionsTransactions",
 }));
 
 export type GetForwardingRequestError = StripeOpError;
@@ -98132,6 +98875,8 @@ export const GetForwardingRequest: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForwardingRequest",
 }));
 
 export type GetForwardingRequestsError = StripeOpError;
@@ -98147,6 +98892,8 @@ export const GetForwardingRequests: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForwardingRequests",
 }));
 
 export type GetIdentityVerificationReportError = StripeOpError;
@@ -98162,6 +98909,8 @@ export const GetIdentityVerificationReport: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationReport",
 }));
 
 export type GetIdentityVerificationReportsError = StripeOpError;
@@ -98177,6 +98926,8 @@ export const GetIdentityVerificationReports: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationReports",
 }));
 
 export type GetIdentityVerificationSessionError = StripeOpError;
@@ -98192,6 +98943,8 @@ export const GetIdentityVerificationSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationSession",
 }));
 
 export type GetIdentityVerificationSessionsError = StripeOpError;
@@ -98207,6 +98960,8 @@ export const GetIdentityVerificationSessions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationSessions",
 }));
 
 export type GetInvoiceError = StripeOpError;
@@ -98222,6 +98977,8 @@ export const GetInvoice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetInvoiceitemError = StripeOpError;
@@ -98237,6 +98994,8 @@ export const GetInvoiceitem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceitem",
 }));
 
 export type GetInvoiceitemsError = StripeOpError;
@@ -98252,6 +99011,8 @@ export const GetInvoiceitems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceitems",
 }));
 
 export type GetInvoiceLinesError = StripeOpError;
@@ -98267,6 +99028,8 @@ export const GetInvoiceLines: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceLines",
 }));
 
 export type GetInvoicePaymentError = StripeOpError;
@@ -98282,6 +99045,8 @@ export const GetInvoicePayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoicePayment",
 }));
 
 export type GetInvoicePaymentsError = StripeOpError;
@@ -98297,6 +99062,8 @@ export const GetInvoicePayments: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoicePayments",
 }));
 
 export type GetInvoiceRenderingTemplateError = StripeOpError;
@@ -98312,6 +99079,8 @@ export const GetInvoiceRenderingTemplate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceRenderingTemplate",
 }));
 
 export type GetInvoiceRenderingTemplatesError = StripeOpError;
@@ -98327,6 +99096,8 @@ export const GetInvoiceRenderingTemplates: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceRenderingTemplates",
 }));
 
 export type GetInvoicesError = StripeOpError;
@@ -98342,6 +99113,8 @@ export const GetInvoices: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoices",
 }));
 
 export type GetInvoicesSearchError = StripeOpError;
@@ -98359,6 +99132,8 @@ export const GetInvoicesSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetInvoicesSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98382,6 +99157,8 @@ export const GetIssuingAuthorization: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingAuthorization",
 }));
 
 export type GetIssuingAuthorizationsError = StripeOpError;
@@ -98397,6 +99174,8 @@ export const GetIssuingAuthorizations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingAuthorizations",
 }));
 
 export type GetIssuingCardError = StripeOpError;
@@ -98412,6 +99191,8 @@ export const GetIssuingCard: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingCard",
 }));
 
 export type GetIssuingCardholderError = StripeOpError;
@@ -98427,6 +99208,8 @@ export const GetIssuingCardholder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingCardholder",
 }));
 
 export type GetIssuingCardholdersError = StripeOpError;
@@ -98442,6 +99225,8 @@ export const GetIssuingCardholders: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingCardholders",
 }));
 
 export type GetIssuingCardsError = StripeOpError;
@@ -98457,6 +99242,8 @@ export const GetIssuingCards: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingCards",
 }));
 
 export type GetIssuingDisputeError = StripeOpError;
@@ -98472,6 +99259,8 @@ export const GetIssuingDispute: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingDispute",
 }));
 
 export type GetIssuingDisputesError = StripeOpError;
@@ -98487,6 +99276,8 @@ export const GetIssuingDisputes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingDisputes",
 }));
 
 export type GetIssuingPersonalizationDesignError = StripeOpError;
@@ -98502,6 +99293,8 @@ export const GetIssuingPersonalizationDesign: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingPersonalizationDesign",
 }));
 
 export type GetIssuingPersonalizationDesignsError = StripeOpError;
@@ -98517,6 +99310,8 @@ export const GetIssuingPersonalizationDesigns: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingPersonalizationDesigns",
 }));
 
 export type GetIssuingPhysicalBundleError = StripeOpError;
@@ -98532,6 +99327,8 @@ export const GetIssuingPhysicalBundle: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingPhysicalBundle",
 }));
 
 export type GetIssuingPhysicalBundlesError = StripeOpError;
@@ -98547,6 +99344,8 @@ export const GetIssuingPhysicalBundles: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingPhysicalBundles",
 }));
 
 export type GetIssuingTokenError = StripeOpError;
@@ -98562,6 +99361,8 @@ export const GetIssuingToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingToken",
 }));
 
 export type GetIssuingTokensError = StripeOpError;
@@ -98577,6 +99378,8 @@ export const GetIssuingTokens: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingTokens",
 }));
 
 export type GetIssuingTransactionError = StripeOpError;
@@ -98592,6 +99395,8 @@ export const GetIssuingTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingTransaction",
 }));
 
 export type GetIssuingTransactionsError = StripeOpError;
@@ -98607,6 +99412,8 @@ export const GetIssuingTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuingTransactions",
 }));
 
 export type GetMandateError = StripeOpError;
@@ -98622,6 +99429,8 @@ export const GetMandate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMandate",
 }));
 
 export type GetPaymentAttemptRecordError = StripeOpError;
@@ -98637,6 +99446,8 @@ export const GetPaymentAttemptRecord: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentAttemptRecord",
 }));
 
 export type GetPaymentAttemptRecordsError = StripeOpError;
@@ -98652,6 +99463,8 @@ export const GetPaymentAttemptRecords: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentAttemptRecords",
 }));
 
 export type GetPaymentIntentError = StripeOpError;
@@ -98667,6 +99480,8 @@ export const GetPaymentIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentIntent",
 }));
 
 export type GetPaymentIntentAmountDetailsLineItemsError = StripeOpError;
@@ -98682,6 +99497,8 @@ export const GetPaymentIntentAmountDetailsLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentIntentAmountDetailsLineItems",
 }));
 
 export type GetPaymentIntentsError = StripeOpError;
@@ -98697,6 +99514,8 @@ export const GetPaymentIntents: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentIntents",
 }));
 
 export type GetPaymentIntentsSearchError = StripeOpError;
@@ -98714,6 +99533,8 @@ export const GetPaymentIntentsSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPaymentIntentsSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98737,6 +99558,8 @@ export const GetPaymentLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentLink",
 }));
 
 export type GetPaymentLinkLineItemsError = StripeOpError;
@@ -98752,6 +99575,8 @@ export const GetPaymentLinkLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentLinkLineItems",
 }));
 
 export type GetPaymentLinksError = StripeOpError;
@@ -98767,6 +99592,8 @@ export const GetPaymentLinks: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentLinks",
 }));
 
 export type GetPaymentMethodError = StripeOpError;
@@ -98782,6 +99609,8 @@ export const GetPaymentMethod: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethod",
 }));
 
 export type GetPaymentMethodConfigurationError = StripeOpError;
@@ -98797,6 +99626,8 @@ export const GetPaymentMethodConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodConfiguration",
 }));
 
 export type GetPaymentMethodConfigurationsError = StripeOpError;
@@ -98812,6 +99643,8 @@ export const GetPaymentMethodConfigurations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodConfigurations",
 }));
 
 export type GetPaymentMethodDomainError = StripeOpError;
@@ -98827,6 +99660,8 @@ export const GetPaymentMethodDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodDomain",
 }));
 
 export type GetPaymentMethodDomainsError = StripeOpError;
@@ -98842,6 +99677,8 @@ export const GetPaymentMethodDomains: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodDomains",
 }));
 
 export type GetPaymentMethodsError = StripeOpError;
@@ -98857,6 +99694,8 @@ export const GetPaymentMethods: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethods",
 }));
 
 export type GetPaymentRecordError = StripeOpError;
@@ -98872,6 +99711,8 @@ export const GetPaymentRecord: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentRecord",
 }));
 
 export type GetPaymentRecordsError = StripeOpError;
@@ -98887,6 +99728,8 @@ export const GetPaymentRecords: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentRecords",
 }));
 
 export type GetPayoutError = StripeOpError;
@@ -98902,6 +99745,8 @@ export const GetPayout: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayout",
 }));
 
 export type GetPayoutsError = StripeOpError;
@@ -98917,6 +99762,8 @@ export const GetPayouts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayouts",
 }));
 
 export type GetPlanError = StripeOpError;
@@ -98928,6 +99775,8 @@ export const GetPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, St
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPlan",
   }));
 
 export type GetPlansError = StripeOpError;
@@ -98943,6 +99792,8 @@ export const GetPlans: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlans",
 }));
 
 export type GetPriceError = StripeOpError;
@@ -98954,6 +99805,8 @@ export const GetPrice: API.OperationMethod<GetPriceRequest, Price, GetPriceError
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPrice",
   }));
 
 export type GetPricesError = StripeOpError;
@@ -98969,6 +99822,8 @@ export const GetPrices: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrices",
 }));
 
 export type GetPricesSearchError = StripeOpError;
@@ -98986,6 +99841,8 @@ export const GetPricesSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPricesSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99009,6 +99866,8 @@ export const GetProduct: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type GetProductCatalogTrialOfferError = StripeOpError;
@@ -99024,6 +99883,8 @@ export const GetProductCatalogTrialOffer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductCatalogTrialOffer",
 }));
 
 export type GetProductCatalogTrialOffersError = StripeOpError;
@@ -99039,6 +99900,8 @@ export const GetProductCatalogTrialOffers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductCatalogTrialOffers",
 }));
 
 export type GetProductFeatureError = StripeOpError;
@@ -99054,6 +99917,8 @@ export const GetProductFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductFeature",
 }));
 
 export type GetProductFeaturesError = StripeOpError;
@@ -99069,6 +99934,8 @@ export const GetProductFeatures: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductFeatures",
 }));
 
 export type GetProductsError = StripeOpError;
@@ -99084,6 +99951,8 @@ export const GetProducts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProducts",
 }));
 
 export type GetProductsSearchError = StripeOpError;
@@ -99101,6 +99970,8 @@ export const GetProductsSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetProductsSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99124,6 +99995,8 @@ export const GetPromotionCode: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromotionCode",
 }));
 
 export type GetPromotionCodesError = StripeOpError;
@@ -99139,6 +100012,8 @@ export const GetPromotionCodes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromotionCodes",
 }));
 
 export type GetQuoteError = StripeOpError;
@@ -99150,6 +100025,8 @@ export const GetQuote: API.OperationMethod<GetQuoteRequest, Quote, GetQuoteError
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetQuote",
   }));
 
 export type GetQuoteComputedUpfrontLineItemsError = StripeOpError;
@@ -99165,6 +100042,8 @@ export const GetQuoteComputedUpfrontLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuoteComputedUpfrontLineItems",
 }));
 
 export type GetQuoteLineItemsError = StripeOpError;
@@ -99180,6 +100059,8 @@ export const GetQuoteLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuoteLineItems",
 }));
 
 export type GetQuotePdfError = StripeOpError;
@@ -99195,6 +100076,8 @@ export const GetQuotePdf: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuotePdf",
 }));
 
 export type GetQuotesError = StripeOpError;
@@ -99210,6 +100093,8 @@ export const GetQuotes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuotes",
 }));
 
 export type GetRadarEarlyFraudWarningError = StripeOpError;
@@ -99225,6 +100110,8 @@ export const GetRadarEarlyFraudWarning: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarEarlyFraudWarning",
 }));
 
 export type GetRadarEarlyFraudWarningsError = StripeOpError;
@@ -99240,6 +100127,8 @@ export const GetRadarEarlyFraudWarnings: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarEarlyFraudWarnings",
 }));
 
 export type GetRadarValueListError = StripeOpError;
@@ -99255,6 +100144,8 @@ export const GetRadarValueList: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarValueList",
 }));
 
 export type GetRadarValueListItemError = StripeOpError;
@@ -99270,6 +100161,8 @@ export const GetRadarValueListItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarValueListItem",
 }));
 
 export type GetRadarValueListItemsError = StripeOpError;
@@ -99285,6 +100178,8 @@ export const GetRadarValueListItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarValueListItems",
 }));
 
 export type GetRadarValueListsError = StripeOpError;
@@ -99300,6 +100195,8 @@ export const GetRadarValueLists: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRadarValueLists",
 }));
 
 export type GetRefundError = StripeOpError;
@@ -99315,6 +100212,8 @@ export const GetRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefund",
 }));
 
 export type GetRefundsError = StripeOpError;
@@ -99330,6 +100229,8 @@ export const GetRefunds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefunds",
 }));
 
 export type GetReportingReportRunError = StripeOpError;
@@ -99345,6 +100246,8 @@ export const GetReportingReportRun: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportingReportRun",
 }));
 
 export type GetReportingReportRunsError = StripeOpError;
@@ -99360,6 +100263,8 @@ export const GetReportingReportRuns: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportingReportRuns",
 }));
 
 export type GetReportingReportTypeError = StripeOpError;
@@ -99375,6 +100280,8 @@ export const GetReportingReportType: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportingReportType",
 }));
 
 export type GetReportingReportTypesError = StripeOpError;
@@ -99390,6 +100297,8 @@ export const GetReportingReportTypes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportingReportTypes",
 }));
 
 export type GetReviewError = StripeOpError;
@@ -99405,6 +100314,8 @@ export const GetReview: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReview",
 }));
 
 export type GetReviewsError = StripeOpError;
@@ -99420,6 +100331,8 @@ export const GetReviews: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviews",
 }));
 
 export type GetSetupAttemptsError = StripeOpError;
@@ -99435,6 +100348,8 @@ export const GetSetupAttempts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetupAttempts",
 }));
 
 export type GetSetupIntentError = StripeOpError;
@@ -99450,6 +100365,8 @@ export const GetSetupIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetupIntent",
 }));
 
 export type GetSetupIntentsError = StripeOpError;
@@ -99465,6 +100382,8 @@ export const GetSetupIntents: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetupIntents",
 }));
 
 export type GetShippingRateError = StripeOpError;
@@ -99480,6 +100399,8 @@ export const GetShippingRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShippingRate",
 }));
 
 export type GetShippingRatesError = StripeOpError;
@@ -99495,6 +100416,8 @@ export const GetShippingRates: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShippingRates",
 }));
 
 export type GetSigmaScheduledQueryRunError = StripeOpError;
@@ -99510,6 +100433,8 @@ export const GetSigmaScheduledQueryRun: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigmaScheduledQueryRun",
 }));
 
 export type GetSigmaScheduledQueryRunsError = StripeOpError;
@@ -99525,6 +100450,8 @@ export const GetSigmaScheduledQueryRuns: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigmaScheduledQueryRuns",
 }));
 
 export type GetSourceError = StripeOpError;
@@ -99540,6 +100467,8 @@ export const GetSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSource",
 }));
 
 export type GetSourceTransactionsError = StripeOpError;
@@ -99555,6 +100484,8 @@ export const GetSourceTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourceTransactions",
 }));
 
 export type GetSubscriptionError = StripeOpError;
@@ -99570,6 +100501,8 @@ export const GetSubscription: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetSubscriptionItemError = StripeOpError;
@@ -99585,6 +100518,8 @@ export const GetSubscriptionItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionItem",
 }));
 
 export type GetSubscriptionItemsError = StripeOpError;
@@ -99600,6 +100535,8 @@ export const GetSubscriptionItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionItems",
 }));
 
 export type GetSubscriptionsError = StripeOpError;
@@ -99615,6 +100552,8 @@ export const GetSubscriptions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptions",
 }));
 
 export type GetSubscriptionScheduleError = StripeOpError;
@@ -99630,6 +100569,8 @@ export const GetSubscriptionSchedule: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionSchedule",
 }));
 
 export type GetSubscriptionSchedulesError = StripeOpError;
@@ -99645,6 +100586,8 @@ export const GetSubscriptionSchedules: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionSchedules",
 }));
 
 export type GetSubscriptionsSearchError = StripeOpError;
@@ -99662,6 +100605,8 @@ export const GetSubscriptionsSearch: API.PaginatedOperationMethod<
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSubscriptionsSearch",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99685,6 +100630,8 @@ export const GetTaxAssociationsFind: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxAssociationsFind",
 }));
 
 export type GetTaxCalculationError = StripeOpError;
@@ -99700,6 +100647,8 @@ export const GetTaxCalculation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxCalculation",
 }));
 
 export type GetTaxCalculationLineItemsError = StripeOpError;
@@ -99715,6 +100664,8 @@ export const GetTaxCalculationLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxCalculationLineItems",
 }));
 
 export type GetTaxCodeError = StripeOpError;
@@ -99730,6 +100681,8 @@ export const GetTaxCode: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxCode",
 }));
 
 export type GetTaxCodesError = StripeOpError;
@@ -99745,6 +100698,8 @@ export const GetTaxCodes: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxCodes",
 }));
 
 export type GetTaxIdsError = StripeOpError;
@@ -99760,6 +100715,8 @@ export const GetTaxIds: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxIds",
 }));
 
 export type GetTaxIdsByIdError = StripeOpError;
@@ -99775,6 +100732,8 @@ export const GetTaxIdsById: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxIdsById",
 }));
 
 export type GetTaxLocationError = StripeOpError;
@@ -99790,6 +100749,8 @@ export const GetTaxLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxLocation",
 }));
 
 export type GetTaxLocationsError = StripeOpError;
@@ -99805,6 +100766,8 @@ export const GetTaxLocations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxLocations",
 }));
 
 export type GetTaxRateError = StripeOpError;
@@ -99820,6 +100783,8 @@ export const GetTaxRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxRate",
 }));
 
 export type GetTaxRatesError = StripeOpError;
@@ -99835,6 +100800,8 @@ export const GetTaxRates: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxRates",
 }));
 
 export type GetTaxRegistrationError = StripeOpError;
@@ -99850,6 +100817,8 @@ export const GetTaxRegistration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxRegistration",
 }));
 
 export type GetTaxRegistrationsError = StripeOpError;
@@ -99865,6 +100834,8 @@ export const GetTaxRegistrations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxRegistrations",
 }));
 
 export type GetTaxSettingsError = StripeOpError;
@@ -99880,6 +100851,8 @@ export const GetTaxSettings: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxSettings",
 }));
 
 export type GetTaxTransactionError = StripeOpError;
@@ -99895,6 +100868,8 @@ export const GetTaxTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxTransaction",
 }));
 
 export type GetTaxTransactionLineItemsError = StripeOpError;
@@ -99910,6 +100885,8 @@ export const GetTaxTransactionLineItems: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaxTransactionLineItems",
 }));
 
 export type GetTerminalConfigurationError = StripeOpError;
@@ -99925,6 +100902,8 @@ export const GetTerminalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalConfiguration",
 }));
 
 export type GetTerminalConfigurationsError = StripeOpError;
@@ -99940,6 +100919,8 @@ export const GetTerminalConfigurations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalConfigurations",
 }));
 
 export type GetTerminalLocationError = StripeOpError;
@@ -99955,6 +100936,8 @@ export const GetTerminalLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalLocation",
 }));
 
 export type GetTerminalLocationsError = StripeOpError;
@@ -99970,6 +100953,8 @@ export const GetTerminalLocations: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalLocations",
 }));
 
 export type GetTerminalReaderError = StripeOpError;
@@ -99985,6 +100970,8 @@ export const GetTerminalReader: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalReader",
 }));
 
 export type GetTerminalReadersError = StripeOpError;
@@ -100000,6 +100987,8 @@ export const GetTerminalReaders: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerminalReaders",
 }));
 
 export type GetTestHelpersTestClockError = StripeOpError;
@@ -100015,6 +101004,8 @@ export const GetTestHelpersTestClock: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestHelpersTestClock",
 }));
 
 export type GetTestHelpersTestClocksError = StripeOpError;
@@ -100030,6 +101021,8 @@ export const GetTestHelpersTestClocks: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestHelpersTestClocks",
 }));
 
 export type GetThreeDSecureAuthenticationError = StripeOpError;
@@ -100045,6 +101038,8 @@ export const GetThreeDSecureAuthentication: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreeDSecureAuthentication",
 }));
 
 export type GetThreeDSecureAuthenticationsError = StripeOpError;
@@ -100060,6 +101055,8 @@ export const GetThreeDSecureAuthentications: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreeDSecureAuthentications",
 }));
 
 export type GetTokenError = StripeOpError;
@@ -100071,6 +101068,8 @@ export const GetToken: API.OperationMethod<GetTokenRequest, Token, GetTokenError
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetToken",
   }));
 
 export type GetTopupError = StripeOpError;
@@ -100082,6 +101081,8 @@ export const GetTopup: API.OperationMethod<GetTopupRequest, Topup, GetTopupError
     errors: [UnknownStripeError],
     protocol: StripeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTopup",
   }));
 
 export type GetTopupsError = StripeOpError;
@@ -100097,6 +101098,8 @@ export const GetTopups: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopups",
 }));
 
 export type GetTransferError = StripeOpError;
@@ -100112,6 +101115,8 @@ export const GetTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransfer",
 }));
 
 export type GetTransferReversalError = StripeOpError;
@@ -100127,6 +101132,8 @@ export const GetTransferReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferReversal",
 }));
 
 export type GetTransferReversalsError = StripeOpError;
@@ -100142,6 +101149,8 @@ export const GetTransferReversals: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferReversals",
 }));
 
 export type GetTransfersError = StripeOpError;
@@ -100157,6 +101166,8 @@ export const GetTransfers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransfers",
 }));
 
 export type GetTreasuryCreditReversalError = StripeOpError;
@@ -100172,6 +101183,8 @@ export const GetTreasuryCreditReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryCreditReversal",
 }));
 
 export type GetTreasuryCreditReversalsError = StripeOpError;
@@ -100187,6 +101200,8 @@ export const GetTreasuryCreditReversals: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryCreditReversals",
 }));
 
 export type GetTreasuryDebitReversalError = StripeOpError;
@@ -100202,6 +101217,8 @@ export const GetTreasuryDebitReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryDebitReversal",
 }));
 
 export type GetTreasuryDebitReversalsError = StripeOpError;
@@ -100217,6 +101234,8 @@ export const GetTreasuryDebitReversals: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryDebitReversals",
 }));
 
 export type GetTreasuryFinancialAccountError = StripeOpError;
@@ -100232,6 +101251,8 @@ export const GetTreasuryFinancialAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryFinancialAccount",
 }));
 
 export type GetTreasuryFinancialAccountFeaturesError = StripeOpError;
@@ -100247,6 +101268,8 @@ export const GetTreasuryFinancialAccountFeatures: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryFinancialAccountFeatures",
 }));
 
 export type GetTreasuryFinancialAccountsError = StripeOpError;
@@ -100262,6 +101285,8 @@ export const GetTreasuryFinancialAccounts: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryFinancialAccounts",
 }));
 
 export type GetTreasuryInboundTransferError = StripeOpError;
@@ -100277,6 +101302,8 @@ export const GetTreasuryInboundTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryInboundTransfer",
 }));
 
 export type GetTreasuryInboundTransfersError = StripeOpError;
@@ -100292,6 +101319,8 @@ export const GetTreasuryInboundTransfers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryInboundTransfers",
 }));
 
 export type GetTreasuryOutboundPaymentError = StripeOpError;
@@ -100307,6 +101336,8 @@ export const GetTreasuryOutboundPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryOutboundPayment",
 }));
 
 export type GetTreasuryOutboundPaymentsError = StripeOpError;
@@ -100322,6 +101353,8 @@ export const GetTreasuryOutboundPayments: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryOutboundPayments",
 }));
 
 export type GetTreasuryOutboundTransferError = StripeOpError;
@@ -100337,6 +101370,8 @@ export const GetTreasuryOutboundTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryOutboundTransfer",
 }));
 
 export type GetTreasuryOutboundTransfersError = StripeOpError;
@@ -100352,6 +101387,8 @@ export const GetTreasuryOutboundTransfers: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryOutboundTransfers",
 }));
 
 export type GetTreasuryReceivedCreditError = StripeOpError;
@@ -100367,6 +101404,8 @@ export const GetTreasuryReceivedCredit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryReceivedCredit",
 }));
 
 export type GetTreasuryReceivedCreditsError = StripeOpError;
@@ -100382,6 +101421,8 @@ export const GetTreasuryReceivedCredits: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryReceivedCredits",
 }));
 
 export type GetTreasuryReceivedDebitError = StripeOpError;
@@ -100397,6 +101438,8 @@ export const GetTreasuryReceivedDebit: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryReceivedDebit",
 }));
 
 export type GetTreasuryReceivedDebitsError = StripeOpError;
@@ -100412,6 +101455,8 @@ export const GetTreasuryReceivedDebits: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryReceivedDebits",
 }));
 
 export type GetTreasuryTransactionError = StripeOpError;
@@ -100427,6 +101472,8 @@ export const GetTreasuryTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryTransaction",
 }));
 
 export type GetTreasuryTransactionEntriesError = StripeOpError;
@@ -100442,6 +101489,8 @@ export const GetTreasuryTransactionEntries: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryTransactionEntries",
 }));
 
 export type GetTreasuryTransactionEntryError = StripeOpError;
@@ -100457,6 +101506,8 @@ export const GetTreasuryTransactionEntry: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryTransactionEntry",
 }));
 
 export type GetTreasuryTransactionsError = StripeOpError;
@@ -100472,6 +101523,8 @@ export const GetTreasuryTransactions: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryTransactions",
 }));
 
 export type GetWebhookEndpointError = StripeOpError;
@@ -100487,6 +101540,8 @@ export const GetWebhookEndpoint: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookEndpoint",
 }));
 
 export type GetWebhookEndpointsError = StripeOpError;
@@ -100502,6 +101557,8 @@ export const GetWebhookEndpoints: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookEndpoints",
 }));
 
 export type UpdateAccountError = StripeOpError;
@@ -100517,6 +101574,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountCapabilityError = StripeOpError;
@@ -100532,6 +101591,8 @@ export const UpdateAccountCapability: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountCapability",
 }));
 
 export type UpdateAccountExternalAccountError = StripeOpError;
@@ -100547,6 +101608,8 @@ export const UpdateAccountExternalAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountExternalAccount",
 }));
 
 export type UpdateAccountPersonError = StripeOpError;
@@ -100562,6 +101625,8 @@ export const UpdateAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountPerson",
 }));
 
 export type UpdateApplicationFeeRefundError = StripeOpError;
@@ -100577,6 +101642,8 @@ export const UpdateApplicationFeeRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationFeeRefund",
 }));
 
 export type UpdateAppsInstallError = StripeOpError;
@@ -100592,6 +101659,8 @@ export const UpdateAppsInstall: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppsInstall",
 }));
 
 export type UpdateBillingCreditGrantError = StripeOpError;
@@ -100607,6 +101676,8 @@ export const UpdateBillingCreditGrant: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingCreditGrant",
 }));
 
 export type UpdateBillingFeedbackOptionError = StripeOpError;
@@ -100622,6 +101693,8 @@ export const UpdateBillingFeedbackOption: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingFeedbackOption",
 }));
 
 export type UpdateBillingMeterError = StripeOpError;
@@ -100637,6 +101710,8 @@ export const UpdateBillingMeter: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingMeter",
 }));
 
 export type UpdateBillingPortalConfigurationError = StripeOpError;
@@ -100652,6 +101727,8 @@ export const UpdateBillingPortalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingPortalConfiguration",
 }));
 
 export type UpdateChargeError = StripeOpError;
@@ -100667,6 +101744,8 @@ export const UpdateCharge: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCharge",
 }));
 
 export type UpdateCheckoutSessionError = StripeOpError;
@@ -100682,6 +101761,8 @@ export const UpdateCheckoutSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCheckoutSession",
 }));
 
 export type UpdateClimateOrderError = StripeOpError;
@@ -100697,6 +101778,8 @@ export const UpdateClimateOrder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClimateOrder",
 }));
 
 export type UpdateCoreAccountError = StripeOpError;
@@ -100712,6 +101795,8 @@ export const UpdateCoreAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCoreAccount",
 }));
 
 export type UpdateCoreAccountPersonError = StripeOpError;
@@ -100727,6 +101812,8 @@ export const UpdateCoreAccountPerson: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCoreAccountPerson",
 }));
 
 export type UpdateCoreEventDestinationError = StripeOpError;
@@ -100742,6 +101829,8 @@ export const UpdateCoreEventDestination: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCoreEventDestination",
 }));
 
 export type UpdateCouponError = StripeOpError;
@@ -100757,6 +101846,8 @@ export const UpdateCoupon: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCoupon",
 }));
 
 export type UpdateCreditNoteError = StripeOpError;
@@ -100772,6 +101863,8 @@ export const UpdateCreditNote: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreditNote",
 }));
 
 export type UpdateCustomerError = StripeOpError;
@@ -100787,6 +101880,8 @@ export const UpdateCustomer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomer",
 }));
 
 export type UpdateCustomerBalanceTransactionError = StripeOpError;
@@ -100802,6 +101897,8 @@ export const UpdateCustomerBalanceTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerBalanceTransaction",
 }));
 
 export type UpdateCustomerSourceError = StripeOpError;
@@ -100817,6 +101914,8 @@ export const UpdateCustomerSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerSource",
 }));
 
 export type UpdateDisputeError = StripeOpError;
@@ -100832,6 +101931,8 @@ export const UpdateDispute: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDispute",
 }));
 
 export type UpdateEntitlementsFeatureError = StripeOpError;
@@ -100847,6 +101948,8 @@ export const UpdateEntitlementsFeature: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEntitlementsFeature",
 }));
 
 export type UpdateFileLinkError = StripeOpError;
@@ -100862,6 +101965,8 @@ export const UpdateFileLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileLink",
 }));
 
 export type UpdateIdentityVerificationSessionError = StripeOpError;
@@ -100877,6 +101982,8 @@ export const UpdateIdentityVerificationSession: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityVerificationSession",
 }));
 
 export type UpdateInvoiceError = StripeOpError;
@@ -100892,6 +101999,8 @@ export const UpdateInvoice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoice",
 }));
 
 export type UpdateInvoiceitemError = StripeOpError;
@@ -100907,6 +102016,8 @@ export const UpdateInvoiceitem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoiceitem",
 }));
 
 export type UpdateInvoiceLineError = StripeOpError;
@@ -100922,6 +102033,8 @@ export const UpdateInvoiceLine: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoiceLine",
 }));
 
 export type UpdateIssuingAuthorizationError = StripeOpError;
@@ -100937,6 +102050,8 @@ export const UpdateIssuingAuthorization: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingAuthorization",
 }));
 
 export type UpdateIssuingCardError = StripeOpError;
@@ -100952,6 +102067,8 @@ export const UpdateIssuingCard: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingCard",
 }));
 
 export type UpdateIssuingCardholderError = StripeOpError;
@@ -100967,6 +102084,8 @@ export const UpdateIssuingCardholder: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingCardholder",
 }));
 
 export type UpdateIssuingDisputeError = StripeOpError;
@@ -100982,6 +102101,8 @@ export const UpdateIssuingDispute: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingDispute",
 }));
 
 export type UpdateIssuingPersonalizationDesignError = StripeOpError;
@@ -100997,6 +102118,8 @@ export const UpdateIssuingPersonalizationDesign: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingPersonalizationDesign",
 }));
 
 export type UpdateIssuingTokenError = StripeOpError;
@@ -101012,6 +102135,8 @@ export const UpdateIssuingToken: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingToken",
 }));
 
 export type UpdateIssuingTransactionError = StripeOpError;
@@ -101027,6 +102152,8 @@ export const UpdateIssuingTransaction: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuingTransaction",
 }));
 
 export type UpdatePaymentIntentError = StripeOpError;
@@ -101042,6 +102169,8 @@ export const UpdatePaymentIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentIntent",
 }));
 
 export type UpdatePaymentLinkError = StripeOpError;
@@ -101057,6 +102186,8 @@ export const UpdatePaymentLink: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentLink",
 }));
 
 export type UpdatePaymentMethodError = StripeOpError;
@@ -101072,6 +102203,8 @@ export const UpdatePaymentMethod: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentMethod",
 }));
 
 export type UpdatePaymentMethodConfigurationError = StripeOpError;
@@ -101087,6 +102220,8 @@ export const UpdatePaymentMethodConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentMethodConfiguration",
 }));
 
 export type UpdatePaymentMethodDomainError = StripeOpError;
@@ -101102,6 +102237,8 @@ export const UpdatePaymentMethodDomain: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentMethodDomain",
 }));
 
 export type UpdatePayoutError = StripeOpError;
@@ -101117,6 +102254,8 @@ export const UpdatePayout: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePayout",
 }));
 
 export type UpdatePlanError = StripeOpError;
@@ -101132,6 +102271,8 @@ export const UpdatePlan: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlan",
 }));
 
 export type UpdatePriceError = StripeOpError;
@@ -101147,6 +102288,8 @@ export const UpdatePrice: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrice",
 }));
 
 export type UpdateProductError = StripeOpError;
@@ -101162,6 +102305,8 @@ export const UpdateProduct: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UpdateProductCatalogTrialOfferError = StripeOpError;
@@ -101177,6 +102322,8 @@ export const UpdateProductCatalogTrialOffer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductCatalogTrialOffer",
 }));
 
 export type UpdatePromotionCodeError = StripeOpError;
@@ -101192,6 +102339,8 @@ export const UpdatePromotionCode: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePromotionCode",
 }));
 
 export type UpdateQuoteError = StripeOpError;
@@ -101207,6 +102356,8 @@ export const UpdateQuote: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQuote",
 }));
 
 export type UpdateRadarValueListError = StripeOpError;
@@ -101222,6 +102373,8 @@ export const UpdateRadarValueList: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRadarValueList",
 }));
 
 export type UpdateRefundError = StripeOpError;
@@ -101237,6 +102390,8 @@ export const UpdateRefund: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRefund",
 }));
 
 export type UpdateSetupIntentError = StripeOpError;
@@ -101252,6 +102407,8 @@ export const UpdateSetupIntent: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSetupIntent",
 }));
 
 export type UpdateShippingRateError = StripeOpError;
@@ -101267,6 +102424,8 @@ export const UpdateShippingRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShippingRate",
 }));
 
 export type UpdateSourceError = StripeOpError;
@@ -101282,6 +102441,8 @@ export const UpdateSource: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSource",
 }));
 
 export type UpdateSubscriptionError = StripeOpError;
@@ -101297,6 +102458,8 @@ export const UpdateSubscription: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateSubscriptionItemError = StripeOpError;
@@ -101312,6 +102475,8 @@ export const UpdateSubscriptionItem: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionItem",
 }));
 
 export type UpdateSubscriptionScheduleError = StripeOpError;
@@ -101327,6 +102492,8 @@ export const UpdateSubscriptionSchedule: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionSchedule",
 }));
 
 export type UpdateTaxRateError = StripeOpError;
@@ -101342,6 +102509,8 @@ export const UpdateTaxRate: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaxRate",
 }));
 
 export type UpdateTaxRegistrationError = StripeOpError;
@@ -101357,6 +102526,8 @@ export const UpdateTaxRegistration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaxRegistration",
 }));
 
 export type UpdateTerminalConfigurationError = StripeOpError;
@@ -101372,6 +102543,8 @@ export const UpdateTerminalConfiguration: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTerminalConfiguration",
 }));
 
 export type UpdateTerminalLocationError = StripeOpError;
@@ -101387,6 +102560,8 @@ export const UpdateTerminalLocation: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTerminalLocation",
 }));
 
 export type UpdateTerminalReaderError = StripeOpError;
@@ -101402,6 +102577,8 @@ export const UpdateTerminalReader: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTerminalReader",
 }));
 
 export type UpdateTestHelpersTreasuryOutboundPaymentError = StripeOpError;
@@ -101417,6 +102594,8 @@ export const UpdateTestHelpersTreasuryOutboundPayment: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTestHelpersTreasuryOutboundPayment",
 }));
 
 export type UpdateTestHelpersTreasuryOutboundTransferError = StripeOpError;
@@ -101432,6 +102611,8 @@ export const UpdateTestHelpersTreasuryOutboundTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTestHelpersTreasuryOutboundTransfer",
 }));
 
 export type UpdateTopupError = StripeOpError;
@@ -101447,6 +102628,8 @@ export const UpdateTopup: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTopup",
 }));
 
 export type UpdateTransferError = StripeOpError;
@@ -101462,6 +102645,8 @@ export const UpdateTransfer: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransfer",
 }));
 
 export type UpdateTransferReversalError = StripeOpError;
@@ -101477,6 +102662,8 @@ export const UpdateTransferReversal: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransferReversal",
 }));
 
 export type UpdateTreasuryFinancialAccountError = StripeOpError;
@@ -101492,6 +102679,8 @@ export const UpdateTreasuryFinancialAccount: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTreasuryFinancialAccount",
 }));
 
 export type UpdateWebhookEndpointError = StripeOpError;
@@ -101507,6 +102696,8 @@ export const UpdateWebhookEndpoint: API.OperationMethod<
   errors: [UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

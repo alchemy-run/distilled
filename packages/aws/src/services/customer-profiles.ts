@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://profile.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CustomerProfiles",
+  service: "CustomerProfiles",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2936,7 +2952,7 @@ export type AddProfileKeyError =
  * be used to identify the profile that it belongs to.
  */
 export const addProfileKey: API.OperationMethod<
-  AddProfileKeyRequest,
+  AddProfileKeyRequest & RegionInput,
   AddProfileKeyResponse,
   AddProfileKeyError,
   Credentials | HttpClient.HttpClient
@@ -2953,6 +2969,8 @@ export const addProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfileKey",
+  telemetry: TELEMETRY,
+  span: "AddProfileKey",
 }));
 
 export type AssociateStreamForSegmentsError =
@@ -2968,7 +2986,7 @@ export type AssociateStreamForSegmentsError =
  * subscriptions within the domain. A domain can have only one associated stream at a time.
  */
 export const associateStreamForSegments: API.OperationMethod<
-  AssociateStreamForSegmentsRequest,
+  AssociateStreamForSegmentsRequest & RegionInput,
   AssociateStreamForSegmentsResponse,
   AssociateStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -2985,6 +3003,8 @@ export const associateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "AssociateStreamForSegments",
 }));
 
 export type BatchGetCalculatedAttributeForProfileError =
@@ -2998,7 +3018,7 @@ export type BatchGetCalculatedAttributeForProfileError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
-  BatchGetCalculatedAttributeForProfileRequest,
+  BatchGetCalculatedAttributeForProfileRequest & RegionInput,
   BatchGetCalculatedAttributeForProfileResponse,
   BatchGetCalculatedAttributeForProfileError,
   Credentials | HttpClient.HttpClient
@@ -3015,6 +3035,8 @@ export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCalculatedAttributeForProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetCalculatedAttributeForProfile",
 }));
 
 export type BatchGetProfileError =
@@ -3028,7 +3050,7 @@ export type BatchGetProfileError =
  * Get a batch of profiles.
  */
 export const batchGetProfile: API.OperationMethod<
-  BatchGetProfileRequest,
+  BatchGetProfileRequest & RegionInput,
   BatchGetProfileResponse,
   BatchGetProfileError,
   Credentials | HttpClient.HttpClient
@@ -3045,6 +3067,8 @@ export const batchGetProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetProfile",
 }));
 
 export type BatchPutProfileObjectError =
@@ -3070,7 +3094,7 @@ export type BatchPutProfileObjectError =
  * PutProfileObjectType.
  */
 export const batchPutProfileObject: API.OperationMethod<
-  BatchPutProfileObjectRequest,
+  BatchPutProfileObjectRequest & RegionInput,
   BatchPutProfileObjectResponse,
   BatchPutProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -3087,6 +3111,8 @@ export const batchPutProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutProfileObject",
+  telemetry: TELEMETRY,
+  span: "BatchPutProfileObject",
 }));
 
 export type CreateCalculatedAttributeDefinitionError =
@@ -3105,7 +3131,7 @@ export type CreateCalculatedAttributeDefinitionError =
  * `ObjectType`.
  */
 export const createCalculatedAttributeDefinition: API.OperationMethod<
-  CreateCalculatedAttributeDefinitionRequest,
+  CreateCalculatedAttributeDefinitionRequest & RegionInput,
   CreateCalculatedAttributeDefinitionResponse,
   CreateCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3122,6 +3148,8 @@ export const createCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateCalculatedAttributeDefinition",
 }));
 
 export type CreateDomainError =
@@ -3154,7 +3182,7 @@ export type CreateDomainError =
  * can be associated with one domain.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -3171,6 +3199,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateDomainLayoutError =
@@ -3185,7 +3215,7 @@ export type CreateDomainLayoutError =
  * the Amazon Connect admin website.
  */
 export const createDomainLayout: API.OperationMethod<
-  CreateDomainLayoutRequest,
+  CreateDomainLayoutRequest & RegionInput,
   CreateDomainLayoutResponse,
   CreateDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -3202,6 +3232,8 @@ export const createDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainLayout",
+  telemetry: TELEMETRY,
+  span: "CreateDomainLayout",
 }));
 
 export type CreateEventStreamError =
@@ -3219,7 +3251,7 @@ export type CreateEventStreamError =
  * same region and Amazon Web Services account as the customer profiles domain
  */
 export const createEventStream: API.OperationMethod<
-  CreateEventStreamRequest,
+  CreateEventStreamRequest & RegionInput,
   CreateEventStreamResponse,
   CreateEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -3236,6 +3268,8 @@ export const createEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventStream",
+  telemetry: TELEMETRY,
+  span: "CreateEventStream",
 }));
 
 export type CreateEventTriggerError =
@@ -3253,7 +3287,7 @@ export type CreateEventTriggerError =
  * account as the event stream.
  */
 export const createEventTrigger: API.OperationMethod<
-  CreateEventTriggerRequest,
+  CreateEventTriggerRequest & RegionInput,
   CreateEventTriggerResponse,
   CreateEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3270,6 +3304,8 @@ export const createEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTrigger",
+  telemetry: TELEMETRY,
+  span: "CreateEventTrigger",
 }));
 
 export type CreateIntegrationWorkflowError =
@@ -3284,7 +3320,7 @@ export type CreateIntegrationWorkflowError =
  * ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
  */
 export const createIntegrationWorkflow: API.OperationMethod<
-  CreateIntegrationWorkflowRequest,
+  CreateIntegrationWorkflowRequest & RegionInput,
   CreateIntegrationWorkflowResponse,
   CreateIntegrationWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3301,6 +3337,8 @@ export const createIntegrationWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationWorkflow",
 }));
 
 export type CreateProfileError =
@@ -3317,7 +3355,7 @@ export type CreateProfileError =
  * domain.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -3334,6 +3372,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateRecommenderError =
@@ -3347,7 +3387,7 @@ export type CreateRecommenderError =
  * Creates a recommender
  */
 export const createRecommender: API.OperationMethod<
-  CreateRecommenderRequest,
+  CreateRecommenderRequest & RegionInput,
   CreateRecommenderResponse,
   CreateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3364,6 +3404,8 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
+  telemetry: TELEMETRY,
+  span: "CreateRecommender",
 }));
 
 export type CreateRecommenderFilterError =
@@ -3377,7 +3419,7 @@ export type CreateRecommenderFilterError =
  * Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations.
  */
 export const createRecommenderFilter: API.OperationMethod<
-  CreateRecommenderFilterRequest,
+  CreateRecommenderFilterRequest & RegionInput,
   CreateRecommenderFilterResponse,
   CreateRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -3394,6 +3436,8 @@ export const createRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderFilter",
 }));
 
 export type CreateRecommenderSchemaError =
@@ -3407,7 +3451,7 @@ export type CreateRecommenderSchemaError =
  * Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain.
  */
 export const createRecommenderSchema: API.OperationMethod<
-  CreateRecommenderSchemaRequest,
+  CreateRecommenderSchemaRequest & RegionInput,
   CreateRecommenderSchemaResponse,
   CreateRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3424,6 +3468,8 @@ export const createRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderSchema",
 }));
 
 export type CreateSegmentDefinitionError =
@@ -3437,7 +3483,7 @@ export type CreateSegmentDefinitionError =
  * Creates a segment definition associated to the given domain.
  */
 export const createSegmentDefinition: API.OperationMethod<
-  CreateSegmentDefinitionRequest,
+  CreateSegmentDefinitionRequest & RegionInput,
   CreateSegmentDefinitionResponse,
   CreateSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3454,6 +3500,8 @@ export const createSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentDefinition",
 }));
 
 export type CreateSegmentEstimateError =
@@ -3467,7 +3515,7 @@ export type CreateSegmentEstimateError =
  * Creates a segment estimate query.
  */
 export const createSegmentEstimate: API.OperationMethod<
-  CreateSegmentEstimateRequest,
+  CreateSegmentEstimateRequest & RegionInput,
   CreateSegmentEstimateResponse,
   CreateSegmentEstimateError,
   Credentials | HttpClient.HttpClient
@@ -3484,6 +3532,8 @@ export const createSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentEstimate",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentEstimate",
 }));
 
 export type CreateSegmentSnapshotError =
@@ -3497,7 +3547,7 @@ export type CreateSegmentSnapshotError =
  * Triggers a job to export a segment to a specified destination.
  */
 export const createSegmentSnapshot: API.OperationMethod<
-  CreateSegmentSnapshotRequest,
+  CreateSegmentSnapshotRequest & RegionInput,
   CreateSegmentSnapshotResponse,
   CreateSegmentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3514,6 +3564,8 @@ export const createSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentSnapshot",
 }));
 
 export type CreateUploadJobError =
@@ -3528,7 +3580,7 @@ export type CreateUploadJobError =
  * the job with the provided field mapping and unique key.
  */
 export const createUploadJob: API.OperationMethod<
-  CreateUploadJobRequest,
+  CreateUploadJobRequest & RegionInput,
   CreateUploadJobResponse,
   CreateUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -3545,6 +3597,8 @@ export const createUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadJob",
+  telemetry: TELEMETRY,
+  span: "CreateUploadJob",
 }));
 
 export type DeleteCalculatedAttributeDefinitionError =
@@ -3561,7 +3615,7 @@ export type DeleteCalculatedAttributeDefinitionError =
  * CreateCalculatedAttributeDefinition API if you want it back.
  */
 export const deleteCalculatedAttributeDefinition: API.OperationMethod<
-  DeleteCalculatedAttributeDefinitionRequest,
+  DeleteCalculatedAttributeDefinitionRequest & RegionInput,
   DeleteCalculatedAttributeDefinitionResponse,
   DeleteCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3578,6 +3632,8 @@ export const deleteCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteCalculatedAttributeDefinition",
 }));
 
 export type DeleteDomainError =
@@ -3592,7 +3648,7 @@ export type DeleteDomainError =
  * attributes and their related objects.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -3609,6 +3665,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainLayoutError =
@@ -3623,7 +3681,7 @@ export type DeleteDomainLayoutError =
  * from the Amazon Connect admin website.
  */
 export const deleteDomainLayout: API.OperationMethod<
-  DeleteDomainLayoutRequest,
+  DeleteDomainLayoutRequest & RegionInput,
   DeleteDomainLayoutResponse,
   DeleteDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -3640,6 +3698,8 @@ export const deleteDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainLayout",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainLayout",
 }));
 
 export type DeleteDomainObjectTypeError =
@@ -3653,7 +3713,7 @@ export type DeleteDomainObjectTypeError =
  * Delete a DomainObjectType for the given Domain and ObjectType name.
  */
 export const deleteDomainObjectType: API.OperationMethod<
-  DeleteDomainObjectTypeRequest,
+  DeleteDomainObjectTypeRequest & RegionInput,
   DeleteDomainObjectTypeResponse,
   DeleteDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -3670,6 +3730,8 @@ export const deleteDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainObjectType",
 }));
 
 export type DeleteEventStreamError =
@@ -3683,7 +3745,7 @@ export type DeleteEventStreamError =
  * Disables and deletes the specified event stream.
  */
 export const deleteEventStream: API.OperationMethod<
-  DeleteEventStreamRequest,
+  DeleteEventStreamRequest & RegionInput,
   DeleteEventStreamResponse,
   DeleteEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -3700,6 +3762,8 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
+  telemetry: TELEMETRY,
+  span: "DeleteEventStream",
 }));
 
 export type DeleteEventTriggerError =
@@ -3715,7 +3779,7 @@ export type DeleteEventTriggerError =
  * You cannot delete an Event Trigger with an active Integration associated.
  */
 export const deleteEventTrigger: API.OperationMethod<
-  DeleteEventTriggerRequest,
+  DeleteEventTriggerRequest & RegionInput,
   DeleteEventTriggerResponse,
   DeleteEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -3732,6 +3796,8 @@ export const deleteEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTrigger",
+  telemetry: TELEMETRY,
+  span: "DeleteEventTrigger",
 }));
 
 export type DeleteIntegrationError =
@@ -3745,7 +3811,7 @@ export type DeleteIntegrationError =
  * Removes an integration from a specific domain.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3762,6 +3828,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteProfileError =
@@ -3775,7 +3843,7 @@ export type DeleteProfileError =
  * Deletes the standard customer profile and all data pertaining to the profile.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -3792,6 +3860,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteProfileKeyError =
@@ -3805,7 +3875,7 @@ export type DeleteProfileKeyError =
  * Removes a searchable key from a customer profile.
  */
 export const deleteProfileKey: API.OperationMethod<
-  DeleteProfileKeyRequest,
+  DeleteProfileKeyRequest & RegionInput,
   DeleteProfileKeyResponse,
   DeleteProfileKeyError,
   Credentials | HttpClient.HttpClient
@@ -3822,6 +3892,8 @@ export const deleteProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileKey",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileKey",
 }));
 
 export type DeleteProfileObjectError =
@@ -3835,7 +3907,7 @@ export type DeleteProfileObjectError =
  * Removes an object associated with a profile of a given ProfileObjectType.
  */
 export const deleteProfileObject: API.OperationMethod<
-  DeleteProfileObjectRequest,
+  DeleteProfileObjectRequest & RegionInput,
   DeleteProfileObjectResponse,
   DeleteProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -3852,6 +3924,8 @@ export const deleteProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObject",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileObject",
 }));
 
 export type DeleteProfileObjectTypeError =
@@ -3868,7 +3942,7 @@ export type DeleteProfileObjectTypeError =
  * were populated from this ProfileObjectType.
  */
 export const deleteProfileObjectType: API.OperationMethod<
-  DeleteProfileObjectTypeRequest,
+  DeleteProfileObjectTypeRequest & RegionInput,
   DeleteProfileObjectTypeResponse,
   DeleteProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -3885,6 +3959,8 @@ export const deleteProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileObjectType",
 }));
 
 export type DeleteRecommenderError =
@@ -3898,7 +3974,7 @@ export type DeleteRecommenderError =
  * Deletes a recommender.
  */
 export const deleteRecommender: API.OperationMethod<
-  DeleteRecommenderRequest,
+  DeleteRecommenderRequest & RegionInput,
   DeleteRecommenderResponse,
   DeleteRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3915,6 +3991,8 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommender",
 }));
 
 export type DeleteRecommenderFilterError =
@@ -3928,7 +4006,7 @@ export type DeleteRecommenderFilterError =
  * Deletes a recommender filter from a domain.
  */
 export const deleteRecommenderFilter: API.OperationMethod<
-  DeleteRecommenderFilterRequest,
+  DeleteRecommenderFilterRequest & RegionInput,
   DeleteRecommenderFilterResponse,
   DeleteRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -3945,6 +4023,8 @@ export const deleteRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderFilter",
 }));
 
 export type DeleteRecommenderSchemaError =
@@ -3958,7 +4038,7 @@ export type DeleteRecommenderSchemaError =
  * Deletes a recommender schema from a domain.
  */
 export const deleteRecommenderSchema: API.OperationMethod<
-  DeleteRecommenderSchemaRequest,
+  DeleteRecommenderSchemaRequest & RegionInput,
   DeleteRecommenderSchemaResponse,
   DeleteRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -3975,6 +4055,8 @@ export const deleteRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderSchema",
 }));
 
 export type DeleteSegmentDefinitionError =
@@ -3988,7 +4070,7 @@ export type DeleteSegmentDefinitionError =
  * Deletes a segment definition from the domain.
  */
 export const deleteSegmentDefinition: API.OperationMethod<
-  DeleteSegmentDefinitionRequest,
+  DeleteSegmentDefinitionRequest & RegionInput,
   DeleteSegmentDefinitionResponse,
   DeleteSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4005,6 +4087,8 @@ export const deleteSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSegmentDefinition",
 }));
 
 export type DeleteSegmentSubscriptionError =
@@ -4019,7 +4103,7 @@ export type DeleteSegmentSubscriptionError =
  * this segment are stopped.
  */
 export const deleteSegmentSubscription: API.OperationMethod<
-  DeleteSegmentSubscriptionRequest,
+  DeleteSegmentSubscriptionRequest & RegionInput,
   DeleteSegmentSubscriptionResponse,
   DeleteSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4036,6 +4120,8 @@ export const deleteSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteSegmentSubscription",
 }));
 
 export type DeleteWorkflowError =
@@ -4050,7 +4136,7 @@ export type DeleteWorkflowError =
  * process.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -4067,6 +4153,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DetectProfileObjectTypeError =
@@ -4080,7 +4168,7 @@ export type DetectProfileObjectTypeError =
  * The process of detecting profile object type mapping by using given objects.
  */
 export const detectProfileObjectType: API.OperationMethod<
-  DetectProfileObjectTypeRequest,
+  DetectProfileObjectTypeRequest & RegionInput,
   DetectProfileObjectTypeResponse,
   DetectProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4097,6 +4185,8 @@ export const detectProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "DetectProfileObjectType",
 }));
 
 export type DisassociateStreamForSegmentsError =
@@ -4111,7 +4201,7 @@ export type DisassociateStreamForSegmentsError =
  * active segment subscriptions delivering events to this stream are eventually stopped.
  */
 export const disassociateStreamForSegments: API.OperationMethod<
-  DisassociateStreamForSegmentsRequest,
+  DisassociateStreamForSegmentsRequest & RegionInput,
   DisassociateStreamForSegmentsResponse,
   DisassociateStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -4128,6 +4218,8 @@ export const disassociateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "DisassociateStreamForSegments",
 }));
 
 export type GetAutoMergingPreviewError =
@@ -4153,7 +4245,7 @@ export type GetAutoMergingPreviewError =
  * matches. This increases the chances of erroneous merges.
  */
 export const getAutoMergingPreview: API.OperationMethod<
-  GetAutoMergingPreviewRequest,
+  GetAutoMergingPreviewRequest & RegionInput,
   GetAutoMergingPreviewResponse,
   GetAutoMergingPreviewError,
   Credentials | HttpClient.HttpClient
@@ -4170,6 +4262,8 @@ export const getAutoMergingPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoMergingPreview",
+  telemetry: TELEMETRY,
+  span: "GetAutoMergingPreview",
 }));
 
 export type GetCalculatedAttributeDefinitionError =
@@ -4184,7 +4278,7 @@ export type GetCalculatedAttributeDefinitionError =
  * Profiles.
  */
 export const getCalculatedAttributeDefinition: API.OperationMethod<
-  GetCalculatedAttributeDefinitionRequest,
+  GetCalculatedAttributeDefinitionRequest & RegionInput,
   GetCalculatedAttributeDefinitionResponse,
   GetCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4201,6 +4295,8 @@ export const getCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "GetCalculatedAttributeDefinition",
 }));
 
 export type GetCalculatedAttributeForProfileError =
@@ -4214,7 +4310,7 @@ export type GetCalculatedAttributeForProfileError =
  * Retrieve a calculated attribute for a customer profile.
  */
 export const getCalculatedAttributeForProfile: API.OperationMethod<
-  GetCalculatedAttributeForProfileRequest,
+  GetCalculatedAttributeForProfileRequest & RegionInput,
   GetCalculatedAttributeForProfileResponse,
   GetCalculatedAttributeForProfileError,
   Credentials | HttpClient.HttpClient
@@ -4231,6 +4327,8 @@ export const getCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeForProfile",
+  telemetry: TELEMETRY,
+  span: "GetCalculatedAttributeForProfile",
 }));
 
 export type GetDomainError =
@@ -4244,7 +4342,7 @@ export type GetDomainError =
  * Returns information about a specific domain.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainRequest,
+  GetDomainRequest & RegionInput,
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -4261,6 +4359,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainLayoutError =
@@ -4275,7 +4375,7 @@ export type GetDomainLayoutError =
  * the Amazon Connect admin website.
  */
 export const getDomainLayout: API.OperationMethod<
-  GetDomainLayoutRequest,
+  GetDomainLayoutRequest & RegionInput,
   GetDomainLayoutResponse,
   GetDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -4292,6 +4392,8 @@ export const getDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainLayout",
+  telemetry: TELEMETRY,
+  span: "GetDomainLayout",
 }));
 
 export type GetDomainObjectTypeError =
@@ -4305,7 +4407,7 @@ export type GetDomainObjectTypeError =
  * Return a DomainObjectType for the input Domain and ObjectType names.
  */
 export const getDomainObjectType: API.OperationMethod<
-  GetDomainObjectTypeRequest,
+  GetDomainObjectTypeRequest & RegionInput,
   GetDomainObjectTypeResponse,
   GetDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4322,6 +4424,8 @@ export const getDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "GetDomainObjectType",
 }));
 
 export type GetEventStreamError =
@@ -4335,7 +4439,7 @@ export type GetEventStreamError =
  * Returns information about the specified event stream in a specific domain.
  */
 export const getEventStream: API.OperationMethod<
-  GetEventStreamRequest,
+  GetEventStreamRequest & RegionInput,
   GetEventStreamResponse,
   GetEventStreamError,
   Credentials | HttpClient.HttpClient
@@ -4352,6 +4456,8 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
+  telemetry: TELEMETRY,
+  span: "GetEventStream",
 }));
 
 export type GetEventTriggerError =
@@ -4365,7 +4471,7 @@ export type GetEventTriggerError =
  * Get a specific Event Trigger from the domain.
  */
 export const getEventTrigger: API.OperationMethod<
-  GetEventTriggerRequest,
+  GetEventTriggerRequest & RegionInput,
   GetEventTriggerResponse,
   GetEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -4382,6 +4488,8 @@ export const getEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventTrigger",
+  telemetry: TELEMETRY,
+  span: "GetEventTrigger",
 }));
 
 export type GetIdentityResolutionJobError =
@@ -4398,7 +4506,7 @@ export type GetIdentityResolutionJobError =
  * Identity Resolution to consolidate similar profiles.
  */
 export const getIdentityResolutionJob: API.OperationMethod<
-  GetIdentityResolutionJobRequest,
+  GetIdentityResolutionJobRequest & RegionInput,
   GetIdentityResolutionJobResponse,
   GetIdentityResolutionJobError,
   Credentials | HttpClient.HttpClient
@@ -4415,6 +4523,8 @@ export const getIdentityResolutionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityResolutionJob",
+  telemetry: TELEMETRY,
+  span: "GetIdentityResolutionJob",
 }));
 
 export type GetIntegrationError =
@@ -4428,7 +4538,7 @@ export type GetIntegrationError =
  * Returns an integration for a domain.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResponse,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4445,6 +4555,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetMatchesError =
@@ -4495,7 +4607,7 @@ export type GetMatchesError =
  * formats such as **555-010-0000** and **+1-555-010-0000**--can be detected as belonging to the same customer **John Doe** and merged into a unified profile.
  */
 export const getMatches: API.OperationMethod<
-  GetMatchesRequest,
+  GetMatchesRequest & RegionInput,
   GetMatchesResponse,
   GetMatchesError,
   Credentials | HttpClient.HttpClient
@@ -4512,6 +4624,8 @@ export const getMatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatches",
+  telemetry: TELEMETRY,
+  span: "GetMatches",
 }));
 
 export type GetObjectTypeAttributeStatisticsError =
@@ -4531,7 +4645,7 @@ export type GetObjectTypeAttributeStatisticsError =
  * For attributes that don't contain numeric values.
  */
 export const getObjectTypeAttributeStatistics: API.OperationMethod<
-  GetObjectTypeAttributeStatisticsRequest,
+  GetObjectTypeAttributeStatisticsRequest & RegionInput,
   GetObjectTypeAttributeStatisticsResponse,
   GetObjectTypeAttributeStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -4548,6 +4662,8 @@ export const getObjectTypeAttributeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTypeAttributeStatistics",
+  telemetry: TELEMETRY,
+  span: "GetObjectTypeAttributeStatistics",
 }));
 
 export type GetProfileHistoryRecordError =
@@ -4561,7 +4677,7 @@ export type GetProfileHistoryRecordError =
  * Returns a history record for a specific profile, for a specific domain.
  */
 export const getProfileHistoryRecord: API.OperationMethod<
-  GetProfileHistoryRecordRequest,
+  GetProfileHistoryRecordRequest & RegionInput,
   GetProfileHistoryRecordResponse,
   GetProfileHistoryRecordError,
   Credentials | HttpClient.HttpClient
@@ -4578,6 +4694,8 @@ export const getProfileHistoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileHistoryRecord",
+  telemetry: TELEMETRY,
+  span: "GetProfileHistoryRecord",
 }));
 
 export type GetProfileObjectTypeError =
@@ -4591,7 +4709,7 @@ export type GetProfileObjectTypeError =
  * Returns the object types for a specific domain.
  */
 export const getProfileObjectType: API.OperationMethod<
-  GetProfileObjectTypeRequest,
+  GetProfileObjectTypeRequest & RegionInput,
   GetProfileObjectTypeResponse,
   GetProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -4608,6 +4726,8 @@ export const getProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "GetProfileObjectType",
 }));
 
 export type GetProfileObjectTypeTemplateError =
@@ -4626,7 +4746,7 @@ export type GetProfileObjectTypeTemplateError =
  * template.
  */
 export const getProfileObjectTypeTemplate: API.OperationMethod<
-  GetProfileObjectTypeTemplateRequest,
+  GetProfileObjectTypeTemplateRequest & RegionInput,
   GetProfileObjectTypeTemplateResponse,
   GetProfileObjectTypeTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4643,6 +4763,8 @@ export const getProfileObjectTypeTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectTypeTemplate",
+  telemetry: TELEMETRY,
+  span: "GetProfileObjectTypeTemplate",
 }));
 
 export type GetProfileRecommendationsError =
@@ -4656,7 +4778,7 @@ export type GetProfileRecommendationsError =
  * Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
  */
 export const getProfileRecommendations: API.OperationMethod<
-  GetProfileRecommendationsRequest,
+  GetProfileRecommendationsRequest & RegionInput,
   GetProfileRecommendationsResponse,
   GetProfileRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -4673,6 +4795,8 @@ export const getProfileRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetProfileRecommendations",
 }));
 
 export type GetRecommenderError =
@@ -4686,7 +4810,7 @@ export type GetRecommenderError =
  * Retrieves a recommender.
  */
 export const getRecommender: API.OperationMethod<
-  GetRecommenderRequest,
+  GetRecommenderRequest & RegionInput,
   GetRecommenderResponse,
   GetRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -4703,6 +4827,8 @@ export const getRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommender",
+  telemetry: TELEMETRY,
+  span: "GetRecommender",
 }));
 
 export type GetRecommenderFilterError =
@@ -4716,7 +4842,7 @@ export type GetRecommenderFilterError =
  * Retrieves information about a specific recommender filter in a domain.
  */
 export const getRecommenderFilter: API.OperationMethod<
-  GetRecommenderFilterRequest,
+  GetRecommenderFilterRequest & RegionInput,
   GetRecommenderFilterResponse,
   GetRecommenderFilterError,
   Credentials | HttpClient.HttpClient
@@ -4733,6 +4859,8 @@ export const getRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderFilter",
 }));
 
 export type GetRecommenderSchemaError =
@@ -4746,7 +4874,7 @@ export type GetRecommenderSchemaError =
  * Retrieves information about a specific recommender schema in a domain.
  */
 export const getRecommenderSchema: API.OperationMethod<
-  GetRecommenderSchemaRequest,
+  GetRecommenderSchemaRequest & RegionInput,
   GetRecommenderSchemaResponse,
   GetRecommenderSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4763,6 +4891,8 @@ export const getRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderSchema",
 }));
 
 export type GetSegmentDefinitionError =
@@ -4776,7 +4906,7 @@ export type GetSegmentDefinitionError =
  * Gets a segment definition from the domain.
  */
 export const getSegmentDefinition: API.OperationMethod<
-  GetSegmentDefinitionRequest,
+  GetSegmentDefinitionRequest & RegionInput,
   GetSegmentDefinitionResponse,
   GetSegmentDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4793,6 +4923,8 @@ export const getSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSegmentDefinition",
 }));
 
 export type GetSegmentEstimateError =
@@ -4806,7 +4938,7 @@ export type GetSegmentEstimateError =
  * Gets the result of a segment estimate query.
  */
 export const getSegmentEstimate: API.OperationMethod<
-  GetSegmentEstimateRequest,
+  GetSegmentEstimateRequest & RegionInput,
   GetSegmentEstimateResponse,
   GetSegmentEstimateError,
   Credentials | HttpClient.HttpClient
@@ -4823,6 +4955,8 @@ export const getSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentEstimate",
+  telemetry: TELEMETRY,
+  span: "GetSegmentEstimate",
 }));
 
 export type GetSegmentMembershipError =
@@ -4836,7 +4970,7 @@ export type GetSegmentMembershipError =
  * Determines if the given profiles are within a segment.
  */
 export const getSegmentMembership: API.OperationMethod<
-  GetSegmentMembershipRequest,
+  GetSegmentMembershipRequest & RegionInput,
   GetSegmentMembershipResponse,
   GetSegmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -4853,6 +4987,8 @@ export const getSegmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentMembership",
+  telemetry: TELEMETRY,
+  span: "GetSegmentMembership",
 }));
 
 export type GetSegmentSnapshotError =
@@ -4866,7 +5002,7 @@ export type GetSegmentSnapshotError =
  * Retrieve the latest status of a segment snapshot.
  */
 export const getSegmentSnapshot: API.OperationMethod<
-  GetSegmentSnapshotRequest,
+  GetSegmentSnapshotRequest & RegionInput,
   GetSegmentSnapshotResponse,
   GetSegmentSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -4883,6 +5019,8 @@ export const getSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetSegmentSnapshot",
 }));
 
 export type GetSegmentSubscriptionError =
@@ -4897,7 +5035,7 @@ export type GetSegmentSubscriptionError =
  * segment membership events.
  */
 export const getSegmentSubscription: API.OperationMethod<
-  GetSegmentSubscriptionRequest,
+  GetSegmentSubscriptionRequest & RegionInput,
   GetSegmentSubscriptionResponse,
   GetSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -4914,6 +5052,8 @@ export const getSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSegmentSubscription",
 }));
 
 export type GetSimilarProfilesError =
@@ -4930,7 +5070,7 @@ export type GetSimilarProfilesError =
  * `RULE_BASED_MATCHING` or `ML_BASED_MATCHING`.
  */
 export const getSimilarProfiles: API.PaginatedOperationMethod<
-  GetSimilarProfilesRequest,
+  GetSimilarProfilesRequest & RegionInput,
   GetSimilarProfilesResponse,
   GetSimilarProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -4954,6 +5094,8 @@ export const getSimilarProfiles: API.PaginatedOperationMethod<
     items: "ProfileIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSimilarProfiles",
 })) as any;
 
 export type GetStreamForSegmentsError =
@@ -4968,7 +5110,7 @@ export type GetStreamForSegmentsError =
  * domain, including the stream state and associated segments.
  */
 export const getStreamForSegments: API.OperationMethod<
-  GetStreamForSegmentsRequest,
+  GetStreamForSegmentsRequest & RegionInput,
   GetStreamForSegmentsResponse,
   GetStreamForSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -4985,6 +5127,8 @@ export const getStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "GetStreamForSegments",
 }));
 
 export type GetUploadJobError =
@@ -4998,7 +5142,7 @@ export type GetUploadJobError =
  * This API retrieves the details of a specific upload job.
  */
 export const getUploadJob: API.OperationMethod<
-  GetUploadJobRequest,
+  GetUploadJobRequest & RegionInput,
   GetUploadJobResponse,
   GetUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -5015,6 +5159,8 @@ export const getUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJob",
+  telemetry: TELEMETRY,
+  span: "GetUploadJob",
 }));
 
 export type GetUploadJobPathError =
@@ -5029,7 +5175,7 @@ export type GetUploadJobPathError =
  * with the upload job.
  */
 export const getUploadJobPath: API.OperationMethod<
-  GetUploadJobPathRequest,
+  GetUploadJobPathRequest & RegionInput,
   GetUploadJobPathResponse,
   GetUploadJobPathError,
   Credentials | HttpClient.HttpClient
@@ -5046,6 +5192,8 @@ export const getUploadJobPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJobPath",
+  telemetry: TELEMETRY,
+  span: "GetUploadJobPath",
 }));
 
 export type GetWorkflowError =
@@ -5059,7 +5207,7 @@ export type GetWorkflowError =
  * Get details of specified workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -5076,6 +5224,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowStepsError =
@@ -5089,7 +5239,7 @@ export type GetWorkflowStepsError =
  * Get granular list of steps in workflow.
  */
 export const getWorkflowSteps: API.OperationMethod<
-  GetWorkflowStepsRequest,
+  GetWorkflowStepsRequest & RegionInput,
   GetWorkflowStepsResponse,
   GetWorkflowStepsError,
   Credentials | HttpClient.HttpClient
@@ -5106,6 +5256,8 @@ export const getWorkflowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowSteps",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowSteps",
 }));
 
 export type ListAccountIntegrationsError =
@@ -5119,7 +5271,7 @@ export type ListAccountIntegrationsError =
  * Lists all of the integrations associated to a specific URI in the AWS account.
  */
 export const listAccountIntegrations: API.OperationMethod<
-  ListAccountIntegrationsRequest,
+  ListAccountIntegrationsRequest & RegionInput,
   ListAccountIntegrationsResponse,
   ListAccountIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -5136,6 +5288,8 @@ export const listAccountIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountIntegrations",
+  telemetry: TELEMETRY,
+  span: "ListAccountIntegrations",
 }));
 
 export type ListCalculatedAttributeDefinitionsError =
@@ -5149,7 +5303,7 @@ export type ListCalculatedAttributeDefinitionsError =
  * Lists calculated attribute definitions for Customer Profiles
  */
 export const listCalculatedAttributeDefinitions: API.OperationMethod<
-  ListCalculatedAttributeDefinitionsRequest,
+  ListCalculatedAttributeDefinitionsRequest & RegionInput,
   ListCalculatedAttributeDefinitionsResponse,
   ListCalculatedAttributeDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -5166,6 +5320,8 @@ export const listCalculatedAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributeDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListCalculatedAttributeDefinitions",
 }));
 
 export type ListCalculatedAttributesForProfileError =
@@ -5179,7 +5335,7 @@ export type ListCalculatedAttributesForProfileError =
  * Retrieve a list of calculated attributes for a customer profile.
  */
 export const listCalculatedAttributesForProfile: API.OperationMethod<
-  ListCalculatedAttributesForProfileRequest,
+  ListCalculatedAttributesForProfileRequest & RegionInput,
   ListCalculatedAttributesForProfileResponse,
   ListCalculatedAttributesForProfileError,
   Credentials | HttpClient.HttpClient
@@ -5196,6 +5352,8 @@ export const listCalculatedAttributesForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributesForProfile",
+  telemetry: TELEMETRY,
+  span: "ListCalculatedAttributesForProfile",
 }));
 
 export type ListDomainLayoutsError =
@@ -5210,7 +5368,7 @@ export type ListDomainLayoutsError =
  * can only be invoked from the Amazon Connect admin website.
  */
 export const listDomainLayouts: API.PaginatedOperationMethod<
-  ListDomainLayoutsRequest,
+  ListDomainLayoutsRequest & RegionInput,
   ListDomainLayoutsResponse,
   ListDomainLayoutsError,
   Credentials | HttpClient.HttpClient,
@@ -5234,6 +5392,8 @@ export const listDomainLayouts: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainLayouts",
 })) as any;
 
 export type ListDomainObjectTypesError =
@@ -5247,7 +5407,7 @@ export type ListDomainObjectTypesError =
  * List all DomainObjectType(s) in a Customer Profiles domain.
  */
 export const listDomainObjectTypes: API.PaginatedOperationMethod<
-  ListDomainObjectTypesRequest,
+  ListDomainObjectTypesRequest & RegionInput,
   ListDomainObjectTypesResponse,
   ListDomainObjectTypesError,
   Credentials | HttpClient.HttpClient,
@@ -5271,6 +5431,8 @@ export const listDomainObjectTypes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainObjectTypes",
 })) as any;
 
 export type ListDomainsError =
@@ -5284,7 +5446,7 @@ export type ListDomainsError =
  * Returns a list of all the domains for an AWS account that have been created.
  */
 export const listDomains: API.OperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient
@@ -5301,6 +5463,8 @@ export const listDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListEventStreamsError =
@@ -5314,7 +5478,7 @@ export type ListEventStreamsError =
  * Returns a list of all the event streams in a specific domain.
  */
 export const listEventStreams: API.PaginatedOperationMethod<
-  ListEventStreamsRequest,
+  ListEventStreamsRequest & RegionInput,
   ListEventStreamsResponse,
   ListEventStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -5338,6 +5502,8 @@ export const listEventStreams: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventStreams",
 })) as any;
 
 export type ListEventTriggersError =
@@ -5351,7 +5517,7 @@ export type ListEventTriggersError =
  * List all Event Triggers under a domain.
  */
 export const listEventTriggers: API.PaginatedOperationMethod<
-  ListEventTriggersRequest,
+  ListEventTriggersRequest & RegionInput,
   ListEventTriggersResponse,
   ListEventTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -5375,6 +5541,8 @@ export const listEventTriggers: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTriggers",
 })) as any;
 
 export type ListIdentityResolutionJobsError =
@@ -5389,7 +5557,7 @@ export type ListIdentityResolutionJobsError =
  * `JobStartTime`.
  */
 export const listIdentityResolutionJobs: API.OperationMethod<
-  ListIdentityResolutionJobsRequest,
+  ListIdentityResolutionJobsRequest & RegionInput,
   ListIdentityResolutionJobsResponse,
   ListIdentityResolutionJobsError,
   Credentials | HttpClient.HttpClient
@@ -5406,6 +5574,8 @@ export const listIdentityResolutionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityResolutionJobs",
+  telemetry: TELEMETRY,
+  span: "ListIdentityResolutionJobs",
 }));
 
 export type ListIntegrationsError =
@@ -5419,7 +5589,7 @@ export type ListIntegrationsError =
  * Lists all of the integrations in your domain.
  */
 export const listIntegrations: API.OperationMethod<
-  ListIntegrationsRequest,
+  ListIntegrationsRequest & RegionInput,
   ListIntegrationsResponse,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -5436,6 +5606,8 @@ export const listIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrations",
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 }));
 
 export type ListObjectTypeAttributesError =
@@ -5449,7 +5621,7 @@ export type ListObjectTypeAttributesError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const listObjectTypeAttributes: API.PaginatedOperationMethod<
-  ListObjectTypeAttributesRequest,
+  ListObjectTypeAttributesRequest & RegionInput,
   ListObjectTypeAttributesResponse,
   ListObjectTypeAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -5473,6 +5645,8 @@ export const listObjectTypeAttributes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectTypeAttributes",
 })) as any;
 
 export type ListObjectTypeAttributeValuesError =
@@ -5486,7 +5660,7 @@ export type ListObjectTypeAttributeValuesError =
  * The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
  */
 export const listObjectTypeAttributeValues: API.OperationMethod<
-  ListObjectTypeAttributeValuesRequest,
+  ListObjectTypeAttributeValuesRequest & RegionInput,
   ListObjectTypeAttributeValuesResponse,
   ListObjectTypeAttributeValuesError,
   Credentials | HttpClient.HttpClient
@@ -5503,6 +5677,8 @@ export const listObjectTypeAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectTypeAttributeValues",
+  telemetry: TELEMETRY,
+  span: "ListObjectTypeAttributeValues",
 }));
 
 export type ListProfileAttributeValuesError =
@@ -5516,7 +5692,7 @@ export type ListProfileAttributeValuesError =
  * Fetch the possible attribute values given the attribute name.
  */
 export const listProfileAttributeValues: API.OperationMethod<
-  ProfileAttributeValuesRequest,
+  ProfileAttributeValuesRequest & RegionInput,
   ProfileAttributeValuesResponse,
   ListProfileAttributeValuesError,
   Credentials | HttpClient.HttpClient
@@ -5533,6 +5709,8 @@ export const listProfileAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileAttributeValues",
+  telemetry: TELEMETRY,
+  span: "ListProfileAttributeValues",
 }));
 
 export type ListProfileHistoryRecordsError =
@@ -5546,7 +5724,7 @@ export type ListProfileHistoryRecordsError =
  * Returns a list of history records for a specific profile, for a specific domain.
  */
 export const listProfileHistoryRecords: API.OperationMethod<
-  ListProfileHistoryRecordsRequest,
+  ListProfileHistoryRecordsRequest & RegionInput,
   ListProfileHistoryRecordsResponse,
   ListProfileHistoryRecordsError,
   Credentials | HttpClient.HttpClient
@@ -5563,6 +5741,8 @@ export const listProfileHistoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileHistoryRecords",
+  telemetry: TELEMETRY,
+  span: "ListProfileHistoryRecords",
 }));
 
 export type ListProfileObjectsError =
@@ -5576,7 +5756,7 @@ export type ListProfileObjectsError =
  * Returns a list of objects associated with a profile of a given ProfileObjectType.
  */
 export const listProfileObjects: API.OperationMethod<
-  ListProfileObjectsRequest,
+  ListProfileObjectsRequest & RegionInput,
   ListProfileObjectsResponse,
   ListProfileObjectsError,
   Credentials | HttpClient.HttpClient
@@ -5593,6 +5773,8 @@ export const listProfileObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjects",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjects",
 }));
 
 export type ListProfileObjectTypesError =
@@ -5606,7 +5788,7 @@ export type ListProfileObjectTypesError =
  * Lists all of the templates available within the service.
  */
 export const listProfileObjectTypes: API.OperationMethod<
-  ListProfileObjectTypesRequest,
+  ListProfileObjectTypesRequest & RegionInput,
   ListProfileObjectTypesResponse,
   ListProfileObjectTypesError,
   Credentials | HttpClient.HttpClient
@@ -5623,6 +5805,8 @@ export const listProfileObjectTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypes",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjectTypes",
 }));
 
 export type ListProfileObjectTypeTemplatesError =
@@ -5636,7 +5820,7 @@ export type ListProfileObjectTypeTemplatesError =
  * Lists all of the template information for object types.
  */
 export const listProfileObjectTypeTemplates: API.OperationMethod<
-  ListProfileObjectTypeTemplatesRequest,
+  ListProfileObjectTypeTemplatesRequest & RegionInput,
   ListProfileObjectTypeTemplatesResponse,
   ListProfileObjectTypeTemplatesError,
   Credentials | HttpClient.HttpClient
@@ -5653,6 +5837,8 @@ export const listProfileObjectTypeTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypeTemplates",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjectTypeTemplates",
 }));
 
 export type ListRecommenderFiltersError =
@@ -5666,7 +5852,7 @@ export type ListRecommenderFiltersError =
  * Returns a list of recommender filters in the specified domain.
  */
 export const listRecommenderFilters: API.PaginatedOperationMethod<
-  ListRecommenderFiltersRequest,
+  ListRecommenderFiltersRequest & RegionInput,
   ListRecommenderFiltersResponse,
   ListRecommenderFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -5690,6 +5876,8 @@ export const listRecommenderFilters: API.PaginatedOperationMethod<
     items: "RecommenderFilters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderFilters",
 })) as any;
 
 export type ListRecommenderRecipesError =
@@ -5702,7 +5890,7 @@ export type ListRecommenderRecipesError =
  * Returns a list of available recommender recipes that can be used to create recommenders.
  */
 export const listRecommenderRecipes: API.PaginatedOperationMethod<
-  ListRecommenderRecipesRequest,
+  ListRecommenderRecipesRequest & RegionInput,
   ListRecommenderRecipesResponse,
   ListRecommenderRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -5725,6 +5913,8 @@ export const listRecommenderRecipes: API.PaginatedOperationMethod<
     items: "RecommenderRecipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderRecipes",
 })) as any;
 
 export type ListRecommendersError =
@@ -5738,7 +5928,7 @@ export type ListRecommendersError =
  * Returns a list of recommenders in the specified domain.
  */
 export const listRecommenders: API.PaginatedOperationMethod<
-  ListRecommendersRequest,
+  ListRecommendersRequest & RegionInput,
   ListRecommendersResponse,
   ListRecommendersError,
   Credentials | HttpClient.HttpClient,
@@ -5762,6 +5952,8 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "Recommenders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenders",
 })) as any;
 
 export type ListRecommenderSchemasError =
@@ -5775,7 +5967,7 @@ export type ListRecommenderSchemasError =
  * Returns a list of recommender schemas in the specified domain.
  */
 export const listRecommenderSchemas: API.PaginatedOperationMethod<
-  ListRecommenderSchemasRequest,
+  ListRecommenderSchemasRequest & RegionInput,
   ListRecommenderSchemasResponse,
   ListRecommenderSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -5799,6 +5991,8 @@ export const listRecommenderSchemas: API.PaginatedOperationMethod<
     items: "RecommenderSchemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderSchemas",
 })) as any;
 
 export type ListRuleBasedMatchesError =
@@ -5812,7 +6006,7 @@ export type ListRuleBasedMatchesError =
  * Returns a set of `MatchIds` that belong to the given domain.
  */
 export const listRuleBasedMatches: API.PaginatedOperationMethod<
-  ListRuleBasedMatchesRequest,
+  ListRuleBasedMatchesRequest & RegionInput,
   ListRuleBasedMatchesResponse,
   ListRuleBasedMatchesError,
   Credentials | HttpClient.HttpClient,
@@ -5836,6 +6030,8 @@ export const listRuleBasedMatches: API.PaginatedOperationMethod<
     items: "MatchIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleBasedMatches",
 })) as any;
 
 export type ListSegmentDefinitionsError =
@@ -5849,7 +6045,7 @@ export type ListSegmentDefinitionsError =
  * Lists all segment definitions under a domain.
  */
 export const listSegmentDefinitions: API.PaginatedOperationMethod<
-  ListSegmentDefinitionsRequest,
+  ListSegmentDefinitionsRequest & RegionInput,
   ListSegmentDefinitionsResponse,
   ListSegmentDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -5873,6 +6069,8 @@ export const listSegmentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSegmentDefinitions",
 })) as any;
 
 export type ListSegmentSubscriptionEventsError =
@@ -5889,7 +6087,7 @@ export type ListSegmentSubscriptionEventsError =
  * This operation is paginated.
  */
 export const listSegmentSubscriptionEvents: API.PaginatedOperationMethod<
-  ListSegmentSubscriptionEventsRequest,
+  ListSegmentSubscriptionEventsRequest & RegionInput,
   ListSegmentSubscriptionEventsResponse,
   ListSegmentSubscriptionEventsError,
   Credentials | HttpClient.HttpClient,
@@ -5913,6 +6111,8 @@ export const listSegmentSubscriptionEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSegmentSubscriptionEvents",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5925,7 +6125,7 @@ export type ListTagsForResourceError =
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5936,6 +6136,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUploadJobsError =
@@ -5949,7 +6151,7 @@ export type ListUploadJobsError =
  * This API retrieves a list of upload jobs for the specified domain.
  */
 export const listUploadJobs: API.PaginatedOperationMethod<
-  ListUploadJobsRequest,
+  ListUploadJobsRequest & RegionInput,
   ListUploadJobsResponse,
   ListUploadJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5973,6 +6175,8 @@ export const listUploadJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUploadJobs",
 })) as any;
 
 export type ListWorkflowsError =
@@ -5986,7 +6190,7 @@ export type ListWorkflowsError =
  * Query to list all workflows.
  */
 export const listWorkflows: API.OperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient
@@ -6003,6 +6207,8 @@ export const listWorkflows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 }));
 
 export type MergeProfilesError =
@@ -6043,7 +6249,7 @@ export type MergeProfilesError =
  * system. After profiles have been merged, they cannot be separated (unmerged).
  */
 export const mergeProfiles: API.OperationMethod<
-  MergeProfilesRequest,
+  MergeProfilesRequest & RegionInput,
   MergeProfilesResponse,
   MergeProfilesError,
   Credentials | HttpClient.HttpClient
@@ -6059,6 +6265,8 @@ export const mergeProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeProfiles",
+  telemetry: TELEMETRY,
+  span: "MergeProfiles",
 }));
 
 export type PutDomainObjectTypeError =
@@ -6072,7 +6280,7 @@ export type PutDomainObjectTypeError =
  * Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
  */
 export const putDomainObjectType: API.OperationMethod<
-  PutDomainObjectTypeRequest,
+  PutDomainObjectTypeRequest & RegionInput,
   PutDomainObjectTypeResponse,
   PutDomainObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -6089,6 +6297,8 @@ export const putDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "PutDomainObjectType",
 }));
 
 export type PutIntegrationError =
@@ -6109,7 +6319,7 @@ export type PutIntegrationError =
  * UntagResource.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   PutIntegrationResponse,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -6126,6 +6336,8 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  telemetry: TELEMETRY,
+  span: "PutIntegration",
 }));
 
 export type PutProfileObjectError =
@@ -6151,7 +6363,7 @@ export type PutProfileObjectError =
  * PutProfileObjectType.
  */
 export const putProfileObject: API.OperationMethod<
-  PutProfileObjectRequest,
+  PutProfileObjectRequest & RegionInput,
   PutProfileObjectResponse,
   PutProfileObjectError,
   Credentials | HttpClient.HttpClient
@@ -6168,6 +6380,8 @@ export const putProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObject",
+  telemetry: TELEMETRY,
+  span: "PutProfileObject",
 }));
 
 export type PutProfileObjectTypeError =
@@ -6184,7 +6398,7 @@ export type PutProfileObjectTypeError =
  * TagResource/UntagResource.
  */
 export const putProfileObjectType: API.OperationMethod<
-  PutProfileObjectTypeRequest,
+  PutProfileObjectTypeRequest & RegionInput,
   PutProfileObjectTypeResponse,
   PutProfileObjectTypeError,
   Credentials | HttpClient.HttpClient
@@ -6201,6 +6415,8 @@ export const putProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "PutProfileObjectType",
 }));
 
 export type PutSegmentSubscriptionError =
@@ -6227,7 +6443,7 @@ export type PutSegmentSubscriptionError =
  * events are generated only from the scheduled snapshots.
  */
 export const putSegmentSubscription: API.OperationMethod<
-  PutSegmentSubscriptionRequest,
+  PutSegmentSubscriptionRequest & RegionInput,
   PutSegmentSubscriptionResponse,
   PutSegmentSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -6244,6 +6460,8 @@ export const putSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "PutSegmentSubscription",
 }));
 
 export type SearchProfilesError =
@@ -6263,7 +6481,7 @@ export type SearchProfilesError =
  * up to 5 key-value(s) pairs using either `AND` or `OR` logic.
  */
 export const searchProfiles: API.OperationMethod<
-  SearchProfilesRequest,
+  SearchProfilesRequest & RegionInput,
   SearchProfilesResponse,
   SearchProfilesError,
   Credentials | HttpClient.HttpClient
@@ -6280,6 +6498,8 @@ export const searchProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProfiles",
+  telemetry: TELEMETRY,
+  span: "SearchProfiles",
 }));
 
 export type SearchRecommendationsError =
@@ -6301,7 +6521,7 @@ export type SearchRecommendationsError =
  * SearchProfiles API to review the matching profiles.
  */
 export const searchRecommendations: API.OperationMethod<
-  SearchRecommendationsRequest,
+  SearchRecommendationsRequest & RegionInput,
   SearchRecommendationsResponse,
   SearchRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -6318,6 +6538,8 @@ export const searchRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRecommendations",
+  telemetry: TELEMETRY,
+  span: "SearchRecommendations",
 }));
 
 export type StartRecommenderError =
@@ -6331,7 +6553,7 @@ export type StartRecommenderError =
  * Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
  */
 export const startRecommender: API.OperationMethod<
-  StartRecommenderRequest,
+  StartRecommenderRequest & RegionInput,
   StartRecommenderResponse,
   StartRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -6348,6 +6570,8 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
+  telemetry: TELEMETRY,
+  span: "StartRecommender",
 }));
 
 export type StartUploadJobError =
@@ -6361,7 +6585,7 @@ export type StartUploadJobError =
  * This API starts the processing of an upload job to ingest profile data.
  */
 export const startUploadJob: API.OperationMethod<
-  StartUploadJobRequest,
+  StartUploadJobRequest & RegionInput,
   StartUploadJobResponse,
   StartUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -6378,6 +6602,8 @@ export const startUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUploadJob",
+  telemetry: TELEMETRY,
+  span: "StartUploadJob",
 }));
 
 export type StopRecommenderError =
@@ -6391,7 +6617,7 @@ export type StopRecommenderError =
  * Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
  */
 export const stopRecommender: API.OperationMethod<
-  StopRecommenderRequest,
+  StopRecommenderRequest & RegionInput,
   StopRecommenderResponse,
   StopRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -6408,6 +6634,8 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
+  telemetry: TELEMETRY,
+  span: "StopRecommender",
 }));
 
 export type StopUploadJobError =
@@ -6421,7 +6649,7 @@ export type StopUploadJobError =
  * This API stops the processing of an upload job.
  */
 export const stopUploadJob: API.OperationMethod<
-  StopUploadJobRequest,
+  StopUploadJobRequest & RegionInput,
   StopUploadJobResponse,
   StopUploadJobError,
   Credentials | HttpClient.HttpClient
@@ -6438,6 +6666,8 @@ export const stopUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUploadJob",
+  telemetry: TELEMETRY,
+  span: "StopUploadJob",
 }));
 
 export type TagResourceError =
@@ -6463,7 +6693,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6474,6 +6704,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6486,7 +6718,7 @@ export type UntagResourceError =
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6497,6 +6729,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCalculatedAttributeDefinitionError =
@@ -6512,7 +6746,7 @@ export type UpdateCalculatedAttributeDefinitionError =
  * historical data greater than the current date range.
  */
 export const updateCalculatedAttributeDefinition: API.OperationMethod<
-  UpdateCalculatedAttributeDefinitionRequest,
+  UpdateCalculatedAttributeDefinitionRequest & RegionInput,
   UpdateCalculatedAttributeDefinitionResponse,
   UpdateCalculatedAttributeDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -6529,6 +6763,8 @@ export const updateCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateCalculatedAttributeDefinition",
 }));
 
 export type UpdateDomainError =
@@ -6554,7 +6790,7 @@ export type UpdateDomainError =
  * To add or remove tags on an existing Domain, see TagResource/UntagResource.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -6571,6 +6807,8 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateDomainLayoutError =
@@ -6585,7 +6823,7 @@ export type UpdateDomainLayoutError =
  * from the Amazon Connect admin website.
  */
 export const updateDomainLayout: API.OperationMethod<
-  UpdateDomainLayoutRequest,
+  UpdateDomainLayoutRequest & RegionInput,
   UpdateDomainLayoutResponse,
   UpdateDomainLayoutError,
   Credentials | HttpClient.HttpClient
@@ -6602,6 +6840,8 @@ export const updateDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainLayout",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainLayout",
 }));
 
 export type UpdateEventTriggerError =
@@ -6615,7 +6855,7 @@ export type UpdateEventTriggerError =
  * Update the properties of an Event Trigger.
  */
 export const updateEventTrigger: API.OperationMethod<
-  UpdateEventTriggerRequest,
+  UpdateEventTriggerRequest & RegionInput,
   UpdateEventTriggerResponse,
   UpdateEventTriggerError,
   Credentials | HttpClient.HttpClient
@@ -6632,6 +6872,8 @@ export const updateEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventTrigger",
+  telemetry: TELEMETRY,
+  span: "UpdateEventTrigger",
 }));
 
 export type UpdateProfileError =
@@ -6650,7 +6892,7 @@ export type UpdateProfileError =
  * there will be kept.
  */
 export const updateProfile: API.OperationMethod<
-  UpdateProfileRequest,
+  UpdateProfileRequest & RegionInput,
   UpdateProfileResponse,
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
@@ -6667,6 +6909,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateRecommenderError =
@@ -6680,7 +6924,7 @@ export type UpdateRecommenderError =
  * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
  */
 export const updateRecommender: API.OperationMethod<
-  UpdateRecommenderRequest,
+  UpdateRecommenderRequest & RegionInput,
   UpdateRecommenderResponse,
   UpdateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -6697,6 +6941,8 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommender",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

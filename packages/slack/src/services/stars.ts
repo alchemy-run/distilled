@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Stars",
+  propagate: "w3c",
+} as const;
+
 export interface AddStarRequest {
   /** Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`). */
   channel?: string;
@@ -122,6 +135,8 @@ export const addStar: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddStar",
 }));
 
 export type ListStarsError = SlackOpError;
@@ -139,6 +154,8 @@ export const listStars: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStars",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -163,6 +180,8 @@ export const removeStar: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveStar",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

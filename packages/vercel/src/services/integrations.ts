@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Integrations",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3584,6 +3598,8 @@ export const connectIntegrationResourceToProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectIntegrationResourceToProject",
 }));
 
 export type CreateIntegrationStoreDirectError =
@@ -3605,6 +3621,8 @@ export const createIntegrationStoreDirect: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationStoreDirect",
 }));
 
 export type DeleteConfigurationError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3620,6 +3638,8 @@ export const deleteConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type GetBillingPlansError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3635,6 +3655,8 @@ export const getBillingPlans: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPlans",
 }));
 
 export type GetConfigurationError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3650,6 +3672,8 @@ export const getConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetConfigurationProductsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3665,6 +3689,8 @@ export const getConfigurationProducts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProducts",
 }));
 
 export type GetConfigurationsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3680,6 +3706,8 @@ export const getConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurations",
 }));
 
 export type GitNamespacesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3695,6 +3723,8 @@ export const gitNamespaces: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GitNamespaces",
 }));
 
 export type SearchRepoError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3710,6 +3740,8 @@ export const searchRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRepo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -69,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Notifications",
+  service: "Notifications",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -803,7 +819,7 @@ export type AssociateChannelError =
  * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateChannel: API.OperationMethod<
-  AssociateChannelRequest,
+  AssociateChannelRequest & RegionInput,
   AssociateChannelResponse,
   AssociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -822,6 +838,8 @@ export const associateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannel",
+  telemetry: TELEMETRY,
+  span: "AssociateChannel",
 }));
 
 export type AssociateManagedNotificationAccountContactError =
@@ -837,7 +855,7 @@ export type AssociateManagedNotificationAccountContactError =
  * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const associateManagedNotificationAccountContact: API.OperationMethod<
-  AssociateManagedNotificationAccountContactRequest,
+  AssociateManagedNotificationAccountContactRequest & RegionInput,
   AssociateManagedNotificationAccountContactResponse,
   AssociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -856,6 +874,8 @@ export const associateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAccountContact",
+  telemetry: TELEMETRY,
+  span: "AssociateManagedNotificationAccountContact",
 }));
 
 export type AssociateManagedNotificationAdditionalChannelError =
@@ -873,7 +893,7 @@ export type AssociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
-  AssociateManagedNotificationAdditionalChannelRequest,
+  AssociateManagedNotificationAdditionalChannelRequest & RegionInput,
   AssociateManagedNotificationAdditionalChannelResponse,
   AssociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -900,6 +920,8 @@ export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAdditionalChannel",
+  telemetry: TELEMETRY,
+  span: "AssociateManagedNotificationAdditionalChannel",
 }));
 
 export type AssociateOrganizationalUnitError =
@@ -915,7 +937,7 @@ export type AssociateOrganizationalUnitError =
  * Associates an organizational unit with a notification configuration.
  */
 export const associateOrganizationalUnit: API.OperationMethod<
-  AssociateOrganizationalUnitRequest,
+  AssociateOrganizationalUnitRequest & RegionInput,
   AssociateOrganizationalUnitResponse,
   AssociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -934,6 +956,8 @@ export const associateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "AssociateOrganizationalUnit",
 }));
 
 export type CreateEventRuleError =
@@ -949,7 +973,7 @@ export type CreateEventRuleError =
  * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
  */
 export const createEventRule: API.OperationMethod<
-  CreateEventRuleRequest,
+  CreateEventRuleRequest & RegionInput,
   CreateEventRuleResponse,
   CreateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -968,6 +992,8 @@ export const createEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventRule",
+  telemetry: TELEMETRY,
+  span: "CreateEventRule",
 }));
 
 export type CreateNotificationConfigurationError =
@@ -982,7 +1008,7 @@ export type CreateNotificationConfigurationError =
  * Creates a new `NotificationConfiguration`.
  */
 export const createNotificationConfiguration: API.OperationMethod<
-  CreateNotificationConfigurationRequest,
+  CreateNotificationConfigurationRequest & RegionInput,
   CreateNotificationConfigurationResponse,
   CreateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1000,6 +1026,8 @@ export const createNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationConfiguration",
 }));
 
 export type DeleteEventRuleError =
@@ -1014,7 +1042,7 @@ export type DeleteEventRuleError =
  * Deletes an `EventRule`.
  */
 export const deleteEventRule: API.OperationMethod<
-  DeleteEventRuleRequest,
+  DeleteEventRuleRequest & RegionInput,
   DeleteEventRuleResponse,
   DeleteEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1032,6 +1060,8 @@ export const deleteEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventRule",
+  telemetry: TELEMETRY,
+  span: "DeleteEventRule",
 }));
 
 export type DeleteNotificationConfigurationError =
@@ -1046,7 +1076,7 @@ export type DeleteNotificationConfigurationError =
  * Deletes a `NotificationConfiguration`.
  */
 export const deleteNotificationConfiguration: API.OperationMethod<
-  DeleteNotificationConfigurationRequest,
+  DeleteNotificationConfigurationRequest & RegionInput,
   DeleteNotificationConfigurationResponse,
   DeleteNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1064,6 +1094,8 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationConfiguration",
 }));
 
 export type DeregisterNotificationHubError =
@@ -1080,7 +1112,7 @@ export type DeregisterNotificationHubError =
  * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationHub` are no longer visible. Recreating a new `NotificationHub` in the same Region restores access to those `NotificationEvents`.
  */
 export const deregisterNotificationHub: API.OperationMethod<
-  DeregisterNotificationHubRequest,
+  DeregisterNotificationHubRequest & RegionInput,
   DeregisterNotificationHubResponse,
   DeregisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -1098,6 +1130,8 @@ export const deregisterNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNotificationHub",
+  telemetry: TELEMETRY,
+  span: "DeregisterNotificationHub",
 }));
 
 export type DisableNotificationsAccessForOrganizationError =
@@ -1113,7 +1147,7 @@ export type DisableNotificationsAccessForOrganizationError =
  * Disables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const disableNotificationsAccessForOrganization: API.OperationMethod<
-  DisableNotificationsAccessForOrganizationRequest,
+  DisableNotificationsAccessForOrganizationRequest & RegionInput,
   DisableNotificationsAccessForOrganizationResponse,
   DisableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1132,6 +1166,8 @@ export const disableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "DisableNotificationsAccessForOrganization",
 }));
 
 export type DisassociateChannelError =
@@ -1145,7 +1181,7 @@ export type DisassociateChannelError =
  * Disassociates a Channel from a specified `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateChannel: API.OperationMethod<
-  DisassociateChannelRequest,
+  DisassociateChannelRequest & RegionInput,
   DisassociateChannelResponse,
   DisassociateChannelError,
   Credentials | HttpClient.HttpClient
@@ -1162,6 +1198,8 @@ export const disassociateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannel",
+  telemetry: TELEMETRY,
+  span: "DisassociateChannel",
 }));
 
 export type DisassociateManagedNotificationAccountContactError =
@@ -1176,7 +1214,7 @@ export type DisassociateManagedNotificationAccountContactError =
  * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
 export const disassociateManagedNotificationAccountContact: API.OperationMethod<
-  DisassociateManagedNotificationAccountContactRequest,
+  DisassociateManagedNotificationAccountContactRequest & RegionInput,
   DisassociateManagedNotificationAccountContactResponse,
   DisassociateManagedNotificationAccountContactError,
   Credentials | HttpClient.HttpClient
@@ -1202,6 +1240,8 @@ export const disassociateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAccountContact",
+  telemetry: TELEMETRY,
+  span: "DisassociateManagedNotificationAccountContact",
 }));
 
 export type DisassociateManagedNotificationAdditionalChannelError =
@@ -1217,7 +1257,7 @@ export type DisassociateManagedNotificationAdditionalChannelError =
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
 export const disassociateManagedNotificationAdditionalChannel: API.OperationMethod<
-  DisassociateManagedNotificationAdditionalChannelRequest,
+  DisassociateManagedNotificationAdditionalChannelRequest & RegionInput,
   DisassociateManagedNotificationAdditionalChannelResponse,
   DisassociateManagedNotificationAdditionalChannelError,
   Credentials | HttpClient.HttpClient
@@ -1242,6 +1282,8 @@ export const disassociateManagedNotificationAdditionalChannel: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAdditionalChannel",
+  telemetry: TELEMETRY,
+  span: "DisassociateManagedNotificationAdditionalChannel",
 }));
 
 export type DisassociateOrganizationalUnitError =
@@ -1255,7 +1297,7 @@ export type DisassociateOrganizationalUnitError =
  * Removes the association between an organizational unit and a notification configuration.
  */
 export const disassociateOrganizationalUnit: API.OperationMethod<
-  DisassociateOrganizationalUnitRequest,
+  DisassociateOrganizationalUnitRequest & RegionInput,
   DisassociateOrganizationalUnitResponse,
   DisassociateOrganizationalUnitError,
   Credentials | HttpClient.HttpClient
@@ -1272,6 +1314,8 @@ export const disassociateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "DisassociateOrganizationalUnit",
 }));
 
 export type EnableNotificationsAccessForOrganizationError =
@@ -1287,7 +1331,7 @@ export type EnableNotificationsAccessForOrganizationError =
  * Enables service trust between User Notifications and Amazon Web Services Organizations.
  */
 export const enableNotificationsAccessForOrganization: API.OperationMethod<
-  EnableNotificationsAccessForOrganizationRequest,
+  EnableNotificationsAccessForOrganizationRequest & RegionInput,
   EnableNotificationsAccessForOrganizationResponse,
   EnableNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1306,6 +1350,8 @@ export const enableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableNotificationsAccessForOrganization",
 }));
 
 export type GetEventRuleError =
@@ -1319,7 +1365,7 @@ export type GetEventRuleError =
  * Returns a specified `EventRule`.
  */
 export const getEventRule: API.OperationMethod<
-  GetEventRuleRequest,
+  GetEventRuleRequest & RegionInput,
   GetEventRuleResponse,
   GetEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -1336,6 +1382,8 @@ export const getEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventRule",
+  telemetry: TELEMETRY,
+  span: "GetEventRule",
 }));
 
 export type GetManagedNotificationChildEventError =
@@ -1349,7 +1397,7 @@ export type GetManagedNotificationChildEventError =
  * Returns the child event of a specific given `ManagedNotificationEvent`.
  */
 export const getManagedNotificationChildEvent: API.OperationMethod<
-  GetManagedNotificationChildEventRequest,
+  GetManagedNotificationChildEventRequest & RegionInput,
   GetManagedNotificationChildEventResponse,
   GetManagedNotificationChildEventError,
   Credentials | HttpClient.HttpClient
@@ -1366,6 +1414,8 @@ export const getManagedNotificationChildEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationChildEvent",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationChildEvent",
 }));
 
 export type GetManagedNotificationConfigurationError =
@@ -1379,7 +1429,7 @@ export type GetManagedNotificationConfigurationError =
  * Returns a specified `ManagedNotificationConfiguration`.
  */
 export const getManagedNotificationConfiguration: API.OperationMethod<
-  GetManagedNotificationConfigurationRequest,
+  GetManagedNotificationConfigurationRequest & RegionInput,
   GetManagedNotificationConfigurationResponse,
   GetManagedNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1396,6 +1446,8 @@ export const getManagedNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationConfiguration",
 }));
 
 export type GetManagedNotificationEventError =
@@ -1409,7 +1461,7 @@ export type GetManagedNotificationEventError =
  * Returns a specified `ManagedNotificationEvent`.
  */
 export const getManagedNotificationEvent: API.OperationMethod<
-  GetManagedNotificationEventRequest,
+  GetManagedNotificationEventRequest & RegionInput,
   GetManagedNotificationEventResponse,
   GetManagedNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1426,6 +1478,8 @@ export const getManagedNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationEvent",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationEvent",
 }));
 
 export type GetNotificationConfigurationError =
@@ -1439,7 +1493,7 @@ export type GetNotificationConfigurationError =
  * Returns a specified `NotificationConfiguration`.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1456,6 +1510,8 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotificationConfiguration",
 }));
 
 export type GetNotificationEventError =
@@ -1471,7 +1527,7 @@ export type GetNotificationEventError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. `GetNotificationEvent` only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const getNotificationEvent: API.OperationMethod<
-  GetNotificationEventRequest,
+  GetNotificationEventRequest & RegionInput,
   GetNotificationEventResponse,
   GetNotificationEventError,
   Credentials | HttpClient.HttpClient
@@ -1488,6 +1544,8 @@ export const getNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationEvent",
+  telemetry: TELEMETRY,
+  span: "GetNotificationEvent",
 }));
 
 export type GetNotificationsAccessForOrganizationError =
@@ -1500,7 +1558,7 @@ export type GetNotificationsAccessForOrganizationError =
  * Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
  */
 export const getNotificationsAccessForOrganization: API.OperationMethod<
-  GetNotificationsAccessForOrganizationRequest,
+  GetNotificationsAccessForOrganizationRequest & RegionInput,
   GetNotificationsAccessForOrganizationResponse,
   GetNotificationsAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1516,6 +1574,8 @@ export const getNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "GetNotificationsAccessForOrganization",
 }));
 
 export type ListChannelsError =
@@ -1529,7 +1589,7 @@ export type ListChannelsError =
  * Returns a list of Channels for a `NotificationConfiguration`.
  */
 export const listChannels: API.PaginatedOperationMethod<
-  ListChannelsRequest,
+  ListChannelsRequest & RegionInput,
   ListChannelsResponse,
   ListChannelsError,
   Credentials | HttpClient.HttpClient,
@@ -1553,6 +1613,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListEventRulesError =
@@ -1566,7 +1628,7 @@ export type ListEventRulesError =
  * Returns a list of `EventRules` according to specified filters, in reverse chronological order (newest first).
  */
 export const listEventRules: API.PaginatedOperationMethod<
-  ListEventRulesRequest,
+  ListEventRulesRequest & RegionInput,
   ListEventRulesResponse,
   ListEventRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1590,6 +1652,8 @@ export const listEventRules: API.PaginatedOperationMethod<
     items: "eventRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventRules",
 })) as any;
 
 export type ListManagedNotificationChannelAssociationsError =
@@ -1603,7 +1667,7 @@ export type ListManagedNotificationChannelAssociationsError =
  * Returns a list of Account contacts and Channels associated with a `ManagedNotificationConfiguration`, in paginated format.
  */
 export const listManagedNotificationChannelAssociations: API.PaginatedOperationMethod<
-  ListManagedNotificationChannelAssociationsRequest,
+  ListManagedNotificationChannelAssociationsRequest & RegionInput,
   ListManagedNotificationChannelAssociationsResponse,
   ListManagedNotificationChannelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1627,6 +1691,8 @@ export const listManagedNotificationChannelAssociations: API.PaginatedOperationM
     items: "channelAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationChannelAssociations",
 })) as any;
 
 export type ListManagedNotificationChildEventsError =
@@ -1640,7 +1706,7 @@ export type ListManagedNotificationChildEventsError =
  * Returns a list of `ManagedNotificationChildEvents` for a specified aggregate `ManagedNotificationEvent`, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationChildEventsRequest,
+  ListManagedNotificationChildEventsRequest & RegionInput,
   ListManagedNotificationChildEventsResponse,
   ListManagedNotificationChildEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1664,6 +1730,8 @@ export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
     items: "managedNotificationChildEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationChildEvents",
 })) as any;
 
 export type ListManagedNotificationConfigurationsError =
@@ -1676,7 +1744,7 @@ export type ListManagedNotificationConfigurationsError =
  * Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationConfigurations: API.PaginatedOperationMethod<
-  ListManagedNotificationConfigurationsRequest,
+  ListManagedNotificationConfigurationsRequest & RegionInput,
   ListManagedNotificationConfigurationsResponse,
   ListManagedNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1699,6 +1767,8 @@ export const listManagedNotificationConfigurations: API.PaginatedOperationMethod
     items: "managedNotificationConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationConfigurations",
 })) as any;
 
 export type ListManagedNotificationEventsError =
@@ -1711,7 +1781,7 @@ export type ListManagedNotificationEventsError =
  * Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
 export const listManagedNotificationEvents: API.PaginatedOperationMethod<
-  ListManagedNotificationEventsRequest,
+  ListManagedNotificationEventsRequest & RegionInput,
   ListManagedNotificationEventsResponse,
   ListManagedNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1734,6 +1804,8 @@ export const listManagedNotificationEvents: API.PaginatedOperationMethod<
     items: "managedNotificationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationEvents",
 })) as any;
 
 export type ListMemberAccountsError =
@@ -1747,7 +1819,7 @@ export type ListMemberAccountsError =
  * Returns a list of member accounts associated with a notification configuration.
  */
 export const listMemberAccounts: API.PaginatedOperationMethod<
-  ListMemberAccountsRequest,
+  ListMemberAccountsRequest & RegionInput,
   ListMemberAccountsResponse,
   ListMemberAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1771,6 +1843,8 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
     items: "memberAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberAccounts",
 })) as any;
 
 export type ListNotificationConfigurationsError =
@@ -1783,7 +1857,7 @@ export type ListNotificationConfigurationsError =
  * Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
  */
 export const listNotificationConfigurations: API.PaginatedOperationMethod<
-  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsRequest & RegionInput,
   ListNotificationConfigurationsResponse,
   ListNotificationConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1806,6 +1880,8 @@ export const listNotificationConfigurations: API.PaginatedOperationMethod<
     items: "notificationConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationConfigurations",
 })) as any;
 
 export type ListNotificationEventsError =
@@ -1820,7 +1896,7 @@ export type ListNotificationEventsError =
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
 export const listNotificationEvents: API.PaginatedOperationMethod<
-  ListNotificationEventsRequest,
+  ListNotificationEventsRequest & RegionInput,
   ListNotificationEventsResponse,
   ListNotificationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1843,6 +1919,8 @@ export const listNotificationEvents: API.PaginatedOperationMethod<
     items: "notificationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationEvents",
 })) as any;
 
 export type ListNotificationHubsError =
@@ -1855,7 +1933,7 @@ export type ListNotificationHubsError =
  * Returns a list of `NotificationHubs`.
  */
 export const listNotificationHubs: API.PaginatedOperationMethod<
-  ListNotificationHubsRequest,
+  ListNotificationHubsRequest & RegionInput,
   ListNotificationHubsResponse,
   ListNotificationHubsError,
   Credentials | HttpClient.HttpClient,
@@ -1878,6 +1956,8 @@ export const listNotificationHubs: API.PaginatedOperationMethod<
     items: "notificationHubs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationHubs",
 })) as any;
 
 export type ListOrganizationalUnitsError =
@@ -1891,7 +1971,7 @@ export type ListOrganizationalUnitsError =
  * Returns a list of organizational units associated with a notification configuration.
  */
 export const listOrganizationalUnits: API.PaginatedOperationMethod<
-  ListOrganizationalUnitsRequest,
+  ListOrganizationalUnitsRequest & RegionInput,
   ListOrganizationalUnitsResponse,
   ListOrganizationalUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -1915,6 +1995,8 @@ export const listOrganizationalUnits: API.PaginatedOperationMethod<
     items: "organizationalUnits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationalUnits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1932,7 +2014,7 @@ export type ListTagsForResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1949,6 +2031,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterNotificationHubError =
@@ -1965,7 +2049,7 @@ export type RegisterNotificationHubError =
  * There is a maximum of one `NotificationHub` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
  */
 export const registerNotificationHub: API.OperationMethod<
-  RegisterNotificationHubRequest,
+  RegisterNotificationHubRequest & RegionInput,
   RegisterNotificationHubResponse,
   RegisterNotificationHubError,
   Credentials | HttpClient.HttpClient
@@ -1983,6 +2067,8 @@ export const registerNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNotificationHub",
+  telemetry: TELEMETRY,
+  span: "RegisterNotificationHub",
 }));
 
 export type TagResourceError =
@@ -2000,7 +2086,7 @@ export type TagResourceError =
  * This is only supported for `NotificationConfigurations`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2017,6 +2103,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2032,7 +2120,7 @@ export type UntagResourceError =
  * For more information, see Tagging your Amazon Web Services resources in the *Tagging Amazon Web Services Resources User Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2049,6 +2137,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEventRuleError =
@@ -2063,7 +2153,7 @@ export type UpdateEventRuleError =
  * Updates an existing `EventRule`.
  */
 export const updateEventRule: API.OperationMethod<
-  UpdateEventRuleRequest,
+  UpdateEventRuleRequest & RegionInput,
   UpdateEventRuleResponse,
   UpdateEventRuleError,
   Credentials | HttpClient.HttpClient
@@ -2081,6 +2171,8 @@ export const updateEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventRule",
+  telemetry: TELEMETRY,
+  span: "UpdateEventRule",
 }));
 
 export type UpdateManagedNotificationChannelAssociationError =
@@ -2095,7 +2187,7 @@ export type UpdateManagedNotificationChannelAssociationError =
  * Updates the `isSensitiveEventsSubscribed` property of a particular ManagedNotification channel association.
  */
 export const updateManagedNotificationChannelAssociation: API.OperationMethod<
-  UpdateManagedNotificationChannelAssociationRequest,
+  UpdateManagedNotificationChannelAssociationRequest & RegionInput,
   UpdateManagedNotificationChannelAssociationResponse,
   UpdateManagedNotificationChannelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2117,6 +2209,8 @@ export const updateManagedNotificationChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedNotificationChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedNotificationChannelAssociation",
 }));
 
 export type UpdateNotificationConfigurationError =
@@ -2131,7 +2225,7 @@ export type UpdateNotificationConfigurationError =
  * Updates a `NotificationConfiguration`.
  */
 export const updateNotificationConfiguration: API.OperationMethod<
-  UpdateNotificationConfigurationRequest,
+  UpdateNotificationConfigurationRequest & RegionInput,
   UpdateNotificationConfigurationResponse,
   UpdateNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2149,6 +2243,8 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

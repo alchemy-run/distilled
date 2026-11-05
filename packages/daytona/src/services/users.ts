@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Users",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface AcceptPrivacyPoliciesRequest {}
 export interface AcceptPrivacyPoliciesResponse {}
 export interface ConfirmPendingSsoLinkRequest {
@@ -88,6 +101,8 @@ export const acceptPrivacyPolicies: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptPrivacyPolicies",
 }));
 
 export type ConfirmPendingSsoLinkError = DaytonaOpError;
@@ -103,6 +118,8 @@ export const confirmPendingSsoLink: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmPendingSsoLink",
 }));
 
 export type DismissPendingSsoLinkError = DaytonaOpError;
@@ -118,6 +135,8 @@ export const dismissPendingSsoLink: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissPendingSsoLink",
 }));
 
 export type GetAccountProvidersError = DaytonaOpError;
@@ -133,6 +152,8 @@ export const getAccountProviders: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountProviders",
 }));
 
 export type GetAuthenticatedUserError = DaytonaOpError;
@@ -148,6 +169,8 @@ export const getAuthenticatedUser: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticatedUser",
 }));
 
 export type ListPendingSsoLinksError = DaytonaOpError;
@@ -163,6 +186,8 @@ export const listPendingSsoLinks: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPendingSsoLinks",
 }));
 
 export type LoginRecordError = DaytonaOpError;
@@ -178,6 +203,8 @@ export const loginRecord: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginRecord",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

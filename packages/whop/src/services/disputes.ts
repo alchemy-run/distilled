@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Disputes",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1130,6 +1143,8 @@ export const getDispute: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDispute",
 }));
 
 export type GetDisputeSummaryError = BadRequest | WhopOpError;
@@ -1145,6 +1160,8 @@ export const getDisputeSummary: API.OperationMethod<
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDisputeSummary",
 }));
 
 export type ListDisputesError = BadRequest | Forbidden | WhopOpError;
@@ -1162,6 +1179,8 @@ export const listDisputes: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDisputes",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1187,6 +1206,8 @@ export const submitDispute: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitDispute",
 }));
 
 export type SubmitEvidenceDisputeError =
@@ -1207,6 +1228,8 @@ export const submitEvidenceDispute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitEvidenceDispute",
 }));
 
 export type UpdateDisputeError = BadRequest | NotFound | WhopOpError;
@@ -1222,6 +1245,8 @@ export const updateDispute: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDispute",
 }));
 
 export type UpdateEvidenceDisputeError =
@@ -1242,6 +1267,8 @@ export const updateEvidenceDispute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvidenceDispute",
 }));
 
 export type UploadDisputeEvidenceError = BadRequest | NotFound | Conflict | WhopOpError;
@@ -1257,6 +1284,8 @@ export const uploadDisputeEvidence: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadDisputeEvidence",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

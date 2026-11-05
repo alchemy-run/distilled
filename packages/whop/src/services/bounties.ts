@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Bounties",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -675,6 +688,8 @@ export const cancelBounty: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBounty",
 }));
 
 export type CreateBountyError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -690,6 +705,8 @@ export const createBounty: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBounty",
 }));
 
 export type GetBountyError = NotFound | WhopOpError;
@@ -705,6 +722,8 @@ export const getBounty: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBounty",
 }));
 
 export type GetPublicBountySubmissionError = NotFound | WhopOpError;
@@ -720,6 +739,8 @@ export const getPublicBountySubmission: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicBountySubmission",
 }));
 
 export type ListBountiesError = BadRequest | Forbidden | WhopOpError;
@@ -737,6 +758,8 @@ export const listBounties: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBounties",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -764,6 +787,8 @@ export const listPublicBountySubmissions: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPublicBountySubmissions",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -789,6 +814,8 @@ export const updateBounty: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBounty",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

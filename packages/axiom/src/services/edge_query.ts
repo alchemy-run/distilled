@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { AxiomOpError, AxiomOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "axiom-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Axiom",
+  service: "AxiomEdgeQuery",
+  propagate: "w3c",
+} as const;
+
 export type QueryAplRequestFormat = "legacy" | "tabular" | "tabular-rows";
 export interface QueryAplRequestDefaultOrderItem {
   desc?: boolean;
@@ -99,6 +111,8 @@ export const queryApl: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryApl",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

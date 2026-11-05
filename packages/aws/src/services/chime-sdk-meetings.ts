@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://meetings-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKMeetings",
+  service: "ChimeSDKMeetings",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -526,7 +542,7 @@ export type BatchCreateAttendeeError =
  * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
  */
 export const batchCreateAttendee: API.OperationMethod<
-  BatchCreateAttendeeRequest,
+  BatchCreateAttendeeRequest & RegionInput,
   BatchCreateAttendeeResponse,
   BatchCreateAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -547,6 +563,8 @@ export const batchCreateAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateAttendee",
+  telemetry: TELEMETRY,
+  span: "BatchCreateAttendee",
 }));
 
 export type BatchUpdateAttendeeCapabilitiesExceptError =
@@ -592,7 +610,7 @@ export type BatchUpdateAttendeeCapabilitiesExceptError =
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
 export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
-  BatchUpdateAttendeeCapabilitiesExceptRequest,
+  BatchUpdateAttendeeCapabilitiesExceptRequest & RegionInput,
   BatchUpdateAttendeeCapabilitiesExceptResponse,
   BatchUpdateAttendeeCapabilitiesExceptError,
   Credentials | HttpClient.HttpClient
@@ -612,6 +630,8 @@ export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAttendeeCapabilitiesExcept",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAttendeeCapabilitiesExcept",
 }));
 
 export type CreateAttendeeError =
@@ -632,7 +652,7 @@ export type CreateAttendeeError =
  * *Amazon Chime Developer Guide*.
  */
 export const createAttendee: API.OperationMethod<
-  CreateAttendeeRequest,
+  CreateAttendeeRequest & RegionInput,
   CreateAttendeeResponse,
   CreateAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -653,6 +673,8 @@ export const createAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttendee",
+  telemetry: TELEMETRY,
+  span: "CreateAttendee",
 }));
 
 export type CreateMeetingError =
@@ -682,7 +704,7 @@ export type CreateMeetingError =
  * - Video.MaxResolution: HD
  */
 export const createMeeting: API.OperationMethod<
-  CreateMeetingRequest,
+  CreateMeetingRequest & RegionInput,
   CreateMeetingResponse,
   CreateMeetingError,
   Credentials | HttpClient.HttpClient
@@ -702,6 +724,8 @@ export const createMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeeting",
+  telemetry: TELEMETRY,
+  span: "CreateMeeting",
 }));
 
 export type CreateMeetingWithAttendeesError =
@@ -731,7 +755,7 @@ export type CreateMeetingWithAttendeesError =
  * - Video.MaxResolution: HD
  */
 export const createMeetingWithAttendees: API.OperationMethod<
-  CreateMeetingWithAttendeesRequest,
+  CreateMeetingWithAttendeesRequest & RegionInput,
   CreateMeetingWithAttendeesResponse,
   CreateMeetingWithAttendeesError,
   Credentials | HttpClient.HttpClient
@@ -751,6 +775,8 @@ export const createMeetingWithAttendees: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingWithAttendees",
+  telemetry: TELEMETRY,
+  span: "CreateMeetingWithAttendees",
 }));
 
 export type DeleteAttendeeError =
@@ -769,7 +795,7 @@ export type DeleteAttendeeError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const deleteAttendee: API.OperationMethod<
-  DeleteAttendeeRequest,
+  DeleteAttendeeRequest & RegionInput,
   DeleteAttendeeResponse,
   DeleteAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -788,6 +814,8 @@ export const deleteAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttendee",
+  telemetry: TELEMETRY,
+  span: "DeleteAttendee",
 }));
 
 export type DeleteMeetingError =
@@ -806,7 +834,7 @@ export type DeleteMeetingError =
  * *Amazon Chime Developer Guide*.
  */
 export const deleteMeeting: API.OperationMethod<
-  DeleteMeetingRequest,
+  DeleteMeetingRequest & RegionInput,
   DeleteMeetingResponse,
   DeleteMeetingError,
   Credentials | HttpClient.HttpClient
@@ -825,6 +853,8 @@ export const deleteMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMeeting",
+  telemetry: TELEMETRY,
+  span: "DeleteMeeting",
 }));
 
 export type GetAttendeeError =
@@ -842,7 +872,7 @@ export type GetAttendeeError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const getAttendee: API.OperationMethod<
-  GetAttendeeRequest,
+  GetAttendeeRequest & RegionInput,
   GetAttendeeResponse,
   GetAttendeeError,
   Credentials | HttpClient.HttpClient
@@ -861,6 +891,8 @@ export const getAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttendee",
+  telemetry: TELEMETRY,
+  span: "GetAttendee",
 }));
 
 export type GetMeetingError =
@@ -878,7 +910,7 @@ export type GetMeetingError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const getMeeting: API.OperationMethod<
-  GetMeetingRequest,
+  GetMeetingRequest & RegionInput,
   GetMeetingResponse,
   GetMeetingError,
   Credentials | HttpClient.HttpClient
@@ -897,6 +929,8 @@ export const getMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMeeting",
+  telemetry: TELEMETRY,
+  span: "GetMeeting",
 }));
 
 export type ListAttendeesError =
@@ -914,7 +948,7 @@ export type ListAttendeesError =
  * in the *Amazon Chime Developer Guide*.
  */
 export const listAttendees: API.PaginatedOperationMethod<
-  ListAttendeesRequest,
+  ListAttendeesRequest & RegionInput,
   ListAttendeesResponse,
   ListAttendeesError,
   Credentials | HttpClient.HttpClient,
@@ -939,6 +973,8 @@ export const listAttendees: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttendees",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -955,7 +991,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags available for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -975,6 +1011,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartMeetingTranscriptionError =
@@ -1006,7 +1044,7 @@ export type StartMeetingTranscriptionError =
  * improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
 export const startMeetingTranscription: API.OperationMethod<
-  StartMeetingTranscriptionRequest,
+  StartMeetingTranscriptionRequest & RegionInput,
   StartMeetingTranscriptionResponse,
   StartMeetingTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1027,6 +1065,8 @@ export const startMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMeetingTranscription",
+  telemetry: TELEMETRY,
+  span: "StartMeetingTranscription",
 }));
 
 export type StopMeetingTranscriptionError =
@@ -1052,7 +1092,7 @@ export type StopMeetingTranscriptionError =
  * improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
 export const stopMeetingTranscription: API.OperationMethod<
-  StopMeetingTranscriptionRequest,
+  StopMeetingTranscriptionRequest & RegionInput,
   StopMeetingTranscriptionResponse,
   StopMeetingTranscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1072,6 +1112,8 @@ export const stopMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMeetingTranscription",
+  telemetry: TELEMETRY,
+  span: "StopMeetingTranscription",
 }));
 
 export type TagResourceError =
@@ -1089,7 +1131,7 @@ export type TagResourceError =
  * The resource that supports tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1110,6 +1152,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1141,7 +1185,7 @@ export type UntagResourceError =
  * `ChimeSDKMeetings:DeleteTags`
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1161,6 +1205,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAttendeeCapabilitiesError =
@@ -1206,7 +1252,7 @@ export type UpdateAttendeeCapabilitiesError =
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
 export const updateAttendeeCapabilities: API.OperationMethod<
-  UpdateAttendeeCapabilitiesRequest,
+  UpdateAttendeeCapabilitiesRequest & RegionInput,
   UpdateAttendeeCapabilitiesResponse,
   UpdateAttendeeCapabilitiesError,
   Credentials | HttpClient.HttpClient
@@ -1226,6 +1272,8 @@ export const updateAttendeeCapabilities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttendeeCapabilities",
+  telemetry: TELEMETRY,
+  span: "UpdateAttendeeCapabilities",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -24,6 +24,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   useSqlite: "use_sqlite",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "DurableObjects",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InvalidIdentifier
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidIdentifier>()("InvalidIdentifier", {
@@ -123,6 +137,8 @@ export const listNamespaceObjects: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaceObjects",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -148,6 +164,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     errors: [InvalidIdentifier, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaces",
     pagination: {
       mode: "page",
       inputToken: "page",

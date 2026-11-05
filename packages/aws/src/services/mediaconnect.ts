@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediaconnect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaConnect",
+  service: "MediaConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AddFlowOutputs420Exception
   extends /*@__PURE__*/ S.TaggedError<AddFlowOutputs420Exception>()(
@@ -3089,7 +3105,7 @@ export type AddBridgeOutputsError =
  * Adds outputs to an existing bridge.
  */
 export const addBridgeOutputs: API.OperationMethod<
-  AddBridgeOutputsRequest,
+  AddBridgeOutputsRequest & RegionInput,
   AddBridgeOutputsResponse,
   AddBridgeOutputsError,
   Credentials | HttpClient.HttpClient
@@ -3108,6 +3124,8 @@ export const addBridgeOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeOutputs",
+  telemetry: TELEMETRY,
+  span: "AddBridgeOutputs",
 }));
 
 export type AddBridgeSourcesError =
@@ -3123,7 +3141,7 @@ export type AddBridgeSourcesError =
  * Adds sources to an existing bridge.
  */
 export const addBridgeSources: API.OperationMethod<
-  AddBridgeSourcesRequest,
+  AddBridgeSourcesRequest & RegionInput,
   AddBridgeSourcesResponse,
   AddBridgeSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3142,6 +3160,8 @@ export const addBridgeSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeSources",
+  telemetry: TELEMETRY,
+  span: "AddBridgeSources",
 }));
 
 export type AddFlowMediaStreamsError =
@@ -3156,7 +3176,7 @@ export type AddFlowMediaStreamsError =
  * Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
  */
 export const addFlowMediaStreams: API.OperationMethod<
-  AddFlowMediaStreamsRequest,
+  AddFlowMediaStreamsRequest & RegionInput,
   AddFlowMediaStreamsResponse,
   AddFlowMediaStreamsError,
   Credentials | HttpClient.HttpClient
@@ -3174,6 +3194,8 @@ export const addFlowMediaStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowMediaStreams",
+  telemetry: TELEMETRY,
+  span: "AddFlowMediaStreams",
 }));
 
 export type AddFlowOutputsError =
@@ -3189,7 +3211,7 @@ export type AddFlowOutputsError =
  * Adds outputs to an existing flow. You can create up to 50 outputs per flow.
  */
 export const addFlowOutputs: API.OperationMethod<
-  AddFlowOutputsRequest,
+  AddFlowOutputsRequest & RegionInput,
   AddFlowOutputsResponse,
   AddFlowOutputsError,
   Credentials | HttpClient.HttpClient
@@ -3208,6 +3230,8 @@ export const addFlowOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowOutputs",
+  telemetry: TELEMETRY,
+  span: "AddFlowOutputs",
 }));
 
 export type AddFlowSourcesError =
@@ -3222,7 +3246,7 @@ export type AddFlowSourcesError =
  * Adds sources to a flow.
  */
 export const addFlowSources: API.OperationMethod<
-  AddFlowSourcesRequest,
+  AddFlowSourcesRequest & RegionInput,
   AddFlowSourcesResponse,
   AddFlowSourcesError,
   Credentials | HttpClient.HttpClient
@@ -3240,6 +3264,8 @@ export const addFlowSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowSources",
+  telemetry: TELEMETRY,
+  span: "AddFlowSources",
 }));
 
 export type AddFlowVpcInterfacesError =
@@ -3254,7 +3280,7 @@ export type AddFlowVpcInterfacesError =
  * Adds VPC interfaces to a flow.
  */
 export const addFlowVpcInterfaces: API.OperationMethod<
-  AddFlowVpcInterfacesRequest,
+  AddFlowVpcInterfacesRequest & RegionInput,
   AddFlowVpcInterfacesResponse,
   AddFlowVpcInterfacesError,
   Credentials | HttpClient.HttpClient
@@ -3272,6 +3298,8 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowVpcInterfaces",
+  telemetry: TELEMETRY,
+  span: "AddFlowVpcInterfaces",
 }));
 
 export type BatchGetRouterInputError =
@@ -3285,7 +3313,7 @@ export type BatchGetRouterInputError =
  * Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
  */
 export const batchGetRouterInput: API.OperationMethod<
-  BatchGetRouterInputRequest,
+  BatchGetRouterInputRequest & RegionInput,
   BatchGetRouterInputResponse,
   BatchGetRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -3302,6 +3330,8 @@ export const batchGetRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterInput",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterInput",
 }));
 
 export type BatchGetRouterNetworkInterfaceError =
@@ -3315,7 +3345,7 @@ export type BatchGetRouterNetworkInterfaceError =
  * Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
  */
 export const batchGetRouterNetworkInterface: API.OperationMethod<
-  BatchGetRouterNetworkInterfaceRequest,
+  BatchGetRouterNetworkInterfaceRequest & RegionInput,
   BatchGetRouterNetworkInterfaceResponse,
   BatchGetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -3332,6 +3362,8 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterNetworkInterface",
 }));
 
 export type BatchGetRouterOutputError =
@@ -3345,7 +3377,7 @@ export type BatchGetRouterOutputError =
  * Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
  */
 export const batchGetRouterOutput: API.OperationMethod<
-  BatchGetRouterOutputRequest,
+  BatchGetRouterOutputRequest & RegionInput,
   BatchGetRouterOutputResponse,
   BatchGetRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -3362,6 +3394,8 @@ export const batchGetRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterOutput",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterOutput",
 }));
 
 export type CreateBridgeError =
@@ -3377,7 +3411,7 @@ export type CreateBridgeError =
  * Creates a new bridge. The request must include one source.
  */
 export const createBridge: API.OperationMethod<
-  CreateBridgeRequest,
+  CreateBridgeRequest & RegionInput,
   CreateBridgeResponse,
   CreateBridgeError,
   Credentials | HttpClient.HttpClient
@@ -3396,6 +3430,8 @@ export const createBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBridge",
+  telemetry: TELEMETRY,
+  span: "CreateBridge",
 }));
 
 export type CreateFlowError =
@@ -3410,7 +3446,7 @@ export type CreateFlowError =
  * Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -3428,6 +3464,8 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type CreateGatewayError =
@@ -3443,7 +3481,7 @@ export type CreateGatewayError =
  * Creates a new gateway. The request must include at least one network (up to four).
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayRequest,
+  CreateGatewayRequest & RegionInput,
   CreateGatewayResponse,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3462,6 +3500,8 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreateRouterInputError =
@@ -3477,7 +3517,7 @@ export type CreateRouterInputError =
  * Creates a new router input in AWS Elemental MediaConnect.
  */
 export const createRouterInput: API.OperationMethod<
-  CreateRouterInputRequest,
+  CreateRouterInputRequest & RegionInput,
   CreateRouterInputResponse,
   CreateRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -3496,6 +3536,8 @@ export const createRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterInput",
+  telemetry: TELEMETRY,
+  span: "CreateRouterInput",
 }));
 
 export type CreateRouterNetworkInterfaceError =
@@ -3511,7 +3553,7 @@ export type CreateRouterNetworkInterfaceError =
  * Creates a new router network interface in AWS Elemental MediaConnect.
  */
 export const createRouterNetworkInterface: API.OperationMethod<
-  CreateRouterNetworkInterfaceRequest,
+  CreateRouterNetworkInterfaceRequest & RegionInput,
   CreateRouterNetworkInterfaceResponse,
   CreateRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -3530,6 +3572,8 @@ export const createRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "CreateRouterNetworkInterface",
 }));
 
 export type CreateRouterOutputError =
@@ -3545,7 +3589,7 @@ export type CreateRouterOutputError =
  * Creates a new router output in AWS Elemental MediaConnect.
  */
 export const createRouterOutput: API.OperationMethod<
-  CreateRouterOutputRequest,
+  CreateRouterOutputRequest & RegionInput,
   CreateRouterOutputResponse,
   CreateRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -3564,6 +3608,8 @@ export const createRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterOutput",
+  telemetry: TELEMETRY,
+  span: "CreateRouterOutput",
 }));
 
 export type DeleteBridgeError =
@@ -3579,7 +3625,7 @@ export type DeleteBridgeError =
  * Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
  */
 export const deleteBridge: API.OperationMethod<
-  DeleteBridgeRequest,
+  DeleteBridgeRequest & RegionInput,
   DeleteBridgeResponse,
   DeleteBridgeError,
   Credentials | HttpClient.HttpClient
@@ -3598,6 +3644,8 @@ export const deleteBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBridge",
+  telemetry: TELEMETRY,
+  span: "DeleteBridge",
 }));
 
 export type DeleteFlowError =
@@ -3612,7 +3660,7 @@ export type DeleteFlowError =
  * Deletes a flow. Before you can delete a flow, you must stop the flow.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -3630,6 +3678,8 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeleteGatewayError =
@@ -3645,7 +3695,7 @@ export type DeleteGatewayError =
  * Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayRequest,
+  DeleteGatewayRequest & RegionInput,
   DeleteGatewayResponse,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3664,6 +3714,8 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteRouterInputError =
@@ -3679,7 +3731,7 @@ export type DeleteRouterInputError =
  * Deletes a router input from AWS Elemental MediaConnect.
  */
 export const deleteRouterInput: API.OperationMethod<
-  DeleteRouterInputRequest,
+  DeleteRouterInputRequest & RegionInput,
   DeleteRouterInputResponse,
   DeleteRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -3698,6 +3750,8 @@ export const deleteRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterInput",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterInput",
 }));
 
 export type DeleteRouterNetworkInterfaceError =
@@ -3713,7 +3767,7 @@ export type DeleteRouterNetworkInterfaceError =
  * Deletes a router network interface from AWS Elemental MediaConnect.
  */
 export const deleteRouterNetworkInterface: API.OperationMethod<
-  DeleteRouterNetworkInterfaceRequest,
+  DeleteRouterNetworkInterfaceRequest & RegionInput,
   DeleteRouterNetworkInterfaceResponse,
   DeleteRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -3732,6 +3786,8 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterNetworkInterface",
 }));
 
 export type DeleteRouterOutputError =
@@ -3747,7 +3803,7 @@ export type DeleteRouterOutputError =
  * Deletes a router output from AWS Elemental MediaConnect.
  */
 export const deleteRouterOutput: API.OperationMethod<
-  DeleteRouterOutputRequest,
+  DeleteRouterOutputRequest & RegionInput,
   DeleteRouterOutputResponse,
   DeleteRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -3766,6 +3822,8 @@ export const deleteRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterOutput",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterOutput",
 }));
 
 export type DeregisterGatewayInstanceError =
@@ -3781,7 +3839,7 @@ export type DeregisterGatewayInstanceError =
  * Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
  */
 export const deregisterGatewayInstance: API.OperationMethod<
-  DeregisterGatewayInstanceRequest,
+  DeregisterGatewayInstanceRequest & RegionInput,
   DeregisterGatewayInstanceResponse,
   DeregisterGatewayInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3800,6 +3858,8 @@ export const deregisterGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterGatewayInstance",
 }));
 
 export type DescribeBridgeError =
@@ -3815,7 +3875,7 @@ export type DescribeBridgeError =
  * Displays the details of a bridge.
  */
 export const describeBridge: API.OperationMethod<
-  DescribeBridgeRequest,
+  DescribeBridgeRequest & RegionInput,
   DescribeBridgeResponse,
   DescribeBridgeError,
   Credentials | HttpClient.HttpClient
@@ -3834,6 +3894,8 @@ export const describeBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBridge",
+  telemetry: TELEMETRY,
+  span: "DescribeBridge",
 }));
 
 export type DescribeFlowError =
@@ -3848,7 +3910,7 @@ export type DescribeFlowError =
  * Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
  */
 export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
+  DescribeFlowRequest & RegionInput,
   DescribeFlowResponse,
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
@@ -3866,6 +3928,8 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeFlow",
 }));
 
 export type DescribeFlowSourceMetadataError =
@@ -3880,7 +3944,7 @@ export type DescribeFlowSourceMetadataError =
  * The `DescribeFlowSourceMetadata` API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
  */
 export const describeFlowSourceMetadata: API.OperationMethod<
-  DescribeFlowSourceMetadataRequest,
+  DescribeFlowSourceMetadataRequest & RegionInput,
   DescribeFlowSourceMetadataResponse,
   DescribeFlowSourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -3898,6 +3962,8 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowSourceMetadata",
 }));
 
 export type DescribeFlowSourceThumbnailError =
@@ -3912,7 +3978,7 @@ export type DescribeFlowSourceThumbnailError =
  * Describes the thumbnail for the flow source.
  */
 export const describeFlowSourceThumbnail: API.OperationMethod<
-  DescribeFlowSourceThumbnailRequest,
+  DescribeFlowSourceThumbnailRequest & RegionInput,
   DescribeFlowSourceThumbnailResponse,
   DescribeFlowSourceThumbnailError,
   Credentials | HttpClient.HttpClient
@@ -3930,6 +3996,8 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceThumbnail",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowSourceThumbnail",
 }));
 
 export type DescribeGatewayError =
@@ -3945,7 +4013,7 @@ export type DescribeGatewayError =
  * Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
  */
 export const describeGateway: API.OperationMethod<
-  DescribeGatewayRequest,
+  DescribeGatewayRequest & RegionInput,
   DescribeGatewayResponse,
   DescribeGatewayError,
   Credentials | HttpClient.HttpClient
@@ -3964,6 +4032,8 @@ export const describeGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGateway",
+  telemetry: TELEMETRY,
+  span: "DescribeGateway",
 }));
 
 export type DescribeGatewayInstanceError =
@@ -3979,7 +4049,7 @@ export type DescribeGatewayInstanceError =
  * Displays the details of an instance.
  */
 export const describeGatewayInstance: API.OperationMethod<
-  DescribeGatewayInstanceRequest,
+  DescribeGatewayInstanceRequest & RegionInput,
   DescribeGatewayInstanceResponse,
   DescribeGatewayInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3998,6 +4068,8 @@ export const describeGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayInstance",
 }));
 
 export type DescribeOfferingError =
@@ -4011,7 +4083,7 @@ export type DescribeOfferingError =
  * Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
  */
 export const describeOffering: API.OperationMethod<
-  DescribeOfferingRequest,
+  DescribeOfferingRequest & RegionInput,
   DescribeOfferingResponse,
   DescribeOfferingError,
   Credentials | HttpClient.HttpClient
@@ -4028,6 +4100,8 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
+  telemetry: TELEMETRY,
+  span: "DescribeOffering",
 }));
 
 export type DescribeReservationError =
@@ -4041,7 +4115,7 @@ export type DescribeReservationError =
  * Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
  */
 export const describeReservation: API.OperationMethod<
-  DescribeReservationRequest,
+  DescribeReservationRequest & RegionInput,
   DescribeReservationResponse,
   DescribeReservationError,
   Credentials | HttpClient.HttpClient
@@ -4058,6 +4132,8 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
+  telemetry: TELEMETRY,
+  span: "DescribeReservation",
 }));
 
 export type GetRouterInputError =
@@ -4073,7 +4149,7 @@ export type GetRouterInputError =
  * Retrieves information about a specific router input in AWS Elemental MediaConnect.
  */
 export const getRouterInput: API.OperationMethod<
-  GetRouterInputRequest,
+  GetRouterInputRequest & RegionInput,
   GetRouterInputResponse,
   GetRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -4092,6 +4168,8 @@ export const getRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInput",
+  telemetry: TELEMETRY,
+  span: "GetRouterInput",
 }));
 
 export type GetRouterInputSourceMetadataError =
@@ -4106,7 +4184,7 @@ export type GetRouterInputSourceMetadataError =
  * Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
  */
 export const getRouterInputSourceMetadata: API.OperationMethod<
-  GetRouterInputSourceMetadataRequest,
+  GetRouterInputSourceMetadataRequest & RegionInput,
   GetRouterInputSourceMetadataResponse,
   GetRouterInputSourceMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4124,6 +4202,8 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputSourceMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRouterInputSourceMetadata",
 }));
 
 export type GetRouterInputThumbnailError =
@@ -4138,7 +4218,7 @@ export type GetRouterInputThumbnailError =
  * Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
  */
 export const getRouterInputThumbnail: API.OperationMethod<
-  GetRouterInputThumbnailRequest,
+  GetRouterInputThumbnailRequest & RegionInput,
   GetRouterInputThumbnailResponse,
   GetRouterInputThumbnailError,
   Credentials | HttpClient.HttpClient
@@ -4156,6 +4236,8 @@ export const getRouterInputThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputThumbnail",
+  telemetry: TELEMETRY,
+  span: "GetRouterInputThumbnail",
 }));
 
 export type GetRouterNetworkInterfaceError =
@@ -4171,7 +4253,7 @@ export type GetRouterNetworkInterfaceError =
  * Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
  */
 export const getRouterNetworkInterface: API.OperationMethod<
-  GetRouterNetworkInterfaceRequest,
+  GetRouterNetworkInterfaceRequest & RegionInput,
   GetRouterNetworkInterfaceResponse,
   GetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -4190,6 +4272,8 @@ export const getRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "GetRouterNetworkInterface",
 }));
 
 export type GetRouterOutputError =
@@ -4205,7 +4289,7 @@ export type GetRouterOutputError =
  * Retrieves information about a specific router output in AWS Elemental MediaConnect.
  */
 export const getRouterOutput: API.OperationMethod<
-  GetRouterOutputRequest,
+  GetRouterOutputRequest & RegionInput,
   GetRouterOutputResponse,
   GetRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -4224,6 +4308,8 @@ export const getRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterOutput",
+  telemetry: TELEMETRY,
+  span: "GetRouterOutput",
 }));
 
 export type GrantFlowEntitlementsError =
@@ -4239,7 +4325,7 @@ export type GrantFlowEntitlementsError =
  * Grants entitlements to an existing flow.
  */
 export const grantFlowEntitlements: API.OperationMethod<
-  GrantFlowEntitlementsRequest,
+  GrantFlowEntitlementsRequest & RegionInput,
   GrantFlowEntitlementsResponse,
   GrantFlowEntitlementsError,
   Credentials | HttpClient.HttpClient
@@ -4258,6 +4344,8 @@ export const grantFlowEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantFlowEntitlements",
+  telemetry: TELEMETRY,
+  span: "GrantFlowEntitlements",
 }));
 
 export type ListBridgesError =
@@ -4271,7 +4359,7 @@ export type ListBridgesError =
  * Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
  */
 export const listBridges: API.PaginatedOperationMethod<
-  ListBridgesRequest,
+  ListBridgesRequest & RegionInput,
   ListBridgesResponse,
   ListBridgesError,
   Credentials | HttpClient.HttpClient,
@@ -4295,6 +4383,8 @@ export const listBridges: API.PaginatedOperationMethod<
     items: "Bridges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBridges",
 })) as any;
 
 export type ListEntitlementsError =
@@ -4307,7 +4397,7 @@ export type ListEntitlementsError =
  * Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
  */
 export const listEntitlements: API.PaginatedOperationMethod<
-  ListEntitlementsRequest,
+  ListEntitlementsRequest & RegionInput,
   ListEntitlementsResponse,
   ListEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -4330,6 +4420,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
     items: "Entitlements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitlements",
 })) as any;
 
 export type ListFlowsError =
@@ -4342,7 +4434,7 @@ export type ListFlowsError =
  * Displays a list of flows that are associated with this account. This request returns a paginated result.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsRequest,
+  ListFlowsRequest & RegionInput,
   ListFlowsResponse,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -4365,6 +4457,8 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "Flows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 })) as any;
 
 export type ListGatewayInstancesError =
@@ -4378,7 +4472,7 @@ export type ListGatewayInstancesError =
  * Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
  */
 export const listGatewayInstances: API.PaginatedOperationMethod<
-  ListGatewayInstancesRequest,
+  ListGatewayInstancesRequest & RegionInput,
   ListGatewayInstancesResponse,
   ListGatewayInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4402,6 +4496,8 @@ export const listGatewayInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGatewayInstances",
 })) as any;
 
 export type ListGatewaysError =
@@ -4415,7 +4511,7 @@ export type ListGatewaysError =
  * Displays a list of gateways that are associated with this account. This request returns a paginated result.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysRequest,
+  ListGatewaysRequest & RegionInput,
   ListGatewaysResponse,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -4439,6 +4535,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListOfferingsError =
@@ -4451,7 +4549,7 @@ export type ListOfferingsError =
  * Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
  */
 export const listOfferings: API.PaginatedOperationMethod<
-  ListOfferingsRequest,
+  ListOfferingsRequest & RegionInput,
   ListOfferingsResponse,
   ListOfferingsError,
   Credentials | HttpClient.HttpClient,
@@ -4474,6 +4572,8 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListReservationsError =
@@ -4486,7 +4586,7 @@ export type ListReservationsError =
  * Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
  */
 export const listReservations: API.PaginatedOperationMethod<
-  ListReservationsRequest,
+  ListReservationsRequest & RegionInput,
   ListReservationsResponse,
   ListReservationsError,
   Credentials | HttpClient.HttpClient,
@@ -4509,6 +4609,8 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReservations",
 })) as any;
 
 export type ListRouterInputsError =
@@ -4522,7 +4624,7 @@ export type ListRouterInputsError =
  * Retrieves a list of router inputs in AWS Elemental MediaConnect.
  */
 export const listRouterInputs: API.PaginatedOperationMethod<
-  ListRouterInputsRequest,
+  ListRouterInputsRequest & RegionInput,
   ListRouterInputsResponse,
   ListRouterInputsError,
   Credentials | HttpClient.HttpClient,
@@ -4546,6 +4648,8 @@ export const listRouterInputs: API.PaginatedOperationMethod<
     items: "RouterInputs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterInputs",
 })) as any;
 
 export type ListRouterNetworkInterfacesError =
@@ -4559,7 +4663,7 @@ export type ListRouterNetworkInterfacesError =
  * Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
  */
 export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
-  ListRouterNetworkInterfacesRequest,
+  ListRouterNetworkInterfacesRequest & RegionInput,
   ListRouterNetworkInterfacesResponse,
   ListRouterNetworkInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -4583,6 +4687,8 @@ export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
     items: "RouterNetworkInterfaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterNetworkInterfaces",
 })) as any;
 
 export type ListRouterOutputsError =
@@ -4596,7 +4702,7 @@ export type ListRouterOutputsError =
  * Retrieves a list of router outputs in AWS Elemental MediaConnect.
  */
 export const listRouterOutputs: API.PaginatedOperationMethod<
-  ListRouterOutputsRequest,
+  ListRouterOutputsRequest & RegionInput,
   ListRouterOutputsResponse,
   ListRouterOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -4620,6 +4726,8 @@ export const listRouterOutputs: API.PaginatedOperationMethod<
     items: "RouterOutputs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterOutputs",
 })) as any;
 
 export type ListTagsForGlobalResourceError =
@@ -4631,7 +4739,7 @@ export type ListTagsForGlobalResourceError =
  * Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const listTagsForGlobalResource: API.OperationMethod<
-  ListTagsForGlobalResourceRequest,
+  ListTagsForGlobalResourceRequest & RegionInput,
   ListTagsForGlobalResourceResponse,
   ListTagsForGlobalResourceError,
   Credentials | HttpClient.HttpClient
@@ -4642,6 +4750,8 @@ export const listTagsForGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForGlobalResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForGlobalResource",
 }));
 
 export type ListTagsForResourceError =
@@ -4653,7 +4763,7 @@ export type ListTagsForResourceError =
  * List all tags on a MediaConnect resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4664,6 +4774,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PurchaseOfferingError =
@@ -4678,7 +4790,7 @@ export type PurchaseOfferingError =
  * Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
  */
 export const purchaseOffering: API.OperationMethod<
-  PurchaseOfferingRequest,
+  PurchaseOfferingRequest & RegionInput,
   PurchaseOfferingResponse,
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
@@ -4696,6 +4808,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RemoveBridgeOutputError =
@@ -4711,7 +4825,7 @@ export type RemoveBridgeOutputError =
  * Removes an output from a bridge.
  */
 export const removeBridgeOutput: API.OperationMethod<
-  RemoveBridgeOutputRequest,
+  RemoveBridgeOutputRequest & RegionInput,
   RemoveBridgeOutputResponse,
   RemoveBridgeOutputError,
   Credentials | HttpClient.HttpClient
@@ -4730,6 +4844,8 @@ export const removeBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeOutput",
+  telemetry: TELEMETRY,
+  span: "RemoveBridgeOutput",
 }));
 
 export type RemoveBridgeSourceError =
@@ -4745,7 +4861,7 @@ export type RemoveBridgeSourceError =
  * Removes a source from a bridge.
  */
 export const removeBridgeSource: API.OperationMethod<
-  RemoveBridgeSourceRequest,
+  RemoveBridgeSourceRequest & RegionInput,
   RemoveBridgeSourceResponse,
   RemoveBridgeSourceError,
   Credentials | HttpClient.HttpClient
@@ -4764,6 +4880,8 @@ export const removeBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeSource",
+  telemetry: TELEMETRY,
+  span: "RemoveBridgeSource",
 }));
 
 export type RemoveFlowMediaStreamError =
@@ -4778,7 +4896,7 @@ export type RemoveFlowMediaStreamError =
  * Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
  */
 export const removeFlowMediaStream: API.OperationMethod<
-  RemoveFlowMediaStreamRequest,
+  RemoveFlowMediaStreamRequest & RegionInput,
   RemoveFlowMediaStreamResponse,
   RemoveFlowMediaStreamError,
   Credentials | HttpClient.HttpClient
@@ -4796,6 +4914,8 @@ export const removeFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowMediaStream",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowMediaStream",
 }));
 
 export type RemoveFlowOutputError =
@@ -4810,7 +4930,7 @@ export type RemoveFlowOutputError =
  * Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
  */
 export const removeFlowOutput: API.OperationMethod<
-  RemoveFlowOutputRequest,
+  RemoveFlowOutputRequest & RegionInput,
   RemoveFlowOutputResponse,
   RemoveFlowOutputError,
   Credentials | HttpClient.HttpClient
@@ -4828,6 +4948,8 @@ export const removeFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowOutput",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowOutput",
 }));
 
 export type RemoveFlowSourceError =
@@ -4842,7 +4964,7 @@ export type RemoveFlowSourceError =
  * Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
  */
 export const removeFlowSource: API.OperationMethod<
-  RemoveFlowSourceRequest,
+  RemoveFlowSourceRequest & RegionInput,
   RemoveFlowSourceResponse,
   RemoveFlowSourceError,
   Credentials | HttpClient.HttpClient
@@ -4860,6 +4982,8 @@ export const removeFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowSource",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowSource",
 }));
 
 export type RemoveFlowVpcInterfaceError =
@@ -4874,7 +4998,7 @@ export type RemoveFlowVpcInterfaceError =
  * Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
  */
 export const removeFlowVpcInterface: API.OperationMethod<
-  RemoveFlowVpcInterfaceRequest,
+  RemoveFlowVpcInterfaceRequest & RegionInput,
   RemoveFlowVpcInterfaceResponse,
   RemoveFlowVpcInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -4892,6 +5016,8 @@ export const removeFlowVpcInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowVpcInterface",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowVpcInterface",
 }));
 
 export type RestartRouterInputError =
@@ -4907,7 +5033,7 @@ export type RestartRouterInputError =
  * Restarts a router input. This operation can be used to recover from errors or refresh the input state.
  */
 export const restartRouterInput: API.OperationMethod<
-  RestartRouterInputRequest,
+  RestartRouterInputRequest & RegionInput,
   RestartRouterInputResponse,
   RestartRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -4926,6 +5052,8 @@ export const restartRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterInput",
+  telemetry: TELEMETRY,
+  span: "RestartRouterInput",
 }));
 
 export type RestartRouterOutputError =
@@ -4941,7 +5069,7 @@ export type RestartRouterOutputError =
  * Restarts a router output. This operation can be used to recover from errors or refresh the output state.
  */
 export const restartRouterOutput: API.OperationMethod<
-  RestartRouterOutputRequest,
+  RestartRouterOutputRequest & RegionInput,
   RestartRouterOutputResponse,
   RestartRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -4960,6 +5088,8 @@ export const restartRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterOutput",
+  telemetry: TELEMETRY,
+  span: "RestartRouterOutput",
 }));
 
 export type RevokeFlowEntitlementError =
@@ -4974,7 +5104,7 @@ export type RevokeFlowEntitlementError =
  * Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
  */
 export const revokeFlowEntitlement: API.OperationMethod<
-  RevokeFlowEntitlementRequest,
+  RevokeFlowEntitlementRequest & RegionInput,
   RevokeFlowEntitlementResponse,
   RevokeFlowEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -4992,6 +5122,8 @@ export const revokeFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeFlowEntitlement",
+  telemetry: TELEMETRY,
+  span: "RevokeFlowEntitlement",
 }));
 
 export type StartFlowError =
@@ -5006,7 +5138,7 @@ export type StartFlowError =
  * Starts a flow.
  */
 export const startFlow: API.OperationMethod<
-  StartFlowRequest,
+  StartFlowRequest & RegionInput,
   StartFlowResponse,
   StartFlowError,
   Credentials | HttpClient.HttpClient
@@ -5024,6 +5156,8 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
+  telemetry: TELEMETRY,
+  span: "StartFlow",
 }));
 
 export type StartRouterInputError =
@@ -5039,7 +5173,7 @@ export type StartRouterInputError =
  * Starts a router input in AWS Elemental MediaConnect.
  */
 export const startRouterInput: API.OperationMethod<
-  StartRouterInputRequest,
+  StartRouterInputRequest & RegionInput,
   StartRouterInputResponse,
   StartRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -5058,6 +5192,8 @@ export const startRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterInput",
+  telemetry: TELEMETRY,
+  span: "StartRouterInput",
 }));
 
 export type StartRouterOutputError =
@@ -5073,7 +5209,7 @@ export type StartRouterOutputError =
  * Starts a router output in AWS Elemental MediaConnect.
  */
 export const startRouterOutput: API.OperationMethod<
-  StartRouterOutputRequest,
+  StartRouterOutputRequest & RegionInput,
   StartRouterOutputResponse,
   StartRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -5092,6 +5228,8 @@ export const startRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterOutput",
+  telemetry: TELEMETRY,
+  span: "StartRouterOutput",
 }));
 
 export type StopFlowError =
@@ -5106,7 +5244,7 @@ export type StopFlowError =
  * Stops a flow.
  */
 export const stopFlow: API.OperationMethod<
-  StopFlowRequest,
+  StopFlowRequest & RegionInput,
   StopFlowResponse,
   StopFlowError,
   Credentials | HttpClient.HttpClient
@@ -5124,6 +5262,8 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
+  telemetry: TELEMETRY,
+  span: "StopFlow",
 }));
 
 export type StopRouterInputError =
@@ -5139,7 +5279,7 @@ export type StopRouterInputError =
  * Stops a router input in AWS Elemental MediaConnect.
  */
 export const stopRouterInput: API.OperationMethod<
-  StopRouterInputRequest,
+  StopRouterInputRequest & RegionInput,
   StopRouterInputResponse,
   StopRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -5158,6 +5298,8 @@ export const stopRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterInput",
+  telemetry: TELEMETRY,
+  span: "StopRouterInput",
 }));
 
 export type StopRouterOutputError =
@@ -5173,7 +5315,7 @@ export type StopRouterOutputError =
  * Stops a router output in AWS Elemental MediaConnect.
  */
 export const stopRouterOutput: API.OperationMethod<
-  StopRouterOutputRequest,
+  StopRouterOutputRequest & RegionInput,
   StopRouterOutputResponse,
   StopRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -5192,6 +5334,8 @@ export const stopRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterOutput",
+  telemetry: TELEMETRY,
+  span: "StopRouterOutput",
 }));
 
 export type TagGlobalResourceError =
@@ -5203,7 +5347,7 @@ export type TagGlobalResourceError =
  * Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const tagGlobalResource: API.OperationMethod<
-  TagGlobalResourceRequest,
+  TagGlobalResourceRequest & RegionInput,
   TagGlobalResourceResponse,
   TagGlobalResourceError,
   Credentials | HttpClient.HttpClient
@@ -5214,6 +5358,8 @@ export const tagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagGlobalResource",
+  telemetry: TELEMETRY,
+  span: "TagGlobalResource",
 }));
 
 export type TagResourceError =
@@ -5225,7 +5371,7 @@ export type TagResourceError =
  * Associates the specified tags to a resource with the specified `resourceArn` in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5236,6 +5382,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TakeRouterInputError =
@@ -5251,7 +5399,7 @@ export type TakeRouterInputError =
  * Associates a router input with a router output in AWS Elemental MediaConnect.
  */
 export const takeRouterInput: API.OperationMethod<
-  TakeRouterInputRequest,
+  TakeRouterInputRequest & RegionInput,
   TakeRouterInputResponse,
   TakeRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -5270,6 +5418,8 @@ export const takeRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TakeRouterInput",
+  telemetry: TELEMETRY,
+  span: "TakeRouterInput",
 }));
 
 export type UntagGlobalResourceError =
@@ -5281,7 +5431,7 @@ export type UntagGlobalResourceError =
  * Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
 export const untagGlobalResource: API.OperationMethod<
-  UntagGlobalResourceRequest,
+  UntagGlobalResourceRequest & RegionInput,
   UntagGlobalResourceResponse,
   UntagGlobalResourceError,
   Credentials | HttpClient.HttpClient
@@ -5292,6 +5442,8 @@ export const untagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagGlobalResource",
+  telemetry: TELEMETRY,
+  span: "UntagGlobalResource",
 }));
 
 export type UntagResourceError =
@@ -5303,7 +5455,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource in the current region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5314,6 +5466,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBridgeError =
@@ -5329,7 +5483,7 @@ export type UpdateBridgeError =
  * Updates the bridge.
  */
 export const updateBridge: API.OperationMethod<
-  UpdateBridgeRequest,
+  UpdateBridgeRequest & RegionInput,
   UpdateBridgeResponse,
   UpdateBridgeError,
   Credentials | HttpClient.HttpClient
@@ -5348,6 +5502,8 @@ export const updateBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridge",
+  telemetry: TELEMETRY,
+  span: "UpdateBridge",
 }));
 
 export type UpdateBridgeOutputError =
@@ -5363,7 +5519,7 @@ export type UpdateBridgeOutputError =
  * Updates an existing bridge output.
  */
 export const updateBridgeOutput: API.OperationMethod<
-  UpdateBridgeOutputRequest,
+  UpdateBridgeOutputRequest & RegionInput,
   UpdateBridgeOutputResponse,
   UpdateBridgeOutputError,
   Credentials | HttpClient.HttpClient
@@ -5382,6 +5538,8 @@ export const updateBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeOutput",
 }));
 
 export type UpdateBridgeSourceError =
@@ -5397,7 +5555,7 @@ export type UpdateBridgeSourceError =
  * Updates an existing bridge source.
  */
 export const updateBridgeSource: API.OperationMethod<
-  UpdateBridgeSourceRequest,
+  UpdateBridgeSourceRequest & RegionInput,
   UpdateBridgeSourceResponse,
   UpdateBridgeSourceError,
   Credentials | HttpClient.HttpClient
@@ -5416,6 +5574,8 @@ export const updateBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeSource",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeSource",
 }));
 
 export type UpdateBridgeStateError =
@@ -5431,7 +5591,7 @@ export type UpdateBridgeStateError =
  * Updates the bridge state.
  */
 export const updateBridgeState: API.OperationMethod<
-  UpdateBridgeStateRequest,
+  UpdateBridgeStateRequest & RegionInput,
   UpdateBridgeStateResponse,
   UpdateBridgeStateError,
   Credentials | HttpClient.HttpClient
@@ -5450,6 +5610,8 @@ export const updateBridgeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeState",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeState",
 }));
 
 export type UpdateFlowError =
@@ -5478,7 +5640,7 @@ export type UpdateFlowError =
  * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
@@ -5496,6 +5658,8 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdateFlowEntitlementError =
@@ -5510,7 +5674,7 @@ export type UpdateFlowEntitlementError =
  * Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
  */
 export const updateFlowEntitlement: API.OperationMethod<
-  UpdateFlowEntitlementRequest,
+  UpdateFlowEntitlementRequest & RegionInput,
   UpdateFlowEntitlementResponse,
   UpdateFlowEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -5528,6 +5692,8 @@ export const updateFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowEntitlement",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowEntitlement",
 }));
 
 export type UpdateFlowMediaStreamError =
@@ -5542,7 +5708,7 @@ export type UpdateFlowMediaStreamError =
  * Updates an existing media stream.
  */
 export const updateFlowMediaStream: API.OperationMethod<
-  UpdateFlowMediaStreamRequest,
+  UpdateFlowMediaStreamRequest & RegionInput,
   UpdateFlowMediaStreamResponse,
   UpdateFlowMediaStreamError,
   Credentials | HttpClient.HttpClient
@@ -5560,6 +5726,8 @@ export const updateFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowMediaStream",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowMediaStream",
 }));
 
 export type UpdateFlowOutputError =
@@ -5574,7 +5742,7 @@ export type UpdateFlowOutputError =
  * Updates an existing flow output.
  */
 export const updateFlowOutput: API.OperationMethod<
-  UpdateFlowOutputRequest,
+  UpdateFlowOutputRequest & RegionInput,
   UpdateFlowOutputResponse,
   UpdateFlowOutputError,
   Credentials | HttpClient.HttpClient
@@ -5592,6 +5760,8 @@ export const updateFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowOutput",
 }));
 
 export type UpdateFlowSourceError =
@@ -5620,7 +5790,7 @@ export type UpdateFlowSourceError =
  * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
 export const updateFlowSource: API.OperationMethod<
-  UpdateFlowSourceRequest,
+  UpdateFlowSourceRequest & RegionInput,
   UpdateFlowSourceResponse,
   UpdateFlowSourceError,
   Credentials | HttpClient.HttpClient
@@ -5638,6 +5808,8 @@ export const updateFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowSource",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowSource",
 }));
 
 export type UpdateGatewayInstanceError =
@@ -5653,7 +5825,7 @@ export type UpdateGatewayInstanceError =
  * Updates an existing gateway instance.
  */
 export const updateGatewayInstance: API.OperationMethod<
-  UpdateGatewayInstanceRequest,
+  UpdateGatewayInstanceRequest & RegionInput,
   UpdateGatewayInstanceResponse,
   UpdateGatewayInstanceError,
   Credentials | HttpClient.HttpClient
@@ -5672,6 +5844,8 @@ export const updateGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayInstance",
 }));
 
 export type UpdateRouterInputError =
@@ -5687,7 +5861,7 @@ export type UpdateRouterInputError =
  * Updates the configuration of an existing router input in AWS Elemental MediaConnect.
  */
 export const updateRouterInput: API.OperationMethod<
-  UpdateRouterInputRequest,
+  UpdateRouterInputRequest & RegionInput,
   UpdateRouterInputResponse,
   UpdateRouterInputError,
   Credentials | HttpClient.HttpClient
@@ -5706,6 +5880,8 @@ export const updateRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterInput",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterInput",
 }));
 
 export type UpdateRouterNetworkInterfaceError =
@@ -5720,7 +5896,7 @@ export type UpdateRouterNetworkInterfaceError =
  * Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
  */
 export const updateRouterNetworkInterface: API.OperationMethod<
-  UpdateRouterNetworkInterfaceRequest,
+  UpdateRouterNetworkInterfaceRequest & RegionInput,
   UpdateRouterNetworkInterfaceResponse,
   UpdateRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
@@ -5738,6 +5914,8 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterNetworkInterface",
 }));
 
 export type UpdateRouterOutputError =
@@ -5753,7 +5931,7 @@ export type UpdateRouterOutputError =
  * Updates the configuration of an existing router output in AWS Elemental MediaConnect.
  */
 export const updateRouterOutput: API.OperationMethod<
-  UpdateRouterOutputRequest,
+  UpdateRouterOutputRequest & RegionInput,
   UpdateRouterOutputResponse,
   UpdateRouterOutputError,
   Credentials | HttpClient.HttpClient
@@ -5772,6 +5950,8 @@ export const updateRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterOutput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

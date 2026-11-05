@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeCatalyst",
+  service: "CodeCatalyst",
+  propagate: TxXray.propagate,
+} as const;
 
 export type AccessTokenName = string;
 export interface CreateAccessTokenRequest {
@@ -726,7 +742,7 @@ export type CreateAccessTokenError = CommonErrors;
  * Managing personal access tokens in Amazon CodeCatalyst.
  */
 export const createAccessToken: API.OperationMethod<
-  CreateAccessTokenRequest,
+  CreateAccessTokenRequest & RegionInput,
   CreateAccessTokenResponse,
   CreateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -737,6 +753,8 @@ export const createAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
+  telemetry: TELEMETRY,
+  span: "CreateAccessToken",
 }));
 
 export type CreateDevEnvironmentError = CommonErrors;
@@ -748,7 +766,7 @@ export type CreateDevEnvironmentError = CommonErrors;
  * defaults apply to a Dev Environment created programmatically.
  */
 export const createDevEnvironment: API.OperationMethod<
-  CreateDevEnvironmentRequest,
+  CreateDevEnvironmentRequest & RegionInput,
   CreateDevEnvironmentResponse,
   CreateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -759,6 +777,8 @@ export const createDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateDevEnvironment",
 }));
 
 export type CreateProjectError = CommonErrors;
@@ -766,7 +786,7 @@ export type CreateProjectError = CommonErrors;
  * Creates a project in a specified space.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -777,6 +797,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateSourceRepositoryError = CommonErrors;
@@ -785,7 +807,7 @@ export type CreateSourceRepositoryError = CommonErrors;
  * created with an initial empty commit with a default branch named `main`.
  */
 export const createSourceRepository: API.OperationMethod<
-  CreateSourceRepositoryRequest,
+  CreateSourceRepositoryRequest & RegionInput,
   CreateSourceRepositoryResponse,
   CreateSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -796,6 +818,8 @@ export const createSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepository",
+  telemetry: TELEMETRY,
+  span: "CreateSourceRepository",
 }));
 
 export type CreateSourceRepositoryBranchError = CommonErrors;
@@ -805,7 +829,7 @@ export type CreateSourceRepositoryBranchError = CommonErrors;
  * This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
  */
 export const createSourceRepositoryBranch: API.OperationMethod<
-  CreateSourceRepositoryBranchRequest,
+  CreateSourceRepositoryBranchRequest & RegionInput,
   CreateSourceRepositoryBranchResponse,
   CreateSourceRepositoryBranchError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +840,8 @@ export const createSourceRepositoryBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepositoryBranch",
+  telemetry: TELEMETRY,
+  span: "CreateSourceRepositoryBranch",
 }));
 
 export type DeleteAccessTokenError = CommonErrors;
@@ -823,7 +849,7 @@ export type DeleteAccessTokenError = CommonErrors;
  * Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
  */
 export const deleteAccessToken: API.OperationMethod<
-  DeleteAccessTokenRequest,
+  DeleteAccessTokenRequest & RegionInput,
   DeleteAccessTokenResponse,
   DeleteAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -834,6 +860,8 @@ export const deleteAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessToken",
 }));
 
 export type DeleteDevEnvironmentError = CommonErrors;
@@ -841,7 +869,7 @@ export type DeleteDevEnvironmentError = CommonErrors;
  * Deletes a Dev Environment.
  */
 export const deleteDevEnvironment: API.OperationMethod<
-  DeleteDevEnvironmentRequest,
+  DeleteDevEnvironmentRequest & RegionInput,
   DeleteDevEnvironmentResponse,
   DeleteDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -852,6 +880,8 @@ export const deleteDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteDevEnvironment",
 }));
 
 export type DeleteProjectError = CommonErrors;
@@ -859,7 +889,7 @@ export type DeleteProjectError = CommonErrors;
  * Deletes a project in a space.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -870,6 +900,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteSourceRepositoryError = CommonErrors;
@@ -877,7 +909,7 @@ export type DeleteSourceRepositoryError = CommonErrors;
  * Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
  */
 export const deleteSourceRepository: API.OperationMethod<
-  DeleteSourceRepositoryRequest,
+  DeleteSourceRepositoryRequest & RegionInput,
   DeleteSourceRepositoryResponse,
   DeleteSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -888,6 +920,8 @@ export const deleteSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceRepository",
 }));
 
 export type DeleteSpaceError = CommonErrors;
@@ -897,7 +931,7 @@ export type DeleteSpaceError = CommonErrors;
  * Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
  */
 export const deleteSpace: API.OperationMethod<
-  DeleteSpaceRequest,
+  DeleteSpaceRequest & RegionInput,
   DeleteSpaceResponse,
   DeleteSpaceError,
   Credentials | HttpClient.HttpClient
@@ -908,6 +942,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type GetDevEnvironmentError = CommonErrors;
@@ -915,7 +951,7 @@ export type GetDevEnvironmentError = CommonErrors;
  * Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
  */
 export const getDevEnvironment: API.OperationMethod<
-  GetDevEnvironmentRequest,
+  GetDevEnvironmentRequest & RegionInput,
   GetDevEnvironmentResponse,
   GetDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -926,6 +962,8 @@ export const getDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetDevEnvironment",
 }));
 
 export type GetProjectError = CommonErrors;
@@ -933,7 +971,7 @@ export type GetProjectError = CommonErrors;
  * Returns information about a project.
  */
 export const getProject: API.OperationMethod<
-  GetProjectRequest,
+  GetProjectRequest & RegionInput,
   GetProjectResponse,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -944,6 +982,8 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetSourceRepositoryError = CommonErrors;
@@ -951,7 +991,7 @@ export type GetSourceRepositoryError = CommonErrors;
  * Returns information about a source repository.
  */
 export const getSourceRepository: API.OperationMethod<
-  GetSourceRepositoryRequest,
+  GetSourceRepositoryRequest & RegionInput,
   GetSourceRepositoryResponse,
   GetSourceRepositoryError,
   Credentials | HttpClient.HttpClient
@@ -962,6 +1002,8 @@ export const getSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepository",
+  telemetry: TELEMETRY,
+  span: "GetSourceRepository",
 }));
 
 export type GetSourceRepositoryCloneUrlsError = CommonErrors;
@@ -970,7 +1012,7 @@ export type GetSourceRepositoryCloneUrlsError = CommonErrors;
  * repository.
  */
 export const getSourceRepositoryCloneUrls: API.OperationMethod<
-  GetSourceRepositoryCloneUrlsRequest,
+  GetSourceRepositoryCloneUrlsRequest & RegionInput,
   GetSourceRepositoryCloneUrlsResponse,
   GetSourceRepositoryCloneUrlsError,
   Credentials | HttpClient.HttpClient
@@ -981,6 +1023,8 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepositoryCloneUrls",
+  telemetry: TELEMETRY,
+  span: "GetSourceRepositoryCloneUrls",
 }));
 
 export type GetSpaceError = CommonErrors;
@@ -988,7 +1032,7 @@ export type GetSpaceError = CommonErrors;
  * Returns information about an space.
  */
 export const getSpace: API.OperationMethod<
-  GetSpaceRequest,
+  GetSpaceRequest & RegionInput,
   GetSpaceResponse,
   GetSpaceError,
   Credentials | HttpClient.HttpClient
@@ -999,6 +1043,8 @@ export const getSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
+  telemetry: TELEMETRY,
+  span: "GetSpace",
 }));
 
 export type GetSubscriptionError = CommonErrors;
@@ -1007,7 +1053,7 @@ export type GetSubscriptionError = CommonErrors;
  * and the billing plan for the space.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionRequest,
+  GetSubscriptionRequest & RegionInput,
   GetSubscriptionResponse,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1018,6 +1064,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetUserDetailsError = CommonErrors;
@@ -1025,7 +1073,7 @@ export type GetUserDetailsError = CommonErrors;
  * Returns information about a user.
  */
 export const getUserDetails: API.OperationMethod<
-  GetUserDetailsRequest,
+  GetUserDetailsRequest & RegionInput,
   GetUserDetailsResponse,
   GetUserDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1036,6 +1084,8 @@ export const getUserDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserDetails",
+  telemetry: TELEMETRY,
+  span: "GetUserDetails",
 }));
 
 export type GetWorkflowError = CommonErrors;
@@ -1043,7 +1093,7 @@ export type GetWorkflowError = CommonErrors;
  * Returns information about a workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1054,6 +1104,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowRunError = CommonErrors;
@@ -1061,7 +1113,7 @@ export type GetWorkflowRunError = CommonErrors;
  * Returns information about a specified run of a workflow.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -1072,6 +1124,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type ListAccessTokensError = CommonErrors;
@@ -1079,7 +1133,7 @@ export type ListAccessTokensError = CommonErrors;
  * Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
  */
 export const listAccessTokens: API.PaginatedOperationMethod<
-  ListAccessTokensRequest,
+  ListAccessTokensRequest & RegionInput,
   ListAccessTokensResponse,
   ListAccessTokensError,
   Credentials | HttpClient.HttpClient,
@@ -1097,6 +1151,8 @@ export const listAccessTokens: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessTokens",
 })) as any;
 
 export type ListDevEnvironmentsError = CommonErrors;
@@ -1104,7 +1160,7 @@ export type ListDevEnvironmentsError = CommonErrors;
  * Retrieves a list of Dev Environments in a project.
  */
 export const listDevEnvironments: API.PaginatedOperationMethod<
-  ListDevEnvironmentsRequest,
+  ListDevEnvironmentsRequest & RegionInput,
   ListDevEnvironmentsResponse,
   ListDevEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1122,6 +1178,8 @@ export const listDevEnvironments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevEnvironments",
 })) as any;
 
 export type ListDevEnvironmentSessionsError = CommonErrors;
@@ -1129,7 +1187,7 @@ export type ListDevEnvironmentSessionsError = CommonErrors;
  * Retrieves a list of active sessions for a Dev Environment in a project.
  */
 export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
-  ListDevEnvironmentSessionsRequest,
+  ListDevEnvironmentSessionsRequest & RegionInput,
   ListDevEnvironmentSessionsResponse,
   ListDevEnvironmentSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -1147,6 +1205,8 @@ export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevEnvironmentSessions",
 })) as any;
 
 export type ListEventLogsError = CommonErrors;
@@ -1162,7 +1222,7 @@ export type ListEventLogsError = CommonErrors;
  * CloudTrail trails.
  */
 export const listEventLogs: API.PaginatedOperationMethod<
-  ListEventLogsRequest,
+  ListEventLogsRequest & RegionInput,
   ListEventLogsResponse,
   ListEventLogsError,
   Credentials | HttpClient.HttpClient,
@@ -1180,6 +1240,8 @@ export const listEventLogs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventLogs",
 })) as any;
 
 export type ListProjectsError = CommonErrors;
@@ -1187,7 +1249,7 @@ export type ListProjectsError = CommonErrors;
  * Retrieves a list of projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResponse,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1205,6 +1267,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListSourceRepositoriesError = CommonErrors;
@@ -1212,7 +1276,7 @@ export type ListSourceRepositoriesError = CommonErrors;
  * Retrieves a list of source repositories in a project.
  */
 export const listSourceRepositories: API.PaginatedOperationMethod<
-  ListSourceRepositoriesRequest,
+  ListSourceRepositoriesRequest & RegionInput,
   ListSourceRepositoriesResponse,
   ListSourceRepositoriesError,
   Credentials | HttpClient.HttpClient,
@@ -1230,6 +1294,8 @@ export const listSourceRepositories: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceRepositories",
 })) as any;
 
 export type ListSourceRepositoryBranchesError = CommonErrors;
@@ -1237,7 +1303,7 @@ export type ListSourceRepositoryBranchesError = CommonErrors;
  * Retrieves a list of branches in a specified source repository.
  */
 export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
-  ListSourceRepositoryBranchesRequest,
+  ListSourceRepositoryBranchesRequest & RegionInput,
   ListSourceRepositoryBranchesResponse,
   ListSourceRepositoryBranchesError,
   Credentials | HttpClient.HttpClient,
@@ -1255,6 +1321,8 @@ export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceRepositoryBranches",
 })) as any;
 
 export type ListSpacesError = CommonErrors;
@@ -1262,7 +1330,7 @@ export type ListSpacesError = CommonErrors;
  * Retrieves a list of spaces.
  */
 export const listSpaces: API.PaginatedOperationMethod<
-  ListSpacesRequest,
+  ListSpacesRequest & RegionInput,
   ListSpacesResponse,
   ListSpacesError,
   Credentials | HttpClient.HttpClient,
@@ -1275,6 +1343,8 @@ export const listSpaces: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSpaces",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "items" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 })) as any;
 
 export type ListWorkflowRunsError = CommonErrors;
@@ -1282,7 +1352,7 @@ export type ListWorkflowRunsError = CommonErrors;
  * Retrieves a list of workflow runs of a specified workflow.
  */
 export const listWorkflowRuns: API.PaginatedOperationMethod<
-  ListWorkflowRunsRequest,
+  ListWorkflowRunsRequest & RegionInput,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1300,6 +1370,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type ListWorkflowsError = CommonErrors;
@@ -1307,7 +1379,7 @@ export type ListWorkflowsError = CommonErrors;
  * Retrieves a list of workflows in a specified project.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1325,6 +1397,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type StartDevEnvironmentError = CommonErrors;
@@ -1332,7 +1406,7 @@ export type StartDevEnvironmentError = CommonErrors;
  * Starts a specified Dev Environment and puts it into an active state.
  */
 export const startDevEnvironment: API.OperationMethod<
-  StartDevEnvironmentRequest,
+  StartDevEnvironmentRequest & RegionInput,
   StartDevEnvironmentResponse,
   StartDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1343,6 +1417,8 @@ export const startDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "StartDevEnvironment",
 }));
 
 export type StartDevEnvironmentSessionError = CommonErrors;
@@ -1350,7 +1426,7 @@ export type StartDevEnvironmentSessionError = CommonErrors;
  * Starts a session for a specified Dev Environment.
  */
 export const startDevEnvironmentSession: API.OperationMethod<
-  StartDevEnvironmentSessionRequest,
+  StartDevEnvironmentSessionRequest & RegionInput,
   StartDevEnvironmentSessionResponse,
   StartDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
@@ -1361,6 +1437,8 @@ export const startDevEnvironmentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironmentSession",
+  telemetry: TELEMETRY,
+  span: "StartDevEnvironmentSession",
 }));
 
 export type StartWorkflowRunError = CommonErrors;
@@ -1368,7 +1446,7 @@ export type StartWorkflowRunError = CommonErrors;
  * Begins a run of a specified workflow.
  */
 export const startWorkflowRun: API.OperationMethod<
-  StartWorkflowRunRequest,
+  StartWorkflowRunRequest & RegionInput,
   StartWorkflowRunResponse,
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -1379,6 +1457,8 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowRun",
 }));
 
 export type StopDevEnvironmentError = CommonErrors;
@@ -1386,7 +1466,7 @@ export type StopDevEnvironmentError = CommonErrors;
  * Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
  */
 export const stopDevEnvironment: API.OperationMethod<
-  StopDevEnvironmentRequest,
+  StopDevEnvironmentRequest & RegionInput,
   StopDevEnvironmentResponse,
   StopDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1397,6 +1477,8 @@ export const stopDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "StopDevEnvironment",
 }));
 
 export type StopDevEnvironmentSessionError = CommonErrors;
@@ -1404,7 +1486,7 @@ export type StopDevEnvironmentSessionError = CommonErrors;
  * Stops a session for a specified Dev Environment.
  */
 export const stopDevEnvironmentSession: API.OperationMethod<
-  StopDevEnvironmentSessionRequest,
+  StopDevEnvironmentSessionRequest & RegionInput,
   StopDevEnvironmentSessionResponse,
   StopDevEnvironmentSessionError,
   Credentials | HttpClient.HttpClient
@@ -1415,6 +1497,8 @@ export const stopDevEnvironmentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironmentSession",
+  telemetry: TELEMETRY,
+  span: "StopDevEnvironmentSession",
 }));
 
 export type UpdateDevEnvironmentError = CommonErrors;
@@ -1422,7 +1506,7 @@ export type UpdateDevEnvironmentError = CommonErrors;
  * Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
  */
 export const updateDevEnvironment: API.OperationMethod<
-  UpdateDevEnvironmentRequest,
+  UpdateDevEnvironmentRequest & RegionInput,
   UpdateDevEnvironmentResponse,
   UpdateDevEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -1433,6 +1517,8 @@ export const updateDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateDevEnvironment",
 }));
 
 export type UpdateProjectError = CommonErrors;
@@ -1440,7 +1526,7 @@ export type UpdateProjectError = CommonErrors;
  * Changes one or more values for a project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResponse,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1451,6 +1537,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateSpaceError = CommonErrors;
@@ -1458,7 +1546,7 @@ export type UpdateSpaceError = CommonErrors;
  * Changes one or more values for a space.
  */
 export const updateSpace: API.OperationMethod<
-  UpdateSpaceRequest,
+  UpdateSpaceRequest & RegionInput,
   UpdateSpaceResponse,
   UpdateSpaceError,
   Credentials | HttpClient.HttpClient
@@ -1469,6 +1557,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 export type VerifySessionError = CommonErrors;
@@ -1476,7 +1566,7 @@ export type VerifySessionError = CommonErrors;
  * Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
  */
 export const verifySession: API.OperationMethod<
-  VerifySessionRequest,
+  VerifySessionRequest & RegionInput,
   VerifySessionResponse,
   VerifySessionError,
   Credentials | HttpClient.HttpClient
@@ -1487,6 +1577,8 @@ export const verifySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySession",
+  telemetry: TELEMETRY,
+  span: "VerifySession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

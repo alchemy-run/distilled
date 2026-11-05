@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -72,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://datasync.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DataSync",
+  service: "DataSync",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalException
   extends /*@__PURE__*/ S.TaggedError<InternalException>()("InternalException", {
@@ -1164,7 +1181,7 @@ export type CancelTaskExecutionError = InternalException | InvalidRequestExcepti
  * successfully completes the transfer when you start the next task execution.
  */
 export const cancelTaskExecution: API.OperationMethod<
-  CancelTaskExecutionRequest,
+  CancelTaskExecutionRequest & RegionInput,
   CancelTaskExecutionResponse,
   CancelTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1175,6 +1192,8 @@ export const cancelTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTaskExecution",
+  telemetry: TELEMETRY,
+  span: "CancelTaskExecution",
 }));
 
 export type CreateAgentError = InternalException | InvalidRequestException | CommonErrors;
@@ -1186,7 +1205,7 @@ export type CreateAgentError = InternalException | InvalidRequestException | Com
  * agent?
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -1197,6 +1216,8 @@ export const createAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgent",
+  telemetry: TELEMETRY,
+  span: "CreateAgent",
 }));
 
 export type CreateLocationAzureBlobError =
@@ -1212,7 +1233,7 @@ export type CreateLocationAzureBlobError =
  * Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types.
  */
 export const createLocationAzureBlob: API.OperationMethod<
-  CreateLocationAzureBlobRequest,
+  CreateLocationAzureBlobRequest & RegionInput,
   CreateLocationAzureBlobResponse,
   CreateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1223,6 +1244,8 @@ export const createLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationAzureBlob",
+  telemetry: TELEMETRY,
+  span: "CreateLocationAzureBlob",
 }));
 
 export type CreateLocationEfsError =
@@ -1241,7 +1264,7 @@ export type CreateLocationEfsError =
  * Amazon EFS file systems.
  */
 export const createLocationEfs: API.OperationMethod<
-  CreateLocationEfsRequest,
+  CreateLocationEfsRequest & RegionInput,
   CreateLocationEfsResponse,
   CreateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1257,6 +1280,8 @@ export const createLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationEfs",
+  telemetry: TELEMETRY,
+  span: "CreateLocationEfs",
 }));
 
 export type CreateLocationFsxLustreError =
@@ -1272,7 +1297,7 @@ export type CreateLocationFsxLustreError =
  * accesses FSx for Lustre file systems.
  */
 export const createLocationFsxLustre: API.OperationMethod<
-  CreateLocationFsxLustreRequest,
+  CreateLocationFsxLustreRequest & RegionInput,
   CreateLocationFsxLustreResponse,
   CreateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1283,6 +1308,8 @@ export const createLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxLustre",
+  telemetry: TELEMETRY,
+  span: "CreateLocationFsxLustre",
 }));
 
 export type CreateLocationFsxOntapError =
@@ -1298,7 +1325,7 @@ export type CreateLocationFsxOntapError =
  * accesses FSx for ONTAP file systems.
  */
 export const createLocationFsxOntap: API.OperationMethod<
-  CreateLocationFsxOntapRequest,
+  CreateLocationFsxOntapRequest & RegionInput,
   CreateLocationFsxOntapResponse,
   CreateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1309,6 +1336,8 @@ export const createLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxOntap",
+  telemetry: TELEMETRY,
+  span: "CreateLocationFsxOntap",
 }));
 
 export type CreateLocationFsxOpenZfsError =
@@ -1328,7 +1357,7 @@ export type CreateLocationFsxOpenZfsError =
  * `CreateLocationFsxOpenZfs` operation.
  */
 export const createLocationFsxOpenZfs: API.OperationMethod<
-  CreateLocationFsxOpenZfsRequest,
+  CreateLocationFsxOpenZfsRequest & RegionInput,
   CreateLocationFsxOpenZfsResponse,
   CreateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1339,6 +1368,8 @@ export const createLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxOpenZfs",
+  telemetry: TELEMETRY,
+  span: "CreateLocationFsxOpenZfs",
 }));
 
 export type CreateLocationFsxWindowsError =
@@ -1355,7 +1386,7 @@ export type CreateLocationFsxWindowsError =
  * FSx for Windows File Server file systems.
  */
 export const createLocationFsxWindows: API.OperationMethod<
-  CreateLocationFsxWindowsRequest,
+  CreateLocationFsxWindowsRequest & RegionInput,
   CreateLocationFsxWindowsResponse,
   CreateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1366,6 +1397,8 @@ export const createLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxWindows",
+  telemetry: TELEMETRY,
+  span: "CreateLocationFsxWindows",
 }));
 
 export type CreateLocationHdfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1379,7 +1412,7 @@ export type CreateLocationHdfsError = InternalException | InvalidRequestExceptio
  * clusters.
  */
 export const createLocationHdfs: API.OperationMethod<
-  CreateLocationHdfsRequest,
+  CreateLocationHdfsRequest & RegionInput,
   CreateLocationHdfsResponse,
   CreateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1390,6 +1423,8 @@ export const createLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationHdfs",
+  telemetry: TELEMETRY,
+  span: "CreateLocationHdfs",
 }));
 
 export type CreateLocationNfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1403,7 +1438,7 @@ export type CreateLocationNfsError = InternalException | InvalidRequestException
  * servers.
  */
 export const createLocationNfs: API.OperationMethod<
-  CreateLocationNfsRequest,
+  CreateLocationNfsRequest & RegionInput,
   CreateLocationNfsResponse,
   CreateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1414,6 +1449,8 @@ export const createLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationNfs",
+  telemetry: TELEMETRY,
+  span: "CreateLocationNfs",
 }));
 
 export type CreateLocationObjectStorageError =
@@ -1428,7 +1465,7 @@ export type CreateLocationObjectStorageError =
  * Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
  */
 export const createLocationObjectStorage: API.OperationMethod<
-  CreateLocationObjectStorageRequest,
+  CreateLocationObjectStorageRequest & RegionInput,
   CreateLocationObjectStorageResponse,
   CreateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1439,6 +1476,8 @@ export const createLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationObjectStorage",
+  telemetry: TELEMETRY,
+  span: "CreateLocationObjectStorage",
 }));
 
 export type CreateLocationS3Error =
@@ -1463,7 +1502,7 @@ export type CreateLocationS3Error =
  * transfers with Amazon S3.
  */
 export const createLocationS3: API.OperationMethod<
-  CreateLocationS3Request,
+  CreateLocationS3Request & RegionInput,
   CreateLocationS3Response,
   CreateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1518,8 @@ export const createLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationS3",
+  telemetry: TELEMETRY,
+  span: "CreateLocationS3",
 }));
 
 export type CreateLocationSmbError = InternalException | InvalidRequestException | CommonErrors;
@@ -1491,7 +1532,7 @@ export type CreateLocationSmbError = InternalException | InvalidRequestException
  * file servers. For more information, see Providing DataSync access to SMB file servers.
  */
 export const createLocationSmb: API.OperationMethod<
-  CreateLocationSmbRequest,
+  CreateLocationSmbRequest & RegionInput,
   CreateLocationSmbResponse,
   CreateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1502,6 +1543,8 @@ export const createLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationSmb",
+  telemetry: TELEMETRY,
+  span: "CreateLocationSmb",
 }));
 
 export type CreateTaskError =
@@ -1522,7 +1565,7 @@ export type CreateTaskError =
  * you begin.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskRequest,
+  CreateTaskRequest & RegionInput,
   CreateTaskResponse,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1533,6 +1576,8 @@ export const createTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTask",
+  telemetry: TELEMETRY,
+  span: "CreateTask",
 }));
 
 export type DeleteAgentError = InternalException | InvalidRequestException | CommonErrors;
@@ -1545,7 +1590,7 @@ export type DeleteAgentError = InternalException | InvalidRequestException | Com
  * agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -1556,6 +1601,8 @@ export const deleteAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteAgent",
 }));
 
 export type DeleteLocationError =
@@ -1567,7 +1614,7 @@ export type DeleteLocationError =
  * Deletes a transfer location resource from DataSync.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationRequest,
+  DeleteLocationRequest & RegionInput,
   DeleteLocationResponse,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
@@ -1578,6 +1625,8 @@ export const deleteLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocation",
+  telemetry: TELEMETRY,
+  span: "DeleteLocation",
 }));
 
 export type DeleteTaskError =
@@ -1589,7 +1638,7 @@ export type DeleteTaskError =
  * Deletes a transfer task resource from DataSync.
  */
 export const deleteTask: API.OperationMethod<
-  DeleteTaskRequest,
+  DeleteTaskRequest & RegionInput,
   DeleteTaskResponse,
   DeleteTaskError,
   Credentials | HttpClient.HttpClient
@@ -1600,6 +1649,8 @@ export const deleteTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTask",
+  telemetry: TELEMETRY,
+  span: "DeleteTask",
 }));
 
 export type DescribeAgentError = InternalException | InvalidRequestException | CommonErrors;
@@ -1608,7 +1659,7 @@ export type DescribeAgentError = InternalException | InvalidRequestException | C
  * endpoint type, and status.
  */
 export const describeAgent: API.OperationMethod<
-  DescribeAgentRequest,
+  DescribeAgentRequest & RegionInput,
   DescribeAgentResponse,
   DescribeAgentError,
   Credentials | HttpClient.HttpClient
@@ -1619,6 +1670,8 @@ export const describeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgent",
+  telemetry: TELEMETRY,
+  span: "DescribeAgent",
 }));
 
 export type DescribeLocationAzureBlobError =
@@ -1630,7 +1683,7 @@ export type DescribeLocationAzureBlobError =
  * Blob Storage is configured.
  */
 export const describeLocationAzureBlob: API.OperationMethod<
-  DescribeLocationAzureBlobRequest,
+  DescribeLocationAzureBlobRequest & RegionInput,
   DescribeLocationAzureBlobResponse,
   DescribeLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -1641,6 +1694,8 @@ export const describeLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationAzureBlob",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationAzureBlob",
 }));
 
 export type DescribeLocationEfsError =
@@ -1652,7 +1707,7 @@ export type DescribeLocationEfsError =
  * Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
  */
 export const describeLocationEfs: API.OperationMethod<
-  DescribeLocationEfsRequest,
+  DescribeLocationEfsRequest & RegionInput,
   DescribeLocationEfsResponse,
   DescribeLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -1663,6 +1718,8 @@ export const describeLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationEfs",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationEfs",
 }));
 
 export type DescribeLocationFsxLustreError =
@@ -1673,7 +1730,7 @@ export type DescribeLocationFsxLustreError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
  */
 export const describeLocationFsxLustre: API.OperationMethod<
-  DescribeLocationFsxLustreRequest,
+  DescribeLocationFsxLustreRequest & RegionInput,
   DescribeLocationFsxLustreResponse,
   DescribeLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -1684,6 +1741,8 @@ export const describeLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxLustre",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationFsxLustre",
 }));
 
 export type DescribeLocationFsxOntapError =
@@ -1697,7 +1756,7 @@ export type DescribeLocationFsxOntapError =
  * actually return a `Password`.
  */
 export const describeLocationFsxOntap: API.OperationMethod<
-  DescribeLocationFsxOntapRequest,
+  DescribeLocationFsxOntapRequest & RegionInput,
   DescribeLocationFsxOntapResponse,
   DescribeLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -1708,6 +1767,8 @@ export const describeLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxOntap",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationFsxOntap",
 }));
 
 export type DescribeLocationFsxOpenZfsError =
@@ -1721,7 +1782,7 @@ export type DescribeLocationFsxOpenZfsError =
  * `DescribeLocationFsxOpenZfs` operation.
  */
 export const describeLocationFsxOpenZfs: API.OperationMethod<
-  DescribeLocationFsxOpenZfsRequest,
+  DescribeLocationFsxOpenZfsRequest & RegionInput,
   DescribeLocationFsxOpenZfsResponse,
   DescribeLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -1732,6 +1793,8 @@ export const describeLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxOpenZfs",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationFsxOpenZfs",
 }));
 
 export type DescribeLocationFsxWindowsError =
@@ -1742,7 +1805,7 @@ export type DescribeLocationFsxWindowsError =
  * Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
  */
 export const describeLocationFsxWindows: API.OperationMethod<
-  DescribeLocationFsxWindowsRequest,
+  DescribeLocationFsxWindowsRequest & RegionInput,
   DescribeLocationFsxWindowsResponse,
   DescribeLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -1753,6 +1816,8 @@ export const describeLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxWindows",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationFsxWindows",
 }));
 
 export type DescribeLocationHdfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1761,7 +1826,7 @@ export type DescribeLocationHdfsError = InternalException | InvalidRequestExcept
  * Distributed File System (HDFS) is configured.
  */
 export const describeLocationHdfs: API.OperationMethod<
-  DescribeLocationHdfsRequest,
+  DescribeLocationHdfsRequest & RegionInput,
   DescribeLocationHdfsResponse,
   DescribeLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -1772,6 +1837,8 @@ export const describeLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationHdfs",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationHdfs",
 }));
 
 export type DescribeLocationNfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1780,7 +1847,7 @@ export type DescribeLocationNfsError = InternalException | InvalidRequestExcepti
  * File System (NFS) file server is configured.
  */
 export const describeLocationNfs: API.OperationMethod<
-  DescribeLocationNfsRequest,
+  DescribeLocationNfsRequest & RegionInput,
   DescribeLocationNfsResponse,
   DescribeLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -1791,6 +1858,8 @@ export const describeLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationNfs",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationNfs",
 }));
 
 export type DescribeLocationObjectStorageError =
@@ -1802,7 +1871,7 @@ export type DescribeLocationObjectStorageError =
  * storage system is configured.
  */
 export const describeLocationObjectStorage: API.OperationMethod<
-  DescribeLocationObjectStorageRequest,
+  DescribeLocationObjectStorageRequest & RegionInput,
   DescribeLocationObjectStorageResponse,
   DescribeLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -1813,6 +1882,8 @@ export const describeLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationObjectStorage",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationObjectStorage",
 }));
 
 export type DescribeLocationS3Error =
@@ -1825,7 +1896,7 @@ export type DescribeLocationS3Error =
  * is configured.
  */
 export const describeLocationS3: API.OperationMethod<
-  DescribeLocationS3Request,
+  DescribeLocationS3Request & RegionInput,
   DescribeLocationS3Response,
   DescribeLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -1836,6 +1907,8 @@ export const describeLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationS3",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationS3",
 }));
 
 export type DescribeLocationSmbError = InternalException | InvalidRequestException | CommonErrors;
@@ -1844,7 +1917,7 @@ export type DescribeLocationSmbError = InternalException | InvalidRequestExcepti
  * Message Block (SMB) file server is configured.
  */
 export const describeLocationSmb: API.OperationMethod<
-  DescribeLocationSmbRequest,
+  DescribeLocationSmbRequest & RegionInput,
   DescribeLocationSmbResponse,
   DescribeLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -1855,6 +1928,8 @@ export const describeLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationSmb",
+  telemetry: TELEMETRY,
+  span: "DescribeLocationSmb",
 }));
 
 export type DescribeTaskError =
@@ -1867,7 +1942,7 @@ export type DescribeTaskError =
  * DataSync transfers your data.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskRequest,
+  DescribeTaskRequest & RegionInput,
   DescribeTaskResponse,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -1878,6 +1953,8 @@ export const describeTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTask",
+  telemetry: TELEMETRY,
+  span: "DescribeTask",
 }));
 
 export type DescribeTaskExecutionError = InternalException | InvalidRequestException | CommonErrors;
@@ -1891,7 +1968,7 @@ export type DescribeTaskExecutionError = InternalException | InvalidRequestExcep
  * transfer performance counters.
  */
 export const describeTaskExecution: API.OperationMethod<
-  DescribeTaskExecutionRequest,
+  DescribeTaskExecutionRequest & RegionInput,
   DescribeTaskExecutionResponse,
   DescribeTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1902,6 +1979,8 @@ export const describeTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeTaskExecution",
 }));
 
 export type ListAgentsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1920,7 +1999,7 @@ export type ListAgentsError = InternalException | InvalidRequestException | Comm
  * by using DescribeAgent.
  */
 export const listAgents: API.PaginatedOperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -1938,6 +2017,8 @@ export const listAgents: API.PaginatedOperationMethod<
     items: "Agents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgents",
 })) as any;
 
 export type ListLocationsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1949,7 +2030,7 @@ export type ListLocationsError = InternalException | InvalidRequestException | C
  * specify in your next request to fetch the next page of locations.
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsRequest,
+  ListLocationsRequest & RegionInput,
   ListLocationsResponse,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -1967,6 +2048,8 @@ export const listLocations: API.PaginatedOperationMethod<
     items: "Locations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 })) as any;
 
 export type ListTagsForResourceError = InternalException | InvalidRequestException | CommonErrors;
@@ -1974,7 +2057,7 @@ export type ListTagsForResourceError = InternalException | InvalidRequestExcepti
  * Returns all the tags associated with an Amazon Web Services resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1992,6 +2075,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTaskExecutionsError = InternalException | InvalidRequestException | CommonErrors;
@@ -1999,7 +2084,7 @@ export type ListTaskExecutionsError = InternalException | InvalidRequestExceptio
  * Returns a list of executions for an DataSync transfer task.
  */
 export const listTaskExecutions: API.PaginatedOperationMethod<
-  ListTaskExecutionsRequest,
+  ListTaskExecutionsRequest & RegionInput,
   ListTaskExecutionsResponse,
   ListTaskExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2017,6 +2102,8 @@ export const listTaskExecutions: API.PaginatedOperationMethod<
     items: "TaskExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskExecutions",
 })) as any;
 
 export type ListTasksError = InternalException | InvalidRequestException | CommonErrors;
@@ -2024,7 +2111,7 @@ export type ListTasksError = InternalException | InvalidRequestException | Commo
  * Returns a list of the DataSync tasks you created.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -2042,6 +2129,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type StartTaskExecutionError =
@@ -2061,7 +2150,7 @@ export type StartTaskExecutionError =
  * you begin.
  */
 export const startTaskExecution: API.OperationMethod<
-  StartTaskExecutionRequest,
+  StartTaskExecutionRequest & RegionInput,
   StartTaskExecutionResponse,
   StartTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2072,6 +2161,8 @@ export const startTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTaskExecution",
+  telemetry: TELEMETRY,
+  span: "StartTaskExecution",
 }));
 
 export type TagResourceError = InternalException | InvalidRequestException | CommonErrors;
@@ -2083,7 +2174,7 @@ export type TagResourceError = InternalException | InvalidRequestException | Com
  * executions.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2094,6 +2185,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalException | InvalidRequestException | CommonErrors;
@@ -2101,7 +2194,7 @@ export type UntagResourceError = InternalException | InvalidRequestException | C
  * Removes tags from an Amazon Web Services resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2112,6 +2205,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentError = InternalException | InvalidRequestException | CommonErrors;
@@ -2119,7 +2214,7 @@ export type UpdateAgentError = InternalException | InvalidRequestException | Com
  * Updates the name of an DataSync agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -2130,6 +2225,8 @@ export const updateAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
 }));
 
 export type UpdateLocationAzureBlobError =
@@ -2143,7 +2240,7 @@ export type UpdateLocationAzureBlobError =
  * For more information, see Configuring DataSync transfers with Azure Blob Storage.
  */
 export const updateLocationAzureBlob: API.OperationMethod<
-  UpdateLocationAzureBlobRequest,
+  UpdateLocationAzureBlobRequest & RegionInput,
   UpdateLocationAzureBlobResponse,
   UpdateLocationAzureBlobError,
   Credentials | HttpClient.HttpClient
@@ -2154,6 +2251,8 @@ export const updateLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationAzureBlob",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationAzureBlob",
 }));
 
 export type UpdateLocationEfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -2165,7 +2264,7 @@ export type UpdateLocationEfsError = InternalException | InvalidRequestException
  * transfers with Amazon EFS.
  */
 export const updateLocationEfs: API.OperationMethod<
-  UpdateLocationEfsRequest,
+  UpdateLocationEfsRequest & RegionInput,
   UpdateLocationEfsResponse,
   UpdateLocationEfsError,
   Credentials | HttpClient.HttpClient
@@ -2176,6 +2275,8 @@ export const updateLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationEfs",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationEfs",
 }));
 
 export type UpdateLocationFsxLustreError =
@@ -2190,7 +2291,7 @@ export type UpdateLocationFsxLustreError =
  * transfers with FSx for Lustre.
  */
 export const updateLocationFsxLustre: API.OperationMethod<
-  UpdateLocationFsxLustreRequest,
+  UpdateLocationFsxLustreRequest & RegionInput,
   UpdateLocationFsxLustreResponse,
   UpdateLocationFsxLustreError,
   Credentials | HttpClient.HttpClient
@@ -2201,6 +2302,8 @@ export const updateLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxLustre",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationFsxLustre",
 }));
 
 export type UpdateLocationFsxOntapError =
@@ -2215,7 +2318,7 @@ export type UpdateLocationFsxOntapError =
  * transfers with FSx for ONTAP.
  */
 export const updateLocationFsxOntap: API.OperationMethod<
-  UpdateLocationFsxOntapRequest,
+  UpdateLocationFsxOntapRequest & RegionInput,
   UpdateLocationFsxOntapResponse,
   UpdateLocationFsxOntapError,
   Credentials | HttpClient.HttpClient
@@ -2226,6 +2329,8 @@ export const updateLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxOntap",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationFsxOntap",
 }));
 
 export type UpdateLocationFsxOpenZfsError =
@@ -2243,7 +2348,7 @@ export type UpdateLocationFsxOpenZfsError =
  * `UpdateLocationFsxOpenZfs` operation.
  */
 export const updateLocationFsxOpenZfs: API.OperationMethod<
-  UpdateLocationFsxOpenZfsRequest,
+  UpdateLocationFsxOpenZfsRequest & RegionInput,
   UpdateLocationFsxOpenZfsResponse,
   UpdateLocationFsxOpenZfsError,
   Credentials | HttpClient.HttpClient
@@ -2254,6 +2359,8 @@ export const updateLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxOpenZfs",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationFsxOpenZfs",
 }));
 
 export type UpdateLocationFsxWindowsError =
@@ -2268,7 +2375,7 @@ export type UpdateLocationFsxWindowsError =
  * transfers with FSx for Windows File Server.
  */
 export const updateLocationFsxWindows: API.OperationMethod<
-  UpdateLocationFsxWindowsRequest,
+  UpdateLocationFsxWindowsRequest & RegionInput,
   UpdateLocationFsxWindowsResponse,
   UpdateLocationFsxWindowsError,
   Credentials | HttpClient.HttpClient
@@ -2279,6 +2386,8 @@ export const updateLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxWindows",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationFsxWindows",
 }));
 
 export type UpdateLocationHdfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -2290,7 +2399,7 @@ export type UpdateLocationHdfsError = InternalException | InvalidRequestExceptio
  * transfers with an HDFS cluster.
  */
 export const updateLocationHdfs: API.OperationMethod<
-  UpdateLocationHdfsRequest,
+  UpdateLocationHdfsRequest & RegionInput,
   UpdateLocationHdfsResponse,
   UpdateLocationHdfsError,
   Credentials | HttpClient.HttpClient
@@ -2301,6 +2410,8 @@ export const updateLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationHdfs",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationHdfs",
 }));
 
 export type UpdateLocationNfsError = InternalException | InvalidRequestException | CommonErrors;
@@ -2312,7 +2423,7 @@ export type UpdateLocationNfsError = InternalException | InvalidRequestException
  * file server.
  */
 export const updateLocationNfs: API.OperationMethod<
-  UpdateLocationNfsRequest,
+  UpdateLocationNfsRequest & RegionInput,
   UpdateLocationNfsResponse,
   UpdateLocationNfsError,
   Credentials | HttpClient.HttpClient
@@ -2323,6 +2434,8 @@ export const updateLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationNfs",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationNfs",
 }));
 
 export type UpdateLocationObjectStorageError =
@@ -2337,7 +2450,7 @@ export type UpdateLocationObjectStorageError =
  * transfers with an object storage system.
  */
 export const updateLocationObjectStorage: API.OperationMethod<
-  UpdateLocationObjectStorageRequest,
+  UpdateLocationObjectStorageRequest & RegionInput,
   UpdateLocationObjectStorageResponse,
   UpdateLocationObjectStorageError,
   Credentials | HttpClient.HttpClient
@@ -2348,6 +2461,8 @@ export const updateLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationObjectStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationObjectStorage",
 }));
 
 export type UpdateLocationS3Error = InternalException | InvalidRequestException | CommonErrors;
@@ -2363,7 +2478,7 @@ export type UpdateLocationS3Error = InternalException | InvalidRequestException 
  * - Evaluating S3 request costs when using DataSync
  */
 export const updateLocationS3: API.OperationMethod<
-  UpdateLocationS3Request,
+  UpdateLocationS3Request & RegionInput,
   UpdateLocationS3Response,
   UpdateLocationS3Error,
   Credentials | HttpClient.HttpClient
@@ -2374,6 +2489,8 @@ export const updateLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationS3",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationS3",
 }));
 
 export type UpdateLocationSmbError = InternalException | InvalidRequestException | CommonErrors;
@@ -2385,7 +2502,7 @@ export type UpdateLocationSmbError = InternalException | InvalidRequestException
  * transfers with an SMB file server.
  */
 export const updateLocationSmb: API.OperationMethod<
-  UpdateLocationSmbRequest,
+  UpdateLocationSmbRequest & RegionInput,
   UpdateLocationSmbResponse,
   UpdateLocationSmbError,
   Credentials | HttpClient.HttpClient
@@ -2396,6 +2513,8 @@ export const updateLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationSmb",
+  telemetry: TELEMETRY,
+  span: "UpdateLocationSmb",
 }));
 
 export type UpdateTaskError =
@@ -2408,7 +2527,7 @@ export type UpdateTaskError =
  * DataSync transfers your data.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -2419,6 +2538,8 @@ export const updateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTask",
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 export type UpdateTaskExecutionError = InternalException | InvalidRequestException | CommonErrors;
@@ -2432,7 +2553,7 @@ export type UpdateTaskExecutionError = InternalException | InvalidRequestExcepti
  * execution.
  */
 export const updateTaskExecution: API.OperationMethod<
-  UpdateTaskExecutionRequest,
+  UpdateTaskExecutionRequest & RegionInput,
   UpdateTaskExecutionResponse,
   UpdateTaskExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2443,6 +2564,8 @@ export const updateTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskExecution",
+  telemetry: TELEMETRY,
+  span: "UpdateTaskExecution",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

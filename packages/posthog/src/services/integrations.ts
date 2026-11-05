@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Integrations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -641,6 +654,8 @@ export const createIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateIntegrationsGithubLinkExistingError = PosthogOpError;
@@ -656,6 +671,8 @@ export const createIntegrationsGithubLinkExisting: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationsGithubLinkExisting",
 }));
 
 export type CreateIntegrationsGithubPrepareCallbackError = PosthogOpError;
@@ -671,6 +688,8 @@ export const createIntegrationsGithubPrepareCallback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationsGithubPrepareCallback",
 }));
 
 export type CreateIntegrationsRequestAccessError = PosthogOpError;
@@ -686,6 +705,8 @@ export const createIntegrationsRequestAccess: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationsRequestAccess",
 }));
 
 export type GetIntegrationError = Forbidden | NotFound | PosthogOpError;
@@ -700,6 +721,8 @@ export const getIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationsAnthropicManagedAgentError = PosthogOpError;
@@ -714,6 +737,8 @@ export const getIntegrationsAnthropicManagedAgent: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsAnthropicManagedAgent",
 }));
 
 export type GetIntegrationsAnthropicManagedAgentEnvError = PosthogOpError;
@@ -728,6 +753,8 @@ export const getIntegrationsAnthropicManagedAgentEnv: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsAnthropicManagedAgentEnv",
 }));
 
 export type GetIntegrationsAnthropicManagedAgentVaultError = PosthogOpError;
@@ -742,6 +769,8 @@ export const getIntegrationsAnthropicManagedAgentVault: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsAnthropicManagedAgentVault",
 }));
 
 export type GetIntegrationsChannelError = Forbidden | NotFound | PosthogOpError;
@@ -756,6 +785,8 @@ export const getIntegrationsChannel: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsChannel",
 }));
 
 export type GetIntegrationsClickupListError = Forbidden | NotFound | PosthogOpError;
@@ -770,6 +801,8 @@ export const getIntegrationsClickupList: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsClickupList",
 }));
 
 export type GetIntegrationsClickupSpaceError = Forbidden | NotFound | PosthogOpError;
@@ -784,6 +817,8 @@ export const getIntegrationsClickupSpace: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsClickupSpace",
 }));
 
 export type GetIntegrationsClickupWorkspaceError = Forbidden | NotFound | PosthogOpError;
@@ -798,6 +833,8 @@ export const getIntegrationsClickupWorkspace: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsClickupWorkspace",
 }));
 
 export type GetIntegrationsGithubAvailableInstallationError = PosthogOpError;
@@ -813,6 +850,8 @@ export const getIntegrationsGithubAvailableInstallation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubAvailableInstallation",
 }));
 
 export type GetIntegrationsGithubBranchError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -827,6 +866,8 @@ export const getIntegrationsGithubBranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubBranch",
 }));
 
 export type GetIntegrationsGithubReposError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -841,6 +882,8 @@ export const getIntegrationsGithubRepos: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubRepos",
 }));
 
 export type GetIntegrationsGithubTeamError = PosthogOpError;
@@ -855,6 +898,8 @@ export const getIntegrationsGithubTeam: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGithubTeam",
 }));
 
 export type GetIntegrationsGoogleAccessibleAccountError = Forbidden | NotFound | PosthogOpError;
@@ -869,6 +914,8 @@ export const getIntegrationsGoogleAccessibleAccount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGoogleAccessibleAccount",
 }));
 
 export type GetIntegrationsGoogleConversionActionError = Forbidden | NotFound | PosthogOpError;
@@ -883,6 +930,8 @@ export const getIntegrationsGoogleConversionAction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGoogleConversionAction",
 }));
 
 export type GetIntegrationsJiraProjectError = Forbidden | NotFound | PosthogOpError;
@@ -897,6 +946,8 @@ export const getIntegrationsJiraProject: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsJiraProject",
 }));
 
 export type GetIntegrationsLinearTeamError = Forbidden | NotFound | PosthogOpError;
@@ -911,6 +962,8 @@ export const getIntegrationsLinearTeam: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsLinearTeam",
 }));
 
 export type GetIntegrationsLinkedinAdsAccountError = Forbidden | NotFound | PosthogOpError;
@@ -925,6 +978,8 @@ export const getIntegrationsLinkedinAdsAccount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsLinkedinAdsAccount",
 }));
 
 export type GetIntegrationsLinkedinAdsConversionRuleError = Forbidden | NotFound | PosthogOpError;
@@ -939,6 +994,8 @@ export const getIntegrationsLinkedinAdsConversionRule: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsLinkedinAdsConversionRule",
 }));
 
 export type GetIntegrationsTwilioPhoneNumberError = Forbidden | NotFound | PosthogOpError;
@@ -953,6 +1010,8 @@ export const getIntegrationsTwilioPhoneNumber: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsTwilioPhoneNumber",
 }));
 
 export type GetIntegrationsUserError = PosthogOpError;
@@ -967,6 +1026,8 @@ export const getIntegrationsUser: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsUser",
 }));
 
 export type IntegrationsAuthorizeRetrieveError = Forbidden | NotFound | PosthogOpError;
@@ -981,6 +1042,8 @@ export const integrationsAuthorizeRetrieve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsAuthorizeRetrieve",
 }));
 
 export type IntegrationsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -995,6 +1058,8 @@ export const integrationsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsDestroy",
 }));
 
 export type IntegrationsDomainConnectApplyUrlCreateError =
@@ -1014,6 +1079,8 @@ export const integrationsDomainConnectApplyUrlCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsDomainConnectApplyUrlCreate",
 }));
 
 export type IntegrationsDomainConnectCheckRetrieveError = Forbidden | NotFound | PosthogOpError;
@@ -1028,6 +1095,8 @@ export const integrationsDomainConnectCheckRetrieve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsDomainConnectCheckRetrieve",
 }));
 
 export type IntegrationsEmailVerifyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1042,6 +1111,8 @@ export const integrationsEmailVerifyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsEmailVerifyCreate",
 }));
 
 export type IntegrationsGithubOauthAuthorizeCreateError = PosthogOpError;
@@ -1057,6 +1128,8 @@ export const integrationsGithubOauthAuthorizeCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsGithubOauthAuthorizeCreate",
 }));
 
 export type IntegrationsGithubReposRefreshCreateError = Forbidden | NotFound | PosthogOpError;
@@ -1071,6 +1144,8 @@ export const integrationsGithubReposRefreshCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationsGithubReposRefreshCreate",
 }));
 
 export type ListIntegrationsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1085,6 +1160,8 @@ export const listIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 }));
 
 export type UpdateIntegrationsEmailPartialError =
@@ -1103,6 +1180,8 @@ export const updateIntegrationsEmailPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationsEmailPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

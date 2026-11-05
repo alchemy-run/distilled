@@ -1,0 +1,87 @@
+{
+  "description": "Type the domain-ownership-required 422 on createServiceDomain and createWorkspaceDomainOwnership, and the 400 a domain create returns before the hostname's CNAME resolves. The spec declares a single 422 for two failures (no promoted deployment / not a valid domain, and a missing ownership TXT record), so the ownership case lands in the generic UnprocessableEntity and its `error.verification` record is lost. Observed live on 2026-10-29: POST /v1/workspaces/{workspaceId}/domain-ownerships for a hostname with no TXT record returns 422 {\"error\":{\"code\":\"domain-ownership-required\",\"message\":...,\"hint\":...,\"verification\":{\"type\":\"TXT\",\"name\":\"_prisma-verification.<hostname>\",\"value\":\"prisma-verification=<token>\",\"ttl\":300}}}; POST /v1/apps/{appId}/domains returns the same body. The CNAME rejection is a 400 whose text contains \"DNS is not configured\" (matched on the whole body by alchemy's Prisma.CustomDomain since #1888, 2026-10-23); the matchers check `message` and `error.hint`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#DomainOwnershipRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          },
+          "body": {
+            "target": "smithy.api#Document"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The workspace has not proved it owns the domain. `body.error.verification` holds the TXT record (`type`, `name`, `value`, `ttl`) to publish before retrying.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "domain-ownership-required"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdDomains/errors/-",
+      "value": {
+        "target": "com.prisma#DomainOwnershipRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1WorkspacesByWorkspaceIdDomainOwnerships/errors/-",
+      "value": {
+        "target": "com.prisma#DomainOwnershipRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#DomainDnsNotConfigured",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The hostname's CNAME to the app's switchboard does not resolve yet. Publish it (or wait for it to propagate) and retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "DNS is not configured"
+              }
+            },
+            {
+              "status": 400,
+              "body": {
+                "/error/hint": {
+                  "includes": "DNS is not configured"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdDomains/errors/-",
+      "value": {
+        "target": "com.prisma#DomainDnsNotConfigured"
+      }
+    }
+  ]
+}

@@ -7,6 +7,8 @@
       "accountId": "account_id",
       "activeRolloutId": "active_rollout_id",
       "artifactDigest": "artifact_digest",
+      "assignIpv4": "assign_ipv4",
+      "assignIpv6": "assign_ipv6",
       "authorizedKeys": "authorized_keys",
       "createdAt": "created_at",
       "durableObjects": "durable_objects",
@@ -206,7 +208,7 @@
           "target": "com.cloudflare.containers#DocumentList"
         },
         "network": {
-          "target": "smithy.api#Document"
+          "target": "com.cloudflare.containers#ContainerNetwork"
         },
         "command": {
           "target": "com.cloudflare.containers#StringList"
@@ -377,6 +379,12 @@
         "scheduling_policy": {
           "target": "smithy.api#String"
         },
+        "rollout_active_grace_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts (2026-10-23)."
+          }
+        },
         "constraints": {
           "target": "smithy.api#Document"
         },
@@ -428,6 +436,9 @@
         },
         {
           "target": "com.cloudflare.containers#DurableObjectNamespaceNotFound"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationCreateUnavailable"
         }
       ],
       "traits": {
@@ -466,6 +477,12 @@
         },
         "scheduling_policy": {
           "target": "smithy.api#String"
+        },
+        "rollout_active_grace_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts (2026-10-23)."
+          }
         },
         "constraints": {
           "target": "smithy.api#Document"
@@ -1141,7 +1158,7 @@
           "target": "com.cloudflare.containers#DocumentList"
         },
         "network": {
-          "target": "smithy.api#Document"
+          "target": "com.cloudflare.containers#ContainerNetwork"
         },
         "command": {
           "target": "com.cloudflare.containers#StringList"
@@ -1550,6 +1567,88 @@
             "status": 400,
             "message": {
               "includes": "Durable Object namespace was not found"
+            }
+          }
+        ]
+      }
+    },
+    "com.cloudflare.containers#ContainerNetwork": {
+      "type": "structure",
+      "members": {
+        "assign_ipv4": {
+          "target": "com.cloudflare.containers#ContainerNetworkAssignIp",
+          "traits": {
+            "smithy.api#documentation": "Whether to assign an IPv4 address. `predefined` requests public reachability: the API infers `mode: public` when `mode` is omitted, and rejects it combined with `mode: private`."
+          }
+        },
+        "assign_ipv6": {
+          "target": "com.cloudflare.containers#ContainerNetworkAssignIp",
+          "traits": {
+            "smithy.api#documentation": "Whether to assign an IPv6 address. Same rules as `assign_ipv4`."
+          }
+        },
+        "mode": {
+          "target": "com.cloudflare.containers#ContainerNetworkMode",
+          "traits": {
+            "smithy.api#documentation": "Network mode. Some accounts only permit `private`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network configuration for a container deployment. Transcribed from the live API: it rejects unknown keys (`unrecognized key: \"assignipv4\"`)."
+      }
+    },
+    "com.cloudflare.containers#ContainerNetworkAssignIp": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "PREDEFINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "predefined"
+          }
+        }
+      }
+    },
+    "com.cloudflare.containers#ContainerNetworkMode": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        }
+      }
+    },
+    "com.cloudflare.containers#ContainerApplicationCreateUnavailable": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cloudflare temporarily refuses to create an application (`can't create application at this time`); the same request succeeds when retried.",
+        "smithy.api#error": "server",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "message": {
+              "includes": "can't create application at this time"
             }
           }
         ]

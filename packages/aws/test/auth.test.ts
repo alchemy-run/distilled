@@ -402,8 +402,8 @@ describe("SSO access token refresh (#886)", () => {
    * request bodies and `portalTokens` the bearer token of each portal call.
    */
   const setup = (
-    token: object,
-    oidc: () => { status: number; body: object } = () => ({
+    token: unknown,
+    oidc: () => { status: number; body: unknown } = () => ({
       status: 200,
       body: {
         accessToken: "fresh-access-token",
@@ -581,6 +581,130 @@ describe("SSO access token refresh (#886)", () => {
     // The cache is left as it was.
     expect(h.savedToken().accessToken).toBe("expired-access-token");
   });
+
+  const malformedCreateTokens: ReadonlyArray<readonly [string, unknown]> = [
+    ["a null body", null],
+    ["a non-numeric expiresIn", { accessToken: "fresh-access-token", expiresIn: "soon" }],
+    ["an expiresIn out of the Date range", { accessToken: "fresh-access-token", expiresIn: 1e300 }],
+  ];
+
+  for (const [name, body] of malformedCreateTokens) {
+    test(`a CreateToken response with ${name} fails an expired token with ExpiredSSOToken`, async () => {
+      const h = setup(expiredToken, () => ({ status: 200, body }));
+      const result = await h.run();
+      expect(result._tag).toBe("Failure");
+      if (result._tag === "Failure") {
+        expect(result.failure._tag).toBe("Alchemy::AWS::ExpiredSSOToken");
+      }
+      expect(h.portalTokens).toEqual([]);
+      expect(h.savedToken().accessToken).toBe("expired-access-token");
+    });
+
+    test(`a CreateToken response with ${name} keeps a token that has not expired yet`, async () => {
+      const h = setup(
+        { ...expiredToken, expiresAt: new Date(Date.now() + 2 * 60 * 1000).toISOString() },
+        () => ({ status: 200, body }),
+      );
+      expect((await h.run())._tag).toBe("Success");
+      expect(h.portalTokens).toEqual(["expired-access-token"]);
+    });
+  }
+});
+
+describe("SSO hosts follow the partition of sso_region", () => {
+  let home: string;
+  let originalHome: string | undefined;
+
+  beforeEach(() => {
+    home = mkdtempSync(join(tmpdir(), "distilled-aws-auth-"));
+    originalHome = process.env.HOME;
+    process.env.HOME = home;
+  });
+
+  afterEach(() => {
+    process.env.HOME = originalHome;
+    rmSync(home, { recursive: true, force: true });
+  });
+
+  for (const [ssoRegion, dnsSuffix] of [
+    ["us-east-1", "amazonaws.com"],
+    ["eusc-de-east-1", "amazonaws.eu"],
+    ["cn-north-1", "amazonaws.com.cn"],
+  ] as const) {
+    test(`${ssoRegion} calls oidc.${ssoRegion}.${dnsSuffix} and portal.sso.${ssoRegion}.${dnsSuffix}`, async () => {
+      mkdirSync(join(home, ".aws"), { recursive: true });
+      writeFileSync(
+        join(home, ".aws", "config"),
+        config.replace(`sso_region = ${SSO_REGION}`, `sso_region = ${ssoRegion}`),
+      );
+      const tokenPath = join(home, ".aws", "sso", "cache", `${ssoTokenCacheName(SESSION)}.json`);
+      const files = new Map([
+        [
+          tokenPath,
+          JSON.stringify({
+            accessToken: "expired-access-token",
+            expiresAt: new Date(Date.now() - 60 * 1000).toISOString(),
+            refreshToken: "refresh-token",
+            clientId: "client-id",
+            clientSecret: "client-secret",
+            region: ssoRegion,
+            startUrl: START_URL,
+          }),
+        ],
+      ]);
+      const hosts: string[] = [];
+
+      const fs = FileSystem.layerNoop({
+        readFileString: (path) =>
+          files.has(path)
+            ? Effect.succeed(files.get(path)!)
+            : Effect.fail(
+                PlatformError.systemError({
+                  _tag: "NotFound",
+                  module: "FileSystem",
+                  method: "readFileString",
+                  pathOrDescriptor: path,
+                }),
+              ),
+        writeFileString: (path, data) =>
+          Effect.sync(() => {
+            files.set(path, data);
+          }),
+      });
+      const http = Layer.succeed(HttpClient.HttpClient)(
+        HttpClient.make((request, url) =>
+          Effect.sync(() => {
+            hosts.push(url.hostname);
+            return HttpClientResponse.fromWeb(
+              request,
+              Response.json(
+                url.pathname === "/token"
+                  ? { accessToken: "fresh-access-token", tokenType: "Bearer", expiresIn: 3600 }
+                  : {
+                      roleCredentials: {
+                        accessKeyId: "AKIA-dev",
+                        secretAccessKey: "secret-dev",
+                        sessionToken: "session-dev",
+                        expiration: inOneHour().getTime(),
+                      },
+                    },
+              ),
+            );
+          }),
+        ),
+      );
+
+      await Effect.runPromise(
+        Effect.flatMap(makeAuthService(), (auth) => auth.loadProfileCredentials("dev")).pipe(
+          Effect.provide(Layer.mergeAll(fs, http, Path.layer)),
+        ),
+      );
+      expect(hosts).toEqual([
+        `oidc.${ssoRegion}.${dnsSuffix}`,
+        `portal.sso.${ssoRegion}.${dnsSuffix}`,
+      ]);
+    });
+  }
 });
 
 describe("AWS_CONFIG_FILE", () => {

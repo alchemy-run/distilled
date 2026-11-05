@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/core",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.18",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -32,10 +32,8 @@
     "build": "tsrs -b"
   },
   "devDependencies": {
-    "@effect/platform-node": "catalog:",
     "@types/node": "catalog:",
     "effect": "catalog:",
-    "rolldown": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {

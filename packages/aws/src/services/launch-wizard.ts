@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://launchwizard.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LaunchWizard",
+  service: "LaunchWizard",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -404,7 +420,7 @@ export type CreateDeploymentError =
  * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentInput,
+  CreateDeploymentInput & RegionInput,
   CreateDeploymentOutput,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -420,6 +436,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type DeleteDeploymentError =
@@ -432,7 +450,7 @@ export type DeleteDeploymentError =
  * Deletes a deployment.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentInput,
+  DeleteDeploymentInput & RegionInput,
   DeleteDeploymentOutput,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -448,6 +466,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type GetDeploymentError =
@@ -459,7 +479,7 @@ export type GetDeploymentError =
  * Returns information about the deployment.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentInput,
+  GetDeploymentInput & RegionInput,
   GetDeploymentOutput,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -470,6 +490,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentPatternVersionError =
@@ -480,7 +502,7 @@ export type GetDeploymentPatternVersionError =
  * Returns information about a deployment pattern version.
  */
 export const getDeploymentPatternVersion: API.OperationMethod<
-  GetDeploymentPatternVersionInput,
+  GetDeploymentPatternVersionInput & RegionInput,
   GetDeploymentPatternVersionOutput,
   GetDeploymentPatternVersionError,
   Credentials | HttpClient.HttpClient
@@ -491,6 +513,8 @@ export const getDeploymentPatternVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentPatternVersion",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentPatternVersion",
 }));
 
 export type GetWorkloadError =
@@ -502,7 +526,7 @@ export type GetWorkloadError =
  * Returns information about a workload.
  */
 export const getWorkload: API.OperationMethod<
-  GetWorkloadInput,
+  GetWorkloadInput & RegionInput,
   GetWorkloadOutput,
   GetWorkloadError,
   Credentials | HttpClient.HttpClient
@@ -513,6 +537,8 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
+  telemetry: TELEMETRY,
+  span: "GetWorkload",
 }));
 
 export type GetWorkloadDeploymentPatternError =
@@ -524,7 +550,7 @@ export type GetWorkloadDeploymentPatternError =
  * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
 export const getWorkloadDeploymentPattern: API.OperationMethod<
-  GetWorkloadDeploymentPatternInput,
+  GetWorkloadDeploymentPatternInput & RegionInput,
   GetWorkloadDeploymentPatternOutput,
   GetWorkloadDeploymentPatternError,
   Credentials | HttpClient.HttpClient
@@ -535,6 +561,8 @@ export const getWorkloadDeploymentPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadDeploymentPattern",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadDeploymentPattern",
 }));
 
 export type ListDeploymentEventsError =
@@ -546,7 +574,7 @@ export type ListDeploymentEventsError =
  * Lists the events of a deployment.
  */
 export const listDeploymentEvents: API.PaginatedOperationMethod<
-  ListDeploymentEventsInput,
+  ListDeploymentEventsInput & RegionInput,
   ListDeploymentEventsOutput,
   ListDeploymentEventsError,
   Credentials | HttpClient.HttpClient,
@@ -564,6 +592,8 @@ export const listDeploymentEvents: API.PaginatedOperationMethod<
     items: "deploymentEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentEvents",
 })) as any;
 
 export type ListDeploymentPatternVersionsError =
@@ -575,7 +605,7 @@ export type ListDeploymentPatternVersionsError =
  * Lists the deployment pattern versions.
  */
 export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
-  ListDeploymentPatternVersionsInput,
+  ListDeploymentPatternVersionsInput & RegionInput,
   ListDeploymentPatternVersionsOutput,
   ListDeploymentPatternVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -593,6 +623,8 @@ export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
     items: "deploymentPatternVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentPatternVersions",
 })) as any;
 
 export type ListDeploymentsError = InternalServerException | ValidationException | CommonErrors;
@@ -600,7 +632,7 @@ export type ListDeploymentsError = InternalServerException | ValidationException
  * Lists the deployments that have been created.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsInput,
+  ListDeploymentsInput & RegionInput,
   ListDeploymentsOutput,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -618,6 +650,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -629,7 +663,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -640,6 +674,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkloadDeploymentPatternsError =
@@ -651,7 +687,7 @@ export type ListWorkloadDeploymentPatternsError =
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
 export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
-  ListWorkloadDeploymentPatternsInput,
+  ListWorkloadDeploymentPatternsInput & RegionInput,
   ListWorkloadDeploymentPatternsOutput,
   ListWorkloadDeploymentPatternsError,
   Credentials | HttpClient.HttpClient,
@@ -669,6 +705,8 @@ export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
     items: "workloadDeploymentPatterns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadDeploymentPatterns",
 })) as any;
 
 export type ListWorkloadsError = InternalServerException | ValidationException | CommonErrors;
@@ -676,7 +714,7 @@ export type ListWorkloadsError = InternalServerException | ValidationException |
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
 export const listWorkloads: API.PaginatedOperationMethod<
-  ListWorkloadsInput,
+  ListWorkloadsInput & RegionInput,
   ListWorkloadsOutput,
   ListWorkloadsError,
   Credentials | HttpClient.HttpClient,
@@ -694,6 +732,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     items: "workloads",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type TagResourceError =
@@ -705,7 +745,7 @@ export type TagResourceError =
  * Adds the specified tags to the given resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -716,6 +756,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -727,7 +769,7 @@ export type UntagResourceError =
  * Removes the specified tags from the given resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -738,6 +780,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeploymentError =
@@ -750,7 +794,7 @@ export type UpdateDeploymentError =
  * Updates a deployment.
  */
 export const updateDeployment: API.OperationMethod<
-  UpdateDeploymentInput,
+  UpdateDeploymentInput & RegionInput,
   UpdateDeploymentOutput,
   UpdateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -766,6 +810,8 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

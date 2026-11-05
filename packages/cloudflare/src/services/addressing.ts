@@ -55,6 +55,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   verifiedAt: "verified_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Addressing",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AddressMapNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AddressMapNotFound>()("AddressMapNotFound", {
@@ -1202,6 +1216,8 @@ export const createAddressMap: API.OperationMethod<
   errors: [FeatureNotEnabled, InvalidAccountId, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAddressMap",
 }));
 
 export type CreateLoaDocumentError = InvalidAccountId | InvalidLoaForm | CloudflareOpError;
@@ -1217,6 +1233,8 @@ export const createLoaDocument: API.OperationMethod<
   errors: [InvalidAccountId, InvalidLoaForm, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoaDocument",
 }));
 
 export type CreatePrefixError =
@@ -1242,6 +1260,8 @@ export const createPrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrefix",
 }));
 
 export type CreatePrefixBgpPrefixError =
@@ -1267,6 +1287,8 @@ export const createPrefixBgpPrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrefixBgpPrefix",
 }));
 
 export type CreatePrefixDelegationError =
@@ -1292,6 +1314,8 @@ export const createPrefixDelegation: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrefixDelegation",
 }));
 
 export type CreatePrefixServiceBindingError =
@@ -1315,6 +1339,8 @@ export const createPrefixServiceBinding: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrefixServiceBinding",
 }));
 
 export type CreateRegionalHostnameError =
@@ -1340,6 +1366,8 @@ export const createRegionalHostname: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegionalHostname",
 }));
 
 export type DeleteAddressMapError =
@@ -1367,6 +1395,8 @@ export const deleteAddressMap: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddressMap",
 }));
 
 export type DeleteAddressMapAccountError =
@@ -1392,6 +1422,8 @@ export const deleteAddressMapAccount: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddressMapAccount",
 }));
 
 export type DeleteAddressMapIpError =
@@ -1419,6 +1451,8 @@ export const deleteAddressMapIp: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddressMapIp",
 }));
 
 export type DeleteAddressMapZoneError =
@@ -1444,6 +1478,8 @@ export const deleteAddressMapZone: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddressMapZone",
 }));
 
 export type DeletePrefixError =
@@ -1469,6 +1505,8 @@ export const deletePrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrefix",
 }));
 
 export type DeletePrefixDelegationError = DelegationNotFound | InvalidAccountId | CloudflareOpError;
@@ -1484,6 +1522,8 @@ export const deletePrefixDelegation: API.OperationMethod<
   errors: [DelegationNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrefixDelegation",
 }));
 
 export type DeletePrefixesBgpPrefixError = CloudflareOpError;
@@ -1499,6 +1539,8 @@ export const deletePrefixesBgpPrefix: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrefixesBgpPrefix",
 }));
 
 export type DeletePrefixServiceBindingError =
@@ -1524,6 +1566,8 @@ export const deletePrefixServiceBinding: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrefixServiceBinding",
 }));
 
 export type DeleteRegionalHostnameError =
@@ -1551,6 +1595,8 @@ export const deleteRegionalHostname: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegionalHostname",
 }));
 
 export type GetAddressMapError =
@@ -1570,6 +1616,8 @@ export const getAddressMap: API.OperationMethod<
   errors: [AddressMapNotFound, InvalidAccountId, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddressMap",
 }));
 
 export type GetLoaDocumentError = LoaDocumentNotFound | InvalidAccountId | CloudflareOpError;
@@ -1585,6 +1633,8 @@ export const getLoaDocument: API.OperationMethod<
   errors: [LoaDocumentNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoaDocument",
 }));
 
 export type GetPrefixError = PrefixNotFound | InvalidAccountId | CloudflareOpError;
@@ -1600,6 +1650,8 @@ export const getPrefix: API.OperationMethod<
   errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrefix",
 }));
 
 export type GetPrefixAdvertisementStatusError =
@@ -1618,6 +1670,8 @@ export const getPrefixAdvertisementStatus: API.OperationMethod<
   errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrefixAdvertisementStatus",
 }));
 
 export type GetPrefixBgpPrefixError =
@@ -1643,6 +1697,8 @@ export const getPrefixBgpPrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrefixBgpPrefix",
 }));
 
 export type GetPrefixServiceBindingError =
@@ -1668,6 +1724,8 @@ export const getPrefixServiceBinding: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrefixServiceBinding",
 }));
 
 export type GetRegionalHostnameError =
@@ -1693,6 +1751,8 @@ export const getRegionalHostname: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionalHostname",
 }));
 
 export type ListAddressMapsError = CloudflareOpError;
@@ -1710,6 +1770,8 @@ export const listAddressMaps: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAddressMaps",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1730,6 +1792,8 @@ export const listPrefixBgpPrefixes: API.PaginatedOperationMethod<
     errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrefixBgpPrefixes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1750,6 +1814,8 @@ export const listPrefixDelegations: API.PaginatedOperationMethod<
     errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrefixDelegations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1770,6 +1836,8 @@ export const listPrefixes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrefixes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1790,6 +1858,8 @@ export const listPrefixServiceBindings: API.PaginatedOperationMethod<
     errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrefixServiceBindings",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1810,6 +1880,8 @@ export const listRegionalHostnameRegions: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRegionalHostnameRegions",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1830,6 +1902,8 @@ export const listRegionalHostnames: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRegionalHostnames",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1850,6 +1924,8 @@ export const listServices: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServices",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1878,6 +1954,8 @@ export const patchAddressMap: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAddressMap",
 }));
 
 export type PatchPrefixError =
@@ -1903,6 +1981,8 @@ export const patchPrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPrefix",
 }));
 
 export type PatchPrefixAdvertisementStatusError =
@@ -1921,6 +2001,8 @@ export const patchPrefixAdvertisementStatus: API.OperationMethod<
   errors: [PrefixNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPrefixAdvertisementStatus",
 }));
 
 export type PatchPrefixBgpPrefixError =
@@ -1946,6 +2028,8 @@ export const patchPrefixBgpPrefix: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPrefixBgpPrefix",
 }));
 
 export type PatchRegionalHostnameError =
@@ -1971,6 +2055,8 @@ export const patchRegionalHostname: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRegionalHostname",
 }));
 
 export type PutAddressMapAccountError =
@@ -1996,6 +2082,8 @@ export const putAddressMapAccount: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAddressMapAccount",
 }));
 
 export type PutAddressMapIpError =
@@ -2023,6 +2111,8 @@ export const putAddressMapIp: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAddressMapIp",
 }));
 
 export type PutAddressMapZoneError =
@@ -2048,6 +2138,8 @@ export const putAddressMapZone: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAddressMapZone",
 }));
 
 export type ValidatePrefixError = CloudflareOpError;
@@ -2063,6 +2155,8 @@ export const validatePrefix: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidatePrefix",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

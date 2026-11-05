@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "storage" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Storage",
+  service: "storage",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1815,12 +1834,6 @@ export interface PatchObjectsRequest {
   /** Request body */
   body?: Storage_Object;
 }
-export interface PauseAnywhereCachesRequest {
-  /** Name of the parent bucket. */
-  bucket: string;
-  /** The ID of requested Anywhere Cache instance. */
-  anywhereCacheId: string;
-}
 export type RelocateBucketRequestDestinationCustomPlacementConfig = BucketCustomPlacementConfig;
 /** A Relocate Bucket request. */
 export interface RelocateBucketRequest {
@@ -2241,6 +2254,8 @@ export const advanceRelocateBucketOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdvanceRelocateBucketOperations",
 }));
 
 export type BulkRestoreObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2256,6 +2271,8 @@ export const bulkRestoreObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRestoreObjects",
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2271,6 +2288,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type ComposeObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2286,6 +2305,8 @@ export const composeObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComposeObjects",
 }));
 
 export type CopyObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2301,6 +2322,8 @@ export const copyObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyObjects",
 }));
 
 export type CreateProjectsHmacKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2316,6 +2339,8 @@ export const createProjectsHmacKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsHmacKeys",
 }));
 
 export type DeleteBucketAccessControlsError =
@@ -2336,6 +2361,8 @@ export const deleteBucketAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucketAccessControls",
 }));
 
 export type DeleteBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2351,6 +2378,8 @@ export const deleteBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuckets",
 }));
 
 export type DeleteDefaultObjectAccessControlsError =
@@ -2371,6 +2400,8 @@ export const deleteDefaultObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultObjectAccessControls",
 }));
 
 export type DeleteFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2386,6 +2417,8 @@ export const deleteFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolders",
 }));
 
 export type DeleteManagedFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2401,6 +2434,8 @@ export const deleteManagedFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedFolders",
 }));
 
 export type DeleteNotificationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2416,6 +2451,8 @@ export const deleteNotifications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotifications",
 }));
 
 export type DeleteObjectAccessControlsError =
@@ -2437,6 +2474,8 @@ export const deleteObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ObjectOwnerAclRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObjectAccessControls",
 }));
 
 export type DeleteObjectsError =
@@ -2458,6 +2497,8 @@ export const deleteObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ObjectPreconditionFailed, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObjects",
 }));
 
 export type DeleteProjectsHmacKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2473,6 +2514,8 @@ export const deleteProjectsHmacKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsHmacKeys",
 }));
 
 export type DeleteRecursiveFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2488,6 +2531,8 @@ export const deleteRecursiveFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecursiveFolders",
 }));
 
 export type DisableAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2503,6 +2548,8 @@ export const disableAnywhereCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableAnywhereCaches",
 }));
 
 export type DisableRapidCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2518,6 +2565,8 @@ export const disableRapidCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableRapidCaches",
 }));
 
 export type GetAnywhereCachesError = NotFound | Forbidden | GcpOpError;
@@ -2533,6 +2582,8 @@ export const getAnywhereCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnywhereCaches",
 }));
 
 export type GetBucketAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2548,6 +2599,8 @@ export const getBucketAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucketAccessControls",
 }));
 
 export type GetBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2563,6 +2616,8 @@ export const getBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuckets",
 }));
 
 export type GetDefaultObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2578,6 +2633,8 @@ export const getDefaultObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultObjectAccessControls",
 }));
 
 export type GetFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2593,6 +2650,8 @@ export const getFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolders",
 }));
 
 export type GetIamPolicyBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2608,6 +2667,8 @@ export const getIamPolicyBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyBuckets",
 }));
 
 export type GetIamPolicyManagedFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2623,6 +2684,8 @@ export const getIamPolicyManagedFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyManagedFolders",
 }));
 
 export type GetIamPolicyObjectsError = NotFound | Forbidden | GcpOpError;
@@ -2638,6 +2701,8 @@ export const getIamPolicyObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyObjects",
 }));
 
 export type GetManagedFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2653,6 +2718,8 @@ export const getManagedFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedFolders",
 }));
 
 export type GetNotificationsError = NotFound | Forbidden | GcpOpError;
@@ -2668,6 +2735,8 @@ export const getNotifications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotifications",
 }));
 
 export type GetObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2683,6 +2752,8 @@ export const getObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectAccessControls",
 }));
 
 export type GetObjectsError = NotFound | Forbidden | GcpOpError;
@@ -2698,6 +2769,8 @@ export const getObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjects",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2713,6 +2786,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetProjectsHmacKeysError = NotFound | Forbidden | GcpOpError;
@@ -2728,6 +2803,8 @@ export const getProjectsHmacKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsHmacKeys",
 }));
 
 export type GetProjectsServiceAccountError = NotFound | Forbidden | GcpOpError;
@@ -2743,6 +2820,8 @@ export const getProjectsServiceAccount: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsServiceAccount",
 }));
 
 export type GetRapidCachesError = NotFound | Forbidden | GcpOpError;
@@ -2758,6 +2837,8 @@ export const getRapidCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRapidCaches",
 }));
 
 export type GetStorageLayoutBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2773,6 +2854,8 @@ export const getStorageLayoutBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageLayoutBuckets",
 }));
 
 export type InsertAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2788,6 +2871,8 @@ export const insertAnywhereCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAnywhereCaches",
 }));
 
 export type InsertBucketAccessControlsError =
@@ -2808,6 +2893,8 @@ export const insertBucketAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertBucketAccessControls",
 }));
 
 export type InsertBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2823,6 +2910,8 @@ export const insertBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertBuckets",
 }));
 
 export type InsertDefaultObjectAccessControlsError =
@@ -2843,6 +2932,8 @@ export const insertDefaultObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDefaultObjectAccessControls",
 }));
 
 export type InsertFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2858,6 +2949,8 @@ export const insertFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertFolders",
 }));
 
 export type InsertManagedFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2873,6 +2966,8 @@ export const insertManagedFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertManagedFolders",
 }));
 
 export type InsertNotificationsError =
@@ -2901,6 +2996,8 @@ export const insertNotifications: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertNotifications",
 }));
 
 export type InsertObjectAccessControlsError =
@@ -2921,6 +3018,8 @@ export const insertObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertObjectAccessControls",
 }));
 
 export type InsertObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2936,6 +3035,8 @@ export const insertObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertObjects",
 }));
 
 export type InsertRapidCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2951,6 +3052,8 @@ export const insertRapidCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRapidCaches",
 }));
 
 export type ListAnywhereCachesError = NotFound | Forbidden | GcpOpError;
@@ -2967,6 +3070,8 @@ export const listAnywhereCaches: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnywhereCaches",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -2983,6 +3088,8 @@ export const listBucketAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBucketAccessControls",
 }));
 
 export type ListBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2999,6 +3106,8 @@ export const listBuckets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuckets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3015,6 +3124,8 @@ export const listDefaultObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDefaultObjectAccessControls",
 }));
 
 export type ListFoldersError = NotFound | Forbidden | GcpOpError;
@@ -3031,6 +3142,8 @@ export const listFolders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3048,6 +3161,8 @@ export const listManagedFolders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedFolders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3064,6 +3179,8 @@ export const listNotifications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 }));
 
 export type ListObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -3079,6 +3196,8 @@ export const listObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjectAccessControls",
 }));
 
 export type ListObjectsError = NotFound | Forbidden | GcpOpError;
@@ -3095,6 +3214,8 @@ export const listObjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjects",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3112,6 +3233,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3129,6 +3252,8 @@ export const listProjectsHmacKeys: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsHmacKeys",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3146,6 +3271,8 @@ export const listRapidCaches: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRapidCaches",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3167,6 +3294,8 @@ export const lockRetentionPolicyBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockRetentionPolicyBuckets",
 }));
 
 export type MoveObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3182,6 +3311,8 @@ export const moveObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveObjects",
 }));
 
 export type PatchBucketAccessControlsError =
@@ -3202,6 +3333,8 @@ export const patchBucketAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBucketAccessControls",
 }));
 
 export type PatchBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3217,6 +3350,8 @@ export const patchBuckets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuckets",
 }));
 
 export type PatchDefaultObjectAccessControlsError =
@@ -3237,6 +3372,8 @@ export const patchDefaultObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDefaultObjectAccessControls",
 }));
 
 export type PatchObjectAccessControlsError =
@@ -3257,6 +3394,8 @@ export const patchObjectAccessControls: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchObjectAccessControls",
 }));
 
 export type PatchObjectsError =
@@ -3278,21 +3417,8 @@ export const patchObjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ObjectPreconditionFailed, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-}));
-
-export type PauseAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Pauses an Anywhere Cache instance. */
-export const pauseAnywhereCaches: API.OperationMethod<
-  PauseAnywhereCachesRequest,
-  AnywhereCache,
-  PauseAnywhereCachesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PauseAnywhereCachesRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<AnywhereCache>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchObjects",
 }));
 
 export type RelocateBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3303,11 +3429,13 @@ export const relocateBuckets: API.OperationMethod<
   RelocateBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<RelocateBucketsRequest>,
+  input: __S(2593, __c81, 1) as any as S.Schema<RelocateBucketsRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RelocateBuckets",
 }));
 
 export type RenameFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3318,11 +3446,13 @@ export const renameFolders: API.OperationMethod<
   RenameFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<RenameFoldersRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<RenameFoldersRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameFolders",
 }));
 
 export type RestoreBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3333,11 +3463,13 @@ export const restoreBuckets: API.OperationMethod<
   RestoreBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<RestoreBucketsRequest>,
+  input: __S(2656, __c83, 0) as any as S.Schema<RestoreBucketsRequest>,
   output: __S(1015, __c31, 23) as any as S.Schema<Bucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBuckets",
 }));
 
 export type RestoreObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3348,11 +3480,13 @@ export const restoreObjects: API.OperationMethod<
   RestoreObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<RestoreObjectsRequest>,
+  input: __S(2688, __c84, 0) as any as S.Schema<RestoreObjectsRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreObjects",
 }));
 
 export type ResumeAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3363,11 +3497,13 @@ export const resumeAnywhereCaches: API.OperationMethod<
   ResumeAnywhereCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ResumeAnywhereCachesRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ResumeAnywhereCachesRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<AnywhereCache>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeAnywhereCaches",
 }));
 
 export type RewriteObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3378,11 +3514,13 @@ export const rewriteObjects: API.OperationMethod<
   RewriteObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<RewriteObjectsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<RewriteResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<RewriteObjectsRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<RewriteResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RewriteObjects",
 }));
 
 export type SetIamPolicyBucketsError =
@@ -3399,11 +3537,13 @@ export const setIamPolicyBuckets: API.OperationMethod<
   SetIamPolicyBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyBucketsRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<SetIamPolicyBucketsRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, IamPolicyEtagMismatch, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyBuckets",
 }));
 
 export type SetIamPolicyManagedFoldersError =
@@ -3419,11 +3559,13 @@ export const setIamPolicyManagedFolders: API.OperationMethod<
   SetIamPolicyManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SetIamPolicyManagedFoldersRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyManagedFoldersRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyManagedFolders",
 }));
 
 export type SetIamPolicyObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3434,11 +3576,13 @@ export const setIamPolicyObjects: API.OperationMethod<
   SetIamPolicyObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<SetIamPolicyObjectsRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<SetIamPolicyObjectsRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyObjects",
 }));
 
 export type StopChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3449,11 +3593,13 @@ export const stopChannels: API.OperationMethod<
   StopChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2977, __c93, 1) as any as S.Schema<StopChannelsRequest>,
+  input: __S(2945, __c92, 1) as any as S.Schema<StopChannelsRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<StopChannelsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopChannels",
 }));
 
 export type TestIamPermissionsBucketsError = NotFound | Forbidden | GcpOpError;
@@ -3464,11 +3610,13 @@ export const testIamPermissionsBuckets: API.OperationMethod<
   TestIamPermissionsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsBucketsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsBucketsRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsBuckets",
 }));
 
 export type TestIamPermissionsManagedFoldersError = NotFound | Forbidden | GcpOpError;
@@ -3479,11 +3627,13 @@ export const testIamPermissionsManagedFolders: API.OperationMethod<
   TestIamPermissionsManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<TestIamPermissionsManagedFoldersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsManagedFoldersRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsManagedFolders",
 }));
 
 export type TestIamPermissionsObjectsError = NotFound | Forbidden | GcpOpError;
@@ -3494,11 +3644,13 @@ export const testIamPermissionsObjects: API.OperationMethod<
   TestIamPermissionsObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<TestIamPermissionsObjectsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<TestIamPermissionsObjectsRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsObjects",
 }));
 
 export type UpdateAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3509,11 +3661,13 @@ export const updateAnywhereCaches: API.OperationMethod<
   UpdateAnywhereCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateAnywhereCachesRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateAnywhereCachesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnywhereCaches",
 }));
 
 export type UpdateBucketAccessControlsError =
@@ -3529,11 +3683,13 @@ export const updateBucketAccessControls: API.OperationMethod<
   UpdateBucketAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateBucketAccessControlsRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateBucketAccessControlsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<BucketAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBucketAccessControls",
 }));
 
 export type UpdateBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3544,11 +3700,13 @@ export const updateBuckets: API.OperationMethod<
   UpdateBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateBucketsRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateBucketsRequest>,
   output: __S(1015, __c31, 23) as any as S.Schema<Bucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBuckets",
 }));
 
 export type UpdateDefaultObjectAccessControlsError =
@@ -3564,11 +3722,13 @@ export const updateDefaultObjectAccessControls: API.OperationMethod<
   UpdateDefaultObjectAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UpdateDefaultObjectAccessControlsRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateDefaultObjectAccessControlsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<ObjectAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultObjectAccessControls",
 }));
 
 export type UpdateManagedFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3579,11 +3739,13 @@ export const updateManagedFolders: API.OperationMethod<
   UpdateManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateManagedFoldersRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdateManagedFoldersRequest>,
   output: __S(1283, __c40, 3) as any as S.Schema<ManagedFolder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagedFolders",
 }));
 
 export type UpdateObjectAccessControlsError =
@@ -3599,11 +3761,13 @@ export const updateObjectAccessControls: API.OperationMethod<
   UpdateObjectAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateObjectAccessControlsRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateObjectAccessControlsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<ObjectAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObjectAccessControls",
 }));
 
 export type UpdateObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3614,11 +3778,13 @@ export const updateObjects: API.OperationMethod<
   UpdateObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateObjectsRequest>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateObjectsRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObjects",
 }));
 
 export type UpdateProjectsHmacKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3629,11 +3795,13 @@ export const updateProjectsHmacKeys: API.OperationMethod<
   UpdateProjectsHmacKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateProjectsHmacKeysRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateProjectsHmacKeysRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<HmacKeyMetadata>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsHmacKeys",
 }));
 
 export type UpdateRapidCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3644,11 +3812,13 @@ export const updateRapidCaches: API.OperationMethod<
   UpdateRapidCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateRapidCachesRequest>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateRapidCachesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRapidCaches",
 }));
 
 export type ViewFullContextObjectsError = NotFound | Forbidden | GcpOpError;
@@ -3659,11 +3829,13 @@ export const viewFullContextObjects: API.OperationMethod<
   ViewFullContextObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ViewFullContextObjectsRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<ObjectFullContext>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ViewFullContextObjectsRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<ObjectFullContext>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ViewFullContextObjects",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -5623,23 +5795,6 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          anywhereCacheId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "b/{bucket}/anywhereCaches/{anywhereCacheId}/pause",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "PauseAnywhereCachesRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           destinationLocation: S.optional(S.String),
           destinationCustomPlacementConfig: S.optional(__S(896, __c28, 0)),
           validateOnly: S.optional(S.Boolean),
@@ -5650,7 +5805,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5661,7 +5816,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "RelocateBucketsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5681,7 +5836,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RenameFoldersRequest" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5700,7 +5855,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RestoreBucketsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5726,7 +5881,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RestoreObjectsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5743,7 +5898,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ResumeAnywhereCachesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5790,7 +5945,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RewriteResponse" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5806,6 +5961,25 @@ function __c88(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SetIamPolicyBucketsRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String.pipe(T.Label()),
+          managedFolder: S.String.pipe(T.Label()),
+          userProject: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
+            baseUrl: "https://storage.googleapis.com/storage/v1/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyManagedFoldersRequest" });
   }
 }
 function __c89(j: number): any {
@@ -5847,25 +6021,6 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyManagedFoldersRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
           generation: S.optional(S.String.pipe(T.Query())),
           object: S.String.pipe(T.Label()),
           userProject: S.optional(S.String.pipe(T.Query())),
@@ -5880,7 +6035,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "SetIamPolicyObjectsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5900,7 +6055,7 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5911,7 +6066,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "StopChannelsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5929,7 +6084,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsBucketsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5940,7 +6095,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5959,7 +6114,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsManagedFoldersRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5979,7 +6134,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsObjectsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5997,7 +6152,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateAnywhereCachesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6016,7 +6171,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateBucketAccessControlsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6039,7 +6194,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateBucketsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6056,6 +6211,26 @@ function __c101(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateDefaultObjectAccessControlsRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String.pipe(T.Label()),
+          managedFolder: S.String.pipe(T.Label()),
+          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "b/{bucket}/managedFolders/{managedFolder}",
+            baseUrl: "https://storage.googleapis.com/storage/v1/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateManagedFoldersRequest" });
   }
 }
 function __c102(j: number): any {
@@ -6131,26 +6306,6 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "b/{bucket}/managedFolders/{managedFolder}",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateManagedFoldersRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
           entity: S.String.pipe(T.Label()),
           generation: S.optional(S.String.pipe(T.Query())),
           object: S.String.pipe(T.Label()),
@@ -6166,7 +6321,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateObjectAccessControlsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6193,7 +6348,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateObjectsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6212,7 +6367,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateProjectsHmacKeysRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6230,7 +6385,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateRapidCachesRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

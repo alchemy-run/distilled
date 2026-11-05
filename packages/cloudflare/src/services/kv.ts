@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   unsuccessfulKeys: "unsuccessful_keys",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Kv",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InvalidExpirationTtl
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidExpirationTtl>()("InvalidExpirationTtl", {
@@ -489,6 +503,8 @@ export const bulkDeleteNamespaces: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteNamespaces",
 }));
 
 export type BulkGetNamespacesError =
@@ -516,6 +532,8 @@ export const bulkGetNamespaces: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkGetNamespaces",
 }));
 
 export type BulkPutNamespacesError =
@@ -541,6 +559,8 @@ export const bulkPutNamespaces: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPutNamespaces",
 }));
 
 export type CreateNamespaceError =
@@ -566,6 +586,8 @@ export const createNamespace: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type DeleteNamespaceError =
@@ -591,6 +613,8 @@ export const deleteNamespace: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteNamespaceValueError =
@@ -609,6 +633,8 @@ export const deleteNamespaceValue: API.OperationMethod<
   errors: [NamespaceNotFound, InvalidObjectIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceValue",
 }));
 
 export type GetNamespaceError = NamespaceNotFound | InvalidObjectIdentifier | CloudflareOpError;
@@ -624,6 +650,8 @@ export const getNamespace: API.OperationMethod<
   errors: [NamespaceNotFound, InvalidObjectIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetNamespaceMetadataError =
@@ -649,6 +677,8 @@ export const getNamespaceMetadata: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceMetadata",
 }));
 
 export type GetNamespaceValueError =
@@ -674,6 +704,8 @@ export const getNamespaceValue: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceValue",
 }));
 
 export type ListNamespaceKeysError = CloudflareOpError;
@@ -691,6 +723,8 @@ export const listNamespaceKeys: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaceKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -717,6 +751,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaces",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -751,6 +787,8 @@ export const namespacesKeysBulkDelete: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesKeysBulkDelete",
 }));
 
 export type NamespacesKeysBulkGetError =
@@ -778,6 +816,8 @@ export const namespacesKeysBulkGet: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesKeysBulkGet",
 }));
 
 export type NamespacesKeysBulkUpdateError =
@@ -803,6 +843,8 @@ export const namespacesKeysBulkUpdate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesKeysBulkUpdate",
 }));
 
 export type PutNamespaceValueError =
@@ -828,6 +870,8 @@ export const putNamespaceValue: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutNamespaceValue",
 }));
 
 export type UpdateNamespaceError =
@@ -855,6 +899,8 @@ export const updateNamespace: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 // Alias of bulkDeleteNamespaces (same route, alternate export name upstream).

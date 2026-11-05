@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "chromemanagement" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Chromemanagement",
+  service: "chromemanagement",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3319,6 +3338,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type CheckEnablementStatusCustomersEnterpriseSecurityInsightsError =
@@ -3346,6 +3367,8 @@ export const checkEnablementStatusCustomersEnterpriseSecurityInsights: API.Opera
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckEnablementStatusCustomersEnterpriseSecurityInsights",
 }));
 
 export type ClaimCustomersCertificateProvisioningProcessesError =
@@ -3375,6 +3398,8 @@ export const claimCustomersCertificateProvisioningProcesses: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimCustomersCertificateProvisioningProcesses",
 }));
 
 export type CountActiveDevicesCustomersReportsError =
@@ -3398,6 +3423,8 @@ export const countActiveDevicesCustomersReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountActiveDevicesCustomersReports",
 }));
 
 export type CountChromeAppRequestsCustomersAppsError =
@@ -3422,6 +3449,8 @@ export const countChromeAppRequestsCustomersApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeAppRequestsCustomersApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3450,6 +3479,8 @@ export const countChromeBrowsersNeedingAttentionCustomersReports: API.OperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeBrowsersNeedingAttentionCustomersReports",
 }));
 
 export type CountChromeCrashEventsCustomersReportsError =
@@ -3473,6 +3504,8 @@ export const countChromeCrashEventsCustomersReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeCrashEventsCustomersReports",
 }));
 
 export type CountChromeDevicesReachingAutoExpirationDateCustomersReportsError =
@@ -3500,6 +3533,8 @@ export const countChromeDevicesReachingAutoExpirationDateCustomersReports: API.O
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeDevicesReachingAutoExpirationDateCustomersReports",
 }));
 
 export type CountChromeDevicesThatNeedAttentionCustomersReportsError =
@@ -3527,6 +3562,8 @@ export const countChromeDevicesThatNeedAttentionCustomersReports: API.OperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeDevicesThatNeedAttentionCustomersReports",
 }));
 
 export type CountChromeHardwareFleetDevicesCustomersReportsError =
@@ -3554,6 +3591,8 @@ export const countChromeHardwareFleetDevicesCustomersReports: API.OperationMetho
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeHardwareFleetDevicesCustomersReports",
 }));
 
 export type CountChromeProfileVersionsCustomersReportsError =
@@ -3578,6 +3617,8 @@ export const countChromeProfileVersionsCustomersReports: API.PaginatedOperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeProfileVersionsCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3599,6 +3640,8 @@ export const countChromeVersionsCustomersReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeVersionsCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3623,6 +3666,8 @@ export const countDevicesPerBootTypeCustomersReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountDevicesPerBootTypeCustomersReports",
 }));
 
 export type CountDevicesPerReleaseChannelCustomersReportsError =
@@ -3650,6 +3695,8 @@ export const countDevicesPerReleaseChannelCustomersReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountDevicesPerReleaseChannelCustomersReports",
 }));
 
 export type CountInstalledAppsCustomersReportsError =
@@ -3670,6 +3717,8 @@ export const countInstalledAppsCustomersReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountInstalledAppsCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3695,6 +3744,8 @@ export const countPrintJobsByPrinterCustomersReports: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountPrintJobsByPrinterCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3720,6 +3771,8 @@ export const countPrintJobsByUserCustomersReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountPrintJobsByUserCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3742,6 +3795,8 @@ export const createCustomersConnectorConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersConnectorConfigs",
 }));
 
 export type CreateCustomersProfilesCommandsError =
@@ -3767,6 +3822,8 @@ export const createCustomersProfilesCommands: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersProfilesCommands",
 }));
 
 export type CreateCustomersTelemetryNotificationConfigsError =
@@ -3792,6 +3849,8 @@ export const createCustomersTelemetryNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersTelemetryNotificationConfigs",
 }));
 
 export type DeleteCustomersConnectorConfigsError =
@@ -3813,6 +3872,8 @@ export const deleteCustomersConnectorConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomersConnectorConfigs",
 }));
 
 export type DeleteCustomersProfilesError =
@@ -3834,6 +3895,8 @@ export const deleteCustomersProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomersProfiles",
 }));
 
 export type DeleteCustomersTelemetryNotificationConfigsError =
@@ -3855,6 +3918,8 @@ export const deleteCustomersTelemetryNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomersTelemetryNotificationConfigs",
 }));
 
 export type DeleteOperationsError =
@@ -3876,6 +3941,8 @@ export const deleteOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperations",
 }));
 
 export type DisableCustomersEnterpriseSecurityInsightsError =
@@ -3901,6 +3968,8 @@ export const disableCustomersEnterpriseSecurityInsights: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableCustomersEnterpriseSecurityInsights",
 }));
 
 export type EnableCustomersEnterpriseSecurityInsightsError =
@@ -3926,6 +3995,8 @@ export const enableCustomersEnterpriseSecurityInsights: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableCustomersEnterpriseSecurityInsights",
 }));
 
 export type EnumeratePrintJobsCustomersReportsError =
@@ -3946,6 +4017,8 @@ export const enumeratePrintJobsCustomersReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnumeratePrintJobsCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3971,6 +4044,8 @@ export const fetchDevicesRequestingExtensionCustomersApps: API.PaginatedOperatio
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchDevicesRequestingExtensionCustomersApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3996,6 +4071,8 @@ export const fetchUsersRequestingExtensionCustomersApps: API.PaginatedOperationM
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchUsersRequestingExtensionCustomersApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4021,6 +4098,8 @@ export const findInstalledAppDevicesCustomersReports: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindInstalledAppDevicesCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4046,6 +4125,8 @@ export const findInstalledAppProfilesCustomersReports: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindInstalledAppProfilesCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4067,6 +4148,8 @@ export const findSaasUsageBrowsersCustomersReports: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindSaasUsageBrowsersCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4088,6 +4171,8 @@ export const findSaasUsageCustomersReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindSaasUsageCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4109,6 +4194,8 @@ export const findSaasUsageProfilesCustomersReports: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindSaasUsageProfilesCustomersReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4125,6 +4212,8 @@ export const getCustomersAppsAndroid: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersAppsAndroid",
 }));
 
 export type GetCustomersAppsChromeError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -4140,6 +4229,8 @@ export const getCustomersAppsChrome: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersAppsChrome",
 }));
 
 export type GetCustomersAppsWebError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -4155,6 +4246,8 @@ export const getCustomersAppsWeb: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersAppsWeb",
 }));
 
 export type GetCustomersCertificateProvisioningProcessesError =
@@ -4182,6 +4275,8 @@ export const getCustomersCertificateProvisioningProcesses: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersCertificateProvisioningProcesses",
 }));
 
 export type GetCustomersCertificateProvisioningProcessesOperationsError =
@@ -4205,6 +4300,8 @@ export const getCustomersCertificateProvisioningProcessesOperations: API.Operati
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersCertificateProvisioningProcessesOperations",
 }));
 
 export type GetCustomersConnectorConfigsError =
@@ -4224,6 +4321,8 @@ export const getCustomersConnectorConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersConnectorConfigs",
 }));
 
 export type GetCustomersProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -4243,6 +4342,8 @@ export const getCustomersProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersProfiles",
 }));
 
 export type GetCustomersProfilesCommandsError =
@@ -4266,6 +4367,8 @@ export const getCustomersProfilesCommands: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersProfilesCommands",
 }));
 
 export type GetCustomersTelemetryDevicesError =
@@ -4285,6 +4388,8 @@ export const getCustomersTelemetryDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersTelemetryDevices",
 }));
 
 export type GetCustomersTelemetryUsersError =
@@ -4304,6 +4409,8 @@ export const getCustomersTelemetryUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersTelemetryUsers",
 }));
 
 export type ListCustomersConnectorConfigsError =
@@ -4328,6 +4435,8 @@ export const listCustomersConnectorConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersConnectorConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4349,6 +4458,8 @@ export const listCustomersProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4374,6 +4485,8 @@ export const listCustomersProfilesCommands: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersProfilesCommands",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4399,6 +4512,8 @@ export const listCustomersTelemetryDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersTelemetryDevices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4424,6 +4539,8 @@ export const listCustomersTelemetryEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersTelemetryEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4449,6 +4566,8 @@ export const listCustomersTelemetryNotificationConfigs: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersTelemetryNotificationConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4474,6 +4593,8 @@ export const listCustomersTelemetryUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersTelemetryUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4491,6 +4612,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4517,6 +4640,8 @@ export const moveCustomersThirdPartyProfileUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCustomersThirdPartyProfileUsers",
 }));
 
 export type PatchCustomersConnectorConfigsError =
@@ -4538,6 +4663,8 @@ export const patchCustomersConnectorConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomersConnectorConfigs",
 }));
 
 export type QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsError =
@@ -4566,6 +4693,8 @@ export const queryContentTransfersBreakdownsCustomersEnterpriseSecurityInsights:
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsights",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4594,6 +4723,8 @@ export const queryContentTransfersCustomersEnterpriseSecurityInsights: API.Opera
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryContentTransfersCustomersEnterpriseSecurityInsights",
 }));
 
 export type QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsightsError =
@@ -4622,6 +4753,8 @@ export const queryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsights: API.Pa
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsights",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4650,6 +4783,8 @@ export const queryUrlVisitsCustomersEnterpriseSecurityInsights: API.OperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryUrlVisitsCustomersEnterpriseSecurityInsights",
 }));
 
 export type SetFailureCustomersCertificateProvisioningProcessesError =
@@ -4679,6 +4814,8 @@ export const setFailureCustomersCertificateProvisioningProcesses: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFailureCustomersCertificateProvisioningProcesses",
 }));
 
 export type SignDataCustomersCertificateProvisioningProcessesError =
@@ -4704,6 +4841,8 @@ export const signDataCustomersCertificateProvisioningProcesses: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignDataCustomersCertificateProvisioningProcesses",
 }));
 
 export type UploadCertificateCustomersCertificateProvisioningProcessesError =
@@ -4733,6 +4872,8 @@ export const uploadCertificateCustomersCertificateProvisioningProcesses: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadCertificateCustomersCertificateProvisioningProcesses",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

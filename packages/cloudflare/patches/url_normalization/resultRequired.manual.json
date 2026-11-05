@@ -1,0 +1,25 @@
+{
+  "description": "Since the 2026-10-29 docs, scope and type in the URL normalization get/update result are optional. The 2026-10-21 docs marked them required, and the API always returns both (exercised by the UrlNormalization live tests). Restore required.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.url_normalization#GetResult/members/scope/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.url_normalization#GetResult/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.url_normalization#UpdateResult/members/scope/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.url_normalization#UpdateResult/members/type/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

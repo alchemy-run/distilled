@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://drs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "drs",
+  service: "drs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1418,7 +1434,7 @@ export type AssociateSourceNetworkStackError =
  * Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
  */
 export const associateSourceNetworkStack: API.OperationMethod<
-  AssociateSourceNetworkStackRequest,
+  AssociateSourceNetworkStackRequest & RegionInput,
   AssociateSourceNetworkStackResponse,
   AssociateSourceNetworkStackError,
   Credentials | HttpClient.HttpClient
@@ -1437,6 +1453,8 @@ export const associateSourceNetworkStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceNetworkStack",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceNetworkStack",
 }));
 
 export type CancelRecoveryPlanExecutionError =
@@ -1452,7 +1470,7 @@ export type CancelRecoveryPlanExecutionError =
  * Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
  */
 export const cancelRecoveryPlanExecution: API.OperationMethod<
-  CancelRecoveryPlanExecutionRequest,
+  CancelRecoveryPlanExecutionRequest & RegionInput,
   CancelRecoveryPlanExecutionResponse,
   CancelRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1471,6 +1489,8 @@ export const cancelRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "CancelRecoveryPlanExecution",
 }));
 
 export type CreateExtendedSourceServerError =
@@ -1486,7 +1506,7 @@ export type CreateExtendedSourceServerError =
  * Create an extended source server in the target Account based on the source server in staging account.
  */
 export const createExtendedSourceServer: API.OperationMethod<
-  CreateExtendedSourceServerRequest,
+  CreateExtendedSourceServerRequest & RegionInput,
   CreateExtendedSourceServerResponse,
   CreateExtendedSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -1505,6 +1525,8 @@ export const createExtendedSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtendedSourceServer",
+  telemetry: TELEMETRY,
+  span: "CreateExtendedSourceServer",
 }));
 
 export type CreateLaunchConfigurationTemplateError =
@@ -1519,7 +1541,7 @@ export type CreateLaunchConfigurationTemplateError =
  * Creates a new Launch Configuration Template.
  */
 export const createLaunchConfigurationTemplate: API.OperationMethod<
-  CreateLaunchConfigurationTemplateRequest,
+  CreateLaunchConfigurationTemplateRequest & RegionInput,
   CreateLaunchConfigurationTemplateResponse,
   CreateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1537,6 +1559,8 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateLaunchConfigurationTemplate",
 }));
 
 export type CreateRecoveryPlanError =
@@ -1552,7 +1576,7 @@ export type CreateRecoveryPlanError =
  * Creates a Recovery Plan to orchestrate multi-server disaster recovery.
  */
 export const createRecoveryPlan: API.OperationMethod<
-  CreateRecoveryPlanRequest,
+  CreateRecoveryPlanRequest & RegionInput,
   CreateRecoveryPlanResponse,
   CreateRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -1571,6 +1595,8 @@ export const createRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryPlan",
 }));
 
 export type CreateRecoveryPlanStepError =
@@ -1587,7 +1613,7 @@ export type CreateRecoveryPlanStepError =
  * Creates a step in a Recovery Plan. A step is either `SERVER` type (servers to recover in parallel) or `WAIT` type (timed pause between steps).
  */
 export const createRecoveryPlanStep: API.OperationMethod<
-  CreateRecoveryPlanStepRequest,
+  CreateRecoveryPlanStepRequest & RegionInput,
   CreateRecoveryPlanStepResponse,
   CreateRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -1607,6 +1633,8 @@ export const createRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryPlanStep",
 }));
 
 export type CreateReplicationConfigurationTemplateError =
@@ -1621,7 +1649,7 @@ export type CreateReplicationConfigurationTemplateError =
  * Creates a new ReplicationConfigurationTemplate.
  */
 export const createReplicationConfigurationTemplate: API.OperationMethod<
-  CreateReplicationConfigurationTemplateRequest,
+  CreateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   CreateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1639,6 +1667,8 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfigurationTemplate",
 }));
 
 export type CreateSourceNetworkError =
@@ -1654,7 +1684,7 @@ export type CreateSourceNetworkError =
  * Create a new Source Network resource for a provided VPC ID.
  */
 export const createSourceNetwork: API.OperationMethod<
-  CreateSourceNetworkRequest,
+  CreateSourceNetworkRequest & RegionInput,
   CreateSourceNetworkResponse,
   CreateSourceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1673,6 +1703,8 @@ export const createSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateSourceNetwork",
 }));
 
 export type DeleteJobError =
@@ -1686,7 +1718,7 @@ export type DeleteJobError =
  * Deletes a single Job by ID.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1703,6 +1735,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteLaunchActionError =
@@ -1716,7 +1750,7 @@ export type DeleteLaunchActionError =
  * Deletes a resource launch action.
  */
 export const deleteLaunchAction: API.OperationMethod<
-  DeleteLaunchActionRequest,
+  DeleteLaunchActionRequest & RegionInput,
   DeleteLaunchActionResponse,
   DeleteLaunchActionError,
   Credentials | HttpClient.HttpClient
@@ -1733,6 +1767,8 @@ export const deleteLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchAction",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchAction",
 }));
 
 export type DeleteLaunchConfigurationTemplateError =
@@ -1746,7 +1782,7 @@ export type DeleteLaunchConfigurationTemplateError =
  * Deletes a single Launch Configuration Template by ID.
  */
 export const deleteLaunchConfigurationTemplate: API.OperationMethod<
-  DeleteLaunchConfigurationTemplateRequest,
+  DeleteLaunchConfigurationTemplateRequest & RegionInput,
   DeleteLaunchConfigurationTemplateResponse,
   DeleteLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1763,6 +1799,8 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchConfigurationTemplate",
 }));
 
 export type DeleteRecoveryInstanceError =
@@ -1776,7 +1814,7 @@ export type DeleteRecoveryInstanceError =
  * Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
  */
 export const deleteRecoveryInstance: API.OperationMethod<
-  DeleteRecoveryInstanceRequest,
+  DeleteRecoveryInstanceRequest & RegionInput,
   DeleteRecoveryInstanceResponse,
   DeleteRecoveryInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1793,6 +1831,8 @@ export const deleteRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryInstance",
 }));
 
 export type DeleteRecoveryPlanError =
@@ -1808,7 +1848,7 @@ export type DeleteRecoveryPlanError =
  * Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (`CREATED`, `IN_PROGRESS`).
  */
 export const deleteRecoveryPlan: API.OperationMethod<
-  DeleteRecoveryPlanRequest,
+  DeleteRecoveryPlanRequest & RegionInput,
   DeleteRecoveryPlanResponse,
   DeleteRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -1827,6 +1867,8 @@ export const deleteRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlan",
 }));
 
 export type DeleteRecoveryPlanExecutionError =
@@ -1842,7 +1884,7 @@ export type DeleteRecoveryPlanExecutionError =
  * Deletes a Recovery Plan execution record. Must be in a terminal status.
  */
 export const deleteRecoveryPlanExecution: API.OperationMethod<
-  DeleteRecoveryPlanExecutionRequest,
+  DeleteRecoveryPlanExecutionRequest & RegionInput,
   DeleteRecoveryPlanExecutionResponse,
   DeleteRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1861,6 +1903,8 @@ export const deleteRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlanExecution",
 }));
 
 export type DeleteRecoveryPlanStepError =
@@ -1876,7 +1920,7 @@ export type DeleteRecoveryPlanStepError =
  * Deletes a step from a Recovery Plan.
  */
 export const deleteRecoveryPlanStep: API.OperationMethod<
-  DeleteRecoveryPlanStepRequest,
+  DeleteRecoveryPlanStepRequest & RegionInput,
   DeleteRecoveryPlanStepResponse,
   DeleteRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -1895,6 +1939,8 @@ export const deleteRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlanStep",
 }));
 
 export type DeleteReplicationConfigurationTemplateError =
@@ -1908,7 +1954,7 @@ export type DeleteReplicationConfigurationTemplateError =
  * Deletes a single Replication Configuration Template by ID
  */
 export const deleteReplicationConfigurationTemplate: API.OperationMethod<
-  DeleteReplicationConfigurationTemplateRequest,
+  DeleteReplicationConfigurationTemplateRequest & RegionInput,
   DeleteReplicationConfigurationTemplateResponse,
   DeleteReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1925,6 +1971,8 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfigurationTemplate",
 }));
 
 export type DeleteSourceNetworkError =
@@ -1938,7 +1986,7 @@ export type DeleteSourceNetworkError =
  * Delete Source Network resource.
  */
 export const deleteSourceNetwork: API.OperationMethod<
-  DeleteSourceNetworkRequest,
+  DeleteSourceNetworkRequest & RegionInput,
   DeleteSourceNetworkResponse,
   DeleteSourceNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1955,6 +2003,8 @@ export const deleteSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceNetwork",
 }));
 
 export type DeleteSourceServerError =
@@ -1968,7 +2018,7 @@ export type DeleteSourceServerError =
  * Deletes a single Source Server by ID. The Source Server must be disconnected first.
  */
 export const deleteSourceServer: API.OperationMethod<
-  DeleteSourceServerRequest,
+  DeleteSourceServerRequest & RegionInput,
   DeleteSourceServerResponse,
   DeleteSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -1985,6 +2035,8 @@ export const deleteSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceServer",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceServer",
 }));
 
 export type DescribeJobLogItemsError =
@@ -1997,7 +2049,7 @@ export type DescribeJobLogItemsError =
  * Retrieves a detailed Job log with pagination.
  */
 export const describeJobLogItems: API.PaginatedOperationMethod<
-  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsRequest & RegionInput,
   DescribeJobLogItemsResponse,
   DescribeJobLogItemsError,
   Credentials | HttpClient.HttpClient,
@@ -2020,6 +2072,8 @@ export const describeJobLogItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobLogItems",
 })) as any;
 
 export type DescribeJobsError =
@@ -2032,7 +2086,7 @@ export type DescribeJobsError =
  * Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
 export const describeJobs: API.PaginatedOperationMethod<
-  DescribeJobsRequest,
+  DescribeJobsRequest & RegionInput,
   DescribeJobsResponse,
   DescribeJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2055,6 +2109,8 @@ export const describeJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobs",
 })) as any;
 
 export type DescribeLaunchConfigurationTemplatesError =
@@ -2068,7 +2124,7 @@ export type DescribeLaunchConfigurationTemplatesError =
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
 export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesRequest & RegionInput,
   DescribeLaunchConfigurationTemplatesResponse,
   DescribeLaunchConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2092,6 +2148,8 @@ export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLaunchConfigurationTemplates",
 })) as any;
 
 export type DescribeRecoveryInstancesError =
@@ -2104,7 +2162,7 @@ export type DescribeRecoveryInstancesError =
  * Lists all Recovery Instances or multiple Recovery Instances by ID.
  */
 export const describeRecoveryInstances: API.PaginatedOperationMethod<
-  DescribeRecoveryInstancesRequest,
+  DescribeRecoveryInstancesRequest & RegionInput,
   DescribeRecoveryInstancesResponse,
   DescribeRecoveryInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -2127,6 +2185,8 @@ export const describeRecoveryInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecoveryInstances",
 })) as any;
 
 export type DescribeRecoverySnapshotsError =
@@ -2140,7 +2200,7 @@ export type DescribeRecoverySnapshotsError =
  * Lists all Recovery Snapshots for a single Source Server.
  */
 export const describeRecoverySnapshots: API.PaginatedOperationMethod<
-  DescribeRecoverySnapshotsRequest,
+  DescribeRecoverySnapshotsRequest & RegionInput,
   DescribeRecoverySnapshotsResponse,
   DescribeRecoverySnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -2164,6 +2224,8 @@ export const describeRecoverySnapshots: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecoverySnapshots",
 })) as any;
 
 export type DescribeReplicationConfigurationTemplatesError =
@@ -2177,7 +2239,7 @@ export type DescribeReplicationConfigurationTemplatesError =
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
 export const describeReplicationConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesRequest & RegionInput,
   DescribeReplicationConfigurationTemplatesResponse,
   DescribeReplicationConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2201,6 +2263,8 @@ export const describeReplicationConfigurationTemplates: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigurationTemplates",
 })) as any;
 
 export type DescribeSourceNetworksError =
@@ -2213,7 +2277,7 @@ export type DescribeSourceNetworksError =
  * Lists all Source Networks or multiple Source Networks filtered by ID.
  */
 export const describeSourceNetworks: API.PaginatedOperationMethod<
-  DescribeSourceNetworksRequest,
+  DescribeSourceNetworksRequest & RegionInput,
   DescribeSourceNetworksResponse,
   DescribeSourceNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -2236,6 +2300,8 @@ export const describeSourceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceNetworks",
 })) as any;
 
 export type DescribeSourceServersError =
@@ -2248,7 +2314,7 @@ export type DescribeSourceServersError =
  * Lists all Source Servers or multiple Source Servers filtered by ID.
  */
 export const describeSourceServers: API.PaginatedOperationMethod<
-  DescribeSourceServersRequest,
+  DescribeSourceServersRequest & RegionInput,
   DescribeSourceServersResponse,
   DescribeSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2271,6 +2337,8 @@ export const describeSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceServers",
 })) as any;
 
 export type DisconnectRecoveryInstanceError =
@@ -2285,7 +2353,7 @@ export type DisconnectRecoveryInstanceError =
  * Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectRecoveryInstance: API.OperationMethod<
-  DisconnectRecoveryInstanceRequest,
+  DisconnectRecoveryInstanceRequest & RegionInput,
   DisconnectRecoveryInstanceResponse,
   DisconnectRecoveryInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2303,6 +2371,8 @@ export const disconnectRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectRecoveryInstance",
+  telemetry: TELEMETRY,
+  span: "DisconnectRecoveryInstance",
 }));
 
 export type DisconnectSourceServerError =
@@ -2316,7 +2386,7 @@ export type DisconnectSourceServerError =
  * Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
 export const disconnectSourceServer: API.OperationMethod<
-  DisconnectSourceServerRequest,
+  DisconnectSourceServerRequest & RegionInput,
   SourceServer,
   DisconnectSourceServerError,
   Credentials | HttpClient.HttpClient
@@ -2333,6 +2403,8 @@ export const disconnectSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectSourceServer",
+  telemetry: TELEMETRY,
+  span: "DisconnectSourceServer",
 }));
 
 export type ExportSourceNetworkCfnTemplateError =
@@ -2347,7 +2419,7 @@ export type ExportSourceNetworkCfnTemplateError =
  * Export the Source Network CloudFormation template to an S3 bucket.
  */
 export const exportSourceNetworkCfnTemplate: API.OperationMethod<
-  ExportSourceNetworkCfnTemplateRequest,
+  ExportSourceNetworkCfnTemplateRequest & RegionInput,
   ExportSourceNetworkCfnTemplateResponse,
   ExportSourceNetworkCfnTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2365,6 +2437,8 @@ export const exportSourceNetworkCfnTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSourceNetworkCfnTemplate",
+  telemetry: TELEMETRY,
+  span: "ExportSourceNetworkCfnTemplate",
 }));
 
 export type GetFailbackReplicationConfigurationError =
@@ -2377,7 +2451,7 @@ export type GetFailbackReplicationConfigurationError =
  * Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
  */
 export const getFailbackReplicationConfiguration: API.OperationMethod<
-  GetFailbackReplicationConfigurationRequest,
+  GetFailbackReplicationConfigurationRequest & RegionInput,
   GetFailbackReplicationConfigurationResponse,
   GetFailbackReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2393,6 +2467,8 @@ export const getFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailbackReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetFailbackReplicationConfiguration",
 }));
 
 export type GetLaunchConfigurationError =
@@ -2405,7 +2481,7 @@ export type GetLaunchConfigurationError =
  * Gets a LaunchConfiguration, filtered by Source Server IDs.
  */
 export const getLaunchConfiguration: API.OperationMethod<
-  GetLaunchConfigurationRequest,
+  GetLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   GetLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2421,6 +2497,8 @@ export const getLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLaunchConfiguration",
 }));
 
 export type GetRecoveryPlanError =
@@ -2435,7 +2513,7 @@ export type GetRecoveryPlanError =
  * Gets a Recovery Plan by ARN.
  */
 export const getRecoveryPlan: API.OperationMethod<
-  GetRecoveryPlanRequest,
+  GetRecoveryPlanRequest & RegionInput,
   GetRecoveryPlanResponse,
   GetRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -2453,6 +2531,8 @@ export const getRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlan",
 }));
 
 export type GetRecoveryPlanExecutionError =
@@ -2467,7 +2547,7 @@ export type GetRecoveryPlanExecutionError =
  * Gets the details of a Recovery Plan execution.
  */
 export const getRecoveryPlanExecution: API.OperationMethod<
-  GetRecoveryPlanExecutionRequest,
+  GetRecoveryPlanExecutionRequest & RegionInput,
   GetRecoveryPlanExecutionResponse,
   GetRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2485,6 +2565,8 @@ export const getRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanExecution",
 }));
 
 export type GetRecoveryPlanExecutionStepError =
@@ -2499,7 +2581,7 @@ export type GetRecoveryPlanExecutionStepError =
  * Gets the details of a step within a Recovery Plan execution.
  */
 export const getRecoveryPlanExecutionStep: API.OperationMethod<
-  GetRecoveryPlanExecutionStepRequest,
+  GetRecoveryPlanExecutionStepRequest & RegionInput,
   GetRecoveryPlanExecutionStepResponse,
   GetRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -2517,6 +2599,8 @@ export const getRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanExecutionStep",
 }));
 
 export type GetRecoveryPlanStepError =
@@ -2531,7 +2615,7 @@ export type GetRecoveryPlanStepError =
  * Gets a Recovery Plan step by ARN.
  */
 export const getRecoveryPlanStep: API.OperationMethod<
-  GetRecoveryPlanStepRequest,
+  GetRecoveryPlanStepRequest & RegionInput,
   GetRecoveryPlanStepResponse,
   GetRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -2549,6 +2633,8 @@ export const getRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanStep",
 }));
 
 export type GetReplicationConfigurationError =
@@ -2562,7 +2648,7 @@ export type GetReplicationConfigurationError =
  * Gets a ReplicationConfiguration, filtered by Source Server ID.
  */
 export const getReplicationConfiguration: API.OperationMethod<
-  GetReplicationConfigurationRequest,
+  GetReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   GetReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2579,6 +2665,8 @@ export const getReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetReplicationConfiguration",
 }));
 
 export type InitializeServiceError =
@@ -2591,7 +2679,7 @@ export type InitializeServiceError =
  * Initialize Elastic Disaster Recovery.
  */
 export const initializeService: API.OperationMethod<
-  InitializeServiceRequest,
+  InitializeServiceRequest & RegionInput,
   InitializeServiceResponse,
   InitializeServiceError,
   Credentials | HttpClient.HttpClient
@@ -2607,6 +2695,8 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  telemetry: TELEMETRY,
+  span: "InitializeService",
 }));
 
 export type ListExtensibleSourceServersError =
@@ -2620,7 +2710,7 @@ export type ListExtensibleSourceServersError =
  * Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we're reading from is not an extension of another source server.
  */
 export const listExtensibleSourceServers: API.PaginatedOperationMethod<
-  ListExtensibleSourceServersRequest,
+  ListExtensibleSourceServersRequest & RegionInput,
   ListExtensibleSourceServersResponse,
   ListExtensibleSourceServersError,
   Credentials | HttpClient.HttpClient,
@@ -2644,6 +2734,8 @@ export const listExtensibleSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensibleSourceServers",
 })) as any;
 
 export type ListLaunchActionsError =
@@ -2657,7 +2749,7 @@ export type ListLaunchActionsError =
  * Lists resource launch actions.
  */
 export const listLaunchActions: API.PaginatedOperationMethod<
-  ListLaunchActionsRequest,
+  ListLaunchActionsRequest & RegionInput,
   ListLaunchActionsResponse,
   ListLaunchActionsError,
   Credentials | HttpClient.HttpClient,
@@ -2681,6 +2773,8 @@ export const listLaunchActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLaunchActions",
 })) as any;
 
 export type ListRecoveryPlanExecutionsError =
@@ -2694,7 +2788,7 @@ export type ListRecoveryPlanExecutionsError =
  * Lists executions of Recovery Plans, optionally filtered by plan or status.
  */
 export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
-  ListRecoveryPlanExecutionsRequest,
+  ListRecoveryPlanExecutionsRequest & RegionInput,
   ListRecoveryPlanExecutionsResponse,
   ListRecoveryPlanExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -2718,6 +2812,8 @@ export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanExecutions",
 })) as any;
 
 export type ListRecoveryPlanExecutionStepsError =
@@ -2732,7 +2828,7 @@ export type ListRecoveryPlanExecutionStepsError =
  * Lists all steps within a Recovery Plan execution.
  */
 export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
-  ListRecoveryPlanExecutionStepsRequest,
+  ListRecoveryPlanExecutionStepsRequest & RegionInput,
   ListRecoveryPlanExecutionStepsResponse,
   ListRecoveryPlanExecutionStepsError,
   Credentials | HttpClient.HttpClient,
@@ -2757,6 +2853,8 @@ export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutionSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanExecutionSteps",
 })) as any;
 
 export type ListRecoveryPlansError =
@@ -2770,7 +2868,7 @@ export type ListRecoveryPlansError =
  * Lists all Recovery Plans in the account.
  */
 export const listRecoveryPlans: API.PaginatedOperationMethod<
-  ListRecoveryPlansRequest,
+  ListRecoveryPlansRequest & RegionInput,
   ListRecoveryPlansResponse,
   ListRecoveryPlansError,
   Credentials | HttpClient.HttpClient,
@@ -2794,6 +2892,8 @@ export const listRecoveryPlans: API.PaginatedOperationMethod<
     items: "recoveryPlans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlans",
 })) as any;
 
 export type ListRecoveryPlanStepsError =
@@ -2808,7 +2908,7 @@ export type ListRecoveryPlanStepsError =
  * Lists all steps in a Recovery Plan.
  */
 export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
-  ListRecoveryPlanStepsRequest,
+  ListRecoveryPlanStepsRequest & RegionInput,
   ListRecoveryPlanStepsResponse,
   ListRecoveryPlanStepsError,
   Credentials | HttpClient.HttpClient,
@@ -2833,6 +2933,8 @@ export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanSteps",
 })) as any;
 
 export type ListStagingAccountsError =
@@ -2846,7 +2948,7 @@ export type ListStagingAccountsError =
  * Returns an array of staging accounts for existing extended source servers.
  */
 export const listStagingAccounts: API.PaginatedOperationMethod<
-  ListStagingAccountsRequest,
+  ListStagingAccountsRequest & RegionInput,
   ListStagingAccountsResponse,
   ListStagingAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2870,6 +2972,8 @@ export const listStagingAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStagingAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2883,7 +2987,7 @@ export type ListTagsForResourceError =
  * List all tags for your Elastic Disaster Recovery resources.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2900,6 +3004,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutLaunchActionError =
@@ -2914,7 +3020,7 @@ export type PutLaunchActionError =
  * Puts a resource launch action.
  */
 export const putLaunchAction: API.OperationMethod<
-  PutLaunchActionRequest,
+  PutLaunchActionRequest & RegionInput,
   PutLaunchActionResponse,
   PutLaunchActionError,
   Credentials | HttpClient.HttpClient
@@ -2932,6 +3038,8 @@ export const putLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLaunchAction",
+  telemetry: TELEMETRY,
+  span: "PutLaunchAction",
 }));
 
 export type ReorderRecoveryPlanStepsError =
@@ -2947,7 +3055,7 @@ export type ReorderRecoveryPlanStepsError =
  * Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
  */
 export const reorderRecoveryPlanSteps: API.OperationMethod<
-  ReorderRecoveryPlanStepsRequest,
+  ReorderRecoveryPlanStepsRequest & RegionInput,
   ReorderRecoveryPlanStepsResponse,
   ReorderRecoveryPlanStepsError,
   Credentials | HttpClient.HttpClient
@@ -2966,6 +3074,8 @@ export const reorderRecoveryPlanSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderRecoveryPlanSteps",
+  telemetry: TELEMETRY,
+  span: "ReorderRecoveryPlanSteps",
 }));
 
 export type RetryDataReplicationError =
@@ -2979,7 +3089,7 @@ export type RetryDataReplicationError =
  * WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
  */
 export const retryDataReplication: API.OperationMethod<
-  RetryDataReplicationRequest,
+  RetryDataReplicationRequest & RegionInput,
   SourceServer,
   RetryDataReplicationError,
   Credentials | HttpClient.HttpClient
@@ -2996,6 +3106,8 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
+  telemetry: TELEMETRY,
+  span: "RetryDataReplication",
 }));
 
 export type RetryRecoveryPlanExecutionStepError =
@@ -3011,7 +3123,7 @@ export type RetryRecoveryPlanExecutionStepError =
  * Retries a failed `SERVER` type execution step.
  */
 export const retryRecoveryPlanExecutionStep: API.OperationMethod<
-  RetryRecoveryPlanExecutionStepRequest,
+  RetryRecoveryPlanExecutionStepRequest & RegionInput,
   RetryRecoveryPlanExecutionStepResponse,
   RetryRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -3030,6 +3142,8 @@ export const retryRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "RetryRecoveryPlanExecutionStep",
 }));
 
 export type ReverseReplicationError =
@@ -3045,7 +3159,7 @@ export type ReverseReplicationError =
  * Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
  */
 export const reverseReplication: API.OperationMethod<
-  ReverseReplicationRequest,
+  ReverseReplicationRequest & RegionInput,
   ReverseReplicationResponse,
   ReverseReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3064,6 +3178,8 @@ export const reverseReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReverseReplication",
+  telemetry: TELEMETRY,
+  span: "ReverseReplication",
 }));
 
 export type StartFailbackLaunchError =
@@ -3078,7 +3194,7 @@ export type StartFailbackLaunchError =
  * Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
  */
 export const startFailbackLaunch: API.OperationMethod<
-  StartFailbackLaunchRequest,
+  StartFailbackLaunchRequest & RegionInput,
   StartFailbackLaunchResponse,
   StartFailbackLaunchError,
   Credentials | HttpClient.HttpClient
@@ -3096,6 +3212,8 @@ export const startFailbackLaunch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailbackLaunch",
+  telemetry: TELEMETRY,
+  span: "StartFailbackLaunch",
 }));
 
 export type StartRecoveryError =
@@ -3109,7 +3227,7 @@ export type StartRecoveryError =
  * Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
  */
 export const startRecovery: API.OperationMethod<
-  StartRecoveryRequest,
+  StartRecoveryRequest & RegionInput,
   StartRecoveryResponse,
   StartRecoveryError,
   Credentials | HttpClient.HttpClient
@@ -3126,6 +3244,8 @@ export const startRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecovery",
+  telemetry: TELEMETRY,
+  span: "StartRecovery",
 }));
 
 export type StartRecoveryPlanExecutionError =
@@ -3142,7 +3262,7 @@ export type StartRecoveryPlanExecutionError =
  * Starts executing a Recovery Plan in `DRILL` or `RECOVERY` mode. A plan cannot have more than one execution in a non-terminal status at a time.
  */
 export const startRecoveryPlanExecution: API.OperationMethod<
-  StartRecoveryPlanExecutionRequest,
+  StartRecoveryPlanExecutionRequest & RegionInput,
   StartRecoveryPlanExecutionResponse,
   StartRecoveryPlanExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3162,6 +3282,8 @@ export const startRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "StartRecoveryPlanExecution",
 }));
 
 export type StartReplicationError =
@@ -3175,7 +3297,7 @@ export type StartReplicationError =
  * Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
  */
 export const startReplication: API.OperationMethod<
-  StartReplicationRequest,
+  StartReplicationRequest & RegionInput,
   StartReplicationResponse,
   StartReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3192,6 +3314,8 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
+  telemetry: TELEMETRY,
+  span: "StartReplication",
 }));
 
 export type StartSourceNetworkRecoveryError =
@@ -3206,7 +3330,7 @@ export type StartSourceNetworkRecoveryError =
  * Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
  */
 export const startSourceNetworkRecovery: API.OperationMethod<
-  StartSourceNetworkRecoveryRequest,
+  StartSourceNetworkRecoveryRequest & RegionInput,
   StartSourceNetworkRecoveryResponse,
   StartSourceNetworkRecoveryError,
   Credentials | HttpClient.HttpClient
@@ -3224,6 +3348,8 @@ export const startSourceNetworkRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkRecovery",
+  telemetry: TELEMETRY,
+  span: "StartSourceNetworkRecovery",
 }));
 
 export type StartSourceNetworkReplicationError =
@@ -3237,7 +3363,7 @@ export type StartSourceNetworkReplicationError =
  * Starts replication for a Source Network. This action would make the Source Network protected.
  */
 export const startSourceNetworkReplication: API.OperationMethod<
-  StartSourceNetworkReplicationRequest,
+  StartSourceNetworkReplicationRequest & RegionInput,
   StartSourceNetworkReplicationResponse,
   StartSourceNetworkReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3254,6 +3380,8 @@ export const startSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkReplication",
+  telemetry: TELEMETRY,
+  span: "StartSourceNetworkReplication",
 }));
 
 export type StopFailbackError =
@@ -3266,7 +3394,7 @@ export type StopFailbackError =
  * Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
  */
 export const stopFailback: API.OperationMethod<
-  StopFailbackRequest,
+  StopFailbackRequest & RegionInput,
   StopFailbackResponse,
   StopFailbackError,
   Credentials | HttpClient.HttpClient
@@ -3282,6 +3410,8 @@ export const stopFailback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFailback",
+  telemetry: TELEMETRY,
+  span: "StopFailback",
 }));
 
 export type StopReplicationError =
@@ -3295,7 +3425,7 @@ export type StopReplicationError =
  * Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
  */
 export const stopReplication: API.OperationMethod<
-  StopReplicationRequest,
+  StopReplicationRequest & RegionInput,
   StopReplicationResponse,
   StopReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3312,6 +3442,8 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
+  telemetry: TELEMETRY,
+  span: "StopReplication",
 }));
 
 export type StopSourceNetworkReplicationError =
@@ -3326,7 +3458,7 @@ export type StopSourceNetworkReplicationError =
  * Stops replication for a Source Network. This action would make the Source Network unprotected.
  */
 export const stopSourceNetworkReplication: API.OperationMethod<
-  StopSourceNetworkReplicationRequest,
+  StopSourceNetworkReplicationRequest & RegionInput,
   StopSourceNetworkReplicationResponse,
   StopSourceNetworkReplicationError,
   Credentials | HttpClient.HttpClient
@@ -3344,6 +3476,8 @@ export const stopSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSourceNetworkReplication",
+  telemetry: TELEMETRY,
+  span: "StopSourceNetworkReplication",
 }));
 
 export type TagResourceError =
@@ -3357,7 +3491,7 @@ export type TagResourceError =
  * Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3374,6 +3508,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateRecoveryInstancesError =
@@ -3387,7 +3523,7 @@ export type TerminateRecoveryInstancesError =
  * Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
  */
 export const terminateRecoveryInstances: API.OperationMethod<
-  TerminateRecoveryInstancesRequest,
+  TerminateRecoveryInstancesRequest & RegionInput,
   TerminateRecoveryInstancesResponse,
   TerminateRecoveryInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3404,6 +3540,8 @@ export const terminateRecoveryInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateRecoveryInstances",
+  telemetry: TELEMETRY,
+  span: "TerminateRecoveryInstances",
 }));
 
 export type UntagResourceError =
@@ -3417,7 +3555,7 @@ export type UntagResourceError =
  * Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3434,6 +3572,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFailbackReplicationConfigurationError =
@@ -3447,7 +3587,7 @@ export type UpdateFailbackReplicationConfigurationError =
  * Allows you to update the failback replication configuration of a Recovery Instance by ID.
  */
 export const updateFailbackReplicationConfiguration: API.OperationMethod<
-  UpdateFailbackReplicationConfigurationRequest,
+  UpdateFailbackReplicationConfigurationRequest & RegionInput,
   UpdateFailbackReplicationConfigurationResponse,
   UpdateFailbackReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3464,6 +3604,8 @@ export const updateFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailbackReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateFailbackReplicationConfiguration",
 }));
 
 export type UpdateLaunchConfigurationError =
@@ -3478,7 +3620,7 @@ export type UpdateLaunchConfigurationError =
  * Updates a LaunchConfiguration by Source Server ID.
  */
 export const updateLaunchConfiguration: API.OperationMethod<
-  UpdateLaunchConfigurationRequest,
+  UpdateLaunchConfigurationRequest & RegionInput,
   LaunchConfiguration,
   UpdateLaunchConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3496,6 +3638,8 @@ export const updateLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfiguration",
 }));
 
 export type UpdateLaunchConfigurationTemplateError =
@@ -3510,7 +3654,7 @@ export type UpdateLaunchConfigurationTemplateError =
  * Updates an existing Launch Configuration Template by ID.
  */
 export const updateLaunchConfigurationTemplate: API.OperationMethod<
-  UpdateLaunchConfigurationTemplateRequest,
+  UpdateLaunchConfigurationTemplateRequest & RegionInput,
   UpdateLaunchConfigurationTemplateResponse,
   UpdateLaunchConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3528,6 +3672,8 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfigurationTemplate",
 }));
 
 export type UpdateRecoveryPlanError =
@@ -3543,7 +3689,7 @@ export type UpdateRecoveryPlanError =
  * Updates a Recovery Plan's name or description.
  */
 export const updateRecoveryPlan: API.OperationMethod<
-  UpdateRecoveryPlanRequest,
+  UpdateRecoveryPlanRequest & RegionInput,
   UpdateRecoveryPlanResponse,
   UpdateRecoveryPlanError,
   Credentials | HttpClient.HttpClient
@@ -3562,6 +3708,8 @@ export const updateRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlan",
 }));
 
 export type UpdateRecoveryPlanExecutionStepError =
@@ -3577,7 +3725,7 @@ export type UpdateRecoveryPlanExecutionStepError =
  * Updates an execution step. Supports two actions: (1) skip a step that is in `NOT_STARTED` or `FAILED` status; (2) update the wait duration of a `WAIT` type step that is in `NOT_STARTED` status.
  */
 export const updateRecoveryPlanExecutionStep: API.OperationMethod<
-  UpdateRecoveryPlanExecutionStepRequest,
+  UpdateRecoveryPlanExecutionStepRequest & RegionInput,
   UpdateRecoveryPlanExecutionStepResponse,
   UpdateRecoveryPlanExecutionStepError,
   Credentials | HttpClient.HttpClient
@@ -3596,6 +3744,8 @@ export const updateRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlanExecutionStep",
 }));
 
 export type UpdateRecoveryPlanStepError =
@@ -3611,7 +3761,7 @@ export type UpdateRecoveryPlanStepError =
  * Updates a Recovery Plan step's name or configuration. Step type is immutable.
  */
 export const updateRecoveryPlanStep: API.OperationMethod<
-  UpdateRecoveryPlanStepRequest,
+  UpdateRecoveryPlanStepRequest & RegionInput,
   UpdateRecoveryPlanStepResponse,
   UpdateRecoveryPlanStepError,
   Credentials | HttpClient.HttpClient
@@ -3630,6 +3780,8 @@ export const updateRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlanStep",
 }));
 
 export type UpdateReplicationConfigurationError =
@@ -3645,7 +3797,7 @@ export type UpdateReplicationConfigurationError =
  * Allows you to update a ReplicationConfiguration by Source Server ID.
  */
 export const updateReplicationConfiguration: API.OperationMethod<
-  UpdateReplicationConfigurationRequest,
+  UpdateReplicationConfigurationRequest & RegionInput,
   ReplicationConfiguration,
   UpdateReplicationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3664,6 +3816,8 @@ export const updateReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfiguration",
 }));
 
 export type UpdateReplicationConfigurationTemplateError =
@@ -3678,7 +3832,7 @@ export type UpdateReplicationConfigurationTemplateError =
  * Updates a ReplicationConfigurationTemplate by ID.
  */
 export const updateReplicationConfigurationTemplate: API.OperationMethod<
-  UpdateReplicationConfigurationTemplateRequest,
+  UpdateReplicationConfigurationTemplateRequest & RegionInput,
   ReplicationConfigurationTemplate,
   UpdateReplicationConfigurationTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3696,6 +3850,8 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfigurationTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

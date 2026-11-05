@@ -1,0 +1,583 @@
+{
+  "description": "Workers Issues automations (docs-absent): CRUD on /accounts/{account_id}/workers/observability/issues/automations, transcribed from cloudflare/forge openapi@37b001d9 (the OpenAPI the cloudflare/cf CLI is generated from: operations issues.automations.{list,create,get,update,delete}) and verified live on 2026-10-23. The response is the standard envelope with result {automation} / {automations}; PUT is a full replace (an omitted name is regenerated); create rejects neither-or-both of afterOccurrences/afterInactivitySeconds with HTTP 400 (zod body, no error code); unknown or deleted ids return HTTP 404 {\"message\":\"Not found\"} with no code; policyId is not validated; deleting the referenced notification policy does not cascade.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The Issues automation does not exist (or was already deleted).",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationInvalid",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The automation body failed validation (e.g. neither or both of `afterOccurrences` / `afterInactivitySeconds`).",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationScope",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ACCOUNT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "account"
+            }
+          },
+          "SERVICE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "service"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationTriggerType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "OCCURRENCE_THRESHOLD": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "occurrence_threshold"
+            }
+          },
+          "RECURRENCE_AFTER_INACTIVITY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "recurrence_after_inactivity"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomation",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Automation id."
+            }
+          },
+          "revision": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Revision, incremented on every update."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Automation name. Cloudflare generates one (e.g. \"Notify after 5 occurrences\") when omitted."
+            }
+          },
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "ansPolicyId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Id of the notification policy (`workers_observability_real_time_issue`) the automation notifies."
+            }
+          },
+          "scope": {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationScope",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "`service` when the automation is limited to one Worker, otherwise `account`."
+            }
+          },
+          "serviceType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Service type of `service` (e.g. `workers`)."
+            }
+          },
+          "service": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Worker the automation is limited to."
+            }
+          },
+          "triggerType": {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationTriggerType",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "threshold": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Occurrence count for an `occurrence_threshold` trigger."
+            }
+          },
+          "inactivitySeconds": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Inactivity period for a `recurrence_after_inactivity` trigger."
+            }
+          },
+          "createdByUserId": {
+            "target": "smithy.api#String"
+          },
+          "updatedByUserId": {
+            "target": "smithy.api#String"
+          },
+          "created": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#documentation": "Creation time, epoch milliseconds."
+            }
+          },
+          "updated": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#documentation": "Last update time, epoch milliseconds."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.cloudflare.workers#ObservabilityIssueAutomation"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ObservabilityIssueAutomationResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "automation": {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomation",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ListObservabilityIssueAutomationsRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "service": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "service",
+              "smithy.api#documentation": "Only automations scoped to this Worker."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ListObservabilityIssueAutomations",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#ListObservabilityIssueAutomationsRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#ListObservabilityIssueAutomationsResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#Forbidden"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/accounts/{account_id}/workers/observability/issues/automations",
+            "code": 200
+          },
+          "smithy.api#documentation": "List Workers Issues automations (account- and service-scoped)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ListObservabilityIssueAutomationsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "automations": {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationList",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateObservabilityIssueAutomationRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "policyId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Id of the notification policy to notify, normally one with alert type `workers_observability_real_time_issue`. Cloudflare does not validate that it exists."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Automation name (1-200 characters). Cloudflare generates one when omitted."
+            }
+          },
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the automation is enabled. Defaults to true."
+            }
+          },
+          "service": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Limit the automation to one Worker (script name). Omit for every Worker in the account."
+            }
+          },
+          "afterOccurrences": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Notify once an issue has occurred this many times. Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required."
+            }
+          },
+          "afterInactivitySeconds": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Notify when an issue recurs after this many seconds of inactivity (3600-31536000). Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateObservabilityIssueAutomation",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#CreateObservabilityIssueAutomationRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#ObservabilityIssueAutomationResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationInvalid"
+          },
+          {
+            "target": "com.cloudflare.workers#Forbidden"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/accounts/{account_id}/workers/observability/issues/automations",
+            "code": 200
+          },
+          "smithy.api#documentation": "Create a Workers Issues automation that notifies a notification policy when an issue crosses an occurrence or inactivity threshold."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#GetObservabilityIssueAutomationRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "automationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#GetObservabilityIssueAutomation",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#GetObservabilityIssueAutomationRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#ObservabilityIssueAutomationResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationNotFound"
+          },
+          {
+            "target": "com.cloudflare.workers#Forbidden"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+            "code": 200
+          },
+          "smithy.api#documentation": "Get a Workers Issues automation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#UpdateObservabilityIssueAutomationRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "automationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "policyId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Id of the notification policy to notify, normally one with alert type `workers_observability_real_time_issue`. Cloudflare does not validate that it exists."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Automation name (1-200 characters). Cloudflare generates one when omitted."
+            }
+          },
+          "enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the automation is enabled. Defaults to true."
+            }
+          },
+          "service": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Limit the automation to one Worker (script name). Omit for every Worker in the account."
+            }
+          },
+          "afterOccurrences": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Notify once an issue has occurred this many times. Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required."
+            }
+          },
+          "afterInactivitySeconds": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Notify when an issue recurs after this many seconds of inactivity (3600-31536000). Exactly one of `afterOccurrences` or `afterInactivitySeconds` is required."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#UpdateObservabilityIssueAutomation",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#UpdateObservabilityIssueAutomationRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#ObservabilityIssueAutomationResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationNotFound"
+          },
+          {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationInvalid"
+          },
+          {
+            "target": "com.cloudflare.workers#Forbidden"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "PUT",
+            "uri": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+            "code": 200
+          },
+          "smithy.api#documentation": "Replace a Workers Issues automation. PUT is a full replace: omitted fields reset (an omitted `name` is regenerated).",
+          "smithy.api#idempotent": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#DeleteObservabilityIssueAutomationRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "automationId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#DeleteObservabilityIssueAutomation",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#DeleteObservabilityIssueAutomationRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#ObservabilityIssueAutomationResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#ObservabilityIssueAutomationNotFound"
+          },
+          {
+            "target": "com.cloudflare.workers#Forbidden"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "DELETE",
+            "uri": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+            "code": 200
+          },
+          "smithy.api#documentation": "Delete a Workers Issues automation. Returns the deleted automation.",
+          "smithy.api#idempotent": {}
+        }
+      }
+    }
+  ]
+}

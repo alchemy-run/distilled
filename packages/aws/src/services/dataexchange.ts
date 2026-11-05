@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dataexchange.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DataExchange",
+  service: "DataExchange",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1071,7 +1087,7 @@ export type AcceptDataGrantError =
  * This operation accepts a data grant.
  */
 export const acceptDataGrant: API.OperationMethod<
-  AcceptDataGrantRequest,
+  AcceptDataGrantRequest & RegionInput,
   AcceptDataGrantResponse,
   AcceptDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1089,6 +1105,8 @@ export const acceptDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDataGrant",
+  telemetry: TELEMETRY,
+  span: "AcceptDataGrant",
 }));
 
 export type CancelJobError =
@@ -1102,7 +1120,7 @@ export type CancelJobError =
  * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1119,6 +1137,8 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CreateDataGrantError =
@@ -1133,7 +1153,7 @@ export type CreateDataGrantError =
  * This operation creates a data grant.
  */
 export const createDataGrant: API.OperationMethod<
-  CreateDataGrantRequest,
+  CreateDataGrantRequest & RegionInput,
   CreateDataGrantResponse,
   CreateDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1151,6 +1171,8 @@ export const createDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataGrant",
+  telemetry: TELEMETRY,
+  span: "CreateDataGrant",
 }));
 
 export type CreateDataSetError =
@@ -1164,7 +1186,7 @@ export type CreateDataSetError =
  * This operation creates a data set.
  */
 export const createDataSet: API.OperationMethod<
-  CreateDataSetRequest,
+  CreateDataSetRequest & RegionInput,
   CreateDataSetResponse,
   CreateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1181,6 +1203,8 @@ export const createDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSet",
+  telemetry: TELEMETRY,
+  span: "CreateDataSet",
 }));
 
 export type CreateEventActionError =
@@ -1194,7 +1218,7 @@ export type CreateEventActionError =
  * This operation creates an event action.
  */
 export const createEventAction: API.OperationMethod<
-  CreateEventActionRequest,
+  CreateEventActionRequest & RegionInput,
   CreateEventActionResponse,
   CreateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1211,6 +1235,8 @@ export const createEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventAction",
+  telemetry: TELEMETRY,
+  span: "CreateEventAction",
 }));
 
 export type CreateJobError =
@@ -1225,7 +1251,7 @@ export type CreateJobError =
  * This operation creates a job.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -1243,6 +1269,8 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateRevisionError =
@@ -1256,7 +1284,7 @@ export type CreateRevisionError =
  * This operation creates a revision for a data set.
  */
 export const createRevision: API.OperationMethod<
-  CreateRevisionRequest,
+  CreateRevisionRequest & RegionInput,
   CreateRevisionResponse,
   CreateRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1273,6 +1301,8 @@ export const createRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRevision",
+  telemetry: TELEMETRY,
+  span: "CreateRevision",
 }));
 
 export type DeleteAssetError =
@@ -1287,7 +1317,7 @@ export type DeleteAssetError =
  * This operation deletes an asset.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -1305,6 +1335,8 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteDataGrantError =
@@ -1318,7 +1350,7 @@ export type DeleteDataGrantError =
  * This operation deletes a data grant.
  */
 export const deleteDataGrant: API.OperationMethod<
-  DeleteDataGrantRequest,
+  DeleteDataGrantRequest & RegionInput,
   DeleteDataGrantResponse,
   DeleteDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1335,6 +1367,8 @@ export const deleteDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataGrant",
+  telemetry: TELEMETRY,
+  span: "DeleteDataGrant",
 }));
 
 export type DeleteDataSetError =
@@ -1349,7 +1383,7 @@ export type DeleteDataSetError =
  * This operation deletes a data set.
  */
 export const deleteDataSet: API.OperationMethod<
-  DeleteDataSetRequest,
+  DeleteDataSetRequest & RegionInput,
   DeleteDataSetResponse,
   DeleteDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1367,6 +1401,8 @@ export const deleteDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSet",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSet",
 }));
 
 export type DeleteEventActionError =
@@ -1379,7 +1415,7 @@ export type DeleteEventActionError =
  * This operation deletes the event action.
  */
 export const deleteEventAction: API.OperationMethod<
-  DeleteEventActionRequest,
+  DeleteEventActionRequest & RegionInput,
   DeleteEventActionResponse,
   DeleteEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1395,6 +1431,8 @@ export const deleteEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventAction",
+  telemetry: TELEMETRY,
+  span: "DeleteEventAction",
 }));
 
 export type DeleteRevisionError =
@@ -1409,7 +1447,7 @@ export type DeleteRevisionError =
  * This operation deletes a revision.
  */
 export const deleteRevision: API.OperationMethod<
-  DeleteRevisionRequest,
+  DeleteRevisionRequest & RegionInput,
   DeleteRevisionResponse,
   DeleteRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1427,6 +1465,8 @@ export const deleteRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRevision",
+  telemetry: TELEMETRY,
+  span: "DeleteRevision",
 }));
 
 export type GetAssetError =
@@ -1439,7 +1479,7 @@ export type GetAssetError =
  * This operation returns information about an asset.
  */
 export const getAsset: API.OperationMethod<
-  GetAssetRequest,
+  GetAssetRequest & RegionInput,
   GetAssetResponse,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -1455,6 +1495,8 @@ export const getAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsset",
+  telemetry: TELEMETRY,
+  span: "GetAsset",
 }));
 
 export type GetDataGrantError =
@@ -1468,7 +1510,7 @@ export type GetDataGrantError =
  * This operation returns information about a data grant.
  */
 export const getDataGrant: API.OperationMethod<
-  GetDataGrantRequest,
+  GetDataGrantRequest & RegionInput,
   GetDataGrantResponse,
   GetDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1485,6 +1527,8 @@ export const getDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataGrant",
+  telemetry: TELEMETRY,
+  span: "GetDataGrant",
 }));
 
 export type GetDataSetError =
@@ -1497,7 +1541,7 @@ export type GetDataSetError =
  * This operation returns information about a data set.
  */
 export const getDataSet: API.OperationMethod<
-  GetDataSetRequest,
+  GetDataSetRequest & RegionInput,
   GetDataSetResponse,
   GetDataSetError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1557,8 @@ export const getDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSet",
+  telemetry: TELEMETRY,
+  span: "GetDataSet",
 }));
 
 export type GetEventActionError =
@@ -1525,7 +1571,7 @@ export type GetEventActionError =
  * This operation retrieves information about an event action.
  */
 export const getEventAction: API.OperationMethod<
-  GetEventActionRequest,
+  GetEventActionRequest & RegionInput,
   GetEventActionResponse,
   GetEventActionError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1587,8 @@ export const getEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventAction",
+  telemetry: TELEMETRY,
+  span: "GetEventAction",
 }));
 
 export type GetJobError =
@@ -1553,7 +1601,7 @@ export type GetJobError =
  * This operation returns information about a job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -1569,6 +1617,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetReceivedDataGrantError =
@@ -1582,7 +1632,7 @@ export type GetReceivedDataGrantError =
  * This operation returns information about a received data grant.
  */
 export const getReceivedDataGrant: API.OperationMethod<
-  GetReceivedDataGrantRequest,
+  GetReceivedDataGrantRequest & RegionInput,
   GetReceivedDataGrantResponse,
   GetReceivedDataGrantError,
   Credentials | HttpClient.HttpClient
@@ -1599,6 +1649,8 @@ export const getReceivedDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReceivedDataGrant",
+  telemetry: TELEMETRY,
+  span: "GetReceivedDataGrant",
 }));
 
 export type GetRevisionError =
@@ -1611,7 +1663,7 @@ export type GetRevisionError =
  * This operation returns information about a revision.
  */
 export const getRevision: API.OperationMethod<
-  GetRevisionRequest,
+  GetRevisionRequest & RegionInput,
   GetRevisionResponse,
   GetRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1627,6 +1679,8 @@ export const getRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevision",
+  telemetry: TELEMETRY,
+  span: "GetRevision",
 }));
 
 export type ListDataGrantsError =
@@ -1640,7 +1694,7 @@ export type ListDataGrantsError =
  * This operation returns information about all data grants.
  */
 export const listDataGrants: API.PaginatedOperationMethod<
-  ListDataGrantsRequest,
+  ListDataGrantsRequest & RegionInput,
   ListDataGrantsResponse,
   ListDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1664,6 +1718,8 @@ export const listDataGrants: API.PaginatedOperationMethod<
     items: "DataGrantSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataGrants",
 })) as any;
 
 export type ListDataSetRevisionsError =
@@ -1676,7 +1732,7 @@ export type ListDataSetRevisionsError =
  * This operation lists a data set's revisions sorted by CreatedAt in descending order.
  */
 export const listDataSetRevisions: API.PaginatedOperationMethod<
-  ListDataSetRevisionsRequest,
+  ListDataSetRevisionsRequest & RegionInput,
   ListDataSetRevisionsResponse,
   ListDataSetRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1699,6 +1755,8 @@ export const listDataSetRevisions: API.PaginatedOperationMethod<
     items: "Revisions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSetRevisions",
 })) as any;
 
 export type ListDataSetsError =
@@ -1711,7 +1769,7 @@ export type ListDataSetsError =
  * This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
  */
 export const listDataSets: API.PaginatedOperationMethod<
-  ListDataSetsRequest,
+  ListDataSetsRequest & RegionInput,
   ListDataSetsResponse,
   ListDataSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1734,6 +1792,8 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "DataSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSets",
 })) as any;
 
 export type ListEventActionsError =
@@ -1746,7 +1806,7 @@ export type ListEventActionsError =
  * This operation lists your event actions.
  */
 export const listEventActions: API.PaginatedOperationMethod<
-  ListEventActionsRequest,
+  ListEventActionsRequest & RegionInput,
   ListEventActionsResponse,
   ListEventActionsError,
   Credentials | HttpClient.HttpClient,
@@ -1769,6 +1829,8 @@ export const listEventActions: API.PaginatedOperationMethod<
     items: "EventActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventActions",
 })) as any;
 
 export type ListJobsError =
@@ -1781,7 +1843,7 @@ export type ListJobsError =
  * This operation lists your jobs sorted by CreatedAt in descending order.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1804,6 +1866,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListReceivedDataGrantsError =
@@ -1817,7 +1881,7 @@ export type ListReceivedDataGrantsError =
  * This operation returns information about all received data grants.
  */
 export const listReceivedDataGrants: API.PaginatedOperationMethod<
-  ListReceivedDataGrantsRequest,
+  ListReceivedDataGrantsRequest & RegionInput,
   ListReceivedDataGrantsResponse,
   ListReceivedDataGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -1841,6 +1905,8 @@ export const listReceivedDataGrants: API.PaginatedOperationMethod<
     items: "DataGrantSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReceivedDataGrants",
 })) as any;
 
 export type ListRevisionAssetsError =
@@ -1853,7 +1919,7 @@ export type ListRevisionAssetsError =
  * This operation lists a revision's assets sorted alphabetically in descending order.
  */
 export const listRevisionAssets: API.PaginatedOperationMethod<
-  ListRevisionAssetsRequest,
+  ListRevisionAssetsRequest & RegionInput,
   ListRevisionAssetsResponse,
   ListRevisionAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1876,6 +1942,8 @@ export const listRevisionAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRevisionAssets",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1883,7 +1951,7 @@ export type ListTagsForResourceError = CommonErrors;
  * This operation lists the tags on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1894,6 +1962,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RevokeRevisionError =
@@ -1908,7 +1978,7 @@ export type RevokeRevisionError =
  * This operation revokes subscribers' access to a revision.
  */
 export const revokeRevision: API.OperationMethod<
-  RevokeRevisionRequest,
+  RevokeRevisionRequest & RegionInput,
   RevokeRevisionResponse,
   RevokeRevisionError,
   Credentials | HttpClient.HttpClient
@@ -1926,6 +1996,8 @@ export const revokeRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRevision",
+  telemetry: TELEMETRY,
+  span: "RevokeRevision",
 }));
 
 export type SendApiAssetError =
@@ -1939,7 +2011,7 @@ export type SendApiAssetError =
  * This operation invokes an API Gateway API asset. The request is proxied to the provider's API Gateway API.
  */
 export const sendApiAsset: API.OperationMethod<
-  SendApiAssetRequest,
+  SendApiAssetRequest & RegionInput,
   SendApiAssetResponse,
   SendApiAssetError,
   Credentials | HttpClient.HttpClient
@@ -1957,6 +2029,8 @@ export const sendApiAsset: API.OperationMethod<
   retry: Retry,
   operationName: "SendApiAsset",
   endpointHostPrefix: "api-fulfill.",
+  telemetry: TELEMETRY,
+  span: "SendApiAsset",
 }));
 
 export type SendDataSetNotificationError =
@@ -1971,7 +2045,7 @@ export type SendDataSetNotificationError =
  * The type of event associated with the data set.
  */
 export const sendDataSetNotification: API.OperationMethod<
-  SendDataSetNotificationRequest,
+  SendDataSetNotificationRequest & RegionInput,
   SendDataSetNotificationResponse,
   SendDataSetNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1989,6 +2063,8 @@ export const sendDataSetNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataSetNotification",
+  telemetry: TELEMETRY,
+  span: "SendDataSetNotification",
 }));
 
 export type StartJobError =
@@ -2003,7 +2079,7 @@ export type StartJobError =
  * This operation starts a job.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -2021,6 +2097,8 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -2028,7 +2106,7 @@ export type TagResourceError = CommonErrors;
  * This operation tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2039,6 +2117,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -2046,7 +2126,7 @@ export type UntagResourceError = CommonErrors;
  * This operation removes one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2057,6 +2137,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAssetError =
@@ -2071,7 +2153,7 @@ export type UpdateAssetError =
  * This operation updates an asset.
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -2089,6 +2171,8 @@ export const updateAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAsset",
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateDataSetError =
@@ -2102,7 +2186,7 @@ export type UpdateDataSetError =
  * This operation updates a data set.
  */
 export const updateDataSet: API.OperationMethod<
-  UpdateDataSetRequest,
+  UpdateDataSetRequest & RegionInput,
   UpdateDataSetResponse,
   UpdateDataSetError,
   Credentials | HttpClient.HttpClient
@@ -2119,6 +2203,8 @@ export const updateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSet",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSet",
 }));
 
 export type UpdateEventActionError =
@@ -2132,7 +2218,7 @@ export type UpdateEventActionError =
  * This operation updates the event action.
  */
 export const updateEventAction: API.OperationMethod<
-  UpdateEventActionRequest,
+  UpdateEventActionRequest & RegionInput,
   UpdateEventActionResponse,
   UpdateEventActionError,
   Credentials | HttpClient.HttpClient
@@ -2149,6 +2235,8 @@ export const updateEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventAction",
+  telemetry: TELEMETRY,
+  span: "UpdateEventAction",
 }));
 
 export type UpdateRevisionError =
@@ -2163,7 +2251,7 @@ export type UpdateRevisionError =
  * This operation updates a revision.
  */
 export const updateRevision: API.OperationMethod<
-  UpdateRevisionRequest,
+  UpdateRevisionRequest & RegionInput,
   UpdateRevisionResponse,
   UpdateRevisionError,
   Credentials | HttpClient.HttpClient
@@ -2181,6 +2269,8 @@ export const updateRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRevision",
+  telemetry: TELEMETRY,
+  span: "UpdateRevision",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

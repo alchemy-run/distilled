@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resource-groups.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ResourceGroups",
+  service: "ResourceGroups",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -543,7 +559,7 @@ export type CancelTagSyncTaskError =
  * - `resource-groups:DeleteGroup`
  */
 export const cancelTagSyncTask: API.OperationMethod<
-  CancelTagSyncTaskInput,
+  CancelTagSyncTaskInput & RegionInput,
   CancelTagSyncTaskResponse,
   CancelTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -561,6 +577,8 @@ export const cancelTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "CancelTagSyncTask",
 }));
 
 export type CreateGroupError =
@@ -585,7 +603,7 @@ export type CreateGroupError =
  * - `resource-groups:CreateGroup`
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupInput,
+  CreateGroupInput & RegionInput,
   CreateGroupOutput,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -603,6 +621,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type DeleteGroupError =
@@ -624,7 +644,7 @@ export type DeleteGroupError =
  * - `resource-groups:DeleteGroup`
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupInput,
+  DeleteGroupInput & RegionInput,
   DeleteGroupOutput,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -642,6 +662,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type GetAccountSettingsError =
@@ -655,7 +677,7 @@ export type GetAccountSettingsError =
  * Retrieves the current status of optional features in Resource Groups.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsOutput,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -672,6 +694,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetGroupError =
@@ -692,7 +716,7 @@ export type GetGroupError =
  * - `resource-groups:GetGroup`
  */
 export const getGroup: API.OperationMethod<
-  GetGroupInput,
+  GetGroupInput & RegionInput,
   GetGroupOutput,
   GetGroupError,
   Credentials | HttpClient.HttpClient
@@ -710,6 +734,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupConfigurationError =
@@ -731,7 +757,7 @@ export type GetGroupConfigurationError =
  * - `resource-groups:GetGroupConfiguration`
  */
 export const getGroupConfiguration: API.OperationMethod<
-  GetGroupConfigurationInput,
+  GetGroupConfigurationInput & RegionInput,
   GetGroupConfigurationOutput,
   GetGroupConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -749,6 +775,8 @@ export const getGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetGroupConfiguration",
 }));
 
 export type GetGroupQueryError =
@@ -771,7 +799,7 @@ export type GetGroupQueryError =
  * - `resource-groups:GetGroupQuery`
  */
 export const getGroupQuery: API.OperationMethod<
-  GetGroupQueryInput,
+  GetGroupQueryInput & RegionInput,
   GetGroupQueryOutput,
   GetGroupQueryError,
   Credentials | HttpClient.HttpClient
@@ -789,6 +817,8 @@ export const getGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupQuery",
+  telemetry: TELEMETRY,
+  span: "GetGroupQuery",
 }));
 
 export type GetTagsError =
@@ -810,7 +840,7 @@ export type GetTagsError =
  * - `resource-groups:GetTags`
  */
 export const getTags: API.OperationMethod<
-  GetTagsInput,
+  GetTagsInput & RegionInput,
   GetTagsOutput,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -828,6 +858,8 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetTagSyncTaskError =
@@ -849,7 +881,7 @@ export type GetTagSyncTaskError =
  * - `resource-groups:GetTagSyncTask` on the application group
  */
 export const getTagSyncTask: API.OperationMethod<
-  GetTagSyncTaskInput,
+  GetTagSyncTaskInput & RegionInput,
   GetTagSyncTaskOutput,
   GetTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -868,6 +900,8 @@ export const getTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "GetTagSyncTask",
 }));
 
 export type GroupResourcesError =
@@ -899,7 +933,7 @@ export type GroupResourcesError =
  * - `resource-groups:GroupResources`
  */
 export const groupResources: API.OperationMethod<
-  GroupResourcesInput,
+  GroupResourcesInput & RegionInput,
   GroupResourcesOutput,
   GroupResourcesError,
   Credentials | HttpClient.HttpClient
@@ -917,6 +951,8 @@ export const groupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GroupResources",
+  telemetry: TELEMETRY,
+  span: "GroupResources",
 }));
 
 export type ListGroupingStatusesError =
@@ -932,7 +968,7 @@ export type ListGroupingStatusesError =
  * each resource in the specified application group.
  */
 export const listGroupingStatuses: API.PaginatedOperationMethod<
-  ListGroupingStatusesInput,
+  ListGroupingStatusesInput & RegionInput,
   ListGroupingStatusesOutput,
   ListGroupingStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -957,6 +993,8 @@ export const listGroupingStatuses: API.PaginatedOperationMethod<
     items: "GroupingStatuses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupingStatuses",
 })) as any;
 
 export type ListGroupResourcesError =
@@ -985,7 +1023,7 @@ export type ListGroupResourcesError =
  * - `tag:GetResources`
  */
 export const listGroupResources: API.PaginatedOperationMethod<
-  ListGroupResourcesInput,
+  ListGroupResourcesInput & RegionInput,
   ListGroupResourcesOutput,
   ListGroupResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1011,6 +1049,8 @@ export const listGroupResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupResources",
 })) as any;
 
 export type ListGroupsError =
@@ -1030,7 +1070,7 @@ export type ListGroupsError =
  * - `resource-groups:ListGroups`
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsInput,
+  ListGroupsInput & RegionInput,
   ListGroupsOutput,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1054,6 +1094,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "GroupIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListTagSyncTasksError =
@@ -1075,7 +1117,7 @@ export type ListTagSyncTasksError =
  * or * if using no filters
  */
 export const listTagSyncTasks: API.PaginatedOperationMethod<
-  ListTagSyncTasksInput,
+  ListTagSyncTasksInput & RegionInput,
   ListTagSyncTasksOutput,
   ListTagSyncTasksError,
   Credentials | HttpClient.HttpClient,
@@ -1100,6 +1142,8 @@ export const listTagSyncTasks: API.PaginatedOperationMethod<
     items: "TagSyncTasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagSyncTasks",
 })) as any;
 
 export type PutGroupConfigurationError =
@@ -1122,7 +1166,7 @@ export type PutGroupConfigurationError =
  * - `resource-groups:PutGroupConfiguration`
  */
 export const putGroupConfiguration: API.OperationMethod<
-  PutGroupConfigurationInput,
+  PutGroupConfigurationInput & RegionInput,
   PutGroupConfigurationOutput,
   PutGroupConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1140,6 +1184,8 @@ export const putGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutGroupConfiguration",
 }));
 
 export type SearchResourcesError =
@@ -1168,7 +1214,7 @@ export type SearchResourcesError =
  * - `tag:GetResources`
  */
 export const searchResources: API.PaginatedOperationMethod<
-  SearchResourcesInput,
+  SearchResourcesInput & RegionInput,
   SearchResourcesOutput,
   SearchResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1193,6 +1239,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type StartTagSyncTaskError =
@@ -1224,7 +1272,7 @@ export type StartTagSyncTaskError =
  * - `iam:PassRole` on the role provided in the request
  */
 export const startTagSyncTask: API.OperationMethod<
-  StartTagSyncTaskInput,
+  StartTagSyncTaskInput & RegionInput,
   StartTagSyncTaskOutput,
   StartTagSyncTaskError,
   Credentials | HttpClient.HttpClient
@@ -1243,6 +1291,8 @@ export const startTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "StartTagSyncTask",
 }));
 
 export type TagError =
@@ -1269,7 +1319,7 @@ export type TagError =
  * - `resource-groups:Tag`
  */
 export const tag: API.OperationMethod<
-  TagInput,
+  TagInput & RegionInput,
   TagOutput,
   TagError,
   Credentials | HttpClient.HttpClient
@@ -1287,6 +1337,8 @@ export const tag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Tag",
+  telemetry: TELEMETRY,
+  span: "Tag",
 }));
 
 export type UngroupResourcesError =
@@ -1310,7 +1362,7 @@ export type UngroupResourcesError =
  * - `resource-groups:UngroupResources`
  */
 export const ungroupResources: API.OperationMethod<
-  UngroupResourcesInput,
+  UngroupResourcesInput & RegionInput,
   UngroupResourcesOutput,
   UngroupResourcesError,
   Credentials | HttpClient.HttpClient
@@ -1328,6 +1380,8 @@ export const ungroupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UngroupResources",
+  telemetry: TELEMETRY,
+  span: "UngroupResources",
 }));
 
 export type UntagError =
@@ -1348,7 +1402,7 @@ export type UntagError =
  * - `resource-groups:Untag`
  */
 export const untag: API.OperationMethod<
-  UntagInput,
+  UntagInput & RegionInput,
   UntagOutput,
   UntagError,
   Credentials | HttpClient.HttpClient
@@ -1366,6 +1420,8 @@ export const untag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Untag",
+  telemetry: TELEMETRY,
+  span: "Untag",
 }));
 
 export type UpdateAccountSettingsError =
@@ -1384,7 +1440,7 @@ export type UpdateAccountSettingsError =
  * to change to `ACTIVE`.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsInput,
+  UpdateAccountSettingsInput & RegionInput,
   UpdateAccountSettingsOutput,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1401,6 +1457,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateGroupError =
@@ -1422,7 +1480,7 @@ export type UpdateGroupError =
  * - `resource-groups:UpdateGroup`
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupInput,
+  UpdateGroupInput & RegionInput,
   UpdateGroupOutput,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1440,6 +1498,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupQueryError =
@@ -1461,7 +1521,7 @@ export type UpdateGroupQueryError =
  * - `resource-groups:UpdateGroupQuery`
  */
 export const updateGroupQuery: API.OperationMethod<
-  UpdateGroupQueryInput,
+  UpdateGroupQueryInput & RegionInput,
   UpdateGroupQueryOutput,
   UpdateGroupQueryError,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1539,8 @@ export const updateGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

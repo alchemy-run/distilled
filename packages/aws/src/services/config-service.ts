@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://config.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConfigService",
+  service: "ConfigService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
@@ -2775,7 +2792,7 @@ export type AssociateResourceTypesError =
  * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
 export const associateResourceTypes: API.OperationMethod<
-  AssociateResourceTypesRequest,
+  AssociateResourceTypesRequest & RegionInput,
   AssociateResourceTypesResponse,
   AssociateResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -2786,6 +2803,8 @@ export const associateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceTypes",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceTypes",
 }));
 
 export type BatchGetAggregateResourceConfigError =
@@ -2801,7 +2820,7 @@ export type BatchGetAggregateResourceConfigError =
  * - The API does not return tags and relationships.
  */
 export const batchGetAggregateResourceConfig: API.OperationMethod<
-  BatchGetAggregateResourceConfigRequest,
+  BatchGetAggregateResourceConfigRequest & RegionInput,
   BatchGetAggregateResourceConfigResponse,
   BatchGetAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -2812,6 +2831,8 @@ export const batchGetAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAggregateResourceConfig",
+  telemetry: TELEMETRY,
+  span: "BatchGetAggregateResourceConfig",
 }));
 
 export type BatchGetResourceConfigError =
@@ -2834,7 +2855,7 @@ export type BatchGetResourceConfigError =
  * response.
  */
 export const batchGetResourceConfig: API.OperationMethod<
-  BatchGetResourceConfigRequest,
+  BatchGetResourceConfigRequest & RegionInput,
   BatchGetResourceConfigResponse,
   BatchGetResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -2845,6 +2866,8 @@ export const batchGetResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetResourceConfig",
+  telemetry: TELEMETRY,
+  span: "BatchGetResourceConfig",
 }));
 
 export type DeleteAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
@@ -2853,7 +2876,7 @@ export type DeleteAggregationAuthorizationError = InvalidParameterValueException
  * configuration aggregator account in a specified region.
  */
 export const deleteAggregationAuthorization: API.OperationMethod<
-  DeleteAggregationAuthorizationRequest,
+  DeleteAggregationAuthorizationRequest & RegionInput,
   DeleteAggregationAuthorizationResponse,
   DeleteAggregationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -2864,6 +2887,8 @@ export const deleteAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregationAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteAggregationAuthorization",
 }));
 
 export type DeleteConfigRuleError =
@@ -2896,7 +2921,7 @@ export type DeleteConfigRuleError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteConfigRule: API.OperationMethod<
-  DeleteConfigRuleRequest,
+  DeleteConfigRuleRequest & RegionInput,
   DeleteConfigRuleResponse,
   DeleteConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -2907,6 +2932,8 @@ export const deleteConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigRule",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigRule",
 }));
 
 export type DeleteConfigurationAggregatorError =
@@ -2917,7 +2944,7 @@ export type DeleteConfigurationAggregatorError =
  * aggregated data associated with the aggregator.
  */
 export const deleteConfigurationAggregator: API.OperationMethod<
-  DeleteConfigurationAggregatorRequest,
+  DeleteConfigurationAggregatorRequest & RegionInput,
   DeleteConfigurationAggregatorResponse,
   DeleteConfigurationAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -2928,6 +2955,8 @@ export const deleteConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationAggregator",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAggregator",
 }));
 
 export type DeleteConfigurationRecorderError =
@@ -2945,7 +2974,7 @@ export type DeleteConfigurationRecorderError =
  * you have created a new customer managed configuration recorder.
  */
 export const deleteConfigurationRecorder: API.OperationMethod<
-  DeleteConfigurationRecorderRequest,
+  DeleteConfigurationRecorderRequest & RegionInput,
   DeleteConfigurationRecorderResponse,
   DeleteConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -2956,6 +2985,8 @@ export const deleteConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationRecorder",
 }));
 
 export type DeleteConformancePackError =
@@ -2982,7 +3013,7 @@ export type DeleteConformancePackError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteConformancePack: API.OperationMethod<
-  DeleteConformancePackRequest,
+  DeleteConformancePackRequest & RegionInput,
   DeleteConformancePackResponse,
   DeleteConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -2993,6 +3024,8 @@ export const deleteConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConformancePack",
+  telemetry: TELEMETRY,
+  span: "DeleteConformancePack",
 }));
 
 export type DeleteConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -3000,7 +3033,7 @@ export type DeleteConnectorError = ResourceNotFoundException | ValidationExcepti
  * Deletes the specified connector.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3011,6 +3044,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteDeliveryChannelError =
@@ -3023,7 +3058,7 @@ export type DeleteDeliveryChannelError =
  * Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
  */
 export const deleteDeliveryChannel: API.OperationMethod<
-  DeleteDeliveryChannelRequest,
+  DeleteDeliveryChannelRequest & RegionInput,
   DeleteDeliveryChannelResponse,
   DeleteDeliveryChannelError,
   Credentials | HttpClient.HttpClient
@@ -3034,6 +3069,8 @@ export const deleteDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteDeliveryChannel",
 }));
 
 export type DeleteEvaluationResultsError =
@@ -3047,7 +3084,7 @@ export type DeleteEvaluationResultsError =
  * your Amazon Web Services resources against the rule.
  */
 export const deleteEvaluationResults: API.OperationMethod<
-  DeleteEvaluationResultsRequest,
+  DeleteEvaluationResultsRequest & RegionInput,
   DeleteEvaluationResultsResponse,
   DeleteEvaluationResultsError,
   Credentials | HttpClient.HttpClient
@@ -3058,6 +3095,8 @@ export const deleteEvaluationResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationResults",
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluationResults",
 }));
 
 export type DeleteOrganizationConfigRuleError =
@@ -3088,7 +3127,7 @@ export type DeleteOrganizationConfigRuleError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteOrganizationConfigRule: API.OperationMethod<
-  DeleteOrganizationConfigRuleRequest,
+  DeleteOrganizationConfigRuleRequest & RegionInput,
   DeleteOrganizationConfigRuleResponse,
   DeleteOrganizationConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3142,8 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConfigRule",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationConfigRule",
 }));
 
 export type DeleteOrganizationConformancePackError =
@@ -3134,7 +3175,7 @@ export type DeleteOrganizationConformancePackError =
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource's history.
  */
 export const deleteOrganizationConformancePack: API.OperationMethod<
-  DeleteOrganizationConformancePackRequest,
+  DeleteOrganizationConformancePackRequest & RegionInput,
   DeleteOrganizationConformancePackResponse,
   DeleteOrganizationConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -3149,6 +3190,8 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConformancePack",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationConformancePack",
 }));
 
 export type DeletePendingAggregationRequestError = InvalidParameterValueException | CommonErrors;
@@ -3157,7 +3200,7 @@ export type DeletePendingAggregationRequestError = InvalidParameterValueExceptio
  * aggregator account in a specified region.
  */
 export const deletePendingAggregationRequest: API.OperationMethod<
-  DeletePendingAggregationRequestRequest,
+  DeletePendingAggregationRequestRequest & RegionInput,
   DeletePendingAggregationRequestResponse,
   DeletePendingAggregationRequestError,
   Credentials | HttpClient.HttpClient
@@ -3168,6 +3211,8 @@ export const deletePendingAggregationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePendingAggregationRequest",
+  telemetry: TELEMETRY,
+  span: "DeletePendingAggregationRequest",
 }));
 
 export type DeleteRemediationConfigurationError =
@@ -3180,7 +3225,7 @@ export type DeleteRemediationConfigurationError =
  * Deletes the remediation configuration.
  */
 export const deleteRemediationConfiguration: API.OperationMethod<
-  DeleteRemediationConfigurationRequest,
+  DeleteRemediationConfigurationRequest & RegionInput,
   DeleteRemediationConfigurationResponse,
   DeleteRemediationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3196,6 +3241,8 @@ export const deleteRemediationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationConfiguration",
 }));
 
 export type DeleteRemediationExceptionsError = NoSuchRemediationExceptionException | CommonErrors;
@@ -3206,7 +3253,7 @@ export type DeleteRemediationExceptionsError = NoSuchRemediationExceptionExcepti
  * Remediation exceptions blocks auto-remediation until the exception is cleared.
  */
 export const deleteRemediationExceptions: API.OperationMethod<
-  DeleteRemediationExceptionsRequest,
+  DeleteRemediationExceptionsRequest & RegionInput,
   DeleteRemediationExceptionsResponse,
   DeleteRemediationExceptionsError,
   Credentials | HttpClient.HttpClient
@@ -3217,6 +3264,8 @@ export const deleteRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationExceptions",
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationExceptions",
 }));
 
 export type DeleteResourceConfigError =
@@ -3227,7 +3276,7 @@ export type DeleteResourceConfigError =
  * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
  */
 export const deleteResourceConfig: API.OperationMethod<
-  DeleteResourceConfigRequest,
+  DeleteResourceConfigRequest & RegionInput,
   DeleteResourceConfigResponse,
   DeleteResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -3238,6 +3287,8 @@ export const deleteResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceConfig",
 }));
 
 export type DeleteRetentionConfigurationError =
@@ -3248,7 +3299,7 @@ export type DeleteRetentionConfigurationError =
  * Deletes the retention configuration.
  */
 export const deleteRetentionConfiguration: API.OperationMethod<
-  DeleteRetentionConfigurationRequest,
+  DeleteRetentionConfigurationRequest & RegionInput,
   DeleteRetentionConfigurationResponse,
   DeleteRetentionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3259,6 +3310,8 @@ export const deleteRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRetentionConfiguration",
 }));
 
 export type DeleteServiceLinkedConfigurationRecorderError =
@@ -3280,7 +3333,7 @@ export type DeleteServiceLinkedConfigurationRecorderError =
  * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
  */
 export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
-  DeleteServiceLinkedConfigurationRecorderRequest,
+  DeleteServiceLinkedConfigurationRecorderRequest & RegionInput,
   DeleteServiceLinkedConfigurationRecorderResponse,
   DeleteServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -3291,6 +3344,8 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLinkedConfigurationRecorder",
 }));
 
 export type DeleteStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -3298,7 +3353,7 @@ export type DeleteStoredQueryError = ResourceNotFoundException | ValidationExcep
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
 export const deleteStoredQuery: API.OperationMethod<
-  DeleteStoredQueryRequest,
+  DeleteStoredQueryRequest & RegionInput,
   DeleteStoredQueryResponse,
   DeleteStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -3309,6 +3364,8 @@ export const deleteStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStoredQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteStoredQuery",
 }));
 
 export type DeliverConfigSnapshotError =
@@ -3331,7 +3388,7 @@ export type DeliverConfigSnapshotError =
  * failed.
  */
 export const deliverConfigSnapshot: API.OperationMethod<
-  DeliverConfigSnapshotRequest,
+  DeliverConfigSnapshotRequest & RegionInput,
   DeliverConfigSnapshotResponse,
   DeliverConfigSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -3346,6 +3403,8 @@ export const deliverConfigSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeliverConfigSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeliverConfigSnapshot",
 }));
 
 export type DescribeAggregateComplianceByConfigRulesError =
@@ -3363,7 +3422,7 @@ export type DescribeAggregateComplianceByConfigRulesError =
  * page.
  */
 export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMethod<
-  DescribeAggregateComplianceByConfigRulesRequest,
+  DescribeAggregateComplianceByConfigRulesRequest & RegionInput,
   DescribeAggregateComplianceByConfigRulesResponse,
   DescribeAggregateComplianceByConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3381,6 +3440,8 @@ export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMet
   retry: Retry,
   operationName: "DescribeAggregateComplianceByConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregateComplianceByConfigRules",
 })) as any;
 
 export type DescribeAggregateComplianceByConformancePacksError =
@@ -3396,7 +3457,7 @@ export type DescribeAggregateComplianceByConformancePacksError =
  * The results can return an empty result page, but if you have a `nextToken`, the results are displayed on the next page.
  */
 export const describeAggregateComplianceByConformancePacks: API.PaginatedOperationMethod<
-  DescribeAggregateComplianceByConformancePacksRequest,
+  DescribeAggregateComplianceByConformancePacksRequest & RegionInput,
   DescribeAggregateComplianceByConformancePacksResponse,
   DescribeAggregateComplianceByConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -3427,6 +3488,8 @@ export const describeAggregateComplianceByConformancePacks: API.PaginatedOperati
     items: "AggregateComplianceByConformancePacks",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregateComplianceByConformancePacks",
 })) as any;
 
 export type DescribeAggregationAuthorizationsError =
@@ -3439,7 +3502,7 @@ export type DescribeAggregationAuthorizationsError =
  * accounts and regions.
  */
 export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
-  DescribeAggregationAuthorizationsRequest,
+  DescribeAggregationAuthorizationsRequest & RegionInput,
   DescribeAggregationAuthorizationsResponse,
   DescribeAggregationAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -3457,6 +3520,8 @@ export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
     items: "AggregationAuthorizations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregationAuthorizations",
 })) as any;
 
 export type DescribeComplianceByConfigRuleError =
@@ -3497,7 +3562,7 @@ export type DescribeComplianceByConfigRuleError =
  * the rule's scope.
  */
 export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
-  DescribeComplianceByConfigRuleRequest,
+  DescribeComplianceByConfigRuleRequest & RegionInput,
   DescribeComplianceByConfigRuleResponse,
   DescribeComplianceByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -3514,6 +3579,8 @@ export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ComplianceByConfigRules",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComplianceByConfigRule",
 })) as any;
 
 export type DescribeComplianceByResourceError =
@@ -3553,7 +3620,7 @@ export type DescribeComplianceByResourceError =
  * the rule's scope.
  */
 export const describeComplianceByResource: API.PaginatedOperationMethod<
-  DescribeComplianceByResourceRequest,
+  DescribeComplianceByResourceRequest & RegionInput,
   DescribeComplianceByResourceResponse,
   DescribeComplianceByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3571,6 +3638,8 @@ export const describeComplianceByResource: API.PaginatedOperationMethod<
     items: "ComplianceByResources",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComplianceByResource",
 })) as any;
 
 export type DescribeConfigRuleEvaluationStatusError =
@@ -3583,7 +3652,7 @@ export type DescribeConfigRuleEvaluationStatusError =
  * the rule, and the related error for the last failure.
  */
 export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
-  DescribeConfigRuleEvaluationStatusRequest,
+  DescribeConfigRuleEvaluationStatusRequest & RegionInput,
   DescribeConfigRuleEvaluationStatusResponse,
   DescribeConfigRuleEvaluationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3601,6 +3670,8 @@ export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
     items: "ConfigRulesEvaluationStatus",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigRuleEvaluationStatus",
 })) as any;
 
 export type DescribeConfigRulesError =
@@ -3612,7 +3683,7 @@ export type DescribeConfigRulesError =
  * Returns details about your Config rules.
  */
 export const describeConfigRules: API.PaginatedOperationMethod<
-  DescribeConfigRulesRequest,
+  DescribeConfigRulesRequest & RegionInput,
   DescribeConfigRulesResponse,
   DescribeConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3625,6 +3696,8 @@ export const describeConfigRules: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "ConfigRules" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigRules",
 })) as any;
 
 export type DescribeConfigurationAggregatorsError =
@@ -3640,7 +3713,7 @@ export type DescribeConfigurationAggregatorsError =
  * with the account.
  */
 export const describeConfigurationAggregators: API.PaginatedOperationMethod<
-  DescribeConfigurationAggregatorsRequest,
+  DescribeConfigurationAggregatorsRequest & RegionInput,
   DescribeConfigurationAggregatorsResponse,
   DescribeConfigurationAggregatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3663,6 +3736,8 @@ export const describeConfigurationAggregators: API.PaginatedOperationMethod<
     items: "ConfigurationAggregators",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationAggregators",
 })) as any;
 
 export type DescribeConfigurationAggregatorSourcesStatusError =
@@ -3676,7 +3751,7 @@ export type DescribeConfigurationAggregatorSourcesStatusError =
  * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
  */
 export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperationMethod<
-  DescribeConfigurationAggregatorSourcesStatusRequest,
+  DescribeConfigurationAggregatorSourcesStatusRequest & RegionInput,
   DescribeConfigurationAggregatorSourcesStatusResponse,
   DescribeConfigurationAggregatorSourcesStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3707,6 +3782,8 @@ export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperatio
     items: "AggregatedSourceStatusList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationAggregatorSourcesStatus",
 })) as any;
 
 export type DescribeConfigurationRecordersError =
@@ -3722,7 +3799,7 @@ export type DescribeConfigurationRecordersError =
  * When making a request to this operation, you can only specify one configuration recorder.
  */
 export const describeConfigurationRecorders: API.OperationMethod<
-  DescribeConfigurationRecordersRequest,
+  DescribeConfigurationRecordersRequest & RegionInput,
   DescribeConfigurationRecordersResponse,
   DescribeConfigurationRecordersError,
   Credentials | HttpClient.HttpClient
@@ -3733,6 +3810,8 @@ export const describeConfigurationRecorders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorders",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRecorders",
 }));
 
 export type DescribeConfigurationRecorderStatusError =
@@ -3751,7 +3830,7 @@ export type DescribeConfigurationRecorderStatusError =
  * When making a request to this operation, you can only specify one configuration recorder.
  */
 export const describeConfigurationRecorderStatus: API.OperationMethod<
-  DescribeConfigurationRecorderStatusRequest,
+  DescribeConfigurationRecorderStatusRequest & RegionInput,
   DescribeConfigurationRecorderStatusResponse,
   DescribeConfigurationRecorderStatusError,
   Credentials | HttpClient.HttpClient
@@ -3762,6 +3841,8 @@ export const describeConfigurationRecorderStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorderStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRecorderStatus",
 }));
 
 export type DescribeConformancePackComplianceError =
@@ -3777,7 +3858,7 @@ export type DescribeConformancePackComplianceError =
  * You must provide exact rule names.
  */
 export const describeConformancePackCompliance: API.PaginatedOperationMethod<
-  DescribeConformancePackComplianceRequest,
+  DescribeConformancePackComplianceRequest & RegionInput,
   DescribeConformancePackComplianceResponse,
   DescribeConformancePackComplianceError,
   Credentials | HttpClient.HttpClient,
@@ -3801,6 +3882,8 @@ export const describeConformancePackCompliance: API.PaginatedOperationMethod<
     items: "ConformancePackRuleComplianceList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePackCompliance",
 })) as any;
 
 export type DescribeConformancePacksError =
@@ -3813,7 +3896,7 @@ export type DescribeConformancePacksError =
  * Returns a list of one or more conformance packs.
  */
 export const describeConformancePacks: API.PaginatedOperationMethod<
-  DescribeConformancePacksRequest,
+  DescribeConformancePacksRequest & RegionInput,
   DescribeConformancePacksResponse,
   DescribeConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -3836,6 +3919,8 @@ export const describeConformancePacks: API.PaginatedOperationMethod<
     items: "ConformancePackDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePacks",
 })) as any;
 
 export type DescribeConformancePackStatusError =
@@ -3849,7 +3934,7 @@ export type DescribeConformancePackStatusError =
  * If there are no conformance packs then you will see an empty result.
  */
 export const describeConformancePackStatus: API.PaginatedOperationMethod<
-  DescribeConformancePackStatusRequest,
+  DescribeConformancePackStatusRequest & RegionInput,
   DescribeConformancePackStatusResponse,
   DescribeConformancePackStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3867,6 +3952,8 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
     items: "ConformancePackStatusDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePackStatus",
 })) as any;
 
 export type DescribeDeliveryChannelsError = NoSuchDeliveryChannelException | CommonErrors;
@@ -3879,7 +3966,7 @@ export type DescribeDeliveryChannelsError = NoSuchDeliveryChannelException | Com
  * region in your account.
  */
 export const describeDeliveryChannels: API.OperationMethod<
-  DescribeDeliveryChannelsRequest,
+  DescribeDeliveryChannelsRequest & RegionInput,
   DescribeDeliveryChannelsResponse,
   DescribeDeliveryChannelsError,
   Credentials | HttpClient.HttpClient
@@ -3890,6 +3977,8 @@ export const describeDeliveryChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannels",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryChannels",
 }));
 
 export type DescribeDeliveryChannelStatusError = NoSuchDeliveryChannelException | CommonErrors;
@@ -3903,7 +3992,7 @@ export type DescribeDeliveryChannelStatusError = NoSuchDeliveryChannelException 
  * region in your account.
  */
 export const describeDeliveryChannelStatus: API.OperationMethod<
-  DescribeDeliveryChannelStatusRequest,
+  DescribeDeliveryChannelStatusRequest & RegionInput,
   DescribeDeliveryChannelStatusResponse,
   DescribeDeliveryChannelStatusError,
   Credentials | HttpClient.HttpClient
@@ -3914,6 +4003,8 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannelStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryChannelStatus",
 }));
 
 export type DescribeOrganizationConfigRulesError =
@@ -3944,7 +4035,7 @@ export type DescribeOrganizationConfigRulesError =
  * those APIs.
  */
 export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
-  DescribeOrganizationConfigRulesRequest,
+  DescribeOrganizationConfigRulesRequest & RegionInput,
   DescribeOrganizationConfigRulesResponse,
   DescribeOrganizationConfigRulesError,
   Credentials | HttpClient.HttpClient,
@@ -3967,6 +4058,8 @@ export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
     items: "OrganizationConfigRules",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfigRules",
 })) as any;
 
 export type DescribeOrganizationConfigRuleStatusesError =
@@ -3986,7 +4079,7 @@ export type DescribeOrganizationConfigRuleStatusesError =
  * It is only applicable, when you request all the organization Config rules.
  */
 export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMethod<
-  DescribeOrganizationConfigRuleStatusesRequest,
+  DescribeOrganizationConfigRuleStatusesRequest & RegionInput,
   DescribeOrganizationConfigRuleStatusesResponse,
   DescribeOrganizationConfigRuleStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -4009,6 +4102,8 @@ export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMetho
     items: "OrganizationConfigRuleStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfigRuleStatuses",
 })) as any;
 
 export type DescribeOrganizationConformancePacksError =
@@ -4039,7 +4134,7 @@ export type DescribeOrganizationConformancePacksError =
  * those APIs.
  */
 export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
-  DescribeOrganizationConformancePacksRequest,
+  DescribeOrganizationConformancePacksRequest & RegionInput,
   DescribeOrganizationConformancePacksResponse,
   DescribeOrganizationConformancePacksError,
   Credentials | HttpClient.HttpClient,
@@ -4062,6 +4157,8 @@ export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
     items: "OrganizationConformancePacks",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConformancePacks",
 })) as any;
 
 export type DescribeOrganizationConformancePackStatusesError =
@@ -4081,7 +4178,7 @@ export type DescribeOrganizationConformancePackStatusesError =
  * They are only applicable, when you request all the organization conformance packs.
  */
 export const describeOrganizationConformancePackStatuses: API.PaginatedOperationMethod<
-  DescribeOrganizationConformancePackStatusesRequest,
+  DescribeOrganizationConformancePackStatusesRequest & RegionInput,
   DescribeOrganizationConformancePackStatusesResponse,
   DescribeOrganizationConformancePackStatusesError,
   Credentials | HttpClient.HttpClient,
@@ -4112,6 +4209,8 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
     items: "OrganizationConformancePackStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConformancePackStatuses",
 })) as any;
 
 export type DescribePendingAggregationRequestsError =
@@ -4123,7 +4222,7 @@ export type DescribePendingAggregationRequestsError =
  * Returns a list of all pending aggregation requests.
  */
 export const describePendingAggregationRequests: API.PaginatedOperationMethod<
-  DescribePendingAggregationRequestsRequest,
+  DescribePendingAggregationRequestsRequest & RegionInput,
   DescribePendingAggregationRequestsResponse,
   DescribePendingAggregationRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4141,6 +4240,8 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
     items: "PendingAggregationRequests",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePendingAggregationRequests",
 })) as any;
 
 export type DescribeRemediationConfigurationsError = CommonErrors;
@@ -4148,7 +4249,7 @@ export type DescribeRemediationConfigurationsError = CommonErrors;
  * Returns the details of one or more remediation configurations.
  */
 export const describeRemediationConfigurations: API.OperationMethod<
-  DescribeRemediationConfigurationsRequest,
+  DescribeRemediationConfigurationsRequest & RegionInput,
   DescribeRemediationConfigurationsResponse,
   DescribeRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -4159,6 +4260,8 @@ export const describeRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationConfigurations",
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationConfigurations",
 }));
 
 export type DescribeRemediationExceptionsError =
@@ -4177,7 +4280,7 @@ export type DescribeRemediationExceptionsError =
  * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
  */
 export const describeRemediationExceptions: API.PaginatedOperationMethod<
-  DescribeRemediationExceptionsRequest,
+  DescribeRemediationExceptionsRequest & RegionInput,
   DescribeRemediationExceptionsResponse,
   DescribeRemediationExceptionsError,
   Credentials | HttpClient.HttpClient,
@@ -4190,6 +4293,8 @@ export const describeRemediationExceptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeRemediationExceptions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationExceptions",
 })) as any;
 
 export type DescribeRemediationExecutionStatusError =
@@ -4202,7 +4307,7 @@ export type DescribeRemediationExecutionStatusError =
  * When you specify the limit and the next token, you receive a paginated response.
  */
 export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
-  DescribeRemediationExecutionStatusRequest,
+  DescribeRemediationExecutionStatusRequest & RegionInput,
   DescribeRemediationExecutionStatusResponse,
   DescribeRemediationExecutionStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4224,6 +4329,8 @@ export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
     items: "RemediationExecutionStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationExecutionStatus",
 })) as any;
 
 export type DescribeRetentionConfigurationsError =
@@ -4241,7 +4348,7 @@ export type DescribeRetentionConfigurationsError =
  * configuration per region in your account.
  */
 export const describeRetentionConfigurations: API.PaginatedOperationMethod<
-  DescribeRetentionConfigurationsRequest,
+  DescribeRetentionConfigurationsRequest & RegionInput,
   DescribeRetentionConfigurationsResponse,
   DescribeRetentionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4262,6 +4369,8 @@ export const describeRetentionConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RetentionConfigurations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRetentionConfigurations",
 })) as any;
 
 export type DisassociateResourceTypesError =
@@ -4275,7 +4384,7 @@ export type DisassociateResourceTypesError =
  * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
 export const disassociateResourceTypes: API.OperationMethod<
-  DisassociateResourceTypesRequest,
+  DisassociateResourceTypesRequest & RegionInput,
   DisassociateResourceTypesResponse,
   DisassociateResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -4286,6 +4395,8 @@ export const disassociateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceTypes",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceTypes",
 }));
 
 export type GetAggregateComplianceDetailsByConfigRuleError =
@@ -4305,7 +4416,7 @@ export type GetAggregateComplianceDetailsByConfigRuleError =
  * page.
  */
 export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
-  GetAggregateComplianceDetailsByConfigRuleRequest,
+  GetAggregateComplianceDetailsByConfigRuleRequest & RegionInput,
   GetAggregateComplianceDetailsByConfigRuleResponse,
   GetAggregateComplianceDetailsByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -4328,6 +4439,8 @@ export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMe
     items: "AggregateEvaluationResults",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateComplianceDetailsByConfigRule",
 })) as any;
 
 export type GetAggregateConfigRuleComplianceSummaryError =
@@ -4345,7 +4458,7 @@ export type GetAggregateConfigRuleComplianceSummaryError =
  * page.
  */
 export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMethod<
-  GetAggregateConfigRuleComplianceSummaryRequest,
+  GetAggregateConfigRuleComplianceSummaryRequest & RegionInput,
   GetAggregateConfigRuleComplianceSummaryResponse,
   GetAggregateConfigRuleComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4363,6 +4476,8 @@ export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMeth
   retry: Retry,
   operationName: "GetAggregateConfigRuleComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateConfigRuleComplianceSummary",
 })) as any;
 
 export type GetAggregateConformancePackComplianceSummaryError =
@@ -4377,7 +4492,7 @@ export type GetAggregateConformancePackComplianceSummaryError =
  * The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
  */
 export const getAggregateConformancePackComplianceSummary: API.PaginatedOperationMethod<
-  GetAggregateConformancePackComplianceSummaryRequest,
+  GetAggregateConformancePackComplianceSummaryRequest & RegionInput,
   GetAggregateConformancePackComplianceSummaryResponse,
   GetAggregateConformancePackComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4399,6 +4514,8 @@ export const getAggregateConformancePackComplianceSummary: API.PaginatedOperatio
   retry: Retry,
   operationName: "GetAggregateConformancePackComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateConformancePackComplianceSummary",
 })) as any;
 
 export type GetAggregateDiscoveredResourceCountsError =
@@ -4414,7 +4531,7 @@ export type GetAggregateDiscoveredResourceCountsError =
  * If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
  */
 export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
-  GetAggregateDiscoveredResourceCountsRequest,
+  GetAggregateDiscoveredResourceCountsRequest & RegionInput,
   GetAggregateDiscoveredResourceCountsResponse,
   GetAggregateDiscoveredResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -4432,6 +4549,8 @@ export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetAggregateDiscoveredResourceCounts",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateDiscoveredResourceCounts",
 })) as any;
 
 export type GetAggregateResourceConfigError =
@@ -4446,7 +4565,7 @@ export type GetAggregateResourceConfigError =
  * The API does not return results for deleted resources.
  */
 export const getAggregateResourceConfig: API.OperationMethod<
-  GetAggregateResourceConfigRequest,
+  GetAggregateResourceConfigRequest & RegionInput,
   GetAggregateResourceConfigResponse,
   GetAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -4462,6 +4581,8 @@ export const getAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateResourceConfig",
+  telemetry: TELEMETRY,
+  span: "GetAggregateResourceConfig",
 }));
 
 export type GetComplianceDetailsByConfigRuleError =
@@ -4476,7 +4597,7 @@ export type GetComplianceDetailsByConfigRuleError =
  * resource complies with the rule.
  */
 export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
-  GetComplianceDetailsByConfigRuleRequest,
+  GetComplianceDetailsByConfigRuleRequest & RegionInput,
   GetComplianceDetailsByConfigRuleResponse,
   GetComplianceDetailsByConfigRuleError,
   Credentials | HttpClient.HttpClient,
@@ -4494,6 +4615,8 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
     items: "EvaluationResults",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceDetailsByConfigRule",
 })) as any;
 
 export type GetComplianceDetailsByResourceError = InvalidParameterValueException | CommonErrors;
@@ -4504,7 +4627,7 @@ export type GetComplianceDetailsByResourceError = InvalidParameterValueException
  * complies with each rule.
  */
 export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
-  GetComplianceDetailsByResourceRequest,
+  GetComplianceDetailsByResourceRequest & RegionInput,
   GetComplianceDetailsByResourceResponse,
   GetComplianceDetailsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4521,6 +4644,8 @@ export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EvaluationResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceDetailsByResource",
 })) as any;
 
 export type GetComplianceSummaryByConfigRuleError = CommonErrors;
@@ -4529,7 +4654,7 @@ export type GetComplianceSummaryByConfigRuleError = CommonErrors;
  * noncompliant, up to a maximum of 25 for each.
  */
 export const getComplianceSummaryByConfigRule: API.OperationMethod<
-  GetComplianceSummaryByConfigRuleRequest,
+  GetComplianceSummaryByConfigRuleRequest & RegionInput,
   GetComplianceSummaryByConfigRuleResponse,
   GetComplianceSummaryByConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -4540,6 +4665,8 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByConfigRule",
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummaryByConfigRule",
 }));
 
 export type GetComplianceSummaryByResourceTypeError = InvalidParameterValueException | CommonErrors;
@@ -4550,7 +4677,7 @@ export type GetComplianceSummaryByResourceTypeError = InvalidParameterValueExcep
  * number returned is 100.
  */
 export const getComplianceSummaryByResourceType: API.OperationMethod<
-  GetComplianceSummaryByResourceTypeRequest,
+  GetComplianceSummaryByResourceTypeRequest & RegionInput,
   GetComplianceSummaryByResourceTypeResponse,
   GetComplianceSummaryByResourceTypeError,
   Credentials | HttpClient.HttpClient
@@ -4561,6 +4688,8 @@ export const getComplianceSummaryByResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByResourceType",
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummaryByResourceType",
 }));
 
 export type GetConformancePackComplianceDetailsError =
@@ -4574,7 +4703,7 @@ export type GetConformancePackComplianceDetailsError =
  * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
  */
 export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
-  GetConformancePackComplianceDetailsRequest,
+  GetConformancePackComplianceDetailsRequest & RegionInput,
   GetConformancePackComplianceDetailsResponse,
   GetConformancePackComplianceDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4593,6 +4722,8 @@ export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetConformancePackComplianceDetails",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetConformancePackComplianceDetails",
 })) as any;
 
 export type GetConformancePackComplianceSummaryError =
@@ -4604,7 +4735,7 @@ export type GetConformancePackComplianceSummaryError =
  * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
  */
 export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
-  GetConformancePackComplianceSummaryRequest,
+  GetConformancePackComplianceSummaryRequest & RegionInput,
   GetConformancePackComplianceSummaryResponse,
   GetConformancePackComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -4622,6 +4753,8 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
     items: "ConformancePackComplianceSummaryList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConformancePackComplianceSummary",
 })) as any;
 
 export type GetConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -4629,7 +4762,7 @@ export type GetConnectorError = ResourceNotFoundException | ValidationException 
  * Returns the details of the specified connector.
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4640,6 +4773,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetCustomRulePolicyError = NoSuchConfigRuleException | CommonErrors;
@@ -4647,7 +4782,7 @@ export type GetCustomRulePolicyError = NoSuchConfigRuleException | CommonErrors;
  * Returns the policy definition containing the logic for your Config Custom Policy rule.
  */
 export const getCustomRulePolicy: API.OperationMethod<
-  GetCustomRulePolicyRequest,
+  GetCustomRulePolicyRequest & RegionInput,
   GetCustomRulePolicyResponse,
   GetCustomRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4658,6 +4793,8 @@ export const getCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetCustomRulePolicy",
 }));
 
 export type GetDiscoveredResourceCountsError =
@@ -4711,7 +4848,7 @@ export type GetDiscoveredResourceCountsError =
  * GetDiscoveredResourceCounts action.
  */
 export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
-  GetDiscoveredResourceCountsRequest,
+  GetDiscoveredResourceCountsRequest & RegionInput,
   GetDiscoveredResourceCountsResponse,
   GetDiscoveredResourceCountsError,
   Credentials | HttpClient.HttpClient,
@@ -4724,6 +4861,8 @@ export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetDiscoveredResourceCounts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveredResourceCounts",
 })) as any;
 
 export type GetOrganizationConfigRuleDetailedStatusError =
@@ -4736,7 +4875,7 @@ export type GetOrganizationConfigRuleDetailedStatusError =
  * Returns detailed status for each member account within an organization for a given organization Config rule.
  */
 export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMethod<
-  GetOrganizationConfigRuleDetailedStatusRequest,
+  GetOrganizationConfigRuleDetailedStatusRequest & RegionInput,
   GetOrganizationConfigRuleDetailedStatusResponse,
   GetOrganizationConfigRuleDetailedStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4759,6 +4898,8 @@ export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMeth
     items: "OrganizationConfigRuleDetailedStatus",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConfigRuleDetailedStatus",
 })) as any;
 
 export type GetOrganizationConformancePackDetailedStatusError =
@@ -4771,7 +4912,7 @@ export type GetOrganizationConformancePackDetailedStatusError =
  * Returns detailed status for each member account within an organization for a given organization conformance pack.
  */
 export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperationMethod<
-  GetOrganizationConformancePackDetailedStatusRequest,
+  GetOrganizationConformancePackDetailedStatusRequest & RegionInput,
   GetOrganizationConformancePackDetailedStatusResponse,
   GetOrganizationConformancePackDetailedStatusError,
   Credentials | HttpClient.HttpClient,
@@ -4798,6 +4939,8 @@ export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperatio
     items: "OrganizationConformancePackDetailedStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConformancePackDetailedStatus",
 })) as any;
 
 export type GetOrganizationCustomRulePolicyError =
@@ -4808,7 +4951,7 @@ export type GetOrganizationCustomRulePolicyError =
  * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
  */
 export const getOrganizationCustomRulePolicy: API.OperationMethod<
-  GetOrganizationCustomRulePolicyRequest,
+  GetOrganizationCustomRulePolicyRequest & RegionInput,
   GetOrganizationCustomRulePolicyResponse,
   GetOrganizationCustomRulePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4819,6 +4962,8 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationCustomRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetOrganizationCustomRulePolicy",
 }));
 
 export type GetResourceConfigHistoryError =
@@ -4861,7 +5006,7 @@ export type GetResourceConfigHistoryError =
  * `nextToken`.
  */
 export const getResourceConfigHistory: API.PaginatedOperationMethod<
-  GetResourceConfigHistoryRequest,
+  GetResourceConfigHistoryRequest & RegionInput,
   GetResourceConfigHistoryResponse,
   GetResourceConfigHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -4886,6 +5031,8 @@ export const getResourceConfigHistory: API.PaginatedOperationMethod<
     items: "configurationItems",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceConfigHistory",
 })) as any;
 
 export type GetResourceEvaluationSummaryError = ResourceNotFoundException | CommonErrors;
@@ -4898,7 +5045,7 @@ export type GetResourceEvaluationSummaryError = ResourceNotFoundException | Comm
  * For more information, see the Examples section.
  */
 export const getResourceEvaluationSummary: API.OperationMethod<
-  GetResourceEvaluationSummaryRequest,
+  GetResourceEvaluationSummaryRequest & RegionInput,
   GetResourceEvaluationSummaryResponse,
   GetResourceEvaluationSummaryError,
   Credentials | HttpClient.HttpClient
@@ -4909,6 +5056,8 @@ export const getResourceEvaluationSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEvaluationSummary",
+  telemetry: TELEMETRY,
+  span: "GetResourceEvaluationSummary",
 }));
 
 export type GetStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -4916,7 +5065,7 @@ export type GetStoredQueryError = ResourceNotFoundException | ValidationExceptio
  * Returns the details of a specific stored query.
  */
 export const getStoredQuery: API.OperationMethod<
-  GetStoredQueryRequest,
+  GetStoredQueryRequest & RegionInput,
   GetStoredQueryResponse,
   GetStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -4927,6 +5076,8 @@ export const getStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStoredQuery",
+  telemetry: TELEMETRY,
+  span: "GetStoredQuery",
 }));
 
 export type ListAggregateDiscoveredResourcesError =
@@ -4943,7 +5094,7 @@ export type ListAggregateDiscoveredResourcesError =
  * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
  */
 export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
-  ListAggregateDiscoveredResourcesRequest,
+  ListAggregateDiscoveredResourcesRequest & RegionInput,
   ListAggregateDiscoveredResourcesResponse,
   ListAggregateDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4966,6 +5117,8 @@ export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregateDiscoveredResources",
 })) as any;
 
 export type ListConfigurationRecordersError = ValidationException | CommonErrors;
@@ -4973,7 +5126,7 @@ export type ListConfigurationRecordersError = ValidationException | CommonErrors
  * Returns a list of configuration recorders depending on the filters you specify.
  */
 export const listConfigurationRecorders: API.PaginatedOperationMethod<
-  ListConfigurationRecordersRequest,
+  ListConfigurationRecordersRequest & RegionInput,
   ListConfigurationRecordersResponse,
   ListConfigurationRecordersError,
   Credentials | HttpClient.HttpClient,
@@ -4991,6 +5144,8 @@ export const listConfigurationRecorders: API.PaginatedOperationMethod<
     items: "ConfigurationRecorderSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRecorders",
 })) as any;
 
 export type ListConformancePackComplianceScoresError =
@@ -5007,7 +5162,7 @@ export type ListConformancePackComplianceScoresError =
  * Conformance packs with no evaluation results will have a compliance score of `INSUFFICIENT_DATA`.
  */
 export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
-  ListConformancePackComplianceScoresRequest,
+  ListConformancePackComplianceScoresRequest & RegionInput,
   ListConformancePackComplianceScoresResponse,
   ListConformancePackComplianceScoresError,
   Credentials | HttpClient.HttpClient,
@@ -5020,6 +5175,8 @@ export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListConformancePackComplianceScores",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "ListConformancePackComplianceScores",
 })) as any;
 
 export type ListConnectorsError = ValidationException | CommonErrors;
@@ -5027,7 +5184,7 @@ export type ListConnectorsError = ValidationException | CommonErrors;
  * Returns a list of connectors depending on the filters you specify.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -5045,6 +5202,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "ConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListDiscoveredResourcesError =
@@ -5090,7 +5249,7 @@ export type ListDiscoveredResourcesError =
  * tracks resources that were successfully provisioned.
  */
 export const listDiscoveredResources: API.PaginatedOperationMethod<
-  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesRequest & RegionInput,
   ListDiscoveredResourcesResponse,
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -5113,6 +5272,8 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     items: "resourceIdentifiers",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredResources",
 })) as any;
 
 export type ListResourceEvaluationsError =
@@ -5124,7 +5285,7 @@ export type ListResourceEvaluationsError =
  * Returns a list of proactive resource evaluations.
  */
 export const listResourceEvaluations: API.PaginatedOperationMethod<
-  ListResourceEvaluationsRequest,
+  ListResourceEvaluationsRequest & RegionInput,
   ListResourceEvaluationsResponse,
   ListResourceEvaluationsError,
   Credentials | HttpClient.HttpClient,
@@ -5142,6 +5303,8 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
     items: "ResourceEvaluations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceEvaluations",
 })) as any;
 
 export type ListStoredQueriesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -5149,7 +5312,7 @@ export type ListStoredQueriesError = InvalidNextTokenException | ValidationExcep
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
 export const listStoredQueries: API.PaginatedOperationMethod<
-  ListStoredQueriesRequest,
+  ListStoredQueriesRequest & RegionInput,
   ListStoredQueriesResponse,
   ListStoredQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5166,6 +5329,8 @@ export const listStoredQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStoredQueries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5178,7 +5343,7 @@ export type ListTagsForResourceError =
  * List the tags for Config resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -5201,6 +5366,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
@@ -5216,7 +5383,7 @@ export type PutAggregationAuthorizationError = InvalidParameterValueException | 
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putAggregationAuthorization: API.OperationMethod<
-  PutAggregationAuthorizationRequest,
+  PutAggregationAuthorizationRequest & RegionInput,
   PutAggregationAuthorizationResponse,
   PutAggregationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -5227,6 +5394,8 @@ export const putAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAggregationAuthorization",
+  telemetry: TELEMETRY,
+  span: "PutAggregationAuthorization",
 }));
 
 export type PutConfigRuleError =
@@ -5291,7 +5460,7 @@ export type PutConfigRuleError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigRule: API.OperationMethod<
-  PutConfigRuleRequest,
+  PutConfigRuleRequest & RegionInput,
   PutConfigRuleResponse,
   PutConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -5308,6 +5477,8 @@ export const putConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigRule",
+  telemetry: TELEMETRY,
+  span: "PutConfigRule",
 }));
 
 export type PutConfigurationAggregatorError =
@@ -5343,7 +5514,7 @@ export type PutConfigurationAggregatorError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigurationAggregator: API.OperationMethod<
-  PutConfigurationAggregatorRequest,
+  PutConfigurationAggregatorRequest & RegionInput,
   PutConfigurationAggregatorResponse,
   PutConfigurationAggregatorError,
   Credentials | HttpClient.HttpClient
@@ -5361,6 +5532,8 @@ export const putConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationAggregator",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationAggregator",
 }));
 
 export type PutConfigurationRecorderError =
@@ -5400,7 +5573,7 @@ export type PutConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConfigurationRecorder: API.OperationMethod<
-  PutConfigurationRecorderRequest,
+  PutConfigurationRecorderRequest & RegionInput,
   PutConfigurationRecorderResponse,
   PutConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -5418,6 +5591,8 @@ export const putConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationRecorder",
 }));
 
 export type PutConformancePackError =
@@ -5458,7 +5633,7 @@ export type PutConformancePackError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConformancePack: API.OperationMethod<
-  PutConformancePackRequest,
+  PutConformancePackRequest & RegionInput,
   PutConformancePackResponse,
   PutConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -5475,6 +5650,8 @@ export const putConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConformancePack",
+  telemetry: TELEMETRY,
+  span: "PutConformancePack",
 }));
 
 export type PutConnectorError =
@@ -5499,7 +5676,7 @@ export type PutConnectorError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putConnector: API.OperationMethod<
-  PutConnectorRequest,
+  PutConnectorRequest & RegionInput,
   PutConnectorResponse,
   PutConnectorError,
   Credentials | HttpClient.HttpClient
@@ -5515,6 +5692,8 @@ export const putConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnector",
+  telemetry: TELEMETRY,
+  span: "PutConnector",
 }));
 
 export type PutDeliveryChannelError =
@@ -5543,7 +5722,7 @@ export type PutDeliveryChannelError =
  * You can have only one delivery channel for each account for each Amazon Web Services Region.
  */
 export const putDeliveryChannel: API.OperationMethod<
-  PutDeliveryChannelRequest,
+  PutDeliveryChannelRequest & RegionInput,
   PutDeliveryChannelResponse,
   PutDeliveryChannelError,
   Credentials | HttpClient.HttpClient
@@ -5563,6 +5742,8 @@ export const putDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryChannel",
+  telemetry: TELEMETRY,
+  span: "PutDeliveryChannel",
 }));
 
 export type PutEvaluationsError =
@@ -5576,7 +5757,7 @@ export type PutEvaluationsError =
  * that is invoked by an Config rule.
  */
 export const putEvaluations: API.OperationMethod<
-  PutEvaluationsRequest,
+  PutEvaluationsRequest & RegionInput,
   PutEvaluationsResponse,
   PutEvaluationsError,
   Credentials | HttpClient.HttpClient
@@ -5587,6 +5768,8 @@ export const putEvaluations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvaluations",
+  telemetry: TELEMETRY,
+  span: "PutEvaluations",
 }));
 
 export type PutExternalEvaluationError =
@@ -5598,7 +5781,7 @@ export type PutExternalEvaluationError =
  * This API checks if the rule is a process check when the name of the Config rule is provided.
  */
 export const putExternalEvaluation: API.OperationMethod<
-  PutExternalEvaluationRequest,
+  PutExternalEvaluationRequest & RegionInput,
   PutExternalEvaluationResponse,
   PutExternalEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -5609,6 +5792,8 @@ export const putExternalEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalEvaluation",
+  telemetry: TELEMETRY,
+  span: "PutExternalEvaluation",
 }));
 
 export type PutOrganizationConfigRuleError =
@@ -5666,7 +5851,7 @@ export type PutOrganizationConfigRuleError =
  * Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or `OrganizationManagedRuleMetadata` for managed rules.
  */
 export const putOrganizationConfigRule: API.OperationMethod<
-  PutOrganizationConfigRuleRequest,
+  PutOrganizationConfigRuleRequest & RegionInput,
   PutOrganizationConfigRuleResponse,
   PutOrganizationConfigRuleError,
   Credentials | HttpClient.HttpClient
@@ -5686,6 +5871,8 @@ export const putOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConfigRule",
+  telemetry: TELEMETRY,
+  span: "PutOrganizationConfigRule",
 }));
 
 export type PutOrganizationConformancePackError =
@@ -5736,7 +5923,7 @@ export type PutOrganizationConformancePackError =
  * You cannot update a conformance pack while it is in this state.
  */
 export const putOrganizationConformancePack: API.OperationMethod<
-  PutOrganizationConformancePackRequest,
+  PutOrganizationConformancePackRequest & RegionInput,
   PutOrganizationConformancePackResponse,
   PutOrganizationConformancePackError,
   Credentials | HttpClient.HttpClient
@@ -5756,6 +5943,8 @@ export const putOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConformancePack",
+  telemetry: TELEMETRY,
+  span: "PutOrganizationConformancePack",
 }));
 
 export type PutRemediationConfigurationsError =
@@ -5793,7 +5982,7 @@ export type PutRemediationConfigurationsError =
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
 export const putRemediationConfigurations: API.OperationMethod<
-  PutRemediationConfigurationsRequest,
+  PutRemediationConfigurationsRequest & RegionInput,
   PutRemediationConfigurationsResponse,
   PutRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -5804,6 +5993,8 @@ export const putRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationConfigurations",
+  telemetry: TELEMETRY,
+  span: "PutRemediationConfigurations",
 }));
 
 export type PutRemediationExceptionsError =
@@ -5847,7 +6038,7 @@ export type PutRemediationExceptionsError =
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
 export const putRemediationExceptions: API.OperationMethod<
-  PutRemediationExceptionsRequest,
+  PutRemediationExceptionsRequest & RegionInput,
   PutRemediationExceptionsResponse,
   PutRemediationExceptionsError,
   Credentials | HttpClient.HttpClient
@@ -5858,6 +6049,8 @@ export const putRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationExceptions",
+  telemetry: TELEMETRY,
+  span: "PutRemediationExceptions",
 }));
 
 export type PutResourceConfigError =
@@ -5879,7 +6072,7 @@ export type PutResourceConfigError =
  * Write-only schema properites are not recorded as part of the published configuration item.
  */
 export const putResourceConfig: API.OperationMethod<
-  PutResourceConfigRequest,
+  PutResourceConfigRequest & RegionInput,
   PutResourceConfigResponse,
   PutResourceConfigError,
   Credentials | HttpClient.HttpClient
@@ -5895,6 +6088,8 @@ export const putResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceConfig",
+  telemetry: TELEMETRY,
+  span: "PutResourceConfig",
 }));
 
 export type PutRetentionConfigurationError =
@@ -5914,7 +6109,7 @@ export type PutRetentionConfigurationError =
  * configuration per region in your account.
  */
 export const putRetentionConfiguration: API.OperationMethod<
-  PutRetentionConfigurationRequest,
+  PutRetentionConfigurationRequest & RegionInput,
   PutRetentionConfigurationResponse,
   PutRetentionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5925,6 +6120,8 @@ export const putRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutRetentionConfiguration",
 }));
 
 export type PutServiceLinkedConfigurationRecorderError =
@@ -5953,7 +6150,7 @@ export type PutServiceLinkedConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
-  PutServiceLinkedConfigurationRecorderRequest,
+  PutServiceLinkedConfigurationRecorderRequest & RegionInput,
   PutServiceLinkedConfigurationRecorderResponse,
   PutServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -5969,6 +6166,8 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutServiceLinkedConfigurationRecorder",
 }));
 
 export type PutStoredQueryError =
@@ -5986,7 +6185,7 @@ export type PutStoredQueryError =
  * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
  */
 export const putStoredQuery: API.OperationMethod<
-  PutStoredQueryRequest,
+  PutStoredQueryRequest & RegionInput,
   PutStoredQueryResponse,
   PutStoredQueryError,
   Credentials | HttpClient.HttpClient
@@ -5997,6 +6196,8 @@ export const putStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStoredQuery",
+  telemetry: TELEMETRY,
+  span: "PutStoredQuery",
 }));
 
 export type PutThirdPartyServiceLinkedConfigurationRecorderError =
@@ -6020,7 +6221,7 @@ export type PutThirdPartyServiceLinkedConfigurationRecorderError =
  * Use TagResource and UntagResource to update tags after creation.
  */
 export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMethod<
-  PutThirdPartyServiceLinkedConfigurationRecorderRequest,
+  PutThirdPartyServiceLinkedConfigurationRecorderRequest & RegionInput,
   PutThirdPartyServiceLinkedConfigurationRecorderResponse,
   PutThirdPartyServiceLinkedConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6039,6 +6240,8 @@ export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutThirdPartyServiceLinkedConfigurationRecorder",
 }));
 
 export type SelectAggregateResourceConfigError =
@@ -6063,7 +6266,7 @@ export type SelectAggregateResourceConfigError =
  * and do not specify the `MaxResults` or the `Limit` query parameters, the default page size is set to 25.
  */
 export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
-  SelectAggregateResourceConfigRequest,
+  SelectAggregateResourceConfigRequest & RegionInput,
   SelectAggregateResourceConfigResponse,
   SelectAggregateResourceConfigError,
   Credentials | HttpClient.HttpClient,
@@ -6086,6 +6289,8 @@ export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SelectAggregateResourceConfig",
 })) as any;
 
 export type SelectResourceConfigError =
@@ -6102,7 +6307,7 @@ export type SelectResourceConfigError =
  * section in the *Config Developer Guide*.
  */
 export const selectResourceConfig: API.PaginatedOperationMethod<
-  SelectResourceConfigRequest,
+  SelectResourceConfigRequest & RegionInput,
   SelectResourceConfigResponse,
   SelectResourceConfigError,
   Credentials | HttpClient.HttpClient,
@@ -6120,6 +6325,8 @@ export const selectResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SelectResourceConfig",
 })) as any;
 
 export type StartConfigRulesEvaluationError =
@@ -6171,7 +6378,7 @@ export type StartConfigRulesEvaluationError =
  * every 24 hours.
  */
 export const startConfigRulesEvaluation: API.OperationMethod<
-  StartConfigRulesEvaluationRequest,
+  StartConfigRulesEvaluationRequest & RegionInput,
   StartConfigRulesEvaluationResponse,
   StartConfigRulesEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -6187,6 +6394,8 @@ export const startConfigRulesEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigRulesEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartConfigRulesEvaluation",
 }));
 
 export type StartConfigurationRecorderError =
@@ -6201,7 +6410,7 @@ export type StartConfigurationRecorderError =
  * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
  */
 export const startConfigurationRecorder: API.OperationMethod<
-  StartConfigurationRecorderRequest,
+  StartConfigurationRecorderRequest & RegionInput,
   StartConfigurationRecorderResponse,
   StartConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6216,6 +6425,8 @@ export const startConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "StartConfigurationRecorder",
 }));
 
 export type StartRemediationExecutionError =
@@ -6229,7 +6440,7 @@ export type StartRemediationExecutionError =
  * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
  */
 export const startRemediationExecution: API.OperationMethod<
-  StartRemediationExecutionRequest,
+  StartRemediationExecutionRequest & RegionInput,
   StartRemediationExecutionResponse,
   StartRemediationExecutionError,
   Credentials | HttpClient.HttpClient
@@ -6244,6 +6455,8 @@ export const startRemediationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemediationExecution",
+  telemetry: TELEMETRY,
+  span: "StartRemediationExecution",
 }));
 
 export type StartResourceEvaluationError =
@@ -6265,7 +6478,7 @@ export type StartResourceEvaluationError =
  * and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
  */
 export const startResourceEvaluation: API.OperationMethod<
-  StartResourceEvaluationRequest,
+  StartResourceEvaluationRequest & RegionInput,
   StartResourceEvaluationResponse,
   StartResourceEvaluationError,
   Credentials | HttpClient.HttpClient
@@ -6276,6 +6489,8 @@ export const startResourceEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartResourceEvaluation",
 }));
 
 export type StopConfigurationRecorderError =
@@ -6286,7 +6501,7 @@ export type StopConfigurationRecorderError =
  * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
  */
 export const stopConfigurationRecorder: API.OperationMethod<
-  StopConfigurationRecorderRequest,
+  StopConfigurationRecorderRequest & RegionInput,
   StopConfigurationRecorderResponse,
   StopConfigurationRecorderError,
   Credentials | HttpClient.HttpClient
@@ -6297,6 +6512,8 @@ export const stopConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "StopConfigurationRecorder",
 }));
 
 export type TagResourceError =
@@ -6309,7 +6526,7 @@ export type TagResourceError =
  * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6320,6 +6537,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -6327,7 +6546,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6338,6 +6557,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

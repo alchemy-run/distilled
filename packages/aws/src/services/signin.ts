@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -313,6 +315,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   ],
 );
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Signin",
+  service: "Signin",
+  propagate: TxXray.propagate,
+} as const;
+
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
     error: /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "OAuth2ErrorCode" }),
@@ -585,7 +601,7 @@ export type CreateOAuth2TokenError =
  * (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
  */
 export const createOAuth2Token: API.OperationMethod<
-  CreateOAuth2TokenRequest,
+  CreateOAuth2TokenRequest & RegionInput,
   CreateOAuth2TokenResponse,
   CreateOAuth2TokenError,
   Credentials | HttpClient.HttpClient
@@ -601,6 +617,8 @@ export const createOAuth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2Token",
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2Token",
 }));
 
 export type CreateOAuth2TokenWithIAMError =
@@ -614,7 +632,7 @@ export type CreateOAuth2TokenWithIAMError =
  * scoped to a resource that can be used to access AWS services from applications
  */
 export const createOAuth2TokenWithIAM: API.OperationMethod<
-  CreateOAuth2TokenWithIAMRequest,
+  CreateOAuth2TokenWithIAMRequest & RegionInput,
   CreateOAuth2TokenWithIAMResponse,
   CreateOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -630,6 +648,8 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2TokenWithIAM",
 }));
 
 export type DeleteConsoleAuthorizationConfigurationError =
@@ -643,7 +663,7 @@ export type DeleteConsoleAuthorizationConfigurationError =
  * Delete console authorization configuration with automatic scope detection
  */
 export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
-  DeleteConsoleAuthorizationConfigurationInput,
+  DeleteConsoleAuthorizationConfigurationInput & RegionInput,
   DeleteConsoleAuthorizationConfigurationOutput,
   DeleteConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -660,6 +680,8 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConsoleAuthorizationConfiguration",
 }));
 
 export type DeleteResourcePermissionStatementError =
@@ -673,7 +695,7 @@ export type DeleteResourcePermissionStatementError =
  * Remove a permission statement from the account's SignIn resource-based policy
  */
 export const deleteResourcePermissionStatement: API.OperationMethod<
-  DeleteResourcePermissionStatementInput,
+  DeleteResourcePermissionStatementInput & RegionInput,
   DeleteResourcePermissionStatementOutput,
   DeleteResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
@@ -690,6 +712,8 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermissionStatement",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePermissionStatement",
 }));
 
 export type GetConsoleAuthorizationConfigurationError =
@@ -703,7 +727,7 @@ export type GetConsoleAuthorizationConfigurationError =
  * Get console authorization configuration with automatic scope detection
  */
 export const getConsoleAuthorizationConfiguration: API.OperationMethod<
-  GetConsoleAuthorizationConfigurationInput,
+  GetConsoleAuthorizationConfigurationInput & RegionInput,
   GetConsoleAuthorizationConfigurationOutput,
   GetConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -720,6 +744,8 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConsoleAuthorizationConfiguration",
 }));
 
 export type GetResourcePolicyError =
@@ -732,7 +758,7 @@ export type GetResourcePolicyError =
  * Retrieve the account's consolidated SignIn resource-based policy
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -748,6 +774,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type IntrospectOAuth2TokenWithIAMError =
@@ -770,7 +798,7 @@ export type IntrospectOAuth2TokenWithIAMError =
  * omitted.
  */
 export const introspectOAuth2TokenWithIAM: API.OperationMethod<
-  IntrospectOAuth2TokenWithIAMRequest,
+  IntrospectOAuth2TokenWithIAMRequest & RegionInput,
   IntrospectOAuth2TokenWithIAMResponse,
   IntrospectOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -786,6 +814,8 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IntrospectOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "IntrospectOAuth2TokenWithIAM",
 }));
 
 export type ListResourcePermissionStatementsError =
@@ -799,7 +829,7 @@ export type ListResourcePermissionStatementsError =
  * Retrieve all permission statements in the account's SignIn resource-based policy
  */
 export const listResourcePermissionStatements: API.PaginatedOperationMethod<
-  ListResourcePermissionStatementsInput,
+  ListResourcePermissionStatementsInput & RegionInput,
   ListResourcePermissionStatementsOutput,
   ListResourcePermissionStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -823,6 +853,8 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
     items: "permissionStatements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcePermissionStatements",
 })) as any;
 
 export type PutConsoleAuthorizationConfigurationError =
@@ -837,7 +869,7 @@ export type PutConsoleAuthorizationConfigurationError =
  * Enable console authorization configuration with automatic scope detection
  */
 export const putConsoleAuthorizationConfiguration: API.OperationMethod<
-  PutConsoleAuthorizationConfigurationInput,
+  PutConsoleAuthorizationConfigurationInput & RegionInput,
   PutConsoleAuthorizationConfigurationOutput,
   PutConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -855,6 +887,8 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutConsoleAuthorizationConfiguration",
 }));
 
 export type PutResourcePermissionStatementError =
@@ -869,7 +903,7 @@ export type PutResourcePermissionStatementError =
  * Create a permission statement in the account's SignIn resource-based policy
  */
 export const putResourcePermissionStatement: API.OperationMethod<
-  PutResourcePermissionStatementInput,
+  PutResourcePermissionStatementInput & RegionInput,
   PutResourcePermissionStatementOutput,
   PutResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
@@ -887,6 +921,8 @@ export const putResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermissionStatement",
+  telemetry: TELEMETRY,
+  span: "PutResourcePermissionStatement",
 }));
 
 export type RevokeOAuth2TokenWithIAMError =
@@ -905,7 +941,7 @@ export type RevokeOAuth2TokenWithIAMError =
  * still returns 200 OK with an empty body. Only the refresh_token type is accepted.
  */
 export const revokeOAuth2TokenWithIAM: API.OperationMethod<
-  RevokeOAuth2TokenWithIAMRequest,
+  RevokeOAuth2TokenWithIAMRequest & RegionInput,
   RevokeOAuth2TokenWithIAMResponse,
   RevokeOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
@@ -921,6 +957,8 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "RevokeOAuth2TokenWithIAM",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

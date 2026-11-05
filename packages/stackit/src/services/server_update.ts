@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ServerUpdate",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -242,6 +255,8 @@ export const createUpdate: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUpdate",
 }));
 
 export type CreateUpdateScheduleError = BadRequest | NotFound | StackitOpError;
@@ -257,6 +272,8 @@ export const createUpdateSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUpdateSchedule",
 }));
 
 export type DeleteUpdateScheduleError = BadRequest | NotFound | StackitOpError;
@@ -272,6 +289,8 @@ export const deleteUpdateSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUpdateSchedule",
 }));
 
 export type DisableServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -287,6 +306,8 @@ export const disableServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServiceResource",
 }));
 
 export type EnableServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -302,6 +323,8 @@ export const enableServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServiceResource",
 }));
 
 export type GetServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -317,6 +340,8 @@ export const getServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceResource",
 }));
 
 export type GetUpdateError = BadRequest | NotFound | StackitOpError;
@@ -332,6 +357,8 @@ export const getUpdate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdate",
 }));
 
 export type GetUpdateScheduleError = BadRequest | NotFound | StackitOpError;
@@ -347,6 +374,8 @@ export const getUpdateSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdateSchedule",
 }));
 
 export type ListUpdatePoliciesError = BadRequest | NotFound | StackitOpError;
@@ -362,6 +391,8 @@ export const listUpdatePolicies: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdatePolicies",
 }));
 
 export type ListUpdatesError = BadRequest | NotFound | StackitOpError;
@@ -377,6 +408,8 @@ export const listUpdates: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdates",
 }));
 
 export type ListUpdateSchedulesError = BadRequest | NotFound | StackitOpError;
@@ -392,6 +425,8 @@ export const listUpdateSchedules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdateSchedules",
 }));
 
 export type UpdateUpdateScheduleError = BadRequest | NotFound | StackitOpError;
@@ -407,6 +442,8 @@ export const updateUpdateSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUpdateSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

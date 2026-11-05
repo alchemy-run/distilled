@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "NetworkActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface AddNetworkRouteRequest {
   /** ID of the Network. */
   id: number;
@@ -455,6 +468,8 @@ export const addNetworkRoute: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNetworkRoute",
 }));
 
 export type AddNetworkSubnetError = HetznerOpError;
@@ -470,6 +485,8 @@ export const addNetworkSubnet: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNetworkSubnet",
 }));
 
 export type ChangeNetworkIpRangeError = HetznerOpError;
@@ -485,6 +502,8 @@ export const changeNetworkIpRange: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeNetworkIpRange",
 }));
 
 export type ChangeNetworkProtectionError = HetznerOpError;
@@ -500,6 +519,8 @@ export const changeNetworkProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeNetworkProtection",
 }));
 
 export type DeleteNetworkRouteError = HetznerOpError;
@@ -515,6 +536,8 @@ export const deleteNetworkRoute: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkRoute",
 }));
 
 export type DeleteNetworkSubnetError = HetznerOpError;
@@ -530,6 +553,8 @@ export const deleteNetworkSubnet: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkSubnet",
 }));
 
 export type GetNetworksActionError = HetznerOpError;
@@ -545,6 +570,8 @@ export const getNetworksAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworksAction",
 }));
 
 export type ListNetworkActionsError = HetznerOpError;
@@ -562,6 +589,8 @@ export const listNetworkActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -588,6 +617,8 @@ export const listNetworksActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworksActions",
     pagination: {
       mode: "page",
       inputToken: "page",

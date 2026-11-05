@@ -320,19 +320,19 @@ const makeCatcher =
  * )
  * ```
  */
-export const catchErrors =
-  <Categories extends Category[], A2, E2, R2>(
-    ...args: [...Categories, (err: any) => Effect.Effect<A2, E2, R2>]
-  ) =>
-  <A, E, R>(effect: Effect.Effect<A, E, R>) => {
-    const handler = args.pop() as (err: any) => Effect.Effect<A2, E2, R2>;
-    const categories = args as unknown as Categories;
-    return Effect.catchIf(
+export const catchErrors = <Categories extends Category[], A2, E2, R2>(
+  ...args: [...Categories, (err: any) => Effect.Effect<A2, E2, R2>]
+) => {
+  // Split once, without mutating `args`, so one catcher can be reused.
+  const handler = args[args.length - 1] as (err: any) => Effect.Effect<A2, E2, R2>;
+  const categories = args.slice(0, -1) as unknown as Categories;
+  return <A, E, R>(effect: Effect.Effect<A, E, R>) =>
+    Effect.catchIf(
       effect,
       (e) => categories.some((cat) => hasCategory(e, cat)),
       handler,
     ) as Effect.Effect<A | A2, E | E2, R | R2>;
-  };
+};
 
 // Alias for convenience
 export { catchErrors as catch };
@@ -364,19 +364,18 @@ export const catchDependencyViolationError = /*@__PURE__*/ makeCatcher(Dependenc
  * )
  * ```
  */
-export const catchCategory =
-  <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
-    ...args: [
-      ...Categories,
-      f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>,
-    ]
-  ) =>
-  <A, R>(
+export const catchCategory = <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
+  ...args: [...Categories, f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>]
+) => {
+  // Split once, without mutating `args`, so one catcher can be reused.
+  const f = args[args.length - 1] as (
+    err: ExtractAll<E, Categories[number]>,
+  ) => Effect.Effect<A2, E2, R2>;
+  const categories = args.slice(0, -1) as unknown as Categories;
+  return <A, R>(
     effect: Effect.Effect<A, E, R>,
-  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> => {
-    const f = args.pop()!;
-    const categories = args;
-    return Effect.catchIf(
+  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> =>
+    Effect.catchIf(
       effect,
       (e) => {
         if (Predicate.isObject(e) && Predicate.hasProperty(categoriesKey)(e)) {
@@ -392,4 +391,4 @@ export const catchCategory =
       // @ts-expect-error - type narrowing limitation
       (e) => f(e),
     ) as any;
-  };
+};

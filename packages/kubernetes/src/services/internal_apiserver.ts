@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "InternalApiserver",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -614,6 +627,8 @@ export const createInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type DeleteInternalApiserverV1alpha1CollectionStorageVersionError = KubernetesOpError;
@@ -633,6 +648,8 @@ export const deleteInternalApiserverV1alpha1CollectionStorageVersion: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInternalApiserverV1alpha1CollectionStorageVersion",
 }));
 
 export type DeleteInternalApiserverV1alpha1StorageVersionError =
@@ -655,6 +672,8 @@ export const deleteInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type GetInternalApiserverAPIGroupError = KubernetesOpError;
@@ -670,6 +689,8 @@ export const getInternalApiserverAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInternalApiserverAPIGroup",
 }));
 
 export type GetInternalApiserverV1alpha1APIResourcesError = KubernetesOpError;
@@ -685,6 +706,8 @@ export const getInternalApiserverV1alpha1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInternalApiserverV1alpha1APIResources",
 }));
 
 export type ListInternalApiserverV1alpha1StorageVersionError = KubernetesOpError;
@@ -704,6 +727,8 @@ export const listInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type PatchInternalApiserverV1alpha1StorageVersionError =
@@ -723,6 +748,8 @@ export const patchInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type PatchInternalApiserverV1alpha1StorageVersionStatusError =
@@ -746,6 +773,8 @@ export const patchInternalApiserverV1alpha1StorageVersionStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInternalApiserverV1alpha1StorageVersionStatus",
 }));
 
 export type ReadInternalApiserverV1alpha1StorageVersionError = NotFound | KubernetesOpError;
@@ -761,6 +790,8 @@ export const readInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type ReadInternalApiserverV1alpha1StorageVersionStatusError = NotFound | KubernetesOpError;
@@ -780,6 +811,8 @@ export const readInternalApiserverV1alpha1StorageVersionStatus: API.OperationMet
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadInternalApiserverV1alpha1StorageVersionStatus",
 }));
 
 export type ReplaceInternalApiserverV1alpha1StorageVersionError =
@@ -799,6 +832,8 @@ export const replaceInternalApiserverV1alpha1StorageVersion: API.OperationMethod
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type ReplaceInternalApiserverV1alpha1StorageVersionStatusError =
@@ -822,6 +857,8 @@ export const replaceInternalApiserverV1alpha1StorageVersionStatus: API.Operation
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInternalApiserverV1alpha1StorageVersionStatus",
 }));
 
 export type WatchInternalApiserverV1alpha1StorageVersionError = KubernetesOpError;
@@ -837,6 +874,8 @@ export const watchInternalApiserverV1alpha1StorageVersion: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchInternalApiserverV1alpha1StorageVersion",
 }));
 
 export type WatchInternalApiserverV1alpha1StorageVersionListError = KubernetesOpError;
@@ -856,6 +895,8 @@ export const watchInternalApiserverV1alpha1StorageVersionList: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchInternalApiserverV1alpha1StorageVersionList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

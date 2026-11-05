@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "QueueService",
+  propagate: "w3c",
+} as const;
+
 export interface ClearQueueRequest {
   queueId?: string;
   partitionKey?: string;
@@ -135,6 +147,8 @@ export const clearQueue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearQueue",
 }));
 
 export type DeleteQueueError = ModalOpError;
@@ -149,6 +163,8 @@ export const deleteQueue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type GetQueueError = ModalOpError;
@@ -163,6 +179,8 @@ export const getQueue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type ListQueueError = ModalOpError;
@@ -177,6 +195,8 @@ export const listQueue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueue",
 }));
 
 export type PutQueueError = ModalOpError;
@@ -191,6 +211,8 @@ export const putQueue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutQueue",
 }));
 
 export type QueueGetByIdError = ModalOpError;
@@ -205,6 +227,8 @@ export const queueGetById: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueueGetById",
 }));
 
 export type QueueGetOrCreateError = ModalOpError;
@@ -219,6 +243,8 @@ export const queueGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueueGetOrCreate",
 }));
 
 export type QueueHeartbeatError = ModalOpError;
@@ -233,6 +259,8 @@ export const queueHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueueHeartbeat",
 }));
 
 export type QueueLenError = ModalOpError;
@@ -247,6 +275,8 @@ export const queueLen: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueueLen",
 }));
 
 export type QueueNextItemsError = ModalOpError;
@@ -261,6 +291,8 @@ export const queueNextItems: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueueNextItems",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

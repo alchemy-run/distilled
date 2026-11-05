@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FileSystem",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -179,6 +192,8 @@ export const createFileSystem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileSystem",
 }));
 
 export type CreateFileSystemHomeFolderError = PosthogOpError;
@@ -193,6 +208,8 @@ export const createFileSystemHomeFolder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileSystemHomeFolder",
 }));
 
 export type FileSystemDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -207,6 +224,8 @@ export const fileSystemDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSystemDestroy",
 }));
 
 export type FileSystemUndoDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -221,6 +240,8 @@ export const fileSystemUndoDeleteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSystemUndoDeleteCreate",
 }));
 
 export type GetFileSystemError = Forbidden | NotFound | PosthogOpError;
@@ -235,6 +256,8 @@ export const getFileSystem: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileSystem",
 }));
 
 export type ListFileSystemError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -249,6 +272,8 @@ export const listFileSystem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileSystem",
 }));
 
 export type UpdateFileSystemError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -263,6 +288,8 @@ export const updateFileSystem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystem",
 }));
 
 export type UpdateFileSystemPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -277,6 +304,8 @@ export const updateFileSystemPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

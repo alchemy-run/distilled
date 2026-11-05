@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Organizations",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface AcceptOrganizationInvitationRequest {
   /** Invitation ID */
   invitationId: string;
@@ -813,6 +826,8 @@ export const acceptOrganizationInvitation: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptOrganizationInvitation",
 }));
 
 export type CancelOrganizationInvitationError = DaytonaOpError;
@@ -828,6 +843,8 @@ export const cancelOrganizationInvitation: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOrganizationInvitation",
 }));
 
 export type CreateOrganizationError = DaytonaOpError;
@@ -843,6 +860,8 @@ export const createOrganization: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationIdentityProviderError = DaytonaOpError;
@@ -858,6 +877,8 @@ export const createOrganizationIdentityProvider: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationIdentityProvider",
 }));
 
 export type CreateOrganizationInvitationError = DaytonaOpError;
@@ -873,6 +894,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitation",
 }));
 
 export type CreateOrganizationRoleError = DaytonaOpError;
@@ -888,6 +911,8 @@ export const createOrganizationRole: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationRole",
 }));
 
 export type CreateRegionError = DaytonaOpError;
@@ -903,6 +928,8 @@ export const createRegion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegion",
 }));
 
 export type DeclineOrganizationInvitationError = DaytonaOpError;
@@ -918,6 +945,8 @@ export const declineOrganizationInvitation: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeclineOrganizationInvitation",
 }));
 
 export type DeleteOrganizationError = DaytonaOpError;
@@ -933,6 +962,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationIdentityProviderError = DaytonaOpError;
@@ -948,6 +979,8 @@ export const deleteOrganizationIdentityProvider: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationIdentityProvider",
 }));
 
 export type DeleteOrganizationMemberError = DaytonaOpError;
@@ -963,6 +996,8 @@ export const deleteOrganizationMember: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMember",
 }));
 
 export type DeleteOrganizationOtelConfigError = DaytonaOpError;
@@ -978,6 +1013,8 @@ export const deleteOrganizationOtelConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationOtelConfig",
 }));
 
 export type DeleteOrganizationRoleError = DaytonaOpError;
@@ -993,6 +1030,8 @@ export const deleteOrganizationRole: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationRole",
 }));
 
 export type DeleteRegionError = DaytonaOpError;
@@ -1008,6 +1047,8 @@ export const deleteRegion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegion",
 }));
 
 export type GenerateWorkosAdminPortalLinkError = DaytonaOpError;
@@ -1023,6 +1064,8 @@ export const generateWorkosAdminPortalLink: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateWorkosAdminPortalLink",
 }));
 
 export type GetGpuCapacityError = DaytonaOpError;
@@ -1038,6 +1081,8 @@ export const getGpuCapacity: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGpuCapacity",
 }));
 
 export type GetOrganizationError = DaytonaOpError;
@@ -1053,6 +1098,8 @@ export const getOrganization: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationIdentityProviderError = DaytonaOpError;
@@ -1068,6 +1115,8 @@ export const getOrganizationIdentityProvider: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationIdentityProvider",
 }));
 
 export type GetOrganizationInvitationsCountForAuthenticatedUserError = DaytonaOpError;
@@ -1091,6 +1140,8 @@ export const getOrganizationInvitationsCountForAuthenticatedUser: API.OperationM
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationInvitationsCountForAuthenticatedUser",
 }));
 
 export type GetOrganizationOtelConfigError = DaytonaOpError;
@@ -1106,6 +1157,8 @@ export const getOrganizationOtelConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationOtelConfig",
 }));
 
 export type GetOrganizationOtelConfigBySandboxAuthTokenError = DaytonaOpError;
@@ -1121,6 +1174,8 @@ export const getOrganizationOtelConfigBySandboxAuthToken: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationOtelConfigBySandboxAuthToken",
 }));
 
 export type GetOrganizationUsageOverviewError = DaytonaOpError;
@@ -1136,6 +1191,8 @@ export const getOrganizationUsageOverview: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationUsageOverview",
 }));
 
 export type GetRegionError = DaytonaOpError;
@@ -1151,6 +1208,8 @@ export const getRegion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegion",
 }));
 
 export type GetSandboxIdentityBySandboxAuthTokenError = DaytonaOpError;
@@ -1166,6 +1225,8 @@ export const getSandboxIdentityBySandboxAuthToken: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxIdentityBySandboxAuthToken",
 }));
 
 export type LeaveOrganizationError = DaytonaOpError;
@@ -1181,6 +1242,8 @@ export const leaveOrganization: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveOrganization",
 }));
 
 export type ListAvailableRegionsError = DaytonaOpError;
@@ -1196,6 +1259,8 @@ export const listAvailableRegions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableRegions",
 }));
 
 export type ListAvailableSandboxClassesError = DaytonaOpError;
@@ -1211,6 +1276,8 @@ export const listAvailableSandboxClasses: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableSandboxClasses",
 }));
 
 export type ListOrganizationIdentityProvidersError = DaytonaOpError;
@@ -1226,6 +1293,8 @@ export const listOrganizationIdentityProviders: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationIdentityProviders",
 }));
 
 export type ListOrganizationInvitationsError = DaytonaOpError;
@@ -1241,6 +1310,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvitations",
 }));
 
 export type ListOrganizationInvitationsForAuthenticatedUserError = DaytonaOpError;
@@ -1264,6 +1335,8 @@ export const listOrganizationInvitationsForAuthenticatedUser: API.OperationMetho
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvitationsForAuthenticatedUser",
 }));
 
 export type ListOrganizationMembersError = DaytonaOpError;
@@ -1279,6 +1352,8 @@ export const listOrganizationMembers: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembers",
 }));
 
 export type ListOrganizationRolesError = DaytonaOpError;
@@ -1294,6 +1369,8 @@ export const listOrganizationRoles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRoles",
 }));
 
 export type ListOrganizationsError = DaytonaOpError;
@@ -1309,6 +1386,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListWorkosSsoConnectionsError = DaytonaOpError;
@@ -1324,6 +1403,8 @@ export const listWorkosSsoConnections: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkosSsoConnections",
 }));
 
 export type RegenerateProxyApiKeyError = DaytonaOpError;
@@ -1339,6 +1420,8 @@ export const regenerateProxyApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateProxyApiKey",
 }));
 
 export type RegenerateSnapshotManagerCredentialsError = DaytonaOpError;
@@ -1354,6 +1437,8 @@ export const regenerateSnapshotManagerCredentials: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateSnapshotManagerCredentials",
 }));
 
 export type RegenerateSshGatewayApiKeyError = DaytonaOpError;
@@ -1369,6 +1454,8 @@ export const regenerateSshGatewayApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateSshGatewayApiKey",
 }));
 
 export type SetOrganizationDefaultRegionError = DaytonaOpError;
@@ -1384,6 +1471,8 @@ export const setOrganizationDefaultRegion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationDefaultRegion",
 }));
 
 export type TestOrganizationIdentityProviderConnectionError = DaytonaOpError;
@@ -1399,6 +1488,8 @@ export const testOrganizationIdentityProviderConnection: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestOrganizationIdentityProviderConnection",
 }));
 
 export type UpdateAccessForOrganizationMemberError = DaytonaOpError;
@@ -1414,6 +1505,8 @@ export const updateAccessForOrganizationMember: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessForOrganizationMember",
 }));
 
 export type UpdateExperimentalConfigError = DaytonaOpError;
@@ -1429,6 +1522,8 @@ export const updateExperimentalConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentalConfig",
 }));
 
 export type UpdateOrganizationDefaultQueueTimeoutError = DaytonaOpError;
@@ -1444,6 +1539,8 @@ export const updateOrganizationDefaultQueueTimeout: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDefaultQueueTimeout",
 }));
 
 export type UpdateOrganizationIdentityProviderError = DaytonaOpError;
@@ -1459,6 +1556,8 @@ export const updateOrganizationIdentityProvider: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationIdentityProvider",
 }));
 
 export type UpdateOrganizationInvitationError = DaytonaOpError;
@@ -1474,6 +1573,8 @@ export const updateOrganizationInvitation: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationInvitation",
 }));
 
 export type UpdateOrganizationOtelConfigError = DaytonaOpError;
@@ -1489,6 +1590,8 @@ export const updateOrganizationOtelConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationOtelConfig",
 }));
 
 export type UpdateOrganizationRoleError = DaytonaOpError;
@@ -1504,6 +1607,8 @@ export const updateOrganizationRole: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationRole",
 }));
 
 export type UpdateRegionError = DaytonaOpError;
@@ -1519,6 +1624,8 @@ export const updateRegion: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

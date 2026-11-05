@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Subscriptions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -600,6 +613,8 @@ export const createSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateSubscriptionsTestDeliveryError = Forbidden | NotFound | PosthogOpError;
@@ -614,6 +629,8 @@ export const createSubscriptionsTestDelivery: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionsTestDelivery",
 }));
 
 export type GetSubscriptionError = Forbidden | NotFound | PosthogOpError;
@@ -628,6 +645,8 @@ export const getSubscription: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetSubscriptionsDeliveryError = PosthogOpError;
@@ -643,6 +662,8 @@ export const getSubscriptionsDelivery: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionsDelivery",
 }));
 
 export type GetSubscriptionsSummaryQuotaError = PosthogOpError;
@@ -657,6 +678,8 @@ export const getSubscriptionsSummaryQuota: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionsSummaryQuota",
 }));
 
 export type ListSubscriptionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -671,6 +694,8 @@ export const listSubscriptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 }));
 
 export type ListSubscriptionsDeliveriesError = PosthogOpError;
@@ -686,6 +711,8 @@ export const listSubscriptionsDeliveries: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionsDeliveries",
 }));
 
 export type SubscriptionsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -701,6 +728,8 @@ export const subscriptionsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsDestroy",
 }));
 
 export type UpdateSubscriptionError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -715,6 +744,8 @@ export const updateSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateSubscriptionsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -729,6 +760,8 @@ export const updateSubscriptionsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

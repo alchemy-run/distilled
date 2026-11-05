@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Microfrontends",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3896,6 +3910,8 @@ export const createMicrofrontendsGroupWithApplications: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMicrofrontendsGroupWithApplications",
 }));
 
 export type GetMicrofrontendsConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3911,6 +3927,8 @@ export const getMicrofrontendsConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrofrontendsConfig",
 }));
 
 export type GetMicrofrontendsConfigForProjectError =
@@ -3930,6 +3948,8 @@ export const getMicrofrontendsConfigForProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrofrontendsConfigForProject",
 }));
 
 export type GetMicrofrontendsGroupsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3945,6 +3965,8 @@ export const getMicrofrontendsGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrofrontendsGroups",
 }));
 
 export type GetMicrofrontendsInGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3960,6 +3982,8 @@ export const getMicrofrontendsInGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrofrontendsInGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

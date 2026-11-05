@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplifybackend.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AmplifyBackend",
+  service: "AmplifyBackend",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -769,7 +785,7 @@ export type CloneBackendError =
  * This operation clones an existing backend.
  */
 export const cloneBackend: API.OperationMethod<
-  CloneBackendRequest,
+  CloneBackendRequest & RegionInput,
   CloneBackendResponse,
   CloneBackendError,
   Credentials | HttpClient.HttpClient
@@ -785,6 +801,8 @@ export const cloneBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneBackend",
+  telemetry: TELEMETRY,
+  span: "CloneBackend",
 }));
 
 export type CreateBackendError =
@@ -797,7 +815,7 @@ export type CreateBackendError =
  * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
  */
 export const createBackend: API.OperationMethod<
-  CreateBackendRequest,
+  CreateBackendRequest & RegionInput,
   CreateBackendResponse,
   CreateBackendError,
   Credentials | HttpClient.HttpClient
@@ -813,6 +831,8 @@ export const createBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackend",
+  telemetry: TELEMETRY,
+  span: "CreateBackend",
 }));
 
 export type CreateBackendAPIError =
@@ -825,7 +845,7 @@ export type CreateBackendAPIError =
  * Creates a new backend API resource.
  */
 export const createBackendAPI: API.OperationMethod<
-  CreateBackendAPIRequest,
+  CreateBackendAPIRequest & RegionInput,
   CreateBackendAPIResponse,
   CreateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -841,6 +861,8 @@ export const createBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAPI",
+  telemetry: TELEMETRY,
+  span: "CreateBackendAPI",
 }));
 
 export type CreateBackendAuthError =
@@ -853,7 +875,7 @@ export type CreateBackendAuthError =
  * Creates a new backend authentication resource.
  */
 export const createBackendAuth: API.OperationMethod<
-  CreateBackendAuthRequest,
+  CreateBackendAuthRequest & RegionInput,
   CreateBackendAuthResponse,
   CreateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -869,6 +891,8 @@ export const createBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAuth",
+  telemetry: TELEMETRY,
+  span: "CreateBackendAuth",
 }));
 
 export type CreateBackendConfigError =
@@ -881,7 +905,7 @@ export type CreateBackendConfigError =
  * Creates a config object for a backend.
  */
 export const createBackendConfig: API.OperationMethod<
-  CreateBackendConfigRequest,
+  CreateBackendConfigRequest & RegionInput,
   CreateBackendConfigResponse,
   CreateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -897,6 +921,8 @@ export const createBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendConfig",
+  telemetry: TELEMETRY,
+  span: "CreateBackendConfig",
 }));
 
 export type CreateBackendStorageError =
@@ -909,7 +935,7 @@ export type CreateBackendStorageError =
  * Creates a backend storage resource.
  */
 export const createBackendStorage: API.OperationMethod<
-  CreateBackendStorageRequest,
+  CreateBackendStorageRequest & RegionInput,
   CreateBackendStorageResponse,
   CreateBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +951,8 @@ export const createBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendStorage",
+  telemetry: TELEMETRY,
+  span: "CreateBackendStorage",
 }));
 
 export type CreateTokenError =
@@ -937,7 +965,7 @@ export type CreateTokenError =
  * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
@@ -953,6 +981,8 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteBackendError =
@@ -965,7 +995,7 @@ export type DeleteBackendError =
  * Removes an existing environment from your Amplify project.
  */
 export const deleteBackend: API.OperationMethod<
-  DeleteBackendRequest,
+  DeleteBackendRequest & RegionInput,
   DeleteBackendResponse,
   DeleteBackendError,
   Credentials | HttpClient.HttpClient
@@ -981,6 +1011,8 @@ export const deleteBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackend",
+  telemetry: TELEMETRY,
+  span: "DeleteBackend",
 }));
 
 export type DeleteBackendAPIError =
@@ -993,7 +1025,7 @@ export type DeleteBackendAPIError =
  * Deletes an existing backend API resource.
  */
 export const deleteBackendAPI: API.OperationMethod<
-  DeleteBackendAPIRequest,
+  DeleteBackendAPIRequest & RegionInput,
   DeleteBackendAPIResponse,
   DeleteBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1009,6 +1041,8 @@ export const deleteBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAPI",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendAPI",
 }));
 
 export type DeleteBackendAuthError =
@@ -1021,7 +1055,7 @@ export type DeleteBackendAuthError =
  * Deletes an existing backend authentication resource.
  */
 export const deleteBackendAuth: API.OperationMethod<
-  DeleteBackendAuthRequest,
+  DeleteBackendAuthRequest & RegionInput,
   DeleteBackendAuthResponse,
   DeleteBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1037,6 +1071,8 @@ export const deleteBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAuth",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendAuth",
 }));
 
 export type DeleteBackendStorageError =
@@ -1049,7 +1085,7 @@ export type DeleteBackendStorageError =
  * Removes the specified backend storage resource.
  */
 export const deleteBackendStorage: API.OperationMethod<
-  DeleteBackendStorageRequest,
+  DeleteBackendStorageRequest & RegionInput,
   DeleteBackendStorageResponse,
   DeleteBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1065,6 +1101,8 @@ export const deleteBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendStorage",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendStorage",
 }));
 
 export type DeleteTokenError =
@@ -1077,7 +1115,7 @@ export type DeleteTokenError =
  * Deletes the challenge token based on the given appId and sessionId.
  */
 export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
+  DeleteTokenRequest & RegionInput,
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
@@ -1093,6 +1131,8 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type GenerateBackendAPIModelsError =
@@ -1105,7 +1145,7 @@ export type GenerateBackendAPIModelsError =
  * Generates a model schema for an existing backend API resource.
  */
 export const generateBackendAPIModels: API.OperationMethod<
-  GenerateBackendAPIModelsRequest,
+  GenerateBackendAPIModelsRequest & RegionInput,
   GenerateBackendAPIModelsResponse,
   GenerateBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1121,6 +1161,8 @@ export const generateBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateBackendAPIModels",
+  telemetry: TELEMETRY,
+  span: "GenerateBackendAPIModels",
 }));
 
 export type GetBackendError =
@@ -1133,7 +1175,7 @@ export type GetBackendError =
  * Provides project-level details for your Amplify UI project.
  */
 export const getBackend: API.OperationMethod<
-  GetBackendRequest,
+  GetBackendRequest & RegionInput,
   GetBackendResponse,
   GetBackendError,
   Credentials | HttpClient.HttpClient
@@ -1149,6 +1191,8 @@ export const getBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackend",
+  telemetry: TELEMETRY,
+  span: "GetBackend",
 }));
 
 export type GetBackendAPIError =
@@ -1161,7 +1205,7 @@ export type GetBackendAPIError =
  * Gets the details for a backend API.
  */
 export const getBackendAPI: API.OperationMethod<
-  GetBackendAPIRequest,
+  GetBackendAPIRequest & RegionInput,
   GetBackendAPIResponse,
   GetBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1177,6 +1221,8 @@ export const getBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPI",
+  telemetry: TELEMETRY,
+  span: "GetBackendAPI",
 }));
 
 export type GetBackendAPIModelsError =
@@ -1189,7 +1235,7 @@ export type GetBackendAPIModelsError =
  * Gets a model introspection schema for an existing backend API resource.
  */
 export const getBackendAPIModels: API.OperationMethod<
-  GetBackendAPIModelsRequest,
+  GetBackendAPIModelsRequest & RegionInput,
   GetBackendAPIModelsResponse,
   GetBackendAPIModelsError,
   Credentials | HttpClient.HttpClient
@@ -1205,6 +1251,8 @@ export const getBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPIModels",
+  telemetry: TELEMETRY,
+  span: "GetBackendAPIModels",
 }));
 
 export type GetBackendAuthError =
@@ -1217,7 +1265,7 @@ export type GetBackendAuthError =
  * Gets a backend auth details.
  */
 export const getBackendAuth: API.OperationMethod<
-  GetBackendAuthRequest,
+  GetBackendAuthRequest & RegionInput,
   GetBackendAuthResponse,
   GetBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1233,6 +1281,8 @@ export const getBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAuth",
+  telemetry: TELEMETRY,
+  span: "GetBackendAuth",
 }));
 
 export type GetBackendJobError =
@@ -1245,7 +1295,7 @@ export type GetBackendJobError =
  * Returns information about a specific job.
  */
 export const getBackendJob: API.OperationMethod<
-  GetBackendJobRequest,
+  GetBackendJobRequest & RegionInput,
   GetBackendJobResponse,
   GetBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1261,6 +1311,8 @@ export const getBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendJob",
+  telemetry: TELEMETRY,
+  span: "GetBackendJob",
 }));
 
 export type GetBackendStorageError =
@@ -1273,7 +1325,7 @@ export type GetBackendStorageError =
  * Gets details for a backend storage resource.
  */
 export const getBackendStorage: API.OperationMethod<
-  GetBackendStorageRequest,
+  GetBackendStorageRequest & RegionInput,
   GetBackendStorageResponse,
   GetBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1289,6 +1341,8 @@ export const getBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendStorage",
+  telemetry: TELEMETRY,
+  span: "GetBackendStorage",
 }));
 
 export type GetTokenError =
@@ -1301,7 +1355,7 @@ export type GetTokenError =
  * Gets the challenge token based on the given appId and sessionId.
  */
 export const getToken: API.OperationMethod<
-  GetTokenRequest,
+  GetTokenRequest & RegionInput,
   GetTokenResponse,
   GetTokenError,
   Credentials | HttpClient.HttpClient
@@ -1317,6 +1371,8 @@ export const getToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetToken",
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type ImportBackendAuthError =
@@ -1329,7 +1385,7 @@ export type ImportBackendAuthError =
  * Imports an existing backend authentication resource.
  */
 export const importBackendAuth: API.OperationMethod<
-  ImportBackendAuthRequest,
+  ImportBackendAuthRequest & RegionInput,
   ImportBackendAuthResponse,
   ImportBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1345,6 +1401,8 @@ export const importBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendAuth",
+  telemetry: TELEMETRY,
+  span: "ImportBackendAuth",
 }));
 
 export type ImportBackendStorageError =
@@ -1357,7 +1415,7 @@ export type ImportBackendStorageError =
  * Imports an existing backend storage resource.
  */
 export const importBackendStorage: API.OperationMethod<
-  ImportBackendStorageRequest,
+  ImportBackendStorageRequest & RegionInput,
   ImportBackendStorageResponse,
   ImportBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1373,6 +1431,8 @@ export const importBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendStorage",
+  telemetry: TELEMETRY,
+  span: "ImportBackendStorage",
 }));
 
 export type ListBackendJobsError =
@@ -1385,7 +1445,7 @@ export type ListBackendJobsError =
  * Lists the jobs for the backend of an Amplify app.
  */
 export const listBackendJobs: API.OperationMethod<
-  ListBackendJobsRequest,
+  ListBackendJobsRequest & RegionInput,
   ListBackendJobsResponse,
   ListBackendJobsError,
   Credentials | HttpClient.HttpClient
@@ -1401,6 +1461,8 @@ export const listBackendJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendJobs",
+  telemetry: TELEMETRY,
+  span: "ListBackendJobs",
 }));
 
 export type ListS3BucketsError =
@@ -1413,7 +1475,7 @@ export type ListS3BucketsError =
  * The list of S3 buckets in your account.
  */
 export const listS3Buckets: API.OperationMethod<
-  ListS3BucketsRequest,
+  ListS3BucketsRequest & RegionInput,
   ListS3BucketsResponse,
   ListS3BucketsError,
   Credentials | HttpClient.HttpClient
@@ -1429,6 +1491,8 @@ export const listS3Buckets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListS3Buckets",
+  telemetry: TELEMETRY,
+  span: "ListS3Buckets",
 }));
 
 export type RemoveAllBackendsError =
@@ -1441,7 +1505,7 @@ export type RemoveAllBackendsError =
  * Removes all backend environments from your Amplify project.
  */
 export const removeAllBackends: API.OperationMethod<
-  RemoveAllBackendsRequest,
+  RemoveAllBackendsRequest & RegionInput,
   RemoveAllBackendsResponse,
   RemoveAllBackendsError,
   Credentials | HttpClient.HttpClient
@@ -1457,6 +1521,8 @@ export const removeAllBackends: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllBackends",
+  telemetry: TELEMETRY,
+  span: "RemoveAllBackends",
 }));
 
 export type RemoveBackendConfigError =
@@ -1469,7 +1535,7 @@ export type RemoveBackendConfigError =
  * Removes the AWS resources required to access the Amplify Admin UI.
  */
 export const removeBackendConfig: API.OperationMethod<
-  RemoveBackendConfigRequest,
+  RemoveBackendConfigRequest & RegionInput,
   RemoveBackendConfigResponse,
   RemoveBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1485,6 +1551,8 @@ export const removeBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBackendConfig",
+  telemetry: TELEMETRY,
+  span: "RemoveBackendConfig",
 }));
 
 export type UpdateBackendAPIError =
@@ -1497,7 +1565,7 @@ export type UpdateBackendAPIError =
  * Updates an existing backend API resource.
  */
 export const updateBackendAPI: API.OperationMethod<
-  UpdateBackendAPIRequest,
+  UpdateBackendAPIRequest & RegionInput,
   UpdateBackendAPIResponse,
   UpdateBackendAPIError,
   Credentials | HttpClient.HttpClient
@@ -1513,6 +1581,8 @@ export const updateBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAPI",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendAPI",
 }));
 
 export type UpdateBackendAuthError =
@@ -1525,7 +1595,7 @@ export type UpdateBackendAuthError =
  * Updates an existing backend authentication resource.
  */
 export const updateBackendAuth: API.OperationMethod<
-  UpdateBackendAuthRequest,
+  UpdateBackendAuthRequest & RegionInput,
   UpdateBackendAuthResponse,
   UpdateBackendAuthError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1611,8 @@ export const updateBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAuth",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendAuth",
 }));
 
 export type UpdateBackendConfigError =
@@ -1553,7 +1625,7 @@ export type UpdateBackendConfigError =
  * Updates the AWS resources required to access the Amplify Admin UI.
  */
 export const updateBackendConfig: API.OperationMethod<
-  UpdateBackendConfigRequest,
+  UpdateBackendConfigRequest & RegionInput,
   UpdateBackendConfigResponse,
   UpdateBackendConfigError,
   Credentials | HttpClient.HttpClient
@@ -1569,6 +1641,8 @@ export const updateBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendConfig",
 }));
 
 export type UpdateBackendJobError =
@@ -1581,7 +1655,7 @@ export type UpdateBackendJobError =
  * Updates a specific job.
  */
 export const updateBackendJob: API.OperationMethod<
-  UpdateBackendJobRequest,
+  UpdateBackendJobRequest & RegionInput,
   UpdateBackendJobResponse,
   UpdateBackendJobError,
   Credentials | HttpClient.HttpClient
@@ -1597,6 +1671,8 @@ export const updateBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendJob",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendJob",
 }));
 
 export type UpdateBackendStorageError =
@@ -1609,7 +1685,7 @@ export type UpdateBackendStorageError =
  * Updates an existing backend storage resource.
  */
 export const updateBackendStorage: API.OperationMethod<
-  UpdateBackendStorageRequest,
+  UpdateBackendStorageRequest & RegionInput,
   UpdateBackendStorageResponse,
   UpdateBackendStorageError,
   Credentials | HttpClient.HttpClient
@@ -1625,6 +1701,8 @@ export const updateBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendStorage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

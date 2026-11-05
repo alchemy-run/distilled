@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Apps",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -653,6 +666,8 @@ export const createApp: API.OperationMethod<CreateAppRequest, App, CreateAppErro
     errors: [BadRequest, Forbidden, NotFound, Conflict],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateApp",
   }));
 
 export type DeleteAppError = Forbidden | NotFound | WhopOpError;
@@ -668,6 +683,8 @@ export const deleteApp: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeployAppError = NotFound | Conflict | WhopOpError;
@@ -683,6 +700,8 @@ export const deployApp: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployApp",
 }));
 
 export type GetAppError = NotFound | WhopOpError;
@@ -694,6 +713,8 @@ export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, WhopOp
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApp",
   }));
 
 export type ListAppLogsError = Forbidden | NotFound | WhopOpError;
@@ -711,6 +732,8 @@ export const listAppLogs: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppLogs",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -738,6 +761,8 @@ export const listApps: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApps",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -759,6 +784,8 @@ export const updateApp: API.OperationMethod<UpdateAppRequest, App, UpdateAppErro
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateApp",
   }));
 
 export type UpdateAppPermissionsError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -774,6 +801,8 @@ export const updateAppPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppPermissions",
 }));
 
 export type UpdatePermissionsAppError =
@@ -794,6 +823,8 @@ export const updatePermissionsApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionsApp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

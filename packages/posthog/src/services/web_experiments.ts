@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WebExperiments",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -115,6 +128,8 @@ export const createWebExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebExperiment",
 }));
 
 export type GetWebExperimentError = Forbidden | NotFound | PosthogOpError;
@@ -129,6 +144,8 @@ export const getWebExperiment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebExperiment",
 }));
 
 export type ListWebExperimentsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -143,6 +160,8 @@ export const listWebExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebExperiments",
 }));
 
 export type UpdateWebExperimentError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -157,6 +176,8 @@ export const updateWebExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebExperiment",
 }));
 
 export type UpdateWebExperimentsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -171,6 +192,8 @@ export const updateWebExperimentsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebExperimentsPartial",
 }));
 
 export type WebExperimentsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -185,6 +208,8 @@ export const webExperimentsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebExperimentsDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

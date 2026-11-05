@@ -21,6 +21,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedAt: "updated_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Hostnames",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AdvancedCertificateManagerRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AdvancedCertificateManagerRequired>()(
@@ -189,6 +203,8 @@ export const deleteSettingTls: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingTls",
 }));
 
 export type GetSettingTlsError = AdvancedCertificateManagerRequired | Forbidden | CloudflareOpError;
@@ -204,6 +220,8 @@ export const getSettingTls: API.OperationMethod<
   errors: [AdvancedCertificateManagerRequired, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingTls",
 }));
 
 export type ListSettingsTlsError = CloudflareOpError;
@@ -219,6 +237,8 @@ export const listSettingsTls: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSettingsTls",
 }));
 
 export type PutSettingTlsError = AdvancedCertificateManagerRequired | Forbidden | CloudflareOpError;
@@ -234,6 +254,8 @@ export const putSettingTls: API.OperationMethod<
   errors: [AdvancedCertificateManagerRequired, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSettingTls",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

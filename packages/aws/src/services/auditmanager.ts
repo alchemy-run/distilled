@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://auditmanager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AuditManager",
+  service: "AuditManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1255,7 +1271,7 @@ export type AssociateAssessmentReportEvidenceFolderError =
  * assessment.
  */
 export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
-  AssociateAssessmentReportEvidenceFolderRequest,
+  AssociateAssessmentReportEvidenceFolderRequest & RegionInput,
   AssociateAssessmentReportEvidenceFolderResponse,
   AssociateAssessmentReportEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -1271,6 +1287,8 @@ export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAssessmentReportEvidenceFolder",
+  telemetry: TELEMETRY,
+  span: "AssociateAssessmentReportEvidenceFolder",
 }));
 
 export type BatchAssociateAssessmentReportEvidenceError =
@@ -1284,7 +1302,7 @@ export type BatchAssociateAssessmentReportEvidenceError =
  * assessment.
  */
 export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
-  BatchAssociateAssessmentReportEvidenceRequest,
+  BatchAssociateAssessmentReportEvidenceRequest & RegionInput,
   BatchAssociateAssessmentReportEvidenceResponse,
   BatchAssociateAssessmentReportEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -1300,6 +1318,8 @@ export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateAssessmentReportEvidence",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateAssessmentReportEvidence",
 }));
 
 export type BatchCreateDelegationByAssessmentError =
@@ -1312,7 +1332,7 @@ export type BatchCreateDelegationByAssessmentError =
  * Creates a batch of delegations for an assessment in Audit Manager.
  */
 export const batchCreateDelegationByAssessment: API.OperationMethod<
-  BatchCreateDelegationByAssessmentRequest,
+  BatchCreateDelegationByAssessmentRequest & RegionInput,
   BatchCreateDelegationByAssessmentResponse,
   BatchCreateDelegationByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1328,6 +1348,8 @@ export const batchCreateDelegationByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateDelegationByAssessment",
+  telemetry: TELEMETRY,
+  span: "BatchCreateDelegationByAssessment",
 }));
 
 export type BatchDeleteDelegationByAssessmentError =
@@ -1340,7 +1362,7 @@ export type BatchDeleteDelegationByAssessmentError =
  * Deletes a batch of delegations for an assessment in Audit Manager.
  */
 export const batchDeleteDelegationByAssessment: API.OperationMethod<
-  BatchDeleteDelegationByAssessmentRequest,
+  BatchDeleteDelegationByAssessmentRequest & RegionInput,
   BatchDeleteDelegationByAssessmentResponse,
   BatchDeleteDelegationByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1356,6 +1378,8 @@ export const batchDeleteDelegationByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDelegationByAssessment",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDelegationByAssessment",
 }));
 
 export type BatchDisassociateAssessmentReportEvidenceError =
@@ -1368,7 +1392,7 @@ export type BatchDisassociateAssessmentReportEvidenceError =
  * Disassociates a list of evidence from an assessment report in Audit Manager.
  */
 export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
-  BatchDisassociateAssessmentReportEvidenceRequest,
+  BatchDisassociateAssessmentReportEvidenceRequest & RegionInput,
   BatchDisassociateAssessmentReportEvidenceResponse,
   BatchDisassociateAssessmentReportEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -1384,6 +1408,8 @@ export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateAssessmentReportEvidence",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateAssessmentReportEvidence",
 }));
 
 export type BatchImportEvidenceToAssessmentControlError =
@@ -1416,7 +1442,7 @@ export type BatchImportEvidenceToAssessmentControlError =
  * restrictions for Audit Manager.
  */
 export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
-  BatchImportEvidenceToAssessmentControlRequest,
+  BatchImportEvidenceToAssessmentControlRequest & RegionInput,
   BatchImportEvidenceToAssessmentControlResponse,
   BatchImportEvidenceToAssessmentControlError,
   Credentials | HttpClient.HttpClient
@@ -1433,6 +1459,8 @@ export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchImportEvidenceToAssessmentControl",
+  telemetry: TELEMETRY,
+  span: "BatchImportEvidenceToAssessmentControl",
 }));
 
 export type CreateAssessmentError =
@@ -1447,7 +1475,7 @@ export type CreateAssessmentError =
  * Creates an assessment in Audit Manager.
  */
 export const createAssessment: API.OperationMethod<
-  CreateAssessmentRequest,
+  CreateAssessmentRequest & RegionInput,
   CreateAssessmentResponse,
   CreateAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1465,6 +1493,8 @@ export const createAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessment",
+  telemetry: TELEMETRY,
+  span: "CreateAssessment",
 }));
 
 export type CreateAssessmentFrameworkError =
@@ -1478,7 +1508,7 @@ export type CreateAssessmentFrameworkError =
  * Creates a custom framework in Audit Manager.
  */
 export const createAssessmentFramework: API.OperationMethod<
-  CreateAssessmentFrameworkRequest,
+  CreateAssessmentFrameworkRequest & RegionInput,
   CreateAssessmentFrameworkResponse,
   CreateAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -1495,6 +1525,8 @@ export const createAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentFramework",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentFramework",
 }));
 
 export type CreateAssessmentReportError =
@@ -1507,7 +1539,7 @@ export type CreateAssessmentReportError =
  * Creates an assessment report for the specified assessment.
  */
 export const createAssessmentReport: API.OperationMethod<
-  CreateAssessmentReportRequest,
+  CreateAssessmentReportRequest & RegionInput,
   CreateAssessmentReportResponse,
   CreateAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1523,6 +1555,8 @@ export const createAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentReport",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentReport",
 }));
 
 export type CreateControlError =
@@ -1536,7 +1570,7 @@ export type CreateControlError =
  * Creates a new custom control in Audit Manager.
  */
 export const createControl: API.OperationMethod<
-  CreateControlRequest,
+  CreateControlRequest & RegionInput,
   CreateControlResponse,
   CreateControlError,
   Credentials | HttpClient.HttpClient
@@ -1553,6 +1587,8 @@ export const createControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateControl",
+  telemetry: TELEMETRY,
+  span: "CreateControl",
 }));
 
 export type DeleteAssessmentError =
@@ -1565,7 +1601,7 @@ export type DeleteAssessmentError =
  * Deletes an assessment in Audit Manager.
  */
 export const deleteAssessment: API.OperationMethod<
-  DeleteAssessmentRequest,
+  DeleteAssessmentRequest & RegionInput,
   DeleteAssessmentResponse,
   DeleteAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1581,6 +1617,8 @@ export const deleteAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessment",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessment",
 }));
 
 export type DeleteAssessmentFrameworkError =
@@ -1593,7 +1631,7 @@ export type DeleteAssessmentFrameworkError =
  * Deletes a custom framework in Audit Manager.
  */
 export const deleteAssessmentFramework: API.OperationMethod<
-  DeleteAssessmentFrameworkRequest,
+  DeleteAssessmentFrameworkRequest & RegionInput,
   DeleteAssessmentFrameworkResponse,
   DeleteAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -1609,6 +1647,8 @@ export const deleteAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentFramework",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentFramework",
 }));
 
 export type DeleteAssessmentFrameworkShareError =
@@ -1621,7 +1661,7 @@ export type DeleteAssessmentFrameworkShareError =
  * Deletes a share request for a custom framework in Audit Manager.
  */
 export const deleteAssessmentFrameworkShare: API.OperationMethod<
-  DeleteAssessmentFrameworkShareRequest,
+  DeleteAssessmentFrameworkShareRequest & RegionInput,
   DeleteAssessmentFrameworkShareResponse,
   DeleteAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -1637,6 +1677,8 @@ export const deleteAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentFrameworkShare",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentFrameworkShare",
 }));
 
 export type DeleteAssessmentReportError =
@@ -1669,7 +1711,7 @@ export type DeleteAssessmentReportError =
  * Reference.
  */
 export const deleteAssessmentReport: API.OperationMethod<
-  DeleteAssessmentReportRequest,
+  DeleteAssessmentReportRequest & RegionInput,
   DeleteAssessmentReportResponse,
   DeleteAssessmentReportError,
   Credentials | HttpClient.HttpClient
@@ -1685,6 +1727,8 @@ export const deleteAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentReport",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentReport",
 }));
 
 export type DeleteControlError =
@@ -1702,7 +1746,7 @@ export type DeleteControlError =
  * assessments that you previously created before you deleted the custom control.
  */
 export const deleteControl: API.OperationMethod<
-  DeleteControlRequest,
+  DeleteControlRequest & RegionInput,
   DeleteControlResponse,
   DeleteControlError,
   Credentials | HttpClient.HttpClient
@@ -1718,6 +1762,8 @@ export const deleteControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteControl",
+  telemetry: TELEMETRY,
+  span: "DeleteControl",
 }));
 
 export type DeregisterAccountError =
@@ -1738,7 +1784,7 @@ export type DeregisterAccountError =
  * Protection in the *Audit Manager User Guide*.
  */
 export const deregisterAccount: API.OperationMethod<
-  DeregisterAccountRequest,
+  DeregisterAccountRequest & RegionInput,
   DeregisterAccountResponse,
   DeregisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -1754,6 +1800,8 @@ export const deregisterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAccount",
+  telemetry: TELEMETRY,
+  span: "DeregisterAccount",
 }));
 
 export type DeregisterOrganizationAdminAccountError =
@@ -1818,7 +1866,7 @@ export type DeregisterOrganizationAdminAccountError =
  * time of deregistration.
  */
 export const deregisterOrganizationAdminAccount: API.OperationMethod<
-  DeregisterOrganizationAdminAccountRequest,
+  DeregisterOrganizationAdminAccountRequest & RegionInput,
   DeregisterOrganizationAdminAccountResponse,
   DeregisterOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -1834,6 +1882,8 @@ export const deregisterOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DeregisterOrganizationAdminAccount",
 }));
 
 export type DisassociateAssessmentReportEvidenceFolderError =
@@ -1846,7 +1896,7 @@ export type DisassociateAssessmentReportEvidenceFolderError =
  * Disassociates an evidence folder from the specified assessment report in Audit Manager.
  */
 export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
-  DisassociateAssessmentReportEvidenceFolderRequest,
+  DisassociateAssessmentReportEvidenceFolderRequest & RegionInput,
   DisassociateAssessmentReportEvidenceFolderResponse,
   DisassociateAssessmentReportEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -1866,6 +1916,8 @@ export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAssessmentReportEvidenceFolder",
+  telemetry: TELEMETRY,
+  span: "DisassociateAssessmentReportEvidenceFolder",
 }));
 
 export type GetAccountStatusError = InternalServerException | CommonErrors;
@@ -1873,7 +1925,7 @@ export type GetAccountStatusError = InternalServerException | CommonErrors;
  * Gets the registration status of an account in Audit Manager.
  */
 export const getAccountStatus: API.OperationMethod<
-  GetAccountStatusRequest,
+  GetAccountStatusRequest & RegionInput,
   GetAccountStatusResponse,
   GetAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -1884,6 +1936,8 @@ export const getAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountStatus",
+  telemetry: TELEMETRY,
+  span: "GetAccountStatus",
 }));
 
 export type GetAssessmentError =
@@ -1896,7 +1950,7 @@ export type GetAssessmentError =
  * Gets information about a specified assessment.
  */
 export const getAssessment: API.OperationMethod<
-  GetAssessmentRequest,
+  GetAssessmentRequest & RegionInput,
   GetAssessmentResponse,
   GetAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -1912,6 +1966,8 @@ export const getAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessment",
+  telemetry: TELEMETRY,
+  span: "GetAssessment",
 }));
 
 export type GetAssessmentFrameworkError =
@@ -1924,7 +1980,7 @@ export type GetAssessmentFrameworkError =
  * Gets information about a specified framework.
  */
 export const getAssessmentFramework: API.OperationMethod<
-  GetAssessmentFrameworkRequest,
+  GetAssessmentFrameworkRequest & RegionInput,
   GetAssessmentFrameworkResponse,
   GetAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -1940,6 +1996,8 @@ export const getAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentFramework",
+  telemetry: TELEMETRY,
+  span: "GetAssessmentFramework",
 }));
 
 export type GetAssessmentReportUrlError =
@@ -1952,7 +2010,7 @@ export type GetAssessmentReportUrlError =
  * Gets the URL of an assessment report in Audit Manager.
  */
 export const getAssessmentReportUrl: API.OperationMethod<
-  GetAssessmentReportUrlRequest,
+  GetAssessmentReportUrlRequest & RegionInput,
   GetAssessmentReportUrlResponse,
   GetAssessmentReportUrlError,
   Credentials | HttpClient.HttpClient
@@ -1968,6 +2026,8 @@ export const getAssessmentReportUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentReportUrl",
+  telemetry: TELEMETRY,
+  span: "GetAssessmentReportUrl",
 }));
 
 export type GetChangeLogsError =
@@ -1980,7 +2040,7 @@ export type GetChangeLogsError =
  * Gets a list of changelogs from Audit Manager.
  */
 export const getChangeLogs: API.PaginatedOperationMethod<
-  GetChangeLogsRequest,
+  GetChangeLogsRequest & RegionInput,
   GetChangeLogsResponse,
   GetChangeLogsError,
   Credentials | HttpClient.HttpClient,
@@ -2002,6 +2062,8 @@ export const getChangeLogs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetChangeLogs",
 })) as any;
 
 export type GetControlError =
@@ -2014,7 +2076,7 @@ export type GetControlError =
  * Gets information about a specified control.
  */
 export const getControl: API.OperationMethod<
-  GetControlRequest,
+  GetControlRequest & RegionInput,
   GetControlResponse,
   GetControlError,
   Credentials | HttpClient.HttpClient
@@ -2030,6 +2092,8 @@ export const getControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControl",
+  telemetry: TELEMETRY,
+  span: "GetControl",
 }));
 
 export type GetDelegationsError =
@@ -2041,7 +2105,7 @@ export type GetDelegationsError =
  * Gets a list of delegations from an audit owner to a delegate.
  */
 export const getDelegations: API.PaginatedOperationMethod<
-  GetDelegationsRequest,
+  GetDelegationsRequest & RegionInput,
   GetDelegationsResponse,
   GetDelegationsError,
   Credentials | HttpClient.HttpClient,
@@ -2058,6 +2122,8 @@ export const getDelegations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDelegations",
 })) as any;
 
 export type GetEvidenceError =
@@ -2070,7 +2136,7 @@ export type GetEvidenceError =
  * Gets information about a specified evidence item.
  */
 export const getEvidence: API.OperationMethod<
-  GetEvidenceRequest,
+  GetEvidenceRequest & RegionInput,
   GetEvidenceResponse,
   GetEvidenceError,
   Credentials | HttpClient.HttpClient
@@ -2086,6 +2152,8 @@ export const getEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidence",
+  telemetry: TELEMETRY,
+  span: "GetEvidence",
 }));
 
 export type GetEvidenceByEvidenceFolderError =
@@ -2098,7 +2166,7 @@ export type GetEvidenceByEvidenceFolderError =
  * Gets all evidence from a specified evidence folder in Audit Manager.
  */
 export const getEvidenceByEvidenceFolder: API.PaginatedOperationMethod<
-  GetEvidenceByEvidenceFolderRequest,
+  GetEvidenceByEvidenceFolderRequest & RegionInput,
   GetEvidenceByEvidenceFolderResponse,
   GetEvidenceByEvidenceFolderError,
   Credentials | HttpClient.HttpClient,
@@ -2120,6 +2188,8 @@ export const getEvidenceByEvidenceFolder: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEvidenceByEvidenceFolder",
 })) as any;
 
 export type GetEvidenceFileUploadUrlError =
@@ -2145,7 +2215,7 @@ export type GetEvidenceFileUploadUrlError =
  * restrictions for Audit Manager.
  */
 export const getEvidenceFileUploadUrl: API.OperationMethod<
-  GetEvidenceFileUploadUrlRequest,
+  GetEvidenceFileUploadUrlRequest & RegionInput,
   GetEvidenceFileUploadUrlResponse,
   GetEvidenceFileUploadUrlError,
   Credentials | HttpClient.HttpClient
@@ -2161,6 +2231,8 @@ export const getEvidenceFileUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidenceFileUploadUrl",
+  telemetry: TELEMETRY,
+  span: "GetEvidenceFileUploadUrl",
 }));
 
 export type GetEvidenceFolderError =
@@ -2173,7 +2245,7 @@ export type GetEvidenceFolderError =
  * Gets an evidence folder from a specified assessment in Audit Manager.
  */
 export const getEvidenceFolder: API.OperationMethod<
-  GetEvidenceFolderRequest,
+  GetEvidenceFolderRequest & RegionInput,
   GetEvidenceFolderResponse,
   GetEvidenceFolderError,
   Credentials | HttpClient.HttpClient
@@ -2189,6 +2261,8 @@ export const getEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidenceFolder",
+  telemetry: TELEMETRY,
+  span: "GetEvidenceFolder",
 }));
 
 export type GetEvidenceFoldersByAssessmentError =
@@ -2201,7 +2275,7 @@ export type GetEvidenceFoldersByAssessmentError =
  * Gets the evidence folders from a specified assessment in Audit Manager.
  */
 export const getEvidenceFoldersByAssessment: API.PaginatedOperationMethod<
-  GetEvidenceFoldersByAssessmentRequest,
+  GetEvidenceFoldersByAssessmentRequest & RegionInput,
   GetEvidenceFoldersByAssessmentResponse,
   GetEvidenceFoldersByAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -2223,6 +2297,8 @@ export const getEvidenceFoldersByAssessment: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEvidenceFoldersByAssessment",
 })) as any;
 
 export type GetEvidenceFoldersByAssessmentControlError =
@@ -2236,7 +2312,7 @@ export type GetEvidenceFoldersByAssessmentControlError =
  * Audit Manager assessment.
  */
 export const getEvidenceFoldersByAssessmentControl: API.PaginatedOperationMethod<
-  GetEvidenceFoldersByAssessmentControlRequest,
+  GetEvidenceFoldersByAssessmentControlRequest & RegionInput,
   GetEvidenceFoldersByAssessmentControlResponse,
   GetEvidenceFoldersByAssessmentControlError,
   Credentials | HttpClient.HttpClient,
@@ -2258,6 +2334,8 @@ export const getEvidenceFoldersByAssessmentControl: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEvidenceFoldersByAssessmentControl",
 })) as any;
 
 export type GetInsightsError = AccessDeniedException | InternalServerException | CommonErrors;
@@ -2265,7 +2343,7 @@ export type GetInsightsError = AccessDeniedException | InternalServerException |
  * Gets the latest analytics data for all your current active assessments.
  */
 export const getInsights: API.OperationMethod<
-  GetInsightsRequest,
+  GetInsightsRequest & RegionInput,
   GetInsightsResponse,
   GetInsightsError,
   Credentials | HttpClient.HttpClient
@@ -2276,6 +2354,8 @@ export const getInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsights",
+  telemetry: TELEMETRY,
+  span: "GetInsights",
 }));
 
 export type GetInsightsByAssessmentError =
@@ -2288,7 +2368,7 @@ export type GetInsightsByAssessmentError =
  * Gets the latest analytics data for a specific active assessment.
  */
 export const getInsightsByAssessment: API.OperationMethod<
-  GetInsightsByAssessmentRequest,
+  GetInsightsByAssessmentRequest & RegionInput,
   GetInsightsByAssessmentResponse,
   GetInsightsByAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2304,6 +2384,8 @@ export const getInsightsByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightsByAssessment",
+  telemetry: TELEMETRY,
+  span: "GetInsightsByAssessment",
 }));
 
 export type GetOrganizationAdminAccountError =
@@ -2317,7 +2399,7 @@ export type GetOrganizationAdminAccountError =
  * organization.
  */
 export const getOrganizationAdminAccount: API.OperationMethod<
-  GetOrganizationAdminAccountRequest,
+  GetOrganizationAdminAccountRequest & RegionInput,
   GetOrganizationAdminAccountResponse,
   GetOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2333,6 +2415,8 @@ export const getOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "GetOrganizationAdminAccount",
 }));
 
 export type GetServicesInScopeError =
@@ -2355,7 +2439,7 @@ export type GetServicesInScopeError =
  * guide.
  */
 export const getServicesInScope: API.OperationMethod<
-  GetServicesInScopeRequest,
+  GetServicesInScopeRequest & RegionInput,
   GetServicesInScopeResponse,
   GetServicesInScopeError,
   Credentials | HttpClient.HttpClient
@@ -2366,6 +2450,8 @@ export const getServicesInScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServicesInScope",
+  telemetry: TELEMETRY,
+  span: "GetServicesInScope",
 }));
 
 export type GetSettingsError = AccessDeniedException | InternalServerException | CommonErrors;
@@ -2373,7 +2459,7 @@ export type GetSettingsError = AccessDeniedException | InternalServerException |
  * Gets the settings for a specified Amazon Web Services account.
  */
 export const getSettings: API.OperationMethod<
-  GetSettingsRequest,
+  GetSettingsRequest & RegionInput,
   GetSettingsResponse,
   GetSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2384,6 +2470,8 @@ export const getSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSettings",
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type ListAssessmentControlInsightsByControlDomainError =
@@ -2402,7 +2490,7 @@ export type ListAssessmentControlInsightsByControlDomainError =
  * of these conditions are met, no data is listed for that control.
  */
 export const listAssessmentControlInsightsByControlDomain: API.PaginatedOperationMethod<
-  ListAssessmentControlInsightsByControlDomainRequest,
+  ListAssessmentControlInsightsByControlDomainRequest & RegionInput,
   ListAssessmentControlInsightsByControlDomainResponse,
   ListAssessmentControlInsightsByControlDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2428,6 +2516,8 @@ export const listAssessmentControlInsightsByControlDomain: API.PaginatedOperatio
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentControlInsightsByControlDomain",
 })) as any;
 
 export type ListAssessmentFrameworksError =
@@ -2440,7 +2530,7 @@ export type ListAssessmentFrameworksError =
  * library.
  */
 export const listAssessmentFrameworks: API.PaginatedOperationMethod<
-  ListAssessmentFrameworksRequest,
+  ListAssessmentFrameworksRequest & RegionInput,
   ListAssessmentFrameworksResponse,
   ListAssessmentFrameworksError,
   Credentials | HttpClient.HttpClient,
@@ -2457,6 +2547,8 @@ export const listAssessmentFrameworks: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentFrameworks",
 })) as any;
 
 export type ListAssessmentFrameworkShareRequestsError =
@@ -2468,7 +2560,7 @@ export type ListAssessmentFrameworkShareRequestsError =
  * Returns a list of sent or received share requests for custom frameworks in Audit Manager.
  */
 export const listAssessmentFrameworkShareRequests: API.PaginatedOperationMethod<
-  ListAssessmentFrameworkShareRequestsRequest,
+  ListAssessmentFrameworkShareRequestsRequest & RegionInput,
   ListAssessmentFrameworkShareRequestsResponse,
   ListAssessmentFrameworkShareRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -2485,6 +2577,8 @@ export const listAssessmentFrameworkShareRequests: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentFrameworkShareRequests",
 })) as any;
 
 export type ListAssessmentReportsError =
@@ -2496,7 +2590,7 @@ export type ListAssessmentReportsError =
  * Returns a list of assessment reports created in Audit Manager.
  */
 export const listAssessmentReports: API.PaginatedOperationMethod<
-  ListAssessmentReportsRequest,
+  ListAssessmentReportsRequest & RegionInput,
   ListAssessmentReportsResponse,
   ListAssessmentReportsError,
   Credentials | HttpClient.HttpClient,
@@ -2513,6 +2607,8 @@ export const listAssessmentReports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentReports",
 })) as any;
 
 export type ListAssessmentsError =
@@ -2524,7 +2620,7 @@ export type ListAssessmentsError =
  * Returns a list of current and past assessments from Audit Manager.
  */
 export const listAssessments: API.PaginatedOperationMethod<
-  ListAssessmentsRequest,
+  ListAssessmentsRequest & RegionInput,
   ListAssessmentsResponse,
   ListAssessmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2541,6 +2637,8 @@ export const listAssessments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessments",
 })) as any;
 
 export type ListControlDomainInsightsError =
@@ -2566,7 +2664,7 @@ export type ListControlDomainInsightsError =
  * for that control domain.
  */
 export const listControlDomainInsights: API.PaginatedOperationMethod<
-  ListControlDomainInsightsRequest,
+  ListControlDomainInsightsRequest & RegionInput,
   ListControlDomainInsightsResponse,
   ListControlDomainInsightsError,
   Credentials | HttpClient.HttpClient,
@@ -2588,6 +2686,8 @@ export const listControlDomainInsights: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlDomainInsights",
 })) as any;
 
 export type ListControlDomainInsightsByAssessmentError =
@@ -2612,7 +2712,7 @@ export type ListControlDomainInsightsByAssessmentError =
  * for that domain.
  */
 export const listControlDomainInsightsByAssessment: API.PaginatedOperationMethod<
-  ListControlDomainInsightsByAssessmentRequest,
+  ListControlDomainInsightsByAssessmentRequest & RegionInput,
   ListControlDomainInsightsByAssessmentResponse,
   ListControlDomainInsightsByAssessmentError,
   Credentials | HttpClient.HttpClient,
@@ -2634,6 +2734,8 @@ export const listControlDomainInsightsByAssessment: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlDomainInsightsByAssessment",
 })) as any;
 
 export type ListControlInsightsByControlDomainError =
@@ -2652,7 +2754,7 @@ export type ListControlInsightsByControlDomainError =
  * is listed for that control.
  */
 export const listControlInsightsByControlDomain: API.PaginatedOperationMethod<
-  ListControlInsightsByControlDomainRequest,
+  ListControlInsightsByControlDomainRequest & RegionInput,
   ListControlInsightsByControlDomainResponse,
   ListControlInsightsByControlDomainError,
   Credentials | HttpClient.HttpClient,
@@ -2674,6 +2776,8 @@ export const listControlInsightsByControlDomain: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlInsightsByControlDomain",
 })) as any;
 
 export type ListControlsError =
@@ -2685,7 +2789,7 @@ export type ListControlsError =
  * Returns a list of controls from Audit Manager.
  */
 export const listControls: API.PaginatedOperationMethod<
-  ListControlsRequest,
+  ListControlsRequest & RegionInput,
   ListControlsResponse,
   ListControlsError,
   Credentials | HttpClient.HttpClient,
@@ -2702,6 +2806,8 @@ export const listControls: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControls",
 })) as any;
 
 export type ListKeywordsForDataSourceError =
@@ -2714,7 +2820,7 @@ export type ListKeywordsForDataSourceError =
  * source.
  */
 export const listKeywordsForDataSource: API.PaginatedOperationMethod<
-  ListKeywordsForDataSourceRequest,
+  ListKeywordsForDataSourceRequest & RegionInput,
   ListKeywordsForDataSourceResponse,
   ListKeywordsForDataSourceError,
   Credentials | HttpClient.HttpClient,
@@ -2731,6 +2837,8 @@ export const listKeywordsForDataSource: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeywordsForDataSource",
 })) as any;
 
 export type ListNotificationsError =
@@ -2742,7 +2850,7 @@ export type ListNotificationsError =
  * Returns a list of all Audit Manager notifications.
  */
 export const listNotifications: API.PaginatedOperationMethod<
-  ListNotificationsRequest,
+  ListNotificationsRequest & RegionInput,
   ListNotificationsResponse,
   ListNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -2759,6 +2867,8 @@ export const listNotifications: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2770,7 +2880,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for the specified resource in Audit Manager.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2781,6 +2891,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterAccountError =
@@ -2795,7 +2907,7 @@ export type RegisterAccountError =
  * Enables Audit Manager for the specified Amazon Web Services account.
  */
 export const registerAccount: API.OperationMethod<
-  RegisterAccountRequest,
+  RegisterAccountRequest & RegionInput,
   RegisterAccountResponse,
   RegisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -2813,6 +2925,8 @@ export const registerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccount",
+  telemetry: TELEMETRY,
+  span: "RegisterAccount",
 }));
 
 export type RegisterOrganizationAdminAccountError =
@@ -2827,7 +2941,7 @@ export type RegisterOrganizationAdminAccountError =
  * administrator for Audit Manager.
  */
 export const registerOrganizationAdminAccount: API.OperationMethod<
-  RegisterOrganizationAdminAccountRequest,
+  RegisterOrganizationAdminAccountRequest & RegionInput,
   RegisterOrganizationAdminAccountResponse,
   RegisterOrganizationAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -2844,6 +2958,8 @@ export const registerOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "RegisterOrganizationAdminAccount",
 }));
 
 export type StartAssessmentFrameworkShareError =
@@ -2890,7 +3006,7 @@ export type StartAssessmentFrameworkShareError =
  * Guide.
  */
 export const startAssessmentFrameworkShare: API.OperationMethod<
-  StartAssessmentFrameworkShareRequest,
+  StartAssessmentFrameworkShareRequest & RegionInput,
   StartAssessmentFrameworkShareResponse,
   StartAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -2906,6 +3022,8 @@ export const startAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessmentFrameworkShare",
+  telemetry: TELEMETRY,
+  span: "StartAssessmentFrameworkShare",
 }));
 
 export type TagResourceError =
@@ -2917,7 +3035,7 @@ export type TagResourceError =
  * Tags the specified resource in Audit Manager.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2928,6 +3046,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2939,7 +3059,7 @@ export type UntagResourceError =
  * Removes a tag from a resource in Audit Manager.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2950,6 +3070,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAssessmentError =
@@ -2964,7 +3086,7 @@ export type UpdateAssessmentError =
  * Edits an Audit Manager assessment.
  */
 export const updateAssessment: API.OperationMethod<
-  UpdateAssessmentRequest,
+  UpdateAssessmentRequest & RegionInput,
   UpdateAssessmentResponse,
   UpdateAssessmentError,
   Credentials | HttpClient.HttpClient
@@ -2982,6 +3104,8 @@ export const updateAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessment",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessment",
 }));
 
 export type UpdateAssessmentControlError =
@@ -2994,7 +3118,7 @@ export type UpdateAssessmentControlError =
  * Updates a control within an assessment in Audit Manager.
  */
 export const updateAssessmentControl: API.OperationMethod<
-  UpdateAssessmentControlRequest,
+  UpdateAssessmentControlRequest & RegionInput,
   UpdateAssessmentControlResponse,
   UpdateAssessmentControlError,
   Credentials | HttpClient.HttpClient
@@ -3010,6 +3134,8 @@ export const updateAssessmentControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentControl",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentControl",
 }));
 
 export type UpdateAssessmentControlSetStatusError =
@@ -3022,7 +3148,7 @@ export type UpdateAssessmentControlSetStatusError =
  * Updates the status of a control set in an Audit Manager assessment.
  */
 export const updateAssessmentControlSetStatus: API.OperationMethod<
-  UpdateAssessmentControlSetStatusRequest,
+  UpdateAssessmentControlSetStatusRequest & RegionInput,
   UpdateAssessmentControlSetStatusResponse,
   UpdateAssessmentControlSetStatusError,
   Credentials | HttpClient.HttpClient
@@ -3038,6 +3164,8 @@ export const updateAssessmentControlSetStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentControlSetStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentControlSetStatus",
 }));
 
 export type UpdateAssessmentFrameworkError =
@@ -3051,7 +3179,7 @@ export type UpdateAssessmentFrameworkError =
  * Updates a custom framework in Audit Manager.
  */
 export const updateAssessmentFramework: API.OperationMethod<
-  UpdateAssessmentFrameworkRequest,
+  UpdateAssessmentFrameworkRequest & RegionInput,
   UpdateAssessmentFrameworkResponse,
   UpdateAssessmentFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3068,6 +3196,8 @@ export const updateAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentFramework",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentFramework",
 }));
 
 export type UpdateAssessmentFrameworkShareError =
@@ -3081,7 +3211,7 @@ export type UpdateAssessmentFrameworkShareError =
  * Updates a share request for a custom framework in Audit Manager.
  */
 export const updateAssessmentFrameworkShare: API.OperationMethod<
-  UpdateAssessmentFrameworkShareRequest,
+  UpdateAssessmentFrameworkShareRequest & RegionInput,
   UpdateAssessmentFrameworkShareResponse,
   UpdateAssessmentFrameworkShareError,
   Credentials | HttpClient.HttpClient
@@ -3098,6 +3228,8 @@ export const updateAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentFrameworkShare",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentFrameworkShare",
 }));
 
 export type UpdateAssessmentStatusError =
@@ -3111,7 +3243,7 @@ export type UpdateAssessmentStatusError =
  * Updates the status of an assessment in Audit Manager.
  */
 export const updateAssessmentStatus: API.OperationMethod<
-  UpdateAssessmentStatusRequest,
+  UpdateAssessmentStatusRequest & RegionInput,
   UpdateAssessmentStatusResponse,
   UpdateAssessmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -3128,6 +3260,8 @@ export const updateAssessmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentStatus",
 }));
 
 export type UpdateControlError =
@@ -3140,7 +3274,7 @@ export type UpdateControlError =
  * Updates a custom control in Audit Manager.
  */
 export const updateControl: API.OperationMethod<
-  UpdateControlRequest,
+  UpdateControlRequest & RegionInput,
   UpdateControlResponse,
   UpdateControlError,
   Credentials | HttpClient.HttpClient
@@ -3156,6 +3290,8 @@ export const updateControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateControl",
+  telemetry: TELEMETRY,
+  span: "UpdateControl",
 }));
 
 export type UpdateSettingsError =
@@ -3167,7 +3303,7 @@ export type UpdateSettingsError =
  * Updates Audit Manager settings for the current account.
  */
 export const updateSettings: API.OperationMethod<
-  UpdateSettingsRequest,
+  UpdateSettingsRequest & RegionInput,
   UpdateSettingsResponse,
   UpdateSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3178,6 +3314,8 @@ export const updateSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateSettings",
 }));
 
 export type ValidateAssessmentReportIntegrityError =
@@ -3190,7 +3328,7 @@ export type ValidateAssessmentReportIntegrityError =
  * Validates the integrity of an assessment report in Audit Manager.
  */
 export const validateAssessmentReportIntegrity: API.OperationMethod<
-  ValidateAssessmentReportIntegrityRequest,
+  ValidateAssessmentReportIntegrityRequest & RegionInput,
   ValidateAssessmentReportIntegrityResponse,
   ValidateAssessmentReportIntegrityError,
   Credentials | HttpClient.HttpClient
@@ -3206,6 +3344,8 @@ export const validateAssessmentReportIntegrity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateAssessmentReportIntegrity",
+  telemetry: TELEMETRY,
+  span: "ValidateAssessmentReportIntegrity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

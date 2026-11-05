@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -71,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pipes.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pipes",
+  service: "Pipes",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -841,7 +857,7 @@ export type CreatePipeError =
  * the need for specialized knowledge and integration code.
  */
 export const createPipe: API.OperationMethod<
-  CreatePipeRequest,
+  CreatePipeRequest & RegionInput,
   CreatePipeResponse,
   CreatePipeError,
   Credentials | HttpClient.HttpClient
@@ -859,6 +875,8 @@ export const createPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipe",
+  telemetry: TELEMETRY,
+  span: "CreatePipe",
 }));
 
 export type DeletePipeError =
@@ -872,7 +890,7 @@ export type DeletePipeError =
  * Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const deletePipe: API.OperationMethod<
-  DeletePipeRequest,
+  DeletePipeRequest & RegionInput,
   DeletePipeResponse,
   DeletePipeError,
   Credentials | HttpClient.HttpClient
@@ -889,6 +907,8 @@ export const deletePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipe",
+  telemetry: TELEMETRY,
+  span: "DeletePipe",
 }));
 
 export type DescribePipeError =
@@ -901,7 +921,7 @@ export type DescribePipeError =
  * Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const describePipe: API.OperationMethod<
-  DescribePipeRequest,
+  DescribePipeRequest & RegionInput,
   DescribePipeResponse,
   DescribePipeError,
   Credentials | HttpClient.HttpClient
@@ -912,6 +932,8 @@ export const describePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipe",
+  telemetry: TELEMETRY,
+  span: "DescribePipe",
 }));
 
 export type ListPipesError =
@@ -923,7 +945,7 @@ export type ListPipesError =
  * Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const listPipes: API.PaginatedOperationMethod<
-  ListPipesRequest,
+  ListPipesRequest & RegionInput,
   ListPipesResponse,
   ListPipesError,
   Credentials | HttpClient.HttpClient,
@@ -941,6 +963,8 @@ export const listPipes: API.PaginatedOperationMethod<
     items: "Pipes",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -952,7 +976,7 @@ export type ListTagsForResourceError =
  * Displays the tags associated with a pipe.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -963,6 +987,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPipeError =
@@ -976,7 +1002,7 @@ export type StartPipeError =
  * Start an existing pipe.
  */
 export const startPipe: API.OperationMethod<
-  StartPipeRequest,
+  StartPipeRequest & RegionInput,
   StartPipeResponse,
   StartPipeError,
   Credentials | HttpClient.HttpClient
@@ -993,6 +1019,8 @@ export const startPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipe",
+  telemetry: TELEMETRY,
+  span: "StartPipe",
 }));
 
 export type StopPipeError =
@@ -1006,7 +1034,7 @@ export type StopPipeError =
  * Stop an existing pipe.
  */
 export const stopPipe: API.OperationMethod<
-  StopPipeRequest,
+  StopPipeRequest & RegionInput,
   StopPipeResponse,
   StopPipeError,
   Credentials | HttpClient.HttpClient
@@ -1023,6 +1051,8 @@ export const stopPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipe",
+  telemetry: TELEMETRY,
+  span: "StopPipe",
 }));
 
 export type TagResourceError =
@@ -1047,7 +1077,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a pipe.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1058,6 +1088,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1069,7 +1101,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified pipes.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1080,6 +1112,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePipeError =
@@ -1105,7 +1139,7 @@ export type UpdatePipeError =
  * Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
 export const updatePipe: API.OperationMethod<
-  UpdatePipeRequest,
+  UpdatePipeRequest & RegionInput,
   UpdatePipeResponse,
   UpdatePipeError,
   Credentials | HttpClient.HttpClient
@@ -1122,6 +1156,8 @@ export const updatePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipe",
+  telemetry: TELEMETRY,
+  span: "UpdatePipe",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

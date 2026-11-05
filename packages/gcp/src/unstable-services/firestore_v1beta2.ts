@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "firestore" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Firestore",
+  service: "firestore",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -253,6 +272,8 @@ export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type DeleteProjectsDatabasesCollectionGroupsIndexesError =
@@ -273,6 +294,8 @@ export const deleteProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type ExportDocumentsProjectsDatabasesError =
@@ -293,6 +316,8 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDocumentsProjectsDatabases",
 }));
 
 export type GetProjectsDatabasesCollectionGroupsFieldsError = NotFound | Forbidden | GcpOpError;
@@ -308,6 +333,8 @@ export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesCollectionGroupsFields",
 }));
 
 export type GetProjectsDatabasesCollectionGroupsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -323,6 +350,8 @@ export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type ImportDocumentsProjectsDatabasesError =
@@ -343,6 +372,8 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDocumentsProjectsDatabases",
 }));
 
 export type ListProjectsDatabasesCollectionGroupsFieldsError = NotFound | Forbidden | GcpOpError;
@@ -359,6 +390,8 @@ export const listProjectsDatabasesCollectionGroupsFields: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesCollectionGroupsFields",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -376,6 +409,8 @@ export const listProjectsDatabasesCollectionGroupsIndexes: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesCollectionGroupsIndexes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -397,6 +432,8 @@ export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDatabasesCollectionGroupsFields",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

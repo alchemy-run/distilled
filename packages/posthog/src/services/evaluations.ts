@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Evaluations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
 export type EvaluationTypeEnum = "llm_judge" | "hog" | "sentiment";
 export interface CreateEvaluationRequestEvaluationConfigCase0 {
@@ -861,6 +874,8 @@ export const createEvaluation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluation",
 }));
 
 export type CreateEvaluationsBackfillError = PosthogOpError;
@@ -876,6 +891,8 @@ export const createEvaluationsBackfill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationsBackfill",
 }));
 
 export type CreateEvaluationsBackfillsEstimateError = PosthogOpError;
@@ -891,6 +908,8 @@ export const createEvaluationsBackfillsEstimate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationsBackfillsEstimate",
 }));
 
 export type CreateEvaluationsTestHogError = PosthogOpError;
@@ -906,6 +925,8 @@ export const createEvaluationsTestHog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationsTestHog",
 }));
 
 export type EvaluationsBackfillsCancelCreateError = PosthogOpError;
@@ -921,6 +942,8 @@ export const evaluationsBackfillsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluationsBackfillsCancelCreate",
 }));
 
 export type EvaluationsDestroyError = PosthogOpError;
@@ -936,6 +959,8 @@ export const evaluationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluationsDestroy",
 }));
 
 export type GetEvaluationError = PosthogOpError;
@@ -950,6 +975,8 @@ export const getEvaluation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvaluation",
 }));
 
 export type GetEvaluationsBackfillError = PosthogOpError;
@@ -965,6 +992,8 @@ export const getEvaluationsBackfill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvaluationsBackfill",
 }));
 
 export type ListEvaluationsError = PosthogOpError;
@@ -979,6 +1008,8 @@ export const listEvaluations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvaluations",
 }));
 
 export type ListEvaluationsBackfillsError = PosthogOpError;
@@ -994,6 +1025,8 @@ export const listEvaluationsBackfills: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationsBackfills",
 }));
 
 export type UpdateEvaluationError = PosthogOpError;
@@ -1008,6 +1041,8 @@ export const updateEvaluation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluation",
 }));
 
 export type UpdateEvaluationsPartialError = PosthogOpError;
@@ -1022,6 +1057,8 @@ export const updateEvaluationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluationsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

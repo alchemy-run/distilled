@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -31,6 +33,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p) => {
   }
   return e("https://pricingplanmanager.us-east-1.api.aws", _p0(), {});
 }, '{"url":"https://pricingplanmanager.us-east-1.api.aws","properties":{"authSchemes":[{"name":"sigv4","signingName":"pricingplanmanager","signingRegion":"us-east-1"}]},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PricingPlanManager",
+  service: "PricingPlanManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -213,7 +229,7 @@ export type ApprovePaidSubscriptionError =
  * This operation requires the current `ETag` value for concurrency control. Retrieve it from a previous `GetSubscription` or `ListSubscriptions` response.
  */
 export const approvePaidSubscription: API.OperationMethod<
-  ApprovePaidSubscriptionInput,
+  ApprovePaidSubscriptionInput & RegionInput,
   ApprovePaidSubscriptionOutput,
   ApprovePaidSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -231,6 +247,8 @@ export const approvePaidSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePaidSubscription",
+  telemetry: TELEMETRY,
+  span: "ApprovePaidSubscription",
 }));
 
 export type AssociateResourcesToSubscriptionError =
@@ -247,7 +265,7 @@ export type AssociateResourcesToSubscriptionError =
  * For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores.
  */
 export const associateResourcesToSubscription: API.OperationMethod<
-  AssociateResourcesToSubscriptionInput,
+  AssociateResourcesToSubscriptionInput & RegionInput,
   AssociateResourcesToSubscriptionOutput,
   AssociateResourcesToSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -265,6 +283,8 @@ export const associateResourcesToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourcesToSubscription",
+  telemetry: TELEMETRY,
+  span: "AssociateResourcesToSubscription",
 }));
 
 export type CancelSubscriptionError =
@@ -283,7 +303,7 @@ export type CancelSubscriptionError =
  * For subscriptions in `PENDING_APPROVAL` status, the subscription is deleted immediately without scheduling.
  */
 export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionInput,
+  CancelSubscriptionInput & RegionInput,
   CancelSubscriptionOutput,
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -301,6 +321,8 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type CancelSubscriptionChangeError =
@@ -317,7 +339,7 @@ export type CancelSubscriptionChangeError =
  * You cannot cancel a scheduled change close to its effective date. If the change is within the processing window, this operation returns an error.
  */
 export const cancelSubscriptionChange: API.OperationMethod<
-  CancelSubscriptionChangeInput,
+  CancelSubscriptionChangeInput & RegionInput,
   CancelSubscriptionChangeOutput,
   CancelSubscriptionChangeError,
   Credentials | HttpClient.HttpClient
@@ -335,6 +357,8 @@ export const cancelSubscriptionChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscriptionChange",
+  telemetry: TELEMETRY,
+  span: "CancelSubscriptionChange",
 }));
 
 export type CreateSubscriptionError =
@@ -354,7 +378,7 @@ export type CreateSubscriptionError =
  * When `approvalMode` is set to `IMMEDIATE` or is not specified, the subscription is activated immediately.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionInput,
+  CreateSubscriptionInput & RegionInput,
   CreateSubscriptionOutput,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -373,6 +397,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DisassociateResourcesFromSubscriptionError =
@@ -389,7 +415,7 @@ export type DisassociateResourcesFromSubscriptionError =
  * For subscriptions in the CloudFront plan family, the associated resources must always include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You cannot remove these required resources.
  */
 export const disassociateResourcesFromSubscription: API.OperationMethod<
-  DisassociateResourcesFromSubscriptionInput,
+  DisassociateResourcesFromSubscriptionInput & RegionInput,
   DisassociateResourcesFromSubscriptionOutput,
   DisassociateResourcesFromSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -407,6 +433,8 @@ export const disassociateResourcesFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourcesFromSubscription",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourcesFromSubscription",
 }));
 
 export type GetSubscriptionError =
@@ -420,7 +448,7 @@ export type GetSubscriptionError =
  * Returns the details of a flat-rate pricing subscription, including its current status, associated resources, and any pending scheduled changes.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionInput,
+  GetSubscriptionInput & RegionInput,
   GetSubscriptionOutput,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -437,6 +465,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type ListSubscriptionsError =
@@ -450,7 +480,7 @@ export type ListSubscriptionsError =
  * Returns a summary of all flat-rate pricing subscriptions in the calling account.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsOutput,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -473,6 +503,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "subscriptionSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type UpdateSubscriptionError =
@@ -492,7 +524,7 @@ export type UpdateSubscriptionError =
  * This operation replaces the plan tier value. If you omit the optional `usageLevel` field, it is reset to the default.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionInput,
+  UpdateSubscriptionInput & RegionInput,
   UpdateSubscriptionOutput,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -511,6 +543,8 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

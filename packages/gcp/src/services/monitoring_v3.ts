@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "monitoring" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Monitoring",
+  service: "monitoring",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2299,6 +2318,8 @@ export const createProjectsAlertPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsAlertPolicies",
 }));
 
 export type CreateProjectsCollectdTimeSeriesError =
@@ -2319,6 +2340,8 @@ export const createProjectsCollectdTimeSeries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsCollectdTimeSeries",
 }));
 
 export type CreateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2334,6 +2357,8 @@ export const createProjectsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsGroups",
 }));
 
 export type CreateProjectsMetricDescriptorsError =
@@ -2354,6 +2379,8 @@ export const createProjectsMetricDescriptors: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsMetricDescriptors",
 }));
 
 export type CreateProjectsNotificationChannelsError =
@@ -2374,6 +2401,8 @@ export const createProjectsNotificationChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsNotificationChannels",
 }));
 
 export type CreateProjectsSnoozesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2389,6 +2418,8 @@ export const createProjectsSnoozes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSnoozes",
 }));
 
 export type CreateProjectsTimeSeriesError =
@@ -2409,6 +2440,8 @@ export const createProjectsTimeSeries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTimeSeries",
 }));
 
 export type CreateProjectsUptimeCheckConfigsError =
@@ -2429,6 +2462,8 @@ export const createProjectsUptimeCheckConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsUptimeCheckConfigs",
 }));
 
 export type CreateServiceProjectsTimeSeriesError =
@@ -2449,6 +2484,8 @@ export const createServiceProjectsTimeSeries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceProjectsTimeSeries",
 }));
 
 export type CreateServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2464,6 +2501,8 @@ export const createServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServices",
 }));
 
 export type CreateServicesServiceLevelObjectivesError =
@@ -2484,6 +2523,8 @@ export const createServicesServiceLevelObjectives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicesServiceLevelObjectives",
 }));
 
 export type DeleteProjectsAlertPoliciesError =
@@ -2504,6 +2545,8 @@ export const deleteProjectsAlertPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsAlertPolicies",
 }));
 
 export type DeleteProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2519,6 +2562,8 @@ export const deleteProjectsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsGroups",
 }));
 
 export type DeleteProjectsMetricDescriptorsError =
@@ -2539,6 +2584,8 @@ export const deleteProjectsMetricDescriptors: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsMetricDescriptors",
 }));
 
 export type DeleteProjectsNotificationChannelsError =
@@ -2559,6 +2606,8 @@ export const deleteProjectsNotificationChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsNotificationChannels",
 }));
 
 export type DeleteProjectsUptimeCheckConfigsError =
@@ -2579,6 +2628,8 @@ export const deleteProjectsUptimeCheckConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsUptimeCheckConfigs",
 }));
 
 export type DeleteServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2594,6 +2645,8 @@ export const deleteServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServices",
 }));
 
 export type DeleteServicesServiceLevelObjectivesError =
@@ -2614,6 +2667,8 @@ export const deleteServicesServiceLevelObjectives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServicesServiceLevelObjectives",
 }));
 
 export type GetProjectsAlertPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2629,6 +2684,8 @@ export const getProjectsAlertPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsAlertPolicies",
 }));
 
 export type GetProjectsAlertsError = NotFound | Forbidden | GcpOpError;
@@ -2644,6 +2701,8 @@ export const getProjectsAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsAlerts",
 }));
 
 export type GetProjectsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -2659,6 +2718,8 @@ export const getProjectsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsGroups",
 }));
 
 export type GetProjectsMetricDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2674,6 +2735,8 @@ export const getProjectsMetricDescriptors: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsMetricDescriptors",
 }));
 
 export type GetProjectsMonitoredResourceDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2689,6 +2752,8 @@ export const getProjectsMonitoredResourceDescriptors: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsMonitoredResourceDescriptors",
 }));
 
 export type GetProjectsNotificationChannelDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2704,6 +2769,8 @@ export const getProjectsNotificationChannelDescriptors: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsNotificationChannelDescriptors",
 }));
 
 export type GetProjectsNotificationChannelsError = NotFound | Forbidden | GcpOpError;
@@ -2719,6 +2786,8 @@ export const getProjectsNotificationChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsNotificationChannels",
 }));
 
 export type GetProjectsSnoozesError = NotFound | Forbidden | GcpOpError;
@@ -2734,6 +2803,8 @@ export const getProjectsSnoozes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSnoozes",
 }));
 
 export type GetProjectsUptimeCheckConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2749,6 +2820,8 @@ export const getProjectsUptimeCheckConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsUptimeCheckConfigs",
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -2764,6 +2837,8 @@ export const getServices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServices",
 }));
 
 export type GetServicesServiceLevelObjectivesError = NotFound | Forbidden | GcpOpError;
@@ -2779,6 +2854,8 @@ export const getServicesServiceLevelObjectives: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesServiceLevelObjectives",
 }));
 
 export type GetVerificationCodeProjectsNotificationChannelsError =
@@ -2803,6 +2880,8 @@ export const getVerificationCodeProjectsNotificationChannels: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerificationCodeProjectsNotificationChannels",
 }));
 
 export type ListFoldersTimeSeriesError = NotFound | Forbidden | GcpOpError;
@@ -2819,6 +2898,8 @@ export const listFoldersTimeSeries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFoldersTimeSeries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2836,6 +2917,8 @@ export const listOrganizationsTimeSeries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsTimeSeries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2853,6 +2936,8 @@ export const listProjectsAlertPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsAlertPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2870,6 +2955,8 @@ export const listProjectsAlerts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsAlerts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2887,6 +2974,8 @@ export const listProjectsGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2904,6 +2993,8 @@ export const listProjectsGroupsMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsGroupsMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2921,6 +3012,8 @@ export const listProjectsMetricDescriptors: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsMetricDescriptors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2938,6 +3031,8 @@ export const listProjectsMonitoredResourceDescriptors: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsMonitoredResourceDescriptors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2955,6 +3050,8 @@ export const listProjectsNotificationChannelDescriptors: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsNotificationChannelDescriptors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2972,6 +3069,8 @@ export const listProjectsNotificationChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsNotificationChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2989,6 +3088,8 @@ export const listProjectsSnoozes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSnoozes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3006,6 +3107,8 @@ export const listProjectsTimeSeries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTimeSeries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3023,6 +3126,8 @@ export const listProjectsUptimeCheckConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsUptimeCheckConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3040,6 +3145,8 @@ export const listServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3057,6 +3164,8 @@ export const listServicesServiceLevelObjectives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesServiceLevelObjectives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3074,6 +3183,8 @@ export const listUptimeCheckIps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUptimeCheckIps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3095,6 +3206,8 @@ export const patchProjectsAlertPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsAlertPolicies",
 }));
 
 export type PatchProjectsNotificationChannelsError =
@@ -3115,6 +3228,8 @@ export const patchProjectsNotificationChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsNotificationChannels",
 }));
 
 export type PatchProjectsSnoozesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3130,6 +3245,8 @@ export const patchProjectsSnoozes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSnoozes",
 }));
 
 export type PatchProjectsUptimeCheckConfigsError =
@@ -3150,6 +3267,8 @@ export const patchProjectsUptimeCheckConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsUptimeCheckConfigs",
 }));
 
 export type PatchServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3165,6 +3284,8 @@ export const patchServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServices",
 }));
 
 export type PatchServicesServiceLevelObjectivesError =
@@ -3185,6 +3306,8 @@ export const patchServicesServiceLevelObjectives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServicesServiceLevelObjectives",
 }));
 
 export type QueryProjectsTimeSeriesError =
@@ -3205,6 +3328,8 @@ export const queryProjectsTimeSeries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProjectsTimeSeries",
 }));
 
 export type SendVerificationCodeProjectsNotificationChannelsError =
@@ -3229,6 +3354,8 @@ export const sendVerificationCodeProjectsNotificationChannels: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendVerificationCodeProjectsNotificationChannels",
 }));
 
 export type UpdateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3244,6 +3371,8 @@ export const updateProjectsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsGroups",
 }));
 
 export type VerifyProjectsNotificationChannelsError =
@@ -3264,6 +3393,8 @@ export const verifyProjectsNotificationChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyProjectsNotificationChannels",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

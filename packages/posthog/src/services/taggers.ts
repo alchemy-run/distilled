@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Taggers",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `llm` - LLM * `hog` - Hog */
 export type TaggerTypeEnum = "llm" | "hog";
 export interface TagDefinition {
@@ -275,6 +288,8 @@ export const createTagger: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagger",
 }));
 
 export type CreateTaggersTestHogError = PosthogOpError;
@@ -290,6 +305,8 @@ export const createTaggersTestHog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaggersTestHog",
 }));
 
 export type GetTaggerError = PosthogOpError;
@@ -304,6 +321,8 @@ export const getTagger: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagger",
 }));
 
 export type ListTaggersError = PosthogOpError;
@@ -318,6 +337,8 @@ export const listTaggers: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaggers",
 }));
 
 export type TaggersDestroyError = PosthogOpError;
@@ -333,6 +354,8 @@ export const taggersDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaggersDestroy",
 }));
 
 export type UpdateTaggerError = PosthogOpError;
@@ -347,6 +370,8 @@ export const updateTagger: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagger",
 }));
 
 export type UpdateTaggersPartialError = PosthogOpError;
@@ -361,6 +386,8 @@ export const updateTaggersPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaggersPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

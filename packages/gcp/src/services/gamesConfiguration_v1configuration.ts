@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "gamesconfiguration" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GamesConfiguration",
+  service: "gamesConfiguration",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -285,6 +304,8 @@ export const deleteAchievementConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAchievementConfigurations",
 }));
 
 export type DeleteLeaderboardConfigurationsError =
@@ -305,6 +326,8 @@ export const deleteLeaderboardConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLeaderboardConfigurations",
 }));
 
 export type GetAchievementConfigurationsError = NotFound | Forbidden | GcpOpError;
@@ -320,6 +343,8 @@ export const getAchievementConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAchievementConfigurations",
 }));
 
 export type GetLeaderboardConfigurationsError = NotFound | Forbidden | GcpOpError;
@@ -335,6 +360,8 @@ export const getLeaderboardConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeaderboardConfigurations",
 }));
 
 export type InsertAchievementConfigurationsError =
@@ -355,6 +382,8 @@ export const insertAchievementConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAchievementConfigurations",
 }));
 
 export type InsertLeaderboardConfigurationsError =
@@ -375,6 +404,8 @@ export const insertLeaderboardConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLeaderboardConfigurations",
 }));
 
 export type ListAchievementConfigurationsError = NotFound | Forbidden | GcpOpError;
@@ -391,6 +422,8 @@ export const listAchievementConfigurations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAchievementConfigurations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -408,6 +441,8 @@ export const listLeaderboardConfigurations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLeaderboardConfigurations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -429,6 +464,8 @@ export const updateAchievementConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAchievementConfigurations",
 }));
 
 export type UpdateLeaderboardConfigurationsError =
@@ -449,6 +486,8 @@ export const updateLeaderboardConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLeaderboardConfigurations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

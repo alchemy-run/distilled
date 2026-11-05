@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Coordination",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1228,6 +1241,8 @@ export const createCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMe
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type CreateCoordinationV1beta1NamespacedLeaseCandidateError =
@@ -1250,6 +1265,8 @@ export const createCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMet
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type CreateCoordinationV1NamespacedLeaseError =
@@ -1268,6 +1285,8 @@ export const createCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoordinationV1NamespacedLease",
 }));
 
 export type DeleteCoordinationV1alpha2CollectionNamespacedLeaseCandidateError = KubernetesOpError;
@@ -1287,6 +1306,8 @@ export const deleteCoordinationV1alpha2CollectionNamespacedLeaseCandidate: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1alpha2CollectionNamespacedLeaseCandidate",
 }));
 
 export type DeleteCoordinationV1alpha2NamespacedLeaseCandidateError =
@@ -1309,6 +1330,8 @@ export const deleteCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMe
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type DeleteCoordinationV1beta1CollectionNamespacedLeaseCandidateError = KubernetesOpError;
@@ -1328,6 +1351,8 @@ export const deleteCoordinationV1beta1CollectionNamespacedLeaseCandidate: API.Op
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1beta1CollectionNamespacedLeaseCandidate",
 }));
 
 export type DeleteCoordinationV1beta1NamespacedLeaseCandidateError =
@@ -1350,6 +1375,8 @@ export const deleteCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMet
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type DeleteCoordinationV1CollectionNamespacedLeaseError = KubernetesOpError;
@@ -1365,6 +1392,8 @@ export const deleteCoordinationV1CollectionNamespacedLease: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1CollectionNamespacedLease",
 }));
 
 export type DeleteCoordinationV1NamespacedLeaseError = NotFound | Conflict | KubernetesOpError;
@@ -1380,6 +1409,8 @@ export const deleteCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoordinationV1NamespacedLease",
 }));
 
 export type GetCoordinationAPIGroupError = KubernetesOpError;
@@ -1395,6 +1426,8 @@ export const getCoordinationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoordinationAPIGroup",
 }));
 
 export type GetCoordinationV1alpha2APIResourcesError = KubernetesOpError;
@@ -1410,6 +1443,8 @@ export const getCoordinationV1alpha2APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoordinationV1alpha2APIResources",
 }));
 
 export type GetCoordinationV1APIResourcesError = KubernetesOpError;
@@ -1425,6 +1460,8 @@ export const getCoordinationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoordinationV1APIResources",
 }));
 
 export type GetCoordinationV1beta1APIResourcesError = KubernetesOpError;
@@ -1440,6 +1477,8 @@ export const getCoordinationV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoordinationV1beta1APIResources",
 }));
 
 export type ListCoordinationV1alpha2LeaseCandidateForAllNamespacesError = KubernetesOpError;
@@ -1459,6 +1498,8 @@ export const listCoordinationV1alpha2LeaseCandidateForAllNamespaces: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1alpha2LeaseCandidateForAllNamespaces",
 }));
 
 export type ListCoordinationV1alpha2NamespacedLeaseCandidateError = KubernetesOpError;
@@ -1478,6 +1519,8 @@ export const listCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type ListCoordinationV1beta1LeaseCandidateForAllNamespacesError = KubernetesOpError;
@@ -1497,6 +1540,8 @@ export const listCoordinationV1beta1LeaseCandidateForAllNamespaces: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1beta1LeaseCandidateForAllNamespaces",
 }));
 
 export type ListCoordinationV1beta1NamespacedLeaseCandidateError = KubernetesOpError;
@@ -1516,6 +1561,8 @@ export const listCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type ListCoordinationV1LeaseForAllNamespacesError = KubernetesOpError;
@@ -1531,6 +1578,8 @@ export const listCoordinationV1LeaseForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1LeaseForAllNamespaces",
 }));
 
 export type ListCoordinationV1NamespacedLeaseError = KubernetesOpError;
@@ -1546,6 +1595,8 @@ export const listCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoordinationV1NamespacedLease",
 }));
 
 export type PatchCoordinationV1alpha2NamespacedLeaseCandidateError =
@@ -1569,6 +1620,8 @@ export const patchCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMet
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type PatchCoordinationV1beta1NamespacedLeaseCandidateError =
@@ -1592,6 +1645,8 @@ export const patchCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMeth
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type PatchCoordinationV1NamespacedLeaseError =
@@ -1611,6 +1666,8 @@ export const patchCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoordinationV1NamespacedLease",
 }));
 
 export type ReadCoordinationV1alpha2NamespacedLeaseCandidateError = NotFound | KubernetesOpError;
@@ -1630,6 +1687,8 @@ export const readCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMeth
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type ReadCoordinationV1beta1NamespacedLeaseCandidateError = NotFound | KubernetesOpError;
@@ -1649,6 +1708,8 @@ export const readCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMetho
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type ReadCoordinationV1NamespacedLeaseError = NotFound | KubernetesOpError;
@@ -1664,6 +1725,8 @@ export const readCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoordinationV1NamespacedLease",
 }));
 
 export type ReplaceCoordinationV1alpha2NamespacedLeaseCandidateError =
@@ -1687,6 +1750,8 @@ export const replaceCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type ReplaceCoordinationV1beta1NamespacedLeaseCandidateError =
@@ -1710,6 +1775,8 @@ export const replaceCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type ReplaceCoordinationV1NamespacedLeaseError =
@@ -1729,6 +1796,8 @@ export const replaceCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoordinationV1NamespacedLease",
 }));
 
 export type WatchCoordinationV1alpha2LeaseCandidateListForAllNamespacesError = KubernetesOpError;
@@ -1748,6 +1817,8 @@ export const watchCoordinationV1alpha2LeaseCandidateListForAllNamespaces: API.Op
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1alpha2LeaseCandidateListForAllNamespaces",
 }));
 
 export type WatchCoordinationV1alpha2NamespacedLeaseCandidateError = KubernetesOpError;
@@ -1767,6 +1838,8 @@ export const watchCoordinationV1alpha2NamespacedLeaseCandidate: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1alpha2NamespacedLeaseCandidate",
 }));
 
 export type WatchCoordinationV1alpha2NamespacedLeaseCandidateListError = KubernetesOpError;
@@ -1786,6 +1859,8 @@ export const watchCoordinationV1alpha2NamespacedLeaseCandidateList: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1alpha2NamespacedLeaseCandidateList",
 }));
 
 export type WatchCoordinationV1beta1LeaseCandidateListForAllNamespacesError = KubernetesOpError;
@@ -1805,6 +1880,8 @@ export const watchCoordinationV1beta1LeaseCandidateListForAllNamespaces: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1beta1LeaseCandidateListForAllNamespaces",
 }));
 
 export type WatchCoordinationV1beta1NamespacedLeaseCandidateError = KubernetesOpError;
@@ -1824,6 +1901,8 @@ export const watchCoordinationV1beta1NamespacedLeaseCandidate: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1beta1NamespacedLeaseCandidate",
 }));
 
 export type WatchCoordinationV1beta1NamespacedLeaseCandidateListError = KubernetesOpError;
@@ -1843,6 +1922,8 @@ export const watchCoordinationV1beta1NamespacedLeaseCandidateList: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1beta1NamespacedLeaseCandidateList",
 }));
 
 export type WatchCoordinationV1LeaseListForAllNamespacesError = KubernetesOpError;
@@ -1858,6 +1939,8 @@ export const watchCoordinationV1LeaseListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1LeaseListForAllNamespaces",
 }));
 
 export type WatchCoordinationV1NamespacedLeaseError = KubernetesOpError;
@@ -1873,6 +1956,8 @@ export const watchCoordinationV1NamespacedLease: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1NamespacedLease",
 }));
 
 export type WatchCoordinationV1NamespacedLeaseListError = KubernetesOpError;
@@ -1888,6 +1973,8 @@ export const watchCoordinationV1NamespacedLeaseList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoordinationV1NamespacedLeaseList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

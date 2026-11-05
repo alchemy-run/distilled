@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "licensing" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Licensing",
+  service: "licensing",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -210,6 +229,8 @@ export const deleteLicenseAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseAssignments",
 }));
 
 export type GetLicenseAssignmentsError =
@@ -229,6 +250,8 @@ export const getLicenseAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicenseAssignments",
 }));
 
 export type InsertLicenseAssignmentsError =
@@ -257,6 +280,8 @@ export const insertLicenseAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertLicenseAssignments",
 }));
 
 export type ListForProductAndSkuLicenseAssignmentsError =
@@ -277,6 +302,8 @@ export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForProductAndSkuLicenseAssignments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -298,6 +325,8 @@ export const listForProductLicenseAssignments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForProductLicenseAssignments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -327,6 +356,8 @@ export const patchLicenseAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLicenseAssignments",
 }));
 
 export type UpdateLicenseAssignmentsError =
@@ -355,6 +386,8 @@ export const updateLicenseAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseAssignments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

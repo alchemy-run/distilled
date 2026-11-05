@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Domains",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -170,6 +183,8 @@ export const createDomain: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type DeleteDomainError = WhopOpError;
@@ -185,6 +200,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type GetDomainError = WhopOpError;
@@ -200,6 +217,8 @@ export const getDomain: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type ListDomainsError = WhopOpError;
@@ -217,6 +236,8 @@ export const listDomains: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDomains",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -242,6 +263,8 @@ export const updateDomain: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

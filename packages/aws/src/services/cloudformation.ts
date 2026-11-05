@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -79,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudformation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudFormation",
+  service: "CloudFormation",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -2749,7 +2766,7 @@ export type ActivateOrganizationsAccessError =
  * and manage StackSets for your organization.
  */
 export const activateOrganizationsAccess: API.OperationMethod<
-  ActivateOrganizationsAccessInput,
+  ActivateOrganizationsAccessInput & RegionInput,
   ActivateOrganizationsAccessOutput,
   ActivateOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2760,6 +2777,8 @@ export const activateOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "ActivateOrganizationsAccess",
 }));
 
 export type ActivateTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -2780,7 +2799,7 @@ export type ActivateTypeError = CFNRegistryException | TypeNotFoundException | C
  * CloudFormation Hooks User Guide.
  */
 export const activateType: API.OperationMethod<
-  ActivateTypeInput,
+  ActivateTypeInput & RegionInput,
   ActivateTypeOutput,
   ActivateTypeError,
   Credentials | HttpClient.HttpClient
@@ -2791,6 +2810,8 @@ export const activateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateType",
+  telemetry: TELEMETRY,
+  span: "ActivateType",
 }));
 
 export type BatchDescribeTypeConfigurationsError =
@@ -2806,7 +2827,7 @@ export type BatchDescribeTypeConfigurationsError =
  * *CloudFormation User Guide*.
  */
 export const batchDescribeTypeConfigurations: API.OperationMethod<
-  BatchDescribeTypeConfigurationsInput,
+  BatchDescribeTypeConfigurationsInput & RegionInput,
   BatchDescribeTypeConfigurationsOutput,
   BatchDescribeTypeConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -2817,6 +2838,8 @@ export const batchDescribeTypeConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeTypeConfigurations",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeTypeConfigurations",
 }));
 
 export type CancelUpdateStackError = TokenAlreadyExistsException | CommonErrors;
@@ -2827,7 +2850,7 @@ export type CancelUpdateStackError = TokenAlreadyExistsException | CommonErrors;
  * You can cancel only stacks that are in the `UPDATE_IN_PROGRESS` state.
  */
 export const cancelUpdateStack: API.OperationMethod<
-  CancelUpdateStackInput,
+  CancelUpdateStackInput & RegionInput,
   CancelUpdateStackResponse,
   CancelUpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -2838,6 +2861,8 @@ export const cancelUpdateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelUpdateStack",
+  telemetry: TELEMETRY,
+  span: "CancelUpdateStack",
 }));
 
 export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonErrors;
@@ -2858,7 +2883,7 @@ export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonEr
  * information for troubleshooting a failed update rollback, see Update rollback failed.
  */
 export const continueUpdateRollback: API.OperationMethod<
-  ContinueUpdateRollbackInput,
+  ContinueUpdateRollbackInput & RegionInput,
   ContinueUpdateRollbackOutput,
   ContinueUpdateRollbackError,
   Credentials | HttpClient.HttpClient
@@ -2869,6 +2894,8 @@ export const continueUpdateRollback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueUpdateRollback",
+  telemetry: TELEMETRY,
+  span: "ContinueUpdateRollback",
 }));
 
 export type CreateChangeSetError =
@@ -2901,7 +2928,7 @@ export type CreateChangeSetError =
  * `IncludeNestedStacks` to `True`.
  */
 export const createChangeSet: API.OperationMethod<
-  CreateChangeSetInput,
+  CreateChangeSetInput & RegionInput,
   CreateChangeSetOutput,
   CreateChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -2912,6 +2939,8 @@ export const createChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChangeSet",
+  telemetry: TELEMETRY,
+  span: "CreateChangeSet",
 }));
 
 export type CreateGeneratedTemplateError =
@@ -2925,7 +2954,7 @@ export type CreateGeneratedTemplateError =
  * `DescribeGeneratedTemplate` API action.
  */
 export const createGeneratedTemplate: API.OperationMethod<
-  CreateGeneratedTemplateInput,
+  CreateGeneratedTemplateInput & RegionInput,
   CreateGeneratedTemplateOutput,
   CreateGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2940,6 +2969,8 @@ export const createGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGeneratedTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateGeneratedTemplate",
 }));
 
 export type CreateStackError =
@@ -2957,7 +2988,7 @@ export type CreateStackError =
  * *CloudFormation User Guide*.
  */
 export const createStack: API.OperationMethod<
-  CreateStackInput,
+  CreateStackInput & RegionInput,
   CreateStackOutput,
   CreateStackError,
   Credentials | HttpClient.HttpClient
@@ -2973,6 +3004,8 @@ export const createStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStack",
+  telemetry: TELEMETRY,
+  span: "CreateStack",
 }));
 
 export type CreateStackInstancesError =
@@ -3002,7 +3035,7 @@ export type CreateStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const createStackInstances: API.OperationMethod<
-  CreateStackInstancesInput,
+  CreateStackInstancesInput & RegionInput,
   CreateStackInstancesOutput,
   CreateStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3020,6 +3053,8 @@ export const createStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackInstances",
+  telemetry: TELEMETRY,
+  span: "CreateStackInstances",
 }));
 
 export type CreateStackRefactorError = CommonErrors;
@@ -3028,7 +3063,7 @@ export type CreateStackRefactorError = CommonErrors;
  * affected.
  */
 export const createStackRefactor: API.OperationMethod<
-  CreateStackRefactorInput,
+  CreateStackRefactorInput & RegionInput,
   CreateStackRefactorOutput,
   CreateStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -3039,6 +3074,8 @@ export const createStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackRefactor",
+  telemetry: TELEMETRY,
+  span: "CreateStackRefactor",
 }));
 
 export type CreateStackSetError =
@@ -3050,7 +3087,7 @@ export type CreateStackSetError =
  * Creates a StackSet.
  */
 export const createStackSet: API.OperationMethod<
-  CreateStackSetInput,
+  CreateStackSetInput & RegionInput,
   CreateStackSetOutput,
   CreateStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3061,6 +3098,8 @@ export const createStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackSet",
+  telemetry: TELEMETRY,
+  span: "CreateStackSet",
 }));
 
 export type DeactivateOrganizationsAccessError =
@@ -3073,7 +3112,7 @@ export type DeactivateOrganizationsAccessError =
  * service-managed StackSets for your organization.
  */
 export const deactivateOrganizationsAccess: API.OperationMethod<
-  DeactivateOrganizationsAccessInput,
+  DeactivateOrganizationsAccessInput & RegionInput,
   DeactivateOrganizationsAccessOutput,
   DeactivateOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3084,6 +3123,8 @@ export const deactivateOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "DeactivateOrganizationsAccess",
 }));
 
 export type DeactivateTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -3102,7 +3143,7 @@ export type DeactivateTypeError = CFNRegistryException | TypeNotFoundException |
  * To see which extensions are currently activated, use ListTypes.
  */
 export const deactivateType: API.OperationMethod<
-  DeactivateTypeInput,
+  DeactivateTypeInput & RegionInput,
   DeactivateTypeOutput,
   DeactivateTypeError,
   Credentials | HttpClient.HttpClient
@@ -3113,6 +3154,8 @@ export const deactivateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateType",
+  telemetry: TELEMETRY,
+  span: "DeactivateType",
 }));
 
 export type DeleteChangeSetError = InvalidChangeSetStatusException | CommonErrors;
@@ -3128,7 +3171,7 @@ export type DeleteChangeSetError = InvalidChangeSetStatusException | CommonError
  * of `REVIEW_IN_PROGRESS`.
  */
 export const deleteChangeSet: API.OperationMethod<
-  DeleteChangeSetInput,
+  DeleteChangeSetInput & RegionInput,
   DeleteChangeSetOutput,
   DeleteChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -3139,6 +3182,8 @@ export const deleteChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChangeSet",
+  telemetry: TELEMETRY,
+  span: "DeleteChangeSet",
 }));
 
 export type DeleteGeneratedTemplateError =
@@ -3149,7 +3194,7 @@ export type DeleteGeneratedTemplateError =
  * Deleted a generated template.
  */
 export const deleteGeneratedTemplate: API.OperationMethod<
-  DeleteGeneratedTemplateInput,
+  DeleteGeneratedTemplateInput & RegionInput,
   DeleteGeneratedTemplateResponse,
   DeleteGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3160,6 +3205,8 @@ export const deleteGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeneratedTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteGeneratedTemplate",
 }));
 
 export type DeleteStackError = TokenAlreadyExistsException | CommonErrors;
@@ -3172,7 +3219,7 @@ export type DeleteStackError = TokenAlreadyExistsException | CommonErrors;
  * the CloudFormation console in the *CloudFormation User Guide*.
  */
 export const deleteStack: API.OperationMethod<
-  DeleteStackInput,
+  DeleteStackInput & RegionInput,
   DeleteStackResponse,
   DeleteStackError,
   Credentials | HttpClient.HttpClient
@@ -3183,6 +3230,8 @@ export const deleteStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStack",
+  telemetry: TELEMETRY,
+  span: "DeleteStack",
 }));
 
 export type DeleteStackInstancesError =
@@ -3208,7 +3257,7 @@ export type DeleteStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const deleteStackInstances: API.OperationMethod<
-  DeleteStackInstancesInput,
+  DeleteStackInstancesInput & RegionInput,
   DeleteStackInstancesOutput,
   DeleteStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3225,6 +3274,8 @@ export const deleteStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStackInstances",
+  telemetry: TELEMETRY,
+  span: "DeleteStackInstances",
 }));
 
 export type DeleteStackSetError =
@@ -3236,7 +3287,7 @@ export type DeleteStackSetError =
  * be deleted. For more information about how to complete this, see DeleteStackInstances.
  */
 export const deleteStackSet: API.OperationMethod<
-  DeleteStackSetInput,
+  DeleteStackSetInput & RegionInput,
   DeleteStackSetOutput,
   DeleteStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3247,6 +3298,8 @@ export const deleteStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStackSet",
+  telemetry: TELEMETRY,
+  span: "DeleteStackSet",
 }));
 
 export type DeregisterTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -3271,7 +3324,7 @@ export type DeregisterTypeError = CFNRegistryException | TypeNotFoundException |
  * *CloudFormation User Guide*.
  */
 export const deregisterType: API.OperationMethod<
-  DeregisterTypeInput,
+  DeregisterTypeInput & RegionInput,
   DeregisterTypeOutput,
   DeregisterTypeError,
   Credentials | HttpClient.HttpClient
@@ -3282,6 +3335,8 @@ export const deregisterType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterType",
+  telemetry: TELEMETRY,
+  span: "DeregisterType",
 }));
 
 export type DescribeAccountLimitsError = CommonErrors;
@@ -3290,7 +3345,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * can create in your account. For more information about account limits, see Understand CloudFormation quotas in the *CloudFormation User Guide*.
  */
 export const describeAccountLimits: API.PaginatedOperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -3307,6 +3362,8 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "AccountLimits",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 })) as any;
 
 export type DescribeChangeSetError = ChangeSetNotFoundException | CommonErrors;
@@ -3317,7 +3374,7 @@ export type DescribeChangeSetError = ChangeSetNotFoundException | CommonErrors;
  * *CloudFormation User Guide*.
  */
 export const describeChangeSet: API.PaginatedOperationMethod<
-  DescribeChangeSetInput,
+  DescribeChangeSetInput & RegionInput,
   DescribeChangeSetOutput,
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient,
@@ -3330,6 +3387,8 @@ export const describeChangeSet: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeChangeSet",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Changes" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeChangeSet",
 })) as any;
 
 export type DescribeChangeSetHooksError = ChangeSetNotFoundException | CommonErrors;
@@ -3338,7 +3397,7 @@ export type DescribeChangeSetHooksError = ChangeSetNotFoundException | CommonErr
  * CloudFormation makes when you run the change set.
  */
 export const describeChangeSetHooks: API.OperationMethod<
-  DescribeChangeSetHooksInput,
+  DescribeChangeSetHooksInput & RegionInput,
   DescribeChangeSetHooksOutput,
   DescribeChangeSetHooksError,
   Credentials | HttpClient.HttpClient
@@ -3349,6 +3408,8 @@ export const describeChangeSetHooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSetHooks",
+  telemetry: TELEMETRY,
+  span: "DescribeChangeSetHooks",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -3379,7 +3440,7 @@ export type DescribeEventsError = CommonErrors;
  * must be specified as input.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsInput,
+  DescribeEventsInput & RegionInput,
   DescribeEventsOutput,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3396,6 +3457,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "OperationEvents",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeGeneratedTemplateError = GeneratedTemplateNotFoundException | CommonErrors;
@@ -3406,7 +3469,7 @@ export type DescribeGeneratedTemplateError = GeneratedTemplateNotFoundException 
  * action.
  */
 export const describeGeneratedTemplate: API.OperationMethod<
-  DescribeGeneratedTemplateInput,
+  DescribeGeneratedTemplateInput & RegionInput,
   DescribeGeneratedTemplateOutput,
   DescribeGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3417,6 +3480,8 @@ export const describeGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGeneratedTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeGeneratedTemplate",
 }));
 
 export type DescribeOrganizationsAccessError =
@@ -3430,7 +3495,7 @@ export type DescribeOrganizationsAccessError =
  * parameter by the management account.
  */
 export const describeOrganizationsAccess: API.OperationMethod<
-  DescribeOrganizationsAccessInput,
+  DescribeOrganizationsAccessInput & RegionInput,
   DescribeOrganizationsAccessOutput,
   DescribeOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3441,6 +3506,8 @@ export const describeOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationsAccess",
 }));
 
 export type DescribePublisherError = CFNRegistryException | CommonErrors;
@@ -3460,7 +3527,7 @@ export type DescribePublisherError = CFNRegistryException | CommonErrors;
  * *CloudFormation Command Line Interface (CLI) User Guide*
  */
 export const describePublisher: API.OperationMethod<
-  DescribePublisherInput,
+  DescribePublisherInput & RegionInput,
   DescribePublisherOutput,
   DescribePublisherError,
   Credentials | HttpClient.HttpClient
@@ -3471,6 +3538,8 @@ export const describePublisher: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePublisher",
+  telemetry: TELEMETRY,
+  span: "DescribePublisher",
 }));
 
 export type DescribeResourceScanError = ResourceScanNotFoundException | CommonErrors;
@@ -3478,7 +3547,7 @@ export type DescribeResourceScanError = ResourceScanNotFoundException | CommonEr
  * Describes details of a resource scan.
  */
 export const describeResourceScan: API.OperationMethod<
-  DescribeResourceScanInput,
+  DescribeResourceScanInput & RegionInput,
   DescribeResourceScanOutput,
   DescribeResourceScanError,
   Credentials | HttpClient.HttpClient
@@ -3489,6 +3558,8 @@ export const describeResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceScan",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceScan",
 }));
 
 export type DescribeStackDriftDetectionStatusError = CommonErrors;
@@ -3508,7 +3579,7 @@ export type DescribeStackDriftDetectionStatusError = CommonErrors;
  * resources.
  */
 export const describeStackDriftDetectionStatus: API.OperationMethod<
-  DescribeStackDriftDetectionStatusInput,
+  DescribeStackDriftDetectionStatusInput & RegionInput,
   DescribeStackDriftDetectionStatusOutput,
   DescribeStackDriftDetectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3519,6 +3590,8 @@ export const describeStackDriftDetectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackDriftDetectionStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeStackDriftDetectionStatus",
 }));
 
 export type DescribeStackEventsError = CommonErrors;
@@ -3531,7 +3604,7 @@ export type DescribeStackEventsError = CommonErrors;
  * specifying the unique stack identifier (stack ID).
  */
 export const describeStackEvents: API.PaginatedOperationMethod<
-  DescribeStackEventsInput,
+  DescribeStackEventsInput & RegionInput,
   DescribeStackEventsOutput,
   DescribeStackEventsError,
   Credentials | HttpClient.HttpClient,
@@ -3544,6 +3617,8 @@ export const describeStackEvents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeStackEvents",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "StackEvents" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStackEvents",
 })) as any;
 
 export type DescribeStackInstanceError =
@@ -3557,7 +3632,7 @@ export type DescribeStackInstanceError =
  * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
  */
 export const describeStackInstance: API.OperationMethod<
-  DescribeStackInstanceInput,
+  DescribeStackInstanceInput & RegionInput,
   DescribeStackInstanceOutput,
   DescribeStackInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3568,6 +3643,8 @@ export const describeStackInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeStackInstance",
 }));
 
 export type DescribeStackRefactorError = StackRefactorNotFoundException | CommonErrors;
@@ -3575,7 +3652,7 @@ export type DescribeStackRefactorError = StackRefactorNotFoundException | Common
  * Describes the stack refactor status.
  */
 export const describeStackRefactor: API.OperationMethod<
-  DescribeStackRefactorInput,
+  DescribeStackRefactorInput & RegionInput,
   DescribeStackRefactorOutput,
   DescribeStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -3586,6 +3663,8 @@ export const describeStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackRefactor",
+  telemetry: TELEMETRY,
+  span: "DescribeStackRefactor",
 }));
 
 export type DescribeStackResourceError = CommonErrors;
@@ -3596,7 +3675,7 @@ export type DescribeStackResourceError = CommonErrors;
  * after the stack has been deleted.
  */
 export const describeStackResource: API.OperationMethod<
-  DescribeStackResourceInput,
+  DescribeStackResourceInput & RegionInput,
   DescribeStackResourceOutput,
   DescribeStackResourceError,
   Credentials | HttpClient.HttpClient
@@ -3607,6 +3686,8 @@ export const describeStackResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackResource",
+  telemetry: TELEMETRY,
+  span: "DescribeStackResource",
 }));
 
 export type DescribeStackResourceDriftsError = CommonErrors;
@@ -3626,7 +3707,7 @@ export type DescribeStackResourceDriftsError = CommonErrors;
  * stack.
  */
 export const describeStackResourceDrifts: API.PaginatedOperationMethod<
-  DescribeStackResourceDriftsInput,
+  DescribeStackResourceDriftsInput & RegionInput,
   DescribeStackResourceDriftsOutput,
   DescribeStackResourceDriftsError,
   Credentials | HttpClient.HttpClient,
@@ -3643,6 +3724,8 @@ export const describeStackResourceDrifts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStackResourceDrifts",
 })) as any;
 
 export type DescribeStackResourcesError = CommonErrors;
@@ -3667,7 +3750,7 @@ export type DescribeStackResourcesError = CommonErrors;
  * and `PhysicalResourceId` in the same request.
  */
 export const describeStackResources: API.OperationMethod<
-  DescribeStackResourcesInput,
+  DescribeStackResourcesInput & RegionInput,
   DescribeStackResourcesOutput,
   DescribeStackResourcesError,
   Credentials | HttpClient.HttpClient
@@ -3678,6 +3761,8 @@ export const describeStackResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackResources",
+  telemetry: TELEMETRY,
+  span: "DescribeStackResources",
 }));
 
 export type DescribeStacksError = StackNotFound | CommonErrors;
@@ -3690,7 +3775,7 @@ export type DescribeStacksError = StackNotFound | CommonErrors;
  * If the stack doesn't exist, a `ValidationError` is returned.
  */
 export const describeStacks: API.PaginatedOperationMethod<
-  DescribeStacksInput,
+  DescribeStacksInput & RegionInput,
   DescribeStacksOutput,
   DescribeStacksError,
   Credentials | HttpClient.HttpClient,
@@ -3703,6 +3788,8 @@ export const describeStacks: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeStacks",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Stacks" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStacks",
 })) as any;
 
 export type DescribeStackSetError = StackSetNotFoundException | CommonErrors;
@@ -3713,7 +3800,7 @@ export type DescribeStackSetError = StackSetNotFoundException | CommonErrors;
  * return the most up-to-date data.
  */
 export const describeStackSet: API.OperationMethod<
-  DescribeStackSetInput,
+  DescribeStackSetInput & RegionInput,
   DescribeStackSetOutput,
   DescribeStackSetError,
   Credentials | HttpClient.HttpClient
@@ -3724,6 +3811,8 @@ export const describeStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackSet",
+  telemetry: TELEMETRY,
+  span: "DescribeStackSet",
 }));
 
 export type DescribeStackSetOperationError =
@@ -3737,7 +3826,7 @@ export type DescribeStackSetOperationError =
  * return the most up-to-date data.
  */
 export const describeStackSetOperation: API.OperationMethod<
-  DescribeStackSetOperationInput,
+  DescribeStackSetOperationInput & RegionInput,
   DescribeStackSetOperationOutput,
   DescribeStackSetOperationError,
   Credentials | HttpClient.HttpClient
@@ -3748,6 +3837,8 @@ export const describeStackSetOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackSetOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeStackSetOperation",
 }));
 
 export type DescribeTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -3764,7 +3855,7 @@ export type DescribeTypeError = CFNRegistryException | TypeNotFoundException | C
  * *CloudFormation User Guide*.
  */
 export const describeType: API.OperationMethod<
-  DescribeTypeInput,
+  DescribeTypeInput & RegionInput,
   DescribeTypeOutput,
   DescribeTypeError,
   Credentials | HttpClient.HttpClient
@@ -3775,6 +3866,8 @@ export const describeType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeType",
+  telemetry: TELEMETRY,
+  span: "DescribeType",
 }));
 
 export type DescribeTypeRegistrationError = CFNRegistryException | CommonErrors;
@@ -3790,7 +3883,7 @@ export type DescribeTypeRegistrationError = CFNRegistryException | CommonErrors;
  * detailed information about an extension.
  */
 export const describeTypeRegistration: API.OperationMethod<
-  DescribeTypeRegistrationInput,
+  DescribeTypeRegistrationInput & RegionInput,
   DescribeTypeRegistrationOutput,
   DescribeTypeRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -3801,6 +3894,8 @@ export const describeTypeRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTypeRegistration",
+  telemetry: TELEMETRY,
+  span: "DescribeTypeRegistration",
 }));
 
 export type DetectStackDriftError = CommonErrors;
@@ -3832,7 +3927,7 @@ export type DetectStackDriftError = CommonErrors;
  * itself.
  */
 export const detectStackDrift: API.OperationMethod<
-  DetectStackDriftInput,
+  DetectStackDriftInput & RegionInput,
   DetectStackDriftOutput,
   DetectStackDriftError,
   Credentials | HttpClient.HttpClient
@@ -3843,6 +3938,8 @@ export const detectStackDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackDrift",
+  telemetry: TELEMETRY,
+  span: "DetectStackDrift",
 }));
 
 export type DetectStackResourceDriftError = CommonErrors;
@@ -3864,7 +3961,7 @@ export type DetectStackResourceDriftError = CommonErrors;
  * type support for imports and drift detection.
  */
 export const detectStackResourceDrift: API.OperationMethod<
-  DetectStackResourceDriftInput,
+  DetectStackResourceDriftInput & RegionInput,
   DetectStackResourceDriftOutput,
   DetectStackResourceDriftError,
   Credentials | HttpClient.HttpClient
@@ -3875,6 +3972,8 @@ export const detectStackResourceDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackResourceDrift",
+  telemetry: TELEMETRY,
+  span: "DetectStackResourceDrift",
 }));
 
 export type DetectStackSetDriftError =
@@ -3915,7 +4014,7 @@ export type DetectStackSetDriftError =
  * To stop a drift detection StackSet operation, use StopStackSetOperation.
  */
 export const detectStackSetDrift: API.OperationMethod<
-  DetectStackSetDriftInput,
+  DetectStackSetDriftInput & RegionInput,
   DetectStackSetDriftOutput,
   DetectStackSetDriftError,
   Credentials | HttpClient.HttpClient
@@ -3926,6 +4025,8 @@ export const detectStackSetDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackSetDrift",
+  telemetry: TELEMETRY,
+  span: "DetectStackSetDrift",
 }));
 
 export type EstimateTemplateCostError = CommonErrors;
@@ -3935,7 +4036,7 @@ export type EstimateTemplateCostError = CommonErrors;
  * template.
  */
 export const estimateTemplateCost: API.OperationMethod<
-  EstimateTemplateCostInput,
+  EstimateTemplateCostInput & RegionInput,
   EstimateTemplateCostOutput,
   EstimateTemplateCostError,
   Credentials | HttpClient.HttpClient
@@ -3946,6 +4047,8 @@ export const estimateTemplateCost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EstimateTemplateCost",
+  telemetry: TELEMETRY,
+  span: "EstimateTemplateCost",
 }));
 
 export type ExecuteChangeSetError =
@@ -3969,7 +4072,7 @@ export type ExecuteChangeSetError =
  * must have been set to `True`.
  */
 export const executeChangeSet: API.OperationMethod<
-  ExecuteChangeSetInput,
+  ExecuteChangeSetInput & RegionInput,
   ExecuteChangeSetOutput,
   ExecuteChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -3985,6 +4088,8 @@ export const executeChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteChangeSet",
+  telemetry: TELEMETRY,
+  span: "ExecuteChangeSet",
 }));
 
 export type ExecuteStackRefactorError = CommonErrors;
@@ -3992,7 +4097,7 @@ export type ExecuteStackRefactorError = CommonErrors;
  * Executes the stack refactor operation.
  */
 export const executeStackRefactor: API.OperationMethod<
-  ExecuteStackRefactorInput,
+  ExecuteStackRefactorInput & RegionInput,
   ExecuteStackRefactorResponse,
   ExecuteStackRefactorError,
   Credentials | HttpClient.HttpClient
@@ -4003,6 +4108,8 @@ export const executeStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStackRefactor",
+  telemetry: TELEMETRY,
+  span: "ExecuteStackRefactor",
 }));
 
 export type GetGeneratedTemplateError = GeneratedTemplateNotFoundException | CommonErrors;
@@ -4013,7 +4120,7 @@ export type GetGeneratedTemplateError = GeneratedTemplateNotFoundException | Com
  * `Complete` status then an empty template will be returned.
  */
 export const getGeneratedTemplate: API.OperationMethod<
-  GetGeneratedTemplateInput,
+  GetGeneratedTemplateInput & RegionInput,
   GetGeneratedTemplateOutput,
   GetGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4024,6 +4131,8 @@ export const getGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeneratedTemplate",
+  telemetry: TELEMETRY,
+  span: "GetGeneratedTemplate",
 }));
 
 export type GetHookResultError = HookResultNotFoundException | CommonErrors;
@@ -4038,7 +4147,7 @@ export type GetHookResultError = HookResultNotFoundException | CommonErrors;
  * *CloudFormation Hooks User Guide*.
  */
 export const getHookResult: API.OperationMethod<
-  GetHookResultInput,
+  GetHookResultInput & RegionInput,
   GetHookResultOutput,
   GetHookResultError,
   Credentials | HttpClient.HttpClient
@@ -4049,6 +4158,8 @@ export const getHookResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHookResult",
+  telemetry: TELEMETRY,
+  span: "GetHookResult",
 }));
 
 export type GetStackPolicyError = CommonErrors;
@@ -4057,7 +4168,7 @@ export type GetStackPolicyError = CommonErrors;
  * value is returned.
  */
 export const getStackPolicy: API.OperationMethod<
-  GetStackPolicyInput,
+  GetStackPolicyInput & RegionInput,
   GetStackPolicyOutput,
   GetStackPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4068,6 +4179,8 @@ export const getStackPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStackPolicy",
+  telemetry: TELEMETRY,
+  span: "GetStackPolicy",
 }));
 
 export type GetTemplateError = ChangeSetNotFoundException | CommonErrors;
@@ -4081,7 +4194,7 @@ export type GetTemplateError = ChangeSetNotFoundException | CommonErrors;
  * If the template doesn't exist, a `ValidationError` is returned.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateInput,
+  GetTemplateInput & RegionInput,
   GetTemplateOutput,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4092,6 +4205,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type GetTemplateSummaryError = StackSetNotFoundException | CommonErrors;
@@ -4108,7 +4223,7 @@ export type GetTemplateSummaryError = StackSetNotFoundException | CommonErrors;
  * `ValidationError` is returned.
  */
 export const getTemplateSummary: API.OperationMethod<
-  GetTemplateSummaryInput,
+  GetTemplateSummaryInput & RegionInput,
   GetTemplateSummaryOutput,
   GetTemplateSummaryError,
   Credentials | HttpClient.HttpClient
@@ -4119,6 +4234,8 @@ export const getTemplateSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSummary",
+  telemetry: TELEMETRY,
+  span: "GetTemplateSummary",
 }));
 
 export type ImportStacksToStackSetError =
@@ -4137,7 +4254,7 @@ export type ImportStacksToStackSetError =
  * import.
  */
 export const importStacksToStackSet: API.OperationMethod<
-  ImportStacksToStackSetInput,
+  ImportStacksToStackSetInput & RegionInput,
   ImportStacksToStackSetOutput,
   ImportStacksToStackSetError,
   Credentials | HttpClient.HttpClient
@@ -4156,6 +4273,8 @@ export const importStacksToStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportStacksToStackSet",
+  telemetry: TELEMETRY,
+  span: "ImportStacksToStackSet",
 }));
 
 export type ListChangeSetsError = CommonErrors;
@@ -4165,7 +4284,7 @@ export type ListChangeSetsError = CommonErrors;
  * `CREATE_PENDING` state.
  */
 export const listChangeSets: API.PaginatedOperationMethod<
-  ListChangeSetsInput,
+  ListChangeSetsInput & RegionInput,
   ListChangeSetsOutput,
   ListChangeSetsError,
   Credentials | HttpClient.HttpClient,
@@ -4178,6 +4297,8 @@ export const listChangeSets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListChangeSets",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Summaries" } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangeSets",
 })) as any;
 
 export type ListExportsError = CommonErrors;
@@ -4190,7 +4311,7 @@ export type ListExportsError = CommonErrors;
  * from a deployed CloudFormation stack.
  */
 export const listExports: API.PaginatedOperationMethod<
-  ListExportsInput,
+  ListExportsInput & RegionInput,
   ListExportsOutput,
   ListExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4203,6 +4324,8 @@ export const listExports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListExports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Exports" } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListGeneratedTemplatesError = CommonErrors;
@@ -4210,7 +4333,7 @@ export type ListGeneratedTemplatesError = CommonErrors;
  * Lists your generated templates in this Region.
  */
 export const listGeneratedTemplates: API.PaginatedOperationMethod<
-  ListGeneratedTemplatesInput,
+  ListGeneratedTemplatesInput & RegionInput,
   ListGeneratedTemplatesOutput,
   ListGeneratedTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4228,6 +4351,8 @@ export const listGeneratedTemplates: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGeneratedTemplates",
 })) as any;
 
 export type ListHookResultsError = HookResultNotFoundException | CommonErrors;
@@ -4248,7 +4373,7 @@ export type ListHookResultsError = HookResultNotFoundException | CommonErrors;
  * Hook invocation target.
  */
 export const listHookResults: API.OperationMethod<
-  ListHookResultsInput,
+  ListHookResultsInput & RegionInput,
   ListHookResultsOutput,
   ListHookResultsError,
   Credentials | HttpClient.HttpClient
@@ -4259,6 +4384,8 @@ export const listHookResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHookResults",
+  telemetry: TELEMETRY,
+  span: "ListHookResults",
 }));
 
 export type ListImportsError = CommonErrors;
@@ -4270,7 +4397,7 @@ export type ListImportsError = CommonErrors;
  * For more information about importing an exported output value, see the Fn::ImportValue function.
  */
 export const listImports: API.PaginatedOperationMethod<
-  ListImportsInput,
+  ListImportsInput & RegionInput,
   ListImportsOutput,
   ListImportsError,
   Credentials | HttpClient.HttpClient,
@@ -4283,6 +4410,8 @@ export const listImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Imports" } as const,
+  telemetry: TELEMETRY,
+  span: "ListImports",
 })) as any;
 
 export type ListResourceScanRelatedResourcesError =
@@ -4294,7 +4423,7 @@ export type ListResourceScanRelatedResourcesError =
  * indicates whether each returned resource is already managed by CloudFormation.
  */
 export const listResourceScanRelatedResources: API.PaginatedOperationMethod<
-  ListResourceScanRelatedResourcesInput,
+  ListResourceScanRelatedResourcesInput & RegionInput,
   ListResourceScanRelatedResourcesOutput,
   ListResourceScanRelatedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4312,6 +4441,8 @@ export const listResourceScanRelatedResources: API.PaginatedOperationMethod<
     items: "RelatedResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceScanRelatedResources",
 })) as any;
 
 export type ListResourceScanResourcesError =
@@ -4325,7 +4456,7 @@ export type ListResourceScanResourcesError =
  * already managed by CloudFormation.
  */
 export const listResourceScanResources: API.PaginatedOperationMethod<
-  ListResourceScanResourcesInput,
+  ListResourceScanResourcesInput & RegionInput,
   ListResourceScanResourcesOutput,
   ListResourceScanResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4343,6 +4474,8 @@ export const listResourceScanResources: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceScanResources",
 })) as any;
 
 export type ListResourceScansError = CommonErrors;
@@ -4351,7 +4484,7 @@ export type ListResourceScansError = CommonErrors;
  * scans.
  */
 export const listResourceScans: API.PaginatedOperationMethod<
-  ListResourceScansInput,
+  ListResourceScansInput & RegionInput,
   ListResourceScansOutput,
   ListResourceScansError,
   Credentials | HttpClient.HttpClient,
@@ -4369,6 +4502,8 @@ export const listResourceScans: API.PaginatedOperationMethod<
     items: "ResourceScanSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceScans",
 })) as any;
 
 export type ListStackInstanceResourceDriftsError =
@@ -4384,7 +4519,7 @@ export type ListStackInstanceResourceDriftsError =
  * results.
  */
 export const listStackInstanceResourceDrifts: API.OperationMethod<
-  ListStackInstanceResourceDriftsInput,
+  ListStackInstanceResourceDriftsInput & RegionInput,
   ListStackInstanceResourceDriftsOutput,
   ListStackInstanceResourceDriftsError,
   Credentials | HttpClient.HttpClient
@@ -4395,6 +4530,8 @@ export const listStackInstanceResourceDrifts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstanceResourceDrifts",
+  telemetry: TELEMETRY,
+  span: "ListStackInstanceResourceDrifts",
 }));
 
 export type ListStackInstancesError = StackSetNotFoundException | CommonErrors;
@@ -4404,7 +4541,7 @@ export type ListStackInstancesError = StackSetNotFoundException | CommonErrors;
  * name or Region, or that have a specific status.
  */
 export const listStackInstances: API.PaginatedOperationMethod<
-  ListStackInstancesInput,
+  ListStackInstancesInput & RegionInput,
   ListStackInstancesOutput,
   ListStackInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4422,6 +4559,8 @@ export const listStackInstances: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackInstances",
 })) as any;
 
 export type ListStackRefactorActionsError = CommonErrors;
@@ -4429,7 +4568,7 @@ export type ListStackRefactorActionsError = CommonErrors;
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
 export const listStackRefactorActions: API.PaginatedOperationMethod<
-  ListStackRefactorActionsInput,
+  ListStackRefactorActionsInput & RegionInput,
   ListStackRefactorActionsOutput,
   ListStackRefactorActionsError,
   Credentials | HttpClient.HttpClient,
@@ -4447,6 +4586,8 @@ export const listStackRefactorActions: API.PaginatedOperationMethod<
     items: "StackRefactorActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackRefactorActions",
 })) as any;
 
 export type ListStackRefactorsError = CommonErrors;
@@ -4454,7 +4595,7 @@ export type ListStackRefactorsError = CommonErrors;
  * Lists all account stack refactor operations and their statuses.
  */
 export const listStackRefactors: API.PaginatedOperationMethod<
-  ListStackRefactorsInput,
+  ListStackRefactorsInput & RegionInput,
   ListStackRefactorsOutput,
   ListStackRefactorsError,
   Credentials | HttpClient.HttpClient,
@@ -4472,6 +4613,8 @@ export const listStackRefactors: API.PaginatedOperationMethod<
     items: "StackRefactorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackRefactors",
 })) as any;
 
 export type ListStackResourcesError = CommonErrors;
@@ -4482,7 +4625,7 @@ export type ListStackResourcesError = CommonErrors;
  * after the stack has been deleted.
  */
 export const listStackResources: API.PaginatedOperationMethod<
-  ListStackResourcesInput,
+  ListStackResourcesInput & RegionInput,
   ListStackResourcesOutput,
   ListStackResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4499,6 +4642,8 @@ export const listStackResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "StackResourceSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackResources",
 })) as any;
 
 export type ListStacksError = CommonErrors;
@@ -4510,7 +4655,7 @@ export type ListStacksError = CommonErrors;
  * stacks that have been deleted).
  */
 export const listStacks: API.PaginatedOperationMethod<
-  ListStacksInput,
+  ListStacksInput & RegionInput,
   ListStacksOutput,
   ListStacksError,
   Credentials | HttpClient.HttpClient,
@@ -4527,6 +4672,8 @@ export const listStacks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "StackSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStacks",
 })) as any;
 
 export type ListStackSetAutoDeploymentTargetsError = StackSetNotFoundException | CommonErrors;
@@ -4534,7 +4681,7 @@ export type ListStackSetAutoDeploymentTargetsError = StackSetNotFoundException |
  * Returns summary information about deployment targets for a StackSet.
  */
 export const listStackSetAutoDeploymentTargets: API.OperationMethod<
-  ListStackSetAutoDeploymentTargetsInput,
+  ListStackSetAutoDeploymentTargetsInput & RegionInput,
   ListStackSetAutoDeploymentTargetsOutput,
   ListStackSetAutoDeploymentTargetsError,
   Credentials | HttpClient.HttpClient
@@ -4545,6 +4692,8 @@ export const listStackSetAutoDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackSetAutoDeploymentTargets",
+  telemetry: TELEMETRY,
+  span: "ListStackSetAutoDeploymentTargets",
 }));
 
 export type ListStackSetOperationResultsError =
@@ -4558,7 +4707,7 @@ export type ListStackSetOperationResultsError =
  * some time but will eventually return the most up-to-date data.
  */
 export const listStackSetOperationResults: API.PaginatedOperationMethod<
-  ListStackSetOperationResultsInput,
+  ListStackSetOperationResultsInput & RegionInput,
   ListStackSetOperationResultsOutput,
   ListStackSetOperationResultsError,
   Credentials | HttpClient.HttpClient,
@@ -4576,6 +4725,8 @@ export const listStackSetOperationResults: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackSetOperationResults",
 })) as any;
 
 export type ListStackSetOperationsError = StackSetNotFoundException | CommonErrors;
@@ -4586,7 +4737,7 @@ export type ListStackSetOperationsError = StackSetNotFoundException | CommonErro
  * some time but will eventually return the most up-to-date data.
  */
 export const listStackSetOperations: API.PaginatedOperationMethod<
-  ListStackSetOperationsInput,
+  ListStackSetOperationsInput & RegionInput,
   ListStackSetOperationsOutput,
   ListStackSetOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -4604,6 +4755,8 @@ export const listStackSetOperations: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackSetOperations",
 })) as any;
 
 export type ListStackSetsError = CommonErrors;
@@ -4627,7 +4780,7 @@ export type ListStackSetsError = CommonErrors;
  * management account.
  */
 export const listStackSets: API.PaginatedOperationMethod<
-  ListStackSetsInput,
+  ListStackSetsInput & RegionInput,
   ListStackSetsOutput,
   ListStackSetsError,
   Credentials | HttpClient.HttpClient,
@@ -4645,6 +4798,8 @@ export const listStackSets: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStackSets",
 })) as any;
 
 export type ListTypeRegistrationsError = CFNRegistryException | CommonErrors;
@@ -4652,7 +4807,7 @@ export type ListTypeRegistrationsError = CFNRegistryException | CommonErrors;
  * Returns a list of registration tokens for the specified extension(s).
  */
 export const listTypeRegistrations: API.PaginatedOperationMethod<
-  ListTypeRegistrationsInput,
+  ListTypeRegistrationsInput & RegionInput,
   ListTypeRegistrationsOutput,
   ListTypeRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -4669,6 +4824,8 @@ export const listTypeRegistrations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypeRegistrations",
 })) as any;
 
 export type ListTypesError = CFNRegistryException | CommonErrors;
@@ -4678,7 +4835,7 @@ export type ListTypesError = CFNRegistryException | CommonErrors;
  * publishers.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesInput,
+  ListTypesInput & RegionInput,
   ListTypesOutput,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -4696,6 +4853,8 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "TypeSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypes",
 })) as any;
 
 export type ListTypeVersionsError = CFNRegistryException | CommonErrors;
@@ -4703,7 +4862,7 @@ export type ListTypeVersionsError = CFNRegistryException | CommonErrors;
  * Returns summary information about the versions of an extension.
  */
 export const listTypeVersions: API.PaginatedOperationMethod<
-  ListTypeVersionsInput,
+  ListTypeVersionsInput & RegionInput,
   ListTypeVersionsOutput,
   ListTypeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4720,6 +4879,8 @@ export const listTypeVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypeVersions",
 })) as any;
 
 export type PublishTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -4734,7 +4895,7 @@ export type PublishTypeError = CFNRegistryException | TypeNotFoundException | Co
  * information, see RegisterPublisher.
  */
 export const publishType: API.OperationMethod<
-  PublishTypeInput,
+  PublishTypeInput & RegionInput,
   PublishTypeOutput,
   PublishTypeError,
   Credentials | HttpClient.HttpClient
@@ -4745,6 +4906,8 @@ export const publishType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishType",
+  telemetry: TELEMETRY,
+  span: "PublishType",
 }));
 
 export type RecordHandlerProgressError =
@@ -4758,7 +4921,7 @@ export type RecordHandlerProgressError =
  * CLI. Don't use this API in your code.
  */
 export const recordHandlerProgress: API.OperationMethod<
-  RecordHandlerProgressInput,
+  RecordHandlerProgressInput & RegionInput,
   RecordHandlerProgressOutput,
   RecordHandlerProgressError,
   Credentials | HttpClient.HttpClient
@@ -4769,6 +4932,8 @@ export const recordHandlerProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordHandlerProgress",
+  telemetry: TELEMETRY,
+  span: "RecordHandlerProgress",
 }));
 
 export type RegisterPublisherError = CFNRegistryException | CommonErrors;
@@ -4782,7 +4947,7 @@ export type RegisterPublisherError = CFNRegistryException | CommonErrors;
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
 export const registerPublisher: API.OperationMethod<
-  RegisterPublisherInput,
+  RegisterPublisherInput & RegionInput,
   RegisterPublisherOutput,
   RegisterPublisherError,
   Credentials | HttpClient.HttpClient
@@ -4793,6 +4958,8 @@ export const registerPublisher: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPublisher",
+  telemetry: TELEMETRY,
+  span: "RegisterPublisher",
 }));
 
 export type RegisterTypeError = CFNRegistryException | CommonErrors;
@@ -4824,7 +4991,7 @@ export type RegisterTypeError = CFNRegistryException | CommonErrors;
  * *CloudFormation User Guide*.
  */
 export const registerType: API.OperationMethod<
-  RegisterTypeInput,
+  RegisterTypeInput & RegionInput,
   RegisterTypeOutput,
   RegisterTypeError,
   Credentials | HttpClient.HttpClient
@@ -4835,6 +5002,8 @@ export const registerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterType",
+  telemetry: TELEMETRY,
+  span: "RegisterType",
 }));
 
 export type RollbackStackError = TokenAlreadyExistsException | CommonErrors;
@@ -4861,7 +5030,7 @@ export type RollbackStackError = TokenAlreadyExistsException | CommonErrors;
  * - `IMPORT_ROLLBACK_COMPLETE`
  */
 export const rollbackStack: API.OperationMethod<
-  RollbackStackInput,
+  RollbackStackInput & RegionInput,
   RollbackStackOutput,
   RollbackStackError,
   Credentials | HttpClient.HttpClient
@@ -4872,6 +5041,8 @@ export const rollbackStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackStack",
+  telemetry: TELEMETRY,
+  span: "RollbackStack",
 }));
 
 export type SetStackPolicyError = CommonErrors;
@@ -4879,7 +5050,7 @@ export type SetStackPolicyError = CommonErrors;
  * Sets a stack policy for a specified stack.
  */
 export const setStackPolicy: API.OperationMethod<
-  SetStackPolicyInput,
+  SetStackPolicyInput & RegionInput,
   SetStackPolicyResponse,
   SetStackPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4890,6 +5061,8 @@ export const setStackPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetStackPolicy",
+  telemetry: TELEMETRY,
+  span: "SetStackPolicy",
 }));
 
 export type SetTypeConfigurationError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -4913,7 +5086,7 @@ export type SetTypeConfigurationError = CFNRegistryException | TypeNotFoundExcep
  * data for Hooks, see the CloudFormation Hooks User Guide.
  */
 export const setTypeConfiguration: API.OperationMethod<
-  SetTypeConfigurationInput,
+  SetTypeConfigurationInput & RegionInput,
   SetTypeConfigurationOutput,
   SetTypeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4924,6 +5097,8 @@ export const setTypeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTypeConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetTypeConfiguration",
 }));
 
 export type SetTypeDefaultVersionError =
@@ -4935,7 +5110,7 @@ export type SetTypeDefaultVersionError =
  * used in CloudFormation operations.
  */
 export const setTypeDefaultVersion: API.OperationMethod<
-  SetTypeDefaultVersionInput,
+  SetTypeDefaultVersionInput & RegionInput,
   SetTypeDefaultVersionOutput,
   SetTypeDefaultVersionError,
   Credentials | HttpClient.HttpClient
@@ -4946,6 +5121,8 @@ export const setTypeDefaultVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTypeDefaultVersion",
+  telemetry: TELEMETRY,
+  span: "SetTypeDefaultVersion",
 }));
 
 export type SignalResourceError = CommonErrors;
@@ -4958,7 +5135,7 @@ export type SignalResourceError = CommonErrors;
  * instance.
  */
 export const signalResource: API.OperationMethod<
-  SignalResourceInput,
+  SignalResourceInput & RegionInput,
   SignalResourceResponse,
   SignalResourceError,
   Credentials | HttpClient.HttpClient
@@ -4969,6 +5146,8 @@ export const signalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignalResource",
+  telemetry: TELEMETRY,
+  span: "SignalResource",
 }));
 
 export type StartResourceScanError =
@@ -4980,7 +5159,7 @@ export type StartResourceScanError =
  * scan using the `ListResourceScans` API action.
  */
 export const startResourceScan: API.OperationMethod<
-  StartResourceScanInput,
+  StartResourceScanInput & RegionInput,
   StartResourceScanOutput,
   StartResourceScanError,
   Credentials | HttpClient.HttpClient
@@ -4991,6 +5170,8 @@ export const startResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceScan",
+  telemetry: TELEMETRY,
+  span: "StartResourceScan",
 }));
 
 export type StopStackSetOperationError =
@@ -5004,7 +5185,7 @@ export type StopStackSetOperationError =
  * complete.
  */
 export const stopStackSetOperation: API.OperationMethod<
-  StopStackSetOperationInput,
+  StopStackSetOperationInput & RegionInput,
   StopStackSetOperationOutput,
   StopStackSetOperationError,
   Credentials | HttpClient.HttpClient
@@ -5015,6 +5196,8 @@ export const stopStackSetOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStackSetOperation",
+  telemetry: TELEMETRY,
+  span: "StopStackSetOperation",
 }));
 
 export type TestTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
@@ -5047,7 +5230,7 @@ export type TestTypeError = CFNRegistryException | TypeNotFoundException | Commo
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
 export const testType: API.OperationMethod<
-  TestTypeInput,
+  TestTypeInput & RegionInput,
   TestTypeOutput,
   TestTypeError,
   Credentials | HttpClient.HttpClient
@@ -5058,6 +5241,8 @@ export const testType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestType",
+  telemetry: TELEMETRY,
+  span: "TestType",
 }));
 
 export type UpdateGeneratedTemplateError =
@@ -5072,7 +5257,7 @@ export type UpdateGeneratedTemplateError =
  * generated template using the `DescribeGeneratedTemplate` API action.
  */
 export const updateGeneratedTemplate: API.OperationMethod<
-  UpdateGeneratedTemplateInput,
+  UpdateGeneratedTemplateInput & RegionInput,
   UpdateGeneratedTemplateOutput,
   UpdateGeneratedTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5083,6 +5268,8 @@ export const updateGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeneratedTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateGeneratedTemplate",
 }));
 
 export type UpdateStackError =
@@ -5102,7 +5289,7 @@ export type UpdateStackError =
  * *CloudFormation User Guide*.
  */
 export const updateStack: API.OperationMethod<
-  UpdateStackInput,
+  UpdateStackInput & RegionInput,
   UpdateStackOutput,
   UpdateStackError,
   Credentials | HttpClient.HttpClient
@@ -5113,6 +5300,8 @@ export const updateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",
+  telemetry: TELEMETRY,
+  span: "UpdateStack",
 }));
 
 export type UpdateStackInstancesError =
@@ -5155,7 +5344,7 @@ export type UpdateStackInstancesError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const updateStackInstances: API.OperationMethod<
-  UpdateStackInstancesInput,
+  UpdateStackInstancesInput & RegionInput,
   UpdateStackInstancesOutput,
   UpdateStackInstancesError,
   Credentials | HttpClient.HttpClient
@@ -5173,6 +5362,8 @@ export const updateStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStackInstances",
+  telemetry: TELEMETRY,
+  span: "UpdateStackInstances",
 }));
 
 export type UpdateStackSetError =
@@ -5205,7 +5396,7 @@ export type UpdateStackSetError =
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
 export const updateStackSet: API.OperationMethod<
-  UpdateStackSetInput,
+  UpdateStackSetInput & RegionInput,
   UpdateStackSetOutput,
   UpdateStackSetError,
   Credentials | HttpClient.HttpClient
@@ -5223,6 +5414,8 @@ export const updateStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStackSet",
+  telemetry: TELEMETRY,
+  span: "UpdateStackSet",
 }));
 
 export type UpdateTerminationProtectionError = CommonErrors;
@@ -5237,7 +5430,7 @@ export type UpdateTerminationProtectionError = CommonErrors;
  * stack.
  */
 export const updateTerminationProtection: API.OperationMethod<
-  UpdateTerminationProtectionInput,
+  UpdateTerminationProtectionInput & RegionInput,
   UpdateTerminationProtectionOutput,
   UpdateTerminationProtectionError,
   Credentials | HttpClient.HttpClient
@@ -5248,6 +5441,8 @@ export const updateTerminationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTerminationProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateTerminationProtection",
 }));
 
 export type ValidateTemplateError = CommonErrors;
@@ -5257,7 +5452,7 @@ export type ValidateTemplateError = CommonErrors;
  * CloudFormation returns a template validation error.
  */
 export const validateTemplate: API.OperationMethod<
-  ValidateTemplateInput,
+  ValidateTemplateInput & RegionInput,
   ValidateTemplateOutput,
   ValidateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5268,6 +5463,8 @@ export const validateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateTemplate",
+  telemetry: TELEMETRY,
+  span: "ValidateTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

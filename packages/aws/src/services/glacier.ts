@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -74,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://glacier.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Glacier",
+  service: "Glacier",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InsufficientCapacityException
   extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
@@ -629,7 +645,7 @@ export type AbortMultipartUploadError =
  * Upload in the *Amazon Glacier Developer Guide*.
  */
 export const abortMultipartUpload: API.OperationMethod<
-  AbortMultipartUploadInput,
+  AbortMultipartUploadInput & RegionInput,
   AbortMultipartUploadResponse,
   AbortMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -646,6 +662,8 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "AbortMultipartUpload",
 }));
 
 export type AbortVaultLockError =
@@ -674,7 +692,7 @@ export type AbortVaultLockError =
  * associated with the vault.
  */
 export const abortVaultLock: API.OperationMethod<
-  AbortVaultLockInput,
+  AbortVaultLockInput & RegionInput,
   AbortVaultLockResponse,
   AbortVaultLockError,
   Credentials | HttpClient.HttpClient
@@ -691,6 +709,8 @@ export const abortVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortVaultLock",
+  telemetry: TELEMETRY,
+  span: "AbortVaultLock",
 }));
 
 export type AddTagsToVaultError =
@@ -709,7 +729,7 @@ export type AddTagsToVaultError =
  * will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources.
  */
 export const addTagsToVault: API.OperationMethod<
-  AddTagsToVaultInput,
+  AddTagsToVaultInput & RegionInput,
   AddTagsToVaultResponse,
   AddTagsToVaultError,
   Credentials | HttpClient.HttpClient
@@ -727,6 +747,8 @@ export const addTagsToVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToVault",
+  telemetry: TELEMETRY,
+  span: "AddTagsToVault",
 }));
 
 export type CompleteMultipartUploadError =
@@ -778,7 +800,7 @@ export type CompleteMultipartUploadError =
  * Upload in the *Amazon Glacier Developer Guide*.
  */
 export const completeMultipartUpload: API.OperationMethod<
-  CompleteMultipartUploadInput,
+  CompleteMultipartUploadInput & RegionInput,
   ArchiveCreationOutput,
   CompleteMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -795,6 +817,8 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteMultipartUpload",
 }));
 
 export type CompleteVaultLockError =
@@ -823,7 +847,7 @@ export type CompleteVaultLockError =
  * error.
  */
 export const completeVaultLock: API.OperationMethod<
-  CompleteVaultLockInput,
+  CompleteVaultLockInput & RegionInput,
   CompleteVaultLockResponse,
   CompleteVaultLockError,
   Credentials | HttpClient.HttpClient
@@ -840,6 +864,8 @@ export const completeVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteVaultLock",
+  telemetry: TELEMETRY,
+  span: "CompleteVaultLock",
 }));
 
 export type CreateVaultError =
@@ -874,7 +900,7 @@ export type CreateVaultError =
  * *Amazon Glacier Developer Guide*.
  */
 export const createVault: API.OperationMethod<
-  CreateVaultInput,
+  CreateVaultInput & RegionInput,
   CreateVaultOutput,
   CreateVaultError,
   Credentials | HttpClient.HttpClient
@@ -891,6 +917,8 @@ export const createVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVault",
+  telemetry: TELEMETRY,
+  span: "CreateVault",
 }));
 
 export type DeleteArchiveError =
@@ -927,7 +955,7 @@ export type DeleteArchiveError =
  * *Amazon Glacier Developer Guide*.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveInput,
+  DeleteArchiveInput & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -944,6 +972,8 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteArchive",
 }));
 
 export type DeleteVaultError =
@@ -977,7 +1007,7 @@ export type DeleteVaultError =
  * *Amazon Glacier Developer Guide*.
  */
 export const deleteVault: API.OperationMethod<
-  DeleteVaultInput,
+  DeleteVaultInput & RegionInput,
   DeleteVaultResponse,
   DeleteVaultError,
   Credentials | HttpClient.HttpClient
@@ -994,6 +1024,8 @@ export const deleteVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVault",
+  telemetry: TELEMETRY,
+  span: "DeleteVault",
 }));
 
 export type DeleteVaultAccessPolicyError =
@@ -1014,7 +1046,7 @@ export type DeleteVaultAccessPolicyError =
  * Amazon Glacier Access Control with Vault Access Policies.
  */
 export const deleteVaultAccessPolicy: API.OperationMethod<
-  DeleteVaultAccessPolicyInput,
+  DeleteVaultAccessPolicyInput & RegionInput,
   DeleteVaultAccessPolicyResponse,
   DeleteVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1031,6 +1063,8 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteVaultAccessPolicy",
 }));
 
 export type DeleteVaultNotificationsError =
@@ -1057,7 +1091,7 @@ export type DeleteVaultNotificationsError =
  * Notification Configuration in the Amazon Glacier Developer Guide.
  */
 export const deleteVaultNotifications: API.OperationMethod<
-  DeleteVaultNotificationsInput,
+  DeleteVaultNotificationsInput & RegionInput,
   DeleteVaultNotificationsResponse,
   DeleteVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -1074,6 +1108,8 @@ export const deleteVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "DeleteVaultNotifications",
 }));
 
 export type DescribeJobError =
@@ -1108,7 +1144,7 @@ export type DescribeJobError =
  * in the *Amazon Glacier Developer Guide*.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobInput,
+  DescribeJobInput & RegionInput,
   GlacierJobDescription,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1125,6 +1161,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeVaultError =
@@ -1156,7 +1194,7 @@ export type DescribeVaultError =
  * *Amazon Glacier Developer Guide*.
  */
 export const describeVault: API.OperationMethod<
-  DescribeVaultInput,
+  DescribeVaultInput & RegionInput,
   DescribeVaultOutput,
   DescribeVaultError,
   Credentials | HttpClient.HttpClient
@@ -1173,6 +1211,8 @@ export const describeVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVault",
+  telemetry: TELEMETRY,
+  span: "DescribeVault",
 }));
 
 export type GetDataRetrievalPolicyError =
@@ -1187,7 +1227,7 @@ export type GetDataRetrievalPolicyError =
  * Amazon Glacier Data Retrieval Policies.
  */
 export const getDataRetrievalPolicy: API.OperationMethod<
-  GetDataRetrievalPolicyInput,
+  GetDataRetrievalPolicyInput & RegionInput,
   GetDataRetrievalPolicyOutput,
   GetDataRetrievalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1203,6 +1243,8 @@ export const getDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetrievalPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDataRetrievalPolicy",
 }));
 
 export type GetJobOutputError =
@@ -1255,7 +1297,7 @@ export type GetJobOutputError =
  * Archive, and Get Job Output
  */
 export const getJobOutput: API.OperationMethod<
-  GetJobOutputInput,
+  GetJobOutputInput & RegionInput,
   GetJobOutputOutput,
   GetJobOutputError,
   Credentials | HttpClient.HttpClient
@@ -1272,6 +1314,8 @@ export const getJobOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobOutput",
+  telemetry: TELEMETRY,
+  span: "GetJobOutput",
 }));
 
 export type GetVaultAccessPolicyError =
@@ -1290,7 +1334,7 @@ export type GetVaultAccessPolicyError =
  * with Vault Access Policies.
  */
 export const getVaultAccessPolicy: API.OperationMethod<
-  GetVaultAccessPolicyInput,
+  GetVaultAccessPolicyInput & RegionInput,
   GetVaultAccessPolicyOutput,
   GetVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1307,6 +1351,8 @@ export const getVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetVaultAccessPolicy",
 }));
 
 export type GetVaultLockError =
@@ -1342,7 +1388,7 @@ export type GetVaultLockError =
  * Glacier Access Control with Vault Lock Policies.
  */
 export const getVaultLock: API.OperationMethod<
-  GetVaultLockInput,
+  GetVaultLockInput & RegionInput,
   GetVaultLockOutput,
   GetVaultLockError,
   Credentials | HttpClient.HttpClient
@@ -1359,6 +1405,8 @@ export const getVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultLock",
+  telemetry: TELEMETRY,
+  span: "GetVaultLock",
 }));
 
 export type GetVaultNotificationsError =
@@ -1388,7 +1436,7 @@ export type GetVaultNotificationsError =
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
 export const getVaultNotifications: API.OperationMethod<
-  GetVaultNotificationsInput,
+  GetVaultNotificationsInput & RegionInput,
   GetVaultNotificationsOutput,
   GetVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -1405,6 +1453,8 @@ export const getVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "GetVaultNotifications",
 }));
 
 export type InitiateJobError =
@@ -1423,7 +1473,7 @@ export type InitiateJobError =
  * a Job.
  */
 export const initiateJob: API.OperationMethod<
-  InitiateJobInput,
+  InitiateJobInput & RegionInput,
   InitiateJobOutput,
   InitiateJobError,
   Credentials | HttpClient.HttpClient
@@ -1442,6 +1492,8 @@ export const initiateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateJob",
+  telemetry: TELEMETRY,
+  span: "InitiateJob",
 }));
 
 export type InitiateMultipartUploadError =
@@ -1487,7 +1539,7 @@ export type InitiateMultipartUploadError =
  * Upload in the *Amazon Glacier Developer Guide*.
  */
 export const initiateMultipartUpload: API.OperationMethod<
-  InitiateMultipartUploadInput,
+  InitiateMultipartUploadInput & RegionInput,
   InitiateMultipartUploadOutput,
   InitiateMultipartUploadError,
   Credentials | HttpClient.HttpClient
@@ -1504,6 +1556,8 @@ export const initiateMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateMultipartUpload",
 }));
 
 export type InitiateVaultLockError =
@@ -1548,7 +1602,7 @@ export type InitiateVaultLockError =
  * before you can initiate a new vault lock policy.
  */
 export const initiateVaultLock: API.OperationMethod<
-  InitiateVaultLockInput,
+  InitiateVaultLockInput & RegionInput,
   InitiateVaultLockOutput,
   InitiateVaultLockError,
   Credentials | HttpClient.HttpClient
@@ -1565,6 +1619,8 @@ export const initiateVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateVaultLock",
+  telemetry: TELEMETRY,
+  span: "InitiateVaultLock",
 }));
 
 export type ListJobsError =
@@ -1611,7 +1667,7 @@ export type ListJobsError =
  * see the documentation for the underlying REST API List Jobs.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsInput,
+  ListJobsInput & RegionInput,
   ListJobsOutput,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1635,6 +1691,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListMultipartUploadsError =
@@ -1673,7 +1731,7 @@ export type ListMultipartUploadsError =
  * in the *Amazon Glacier Developer Guide*.
  */
 export const listMultipartUploads: API.PaginatedOperationMethod<
-  ListMultipartUploadsInput,
+  ListMultipartUploadsInput & RegionInput,
   ListMultipartUploadsOutput,
   ListMultipartUploadsError,
   Credentials | HttpClient.HttpClient,
@@ -1697,6 +1755,8 @@ export const listMultipartUploads: API.PaginatedOperationMethod<
     items: "UploadsList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultipartUploads",
 })) as any;
 
 export type ListPartsError =
@@ -1732,7 +1792,7 @@ export type ListPartsError =
  * *Amazon Glacier Developer Guide*.
  */
 export const listParts: API.PaginatedOperationMethod<
-  ListPartsInput,
+  ListPartsInput & RegionInput,
   ListPartsOutput,
   ListPartsError,
   Credentials | HttpClient.HttpClient,
@@ -1756,6 +1816,8 @@ export const listParts: API.PaginatedOperationMethod<
     items: "Parts",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParts",
 })) as any;
 
 export type ListProvisionedCapacityError =
@@ -1769,7 +1831,7 @@ export type ListProvisionedCapacityError =
  * account.
  */
 export const listProvisionedCapacity: API.OperationMethod<
-  ListProvisionedCapacityInput,
+  ListProvisionedCapacityInput & RegionInput,
   ListProvisionedCapacityOutput,
   ListProvisionedCapacityError,
   Credentials | HttpClient.HttpClient
@@ -1785,6 +1847,8 @@ export const listProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedCapacity",
+  telemetry: TELEMETRY,
+  span: "ListProvisionedCapacity",
 }));
 
 export type ListTagsForVaultError =
@@ -1800,7 +1864,7 @@ export type ListTagsForVaultError =
  * Resources.
  */
 export const listTagsForVault: API.OperationMethod<
-  ListTagsForVaultInput,
+  ListTagsForVaultInput & RegionInput,
   ListTagsForVaultOutput,
   ListTagsForVaultError,
   Credentials | HttpClient.HttpClient
@@ -1817,6 +1881,8 @@ export const listTagsForVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForVault",
+  telemetry: TELEMETRY,
+  span: "ListTagsForVault",
 }));
 
 export type ListVaultsError =
@@ -1849,7 +1915,7 @@ export type ListVaultsError =
  * *Amazon Glacier Developer Guide*.
  */
 export const listVaults: API.PaginatedOperationMethod<
-  ListVaultsInput,
+  ListVaultsInput & RegionInput,
   ListVaultsOutput,
   ListVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -1873,6 +1939,8 @@ export const listVaults: API.PaginatedOperationMethod<
     items: "VaultList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVaults",
 })) as any;
 
 export type PurchaseProvisionedCapacityError =
@@ -1886,7 +1954,7 @@ export type PurchaseProvisionedCapacityError =
  * This operation purchases a provisioned capacity unit for an AWS account.
  */
 export const purchaseProvisionedCapacity: API.OperationMethod<
-  PurchaseProvisionedCapacityInput,
+  PurchaseProvisionedCapacityInput & RegionInput,
   PurchaseProvisionedCapacityOutput,
   PurchaseProvisionedCapacityError,
   Credentials | HttpClient.HttpClient
@@ -1903,6 +1971,8 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseProvisionedCapacity",
+  telemetry: TELEMETRY,
+  span: "PurchaseProvisionedCapacity",
 }));
 
 export type RemoveTagsFromVaultError =
@@ -1919,7 +1989,7 @@ export type RemoveTagsFromVaultError =
  * attached to the vault.
  */
 export const removeTagsFromVault: API.OperationMethod<
-  RemoveTagsFromVaultInput,
+  RemoveTagsFromVaultInput & RegionInput,
   RemoveTagsFromVaultResponse,
   RemoveTagsFromVaultError,
   Credentials | HttpClient.HttpClient
@@ -1936,6 +2006,8 @@ export const removeTagsFromVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromVault",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromVault",
 }));
 
 export type SetDataRetrievalPolicyError =
@@ -1954,7 +2026,7 @@ export type SetDataRetrievalPolicyError =
  * Glacier Data Retrieval Policies.
  */
 export const setDataRetrievalPolicy: API.OperationMethod<
-  SetDataRetrievalPolicyInput,
+  SetDataRetrievalPolicyInput & RegionInput,
   SetDataRetrievalPolicyResponse,
   SetDataRetrievalPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1970,6 +2042,8 @@ export const setDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDataRetrievalPolicy",
+  telemetry: TELEMETRY,
+  span: "SetDataRetrievalPolicy",
 }));
 
 export type SetVaultAccessPolicyError =
@@ -1988,7 +2062,7 @@ export type SetVaultAccessPolicyError =
  * see Amazon Glacier Access Control with Vault Access Policies.
  */
 export const setVaultAccessPolicy: API.OperationMethod<
-  SetVaultAccessPolicyInput,
+  SetVaultAccessPolicyInput & RegionInput,
   SetVaultAccessPolicyResponse,
   SetVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2005,6 +2079,8 @@ export const setVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "SetVaultAccessPolicy",
 }));
 
 export type SetVaultNotificationsError =
@@ -2048,7 +2124,7 @@ export type SetVaultNotificationsError =
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
 export const setVaultNotifications: API.OperationMethod<
-  SetVaultNotificationsInput,
+  SetVaultNotificationsInput & RegionInput,
   SetVaultNotificationsResponse,
   SetVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -2065,6 +2141,8 @@ export const setVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "SetVaultNotifications",
 }));
 
 export type UploadArchiveError =
@@ -2111,7 +2189,7 @@ export type UploadArchiveError =
  * *Amazon Glacier Developer Guide*.
  */
 export const uploadArchive: API.OperationMethod<
-  UploadArchiveInput,
+  UploadArchiveInput & RegionInput,
   ArchiveCreationOutput,
   UploadArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2129,6 +2207,8 @@ export const uploadArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadArchive",
+  telemetry: TELEMETRY,
+  span: "UploadArchive",
 }));
 
 export type UploadMultipartPartError =
@@ -2184,7 +2264,7 @@ export type UploadMultipartPartError =
  * *Amazon Glacier Developer Guide*.
  */
 export const uploadMultipartPart: API.OperationMethod<
-  UploadMultipartPartInput,
+  UploadMultipartPartInput & RegionInput,
   UploadMultipartPartOutput,
   UploadMultipartPartError,
   Credentials | HttpClient.HttpClient
@@ -2202,6 +2282,8 @@ export const uploadMultipartPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadMultipartPart",
+  telemetry: TELEMETRY,
+  span: "UploadMultipartPart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

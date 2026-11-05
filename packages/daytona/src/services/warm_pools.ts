@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "WarmPools",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface CreateWarmPoolRequest {
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string;
@@ -74,6 +87,8 @@ export const createWarmPool: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarmPool",
 }));
 
 export type DeleteWarmPoolError = DaytonaOpError;
@@ -89,6 +104,8 @@ export const deleteWarmPool: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWarmPool",
 }));
 
 export type ListWarmPoolsError = DaytonaOpError;
@@ -104,6 +121,8 @@ export const listWarmPools: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWarmPools",
 }));
 
 export type UpdateWarmPoolError = DaytonaOpError;
@@ -119,6 +138,8 @@ export const updateWarmPool: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarmPool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

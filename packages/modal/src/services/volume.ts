@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "VolumeService",
+  propagate: "w3c",
+} as const;
+
 export interface CommitVolumeRequest {
   /** NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount. */
   volumeId?: string;
@@ -237,6 +249,8 @@ export const commitVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitVolume",
 }));
 
 export type DeleteVolumeError = ModalOpError;
@@ -251,6 +265,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type ListVolumeError = ModalOpError;
@@ -265,6 +281,8 @@ export const listVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolume",
 }));
 
 export type RenameVolumeError = ModalOpError;
@@ -279,6 +297,8 @@ export const renameVolume: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameVolume",
 }));
 
 export type VolumeCopyFilesError = ModalOpError;
@@ -293,6 +313,8 @@ export const volumeCopyFiles: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeCopyFiles",
 }));
 
 export type VolumeCopyFiles2Error = ModalOpError;
@@ -307,6 +329,8 @@ export const volumeCopyFiles2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeCopyFiles2",
 }));
 
 export type VolumeGetByIdError = ModalOpError;
@@ -321,6 +345,8 @@ export const volumeGetById: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeGetById",
 }));
 
 export type VolumeGetFileError = ModalOpError;
@@ -335,6 +361,8 @@ export const volumeGetFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeGetFile",
 }));
 
 export type VolumeGetFile2Error = ModalOpError;
@@ -349,6 +377,8 @@ export const volumeGetFile2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeGetFile2",
 }));
 
 export type VolumeGetOrCreateError = ModalOpError;
@@ -363,6 +393,8 @@ export const volumeGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeGetOrCreate",
 }));
 
 export type VolumeHeartbeatError = ModalOpError;
@@ -377,6 +409,8 @@ export const volumeHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeHeartbeat",
 }));
 
 export type VolumePutFilesError = ModalOpError;
@@ -391,6 +425,8 @@ export const volumePutFiles: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumePutFiles",
 }));
 
 export type VolumePutFiles2Error = ModalOpError;
@@ -405,6 +441,8 @@ export const volumePutFiles2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumePutFiles2",
 }));
 
 export type VolumeReloadError = ModalOpError;
@@ -419,6 +457,8 @@ export const volumeReload: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeReload",
 }));
 
 export type VolumeRemoveFileError = ModalOpError;
@@ -433,6 +473,8 @@ export const volumeRemoveFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeRemoveFile",
 }));
 
 export type VolumeRemoveFile2Error = ModalOpError;
@@ -447,6 +489,8 @@ export const volumeRemoveFile2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeRemoveFile2",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

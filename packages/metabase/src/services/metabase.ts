@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { MetabaseOpError, MetabaseOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "metabase-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Metabase",
+  service: "Metabase",
+  labels: "metabase",
+  propagate: "w3c",
+} as const;
+
 export type MetabaseLibSchemaParameterVariable = Array<unknown>;
 /** A :text-tag parameter :target applies to parameterized text cards in viz settings */
 export type MetabaseLibSchemaParameterTextTag = Array<unknown>;
@@ -7195,6 +7208,8 @@ export const createAction: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAction",
 }));
 
 export type CreateActionExecuteError = MetabaseOpError;
@@ -7210,6 +7225,8 @@ export const createActionExecute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionExecute",
 }));
 
 export type CreateActionExecute2Error = MetabaseOpError;
@@ -7225,6 +7242,8 @@ export const createActionExecute2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionExecute2",
 }));
 
 export type CreateActionPublicLinkError = MetabaseOpError;
@@ -7240,6 +7259,8 @@ export const createActionPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionPublicLink",
 }));
 
 export type CreateActivityRecentError = MetabaseOpError;
@@ -7255,6 +7276,8 @@ export const createActivityRecent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActivityRecent",
 }));
 
 export type CreateAgentCollectionError = MetabaseOpError;
@@ -7270,6 +7293,8 @@ export const createAgentCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentCollection",
 }));
 
 export type CreateAgentConstructNativeQueryError = MetabaseOpError;
@@ -7285,6 +7310,8 @@ export const createAgentConstructNativeQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentConstructNativeQuery",
 }));
 
 export type CreateAgentConstructQueryError = MetabaseOpError;
@@ -7300,6 +7327,8 @@ export const createAgentConstructQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentConstructQuery",
 }));
 
 export type CreateAgentDashboardError = MetabaseOpError;
@@ -7315,6 +7344,8 @@ export const createAgentDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentDashboard",
 }));
 
 export type CreateAgentExecuteError = MetabaseOpError;
@@ -7330,6 +7361,8 @@ export const createAgentExecute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentExecute",
 }));
 
 export type CreateAgentExecuteSqlError = MetabaseOpError;
@@ -7345,6 +7378,8 @@ export const createAgentExecuteSql: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentExecuteSql",
 }));
 
 export type CreateAgentMetricError = MetabaseOpError;
@@ -7360,6 +7395,8 @@ export const createAgentMetric: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentMetric",
 }));
 
 export type CreateAgentQueryError = MetabaseOpError;
@@ -7375,6 +7412,8 @@ export const createAgentQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentQuery",
 }));
 
 export type CreateAgentQuestionError = MetabaseOpError;
@@ -7390,6 +7429,8 @@ export const createAgentQuestion: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentQuestion",
 }));
 
 export type CreateAgentQuestionQueryError = MetabaseOpError;
@@ -7405,6 +7446,8 @@ export const createAgentQuestionQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentQuestionQuery",
 }));
 
 export type CreateAgentReadResourceError = MetabaseOpError;
@@ -7420,6 +7463,8 @@ export const createAgentReadResource: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentReadResource",
 }));
 
 export type CreateAgentSearchError = MetabaseOpError;
@@ -7435,6 +7480,8 @@ export const createAgentSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentSearch",
 }));
 
 export type CreateAiEntityAnalysisAnalyzeChartError = MetabaseOpError;
@@ -7450,6 +7497,8 @@ export const createAiEntityAnalysisAnalyzeChart: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiEntityAnalysisAnalyzeChart",
 }));
 
 export type CreateAnalyticsInternalError = MetabaseOpError;
@@ -7465,6 +7514,8 @@ export const createAnalyticsInternal: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnalyticsInternal",
 }));
 
 export type CreateAnalyticsProxyError = MetabaseOpError;
@@ -7480,6 +7531,8 @@ export const createAnalyticsProxy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnalyticsProxy",
 }));
 
 export type CreateCacheInvalidateError = MetabaseOpError;
@@ -7495,6 +7548,8 @@ export const createCacheInvalidate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCacheInvalidate",
 }));
 
 export type CreateCardError = MetabaseOpError;
@@ -7510,6 +7565,8 @@ export const createCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCard",
 }));
 
 export type CreateCardCollectionError = MetabaseOpError;
@@ -7525,6 +7582,8 @@ export const createCardCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardCollection",
 }));
 
 export type CreateCardCopyError = MetabaseOpError;
@@ -7540,6 +7599,8 @@ export const createCardCopy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardCopy",
 }));
 
 export type CreateCardPivotCardQueryError = MetabaseOpError;
@@ -7555,6 +7616,8 @@ export const createCardPivotCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardPivotCardQuery",
 }));
 
 export type CreateCardPublicLinkError = MetabaseOpError;
@@ -7570,6 +7633,8 @@ export const createCardPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardPublicLink",
 }));
 
 export type CreateCardQueryError = MetabaseOpError;
@@ -7585,6 +7650,8 @@ export const createCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardQuery",
 }));
 
 export type CreateCardsDashboardError = MetabaseOpError;
@@ -7600,6 +7667,8 @@ export const createCardsDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardsDashboard",
 }));
 
 export type CreateCardsMoveError = MetabaseOpError;
@@ -7615,6 +7684,8 @@ export const createCardsMove: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCardsMove",
 }));
 
 export type CreateChannelError = MetabaseOpError;
@@ -7630,6 +7701,8 @@ export const createChannel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelTestError = MetabaseOpError;
@@ -7645,6 +7718,8 @@ export const createChannelTest: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChannelTest",
 }));
 
 export type CreateCloudMigrationError = MetabaseOpError;
@@ -7660,6 +7735,8 @@ export const createCloudMigration: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudMigration",
 }));
 
 export type CreateCollectionError = MetabaseOpError;
@@ -7675,6 +7752,8 @@ export const createCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateCollectionMoveDashboardQuestionCandidateError = MetabaseOpError;
@@ -7698,6 +7777,8 @@ export const createCollectionMoveDashboardQuestionCandidate: API.OperationMethod
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollectionMoveDashboardQuestionCandidate",
 }));
 
 export type CreateCollectionRootMoveDashboardQuestionCandidateError = MetabaseOpError;
@@ -7721,6 +7802,8 @@ export const createCollectionRootMoveDashboardQuestionCandidate: API.OperationMe
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollectionRootMoveDashboardQuestionCandidate",
 }));
 
 export type CreateCommentError = MetabaseOpError;
@@ -7736,6 +7819,8 @@ export const createComment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComment",
 }));
 
 export type CreateCommentReactionError = MetabaseOpError;
@@ -7751,6 +7836,8 @@ export const createCommentReaction: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommentReaction",
 }));
 
 export type CreateDashboardError = MetabaseOpError;
@@ -7766,6 +7853,8 @@ export const createDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDashboardCopyError = MetabaseOpError;
@@ -7781,6 +7870,8 @@ export const createDashboardCopy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardCopy",
 }));
 
 export type CreateDashboardDashcardCardQueryError = MetabaseOpError;
@@ -7796,6 +7887,8 @@ export const createDashboardDashcardCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardDashcardCardQuery",
 }));
 
 export type CreateDashboardDashcardExecuteError = MetabaseOpError;
@@ -7811,6 +7904,8 @@ export const createDashboardDashcardExecute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardDashcardExecute",
 }));
 
 export type CreateDashboardDashcardExecute2Error = MetabaseOpError;
@@ -7826,6 +7921,8 @@ export const createDashboardDashcardExecute2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardDashcardExecute2",
 }));
 
 export type CreateDashboardPdfError = MetabaseOpError;
@@ -7841,6 +7938,8 @@ export const createDashboardPdf: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardPdf",
 }));
 
 export type CreateDashboardPivotDashboardDashcardCardQueryError = MetabaseOpError;
@@ -7864,6 +7963,8 @@ export const createDashboardPivotDashboardDashcardCardQuery: API.OperationMethod
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardPivotDashboardDashcardCardQuery",
 }));
 
 export type CreateDashboardPublicLinkError = MetabaseOpError;
@@ -7879,6 +7980,8 @@ export const createDashboardPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardPublicLink",
 }));
 
 export type CreateDashboardSaveError = MetabaseOpError;
@@ -7894,6 +7997,8 @@ export const createDashboardSave: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardSave",
 }));
 
 export type CreateDatabaseError = MetabaseOpError;
@@ -7909,6 +8014,8 @@ export const createDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateDatabaseDiscardValueError = MetabaseOpError;
@@ -7924,6 +8031,8 @@ export const createDatabaseDiscardValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseDiscardValue",
 }));
 
 export type CreateDatabaseDismissSpinnerError = MetabaseOpError;
@@ -7939,6 +8048,8 @@ export const createDatabaseDismissSpinner: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseDismissSpinner",
 }));
 
 export type CreateDatabaseRescanValueError = MetabaseOpError;
@@ -7954,6 +8065,8 @@ export const createDatabaseRescanValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseRescanValue",
 }));
 
 export type CreateDatabaseSampleDatabaseError = MetabaseOpError;
@@ -7969,6 +8082,8 @@ export const createDatabaseSampleDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseSampleDatabase",
 }));
 
 export type CreateDatabaseSyncSchemaError = MetabaseOpError;
@@ -7984,6 +8099,8 @@ export const createDatabaseSyncSchema: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseSyncSchema",
 }));
 
 export type CreateDatabaseValidateError = MetabaseOpError;
@@ -7999,6 +8116,8 @@ export const createDatabaseValidate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseValidate",
 }));
 
 export type CreateDatasetError = MetabaseOpError;
@@ -8014,6 +8133,8 @@ export const createDataset: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetNativeError = MetabaseOpError;
@@ -8029,6 +8150,8 @@ export const createDatasetNative: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetNative",
 }));
 
 export type CreateDatasetParameterRemappingError = MetabaseOpError;
@@ -8044,6 +8167,8 @@ export const createDatasetParameterRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetParameterRemapping",
 }));
 
 export type CreateDatasetParameterValueError = MetabaseOpError;
@@ -8059,6 +8184,8 @@ export const createDatasetParameterValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetParameterValue",
 }));
 
 export type CreateDatasetPivotError = MetabaseOpError;
@@ -8074,6 +8201,8 @@ export const createDatasetPivot: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetPivot",
 }));
 
 export type CreateDatasetQueryMetadataError = MetabaseOpError;
@@ -8089,6 +8218,8 @@ export const createDatasetQueryMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetQueryMetadata",
 }));
 
 export type CreateDataStudioTableDiscardValueError = MetabaseOpError;
@@ -8104,6 +8235,8 @@ export const createDataStudioTableDiscardValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataStudioTableDiscardValue",
 }));
 
 export type CreateDataStudioTableEditError = MetabaseOpError;
@@ -8119,6 +8252,8 @@ export const createDataStudioTableEdit: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataStudioTableEdit",
 }));
 
 export type CreateDataStudioTableRescanValueError = MetabaseOpError;
@@ -8134,6 +8269,8 @@ export const createDataStudioTableRescanValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataStudioTableRescanValue",
 }));
 
 export type CreateDataStudioTableSelectionError = MetabaseOpError;
@@ -8149,6 +8286,8 @@ export const createDataStudioTableSelection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataStudioTableSelection",
 }));
 
 export type CreateDataStudioTableSyncSchemaError = MetabaseOpError;
@@ -8164,6 +8303,8 @@ export const createDataStudioTableSyncSchema: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataStudioTableSyncSchema",
 }));
 
 export type CreateDocumentError = MetabaseOpError;
@@ -8179,6 +8320,8 @@ export const createDocument: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDocument",
 }));
 
 export type CreateDocumentCopyError = MetabaseOpError;
@@ -8194,6 +8337,8 @@ export const createDocumentCopy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDocumentCopy",
 }));
 
 export type CreateDocumentPublicLinkError = MetabaseOpError;
@@ -8209,6 +8354,8 @@ export const createDocumentPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDocumentPublicLink",
 }));
 
 export type CreateEeActionV2ExecuteError = MetabaseOpError;
@@ -8224,6 +8371,8 @@ export const createEeActionV2Execute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeActionV2Execute",
 }));
 
 export type CreateEeActionV2ExecuteBulkError = MetabaseOpError;
@@ -8239,6 +8388,8 @@ export const createEeActionV2ExecuteBulk: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeActionV2ExecuteBulk",
 }));
 
 export type CreateEeActionV2ExecuteFormError = MetabaseOpError;
@@ -8254,6 +8405,8 @@ export const createEeActionV2ExecuteForm: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeActionV2ExecuteForm",
 }));
 
 export type CreateEeAiControlsPermissionsAdvancedError = MetabaseOpError;
@@ -8269,6 +8422,8 @@ export const createEeAiControlsPermissionsAdvanced: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeAiControlsPermissionsAdvanced",
 }));
 
 export type CreateEeAuditAppAnalyticsDevExportError = MetabaseOpError;
@@ -8284,6 +8439,8 @@ export const createEeAuditAppAnalyticsDevExport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeAuditAppAnalyticsDevExport",
 }));
 
 export type CreateEeContentTranslationUploadDictionaryError = MetabaseOpError;
@@ -8299,6 +8456,8 @@ export const createEeContentTranslationUploadDictionary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeContentTranslationUploadDictionary",
 }));
 
 export type CreateEeCustomVizPluginError = MetabaseOpError;
@@ -8314,6 +8473,8 @@ export const createEeCustomVizPlugin: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeCustomVizPlugin",
 }));
 
 export type CreateEeCustomVizPluginDevError = MetabaseOpError;
@@ -8329,6 +8490,8 @@ export const createEeCustomVizPluginDev: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeCustomVizPluginDev",
 }));
 
 export type CreateEeCustomVizPluginRefreshError = MetabaseOpError;
@@ -8344,6 +8507,8 @@ export const createEeCustomVizPluginRefresh: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeCustomVizPluginRefresh",
 }));
 
 export type CreateEeDatabaseReplicationConnectionDatabasePreviewError = MetabaseOpError;
@@ -8367,6 +8532,8 @@ export const createEeDatabaseReplicationConnectionDatabasePreview: API.Operation
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeDatabaseReplicationConnectionDatabasePreview",
 }));
 
 export type CreateEeDatabaseRoutingDestinationDatabaseError = MetabaseOpError;
@@ -8382,6 +8549,8 @@ export const createEeDatabaseRoutingDestinationDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeDatabaseRoutingDestinationDatabase",
 }));
 
 export type CreateEeDataStudioTablePublishTableError = MetabaseOpError;
@@ -8397,6 +8566,8 @@ export const createEeDataStudioTablePublishTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeDataStudioTablePublishTable",
 }));
 
 export type CreateEeDataStudioTableUnpublishTableError = MetabaseOpError;
@@ -8412,6 +8583,8 @@ export const createEeDataStudioTableUnpublishTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeDataStudioTableUnpublishTable",
 }));
 
 export type CreateEeGsheetsConnectionError = MetabaseOpError;
@@ -8427,6 +8600,8 @@ export const createEeGsheetsConnection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeGsheetsConnection",
 }));
 
 export type CreateEeGsheetsConnectionSyncError = MetabaseOpError;
@@ -8442,6 +8617,8 @@ export const createEeGsheetsConnectionSync: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeGsheetsConnectionSync",
 }));
 
 export type CreateEeLibraryError = MetabaseOpError;
@@ -8457,6 +8634,8 @@ export const createEeLibrary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeLibrary",
 }));
 
 export type CreateEeMfaAdminRemoveError = MetabaseOpError;
@@ -8472,6 +8651,8 @@ export const createEeMfaAdminRemove: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeMfaAdminRemove",
 }));
 
 export type CreateEeMfaDisableError = MetabaseOpError;
@@ -8487,6 +8668,8 @@ export const createEeMfaDisable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeMfaDisable",
 }));
 
 export type CreateEeMfaEnrollError = MetabaseOpError;
@@ -8502,6 +8685,8 @@ export const createEeMfaEnroll: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeMfaEnroll",
 }));
 
 export type CreateEeMfaEnrollConfirmError = MetabaseOpError;
@@ -8517,6 +8702,8 @@ export const createEeMfaEnrollConfirm: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeMfaEnrollConfirm",
 }));
 
 export type CreateEeMfaRecoveryCodeError = MetabaseOpError;
@@ -8532,6 +8719,8 @@ export const createEeMfaRecoveryCode: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeMfaRecoveryCode",
 }));
 
 export type CreateEeRemoteSyncCreateBranchError = MetabaseOpError;
@@ -8547,6 +8736,8 @@ export const createEeRemoteSyncCreateBranch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncCreateBranch",
 }));
 
 export type CreateEeRemoteSyncCurrentTaskCancelError = MetabaseOpError;
@@ -8562,6 +8753,8 @@ export const createEeRemoteSyncCurrentTaskCancel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncCurrentTaskCancel",
 }));
 
 export type CreateEeRemoteSyncExportError = MetabaseOpError;
@@ -8577,6 +8770,8 @@ export const createEeRemoteSyncExport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncExport",
 }));
 
 export type CreateEeRemoteSyncImportError = MetabaseOpError;
@@ -8592,6 +8787,8 @@ export const createEeRemoteSyncImport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncImport",
 }));
 
 export type CreateEeRemoteSyncStashError = MetabaseOpError;
@@ -8607,6 +8804,8 @@ export const createEeRemoteSyncStash: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncStash",
 }));
 
 export type CreateEeRemoteSyncTestConnectionError = MetabaseOpError;
@@ -8622,6 +8821,8 @@ export const createEeRemoteSyncTestConnection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeRemoteSyncTestConnection",
 }));
 
 export type CreateEeReplacementCheckReplaceSourceError = MetabaseOpError;
@@ -8637,6 +8838,8 @@ export const createEeReplacementCheckReplaceSource: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeReplacementCheckReplaceSource",
 }));
 
 export type CreateEeReplacementReplaceSourceError = MetabaseOpError;
@@ -8652,6 +8855,8 @@ export const createEeReplacementReplaceSource: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeReplacementReplaceSource",
 }));
 
 export type CreateEeReplacementRunCancelError = MetabaseOpError;
@@ -8667,6 +8872,8 @@ export const createEeReplacementRunCancel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeReplacementRunCancel",
 }));
 
 export type CreateEeScimGroupError = MetabaseOpError;
@@ -8682,6 +8889,8 @@ export const createEeScimGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeScimGroup",
 }));
 
 export type CreateEeScimKeyError = MetabaseOpError;
@@ -8697,6 +8906,8 @@ export const createEeScimKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeScimKey",
 }));
 
 export type CreateEeScimUserError = MetabaseOpError;
@@ -8712,6 +8923,8 @@ export const createEeScimUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeScimUser",
 }));
 
 export type CreateEeSecurityCenterAcknowledgeError = MetabaseOpError;
@@ -8727,6 +8940,8 @@ export const createEeSecurityCenterAcknowledge: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSecurityCenterAcknowledge",
 }));
 
 export type CreateEeSecurityCenterAcknowledge2Error = MetabaseOpError;
@@ -8742,6 +8957,8 @@ export const createEeSecurityCenterAcknowledge2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSecurityCenterAcknowledge2",
 }));
 
 export type CreateEeSecurityCenterSyncError = MetabaseOpError;
@@ -8757,6 +8974,8 @@ export const createEeSecurityCenterSync: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSecurityCenterSync",
 }));
 
 export type CreateEeSecurityCenterTestNotificationError = MetabaseOpError;
@@ -8772,6 +8991,8 @@ export const createEeSecurityCenterTestNotification: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSecurityCenterTestNotification",
 }));
 
 export type CreateEeSerializationExportError = MetabaseOpError;
@@ -8787,6 +9008,8 @@ export const createEeSerializationExport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSerializationExport",
 }));
 
 export type CreateEeSerializationImportError = MetabaseOpError;
@@ -8802,6 +9025,8 @@ export const createEeSerializationImport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSerializationImport",
 }));
 
 export type CreateEeSerializationMetadataExportError = MetabaseOpError;
@@ -8817,6 +9042,8 @@ export const createEeSerializationMetadataExport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSerializationMetadataExport",
 }));
 
 export type CreateEeSerializationMetadataImportError = MetabaseOpError;
@@ -8832,6 +9059,8 @@ export const createEeSerializationMetadataImport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSerializationMetadataImport",
 }));
 
 export type CreateEeSupportAccessGrantError = MetabaseOpError;
@@ -8847,6 +9076,8 @@ export const createEeSupportAccessGrant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeSupportAccessGrant",
 }));
 
 export type CreateEeTenantError = MetabaseOpError;
@@ -8862,6 +9093,8 @@ export const createEeTenant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeTenant",
 }));
 
 export type CreateEeTransformInspectQueryError = MetabaseOpError;
@@ -8877,6 +9110,8 @@ export const createEeTransformInspectQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeTransformInspectQuery",
 }));
 
 export type CreateEeTransformsPythonTestRunError = MetabaseOpError;
@@ -8892,6 +9127,8 @@ export const createEeTransformsPythonTestRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEeTransformsPythonTestRun",
 }));
 
 export type CreateEidTranslationTranslateError = MetabaseOpError;
@@ -8907,6 +9144,8 @@ export const createEidTranslationTranslate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEidTranslationTranslate",
 }));
 
 export type CreateEmailTestError = MetabaseOpError;
@@ -8922,6 +9161,8 @@ export const createEmailTest: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailTest",
 }));
 
 export type CreateEmbedMcpDrillError = MetabaseOpError;
@@ -8937,6 +9178,8 @@ export const createEmbedMcpDrill: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmbedMcpDrill",
 }));
 
 export type CreateEmbedMcpFeedbackError = MetabaseOpError;
@@ -8952,6 +9195,8 @@ export const createEmbedMcpFeedback: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmbedMcpFeedback",
 }));
 
 export type CreateEmbedThemeError = MetabaseOpError;
@@ -8967,6 +9212,8 @@ export const createEmbedTheme: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmbedTheme",
 }));
 
 export type CreateEmbedThemeCopyError = MetabaseOpError;
@@ -8982,6 +9229,8 @@ export const createEmbedThemeCopy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmbedThemeCopy",
 }));
 
 export type CreateEmbedThemeSeedDefaultError = MetabaseOpError;
@@ -8997,6 +9246,8 @@ export const createEmbedThemeSeedDefault: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmbedThemeSeedDefault",
 }));
 
 export type CreateFieldDimensionError = MetabaseOpError;
@@ -9012,6 +9263,8 @@ export const createFieldDimension: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldDimension",
 }));
 
 export type CreateFieldDiscardValueError = MetabaseOpError;
@@ -9027,6 +9280,8 @@ export const createFieldDiscardValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldDiscardValue",
 }));
 
 export type CreateFieldRescanValueError = MetabaseOpError;
@@ -9042,6 +9297,8 @@ export const createFieldRescanValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldRescanValue",
 }));
 
 export type CreateFieldTableIdsError = MetabaseOpError;
@@ -9057,6 +9314,8 @@ export const createFieldTableIds: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldTableIds",
 }));
 
 export type CreateFieldValueError = MetabaseOpError;
@@ -9072,6 +9331,8 @@ export const createFieldValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFieldValue",
 }));
 
 export type CreateFrontendErrorError = MetabaseOpError;
@@ -9087,6 +9348,8 @@ export const createFrontendError: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFrontendError",
 }));
 
 export type CreateGlossaryError = MetabaseOpError;
@@ -9102,6 +9365,8 @@ export const createGlossary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGlossary",
 }));
 
 export type CreateKeyError = MetabaseOpError;
@@ -9117,6 +9382,8 @@ export const createKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateLlmExtractSourceError = MetabaseOpError;
@@ -9132,6 +9399,8 @@ export const createLlmExtractSource: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmExtractSource",
 }));
 
 export type CreateLlmGenerateSqlError = MetabaseOpError;
@@ -9147,6 +9416,8 @@ export const createLlmGenerateSql: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmGenerateSql",
 }));
 
 export type CreateLoggerAdjustmentError = MetabaseOpError;
@@ -9162,6 +9433,8 @@ export const createLoggerAdjustment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoggerAdjustment",
 }));
 
 export type CreateMeasureError = MetabaseOpError;
@@ -9177,6 +9450,8 @@ export const createMeasure: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeasure",
 }));
 
 export type CreateMetabotAgentStreamingError = MetabaseOpError;
@@ -9192,6 +9467,8 @@ export const createMetabotAgentStreaming: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotAgentStreaming",
 }));
 
 export type CreateMetabotDocumentGenerateContentError = MetabaseOpError;
@@ -9207,6 +9484,8 @@ export const createMetabotDocumentGenerateContent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotDocumentGenerateContent",
 }));
 
 export type CreateMetabotFeedbackError = MetabaseOpError;
@@ -9222,6 +9501,8 @@ export const createMetabotFeedback: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotFeedback",
 }));
 
 export type CreateMetabotMetabotPromptSuggestionsRegenerateError = MetabaseOpError;
@@ -9245,6 +9526,8 @@ export const createMetabotMetabotPromptSuggestionsRegenerate: API.OperationMetho
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotMetabotPromptSuggestionsRegenerate",
 }));
 
 export type CreateMetabotSlackEventError = MetabaseOpError;
@@ -9260,6 +9543,8 @@ export const createMetabotSlackEvent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotSlackEvent",
 }));
 
 export type CreateMetabotSlackInteractiveError = MetabaseOpError;
@@ -9275,6 +9560,8 @@ export const createMetabotSlackInteractive: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotSlackInteractive",
 }));
 
 export type CreateMetabotSourceFeedbackError = MetabaseOpError;
@@ -9290,6 +9577,8 @@ export const createMetabotSourceFeedback: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetabotSourceFeedback",
 }));
 
 export type CreateMetricBreakoutValueError = MetabaseOpError;
@@ -9305,6 +9594,8 @@ export const createMetricBreakoutValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricBreakoutValue",
 }));
 
 export type CreateMetricDatasetError = MetabaseOpError;
@@ -9320,6 +9611,8 @@ export const createMetricDataset: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricDataset",
 }));
 
 export type CreateModelIndexError = MetabaseOpError;
@@ -9335,6 +9628,8 @@ export const createModelIndex: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateModelIndex",
 }));
 
 export type CreateModerationReviewError = MetabaseOpError;
@@ -9350,6 +9645,8 @@ export const createModerationReview: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateModerationReview",
 }));
 
 export type CreateMtGtapError = MetabaseOpError;
@@ -9365,6 +9662,8 @@ export const createMtGtap: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMtGtap",
 }));
 
 export type CreateMtGtapValidateError = MetabaseOpError;
@@ -9380,6 +9679,8 @@ export const createMtGtapValidate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMtGtapValidate",
 }));
 
 export type CreateNativeQuerySnippetError = MetabaseOpError;
@@ -9395,6 +9696,8 @@ export const createNativeQuerySnippet: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNativeQuerySnippet",
 }));
 
 export type CreateNotificationError = MetabaseOpError;
@@ -9410,6 +9713,8 @@ export const createNotification: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotification",
 }));
 
 export type CreateNotificationAdminBulkError = MetabaseOpError;
@@ -9425,6 +9730,8 @@ export const createNotificationAdminBulk: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationAdminBulk",
 }));
 
 export type CreateNotificationSendError = MetabaseOpError;
@@ -9440,6 +9747,8 @@ export const createNotificationSend: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationSend",
 }));
 
 export type CreateNotificationSend2Error = MetabaseOpError;
@@ -9455,6 +9764,8 @@ export const createNotificationSend2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationSend2",
 }));
 
 export type CreateNotificationUnsubscribeError = MetabaseOpError;
@@ -9470,6 +9781,8 @@ export const createNotificationUnsubscribe: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationUnsubscribe",
 }));
 
 export type CreateNotificationUnsubscribe2Error = MetabaseOpError;
@@ -9485,6 +9798,8 @@ export const createNotificationUnsubscribe2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationUnsubscribe2",
 }));
 
 export type CreateNotificationUnsubscribeUndoError = MetabaseOpError;
@@ -9500,6 +9815,8 @@ export const createNotificationUnsubscribeUndo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationUnsubscribeUndo",
 }));
 
 export type CreateNotifyDbAttachedDatawarehouseError = MetabaseOpError;
@@ -9515,6 +9832,8 @@ export const createNotifyDbAttachedDatawarehouse: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotifyDbAttachedDatawarehouse",
 }));
 
 export type CreateNotifyDbNewTableError = MetabaseOpError;
@@ -9530,6 +9849,8 @@ export const createNotifyDbNewTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotifyDbNewTable",
 }));
 
 export type CreateOsiAiContextReconcileError = MetabaseOpError;
@@ -9545,6 +9866,8 @@ export const createOsiAiContextReconcile: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOsiAiContextReconcile",
 }));
 
 export type CreatePermissionsGroupError = MetabaseOpError;
@@ -9560,6 +9883,8 @@ export const createPermissionsGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePermissionsGroup",
 }));
 
 export type CreatePermissionsMembershipError = MetabaseOpError;
@@ -9575,6 +9900,8 @@ export const createPermissionsMembership: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePermissionsMembership",
 }));
 
 export type CreatePersistCardPersistError = MetabaseOpError;
@@ -9590,6 +9917,8 @@ export const createPersistCardPersist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistCardPersist",
 }));
 
 export type CreatePersistCardRefreshError = MetabaseOpError;
@@ -9605,6 +9934,8 @@ export const createPersistCardRefresh: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistCardRefresh",
 }));
 
 export type CreatePersistCardUnpersistError = MetabaseOpError;
@@ -9620,6 +9951,8 @@ export const createPersistCardUnpersist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistCardUnpersist",
 }));
 
 export type CreatePersistDatabasePersistError = MetabaseOpError;
@@ -9635,6 +9968,8 @@ export const createPersistDatabasePersist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistDatabasePersist",
 }));
 
 export type CreatePersistDatabaseUnpersistError = MetabaseOpError;
@@ -9650,6 +9985,8 @@ export const createPersistDatabaseUnpersist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistDatabaseUnpersist",
 }));
 
 export type CreatePersistDisableError = MetabaseOpError;
@@ -9665,6 +10002,8 @@ export const createPersistDisable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistDisable",
 }));
 
 export type CreatePersistEnableError = MetabaseOpError;
@@ -9680,6 +10019,8 @@ export const createPersistEnable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistEnable",
 }));
 
 export type CreatePersistSetRefreshScheduleError = MetabaseOpError;
@@ -9695,6 +10036,8 @@ export const createPersistSetRefreshSchedule: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersistSetRefreshSchedule",
 }));
 
 export type CreatePremiumFeaturesTokenRefreshError = MetabaseOpError;
@@ -9710,6 +10053,8 @@ export const createPremiumFeaturesTokenRefresh: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePremiumFeaturesTokenRefresh",
 }));
 
 export type CreateProductFeedbackError = MetabaseOpError;
@@ -9725,6 +10070,8 @@ export const createProductFeedback: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductFeedback",
 }));
 
 export type CreatePulseError = MetabaseOpError;
@@ -9740,6 +10087,8 @@ export const createPulse: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePulse",
 }));
 
 export type CreatePulseTestError = MetabaseOpError;
@@ -9755,6 +10104,8 @@ export const createPulseTest: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePulseTest",
 }));
 
 export type CreatePulseUnsubscribeError = MetabaseOpError;
@@ -9770,6 +10121,8 @@ export const createPulseUnsubscribe: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePulseUnsubscribe",
 }));
 
 export type CreatePulseUnsubscribeUndoError = MetabaseOpError;
@@ -9785,6 +10138,8 @@ export const createPulseUnsubscribeUndo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePulseUnsubscribeUndo",
 }));
 
 export type CreateRevisionRevertError = MetabaseOpError;
@@ -9800,6 +10155,8 @@ export const createRevisionRevert: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRevisionRevert",
 }));
 
 export type CreateSearchForceReindexError = MetabaseOpError;
@@ -9815,6 +10172,8 @@ export const createSearchForceReindex: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSearchForceReindex",
 }));
 
 export type CreateSearchReInitError = MetabaseOpError;
@@ -9830,6 +10189,8 @@ export const createSearchReInit: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSearchReInit",
 }));
 
 export type CreateSegmentError = MetabaseOpError;
@@ -9845,6 +10206,8 @@ export const createSegment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateSessionError = MetabaseOpError;
@@ -9860,6 +10223,8 @@ export const createSession: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateSessionForgotPasswordError = MetabaseOpError;
@@ -9875,6 +10240,8 @@ export const createSessionForgotPassword: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionForgotPassword",
 }));
 
 export type CreateSessionGoogleAuthError = MetabaseOpError;
@@ -9890,6 +10257,8 @@ export const createSessionGoogleAuth: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionGoogleAuth",
 }));
 
 export type CreateSessionMfaSendEmailOtpError = MetabaseOpError;
@@ -9905,6 +10274,8 @@ export const createSessionMfaSendEmailOtp: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionMfaSendEmailOtp",
 }));
 
 export type CreateSessionMfaVerifyError = MetabaseOpError;
@@ -9920,6 +10291,8 @@ export const createSessionMfaVerify: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionMfaVerify",
 }));
 
 export type CreateSessionPasswordCheckError = MetabaseOpError;
@@ -9935,6 +10308,8 @@ export const createSessionPasswordCheck: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionPasswordCheck",
 }));
 
 export type CreateSessionResetPasswordError = MetabaseOpError;
@@ -9950,6 +10325,8 @@ export const createSessionResetPassword: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionResetPassword",
 }));
 
 export type CreateSetupError = MetabaseOpError;
@@ -9965,6 +10342,8 @@ export const createSetup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetup",
 }));
 
 export type CreateSlackBugReportError = MetabaseOpError;
@@ -9980,6 +10359,8 @@ export const createSlackBugReport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSlackBugReport",
 }));
 
 export type CreateTableAppendCsvError = MetabaseOpError;
@@ -9995,6 +10376,8 @@ export const createTableAppendCsv: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTableAppendCsv",
 }));
 
 export type CreateTableDiscardValueError = MetabaseOpError;
@@ -10010,6 +10393,8 @@ export const createTableDiscardValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTableDiscardValue",
 }));
 
 export type CreateTableReplaceCsvError = MetabaseOpError;
@@ -10025,6 +10410,8 @@ export const createTableReplaceCsv: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTableReplaceCsv",
 }));
 
 export type CreateTableRescanValueError = MetabaseOpError;
@@ -10040,6 +10427,8 @@ export const createTableRescanValue: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTableRescanValue",
 }));
 
 export type CreateTableSyncSchemaError = MetabaseOpError;
@@ -10055,6 +10444,8 @@ export const createTableSyncSchema: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTableSyncSchema",
 }));
 
 export type CreateTimelineError = MetabaseOpError;
@@ -10070,6 +10461,8 @@ export const createTimeline: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeline",
 }));
 
 export type CreateTimelineEventError = MetabaseOpError;
@@ -10085,6 +10478,8 @@ export const createTimelineEvent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimelineEvent",
 }));
 
 export type CreateTransformError = MetabaseOpError;
@@ -10100,6 +10495,8 @@ export const createTransform: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransform",
 }));
 
 export type CreateTransformCancelError = MetabaseOpError;
@@ -10115,6 +10512,8 @@ export const createTransformCancel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformCancel",
 }));
 
 export type CreateTransformJobError = MetabaseOpError;
@@ -10130,6 +10529,8 @@ export const createTransformJob: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformJob",
 }));
 
 export type CreateTransformJobRunError = MetabaseOpError;
@@ -10145,6 +10546,8 @@ export const createTransformJobRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformJobRun",
 }));
 
 export type CreateTransformResetCheckpointError = MetabaseOpError;
@@ -10160,6 +10563,8 @@ export const createTransformResetCheckpoint: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformResetCheckpoint",
 }));
 
 export type CreateTransformRunError = MetabaseOpError;
@@ -10175,6 +10580,8 @@ export const createTransformRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformRun",
 }));
 
 export type CreateTransformTagError = MetabaseOpError;
@@ -10190,6 +10597,8 @@ export const createTransformTag: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformTag",
 }));
 
 export type CreateUploadCsvError = MetabaseOpError;
@@ -10205,6 +10614,8 @@ export const createUploadCsv: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUploadCsv",
 }));
 
 export type CreateUserError = MetabaseOpError;
@@ -10220,6 +10631,8 @@ export const createUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserPasswordResetUrlError = MetabaseOpError;
@@ -10235,6 +10648,8 @@ export const createUserPasswordResetUrl: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserPasswordResetUrl",
 }));
 
 export type DeleteActionError = MetabaseOpError;
@@ -10250,6 +10665,8 @@ export const deleteAction: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAction",
 }));
 
 export type DeleteActionPublicLinkError = MetabaseOpError;
@@ -10265,6 +10682,8 @@ export const deleteActionPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionPublicLink",
 }));
 
 export type DeleteAlertSubscriptionError = MetabaseOpError;
@@ -10280,6 +10699,8 @@ export const deleteAlertSubscription: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlertSubscription",
 }));
 
 export type DeleteBookmarkError = MetabaseOpError;
@@ -10295,6 +10716,8 @@ export const deleteBookmark: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookmark",
 }));
 
 export type DeleteCacheError = MetabaseOpError;
@@ -10310,6 +10733,8 @@ export const deleteCache: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCache",
 }));
 
 export type DeleteCardError = MetabaseOpError;
@@ -10325,6 +10750,8 @@ export const deleteCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCard",
 }));
 
 export type DeleteCardPublicLinkError = MetabaseOpError;
@@ -10340,6 +10767,8 @@ export const deleteCardPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCardPublicLink",
 }));
 
 export type DeleteCollectionError = MetabaseOpError;
@@ -10355,6 +10784,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteCommentError = MetabaseOpError;
@@ -10370,6 +10801,8 @@ export const deleteComment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComment",
 }));
 
 export type DeleteDashboardError = MetabaseOpError;
@@ -10385,6 +10818,8 @@ export const deleteDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDashboardPublicLinkError = MetabaseOpError;
@@ -10400,6 +10835,8 @@ export const deleteDashboardPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardPublicLink",
 }));
 
 export type DeleteDatabaseError = MetabaseOpError;
@@ -10415,6 +10852,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDocumentError = MetabaseOpError;
@@ -10430,6 +10869,8 @@ export const deleteDocument: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteDocumentPublicLinkError = MetabaseOpError;
@@ -10445,6 +10886,8 @@ export const deleteDocumentPublicLink: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentPublicLink",
 }));
 
 export type DeleteEeAdvancedPermissionsImpersonationError = MetabaseOpError;
@@ -10460,6 +10903,8 @@ export const deleteEeAdvancedPermissionsImpersonation: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeAdvancedPermissionsImpersonation",
 }));
 
 export type DeleteEeAiControlsPermissionsAdvancedError = MetabaseOpError;
@@ -10475,6 +10920,8 @@ export const deleteEeAiControlsPermissionsAdvanced: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeAiControlsPermissionsAdvanced",
 }));
 
 export type DeleteEeAuditAppUserSubscriptionsError = MetabaseOpError;
@@ -10490,6 +10937,8 @@ export const deleteEeAuditAppUserSubscriptions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeAuditAppUserSubscriptions",
 }));
 
 export type DeleteEeCloudAddOnsError = MetabaseOpError;
@@ -10505,6 +10954,8 @@ export const deleteEeCloudAddOns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeCloudAddOns",
 }));
 
 export type DeleteEeCustomVizPluginError = MetabaseOpError;
@@ -10520,6 +10971,8 @@ export const deleteEeCustomVizPlugin: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeCustomVizPlugin",
 }));
 
 export type DeleteEeDatabaseReplicationConnectionDatabaseError = MetabaseOpError;
@@ -10539,6 +10992,8 @@ export const deleteEeDatabaseReplicationConnectionDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeDatabaseReplicationConnectionDatabase",
 }));
 
 export type DeleteEeEmailOverrideError = MetabaseOpError;
@@ -10554,6 +11009,8 @@ export const deleteEeEmailOverride: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeEmailOverride",
 }));
 
 export type DeleteEeGsheetsConnectionError = MetabaseOpError;
@@ -10569,6 +11026,8 @@ export const deleteEeGsheetsConnection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeGsheetsConnection",
 }));
 
 export type DeleteEeScimGroupError = MetabaseOpError;
@@ -10584,6 +11043,8 @@ export const deleteEeScimGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeScimGroup",
 }));
 
 export type DeleteEeUploadManagementTableError = MetabaseOpError;
@@ -10599,6 +11060,8 @@ export const deleteEeUploadManagementTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEeUploadManagementTable",
 }));
 
 export type DeleteEmailError = MetabaseOpError;
@@ -10614,6 +11077,8 @@ export const deleteEmail: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmail",
 }));
 
 export type DeleteEmbedThemeError = MetabaseOpError;
@@ -10629,6 +11094,8 @@ export const deleteEmbedTheme: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmbedTheme",
 }));
 
 export type DeleteFieldDimensionError = MetabaseOpError;
@@ -10644,6 +11111,8 @@ export const deleteFieldDimension: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFieldDimension",
 }));
 
 export type DeleteGlossaryError = MetabaseOpError;
@@ -10659,6 +11128,8 @@ export const deleteGlossary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGlossary",
 }));
 
 export type DeleteKeyError = MetabaseOpError;
@@ -10674,6 +11145,8 @@ export const deleteKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteLoggerAdjustmentError = MetabaseOpError;
@@ -10689,6 +11162,8 @@ export const deleteLoggerAdjustment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoggerAdjustment",
 }));
 
 export type DeleteMetabotMetabotPromptSuggestionsError = MetabaseOpError;
@@ -10704,6 +11179,8 @@ export const deleteMetabotMetabotPromptSuggestions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetabotMetabotPromptSuggestions",
 }));
 
 export type DeleteMetabotMetabotPromptSuggestionsPromptError = MetabaseOpError;
@@ -10723,6 +11200,8 @@ export const deleteMetabotMetabotPromptSuggestionsPrompt: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetabotMetabotPromptSuggestionsPrompt",
 }));
 
 export type DeleteModelIndexError = MetabaseOpError;
@@ -10738,6 +11217,8 @@ export const deleteModelIndex: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModelIndex",
 }));
 
 export type DeleteMtGtapError = MetabaseOpError;
@@ -10753,6 +11234,8 @@ export const deleteMtGtap: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMtGtap",
 }));
 
 export type DeleteOsiAiContextError = MetabaseOpError;
@@ -10768,6 +11251,8 @@ export const deleteOsiAiContext: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOsiAiContext",
 }));
 
 export type DeletePermissionsGroupError = MetabaseOpError;
@@ -10783,6 +11268,8 @@ export const deletePermissionsGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePermissionsGroup",
 }));
 
 export type DeletePermissionsMembershipError = MetabaseOpError;
@@ -10798,6 +11285,8 @@ export const deletePermissionsMembership: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePermissionsMembership",
 }));
 
 export type DeletePulseSubscriptionError = MetabaseOpError;
@@ -10813,6 +11302,8 @@ export const deletePulseSubscription: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePulseSubscription",
 }));
 
 export type DeleteSegmentError = MetabaseOpError;
@@ -10828,6 +11319,8 @@ export const deleteSegment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteSessionError = MetabaseOpError;
@@ -10843,6 +11336,8 @@ export const deleteSession: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteTimelineError = MetabaseOpError;
@@ -10858,6 +11353,8 @@ export const deleteTimeline: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimeline",
 }));
 
 export type DeleteTimelineEventError = MetabaseOpError;
@@ -10873,6 +11370,8 @@ export const deleteTimelineEvent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimelineEvent",
 }));
 
 export type DeleteTransformError = MetabaseOpError;
@@ -10888,6 +11387,8 @@ export const deleteTransform: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransform",
 }));
 
 export type DeleteTransformJobError = MetabaseOpError;
@@ -10903,6 +11404,8 @@ export const deleteTransformJob: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransformJob",
 }));
 
 export type DeleteTransformTableError = MetabaseOpError;
@@ -10918,6 +11421,8 @@ export const deleteTransformTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransformTable",
 }));
 
 export type DeleteTransformTagError = MetabaseOpError;
@@ -10933,6 +11438,8 @@ export const deleteTransformTag: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransformTag",
 }));
 
 export type DeleteUserError = MetabaseOpError;
@@ -10948,6 +11455,8 @@ export const deleteUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserKeyValueNamespaceKeyError = MetabaseOpError;
@@ -10963,6 +11472,8 @@ export const deleteUserKeyValueNamespaceKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserKeyValueNamespaceKey",
 }));
 
 export type GetActionError = MetabaseOpError;
@@ -10978,6 +11489,8 @@ export const getAction: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetAction2Error = MetabaseOpError;
@@ -10993,6 +11506,8 @@ export const getAction2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction2",
 }));
 
 export type GetActionByActionIdError = MetabaseOpError;
@@ -11008,6 +11523,8 @@ export const getActionByActionId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionByActionId",
 }));
 
 export type GetActionByUuidError = MetabaseOpError;
@@ -11023,6 +11540,8 @@ export const getActionByUuid: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionByUuid",
 }));
 
 export type GetActionExecuteError = MetabaseOpError;
@@ -11038,6 +11557,8 @@ export const getActionExecute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionExecute",
 }));
 
 export type GetActivityMostRecentlyViewedDashboardError = MetabaseOpError;
@@ -11053,6 +11574,8 @@ export const getActivityMostRecentlyViewedDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActivityMostRecentlyViewedDashboard",
 }));
 
 export type GetActivityPopularItemsError = MetabaseOpError;
@@ -11068,6 +11591,8 @@ export const getActivityPopularItems: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActivityPopularItems",
 }));
 
 export type GetActivityRecentsError = MetabaseOpError;
@@ -11083,6 +11608,8 @@ export const getActivityRecents: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActivityRecents",
 }));
 
 export type GetAgentPingError = MetabaseOpError;
@@ -11098,6 +11625,8 @@ export const getAgentPing: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentPing",
 }));
 
 export type GetAlertError = MetabaseOpError;
@@ -11113,6 +11642,8 @@ export const getAlert: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlert",
 }));
 
 export type GetAlertByIdError = MetabaseOpError;
@@ -11128,6 +11659,8 @@ export const getAlertById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertById",
 }));
 
 export type GetAnalyticsAnonymousStatsError = MetabaseOpError;
@@ -11143,6 +11676,8 @@ export const getAnalyticsAnonymousStats: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticsAnonymousStats",
 }));
 
 export type GetAutomagicDashboardError = MetabaseOpError;
@@ -11158,6 +11693,8 @@ export const getAutomagicDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboard",
 }));
 
 export type GetAutomagicDashboardCellError = MetabaseOpError;
@@ -11173,6 +11710,8 @@ export const getAutomagicDashboardCell: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardCell",
 }));
 
 export type GetAutomagicDashboardCellCompareError = MetabaseOpError;
@@ -11188,6 +11727,8 @@ export const getAutomagicDashboardCellCompare: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardCellCompare",
 }));
 
 export type GetAutomagicDashboardCellRuleDashboardTemplateError = MetabaseOpError;
@@ -11211,6 +11752,8 @@ export const getAutomagicDashboardCellRuleDashboardTemplate: API.OperationMethod
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardCellRuleDashboardTemplate",
 }));
 
 export type GetAutomagicDashboardCellRuleDashboardTemplateCompareError = MetabaseOpError;
@@ -11234,6 +11777,8 @@ export const getAutomagicDashboardCellRuleDashboardTemplateCompare: API.Operatio
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardCellRuleDashboardTemplateCompare",
 }));
 
 export type GetAutomagicDashboardCompareError = MetabaseOpError;
@@ -11249,6 +11794,8 @@ export const getAutomagicDashboardCompare: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardCompare",
 }));
 
 export type GetAutomagicDashboardEntityOrQueryQueryMetadataError = MetabaseOpError;
@@ -11272,6 +11819,8 @@ export const getAutomagicDashboardEntityOrQueryQueryMetadata: API.OperationMetho
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardEntityOrQueryQueryMetadata",
 }));
 
 export type GetAutomagicDashboardRuleDashboardTemplateError = MetabaseOpError;
@@ -11287,6 +11836,8 @@ export const getAutomagicDashboardRuleDashboardTemplate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardRuleDashboardTemplate",
 }));
 
 export type GetAutomagicDashboardRuleDashboardTemplateCompareError = MetabaseOpError;
@@ -11310,6 +11861,8 @@ export const getAutomagicDashboardRuleDashboardTemplateCompare: API.OperationMet
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardRuleDashboardTemplateCompare",
 }));
 
 export type GetAutomagicDashboardsDatabaseCandidatesError = MetabaseOpError;
@@ -11325,6 +11878,8 @@ export const getAutomagicDashboardsDatabaseCandidates: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardsDatabaseCandidates",
 }));
 
 export type GetAutomagicDashboardsModelIndexPrimaryKeyError = MetabaseOpError;
@@ -11340,6 +11895,8 @@ export const getAutomagicDashboardsModelIndexPrimaryKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomagicDashboardsModelIndexPrimaryKey",
 }));
 
 export type GetBookmarkError = MetabaseOpError;
@@ -11355,6 +11912,8 @@ export const getBookmark: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookmark",
 }));
 
 export type GetBugReportingConnectionPoolDetailsError = MetabaseOpError;
@@ -11370,6 +11929,8 @@ export const getBugReportingConnectionPoolDetails: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBugReportingConnectionPoolDetails",
 }));
 
 export type GetBugReportingDetailsError = MetabaseOpError;
@@ -11385,6 +11946,8 @@ export const getBugReportingDetails: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBugReportingDetails",
 }));
 
 export type GetCacheError = MetabaseOpError;
@@ -11400,6 +11963,8 @@ export const getCache: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCache",
 }));
 
 export type GetCardError = MetabaseOpError;
@@ -11415,6 +11980,8 @@ export const getCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCard",
 }));
 
 export type GetCard2Error = MetabaseOpError;
@@ -11430,6 +11997,8 @@ export const getCard2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCard2",
 }));
 
 export type GetCardByIdError = MetabaseOpError;
@@ -11445,6 +12014,8 @@ export const getCardById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardById",
 }));
 
 export type GetCardByUuidError = MetabaseOpError;
@@ -11460,6 +12031,8 @@ export const getCardByUuid: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardByUuid",
 }));
 
 export type GetCardDashboardsError = MetabaseOpError;
@@ -11475,6 +12048,8 @@ export const getCardDashboards: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardDashboards",
 }));
 
 export type GetCardEmbeddableError = MetabaseOpError;
@@ -11490,6 +12065,8 @@ export const getCardEmbeddable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardEmbeddable",
 }));
 
 export type GetCardParamRemappingError = MetabaseOpError;
@@ -11505,6 +12082,8 @@ export const getCardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamRemapping",
 }));
 
 export type GetCardParamRemapping2Error = MetabaseOpError;
@@ -11520,6 +12099,8 @@ export const getCardParamRemapping2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamRemapping2",
 }));
 
 export type GetCardParamSearchError = MetabaseOpError;
@@ -11535,6 +12116,8 @@ export const getCardParamSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamSearch",
 }));
 
 export type GetCardParamSearchByQueryError = MetabaseOpError;
@@ -11550,6 +12133,8 @@ export const getCardParamSearchByQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamSearchByQuery",
 }));
 
 export type GetCardParamValuesError = MetabaseOpError;
@@ -11565,6 +12150,8 @@ export const getCardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamValues",
 }));
 
 export type GetCardParamValues2Error = MetabaseOpError;
@@ -11580,6 +12167,8 @@ export const getCardParamValues2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardParamValues2",
 }));
 
 export type GetCardQueryError = MetabaseOpError;
@@ -11595,6 +12184,8 @@ export const getCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardQuery",
 }));
 
 export type GetCardQueryByExportFormatError = MetabaseOpError;
@@ -11610,6 +12201,8 @@ export const getCardQueryByExportFormat: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardQueryByExportFormat",
 }));
 
 export type GetCardQueryMetadataError = MetabaseOpError;
@@ -11625,6 +12218,8 @@ export const getCardQueryMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardQueryMetadata",
 }));
 
 export type GetCardSeriesError = MetabaseOpError;
@@ -11640,6 +12235,8 @@ export const getCardSeries: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCardSeries",
 }));
 
 export type GetChannelError = MetabaseOpError;
@@ -11655,6 +12252,8 @@ export const getChannel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetChannelByIdError = MetabaseOpError;
@@ -11670,6 +12269,8 @@ export const getChannelById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannelById",
 }));
 
 export type GetCloudMigrationError = MetabaseOpError;
@@ -11685,6 +12286,8 @@ export const getCloudMigration: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudMigration",
 }));
 
 export type GetCollectionError = MetabaseOpError;
@@ -11700,6 +12303,8 @@ export const getCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollection",
 }));
 
 export type GetCollectionByIdError = MetabaseOpError;
@@ -11715,6 +12320,8 @@ export const getCollectionById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionById",
 }));
 
 export type GetCollectionDashboardQuestionCandidatesError = MetabaseOpError;
@@ -11730,6 +12337,8 @@ export const getCollectionDashboardQuestionCandidates: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionDashboardQuestionCandidates",
 }));
 
 export type GetCollectionGraphError = MetabaseOpError;
@@ -11745,6 +12354,8 @@ export const getCollectionGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionGraph",
 }));
 
 export type GetCollectionItemsError = MetabaseOpError;
@@ -11760,6 +12371,8 @@ export const getCollectionItems: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionItems",
 }));
 
 export type GetCollectionRootError = MetabaseOpError;
@@ -11775,6 +12388,8 @@ export const getCollectionRoot: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionRoot",
 }));
 
 export type GetCollectionRootDashboardQuestionCandidatesError = MetabaseOpError;
@@ -11794,6 +12409,8 @@ export const getCollectionRootDashboardQuestionCandidates: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionRootDashboardQuestionCandidates",
 }));
 
 export type GetCollectionRootItemsError = MetabaseOpError;
@@ -11809,6 +12426,8 @@ export const getCollectionRootItems: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionRootItems",
 }));
 
 export type GetCollectionTrashError = MetabaseOpError;
@@ -11824,6 +12443,8 @@ export const getCollectionTrash: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionTrash",
 }));
 
 export type GetCollectionTreeError = MetabaseOpError;
@@ -11839,6 +12460,8 @@ export const getCollectionTree: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionTree",
 }));
 
 export type GetCommentError = MetabaseOpError;
@@ -11854,6 +12477,8 @@ export const getComment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetCommentMentionsError = MetabaseOpError;
@@ -11869,6 +12494,8 @@ export const getCommentMentions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommentMentions",
 }));
 
 export type GetDashboardError = MetabaseOpError;
@@ -11884,6 +12511,8 @@ export const getDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDashboardByIdError = MetabaseOpError;
@@ -11899,6 +12528,8 @@ export const getDashboardById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardById",
 }));
 
 export type GetDashboardByUuidError = MetabaseOpError;
@@ -11914,6 +12545,8 @@ export const getDashboardByUuid: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardByUuid",
 }));
 
 export type GetDashboardDashcardCardError = MetabaseOpError;
@@ -11929,6 +12562,8 @@ export const getDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardDashcardCard",
 }));
 
 export type GetDashboardDashcardExecuteError = MetabaseOpError;
@@ -11944,6 +12579,8 @@ export const getDashboardDashcardExecute: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardDashcardExecute",
 }));
 
 export type GetDashboardDashcardExecute2Error = MetabaseOpError;
@@ -11959,6 +12596,8 @@ export const getDashboardDashcardExecute2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardDashcardExecute2",
 }));
 
 export type GetDashboardEmbeddableError = MetabaseOpError;
@@ -11974,6 +12613,8 @@ export const getDashboardEmbeddable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardEmbeddable",
 }));
 
 export type GetDashboardItemsError = MetabaseOpError;
@@ -11989,6 +12630,8 @@ export const getDashboardItems: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardItems",
 }));
 
 export type GetDashboardParamRemappingError = MetabaseOpError;
@@ -12004,6 +12647,8 @@ export const getDashboardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamRemapping",
 }));
 
 export type GetDashboardParamRemapping2Error = MetabaseOpError;
@@ -12019,6 +12664,8 @@ export const getDashboardParamRemapping2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamRemapping2",
 }));
 
 export type GetDashboardParamSearchError = MetabaseOpError;
@@ -12034,6 +12681,8 @@ export const getDashboardParamSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamSearch",
 }));
 
 export type GetDashboardParamSearchByQueryError = MetabaseOpError;
@@ -12049,6 +12698,8 @@ export const getDashboardParamSearchByQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamSearchByQuery",
 }));
 
 export type GetDashboardParamsValidFilterFieldsError = MetabaseOpError;
@@ -12064,6 +12715,8 @@ export const getDashboardParamsValidFilterFields: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamsValidFilterFields",
 }));
 
 export type GetDashboardParamValuesError = MetabaseOpError;
@@ -12079,6 +12732,8 @@ export const getDashboardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamValues",
 }));
 
 export type GetDashboardParamValues2Error = MetabaseOpError;
@@ -12094,6 +12749,8 @@ export const getDashboardParamValues2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardParamValues2",
 }));
 
 export type GetDashboardQueryMetadataError = MetabaseOpError;
@@ -12109,6 +12766,8 @@ export const getDashboardQueryMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardQueryMetadata",
 }));
 
 export type GetDashboardRelatedError = MetabaseOpError;
@@ -12124,6 +12783,8 @@ export const getDashboardRelated: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardRelated",
 }));
 
 export type GetDatabaseError = MetabaseOpError;
@@ -12139,6 +12800,8 @@ export const getDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseAutocompleteSuggestionsError = MetabaseOpError;
@@ -12154,6 +12817,8 @@ export const getDatabaseAutocompleteSuggestions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseAutocompleteSuggestions",
 }));
 
 export type GetDatabaseByIdError = MetabaseOpError;
@@ -12169,6 +12834,8 @@ export const getDatabaseById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseById",
 }));
 
 export type GetDatabaseCardAutocompleteSuggestionsError = MetabaseOpError;
@@ -12184,6 +12851,8 @@ export const getDatabaseCardAutocompleteSuggestions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseCardAutocompleteSuggestions",
 }));
 
 export type GetDatabaseDatasetError = MetabaseOpError;
@@ -12199,6 +12868,8 @@ export const getDatabaseDataset: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseDataset",
 }));
 
 export type GetDatabaseDatasetsError = MetabaseOpError;
@@ -12214,6 +12885,8 @@ export const getDatabaseDatasets: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseDatasets",
 }));
 
 export type GetDatabaseFieldsError = MetabaseOpError;
@@ -12229,6 +12902,8 @@ export const getDatabaseFields: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseFields",
 }));
 
 export type GetDatabaseHealthcheckError = MetabaseOpError;
@@ -12244,6 +12919,8 @@ export const getDatabaseHealthcheck: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseHealthcheck",
 }));
 
 export type GetDatabaseIdfieldsError = MetabaseOpError;
@@ -12259,6 +12936,8 @@ export const getDatabaseIdfields: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseIdfields",
 }));
 
 export type GetDatabaseMetadataError = MetabaseOpError;
@@ -12274,6 +12953,8 @@ export const getDatabaseMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMetadata",
 }));
 
 export type GetDatabaseMetadata2Error = MetabaseOpError;
@@ -12289,6 +12970,8 @@ export const getDatabaseMetadata2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMetadata2",
 }));
 
 export type GetDatabaseSchemaError = MetabaseOpError;
@@ -12304,6 +12987,8 @@ export const getDatabaseSchema: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchema",
 }));
 
 export type GetDatabaseSchemaBySchemaError = MetabaseOpError;
@@ -12319,6 +13004,8 @@ export const getDatabaseSchemaBySchema: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchemaBySchema",
 }));
 
 export type GetDatabaseSchemaBySchema2Error = MetabaseOpError;
@@ -12334,6 +13021,8 @@ export const getDatabaseSchemaBySchema2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchemaBySchema2",
 }));
 
 export type GetDatabaseSchemasError = MetabaseOpError;
@@ -12349,6 +13038,8 @@ export const getDatabaseSchemas: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchemas",
 }));
 
 export type GetDatabaseSchemas2Error = MetabaseOpError;
@@ -12364,6 +13055,8 @@ export const getDatabaseSchemas2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchemas2",
 }));
 
 export type GetDatabaseSettingsAvailableError = MetabaseOpError;
@@ -12379,6 +13072,8 @@ export const getDatabaseSettingsAvailable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSettingsAvailable",
 }));
 
 export type GetDatabaseSyncableSchemasError = MetabaseOpError;
@@ -12394,6 +13089,8 @@ export const getDatabaseSyncableSchemas: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSyncableSchemas",
 }));
 
 export type GetDatabaseUsageInfoError = MetabaseOpError;
@@ -12409,6 +13106,8 @@ export const getDatabaseUsageInfo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseUsageInfo",
 }));
 
 export type GetDocumentError = MetabaseOpError;
@@ -12424,6 +13123,8 @@ export const getDocument: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetDocument2Error = MetabaseOpError;
@@ -12439,6 +13140,8 @@ export const getDocument2: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocument2",
 }));
 
 export type GetDocumentByDocumentIdError = MetabaseOpError;
@@ -12454,6 +13157,8 @@ export const getDocumentByDocumentId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocumentByDocumentId",
 }));
 
 export type GetDocumentByUuidError = MetabaseOpError;
@@ -12469,6 +13174,8 @@ export const getDocumentByUuid: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocumentByUuid",
 }));
 
 export type GetDocumentCardError = MetabaseOpError;
@@ -12484,6 +13191,8 @@ export const getDocumentCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocumentCard",
 }));
 
 export type GetEeAdvancedPermissionsApplicationGraphError = MetabaseOpError;
@@ -12499,6 +13208,8 @@ export const getEeAdvancedPermissionsApplicationGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAdvancedPermissionsApplicationGraph",
 }));
 
 export type GetEeAdvancedPermissionsImpersonationError = MetabaseOpError;
@@ -12514,6 +13225,8 @@ export const getEeAdvancedPermissionsImpersonation: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAdvancedPermissionsImpersonation",
 }));
 
 export type GetEeAiControlsPermissionsError = MetabaseOpError;
@@ -12529,6 +13242,8 @@ export const getEeAiControlsPermissions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsPermissions",
 }));
 
 export type GetEeAiControlsUsageGroupError = MetabaseOpError;
@@ -12544,6 +13259,8 @@ export const getEeAiControlsUsageGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsUsageGroup",
 }));
 
 export type GetEeAiControlsUsageGroupByGroupIdError = MetabaseOpError;
@@ -12559,6 +13276,8 @@ export const getEeAiControlsUsageGroupByGroupId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsUsageGroupByGroupId",
 }));
 
 export type GetEeAiControlsUsageInstanceError = MetabaseOpError;
@@ -12574,6 +13293,8 @@ export const getEeAiControlsUsageInstance: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsUsageInstance",
 }));
 
 export type GetEeAiControlsUsageTenantError = MetabaseOpError;
@@ -12589,6 +13310,8 @@ export const getEeAiControlsUsageTenant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsUsageTenant",
 }));
 
 export type GetEeAiControlsUsageTenantByTenantIdError = MetabaseOpError;
@@ -12604,6 +13327,8 @@ export const getEeAiControlsUsageTenantByTenantId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAiControlsUsageTenantByTenantId",
 }));
 
 export type GetEeAuditAppUserAuditInfoError = MetabaseOpError;
@@ -12619,6 +13344,8 @@ export const getEeAuditAppUserAuditInfo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeAuditAppUserAuditInfo",
 }));
 
 export type GetEeBillingError = MetabaseOpError;
@@ -12634,6 +13361,8 @@ export const getEeBilling: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeBilling",
 }));
 
 export type GetEeCloudAddOnsAddonsError = MetabaseOpError;
@@ -12649,6 +13378,8 @@ export const getEeCloudAddOnsAddons: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCloudAddOnsAddons",
 }));
 
 export type GetEeCloudAddOnsPlansError = MetabaseOpError;
@@ -12664,6 +13395,8 @@ export const getEeCloudAddOnsPlans: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCloudAddOnsPlans",
 }));
 
 export type GetEeContentTranslationCsvError = MetabaseOpError;
@@ -12679,6 +13412,8 @@ export const getEeContentTranslationCsv: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeContentTranslationCsv",
 }));
 
 export type GetEeContentTranslationDictionaryError = MetabaseOpError;
@@ -12694,6 +13429,8 @@ export const getEeContentTranslationDictionary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeContentTranslationDictionary",
 }));
 
 export type GetEeContentTranslationDictionaryByTokenError = MetabaseOpError;
@@ -12709,6 +13446,8 @@ export const getEeContentTranslationDictionaryByToken: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeContentTranslationDictionaryByToken",
 }));
 
 export type GetEeCustomVizPluginError = MetabaseOpError;
@@ -12724,6 +13463,8 @@ export const getEeCustomVizPlugin: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPlugin",
 }));
 
 export type GetEeCustomVizPluginAssetError = MetabaseOpError;
@@ -12739,6 +13480,8 @@ export const getEeCustomVizPluginAsset: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPluginAsset",
 }));
 
 export type GetEeCustomVizPluginBundleError = MetabaseOpError;
@@ -12754,6 +13497,8 @@ export const getEeCustomVizPluginBundle: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPluginBundle",
 }));
 
 export type GetEeCustomVizPluginDevSseError = MetabaseOpError;
@@ -12769,6 +13514,8 @@ export const getEeCustomVizPluginDevSse: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPluginDevSse",
 }));
 
 export type GetEeCustomVizPluginListError = MetabaseOpError;
@@ -12784,6 +13531,8 @@ export const getEeCustomVizPluginList: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPluginList",
 }));
 
 export type GetEeCustomVizPluginSandboxHostError = MetabaseOpError;
@@ -12799,6 +13548,8 @@ export const getEeCustomVizPluginSandboxHost: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeCustomVizPluginSandboxHost",
 }));
 
 export type GetEeDataComplexityScoreComplexityError = MetabaseOpError;
@@ -12814,6 +13565,8 @@ export const getEeDataComplexityScoreComplexity: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDataComplexityScoreComplexity",
 }));
 
 export type GetEeDependenciesBackfillStatusError = MetabaseOpError;
@@ -12829,6 +13582,8 @@ export const getEeDependenciesBackfillStatus: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesBackfillStatus",
 }));
 
 export type GetEeDependenciesGraphError = MetabaseOpError;
@@ -12844,6 +13599,8 @@ export const getEeDependenciesGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesGraph",
 }));
 
 export type GetEeDependenciesGraphBreakingError = MetabaseOpError;
@@ -12859,6 +13616,8 @@ export const getEeDependenciesGraphBreaking: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesGraphBreaking",
 }));
 
 export type GetEeDependenciesGraphBrokenError = MetabaseOpError;
@@ -12874,6 +13633,8 @@ export const getEeDependenciesGraphBroken: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesGraphBroken",
 }));
 
 export type GetEeDependenciesGraphDependentsError = MetabaseOpError;
@@ -12889,6 +13650,8 @@ export const getEeDependenciesGraphDependents: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesGraphDependents",
 }));
 
 export type GetEeDependenciesGraphUnreferencedError = MetabaseOpError;
@@ -12904,6 +13667,8 @@ export const getEeDependenciesGraphUnreferenced: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeDependenciesGraphUnreferenced",
 }));
 
 export type GetEeEmbeddingHubChecklistError = MetabaseOpError;
@@ -12919,6 +13684,8 @@ export const getEeEmbeddingHubChecklist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeEmbeddingHubChecklist",
 }));
 
 export type GetEeErdError = MetabaseOpError;
@@ -12934,6 +13701,8 @@ export const getEeErd: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeErd",
 }));
 
 export type GetEeGsheetsConnectionError = MetabaseOpError;
@@ -12949,6 +13718,8 @@ export const getEeGsheetsConnection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeGsheetsConnection",
 }));
 
 export type GetEeGsheetsServiceAccountError = MetabaseOpError;
@@ -12964,6 +13735,8 @@ export const getEeGsheetsServiceAccount: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeGsheetsServiceAccount",
 }));
 
 export type GetEeLibraryError = MetabaseOpError;
@@ -12979,6 +13752,8 @@ export const getEeLibrary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeLibrary",
 }));
 
 export type GetEeLibraryTreeError = MetabaseOpError;
@@ -12994,6 +13769,8 @@ export const getEeLibraryTree: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeLibraryTree",
 }));
 
 export type GetEeLogsQueryExecutionError = MetabaseOpError;
@@ -13009,6 +13786,8 @@ export const getEeLogsQueryExecution: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeLogsQueryExecution",
 }));
 
 export type GetEeMetabotAnalyticsConversationError = MetabaseOpError;
@@ -13024,6 +13803,8 @@ export const getEeMetabotAnalyticsConversation: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeMetabotAnalyticsConversation",
 }));
 
 export type GetEeMetabotAnalyticsConversationsError = MetabaseOpError;
@@ -13039,6 +13820,8 @@ export const getEeMetabotAnalyticsConversations: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeMetabotAnalyticsConversations",
 }));
 
 export type GetEeMetabotUsageError = MetabaseOpError;
@@ -13054,6 +13837,8 @@ export const getEeMetabotUsage: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeMetabotUsage",
 }));
 
 export type GetEeMfaAdminOverviewError = MetabaseOpError;
@@ -13069,6 +13854,8 @@ export const getEeMfaAdminOverview: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeMfaAdminOverview",
 }));
 
 export type GetEeMfaStatusError = MetabaseOpError;
@@ -13084,6 +13871,8 @@ export const getEeMfaStatus: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeMfaStatus",
 }));
 
 export type GetEePermissionDebugError = MetabaseOpError;
@@ -13099,6 +13888,8 @@ export const getEePermissionDebug: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEePermissionDebug",
 }));
 
 export type GetEeRemoteSyncBranchesError = MetabaseOpError;
@@ -13114,6 +13905,8 @@ export const getEeRemoteSyncBranches: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncBranches",
 }));
 
 export type GetEeRemoteSyncCurrentTaskError = MetabaseOpError;
@@ -13129,6 +13922,8 @@ export const getEeRemoteSyncCurrentTask: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncCurrentTask",
 }));
 
 export type GetEeRemoteSyncDirtyError = MetabaseOpError;
@@ -13144,6 +13939,8 @@ export const getEeRemoteSyncDirty: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncDirty",
 }));
 
 export type GetEeRemoteSyncExportPreflightError = MetabaseOpError;
@@ -13159,6 +13956,8 @@ export const getEeRemoteSyncExportPreflight: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncExportPreflight",
 }));
 
 export type GetEeRemoteSyncHasRemoteChangesError = MetabaseOpError;
@@ -13174,6 +13973,8 @@ export const getEeRemoteSyncHasRemoteChanges: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncHasRemoteChanges",
 }));
 
 export type GetEeRemoteSyncIsDirtyError = MetabaseOpError;
@@ -13189,6 +13990,8 @@ export const getEeRemoteSyncIsDirty: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeRemoteSyncIsDirty",
 }));
 
 export type GetEeReplacementRunError = MetabaseOpError;
@@ -13204,6 +14007,8 @@ export const getEeReplacementRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeReplacementRun",
 }));
 
 export type GetEeReplacementRunsError = MetabaseOpError;
@@ -13219,6 +14024,8 @@ export const getEeReplacementRuns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeReplacementRuns",
 }));
 
 export type GetEeScimGroupError = MetabaseOpError;
@@ -13234,6 +14041,8 @@ export const getEeScimGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeScimGroup",
 }));
 
 export type GetEeScimGroupsError = MetabaseOpError;
@@ -13249,6 +14058,8 @@ export const getEeScimGroups: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeScimGroups",
 }));
 
 export type GetEeScimKeyError = MetabaseOpError;
@@ -13264,6 +14075,8 @@ export const getEeScimKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeScimKey",
 }));
 
 export type GetEeScimUserError = MetabaseOpError;
@@ -13279,6 +14092,8 @@ export const getEeScimUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeScimUser",
 }));
 
 export type GetEeScimUsersError = MetabaseOpError;
@@ -13294,6 +14109,8 @@ export const getEeScimUsers: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeScimUsers",
 }));
 
 export type GetEeSecurityCenterError = MetabaseOpError;
@@ -13309,6 +14126,8 @@ export const getEeSecurityCenter: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeSecurityCenter",
 }));
 
 export type GetEeSemanticSearchStatusError = MetabaseOpError;
@@ -13324,6 +14143,8 @@ export const getEeSemanticSearchStatus: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeSemanticSearchStatus",
 }));
 
 export type GetEeSerializationMetadataImportError = MetabaseOpError;
@@ -13339,6 +14160,8 @@ export const getEeSerializationMetadataImport: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeSerializationMetadataImport",
 }));
 
 export type GetEeStaleError = MetabaseOpError;
@@ -13354,6 +14177,8 @@ export const getEeStale: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeStale",
 }));
 
 export type GetEeSupportAccessGrantError = MetabaseOpError;
@@ -13369,6 +14194,8 @@ export const getEeSupportAccessGrant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeSupportAccessGrant",
 }));
 
 export type GetEeSupportAccessGrantCurrentError = MetabaseOpError;
@@ -13384,6 +14211,8 @@ export const getEeSupportAccessGrantCurrent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeSupportAccessGrantCurrent",
 }));
 
 export type GetEeTenantError = MetabaseOpError;
@@ -13399,6 +14228,8 @@ export const getEeTenant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeTenant",
 }));
 
 export type GetEeTenantByIdError = MetabaseOpError;
@@ -13414,6 +14245,8 @@ export const getEeTenantById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeTenantById",
 }));
 
 export type GetEeTransformInspectError = MetabaseOpError;
@@ -13429,6 +14262,8 @@ export const getEeTransformInspect: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeTransformInspect",
 }));
 
 export type GetEeTransformInspectByLensIdError = MetabaseOpError;
@@ -13444,6 +14279,8 @@ export const getEeTransformInspectByLensId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeTransformInspectByLensId",
 }));
 
 export type GetEeTransformsPythonLibraryError = MetabaseOpError;
@@ -13459,6 +14296,8 @@ export const getEeTransformsPythonLibrary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeTransformsPythonLibrary",
 }));
 
 export type GetEeUploadManagementTablesError = MetabaseOpError;
@@ -13474,6 +14313,8 @@ export const getEeUploadManagementTables: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEeUploadManagementTables",
 }));
 
 export type GetEmbedCardError = MetabaseOpError;
@@ -13489,6 +14330,8 @@ export const getEmbedCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCard",
 }));
 
 export type GetEmbedCardParamRemappingError = MetabaseOpError;
@@ -13504,6 +14347,8 @@ export const getEmbedCardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCardParamRemapping",
 }));
 
 export type GetEmbedCardParamSearchError = MetabaseOpError;
@@ -13519,6 +14364,8 @@ export const getEmbedCardParamSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCardParamSearch",
 }));
 
 export type GetEmbedCardParamValuesError = MetabaseOpError;
@@ -13534,6 +14381,8 @@ export const getEmbedCardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCardParamValues",
 }));
 
 export type GetEmbedCardQueryError = MetabaseOpError;
@@ -13549,6 +14398,8 @@ export const getEmbedCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCardQuery",
 }));
 
 export type GetEmbedCardQueryByExportFormatError = MetabaseOpError;
@@ -13564,6 +14415,8 @@ export const getEmbedCardQueryByExportFormat: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedCardQueryByExportFormat",
 }));
 
 export type GetEmbedDashboardError = MetabaseOpError;
@@ -13579,6 +14432,8 @@ export const getEmbedDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboard",
 }));
 
 export type GetEmbedDashboardDashcardCardError = MetabaseOpError;
@@ -13594,6 +14449,8 @@ export const getEmbedDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboardDashcardCard",
 }));
 
 export type GetEmbedDashboardDashcardCardByExportFormatError = MetabaseOpError;
@@ -13613,6 +14470,8 @@ export const getEmbedDashboardDashcardCardByExportFormat: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboardDashcardCardByExportFormat",
 }));
 
 export type GetEmbedDashboardParamRemappingError = MetabaseOpError;
@@ -13628,6 +14487,8 @@ export const getEmbedDashboardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboardParamRemapping",
 }));
 
 export type GetEmbedDashboardParamSearchError = MetabaseOpError;
@@ -13643,6 +14504,8 @@ export const getEmbedDashboardParamSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboardParamSearch",
 }));
 
 export type GetEmbedDashboardParamValuesError = MetabaseOpError;
@@ -13658,6 +14521,8 @@ export const getEmbedDashboardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedDashboardParamValues",
 }));
 
 export type GetEmbedPivotCardQueryError = MetabaseOpError;
@@ -13673,6 +14538,8 @@ export const getEmbedPivotCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedPivotCardQuery",
 }));
 
 export type GetEmbedPivotDashboardDashcardCardError = MetabaseOpError;
@@ -13688,6 +14555,8 @@ export const getEmbedPivotDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedPivotDashboardDashcardCard",
 }));
 
 export type GetEmbedThemeError = MetabaseOpError;
@@ -13703,6 +14572,8 @@ export const getEmbedTheme: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedTheme",
 }));
 
 export type GetEmbedThemeByIdError = MetabaseOpError;
@@ -13718,6 +14589,8 @@ export const getEmbedThemeById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedThemeById",
 }));
 
 export type GetEmbedTilesCardError = MetabaseOpError;
@@ -13733,6 +14606,8 @@ export const getEmbedTilesCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedTilesCard",
 }));
 
 export type GetEmbedTilesDashboardDashcardCardError = MetabaseOpError;
@@ -13748,6 +14623,8 @@ export const getEmbedTilesDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbedTilesDashboardDashcardCard",
 }));
 
 export type GetFieldError = MetabaseOpError;
@@ -13763,6 +14640,8 @@ export const getField: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetField",
 }));
 
 export type GetFieldRelatedError = MetabaseOpError;
@@ -13778,6 +14657,8 @@ export const getFieldRelated: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldRelated",
 }));
 
 export type GetFieldRemappingError = MetabaseOpError;
@@ -13793,6 +14674,8 @@ export const getFieldRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldRemapping",
 }));
 
 export type GetFieldSearchError = MetabaseOpError;
@@ -13808,6 +14691,8 @@ export const getFieldSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldSearch",
 }));
 
 export type GetFieldSummaryError = MetabaseOpError;
@@ -13823,6 +14708,8 @@ export const getFieldSummary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldSummary",
 }));
 
 export type GetFieldValuesError = MetabaseOpError;
@@ -13838,6 +14725,8 @@ export const getFieldValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldValues",
 }));
 
 export type GetGeojsonError = MetabaseOpError;
@@ -13853,6 +14742,8 @@ export const getGeojson: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeojson",
 }));
 
 export type GetGeojsonByKeyError = MetabaseOpError;
@@ -13868,6 +14759,8 @@ export const getGeojsonByKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeojsonByKey",
 }));
 
 export type GetGlossaryError = MetabaseOpError;
@@ -13883,6 +14776,8 @@ export const getGlossary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlossary",
 }));
 
 export type GetHealthInspectorError = MetabaseOpError;
@@ -13898,6 +14793,8 @@ export const getHealthInspector: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthInspector",
 }));
 
 export type GetKeyError = MetabaseOpError;
@@ -13913,6 +14810,8 @@ export const getKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetKeyCountError = MetabaseOpError;
@@ -13928,6 +14827,8 @@ export const getKeyCount: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyCount",
 }));
 
 export type GetLlmListModelsError = MetabaseOpError;
@@ -13943,6 +14844,8 @@ export const getLlmListModels: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmListModels",
 }));
 
 export type GetLoggerLogsError = MetabaseOpError;
@@ -13958,6 +14861,8 @@ export const getLoggerLogs: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoggerLogs",
 }));
 
 export type GetLoggerPresetsError = MetabaseOpError;
@@ -13973,6 +14878,8 @@ export const getLoggerPresets: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoggerPresets",
 }));
 
 export type GetLoginHistoryCurrentError = MetabaseOpError;
@@ -13988,6 +14895,8 @@ export const getLoginHistoryCurrent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoginHistoryCurrent",
 }));
 
 export type GetMeasureError = MetabaseOpError;
@@ -14003,6 +14912,8 @@ export const getMeasure: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeasure",
 }));
 
 export type GetMeasureByIdError = MetabaseOpError;
@@ -14018,6 +14929,8 @@ export const getMeasureById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeasureById",
 }));
 
 export type GetMeasureDimensionRemappingError = MetabaseOpError;
@@ -14033,6 +14946,8 @@ export const getMeasureDimensionRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeasureDimensionRemapping",
 }));
 
 export type GetMeasureDimensionSearchError = MetabaseOpError;
@@ -14048,6 +14963,8 @@ export const getMeasureDimensionSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeasureDimensionSearch",
 }));
 
 export type GetMeasureDimensionValuesError = MetabaseOpError;
@@ -14063,6 +14980,8 @@ export const getMeasureDimensionValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMeasureDimensionValues",
 }));
 
 export type GetMetabotConversationError = MetabaseOpError;
@@ -14078,6 +14997,8 @@ export const getMetabotConversation: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotConversation",
 }));
 
 export type GetMetabotConversationsError = MetabaseOpError;
@@ -14093,6 +15014,8 @@ export const getMetabotConversations: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotConversations",
 }));
 
 export type GetMetabotMetabotError = MetabaseOpError;
@@ -14108,6 +15031,8 @@ export const getMetabotMetabot: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotMetabot",
 }));
 
 export type GetMetabotMetabotByIdError = MetabaseOpError;
@@ -14123,6 +15048,8 @@ export const getMetabotMetabotById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotMetabotById",
 }));
 
 export type GetMetabotMetabotPromptSuggestionsError = MetabaseOpError;
@@ -14138,6 +15065,8 @@ export const getMetabotMetabotPromptSuggestions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotMetabotPromptSuggestions",
 }));
 
 export type GetMetabotPermissionsUserPermissionsError = MetabaseOpError;
@@ -14153,6 +15082,8 @@ export const getMetabotPermissionsUserPermissions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotPermissionsUserPermissions",
 }));
 
 export type GetMetabotSettingsError = MetabaseOpError;
@@ -14168,6 +15099,8 @@ export const getMetabotSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetabotSettings",
 }));
 
 export type GetMetricError = MetabaseOpError;
@@ -14183,6 +15116,8 @@ export const getMetric: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetric",
 }));
 
 export type GetMetricByIdError = MetabaseOpError;
@@ -14198,6 +15133,8 @@ export const getMetricById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricById",
 }));
 
 export type GetMetricDimensionRemappingError = MetabaseOpError;
@@ -14213,6 +15150,8 @@ export const getMetricDimensionRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricDimensionRemapping",
 }));
 
 export type GetMetricDimensionSearchError = MetabaseOpError;
@@ -14228,6 +15167,8 @@ export const getMetricDimensionSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricDimensionSearch",
 }));
 
 export type GetMetricDimensionValuesError = MetabaseOpError;
@@ -14243,6 +15184,8 @@ export const getMetricDimensionValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricDimensionValues",
 }));
 
 export type GetModelIndexError = MetabaseOpError;
@@ -14258,6 +15201,8 @@ export const getModelIndex: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelIndex",
 }));
 
 export type GetModelIndexByIdError = MetabaseOpError;
@@ -14273,6 +15218,8 @@ export const getModelIndexById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelIndexById",
 }));
 
 export type GetMtGtapError = MetabaseOpError;
@@ -14288,6 +15235,8 @@ export const getMtGtap: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMtGtap",
 }));
 
 export type GetMtGtapByIdError = MetabaseOpError;
@@ -14303,6 +15252,8 @@ export const getMtGtapById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMtGtapById",
 }));
 
 export type GetMtUserAttributesError = MetabaseOpError;
@@ -14318,6 +15269,8 @@ export const getMtUserAttributes: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMtUserAttributes",
 }));
 
 export type GetNativeQuerySnippetError = MetabaseOpError;
@@ -14333,6 +15286,8 @@ export const getNativeQuerySnippet: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNativeQuerySnippet",
 }));
 
 export type GetNativeQuerySnippetByIdError = MetabaseOpError;
@@ -14348,6 +15303,8 @@ export const getNativeQuerySnippetById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNativeQuerySnippetById",
 }));
 
 export type GetNotificationError = MetabaseOpError;
@@ -14363,6 +15320,8 @@ export const getNotification: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type GetNotificationAdminError = MetabaseOpError;
@@ -14378,6 +15337,8 @@ export const getNotificationAdmin: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationAdmin",
 }));
 
 export type GetNotificationAdminByIdError = MetabaseOpError;
@@ -14393,6 +15354,8 @@ export const getNotificationAdminById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationAdminById",
 }));
 
 export type GetNotificationByIdError = MetabaseOpError;
@@ -14408,6 +15371,8 @@ export const getNotificationById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationById",
 }));
 
 export type GetOauthAuthorizationsError = MetabaseOpError;
@@ -14423,6 +15388,8 @@ export const getOauthAuthorizations: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOauthAuthorizations",
 }));
 
 export type GetOembedError = MetabaseOpError;
@@ -14438,6 +15405,8 @@ export const getOembed: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOembed",
 }));
 
 export type GetOsiAiContextError = MetabaseOpError;
@@ -14453,6 +15422,8 @@ export const getOsiAiContext: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOsiAiContext",
 }));
 
 export type GetOsiAiContextByEntityLocalIdError = MetabaseOpError;
@@ -14468,6 +15439,8 @@ export const getOsiAiContextByEntityLocalId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOsiAiContextByEntityLocalId",
 }));
 
 export type GetPermissionsGraphError = MetabaseOpError;
@@ -14483,6 +15456,8 @@ export const getPermissionsGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsGraph",
 }));
 
 export type GetPermissionsGraphDbError = MetabaseOpError;
@@ -14498,6 +15473,8 @@ export const getPermissionsGraphDb: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsGraphDb",
 }));
 
 export type GetPermissionsGraphGroupError = MetabaseOpError;
@@ -14513,6 +15490,8 @@ export const getPermissionsGraphGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsGraphGroup",
 }));
 
 export type GetPermissionsGroupError = MetabaseOpError;
@@ -14528,6 +15507,8 @@ export const getPermissionsGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsGroup",
 }));
 
 export type GetPermissionsGroupByIdError = MetabaseOpError;
@@ -14543,6 +15524,8 @@ export const getPermissionsGroupById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsGroupById",
 }));
 
 export type GetPermissionsMembershipError = MetabaseOpError;
@@ -14558,6 +15541,8 @@ export const getPermissionsMembership: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionsMembership",
 }));
 
 export type GetPersistError = MetabaseOpError;
@@ -14573,6 +15558,8 @@ export const getPersist: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersist",
 }));
 
 export type GetPersistByPersistedInfoIdError = MetabaseOpError;
@@ -14588,6 +15575,8 @@ export const getPersistByPersistedInfoId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersistByPersistedInfoId",
 }));
 
 export type GetPersistCardError = MetabaseOpError;
@@ -14603,6 +15592,8 @@ export const getPersistCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersistCard",
 }));
 
 export type GetPivotCardQueryError = MetabaseOpError;
@@ -14618,6 +15609,8 @@ export const getPivotCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPivotCardQuery",
 }));
 
 export type GetPivotDashboardDashcardCardError = MetabaseOpError;
@@ -14633,6 +15626,8 @@ export const getPivotDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPivotDashboardDashcardCard",
 }));
 
 export type GetPremiumFeaturesTokenStatusError = MetabaseOpError;
@@ -14648,6 +15643,8 @@ export const getPremiumFeaturesTokenStatus: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPremiumFeaturesTokenStatus",
 }));
 
 export type GetPreviewEmbedCardError = MetabaseOpError;
@@ -14663,6 +15660,8 @@ export const getPreviewEmbedCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedCard",
 }));
 
 export type GetPreviewEmbedCardParamRemappingError = MetabaseOpError;
@@ -14678,6 +15677,8 @@ export const getPreviewEmbedCardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedCardParamRemapping",
 }));
 
 export type GetPreviewEmbedCardParamValuesError = MetabaseOpError;
@@ -14693,6 +15694,8 @@ export const getPreviewEmbedCardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedCardParamValues",
 }));
 
 export type GetPreviewEmbedCardQueryError = MetabaseOpError;
@@ -14708,6 +15711,8 @@ export const getPreviewEmbedCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedCardQuery",
 }));
 
 export type GetPreviewEmbedDashboardError = MetabaseOpError;
@@ -14723,6 +15728,8 @@ export const getPreviewEmbedDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedDashboard",
 }));
 
 export type GetPreviewEmbedDashboardDashcardCardError = MetabaseOpError;
@@ -14738,6 +15745,8 @@ export const getPreviewEmbedDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedDashboardDashcardCard",
 }));
 
 export type GetPreviewEmbedDashboardParamRemappingError = MetabaseOpError;
@@ -14753,6 +15762,8 @@ export const getPreviewEmbedDashboardParamRemapping: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedDashboardParamRemapping",
 }));
 
 export type GetPreviewEmbedDashboardParamSearchError = MetabaseOpError;
@@ -14768,6 +15779,8 @@ export const getPreviewEmbedDashboardParamSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedDashboardParamSearch",
 }));
 
 export type GetPreviewEmbedDashboardParamValuesError = MetabaseOpError;
@@ -14783,6 +15796,8 @@ export const getPreviewEmbedDashboardParamValues: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedDashboardParamValues",
 }));
 
 export type GetPreviewEmbedPivotCardQueryError = MetabaseOpError;
@@ -14798,6 +15813,8 @@ export const getPreviewEmbedPivotCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedPivotCardQuery",
 }));
 
 export type GetPreviewEmbedPivotDashboardDashcardCardError = MetabaseOpError;
@@ -14813,6 +15830,8 @@ export const getPreviewEmbedPivotDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedPivotDashboardDashcardCard",
 }));
 
 export type GetPreviewEmbedTilesCardError = MetabaseOpError;
@@ -14828,6 +15847,8 @@ export const getPreviewEmbedTilesCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedTilesCard",
 }));
 
 export type GetPreviewEmbedTilesDashboardDashcardCardError = MetabaseOpError;
@@ -14843,6 +15864,8 @@ export const getPreviewEmbedTilesDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewEmbedTilesDashboardDashcardCard",
 }));
 
 export type GetPulseError = MetabaseOpError;
@@ -14858,6 +15881,8 @@ export const getPulse: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPulse",
 }));
 
 export type GetPulseByIdError = MetabaseOpError;
@@ -14873,6 +15898,8 @@ export const getPulseById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPulseById",
 }));
 
 export type GetPulseFormInputError = MetabaseOpError;
@@ -14888,6 +15915,8 @@ export const getPulseFormInput: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPulseFormInput",
 }));
 
 export type GetRevisionError = MetabaseOpError;
@@ -14903,6 +15932,8 @@ export const getRevision: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRevision",
 }));
 
 export type GetRevisionByIdError = MetabaseOpError;
@@ -14918,6 +15949,8 @@ export const getRevisionById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRevisionById",
 }));
 
 export type GetSearchError = MetabaseOpError;
@@ -14933,6 +15966,8 @@ export const getSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearch",
 }));
 
 export type GetSearchDebugError = MetabaseOpError;
@@ -14948,6 +15983,8 @@ export const getSearchDebug: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearchDebug",
 }));
 
 export type GetSearchWeightsError = MetabaseOpError;
@@ -14963,6 +16000,8 @@ export const getSearchWeights: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearchWeights",
 }));
 
 export type GetSegmentError = MetabaseOpError;
@@ -14978,6 +16017,8 @@ export const getSegment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentByIdError = MetabaseOpError;
@@ -14993,6 +16034,8 @@ export const getSegmentById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentById",
 }));
 
 export type GetSegmentRelatedError = MetabaseOpError;
@@ -15008,6 +16051,8 @@ export const getSegmentRelated: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentRelated",
 }));
 
 export type GetSessionPasswordResetTokenValidError = MetabaseOpError;
@@ -15023,6 +16068,8 @@ export const getSessionPasswordResetTokenValid: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionPasswordResetTokenValid",
 }));
 
 export type GetSessionPropertiesError = MetabaseOpError;
@@ -15038,6 +16085,8 @@ export const getSessionProperties: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionProperties",
 }));
 
 export type GetSettingError = MetabaseOpError;
@@ -15053,6 +16102,8 @@ export const getSetting: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetSettingByKeyError = MetabaseOpError;
@@ -15068,6 +16119,8 @@ export const getSettingByKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingByKey",
 }));
 
 export type GetSlackAppInfoError = MetabaseOpError;
@@ -15083,6 +16136,8 @@ export const getSlackAppInfo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSlackAppInfo",
 }));
 
 export type GetSlackManifestError = MetabaseOpError;
@@ -15098,6 +16153,8 @@ export const getSlackManifest: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSlackManifest",
 }));
 
 export type GetTableError = MetabaseOpError;
@@ -15113,6 +16170,8 @@ export const getTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableByIdError = MetabaseOpError;
@@ -15128,6 +16187,8 @@ export const getTableById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableById",
 }));
 
 export type GetTableCardIdFksError = MetabaseOpError;
@@ -15143,6 +16204,8 @@ export const getTableCardIdFks: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableCardIdFks",
 }));
 
 export type GetTableCardIdQueryMetadataError = MetabaseOpError;
@@ -15158,6 +16221,8 @@ export const getTableCardIdQueryMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableCardIdQueryMetadata",
 }));
 
 export type GetTableDataError = MetabaseOpError;
@@ -15173,6 +16238,8 @@ export const getTableData: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableData",
 }));
 
 export type GetTableFksError = MetabaseOpError;
@@ -15188,6 +16255,8 @@ export const getTableFks: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableFks",
 }));
 
 export type GetTableQueryMetadataError = MetabaseOpError;
@@ -15203,6 +16272,8 @@ export const getTableQueryMetadata: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableQueryMetadata",
 }));
 
 export type GetTableRelatedError = MetabaseOpError;
@@ -15218,6 +16289,8 @@ export const getTableRelated: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableRelated",
 }));
 
 export type GetTaskError = MetabaseOpError;
@@ -15233,6 +16306,8 @@ export const getTask: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetTaskByIdError = MetabaseOpError;
@@ -15248,6 +16323,8 @@ export const getTaskById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskById",
 }));
 
 export type GetTaskInfoError = MetabaseOpError;
@@ -15263,6 +16340,8 @@ export const getTaskInfo: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskInfo",
 }));
 
 export type GetTaskRunError = MetabaseOpError;
@@ -15278,6 +16357,8 @@ export const getTaskRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRun",
 }));
 
 export type GetTaskRunsError = MetabaseOpError;
@@ -15293,6 +16374,8 @@ export const getTaskRuns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRuns",
 }));
 
 export type GetTaskRunsEntitiesError = MetabaseOpError;
@@ -15308,6 +16391,8 @@ export const getTaskRunsEntities: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRunsEntities",
 }));
 
 export type GetTaskUniqueTasksError = MetabaseOpError;
@@ -15323,6 +16408,8 @@ export const getTaskUniqueTasks: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskUniqueTasks",
 }));
 
 export type GetTileError = MetabaseOpError;
@@ -15338,6 +16425,8 @@ export const getTile: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTile",
 }));
 
 export type GetTileByYError = MetabaseOpError;
@@ -15353,6 +16442,8 @@ export const getTileByY: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTileByY",
 }));
 
 export type GetTileDashcardCardError = MetabaseOpError;
@@ -15368,6 +16459,8 @@ export const getTileDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTileDashcardCard",
 }));
 
 export type GetTilesCardError = MetabaseOpError;
@@ -15383,6 +16476,8 @@ export const getTilesCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTilesCard",
 }));
 
 export type GetTilesDashboardDashcardCardError = MetabaseOpError;
@@ -15398,6 +16493,8 @@ export const getTilesDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTilesDashboardDashcardCard",
 }));
 
 export type GetTimelineError = MetabaseOpError;
@@ -15413,6 +16510,8 @@ export const getTimeline: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeline",
 }));
 
 export type GetTimelineByIdError = MetabaseOpError;
@@ -15428,6 +16527,8 @@ export const getTimelineById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimelineById",
 }));
 
 export type GetTimelineCollectionError = MetabaseOpError;
@@ -15443,6 +16544,8 @@ export const getTimelineCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimelineCollection",
 }));
 
 export type GetTimelineCollectionRootError = MetabaseOpError;
@@ -15458,6 +16561,8 @@ export const getTimelineCollectionRoot: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimelineCollectionRoot",
 }));
 
 export type GetTimelineEventError = MetabaseOpError;
@@ -15473,6 +16578,8 @@ export const getTimelineEvent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimelineEvent",
 }));
 
 export type GetTransformError = MetabaseOpError;
@@ -15488,6 +16595,8 @@ export const getTransform: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransform",
 }));
 
 export type GetTransformByIdError = MetabaseOpError;
@@ -15503,6 +16612,8 @@ export const getTransformById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformById",
 }));
 
 export type GetTransformDependenciesError = MetabaseOpError;
@@ -15518,6 +16629,8 @@ export const getTransformDependencies: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformDependencies",
 }));
 
 export type GetTransformJobError = MetabaseOpError;
@@ -15533,6 +16646,8 @@ export const getTransformJob: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformJob",
 }));
 
 export type GetTransformJobByJobIdError = MetabaseOpError;
@@ -15548,6 +16663,8 @@ export const getTransformJobByJobId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformJobByJobId",
 }));
 
 export type GetTransformJobRunsError = MetabaseOpError;
@@ -15563,6 +16680,8 @@ export const getTransformJobRuns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformJobRuns",
 }));
 
 export type GetTransformJobRunTransformRunsError = MetabaseOpError;
@@ -15578,6 +16697,8 @@ export const getTransformJobRunTransformRuns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformJobRunTransformRuns",
 }));
 
 export type GetTransformJobTransformsError = MetabaseOpError;
@@ -15593,6 +16714,8 @@ export const getTransformJobTransforms: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformJobTransforms",
 }));
 
 export type GetTransformRunError = MetabaseOpError;
@@ -15608,6 +16731,8 @@ export const getTransformRun: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformRun",
 }));
 
 export type GetTransformRunByRunIdError = MetabaseOpError;
@@ -15623,6 +16748,8 @@ export const getTransformRunByRunId: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformRunByRunId",
 }));
 
 export type GetTransformTagError = MetabaseOpError;
@@ -15638,6 +16765,8 @@ export const getTransformTag: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformTag",
 }));
 
 export type GetUserError = MetabaseOpError;
@@ -15653,6 +16782,8 @@ export const getUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserByIdError = MetabaseOpError;
@@ -15668,6 +16799,8 @@ export const getUserById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserById",
 }));
 
 export type GetUserCurrentError = MetabaseOpError;
@@ -15683,6 +16816,8 @@ export const getUserCurrent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserCurrent",
 }));
 
 export type GetUserKeyValueNamespaceError = MetabaseOpError;
@@ -15698,6 +16833,8 @@ export const getUserKeyValueNamespace: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserKeyValueNamespace",
 }));
 
 export type GetUserKeyValueNamespaceKeyError = MetabaseOpError;
@@ -15713,6 +16850,8 @@ export const getUserKeyValueNamespaceKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserKeyValueNamespaceKey",
 }));
 
 export type GetUserRecipientsError = MetabaseOpError;
@@ -15728,6 +16867,8 @@ export const getUserRecipients: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRecipients",
 }));
 
 export type GetUtilRandomTokenError = MetabaseOpError;
@@ -15743,6 +16884,8 @@ export const getUtilRandomToken: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUtilRandomToken",
 }));
 
 export type PostApiEeReplacementReplaceModelWithTransformError = MetabaseOpError;
@@ -15762,6 +16905,8 @@ export const postApiEeReplacementReplaceModelWithTransform: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostApiEeReplacementReplaceModelWithTransform",
 }));
 
 export type PutActionError = MetabaseOpError;
@@ -15777,6 +16922,8 @@ export const putAction: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAction",
 }));
 
 export type PutAgentDashboardError = MetabaseOpError;
@@ -15792,6 +16939,8 @@ export const putAgentDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAgentDashboard",
 }));
 
 export type PutAgentMetricError = MetabaseOpError;
@@ -15807,6 +16956,8 @@ export const putAgentMetric: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAgentMetric",
 }));
 
 export type PutAgentQuestionError = MetabaseOpError;
@@ -15822,6 +16973,8 @@ export const putAgentQuestion: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAgentQuestion",
 }));
 
 export type PutBookmarkOrderingError = MetabaseOpError;
@@ -15837,6 +16990,8 @@ export const putBookmarkOrdering: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutBookmarkOrdering",
 }));
 
 export type PutCacheError = MetabaseOpError;
@@ -15852,6 +17007,8 @@ export const putCache: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCache",
 }));
 
 export type PutCardError = MetabaseOpError;
@@ -15867,6 +17024,8 @@ export const putCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCard",
 }));
 
 export type PutChannelError = MetabaseOpError;
@@ -15882,6 +17041,8 @@ export const putChannel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutChannel",
 }));
 
 export type PutCloudMigrationCancelError = MetabaseOpError;
@@ -15897,6 +17058,8 @@ export const putCloudMigrationCancel: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCloudMigrationCancel",
 }));
 
 export type PutCollectionError = MetabaseOpError;
@@ -15912,6 +17075,8 @@ export const putCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCollection",
 }));
 
 export type PutCollectionGraphError = MetabaseOpError;
@@ -15927,6 +17092,8 @@ export const putCollectionGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCollectionGraph",
 }));
 
 export type PutCommentError = MetabaseOpError;
@@ -15942,6 +17109,8 @@ export const putComment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutComment",
 }));
 
 export type PutDashboardError = MetabaseOpError;
@@ -15957,6 +17126,8 @@ export const putDashboard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboard",
 }));
 
 export type PutDashboardCardsError = MetabaseOpError;
@@ -15972,6 +17143,8 @@ export const putDashboardCards: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDashboardCards",
 }));
 
 export type PutDatabaseError = MetabaseOpError;
@@ -15987,6 +17160,8 @@ export const putDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDatabase",
 }));
 
 export type PutDocumentError = MetabaseOpError;
@@ -16002,6 +17177,8 @@ export const putDocument: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDocument",
 }));
 
 export type PutEeAdvancedPermissionsApplicationGraphError = MetabaseOpError;
@@ -16017,6 +17194,8 @@ export const putEeAdvancedPermissionsApplicationGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeAdvancedPermissionsApplicationGraph",
 }));
 
 export type PutEeAiControlsPermissionsError = MetabaseOpError;
@@ -16032,6 +17211,8 @@ export const putEeAiControlsPermissions: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeAiControlsPermissions",
 }));
 
 export type PutEeAiControlsUsageGroupError = MetabaseOpError;
@@ -16047,6 +17228,8 @@ export const putEeAiControlsUsageGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeAiControlsUsageGroup",
 }));
 
 export type PutEeAiControlsUsageInstanceError = MetabaseOpError;
@@ -16062,6 +17245,8 @@ export const putEeAiControlsUsageInstance: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeAiControlsUsageInstance",
 }));
 
 export type PutEeAiControlsUsageTenantError = MetabaseOpError;
@@ -16077,6 +17262,8 @@ export const putEeAiControlsUsageTenant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeAiControlsUsageTenant",
 }));
 
 export type PutEeCustomVizPluginError = MetabaseOpError;
@@ -16092,6 +17279,8 @@ export const putEeCustomVizPlugin: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeCustomVizPlugin",
 }));
 
 export type PutEeCustomVizPluginBundleError = MetabaseOpError;
@@ -16107,6 +17296,8 @@ export const putEeCustomVizPluginBundle: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeCustomVizPluginBundle",
 }));
 
 export type PutEeCustomVizPluginDevUrlError = MetabaseOpError;
@@ -16122,6 +17313,8 @@ export const putEeCustomVizPluginDevUrl: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeCustomVizPluginDevUrl",
 }));
 
 export type PutEeDatabaseRoutingRouterDatabaseError = MetabaseOpError;
@@ -16137,6 +17330,8 @@ export const putEeDatabaseRoutingRouterDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeDatabaseRoutingRouterDatabase",
 }));
 
 export type PutEeEmailOverrideError = MetabaseOpError;
@@ -16152,6 +17347,8 @@ export const putEeEmailOverride: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeEmailOverride",
 }));
 
 export type PutEeRemoteSyncSettingsError = MetabaseOpError;
@@ -16167,6 +17364,8 @@ export const putEeRemoteSyncSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeRemoteSyncSettings",
 }));
 
 export type PutEeScimGroupError = MetabaseOpError;
@@ -16182,6 +17381,8 @@ export const putEeScimGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeScimGroup",
 }));
 
 export type PutEeScimUserError = MetabaseOpError;
@@ -16197,6 +17398,8 @@ export const putEeScimUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeScimUser",
 }));
 
 export type PutEeSupportAccessGrantRevokeError = MetabaseOpError;
@@ -16212,6 +17415,8 @@ export const putEeSupportAccessGrantRevoke: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeSupportAccessGrantRevoke",
 }));
 
 export type PutEeTenantError = MetabaseOpError;
@@ -16227,6 +17432,8 @@ export const putEeTenant: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeTenant",
 }));
 
 export type PutEeTransformsPythonLibraryError = MetabaseOpError;
@@ -16242,6 +17449,8 @@ export const putEeTransformsPythonLibrary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEeTransformsPythonLibrary",
 }));
 
 export type PutEmailError = MetabaseOpError;
@@ -16257,6 +17466,8 @@ export const putEmail: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmail",
 }));
 
 export type PutEmbedThemeError = MetabaseOpError;
@@ -16272,6 +17483,8 @@ export const putEmbedTheme: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmbedTheme",
 }));
 
 export type PutFieldError = MetabaseOpError;
@@ -16287,6 +17500,8 @@ export const putField: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutField",
 }));
 
 export type PutGlossaryError = MetabaseOpError;
@@ -16302,6 +17517,8 @@ export const putGlossary: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGlossary",
 }));
 
 export type PutGoogleSettingsError = MetabaseOpError;
@@ -16317,6 +17534,8 @@ export const putGoogleSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGoogleSettings",
 }));
 
 export type PutKeyError = MetabaseOpError;
@@ -16332,6 +17551,8 @@ export const putKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutKey",
 }));
 
 export type PutKeyRegenerateError = MetabaseOpError;
@@ -16347,6 +17568,8 @@ export const putKeyRegenerate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutKeyRegenerate",
 }));
 
 export type PutLdapSettingsError = MetabaseOpError;
@@ -16362,6 +17585,8 @@ export const putLdapSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutLdapSettings",
 }));
 
 export type PutMeasureError = MetabaseOpError;
@@ -16377,6 +17602,8 @@ export const putMeasure: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMeasure",
 }));
 
 export type PutMetabotMetabotError = MetabaseOpError;
@@ -16392,6 +17619,8 @@ export const putMetabotMetabot: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMetabotMetabot",
 }));
 
 export type PutMetabotSettingsError = MetabaseOpError;
@@ -16407,6 +17636,8 @@ export const putMetabotSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMetabotSettings",
 }));
 
 export type PutMetabotSlackSettingsError = MetabaseOpError;
@@ -16422,6 +17653,8 @@ export const putMetabotSlackSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMetabotSlackSettings",
 }));
 
 export type PutMtGtapError = MetabaseOpError;
@@ -16437,6 +17670,8 @@ export const putMtGtap: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMtGtap",
 }));
 
 export type PutMtUserAttributesError = MetabaseOpError;
@@ -16452,6 +17687,8 @@ export const putMtUserAttributes: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMtUserAttributes",
 }));
 
 export type PutNativeQuerySnippetError = MetabaseOpError;
@@ -16467,6 +17704,8 @@ export const putNativeQuerySnippet: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutNativeQuerySnippet",
 }));
 
 export type PutNotificationError = MetabaseOpError;
@@ -16482,6 +17721,8 @@ export const putNotification: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutNotification",
 }));
 
 export type PutOsiAiContextError = MetabaseOpError;
@@ -16497,6 +17738,8 @@ export const putOsiAiContext: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOsiAiContext",
 }));
 
 export type PutPermissionsGraphError = MetabaseOpError;
@@ -16512,6 +17755,8 @@ export const putPermissionsGraph: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPermissionsGraph",
 }));
 
 export type PutPermissionsGroupError = MetabaseOpError;
@@ -16527,6 +17772,8 @@ export const putPermissionsGroup: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPermissionsGroup",
 }));
 
 export type PutPermissionsMembershipError = MetabaseOpError;
@@ -16542,6 +17789,8 @@ export const putPermissionsMembership: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPermissionsMembership",
 }));
 
 export type PutPermissionsMembershipClearError = MetabaseOpError;
@@ -16557,6 +17806,8 @@ export const putPermissionsMembershipClear: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPermissionsMembershipClear",
 }));
 
 export type PutPulseError = MetabaseOpError;
@@ -16572,6 +17823,8 @@ export const putPulse: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPulse",
 }));
 
 export type PutSearchWeightsError = MetabaseOpError;
@@ -16587,6 +17840,8 @@ export const putSearchWeights: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSearchWeights",
 }));
 
 export type PutSegmentError = MetabaseOpError;
@@ -16602,6 +17857,8 @@ export const putSegment: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSegment",
 }));
 
 export type PutSettingError = MetabaseOpError;
@@ -16617,6 +17874,8 @@ export const putSetting: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSetting",
 }));
 
 export type PutSettingByKeyError = MetabaseOpError;
@@ -16632,6 +17891,8 @@ export const putSettingByKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSettingByKey",
 }));
 
 export type PutSlackSettingsError = MetabaseOpError;
@@ -16647,6 +17908,8 @@ export const putSlackSettings: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSlackSettings",
 }));
 
 export type PutTableError = MetabaseOpError;
@@ -16662,6 +17925,8 @@ export const putTable: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTable",
 }));
 
 export type PutTableByIdError = MetabaseOpError;
@@ -16677,6 +17942,8 @@ export const putTableById: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTableById",
 }));
 
 export type PutTableFieldsOrderError = MetabaseOpError;
@@ -16692,6 +17959,8 @@ export const putTableFieldsOrder: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTableFieldsOrder",
 }));
 
 export type PutTimelineError = MetabaseOpError;
@@ -16707,6 +17976,8 @@ export const putTimeline: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimeline",
 }));
 
 export type PutTimelineEventError = MetabaseOpError;
@@ -16722,6 +17993,8 @@ export const putTimelineEvent: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTimelineEvent",
 }));
 
 export type PutTransformError = MetabaseOpError;
@@ -16737,6 +18010,8 @@ export const putTransform: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTransform",
 }));
 
 export type PutTransformJobError = MetabaseOpError;
@@ -16752,6 +18027,8 @@ export const putTransformJob: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTransformJob",
 }));
 
 export type PutTransformJobActiveError = MetabaseOpError;
@@ -16767,6 +18044,8 @@ export const putTransformJobActive: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTransformJobActive",
 }));
 
 export type PutTransformTagError = MetabaseOpError;
@@ -16782,6 +18061,8 @@ export const putTransformTag: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTransformTag",
 }));
 
 export type PutUserError = MetabaseOpError;
@@ -16797,6 +18078,8 @@ export const putUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUser",
 }));
 
 export type PutUserKeyValueNamespaceKeyError = MetabaseOpError;
@@ -16812,6 +18095,8 @@ export const putUserKeyValueNamespaceKey: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserKeyValueNamespaceKey",
 }));
 
 export type PutUserModalError = MetabaseOpError;
@@ -16827,6 +18112,8 @@ export const putUserModal: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserModal",
 }));
 
 export type PutUserPasswordError = MetabaseOpError;
@@ -16842,6 +18129,8 @@ export const putUserPassword: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserPassword",
 }));
 
 export type PutUserReactivateError = MetabaseOpError;
@@ -16857,6 +18146,8 @@ export const putUserReactivate: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserReactivate",
 }));
 
 export type UpdateBookmarkError = MetabaseOpError;
@@ -16872,6 +18163,8 @@ export const updateBookmark: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBookmark",
 }));
 
 export type UpdateCardQueryError = MetabaseOpError;
@@ -16887,6 +18180,8 @@ export const updateCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCardQuery",
 }));
 
 export type UpdateDashboardDashcardCardError = MetabaseOpError;
@@ -16902,6 +18197,8 @@ export const updateDashboardDashcardCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardDashcardCard",
 }));
 
 export type UpdateDashboardDashcardCardQueryError = MetabaseOpError;
@@ -16917,6 +18214,8 @@ export const updateDashboardDashcardCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardDashcardCardQuery",
 }));
 
 export type UpdateDashboardSaveCollectionError = MetabaseOpError;
@@ -16932,6 +18231,8 @@ export const updateDashboardSaveCollection: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardSaveCollection",
 }));
 
 export type UpdateDatasetError = MetabaseOpError;
@@ -16947,6 +18248,8 @@ export const updateDataset: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateDatasetParameterSearchError = MetabaseOpError;
@@ -16962,6 +18265,8 @@ export const updateDatasetParameterSearch: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetParameterSearch",
 }));
 
 export type UpdateDocumentCardError = MetabaseOpError;
@@ -16977,6 +18282,8 @@ export const updateDocumentCard: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentCard",
 }));
 
 export type UpdateDocumentCardQueryError = MetabaseOpError;
@@ -16992,6 +18299,8 @@ export const updateDocumentCardQuery: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentCardQuery",
 }));
 
 export type UpdateEeCloudAddOnsError = MetabaseOpError;
@@ -17007,6 +18316,8 @@ export const updateEeCloudAddOns: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEeCloudAddOns",
 }));
 
 export type UpdateEeCloudProxyError = MetabaseOpError;
@@ -17022,6 +18333,8 @@ export const updateEeCloudProxy: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEeCloudProxy",
 }));
 
 export type UpdateEeDatabaseReplicationConnectionDatabaseError = MetabaseOpError;
@@ -17041,6 +18354,8 @@ export const updateEeDatabaseReplicationConnectionDatabase: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEeDatabaseReplicationConnectionDatabase",
 }));
 
 export type UpdateEeScimUserError = MetabaseOpError;
@@ -17056,6 +18371,8 @@ export const updateEeScimUser: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEeScimUser",
 }));
 
 export type UpdateNotifyDbError = MetabaseOpError;
@@ -17071,6 +18388,8 @@ export const updateNotifyDb: API.OperationMethod<
   errors: [UnknownMetabaseError],
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotifyDb",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

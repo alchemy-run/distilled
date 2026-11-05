@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "storagetransfer" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Storagetransfer",
+  service: "storagetransfer",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -678,6 +697,8 @@ export const cancelTransferOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransferOperations",
 }));
 
 export type CreateProjectsAgentPoolsError =
@@ -699,6 +720,8 @@ export const createProjectsAgentPools: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsAgentPools",
 }));
 
 export type CreateTransferJobsError =
@@ -720,6 +743,8 @@ export const createTransferJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferJobs",
 }));
 
 export type DeleteProjectsAgentPoolsError =
@@ -741,6 +766,8 @@ export const deleteProjectsAgentPools: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsAgentPools",
 }));
 
 export type DeleteTransferJobsError =
@@ -762,6 +789,8 @@ export const deleteTransferJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransferJobs",
 }));
 
 export type GetGoogleServiceAccountsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -777,6 +806,8 @@ export const getGoogleServiceAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleServiceAccounts",
 }));
 
 export type GetProjectsAgentPoolsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -792,6 +823,8 @@ export const getProjectsAgentPools: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsAgentPools",
 }));
 
 export type GetTransferJobsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -807,6 +840,8 @@ export const getTransferJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferJobs",
 }));
 
 export type GetTransferOperationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -822,6 +857,8 @@ export const getTransferOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferOperations",
 }));
 
 export type ListProjectsAgentPoolsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -838,6 +875,8 @@ export const listProjectsAgentPools: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsAgentPools",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -855,6 +894,8 @@ export const listTransferJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferJobs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -872,6 +913,8 @@ export const listTransferOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -894,6 +937,8 @@ export const patchProjectsAgentPools: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsAgentPools",
 }));
 
 export type PatchTransferJobsError =
@@ -915,6 +960,8 @@ export const patchTransferJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTransferJobs",
 }));
 
 export type PauseTransferOperationsError =
@@ -936,6 +983,8 @@ export const pauseTransferOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseTransferOperations",
 }));
 
 export type ResumeTransferOperationsError =
@@ -957,6 +1006,8 @@ export const resumeTransferOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeTransferOperations",
 }));
 
 export type RunTransferJobsError =
@@ -978,6 +1029,8 @@ export const runTransferJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunTransferJobs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

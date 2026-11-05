@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "authorizedbuyersmarketplace" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Authorizedbuyersmarketplace",
+  service: "authorizedbuyersmarketplace",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1526,6 +1545,8 @@ export const acceptBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptBuyersProposals",
 }));
 
 export type ActivateBuyersClientsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1541,6 +1562,8 @@ export const activateBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBuyersClients",
 }));
 
 export type ActivateBuyersClientsUsersError =
@@ -1561,6 +1584,8 @@ export const activateBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBuyersClientsUsers",
 }));
 
 export type ActivateBuyersDataSegmentsError =
@@ -1581,6 +1606,8 @@ export const activateBuyersDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBuyersDataSegments",
 }));
 
 export type ActivateCuratorsCuratedPackagesError =
@@ -1601,6 +1628,8 @@ export const activateCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateCuratorsCuratedPackages",
 }));
 
 export type AddCreativeBuyersFinalizedDealsError =
@@ -1621,6 +1650,8 @@ export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCreativeBuyersFinalizedDeals",
 }));
 
 export type AddNoteBuyersProposalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1636,6 +1667,8 @@ export const addNoteBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddNoteBuyersProposals",
 }));
 
 export type BatchUpdateBuyersProposalsDealsError =
@@ -1656,6 +1689,8 @@ export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateBuyersProposalsDeals",
 }));
 
 export type CancelNegotiationBuyersProposalsError =
@@ -1676,6 +1711,8 @@ export const cancelNegotiationBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelNegotiationBuyersProposals",
 }));
 
 export type CreateBuyersClientsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1691,6 +1728,8 @@ export const createBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersClients",
 }));
 
 export type CreateBuyersClientsUsersError =
@@ -1711,6 +1750,8 @@ export const createBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersClientsUsers",
 }));
 
 export type CreateBuyersDataSegmentsError =
@@ -1731,6 +1772,8 @@ export const createBuyersDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuyersDataSegments",
 }));
 
 export type CreateCuratorsCuratedPackagesError =
@@ -1751,6 +1794,8 @@ export const createCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCuratorsCuratedPackages",
 }));
 
 export type DeactivateBuyersClientsError =
@@ -1771,6 +1816,8 @@ export const deactivateBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBuyersClients",
 }));
 
 export type DeactivateBuyersClientsUsersError =
@@ -1791,6 +1838,8 @@ export const deactivateBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBuyersClientsUsers",
 }));
 
 export type DeactivateBuyersDataSegmentsError =
@@ -1811,6 +1860,8 @@ export const deactivateBuyersDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBuyersDataSegments",
 }));
 
 export type DeactivateCuratorsCuratedPackagesError =
@@ -1831,6 +1882,8 @@ export const deactivateCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateCuratorsCuratedPackages",
 }));
 
 export type DeleteBuyersClientsUsersError =
@@ -1851,6 +1904,8 @@ export const deleteBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuyersClientsUsers",
 }));
 
 export type GetBuyersAuctionPackagesError = NotFound | Forbidden | GcpOpError;
@@ -1866,6 +1921,8 @@ export const getBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersAuctionPackages",
 }));
 
 export type GetBuyersClientsError = NotFound | Forbidden | GcpOpError;
@@ -1881,6 +1938,8 @@ export const getBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersClients",
 }));
 
 export type GetBuyersClientsUsersError = NotFound | Forbidden | GcpOpError;
@@ -1896,6 +1955,8 @@ export const getBuyersClientsUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersClientsUsers",
 }));
 
 export type GetBuyersDataSegmentsError = NotFound | Forbidden | GcpOpError;
@@ -1911,6 +1972,8 @@ export const getBuyersDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersDataSegments",
 }));
 
 export type GetBuyersFinalizedDealsError = NotFound | Forbidden | GcpOpError;
@@ -1926,6 +1989,8 @@ export const getBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersFinalizedDeals",
 }));
 
 export type GetBuyersProposalsError = NotFound | Forbidden | GcpOpError;
@@ -1941,6 +2006,8 @@ export const getBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersProposals",
 }));
 
 export type GetBuyersProposalsDealsError = NotFound | Forbidden | GcpOpError;
@@ -1956,6 +2023,8 @@ export const getBuyersProposalsDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersProposalsDeals",
 }));
 
 export type GetBuyersPublisherProfilesError = NotFound | Forbidden | GcpOpError;
@@ -1971,6 +2040,8 @@ export const getBuyersPublisherProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuyersPublisherProfiles",
 }));
 
 export type GetCuratorsCuratedPackagesError = NotFound | Forbidden | GcpOpError;
@@ -1986,6 +2057,8 @@ export const getCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCuratorsCuratedPackages",
 }));
 
 export type ListBiddersAuctionPackagesError = NotFound | Forbidden | GcpOpError;
@@ -2002,6 +2075,8 @@ export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersAuctionPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2019,6 +2094,8 @@ export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBiddersFinalizedDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2036,6 +2113,8 @@ export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersAuctionPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2053,6 +2132,8 @@ export const listBuyersClients: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersClients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2070,6 +2151,8 @@ export const listBuyersClientsUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersClientsUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2087,6 +2170,8 @@ export const listBuyersDataSegments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersDataSegments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2104,6 +2189,8 @@ export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersFinalizedDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2121,6 +2208,8 @@ export const listBuyersProposals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersProposals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2138,6 +2227,8 @@ export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersProposalsDeals",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2155,6 +2246,8 @@ export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuyersPublisherProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2172,6 +2265,8 @@ export const listCuratorsCuratedPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCuratorsCuratedPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2189,6 +2284,8 @@ export const listMediaPlanners: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMediaPlanners",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2205,6 +2302,8 @@ export const patchBuyersClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersClients",
 }));
 
 export type PatchBuyersDataSegmentsError =
@@ -2225,6 +2324,8 @@ export const patchBuyersDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersDataSegments",
 }));
 
 export type PatchBuyersProposalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2240,6 +2341,8 @@ export const patchBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersProposals",
 }));
 
 export type PatchBuyersProposalsDealsError =
@@ -2260,6 +2363,8 @@ export const patchBuyersProposalsDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBuyersProposalsDeals",
 }));
 
 export type PatchCuratorsCuratedPackagesError =
@@ -2280,6 +2385,8 @@ export const patchCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCuratorsCuratedPackages",
 }));
 
 export type PauseBuyersFinalizedDealsError =
@@ -2300,6 +2407,8 @@ export const pauseBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseBuyersFinalizedDeals",
 }));
 
 export type ResumeBuyersFinalizedDealsError =
@@ -2320,6 +2429,8 @@ export const resumeBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBuyersFinalizedDeals",
 }));
 
 export type SendRfpBuyersProposalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2335,6 +2446,8 @@ export const sendRfpBuyersProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendRfpBuyersProposals",
 }));
 
 export type SetReadyToServeBiddersFinalizedDealsError =
@@ -2355,6 +2468,8 @@ export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetReadyToServeBiddersFinalizedDeals",
 }));
 
 export type SetReadyToServeBuyersFinalizedDealsError =
@@ -2375,6 +2490,8 @@ export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetReadyToServeBuyersFinalizedDeals",
 }));
 
 export type SubscribeBuyersAuctionPackagesError =
@@ -2395,6 +2512,8 @@ export const subscribeBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeBuyersAuctionPackages",
 }));
 
 export type SubscribeClientsBuyersAuctionPackagesError =
@@ -2415,6 +2534,8 @@ export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeClientsBuyersAuctionPackages",
 }));
 
 export type UnsubscribeBuyersAuctionPackagesError =
@@ -2435,6 +2556,8 @@ export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeBuyersAuctionPackages",
 }));
 
 export type UnsubscribeClientsBuyersAuctionPackagesError =
@@ -2455,6 +2578,8 @@ export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeClientsBuyersAuctionPackages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

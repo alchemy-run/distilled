@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataWarehouse",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -637,6 +650,8 @@ export const createDataWarehouseDeprovision: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataWarehouseDeprovision",
 }));
 
 export type CreateDataWarehouseOnboardTeamError = PosthogOpError;
@@ -652,6 +667,8 @@ export const createDataWarehouseOnboardTeam: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataWarehouseOnboardTeam",
 }));
 
 export type CreateDataWarehouseProvisionError = PosthogOpError;
@@ -667,6 +684,8 @@ export const createDataWarehouseProvision: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataWarehouseProvision",
 }));
 
 export type DataWarehouseResetPasswordCreateError = PosthogOpError;
@@ -682,6 +701,8 @@ export const dataWarehouseResetPasswordCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataWarehouseResetPasswordCreate",
 }));
 
 export type DeleteDataWarehouseOrgDestroyError = PosthogOpError;
@@ -697,6 +718,8 @@ export const deleteDataWarehouseOrgDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataWarehouseOrgDestroy",
 }));
 
 export type GetDataWarehouseCheckDatabaseNameError = PosthogOpError;
@@ -712,6 +735,8 @@ export const getDataWarehouseCheckDatabaseName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseCheckDatabaseName",
 }));
 
 export type GetDataWarehouseCheckSchemaNameError = PosthogOpError;
@@ -727,6 +752,8 @@ export const getDataWarehouseCheckSchemaName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseCheckSchemaName",
 }));
 
 export type GetDataWarehouseCompletedActivityError = PosthogOpError;
@@ -742,6 +769,8 @@ export const getDataWarehouseCompletedActivity: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseCompletedActivity",
 }));
 
 export type GetDataWarehouseDataHealthIssueError = PosthogOpError;
@@ -757,6 +786,8 @@ export const getDataWarehouseDataHealthIssue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseDataHealthIssue",
 }));
 
 export type GetDataWarehouseDataOpsDashboardError = PosthogOpError;
@@ -772,6 +803,8 @@ export const getDataWarehouseDataOpsDashboard: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseDataOpsDashboard",
 }));
 
 export type GetDataWarehouseDataQualityGateError = PosthogOpError;
@@ -787,6 +820,8 @@ export const getDataWarehouseDataQualityGate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseDataQualityGate",
 }));
 
 export type GetDataWarehouseJobStatError = BadRequest | PosthogOpError;
@@ -802,6 +837,8 @@ export const getDataWarehouseJobStat: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseJobStat",
 }));
 
 export type GetDataWarehouseManagedWarehouseDataStatusError = PosthogOpError;
@@ -817,6 +854,8 @@ export const getDataWarehouseManagedWarehouseDataStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseDataStatus",
 }));
 
 export type GetDataWarehouseManagedWarehouseMonitoringError =
@@ -836,6 +875,8 @@ export const getDataWarehouseManagedWarehouseMonitoring: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseMonitoring",
 }));
 
 export type GetDataWarehouseManagedWarehouseMonitoringTimeseriesError =
@@ -859,6 +900,8 @@ export const getDataWarehouseManagedWarehouseMonitoringTimeseries: API.Operation
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseMonitoringTimeseries",
 }));
 
 export type GetDataWarehouseManagedWarehouseSourceSchemaError = PosthogOpError;
@@ -874,6 +917,8 @@ export const getDataWarehouseManagedWarehouseSourceSchema: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseManagedWarehouseSourceSchema",
 }));
 
 export type GetDataWarehousePropertyValueError = PosthogOpError;
@@ -889,6 +934,8 @@ export const getDataWarehousePropertyValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehousePropertyValue",
 }));
 
 export type GetDataWarehouseRunningActivityError = PosthogOpError;
@@ -904,6 +951,8 @@ export const getDataWarehouseRunningActivity: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseRunningActivity",
 }));
 
 export type GetDataWarehouseTotalRowsStatError = PosthogOpError;
@@ -919,6 +968,8 @@ export const getDataWarehouseTotalRowsStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseTotalRowsStat",
 }));
 
 export type GetDataWarehouseWarehouseStatusError = PosthogOpError;
@@ -934,6 +985,8 @@ export const getDataWarehouseWarehouseStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataWarehouseWarehouseStatus",
 }));
 
 export type UpdateDataWarehouseDataQualityGatePartialError = PosthogOpError;
@@ -949,6 +1002,8 @@ export const updateDataWarehouseDataQualityGatePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataWarehouseDataQualityGatePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

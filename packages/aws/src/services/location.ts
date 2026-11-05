@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://geo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Location",
+  service: "Location",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1317,7 +1333,7 @@ export type AssociateTrackerConsumerError =
  * Currently not supported -- Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
  */
 export const associateTrackerConsumer: API.OperationMethod<
-  AssociateTrackerConsumerRequest,
+  AssociateTrackerConsumerRequest & RegionInput,
   AssociateTrackerConsumerResponse,
   AssociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -1337,6 +1353,8 @@ export const associateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "AssociateTrackerConsumer",
 }));
 
 export type BatchDeleteDevicePositionHistoryError =
@@ -1350,7 +1368,7 @@ export type BatchDeleteDevicePositionHistoryError =
  * Deletes the position history of one or more devices from a tracker resource.
  */
 export const batchDeleteDevicePositionHistory: API.OperationMethod<
-  BatchDeleteDevicePositionHistoryRequest,
+  BatchDeleteDevicePositionHistoryRequest & RegionInput,
   BatchDeleteDevicePositionHistoryResponse,
   BatchDeleteDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient
@@ -1368,6 +1386,8 @@ export const batchDeleteDevicePositionHistory: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDevicePositionHistory",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDevicePositionHistory",
 }));
 
 export type BatchDeleteGeofenceError =
@@ -1383,7 +1403,7 @@ export type BatchDeleteGeofenceError =
  * This operation deletes the resource permanently.
  */
 export const batchDeleteGeofence: API.OperationMethod<
-  BatchDeleteGeofenceRequest,
+  BatchDeleteGeofenceRequest & RegionInput,
   BatchDeleteGeofenceResponse,
   BatchDeleteGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1401,6 +1421,8 @@ export const batchDeleteGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteGeofence",
 }));
 
 export type BatchEvaluateGeofencesError =
@@ -1426,7 +1448,7 @@ export type BatchEvaluateGeofencesError =
  * The `DeviceID` is used as a string to represent the device. You do not need to have a `Tracker` associated with the `DeviceID`.
  */
 export const batchEvaluateGeofences: API.OperationMethod<
-  BatchEvaluateGeofencesRequest,
+  BatchEvaluateGeofencesRequest & RegionInput,
   BatchEvaluateGeofencesResponse,
   BatchEvaluateGeofencesError,
   Credentials | HttpClient.HttpClient
@@ -1444,6 +1466,8 @@ export const batchEvaluateGeofences: API.OperationMethod<
   retry: Retry,
   operationName: "BatchEvaluateGeofences",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchEvaluateGeofences",
 }));
 
 export type BatchGetDevicePositionError =
@@ -1457,7 +1481,7 @@ export type BatchGetDevicePositionError =
  * Lists the latest device positions for requested devices.
  */
 export const batchGetDevicePosition: API.OperationMethod<
-  BatchGetDevicePositionRequest,
+  BatchGetDevicePositionRequest & RegionInput,
   BatchGetDevicePositionResponse,
   BatchGetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1475,6 +1499,8 @@ export const batchGetDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchGetDevicePosition",
 }));
 
 export type BatchPutGeofenceError =
@@ -1488,7 +1514,7 @@ export type BatchPutGeofenceError =
  * A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const batchPutGeofence: API.OperationMethod<
-  BatchPutGeofenceRequest,
+  BatchPutGeofenceRequest & RegionInput,
   BatchPutGeofenceResponse,
   BatchPutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1506,6 +1532,8 @@ export const batchPutGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchPutGeofence",
 }));
 
 export type BatchUpdateDevicePositionError =
@@ -1525,7 +1553,7 @@ export type BatchUpdateDevicePositionError =
  * When `PositionFiltering` is set to `AccuracyBased` filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If `PositionFiltering` is set to `AccuracyBased` filtering, Amazon Location uses the default value `{ "Horizontal": 0}` when accuracy is not provided on a `DevicePositionUpdate`.
  */
 export const batchUpdateDevicePosition: API.OperationMethod<
-  BatchUpdateDevicePositionRequest,
+  BatchUpdateDevicePositionRequest & RegionInput,
   BatchUpdateDevicePositionResponse,
   BatchUpdateDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1543,6 +1571,8 @@ export const batchUpdateDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateDevicePosition",
 }));
 
 export type CalculateRouteError =
@@ -1578,7 +1608,7 @@ export type CalculateRouteError =
  * If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km.
  */
 export const calculateRoute: API.OperationMethod<
-  CalculateRouteRequest,
+  CalculateRouteRequest & RegionInput,
   CalculateRouteResponse,
   CalculateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1596,6 +1626,8 @@ export const calculateRoute: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRoute",
   endpointHostPrefix: "routes.",
+  telemetry: TELEMETRY,
+  span: "CalculateRoute",
 }));
 
 export type CalculateRouteMatrixError =
@@ -1635,7 +1667,7 @@ export type CalculateRouteMatrixError =
  * - Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.
  */
 export const calculateRouteMatrix: API.OperationMethod<
-  CalculateRouteMatrixRequest,
+  CalculateRouteMatrixRequest & RegionInput,
   CalculateRouteMatrixResponse,
   CalculateRouteMatrixError,
   Credentials | HttpClient.HttpClient
@@ -1653,6 +1685,8 @@ export const calculateRouteMatrix: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRouteMatrix",
   endpointHostPrefix: "routes.",
+  telemetry: TELEMETRY,
+  span: "CalculateRouteMatrix",
 }));
 
 export type CancelJobError =
@@ -1668,7 +1702,7 @@ export type CancelJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1686,6 +1720,8 @@ export const cancelJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CreateGeofenceCollectionError =
@@ -1700,7 +1736,7 @@ export type CreateGeofenceCollectionError =
  * Creates a geofence collection, which manages and stores geofences.
  */
 export const createGeofenceCollection: API.OperationMethod<
-  CreateGeofenceCollectionRequest,
+  CreateGeofenceCollectionRequest & RegionInput,
   CreateGeofenceCollectionResponse,
   CreateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1719,6 +1755,8 @@ export const createGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "CreateGeofenceCollection",
 }));
 
 export type CreateKeyError =
@@ -1735,7 +1773,7 @@ export type CreateKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -1754,6 +1792,8 @@ export const createKey: API.OperationMethod<
   retry: Retry,
   operationName: "CreateKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateMapError =
@@ -1782,7 +1822,7 @@ export type CreateMapError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createMap: API.OperationMethod<
-  CreateMapRequest,
+  CreateMapRequest & RegionInput,
   CreateMapResponse,
   CreateMapError,
   Credentials | HttpClient.HttpClient
@@ -1801,6 +1841,8 @@ export const createMap: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "CreateMap",
 }));
 
 export type CreatePlaceIndexError =
@@ -1829,7 +1871,7 @@ export type CreatePlaceIndexError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createPlaceIndex: API.OperationMethod<
-  CreatePlaceIndexRequest,
+  CreatePlaceIndexRequest & RegionInput,
   CreatePlaceIndexResponse,
   CreatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -1848,6 +1890,8 @@ export const createPlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "CreatePlaceIndex",
 }));
 
 export type CreateRouteCalculatorError =
@@ -1878,7 +1922,7 @@ export type CreateRouteCalculatorError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createRouteCalculator: API.OperationMethod<
-  CreateRouteCalculatorRequest,
+  CreateRouteCalculatorRequest & RegionInput,
   CreateRouteCalculatorResponse,
   CreateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -1897,6 +1941,8 @@ export const createRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "CreateRouteCalculator",
 }));
 
 export type CreateTrackerError =
@@ -1911,7 +1957,7 @@ export type CreateTrackerError =
  * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
  */
 export const createTracker: API.OperationMethod<
-  CreateTrackerRequest,
+  CreateTrackerRequest & RegionInput,
   CreateTrackerResponse,
   CreateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -1930,6 +1976,8 @@ export const createTracker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "CreateTracker",
 }));
 
 export type DeleteGeofenceCollectionError =
@@ -1945,7 +1993,7 @@ export type DeleteGeofenceCollectionError =
  * This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
  */
 export const deleteGeofenceCollection: API.OperationMethod<
-  DeleteGeofenceCollectionRequest,
+  DeleteGeofenceCollectionRequest & RegionInput,
   DeleteGeofenceCollectionResponse,
   DeleteGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1963,6 +2011,8 @@ export const deleteGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "DeleteGeofenceCollection",
 }));
 
 export type DeleteKeyError =
@@ -1978,7 +2028,7 @@ export type DeleteKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const deleteKey: API.OperationMethod<
-  DeleteKeyRequest,
+  DeleteKeyRequest & RegionInput,
   DeleteKeyResponse,
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2046,8 @@ export const deleteKey: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteMapError =
@@ -2023,7 +2075,7 @@ export type DeleteMapError =
  * This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
  */
 export const deleteMap: API.OperationMethod<
-  DeleteMapRequest,
+  DeleteMapRequest & RegionInput,
   DeleteMapResponse,
   DeleteMapError,
   Credentials | HttpClient.HttpClient
@@ -2041,6 +2093,8 @@ export const deleteMap: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "DeleteMap",
 }));
 
 export type DeletePlaceIndexError =
@@ -2068,7 +2122,7 @@ export type DeletePlaceIndexError =
  * This operation deletes the resource permanently.
  */
 export const deletePlaceIndex: API.OperationMethod<
-  DeletePlaceIndexRequest,
+  DeletePlaceIndexRequest & RegionInput,
   DeletePlaceIndexResponse,
   DeletePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2086,6 +2140,8 @@ export const deletePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "DeletePlaceIndex",
 }));
 
 export type DeleteRouteCalculatorError =
@@ -2113,7 +2169,7 @@ export type DeleteRouteCalculatorError =
  * This operation deletes the resource permanently.
  */
 export const deleteRouteCalculator: API.OperationMethod<
-  DeleteRouteCalculatorRequest,
+  DeleteRouteCalculatorRequest & RegionInput,
   DeleteRouteCalculatorResponse,
   DeleteRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2131,6 +2187,8 @@ export const deleteRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "DeleteRouteCalculator",
 }));
 
 export type DeleteTrackerError =
@@ -2146,7 +2204,7 @@ export type DeleteTrackerError =
  * This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
  */
 export const deleteTracker: API.OperationMethod<
-  DeleteTrackerRequest,
+  DeleteTrackerRequest & RegionInput,
   DeleteTrackerResponse,
   DeleteTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2164,6 +2222,8 @@ export const deleteTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DeleteTracker",
 }));
 
 export type DescribeGeofenceCollectionError =
@@ -2177,7 +2237,7 @@ export type DescribeGeofenceCollectionError =
  * Retrieves the geofence collection details.
  */
 export const describeGeofenceCollection: API.OperationMethod<
-  DescribeGeofenceCollectionRequest,
+  DescribeGeofenceCollectionRequest & RegionInput,
   DescribeGeofenceCollectionResponse,
   DescribeGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2195,6 +2255,8 @@ export const describeGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "DescribeGeofenceCollection",
 }));
 
 export type DescribeKeyError =
@@ -2210,7 +2272,7 @@ export type DescribeKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2228,6 +2290,8 @@ export const describeKey: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "DescribeKey",
 }));
 
 export type DescribeMapError =
@@ -2253,7 +2317,7 @@ export type DescribeMapError =
  * Retrieves the map resource details.
  */
 export const describeMap: API.OperationMethod<
-  DescribeMapRequest,
+  DescribeMapRequest & RegionInput,
   DescribeMapResponse,
   DescribeMapError,
   Credentials | HttpClient.HttpClient
@@ -2271,6 +2335,8 @@ export const describeMap: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "DescribeMap",
 }));
 
 export type DescribePlaceIndexError =
@@ -2296,7 +2362,7 @@ export type DescribePlaceIndexError =
  * Retrieves the place index resource details.
  */
 export const describePlaceIndex: API.OperationMethod<
-  DescribePlaceIndexRequest,
+  DescribePlaceIndexRequest & RegionInput,
   DescribePlaceIndexResponse,
   DescribePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2314,6 +2380,8 @@ export const describePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "DescribePlaceIndex",
 }));
 
 export type DescribeRouteCalculatorError =
@@ -2339,7 +2407,7 @@ export type DescribeRouteCalculatorError =
  * Retrieves the route calculator resource details.
  */
 export const describeRouteCalculator: API.OperationMethod<
-  DescribeRouteCalculatorRequest,
+  DescribeRouteCalculatorRequest & RegionInput,
   DescribeRouteCalculatorResponse,
   DescribeRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2357,6 +2425,8 @@ export const describeRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "DescribeRouteCalculator",
 }));
 
 export type DescribeTrackerError =
@@ -2370,7 +2440,7 @@ export type DescribeTrackerError =
  * Retrieves the tracker resource details.
  */
 export const describeTracker: API.OperationMethod<
-  DescribeTrackerRequest,
+  DescribeTrackerRequest & RegionInput,
   DescribeTrackerResponse,
   DescribeTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2388,6 +2458,8 @@ export const describeTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DescribeTracker",
 }));
 
 export type DisassociateTrackerConsumerError =
@@ -2403,7 +2475,7 @@ export type DisassociateTrackerConsumerError =
  * Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
  */
 export const disassociateTrackerConsumer: API.OperationMethod<
-  DisassociateTrackerConsumerRequest,
+  DisassociateTrackerConsumerRequest & RegionInput,
   DisassociateTrackerConsumerResponse,
   DisassociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2421,6 +2493,8 @@ export const disassociateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DisassociateTrackerConsumer",
 }));
 
 export type ForecastGeofenceEventsError =
@@ -2442,7 +2516,7 @@ export type ForecastGeofenceEventsError =
  * Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
  */
 export const forecastGeofenceEvents: API.PaginatedOperationMethod<
-  ForecastGeofenceEventsRequest,
+  ForecastGeofenceEventsRequest & RegionInput,
   ForecastGeofenceEventsResponse,
   ForecastGeofenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2467,6 +2541,8 @@ export const forecastGeofenceEvents: API.PaginatedOperationMethod<
     items: "ForecastedEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ForecastGeofenceEvents",
 })) as any;
 
 export type GetDevicePositionError =
@@ -2482,7 +2558,7 @@ export type GetDevicePositionError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePosition: API.OperationMethod<
-  GetDevicePositionRequest,
+  GetDevicePositionRequest & RegionInput,
   GetDevicePositionResponse,
   GetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -2500,6 +2576,8 @@ export const getDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "GetDevicePosition",
 }));
 
 export type GetDevicePositionHistoryError =
@@ -2515,7 +2593,7 @@ export type GetDevicePositionHistoryError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePositionHistory: API.PaginatedOperationMethod<
-  GetDevicePositionHistoryRequest,
+  GetDevicePositionHistoryRequest & RegionInput,
   GetDevicePositionHistoryResponse,
   GetDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2540,6 +2618,8 @@ export const getDevicePositionHistory: API.PaginatedOperationMethod<
     items: "DevicePositions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDevicePositionHistory",
 })) as any;
 
 export type GetGeofenceError =
@@ -2555,7 +2635,7 @@ export type GetGeofenceError =
  * The returned geometry will always match the geometry format used when the geofence was created.
  */
 export const getGeofence: API.OperationMethod<
-  GetGeofenceRequest,
+  GetGeofenceRequest & RegionInput,
   GetGeofenceResponse,
   GetGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -2573,6 +2653,8 @@ export const getGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "GetGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "GetGeofence",
 }));
 
 export type GetJobError =
@@ -2588,7 +2670,7 @@ export type GetJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2606,6 +2688,8 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetMapGlyphsError =
@@ -2631,7 +2715,7 @@ export type GetMapGlyphsError =
  * Retrieves glyphs used to display labels on a map.
  */
 export const getMapGlyphs: API.OperationMethod<
-  GetMapGlyphsRequest,
+  GetMapGlyphsRequest & RegionInput,
   GetMapGlyphsResponse,
   GetMapGlyphsError,
   Credentials | HttpClient.HttpClient
@@ -2649,6 +2733,8 @@ export const getMapGlyphs: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapGlyphs",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapGlyphs",
 }));
 
 export type GetMapSpritesError =
@@ -2674,7 +2760,7 @@ export type GetMapSpritesError =
  * Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
  */
 export const getMapSprites: API.OperationMethod<
-  GetMapSpritesRequest,
+  GetMapSpritesRequest & RegionInput,
   GetMapSpritesResponse,
   GetMapSpritesError,
   Credentials | HttpClient.HttpClient
@@ -2692,6 +2778,8 @@ export const getMapSprites: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapSprites",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapSprites",
 }));
 
 export type GetMapStyleDescriptorError =
@@ -2719,7 +2807,7 @@ export type GetMapStyleDescriptorError =
  * The style descriptor contains speciU+FB01cations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
  */
 export const getMapStyleDescriptor: API.OperationMethod<
-  GetMapStyleDescriptorRequest,
+  GetMapStyleDescriptorRequest & RegionInput,
   GetMapStyleDescriptorResponse,
   GetMapStyleDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -2737,6 +2825,8 @@ export const getMapStyleDescriptor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapStyleDescriptor",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapStyleDescriptor",
 }));
 
 export type GetMapTileError =
@@ -2764,7 +2854,7 @@ export type GetMapTileError =
  * The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
  */
 export const getMapTile: API.OperationMethod<
-  GetMapTileRequest,
+  GetMapTileRequest & RegionInput,
   GetMapTileResponse,
   GetMapTileError,
   Credentials | HttpClient.HttpClient
@@ -2782,6 +2872,8 @@ export const getMapTile: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapTile",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapTile",
 }));
 
 export type GetPlaceError =
@@ -2817,7 +2909,7 @@ export type GetPlaceError =
  * If your Place index resource is configured with Grab as your geolocation provider and Storage as Intended use, the GetPlace operation is unavailable. For more information, see AWS service terms.
  */
 export const getPlace: API.OperationMethod<
-  GetPlaceRequest,
+  GetPlaceRequest & RegionInput,
   GetPlaceResponse,
   GetPlaceError,
   Credentials | HttpClient.HttpClient
@@ -2835,6 +2927,8 @@ export const getPlace: API.OperationMethod<
   retry: Retry,
   operationName: "GetPlace",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "GetPlace",
 }));
 
 export type ListDevicePositionsError =
@@ -2847,7 +2941,7 @@ export type ListDevicePositionsError =
  * A batch request to retrieve all device positions.
  */
 export const listDevicePositions: API.PaginatedOperationMethod<
-  ListDevicePositionsRequest,
+  ListDevicePositionsRequest & RegionInput,
   ListDevicePositionsResponse,
   ListDevicePositionsError,
   Credentials | HttpClient.HttpClient,
@@ -2871,6 +2965,8 @@ export const listDevicePositions: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicePositions",
 })) as any;
 
 export type ListGeofenceCollectionsError =
@@ -2883,7 +2979,7 @@ export type ListGeofenceCollectionsError =
  * Lists geofence collections in your Amazon Web Services account.
  */
 export const listGeofenceCollections: API.PaginatedOperationMethod<
-  ListGeofenceCollectionsRequest,
+  ListGeofenceCollectionsRequest & RegionInput,
   ListGeofenceCollectionsResponse,
   ListGeofenceCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -2907,6 +3003,8 @@ export const listGeofenceCollections: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGeofenceCollections",
 })) as any;
 
 export type ListGeofencesError =
@@ -2920,7 +3018,7 @@ export type ListGeofencesError =
  * Lists geofences stored in a given geofence collection.
  */
 export const listGeofences: API.PaginatedOperationMethod<
-  ListGeofencesRequest,
+  ListGeofencesRequest & RegionInput,
   ListGeofencesResponse,
   ListGeofencesError,
   Credentials | HttpClient.HttpClient,
@@ -2945,6 +3043,8 @@ export const listGeofences: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGeofences",
 })) as any;
 
 export type ListJobsError =
@@ -2959,7 +3059,7 @@ export type ListJobsError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -2983,6 +3083,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListKeysError =
@@ -2997,7 +3099,7 @@ export type ListKeysError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3021,6 +3123,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type ListMapsError =
@@ -3045,7 +3149,7 @@ export type ListMapsError =
  * Lists map resources in your Amazon Web Services account.
  */
 export const listMaps: API.PaginatedOperationMethod<
-  ListMapsRequest,
+  ListMapsRequest & RegionInput,
   ListMapsResponse,
   ListMapsError,
   Credentials | HttpClient.HttpClient,
@@ -3069,6 +3173,8 @@ export const listMaps: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMaps",
 })) as any;
 
 export type ListPlaceIndexesError =
@@ -3093,7 +3199,7 @@ export type ListPlaceIndexesError =
  * Lists place index resources in your Amazon Web Services account.
  */
 export const listPlaceIndexes: API.PaginatedOperationMethod<
-  ListPlaceIndexesRequest,
+  ListPlaceIndexesRequest & RegionInput,
   ListPlaceIndexesResponse,
   ListPlaceIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -3117,6 +3223,8 @@ export const listPlaceIndexes: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaceIndexes",
 })) as any;
 
 export type ListRouteCalculatorsError =
@@ -3141,7 +3249,7 @@ export type ListRouteCalculatorsError =
  * Lists route calculator resources in your Amazon Web Services account.
  */
 export const listRouteCalculators: API.PaginatedOperationMethod<
-  ListRouteCalculatorsRequest,
+  ListRouteCalculatorsRequest & RegionInput,
   ListRouteCalculatorsResponse,
   ListRouteCalculatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3165,6 +3273,8 @@ export const listRouteCalculators: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouteCalculators",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3178,7 +3288,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags that are applied to the specified Amazon Location resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3196,6 +3306,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrackerConsumersError =
@@ -3209,7 +3321,7 @@ export type ListTrackerConsumersError =
  * Lists geofence collections currently associated to the given tracker resource.
  */
 export const listTrackerConsumers: API.PaginatedOperationMethod<
-  ListTrackerConsumersRequest,
+  ListTrackerConsumersRequest & RegionInput,
   ListTrackerConsumersResponse,
   ListTrackerConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -3234,6 +3346,8 @@ export const listTrackerConsumers: API.PaginatedOperationMethod<
     items: "ConsumerArns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrackerConsumers",
 })) as any;
 
 export type ListTrackersError =
@@ -3246,7 +3360,7 @@ export type ListTrackersError =
  * Lists tracker resources in your Amazon Web Services account.
  */
 export const listTrackers: API.PaginatedOperationMethod<
-  ListTrackersRequest,
+  ListTrackersRequest & RegionInput,
   ListTrackersResponse,
   ListTrackersError,
   Credentials | HttpClient.HttpClient,
@@ -3270,6 +3384,8 @@ export const listTrackers: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrackers",
 })) as any;
 
 export type PutGeofenceError =
@@ -3284,7 +3400,7 @@ export type PutGeofenceError =
  * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const putGeofence: API.OperationMethod<
-  PutGeofenceRequest,
+  PutGeofenceRequest & RegionInput,
   PutGeofenceResponse,
   PutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -3303,6 +3419,8 @@ export const putGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "PutGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "PutGeofence",
 }));
 
 export type SearchPlaceIndexForPositionError =
@@ -3326,7 +3444,7 @@ export type SearchPlaceIndexForPositionError =
  * Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
  */
 export const searchPlaceIndexForPosition: API.OperationMethod<
-  SearchPlaceIndexForPositionRequest,
+  SearchPlaceIndexForPositionRequest & RegionInput,
   SearchPlaceIndexForPositionResponse,
   SearchPlaceIndexForPositionError,
   Credentials | HttpClient.HttpClient
@@ -3344,6 +3462,8 @@ export const searchPlaceIndexForPosition: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForPosition",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForPosition",
 }));
 
 export type SearchPlaceIndexForSuggestionsError =
@@ -3371,7 +3491,7 @@ export type SearchPlaceIndexForSuggestionsError =
  * You can search for suggested place names near a specified position by using `BiasPosition`, or filter results within a bounding box by using `FilterBBox`. These parameters are mutually exclusive; using both `BiasPosition` and `FilterBBox` in the same command returns an error.
  */
 export const searchPlaceIndexForSuggestions: API.OperationMethod<
-  SearchPlaceIndexForSuggestionsRequest,
+  SearchPlaceIndexForSuggestionsRequest & RegionInput,
   SearchPlaceIndexForSuggestionsResponse,
   SearchPlaceIndexForSuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -3389,6 +3509,8 @@ export const searchPlaceIndexForSuggestions: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForSuggestions",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForSuggestions",
 }));
 
 export type SearchPlaceIndexForTextError =
@@ -3418,7 +3540,7 @@ export type SearchPlaceIndexForTextError =
  * Search results are returned in order of highest to lowest relevance.
  */
 export const searchPlaceIndexForText: API.OperationMethod<
-  SearchPlaceIndexForTextRequest,
+  SearchPlaceIndexForTextRequest & RegionInput,
   SearchPlaceIndexForTextResponse,
   SearchPlaceIndexForTextError,
   Credentials | HttpClient.HttpClient
@@ -3436,6 +3558,8 @@ export const searchPlaceIndexForText: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForText",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForText",
 }));
 
 export type StartJobError =
@@ -3450,7 +3574,7 @@ export type StartJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -3467,6 +3591,8 @@ export const startJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type TagResourceError =
@@ -3486,7 +3612,7 @@ export type TagResourceError =
  * You can associate up to 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3504,6 +3630,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3517,7 +3645,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Location resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3535,6 +3663,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGeofenceCollectionError =
@@ -3548,7 +3678,7 @@ export type UpdateGeofenceCollectionError =
  * Updates the specified properties of a given geofence collection.
  */
 export const updateGeofenceCollection: API.OperationMethod<
-  UpdateGeofenceCollectionRequest,
+  UpdateGeofenceCollectionRequest & RegionInput,
   UpdateGeofenceCollectionResponse,
   UpdateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3566,6 +3696,8 @@ export const updateGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "UpdateGeofenceCollection",
 }));
 
 export type UpdateKeyError =
@@ -3579,7 +3711,7 @@ export type UpdateKeyError =
  * Updates the specified properties of a given API key resource.
  */
 export const updateKey: API.OperationMethod<
-  UpdateKeyRequest,
+  UpdateKeyRequest & RegionInput,
   UpdateKeyResponse,
   UpdateKeyError,
   Credentials | HttpClient.HttpClient
@@ -3597,6 +3729,8 @@ export const updateKey: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "UpdateKey",
 }));
 
 export type UpdateMapError =
@@ -3622,7 +3756,7 @@ export type UpdateMapError =
  * Updates the specified properties of a given map resource.
  */
 export const updateMap: API.OperationMethod<
-  UpdateMapRequest,
+  UpdateMapRequest & RegionInput,
   UpdateMapResponse,
   UpdateMapError,
   Credentials | HttpClient.HttpClient
@@ -3640,6 +3774,8 @@ export const updateMap: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "UpdateMap",
 }));
 
 export type UpdatePlaceIndexError =
@@ -3665,7 +3801,7 @@ export type UpdatePlaceIndexError =
  * Updates the specified properties of a given place index resource.
  */
 export const updatePlaceIndex: API.OperationMethod<
-  UpdatePlaceIndexRequest,
+  UpdatePlaceIndexRequest & RegionInput,
   UpdatePlaceIndexResponse,
   UpdatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -3683,6 +3819,8 @@ export const updatePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "UpdatePlaceIndex",
 }));
 
 export type UpdateRouteCalculatorError =
@@ -3708,7 +3846,7 @@ export type UpdateRouteCalculatorError =
  * Updates the specified properties for a given route calculator resource.
  */
 export const updateRouteCalculator: API.OperationMethod<
-  UpdateRouteCalculatorRequest,
+  UpdateRouteCalculatorRequest & RegionInput,
   UpdateRouteCalculatorResponse,
   UpdateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -3726,6 +3864,8 @@ export const updateRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "UpdateRouteCalculator",
 }));
 
 export type UpdateTrackerError =
@@ -3739,7 +3879,7 @@ export type UpdateTrackerError =
  * Updates the specified properties of a given tracker resource.
  */
 export const updateTracker: API.OperationMethod<
-  UpdateTrackerRequest,
+  UpdateTrackerRequest & RegionInput,
   UpdateTrackerResponse,
   UpdateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -3757,6 +3897,8 @@ export const updateTracker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "UpdateTracker",
 }));
 
 export type VerifyDevicePositionError =
@@ -3772,7 +3914,7 @@ export type VerifyDevicePositionError =
  * The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact Sales Support.
  */
 export const verifyDevicePosition: API.OperationMethod<
-  VerifyDevicePositionRequest,
+  VerifyDevicePositionRequest & RegionInput,
   VerifyDevicePositionResponse,
   VerifyDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -3790,6 +3932,8 @@ export const verifyDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "VerifyDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "VerifyDevicePosition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

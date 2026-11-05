@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { ZendeskOpError, ZendeskOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "zendesk-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Zendesk",
+  service: "Zendesk",
+  labels: "zendesk",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -349,6 +362,7 @@ export interface ViaObjectSource {
   from?: ViaObjectSourceFrom;
   rel?: string | null;
   to?: ViaObjectSourceTo;
+  [key: string]: unknown;
 }
 /** An object explaining how the ticket was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
 export interface ViaObject {
@@ -2578,6 +2592,7 @@ export interface MacroInputRestriction {
   ids?: MacroInputRestrictionIdsList;
   /** Allowed values are Group or User */
   type?: string;
+  [key: string]: unknown;
 }
 export interface MacroInput {
   /** Each action describes what the macro will do */
@@ -3468,6 +3483,7 @@ export interface TargetObject {
   /** "application/json", "application/xml", or "application/x-www-form-urlencoded" */
   content_type?: string;
   group_id?: string;
+  [key: string]: unknown;
 }
 export interface TargetResponse {
   target?: TargetObject;
@@ -3798,6 +3814,7 @@ export interface TicketObjectInputVoiceComment {
   to?: string;
   /** Transcription of the call */
   transcription_text?: string | null;
+  [key: string]: unknown;
 }
 export interface TicketObjectInput {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
@@ -4259,8 +4276,35 @@ export type TicketCreateVoicemailTicketInputInputType =
   | "incident"
   | "question"
   | "task";
+/** Type of recording */
+export type TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType =
+  | "call"
+  | "voicemail"
+  | "ai";
 /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-export type TicketCreateVoicemailTicketInputInputVoiceComment = TicketObjectInputVoiceComment;
+export interface TicketCreateVoicemailTicketInputInputVoiceComment {
+  /** The agent who answered the call */
+  answered_by_id?: number | null;
+  /** Duration of the call in seconds */
+  call_duration?: number;
+  /** Incoming phone number */
+  from?: string;
+  /** Location of the caller */
+  location?: string | null;
+  /** URL of the recording */
+  recording_url?: string | null;
+  /** Dialed phone number */
+  to?: string;
+  /** Transcription of the call */
+  transcription_text?: string | null;
+  /** Whether the voice comment is public */
+  public?: boolean;
+  /** Type of recording */
+  recording_type?: TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType | (string & {});
+  /** Timestamp of the call starting time */
+  started_at?: string;
+  [key: string]: unknown;
+}
 /** An array of tags to add to the ticket */
 export type TicketCreateVoicemailTicketInputInputAdditionalTagsList = Array<string>;
 /** An array of tags to remove from the ticket */
@@ -4360,7 +4404,7 @@ export interface TicketCreateVoicemailTicketInputInput {
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
   via_id?: number;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketObjectInputVoiceComment;
+  voice_comment?: TicketCreateVoicemailTicketInputInputVoiceComment;
   /** An array of tags to add to the ticket */
   additional_tags?: TicketCreateVoicemailTicketInputInputAdditionalTagsList;
   /** An array of tags to remove from the ticket */
@@ -5474,6 +5518,7 @@ export interface CustomObjectRecordFilteredSearchConditionFieldKey {
 }
 export interface CustomObjectRecordFilteredSearchCondition {
   field_key?: CustomObjectRecordFilteredSearchConditionFieldKey | null;
+  [key: string]: unknown;
 }
 export interface CustomObjectRecordsFilteredSearchRequestBasic {
   filter?: CustomObjectRecordFilteredSearchCondition;
@@ -5491,6 +5536,7 @@ export interface CustomObjectRecordFilterExpressionLevel1FieldKey {
 }
 export interface CustomObjectRecordFilterExpressionLevel1 {
   field_key?: CustomObjectRecordFilterExpressionLevel1FieldKey | null;
+  [key: string]: unknown;
 }
 export type CustomObjectRecordFilterExpressionLevel2Case1AndList =
   Array<CustomObjectRecordFilterExpressionLevel1>;
@@ -5622,6 +5668,7 @@ export interface ItamAssetFilteredSearchConditionFieldKey {
 }
 export interface ItamAssetFilteredSearchCondition {
   field_key?: ItamAssetFilteredSearchConditionFieldKey | null;
+  [key: string]: unknown;
 }
 export interface ItamAssetFilteredSearchRequestBasic {
   filter?: ItamAssetFilteredSearchCondition;
@@ -6276,7 +6323,6 @@ export interface GetCurrentUserRequest {
 }
 /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
 export type CurrentUserResponseUserAgentBrandIdsList = Array<number>;
-/** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
 export type CurrentUserResponseUserPhotoMap = { [key: string]: unknown | undefined };
 /** The separation scope. "account" means account-level access; "brand" means access limited to a specific brand. */
 export type CurrentUserResponseUserSeparationScope = "account" | "brand";
@@ -6344,7 +6390,7 @@ export interface CurrentUserResponseUser {
   /** The user's primary phone number. See [Phone Number](#phone-number) below */
   phone?: string | null;
   /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
-  photo?: CurrentUserResponseUserPhotoMap | null;
+  photo?: CurrentUserResponseUserPhotoMap;
   /** A URL pointing to the user's profile picture. */
   remote_photo_url?: string;
   /** This parameter is inert and has no effect. It may be deprecated in the future. Previously, this parameter determined whether a user could access a CSV report in a legacy Guide dashboard. This dashboard has been removed. See [Announcing Guide legacy reporting upgrade to Explore](https://support.zendesk.com/hc/en-us/articles/4762263171610-Announcing-Guide-legacy-reporting-upgrade-to-Explore-) */
@@ -6387,6 +6433,7 @@ export interface CurrentUserResponseUser {
   verified?: boolean;
   /** CSRF token required by some Zendesk APIs. */
   authenticity_token?: string;
+  [key: string]: unknown;
 }
 export interface CurrentUserResponse {
   user?: CurrentUserResponseUser;
@@ -6395,6 +6442,7 @@ export interface GetCurrentUserSettingsRequest {}
 /** Admin Center UI settings */
 export interface UserSettingsResponseSettingsAdminCenter {
   has_admin_center_side_nav_open?: boolean;
+  [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
 export type UserSettingsResponseSettingsAgentHomePinnedViewsList = Array<number>;
@@ -6416,6 +6464,7 @@ export interface UserSettingsResponseSettingsLotus {
   show_onboarding_tooltips?: boolean;
   /** Whether user is eligible for 2FA */
   two_factor_authentication?: boolean;
+  [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
 export type UserSettingsResponseSettingsSharedViewsOrderList = Array<number>;
@@ -7718,6 +7767,7 @@ export interface TicketImportInputInputComment {
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
   uploads?: TicketImportInputInputCommentUploadsList;
   via?: AttachmentObjectInput;
+  [key: string]: unknown;
 }
 /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
 export type TicketImportInputInputCommentsItemUploadsList = Array<string>;
@@ -7743,6 +7793,7 @@ export interface TicketImportInputInputCommentsItem {
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
   uploads?: TicketImportInputInputCommentsItemUploadsList;
   via?: AttachmentObjectInput;
+  [key: string]: unknown;
 }
 /** The conversation between requesters, collaborators, and agents */
 export type TicketImportInputInputCommentsList = Array<TicketImportInputInputCommentsItem>;
@@ -8647,6 +8698,7 @@ export interface ConversationLogObjectAuthor {
   zen_sunco_user_id?: string;
   /** A Zendesk resource name prefix describing a Support user */
   zen_support_user_id?: number;
+  [key: string]: unknown;
 }
 /** Object that describes the content of the message. The inner fields depends on the record type */
 export type ConversationLogObjectContentMap = { [key: string]: unknown | undefined };
@@ -8669,6 +8721,7 @@ export interface ConversationLogObject {
   reference: string;
   /** The type of record, representing one of the conversational ticket events. Examples: `Comment` or `Messaging::ConversationMessage` */
   type: string;
+  [key: string]: unknown;
 }
 export type ConversationLogResponseEventsList = Array<ConversationLogObject>;
 export interface ConversationLogResponseLinks {
@@ -11789,6 +11842,7 @@ export interface UpdateClientRequest {
 export interface UpdateCurrentUserSettingsRequestSettingsAdminCenter {
   /** Whether the Admin Center side navigation is open */
   has_admin_center_side_nav_open?: boolean;
+  [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
 export type UpdateCurrentUserSettingsRequestSettingsAgentHomePinnedViewsList = Array<number>;
@@ -11818,6 +11872,7 @@ export interface UpdateCurrentUserSettingsRequestSettingsLotus {
   macro_shortcuts_enabled?: boolean;
   /** Show tooltips for first-time user */
   show_onboarding_tooltips?: boolean;
+  [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
 export type UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList = Array<number>;
@@ -12623,6 +12678,8 @@ export const addOrganizationTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationTags",
 }));
 
 export type AutocompleteGroupsError = ZendeskOpError;
@@ -12638,6 +12695,8 @@ export const autocompleteGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteGroups",
 }));
 
 export type AutocompleteOrganizationsError = BadRequest | ZendeskOpError;
@@ -12653,6 +12712,8 @@ export const autocompleteOrganizations: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteOrganizations",
 }));
 
 export type AutocompleteProblemsError = ZendeskOpError;
@@ -12668,6 +12729,8 @@ export const autocompleteProblems: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteProblems",
 }));
 
 export type AutocompleteTagsError = ZendeskOpError;
@@ -12683,6 +12746,8 @@ export const autocompleteTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteTags",
 }));
 
 export type AutocompleteTicketsError = ZendeskOpError;
@@ -12698,6 +12763,8 @@ export const autocompleteTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteTickets",
 }));
 
 export type AutocompleteUsersError = BadRequest | ZendeskOpError;
@@ -12713,6 +12780,8 @@ export const autocompleteUsers: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompleteUsers",
 }));
 
 export type BatchOperateTriggerCategoriesError = BadRequest | ZendeskOpError;
@@ -12728,6 +12797,8 @@ export const batchOperateTriggerCategories: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchOperateTriggerCategories",
 }));
 
 export type BulkDeleteAutomationsError = ZendeskOpError;
@@ -12743,6 +12814,8 @@ export const bulkDeleteAutomations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAutomations",
 }));
 
 export type BulkDeleteSessionsByUserIdError = ZendeskOpError;
@@ -12758,6 +12831,8 @@ export const bulkDeleteSessionsByUserId: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteSessionsByUserId",
 }));
 
 export type BulkDeleteTicketsError = ZendeskOpError;
@@ -12773,6 +12848,8 @@ export const bulkDeleteTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteTickets",
 }));
 
 export type BulkDeleteViewsError = ZendeskOpError;
@@ -12788,6 +12865,8 @@ export const bulkDeleteViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteViews",
 }));
 
 export type BulkPermanentlyDeleteTicketsError = ZendeskOpError;
@@ -12803,6 +12882,8 @@ export const bulkPermanentlyDeleteTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPermanentlyDeleteTickets",
 }));
 
 export type BulkRecoverSuspendedTicketsError = UnprocessableEntity | ZendeskOpError;
@@ -12818,6 +12899,8 @@ export const bulkRecoverSuspendedTickets: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRecoverSuspendedTickets",
 }));
 
 export type BulkRestoreDeletedTicketsError = ZendeskOpError;
@@ -12833,6 +12916,8 @@ export const bulkRestoreDeletedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRestoreDeletedTickets",
 }));
 
 export type BulkSetAgentAttributeValuesJobError = BadRequest | ZendeskOpError;
@@ -12848,6 +12933,8 @@ export const bulkSetAgentAttributeValuesJob: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkSetAgentAttributeValuesJob",
 }));
 
 export type BulkUpdateDefaultCustomStatusError = ZendeskOpError;
@@ -12863,6 +12950,8 @@ export const bulkUpdateDefaultCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateDefaultCustomStatus",
 }));
 
 export type ChangeOwnPasswordError = ZendeskOpError;
@@ -12878,6 +12967,8 @@ export const changeOwnPassword: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeOwnPassword",
 }));
 
 export type CheckHostMappingValidityError = ZendeskOpError;
@@ -12893,6 +12984,8 @@ export const checkHostMappingValidity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckHostMappingValidity",
 }));
 
 export type CheckHostMappingValidityForExistingBrandError = ZendeskOpError;
@@ -12908,6 +13001,8 @@ export const checkHostMappingValidityForExistingBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckHostMappingValidityForExistingBrand",
 }));
 
 export type ClientGenerateSecretError = ZendeskOpError;
@@ -12923,6 +13018,8 @@ export const clientGenerateSecret: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClientGenerateSecret",
 }));
 
 export type CloneTicketFormError = ZendeskOpError;
@@ -12938,6 +13035,8 @@ export const cloneTicketForm: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneTicketForm",
 }));
 
 export type CountActivitiesError = ZendeskOpError;
@@ -12953,6 +13052,8 @@ export const countActivities: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountActivities",
 }));
 
 export type CountAuditsForTicketError = ZendeskOpError;
@@ -12968,6 +13069,8 @@ export const countAuditsForTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountAuditsForTicket",
 }));
 
 export type CountCustomObjectRecordsError = ZendeskOpError;
@@ -12983,6 +13086,8 @@ export const countCustomObjectRecords: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountCustomObjectRecords",
 }));
 
 export type CountDeletedUsersError = ZendeskOpError;
@@ -12998,6 +13103,8 @@ export const countDeletedUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountDeletedUsers",
 }));
 
 export type CountGroupsError = ZendeskOpError;
@@ -13013,6 +13120,8 @@ export const countGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountGroups",
 }));
 
 export type CountGroupUsersError = ZendeskOpError;
@@ -13028,6 +13137,8 @@ export const countGroupUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountGroupUsers",
 }));
 
 export type CountOrganizationsError = ZendeskOpError;
@@ -13043,6 +13154,8 @@ export const countOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountOrganizations",
 }));
 
 export type CountOrganizationTicketsError = ZendeskOpError;
@@ -13058,6 +13171,8 @@ export const countOrganizationTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountOrganizationTickets",
 }));
 
 export type CountOrganizationUsersError = ZendeskOpError;
@@ -13073,6 +13188,8 @@ export const countOrganizationUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountOrganizationUsers",
 }));
 
 export type CountSatisfactionRatingsError = ZendeskOpError;
@@ -13088,6 +13205,8 @@ export const countSatisfactionRatings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountSatisfactionRatings",
 }));
 
 export type CountSearchResultsError = ZendeskOpError;
@@ -13103,6 +13222,8 @@ export const countSearchResults: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountSearchResults",
 }));
 
 export type CountTagsError = ZendeskOpError;
@@ -13118,6 +13239,8 @@ export const countTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountTags",
 }));
 
 export type CountTicketCommentsError = ZendeskOpError;
@@ -13133,6 +13256,8 @@ export const countTicketComments: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountTicketComments",
 }));
 
 export type CountTicketFieldsError = ZendeskOpError;
@@ -13148,6 +13273,8 @@ export const countTicketFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountTicketFields",
 }));
 
 export type CountTicketsError = ZendeskOpError;
@@ -13163,6 +13290,8 @@ export const countTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountTickets",
 }));
 
 export type CountUserAssignedTicketsError = ZendeskOpError;
@@ -13178,6 +13307,8 @@ export const countUserAssignedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountUserAssignedTickets",
 }));
 
 export type CountUserCCDTicketsError = ZendeskOpError;
@@ -13193,6 +13324,8 @@ export const countUserCCDTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountUserCCDTickets",
 }));
 
 export type CountUserGroupsError = ZendeskOpError;
@@ -13208,6 +13341,8 @@ export const countUserGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountUserGroups",
 }));
 
 export type CountUserOrganizationsError = ZendeskOpError;
@@ -13223,6 +13358,8 @@ export const countUserOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountUserOrganizations",
 }));
 
 export type CountUsersError = ZendeskOpError;
@@ -13238,6 +13375,8 @@ export const countUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountUsers",
 }));
 
 export type CountViewsError = ZendeskOpError;
@@ -13253,6 +13392,8 @@ export const countViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountViews",
 }));
 
 export type CreateAccessRuleError = ZendeskOpError;
@@ -13268,6 +13409,8 @@ export const createAccessRule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessRule",
 }));
 
 export type CreateApprovalRequestError = UnprocessableEntity | ZendeskOpError;
@@ -13283,6 +13426,8 @@ export const createApprovalRequest: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRequest",
 }));
 
 export type CreateAssociatedMacroAttachmentError = ZendeskOpError;
@@ -13298,6 +13443,8 @@ export const createAssociatedMacroAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssociatedMacroAttachment",
 }));
 
 export type CreateAttributeError = ZendeskOpError;
@@ -13313,6 +13460,8 @@ export const createAttribute: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAttribute",
 }));
 
 export type CreateAttributeValueError = ZendeskOpError;
@@ -13328,6 +13477,8 @@ export const createAttributeValue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAttributeValue",
 }));
 
 export type CreateAutomationError = ZendeskOpError;
@@ -13343,6 +13494,8 @@ export const createAutomation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutomation",
 }));
 
 export type CreateBookmarkError = ZendeskOpError;
@@ -13358,6 +13511,8 @@ export const createBookmark: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBookmark",
 }));
 
 export type CreateBrandError = ZendeskOpError;
@@ -13373,6 +13528,8 @@ export const createBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBrand",
 }));
 
 export type CreateCustomObjectError = ZendeskOpError;
@@ -13388,6 +13545,8 @@ export const createCustomObject: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomObject",
 }));
 
 export type CreateCustomObjectFieldError = ZendeskOpError;
@@ -13403,6 +13562,8 @@ export const createCustomObjectField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomObjectField",
 }));
 
 export type CreateCustomObjectRecordError = ZendeskOpError;
@@ -13418,6 +13579,8 @@ export const createCustomObjectRecord: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomObjectRecord",
 }));
 
 export type CreateCustomObjectRecordAttachmentError = BadRequest | ZendeskOpError;
@@ -13433,6 +13596,8 @@ export const createCustomObjectRecordAttachment: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomObjectRecordAttachment",
 }));
 
 export type CreateCustomRoleError = ZendeskOpError;
@@ -13448,6 +13613,8 @@ export const createCustomRole: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomRole",
 }));
 
 export type CreateCustomStatusError = ZendeskOpError;
@@ -13463,6 +13630,8 @@ export const createCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomStatus",
 }));
 
 export type CreateCustomTaskItemError = ZendeskOpError;
@@ -13478,6 +13647,8 @@ export const createCustomTaskItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomTaskItem",
 }));
 
 export type CreateDeletionScheduleError = ZendeskOpError;
@@ -13493,6 +13664,8 @@ export const createDeletionSchedule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeletionSchedule",
 }));
 
 export type CreateDynamicContentError = ZendeskOpError;
@@ -13508,6 +13681,8 @@ export const createDynamicContent: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicContent",
 }));
 
 export type CreateDynamicContentVariantError = ZendeskOpError;
@@ -13523,6 +13698,8 @@ export const createDynamicContentVariant: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicContentVariant",
 }));
 
 export type CreateEndUserIdentityError = ZendeskOpError;
@@ -13538,6 +13715,8 @@ export const createEndUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndUserIdentity",
 }));
 
 export type CreateGroupError = ZendeskOpError;
@@ -13553,6 +13732,8 @@ export const createGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupMembershipError = ZendeskOpError;
@@ -13568,6 +13749,8 @@ export const createGroupMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupMembership",
 }));
 
 export type CreateGroupSLAPolicyError = ZendeskOpError;
@@ -13583,6 +13766,8 @@ export const createGroupSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupSLAPolicy",
 }));
 
 export type CreateItamAssetError = UnprocessableEntity | ZendeskOpError;
@@ -13598,6 +13783,8 @@ export const createItamAsset: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItamAsset",
 }));
 
 export type CreateItamAssetTypeError = UnprocessableEntity | ZendeskOpError;
@@ -13613,6 +13800,8 @@ export const createItamAssetType: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItamAssetType",
 }));
 
 export type CreateItamFieldError = ZendeskOpError;
@@ -13628,6 +13817,8 @@ export const createItamField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItamField",
 }));
 
 export type CreateItamLocationError = UnprocessableEntity | ZendeskOpError;
@@ -13643,6 +13834,8 @@ export const createItamLocation: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItamLocation",
 }));
 
 export type CreateItamStatusError = UnprocessableEntity | ZendeskOpError;
@@ -13658,6 +13851,8 @@ export const createItamStatus: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItamStatus",
 }));
 
 export type CreateMacroError = ZendeskOpError;
@@ -13673,6 +13868,8 @@ export const createMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMacro",
 }));
 
 export type CreateMacroAttachmentError = ZendeskOpError;
@@ -13688,6 +13885,8 @@ export const createMacroAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMacroAttachment",
 }));
 
 export type CreateManyDynamicContentVariantsError = ZendeskOpError;
@@ -13703,6 +13902,8 @@ export const createManyDynamicContentVariants: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManyDynamicContentVariants",
 }));
 
 export type CreateManyOrganizationMembershipsError = ZendeskOpError;
@@ -13718,6 +13919,8 @@ export const createManyOrganizationMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManyOrganizationMemberships",
 }));
 
 export type CreateManyOrganizationsError = ZendeskOpError;
@@ -13733,6 +13936,8 @@ export const createManyOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManyOrganizations",
 }));
 
 export type CreateManyUsersError = ZendeskOpError;
@@ -13748,6 +13953,8 @@ export const createManyUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManyUsers",
 }));
 
 export type CreateOAuthClientError = ZendeskOpError;
@@ -13763,6 +13970,8 @@ export const createOAuthClient: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuthClient",
 }));
 
 export type CreateObjectTriggerError = ZendeskOpError;
@@ -13778,6 +13987,8 @@ export const createObjectTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObjectTrigger",
 }));
 
 export type CreateOrganizationError = ZendeskOpError;
@@ -13793,6 +14004,8 @@ export const createOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationFieldError = ZendeskOpError;
@@ -13808,6 +14021,8 @@ export const createOrganizationField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationField",
 }));
 
 export type CreateOrganizationMembershipError = ZendeskOpError;
@@ -13823,6 +14038,8 @@ export const createOrganizationMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationMembership",
 }));
 
 export type CreateOrganizationMergeError = ZendeskOpError;
@@ -13838,6 +14055,8 @@ export const createOrganizationMerge: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationMerge",
 }));
 
 export type CreateOrganizationSubscriptionError = ZendeskOpError;
@@ -13853,6 +14072,8 @@ export const createOrganizationSubscription: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationSubscription",
 }));
 
 export type CreateOrUpdateManyUsersError = ZendeskOpError;
@@ -13868,6 +14089,8 @@ export const createOrUpdateManyUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateManyUsers",
 }));
 
 export type CreateOrUpdateOrganizationError = ZendeskOpError;
@@ -13883,6 +14106,8 @@ export const createOrUpdateOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateOrganization",
 }));
 
 export type CreateOrUpdateTicketFieldOptionError = ZendeskOpError;
@@ -13898,6 +14123,8 @@ export const createOrUpdateTicketFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateTicketFieldOption",
 }));
 
 export type CreateOrUpdateUserError = ZendeskOpError;
@@ -13913,6 +14140,8 @@ export const createOrUpdateUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateUser",
 }));
 
 export type CreateOrUpdateUserFieldOptionError = ZendeskOpError;
@@ -13928,6 +14157,8 @@ export const createOrUpdateUserFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateUserFieldOption",
 }));
 
 export type CreateQueueError = ZendeskOpError;
@@ -13943,6 +14174,8 @@ export const createQueue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateRequestError = ZendeskOpError;
@@ -13958,6 +14191,8 @@ export const createRequest: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRequest",
 }));
 
 export type CreateRequestUserError = ZendeskOpError;
@@ -13973,6 +14208,8 @@ export const createRequestUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRequestUser",
 }));
 
 export type CreateResourceCollectionError = ZendeskOpError;
@@ -13988,6 +14225,8 @@ export const createResourceCollection: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceCollection",
 }));
 
 export type CreateSavedSearchError = Conflict | UnprocessableEntity | ZendeskOpError;
@@ -14003,6 +14242,8 @@ export const createSavedSearch: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedSearch",
 }));
 
 export type CreateSharingAgreementError = ZendeskOpError;
@@ -14018,6 +14259,8 @@ export const createSharingAgreement: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSharingAgreement",
 }));
 
 export type CreateSLAPolicyError = ZendeskOpError;
@@ -14033,6 +14276,8 @@ export const createSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSLAPolicy",
 }));
 
 export type CreateSubticketError = ZendeskOpError;
@@ -14048,6 +14293,8 @@ export const createSubticket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubticket",
 }));
 
 export type CreateSupportAddressError = ZendeskOpError;
@@ -14063,6 +14310,8 @@ export const createSupportAddress: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportAddress",
 }));
 
 export type CreateTargetError = ZendeskOpError;
@@ -14078,6 +14327,8 @@ export const createTarget: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTarget",
 }));
 
 export type CreateTaskListError = ZendeskOpError;
@@ -14093,6 +14344,8 @@ export const createTaskList: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskList",
 }));
 
 export type CreateTaskListTemplateError = ZendeskOpError;
@@ -14108,6 +14361,8 @@ export const createTaskListTemplate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskListTemplate",
 }));
 
 export type CreateTicketError = ZendeskOpError;
@@ -14123,6 +14378,8 @@ export const createTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicket",
 }));
 
 export type CreateTicketContentPinError =
@@ -14142,6 +14399,8 @@ export const createTicketContentPin: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketContentPin",
 }));
 
 export type CreateTicketFieldError = ZendeskOpError;
@@ -14157,6 +14416,8 @@ export const createTicketField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketField",
 }));
 
 export type CreateTicketFormError = ZendeskOpError;
@@ -14172,6 +14433,8 @@ export const createTicketForm: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketForm",
 }));
 
 export type CreateTicketFormStatusesError = ZendeskOpError;
@@ -14187,6 +14450,8 @@ export const createTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketFormStatuses",
 }));
 
 export type CreateTicketFormStatusesForCustomStatusError = ZendeskOpError;
@@ -14202,6 +14467,8 @@ export const createTicketFormStatusesForCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketFormStatusesForCustomStatus",
 }));
 
 export type CreateTicketFromTweetError = ZendeskOpError;
@@ -14217,6 +14484,8 @@ export const createTicketFromTweet: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketFromTweet",
 }));
 
 export type CreateTicketOrVoicemailTicketError = NotFound | UnprocessableEntity | ZendeskOpError;
@@ -14227,11 +14496,13 @@ export const createTicketOrVoicemailTicket: API.OperationMethod<
   CreateTicketOrVoicemailTicketError,
   ZendeskOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<CreateTicketOrVoicemailTicketRequest>,
+  input: __S(1442, __c45, 2) as any as S.Schema<CreateTicketOrVoicemailTicketRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<TicketResponseOutput>,
   errors: [NotFound, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketOrVoicemailTicket",
 }));
 
 export type CreateTicketSatisfactionRatingError = ZendeskOpError;
@@ -14247,6 +14518,8 @@ export const createTicketSatisfactionRating: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketSatisfactionRating",
 }));
 
 export type CreateTokenForGrantTypeError = ZendeskOpError;
@@ -14262,6 +14535,8 @@ export const createTokenForGrantType: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTokenForGrantType",
 }));
 
 export type CreateTrialAccountError = ZendeskOpError;
@@ -14277,6 +14552,8 @@ export const createTrialAccount: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrialAccount",
 }));
 
 export type CreateTriggerError = ZendeskOpError;
@@ -14292,6 +14569,8 @@ export const createTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrigger",
 }));
 
 export type CreateTriggerCategoryError = BadRequest | Forbidden | ZendeskOpError;
@@ -14307,6 +14586,8 @@ export const createTriggerCategory: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTriggerCategory",
 }));
 
 export type CreateUserError = ZendeskOpError;
@@ -14322,6 +14603,8 @@ export const createUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserFieldError = ZendeskOpError;
@@ -14337,6 +14620,8 @@ export const createUserField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserField",
 }));
 
 export type CreateUserGroupMembershipError = ZendeskOpError;
@@ -14352,6 +14637,8 @@ export const createUserGroupMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserGroupMembership",
 }));
 
 export type CreateUserIdentityError = ZendeskOpError;
@@ -14367,6 +14654,8 @@ export const createUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserIdentity",
 }));
 
 export type CreateUserOrganizationMembershipError = ZendeskOpError;
@@ -14382,6 +14671,8 @@ export const createUserOrganizationMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserOrganizationMembership",
 }));
 
 export type CreateUserSuspensionError =
@@ -14401,6 +14692,8 @@ export const createUserSuspension: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserSuspension",
 }));
 
 export type CreateViewError = ZendeskOpError;
@@ -14416,6 +14709,8 @@ export const createView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type CreateWorkspaceError = ZendeskOpError;
@@ -14431,6 +14726,8 @@ export const createWorkspace: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CustomObjectFieldsLimitError = ZendeskOpError;
@@ -14446,6 +14743,8 @@ export const customObjectFieldsLimit: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomObjectFieldsLimit",
 }));
 
 export type CustomObjectRecordBulkJobsError = ZendeskOpError;
@@ -14461,6 +14760,8 @@ export const customObjectRecordBulkJobs: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomObjectRecordBulkJobs",
 }));
 
 export type CustomObjectRecordsLimitError = ZendeskOpError;
@@ -14476,6 +14777,8 @@ export const customObjectRecordsLimit: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomObjectRecordsLimit",
 }));
 
 export type CustomObjectsLimitError = ZendeskOpError;
@@ -14491,6 +14794,8 @@ export const customObjectsLimit: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomObjectsLimit",
 }));
 
 export type DeleteAccessRuleError = ZendeskOpError;
@@ -14506,6 +14811,8 @@ export const deleteAccessRule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessRule",
 }));
 
 export type DeleteAttachmentError = ZendeskOpError;
@@ -14521,6 +14828,8 @@ export const deleteAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteAttributeError = ZendeskOpError;
@@ -14536,6 +14845,8 @@ export const deleteAttribute: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttribute",
 }));
 
 export type DeleteAttributeValueError = ZendeskOpError;
@@ -14551,6 +14862,8 @@ export const deleteAttributeValue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttributeValue",
 }));
 
 export type DeleteAuthenticatedSessionError = ZendeskOpError;
@@ -14566,6 +14879,8 @@ export const deleteAuthenticatedSession: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticatedSession",
 }));
 
 export type DeleteAutomationError = ZendeskOpError;
@@ -14581,6 +14896,8 @@ export const deleteAutomation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutomation",
 }));
 
 export type DeleteBookmarkError = ZendeskOpError;
@@ -14596,6 +14913,8 @@ export const deleteBookmark: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookmark",
 }));
 
 export type DeleteBrandError = ZendeskOpError;
@@ -14611,6 +14930,8 @@ export const deleteBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrand",
 }));
 
 export type DeleteBrandAgentError = ZendeskOpError;
@@ -14626,6 +14947,8 @@ export const deleteBrandAgent: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandAgent",
 }));
 
 export type DeleteBrandLogoError = ZendeskOpError;
@@ -14641,6 +14964,8 @@ export const deleteBrandLogo: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandLogo",
 }));
 
 export type DeleteClientError = ZendeskOpError;
@@ -14656,6 +14981,8 @@ export const deleteClient: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClient",
 }));
 
 export type DeleteCustomObjectError = ZendeskOpError;
@@ -14671,6 +14998,8 @@ export const deleteCustomObject: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObject",
 }));
 
 export type DeleteCustomObjectFieldError = ZendeskOpError;
@@ -14686,6 +15015,8 @@ export const deleteCustomObjectField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectField",
 }));
 
 export type DeleteCustomObjectRecordError = ZendeskOpError;
@@ -14701,6 +15032,8 @@ export const deleteCustomObjectRecord: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectRecord",
 }));
 
 export type DeleteCustomObjectRecordAttachmentError = BadRequest | ZendeskOpError;
@@ -14716,6 +15049,8 @@ export const deleteCustomObjectRecordAttachment: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectRecordAttachment",
 }));
 
 export type DeleteCustomObjectRecordByExternalIdOrNameError = ZendeskOpError;
@@ -14735,6 +15070,8 @@ export const deleteCustomObjectRecordByExternalIdOrName: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectRecordByExternalIdOrName",
 }));
 
 export type DeleteCustomRoleError = ZendeskOpError;
@@ -14750,6 +15087,8 @@ export const deleteCustomRole: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRole",
 }));
 
 export type DeleteCustomStatusError = ZendeskOpError;
@@ -14765,6 +15104,8 @@ export const deleteCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomStatus",
 }));
 
 export type DeleteCustomTaskItemError = ZendeskOpError;
@@ -14780,6 +15121,8 @@ export const deleteCustomTaskItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomTaskItem",
 }));
 
 export type DeleteDeletionScheduleError = ZendeskOpError;
@@ -14795,6 +15138,8 @@ export const deleteDeletionSchedule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeletionSchedule",
 }));
 
 export type DeleteDynamicContentItemError = ZendeskOpError;
@@ -14810,6 +15155,8 @@ export const deleteDynamicContentItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicContentItem",
 }));
 
 export type DeleteDynamicContentVariantError = ZendeskOpError;
@@ -14825,6 +15172,8 @@ export const deleteDynamicContentVariant: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicContentVariant",
 }));
 
 export type DeleteEndUserIdentityError = ZendeskOpError;
@@ -14840,6 +15189,8 @@ export const deleteEndUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEndUserIdentity",
 }));
 
 export type DeleteGroupError = ZendeskOpError;
@@ -14855,6 +15206,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupMembershipError = ZendeskOpError;
@@ -14870,6 +15223,8 @@ export const deleteGroupMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMembership",
 }));
 
 export type DeleteGroupSLAPolicyError = ZendeskOpError;
@@ -14885,6 +15240,8 @@ export const deleteGroupSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupSLAPolicy",
 }));
 
 export type DeleteItamAssetError = ZendeskOpError;
@@ -14900,6 +15257,8 @@ export const deleteItamAsset: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItamAsset",
 }));
 
 export type DeleteItamAssetTypeError = UnprocessableEntity | ZendeskOpError;
@@ -14915,6 +15274,8 @@ export const deleteItamAssetType: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItamAssetType",
 }));
 
 export type DeleteItamFieldError = UnprocessableEntity | ZendeskOpError;
@@ -14930,6 +15291,8 @@ export const deleteItamField: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItamField",
 }));
 
 export type DeleteItamLocationError = ZendeskOpError;
@@ -14945,6 +15308,8 @@ export const deleteItamLocation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItamLocation",
 }));
 
 export type DeleteItamStatusError = UnprocessableEntity | ZendeskOpError;
@@ -14960,6 +15325,8 @@ export const deleteItamStatus: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItamStatus",
 }));
 
 export type DeleteMacroError = ZendeskOpError;
@@ -14975,6 +15342,8 @@ export const deleteMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMacro",
 }));
 
 export type DeleteManyMacrosError = ZendeskOpError;
@@ -14990,6 +15359,8 @@ export const deleteManyMacros: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManyMacros",
 }));
 
 export type DeleteManyObjectTriggersError = ZendeskOpError;
@@ -15005,6 +15376,8 @@ export const deleteManyObjectTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManyObjectTriggers",
 }));
 
 export type DeleteManyOrganizationMembershipsError = ZendeskOpError;
@@ -15020,6 +15393,8 @@ export const deleteManyOrganizationMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManyOrganizationMemberships",
 }));
 
 export type DeleteManyOrganizationsError = ZendeskOpError;
@@ -15035,6 +15410,8 @@ export const deleteManyOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManyOrganizations",
 }));
 
 export type DeleteManyTriggersError = ZendeskOpError;
@@ -15050,6 +15427,8 @@ export const deleteManyTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManyTriggers",
 }));
 
 export type DeleteObjectTriggerError = ZendeskOpError;
@@ -15065,6 +15444,8 @@ export const deleteObjectTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObjectTrigger",
 }));
 
 export type DeleteOrganizationError = ZendeskOpError;
@@ -15080,6 +15461,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationFieldError = ZendeskOpError;
@@ -15095,6 +15478,8 @@ export const deleteOrganizationField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationField",
 }));
 
 export type DeleteOrganizationMembershipError = ZendeskOpError;
@@ -15110,6 +15495,8 @@ export const deleteOrganizationMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMembership",
 }));
 
 export type DeleteOrganizationSubscriptionError = ZendeskOpError;
@@ -15125,6 +15512,8 @@ export const deleteOrganizationSubscription: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationSubscription",
 }));
 
 export type DeleteQueueError = ZendeskOpError;
@@ -15140,6 +15529,8 @@ export const deleteQueue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DeleteRecipientAddressError = ZendeskOpError;
@@ -15155,6 +15546,8 @@ export const deleteRecipientAddress: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecipientAddress",
 }));
 
 export type DeleteResourceCollectionError = ZendeskOpError;
@@ -15170,6 +15563,8 @@ export const deleteResourceCollection: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceCollection",
 }));
 
 export type DeleteSavedSearchError = BadRequest | NotFound | Conflict | ZendeskOpError;
@@ -15185,6 +15580,8 @@ export const deleteSavedSearch: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedSearch",
 }));
 
 export type DeleteSessionError = ZendeskOpError;
@@ -15200,6 +15597,8 @@ export const deleteSession: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteSharingAgreementError = ZendeskOpError;
@@ -15215,6 +15614,8 @@ export const deleteSharingAgreement: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharingAgreement",
 }));
 
 export type DeleteSLAPolicyError = ZendeskOpError;
@@ -15230,6 +15631,8 @@ export const deleteSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSLAPolicy",
 }));
 
 export type DeleteSuspendedTicketError = ZendeskOpError;
@@ -15245,6 +15648,8 @@ export const deleteSuspendedTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuspendedTicket",
 }));
 
 export type DeleteSuspendedTicketsError = ZendeskOpError;
@@ -15260,6 +15665,8 @@ export const deleteSuspendedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuspendedTickets",
 }));
 
 export type DeleteTagsTicketError = ZendeskOpError;
@@ -15275,6 +15682,8 @@ export const deleteTagsTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagsTicket",
 }));
 
 export type DeleteTargetError = ZendeskOpError;
@@ -15290,6 +15699,8 @@ export const deleteTarget: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTarget",
 }));
 
 export type DeleteTaskListError = ZendeskOpError;
@@ -15305,6 +15716,8 @@ export const deleteTaskList: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTaskList",
 }));
 
 export type DeleteTaskListTemplateError = ZendeskOpError;
@@ -15320,6 +15733,8 @@ export const deleteTaskListTemplate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTaskListTemplate",
 }));
 
 export type DeleteTicketError = ZendeskOpError;
@@ -15335,6 +15750,8 @@ export const deleteTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicket",
 }));
 
 export type DeleteTicketContentPinError = NotFound | ZendeskOpError;
@@ -15350,6 +15767,8 @@ export const deleteTicketContentPin: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketContentPin",
 }));
 
 export type DeleteTicketFieldError = ZendeskOpError;
@@ -15365,6 +15784,8 @@ export const deleteTicketField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketField",
 }));
 
 export type DeleteTicketFieldOptionError = ZendeskOpError;
@@ -15380,6 +15801,8 @@ export const deleteTicketFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketFieldOption",
 }));
 
 export type DeleteTicketFormError = ZendeskOpError;
@@ -15395,6 +15818,8 @@ export const deleteTicketForm: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketForm",
 }));
 
 export type DeleteTicketFormStatusByIdError = ZendeskOpError;
@@ -15410,6 +15835,8 @@ export const deleteTicketFormStatusById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketFormStatusById",
 }));
 
 export type DeleteTicketFormStatusesError = ZendeskOpError;
@@ -15425,6 +15852,8 @@ export const deleteTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketFormStatuses",
 }));
 
 export type DeleteTicketPermanentlyError = ZendeskOpError;
@@ -15440,6 +15869,8 @@ export const deleteTicketPermanently: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicketPermanently",
 }));
 
 export type DeleteTriggerError = ZendeskOpError;
@@ -15455,6 +15886,8 @@ export const deleteTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DeleteTriggerCategoryError = BadRequest | NotFound | ZendeskOpError;
@@ -15470,6 +15903,8 @@ export const deleteTriggerCategory: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTriggerCategory",
 }));
 
 export type DeleteUploadError = ZendeskOpError;
@@ -15485,6 +15920,8 @@ export const deleteUpload: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUpload",
 }));
 
 export type DeleteUserError = ZendeskOpError;
@@ -15500,6 +15937,8 @@ export const deleteUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserFieldError = ZendeskOpError;
@@ -15515,6 +15954,8 @@ export const deleteUserField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserField",
 }));
 
 export type DeleteUserFieldOptionError = ZendeskOpError;
@@ -15530,6 +15971,8 @@ export const deleteUserFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserFieldOption",
 }));
 
 export type DeleteUserGroupMembershipError = ZendeskOpError;
@@ -15545,6 +15988,8 @@ export const deleteUserGroupMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserGroupMembership",
 }));
 
 export type DeleteUserIdentityError = ZendeskOpError;
@@ -15560,6 +16005,8 @@ export const deleteUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserIdentity",
 }));
 
 export type DeleteUserOrganizationMembershipError = ZendeskOpError;
@@ -15575,6 +16022,8 @@ export const deleteUserOrganizationMembership: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserOrganizationMembership",
 }));
 
 export type DeleteUserSuspensionError = BadRequest | NotFound | ZendeskOpError;
@@ -15590,6 +16039,8 @@ export const deleteUserSuspension: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserSuspension",
 }));
 
 export type DeleteUserTagsError = ZendeskOpError;
@@ -15605,6 +16056,8 @@ export const deleteUserTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserTags",
 }));
 
 export type DeleteViewError = ZendeskOpError;
@@ -15620,6 +16073,8 @@ export const deleteView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteView",
 }));
 
 export type DeleteWorkspaceError = ZendeskOpError;
@@ -15635,6 +16090,8 @@ export const deleteWorkspace: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DestroyManyUsersError = ZendeskOpError;
@@ -15650,6 +16107,8 @@ export const destroyManyUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyManyUsers",
 }));
 
 export type DestroyManyWorkspacesError = ZendeskOpError;
@@ -15665,6 +16124,8 @@ export const destroyManyWorkspaces: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyManyWorkspaces",
 }));
 
 export type DetectBestLocaleError = ZendeskOpError;
@@ -15680,6 +16141,8 @@ export const detectBestLocale: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetectBestLocale",
 }));
 
 export type DownloadCustomObjectRecordAttachmentError = BadRequest | ZendeskOpError;
@@ -15695,6 +16158,8 @@ export const downloadCustomObjectRecordAttachment: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCustomObjectRecordAttachment",
 }));
 
 export type DownloadMacroAttachmentError = ZendeskOpError;
@@ -15710,6 +16175,8 @@ export const downloadMacroAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMacroAttachment",
 }));
 
 export type DynamicContentListVariantsError = ZendeskOpError;
@@ -15725,6 +16192,8 @@ export const dynamicContentListVariants: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DynamicContentListVariants",
 }));
 
 export type ExecuteViewError = ZendeskOpError;
@@ -15740,6 +16209,8 @@ export const executeView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteView",
 }));
 
 export type ExportAuditLogsError = ZendeskOpError;
@@ -15755,6 +16226,8 @@ export const exportAuditLogs: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAuditLogs",
 }));
 
 export type ExportIncrementalOrganizationError = ZendeskOpError;
@@ -15770,6 +16243,8 @@ export const exportIncrementalOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIncrementalOrganization",
 }));
 
 export type ExportIncrementalSampleError = ZendeskOpError;
@@ -15785,6 +16260,8 @@ export const exportIncrementalSample: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIncrementalSample",
 }));
 
 export type ExportIncrementalSkilBasedRoutingAttributeError = ZendeskOpError;
@@ -15800,6 +16277,8 @@ export const exportIncrementalSkilBasedRoutingAttribute: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIncrementalSkilBasedRoutingAttribute",
 }));
 
 export type ExportIncrementalSkilBasedRoutingAttributeValueError = ZendeskOpError;
@@ -15819,6 +16298,8 @@ export const exportIncrementalSkilBasedRoutingAttributeValue: API.OperationMetho
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIncrementalSkilBasedRoutingAttributeValue",
 }));
 
 export type ExportIncrementalSkilBasedRoutingInstanceValueError = ZendeskOpError;
@@ -15838,6 +16319,8 @@ export const exportIncrementalSkilBasedRoutingInstanceValue: API.OperationMethod
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIncrementalSkilBasedRoutingInstanceValue",
 }));
 
 export type ExportSearchResultsError = ZendeskOpError;
@@ -15853,6 +16336,8 @@ export const exportSearchResults: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSearchResults",
 }));
 
 export type ExportSuspendedTicketsError = ZendeskOpError;
@@ -15868,6 +16353,8 @@ export const exportSuspendedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSuspendedTickets",
 }));
 
 export type ExportViewError = ZendeskOpError;
@@ -15883,6 +16370,8 @@ export const exportView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportView",
 }));
 
 export type FilteredSearchCustomObjectRecordsError = ZendeskOpError;
@@ -15898,6 +16387,8 @@ export const filteredSearchCustomObjectRecords: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilteredSearchCustomObjectRecords",
 }));
 
 export type FilteredSearchItamAssetsError = ZendeskOpError;
@@ -15913,6 +16404,8 @@ export const filteredSearchItamAssets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilteredSearchItamAssets",
 }));
 
 export type GetAccessRuleError = ZendeskOpError;
@@ -15928,6 +16421,8 @@ export const getAccessRule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessRule",
 }));
 
 export type GetAccountEmailSettingsError = ZendeskOpError;
@@ -15943,6 +16438,8 @@ export const getAccountEmailSettings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountEmailSettings",
 }));
 
 export type GetAccountSettingsError = ZendeskOpError;
@@ -15958,6 +16455,8 @@ export const getAccountSettings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetActivityError = ZendeskOpError;
@@ -15973,6 +16472,8 @@ export const getActivity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActivity",
 }));
 
 export type GetAttachmentError = ZendeskOpError;
@@ -15988,6 +16489,8 @@ export const getAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttachment",
 }));
 
 export type GetAttributeError = ZendeskOpError;
@@ -16003,6 +16506,8 @@ export const getAttribute: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttribute",
 }));
 
 export type GetAttributeValueError = ZendeskOpError;
@@ -16018,6 +16523,8 @@ export const getAttributeValue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttributeValue",
 }));
 
 export type GetAuditLogError = ZendeskOpError;
@@ -16033,6 +16540,8 @@ export const getAuditLog: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditLog",
 }));
 
 export type GetAutomationError = ZendeskOpError;
@@ -16048,6 +16557,8 @@ export const getAutomation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomation",
 }));
 
 export type GetBrandError = ZendeskOpError;
@@ -16063,6 +16574,8 @@ export const getBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrand",
 }));
 
 export type GetBrandAgentByIdError = ZendeskOpError;
@@ -16078,6 +16591,8 @@ export const getBrandAgentById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrandAgentById",
 }));
 
 export type GetChangesToTicketError = ZendeskOpError;
@@ -16093,6 +16608,8 @@ export const getChangesToTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangesToTicket",
 }));
 
 export type GetClientError = ZendeskOpError;
@@ -16108,6 +16625,8 @@ export const getClient: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClient",
 }));
 
 export type GetCommentError = ZendeskOpError;
@@ -16123,6 +16642,8 @@ export const getComment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetCountryError = ZendeskOpError;
@@ -16138,6 +16659,8 @@ export const getCountry: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountry",
 }));
 
 export type GetCurrentLocaleError = ZendeskOpError;
@@ -16153,6 +16676,8 @@ export const getCurrentLocale: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentLocale",
 }));
 
 export type GetCurrentlyAuthenticatedSessionError = ZendeskOpError;
@@ -16168,6 +16693,8 @@ export const getCurrentlyAuthenticatedSession: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentlyAuthenticatedSession",
 }));
 
 export type GetCurrentTokenError = ZendeskOpError;
@@ -16183,6 +16710,8 @@ export const getCurrentToken: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentToken",
 }));
 
 export type GetCurrentUserError = ZendeskOpError;
@@ -16198,6 +16727,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetCurrentUserSettingsError = ZendeskOpError;
@@ -16213,6 +16744,8 @@ export const getCurrentUserSettings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserSettings",
 }));
 
 export type GetCustomObjectError = ZendeskOpError;
@@ -16228,6 +16761,8 @@ export const getCustomObject: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomObject",
 }));
 
 export type GetCustomObjectFieldError = ZendeskOpError;
@@ -16243,6 +16778,8 @@ export const getCustomObjectField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomObjectField",
 }));
 
 export type GetCustomObjectRecordError = ZendeskOpError;
@@ -16258,6 +16795,8 @@ export const getCustomObjectRecord: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomObjectRecord",
 }));
 
 export type GetCustomRoleByIdError = ZendeskOpError;
@@ -16273,6 +16812,8 @@ export const getCustomRoleById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRoleById",
 }));
 
 export type GetCustomStatusError = ZendeskOpError;
@@ -16288,6 +16829,8 @@ export const getCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomStatus",
 }));
 
 export type GetDefaultGroupError = ZendeskOpError;
@@ -16303,6 +16846,8 @@ export const getDefaultGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultGroup",
 }));
 
 export type GetDeletedUserError = ZendeskOpError;
@@ -16318,6 +16863,8 @@ export const getDeletedUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedUser",
 }));
 
 export type GetDeletionScheduleError = ZendeskOpError;
@@ -16333,6 +16880,8 @@ export const getDeletionSchedule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletionSchedule",
 }));
 
 export type GetDerivedMacroError = ZendeskOpError;
@@ -16348,6 +16897,8 @@ export const getDerivedMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDerivedMacro",
 }));
 
 export type GetDynamicContentItemError = ZendeskOpError;
@@ -16363,6 +16914,8 @@ export const getDynamicContentItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicContentItem",
 }));
 
 export type GetDynamicContentVariantError = ZendeskOpError;
@@ -16378,6 +16931,8 @@ export const getDynamicContentVariant: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicContentVariant",
 }));
 
 export type GetEmailNotificationError = ZendeskOpError;
@@ -16393,6 +16948,8 @@ export const getEmailNotification: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailNotification",
 }));
 
 export type GetEndUserIdentityError = ZendeskOpError;
@@ -16408,6 +16965,8 @@ export const getEndUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndUserIdentity",
 }));
 
 export type GetGlobalClientError = ZendeskOpError;
@@ -16423,6 +16982,8 @@ export const getGlobalClient: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalClient",
 }));
 
 export type GetGroupByIdError = ZendeskOpError;
@@ -16438,6 +16999,8 @@ export const getGroupById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupById",
 }));
 
 export type GetGroupMembershipByIdError = ZendeskOpError;
@@ -16453,6 +17016,8 @@ export const getGroupMembershipById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMembershipById",
 }));
 
 export type GetGroupSLAPolicyError = ZendeskOpError;
@@ -16468,6 +17033,8 @@ export const getGroupSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupSLAPolicy",
 }));
 
 export type GetGroupSLAPolicyFilterDefinitionItemsError = ZendeskOpError;
@@ -16483,6 +17050,8 @@ export const getGroupSLAPolicyFilterDefinitionItems: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupSLAPolicyFilterDefinitionItems",
 }));
 
 export type GetItamAssetError = ZendeskOpError;
@@ -16498,6 +17067,8 @@ export const getItamAsset: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamAsset",
 }));
 
 export type GetItamAssetTypeError = ZendeskOpError;
@@ -16513,6 +17084,8 @@ export const getItamAssetType: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamAssetType",
 }));
 
 export type GetItamAssetTypeFieldError = ZendeskOpError;
@@ -16528,6 +17101,8 @@ export const getItamAssetTypeField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamAssetTypeField",
 }));
 
 export type GetItamFieldError = ZendeskOpError;
@@ -16543,6 +17118,8 @@ export const getItamField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamField",
 }));
 
 export type GetItamLocationError = ZendeskOpError;
@@ -16558,6 +17135,8 @@ export const getItamLocation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamLocation",
 }));
 
 export type GetItamStatusError = ZendeskOpError;
@@ -16573,6 +17152,8 @@ export const getItamStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItamStatus",
 }));
 
 export type GetJobStatusError = ZendeskOpError;
@@ -16588,6 +17169,8 @@ export const getJobStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobStatus",
 }));
 
 export type GetLocaleByIdError = ZendeskOpError;
@@ -16603,6 +17186,8 @@ export const getLocaleById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocaleById",
 }));
 
 export type GetMacroError = ZendeskOpError;
@@ -16618,6 +17203,8 @@ export const getMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMacro",
 }));
 
 export type GetMacroAttachmentError = ZendeskOpError;
@@ -16633,6 +17220,8 @@ export const getMacroAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMacroAttachment",
 }));
 
 export type GetManyDynamicContentsError = ZendeskOpError;
@@ -16648,6 +17237,8 @@ export const getManyDynamicContents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyDynamicContents",
 }));
 
 export type GetManyEmailNotificationsError = ZendeskOpError;
@@ -16663,6 +17254,8 @@ export const getManyEmailNotifications: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyEmailNotifications",
 }));
 
 export type GetManyJobStatusesError = ZendeskOpError;
@@ -16678,6 +17271,8 @@ export const getManyJobStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyJobStatuses",
 }));
 
 export type GetManyOrganizationsError = ZendeskOpError;
@@ -16693,6 +17288,8 @@ export const getManyOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyOrganizations",
 }));
 
 export type GetManyTicketFieldsError = ZendeskOpError;
@@ -16708,6 +17305,8 @@ export const getManyTicketFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyTicketFields",
 }));
 
 export type GetManyTicketFormsError = ZendeskOpError;
@@ -16723,6 +17322,8 @@ export const getManyTicketForms: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyTicketForms",
 }));
 
 export type GetManyTicketFormStatusesError = ZendeskOpError;
@@ -16738,6 +17339,8 @@ export const getManyTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyTicketFormStatuses",
 }));
 
 export type GetManyUserFieldsError = ZendeskOpError;
@@ -16753,6 +17356,8 @@ export const getManyUserFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyUserFields",
 }));
 
 export type GetManyUsersError = BadRequest | ZendeskOpError;
@@ -16768,6 +17373,8 @@ export const getManyUsers: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManyUsers",
 }));
 
 export type GetMonitoredTwitterHandleError = ZendeskOpError;
@@ -16783,6 +17390,8 @@ export const getMonitoredTwitterHandle: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoredTwitterHandle",
 }));
 
 export type GetObjectTriggerError = ZendeskOpError;
@@ -16798,6 +17407,8 @@ export const getObjectTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectTrigger",
 }));
 
 export type GetOrganizationError = ZendeskOpError;
@@ -16813,6 +17424,8 @@ export const getOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationFieldError = ZendeskOpError;
@@ -16828,6 +17441,8 @@ export const getOrganizationField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationField",
 }));
 
 export type GetOrganizationMembershipByIdError = ZendeskOpError;
@@ -16843,6 +17458,8 @@ export const getOrganizationMembershipById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembershipById",
 }));
 
 export type GetOrganizationMembershipByUserIdError = ZendeskOpError;
@@ -16858,6 +17475,8 @@ export const getOrganizationMembershipByUserId: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembershipByUserId",
 }));
 
 export type GetOrganizationMergeError = ZendeskOpError;
@@ -16873,6 +17492,8 @@ export const getOrganizationMerge: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMerge",
 }));
 
 export type GetOrganizationSubscriptionError = ZendeskOpError;
@@ -16888,6 +17509,8 @@ export const getOrganizationSubscription: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSubscription",
 }));
 
 export type GetPermissionPolicyError = ZendeskOpError;
@@ -16903,6 +17526,8 @@ export const getPermissionPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionPolicy",
 }));
 
 export type GetQueueByIdError = ZendeskOpError;
@@ -16918,6 +17543,8 @@ export const getQueueById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueueById",
 }));
 
 export type GetRelationshipFilterDefinitionsError = ZendeskOpError;
@@ -16933,6 +17560,8 @@ export const getRelationshipFilterDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelationshipFilterDefinitions",
 }));
 
 export type GetRequestError = ZendeskOpError;
@@ -16948,6 +17577,8 @@ export const getRequest: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRequest",
 }));
 
 export type GetResourceCollectionError = ZendeskOpError;
@@ -16963,6 +17594,8 @@ export const getResourceCollection: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceCollection",
 }));
 
 export type GetSatisfactionRatingError = ZendeskOpError;
@@ -16978,6 +17611,8 @@ export const getSatisfactionRating: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSatisfactionRating",
 }));
 
 export type GetSatisfactionRatingsError = ZendeskOpError;
@@ -16993,6 +17628,8 @@ export const getSatisfactionRatings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSatisfactionRatings",
 }));
 
 export type GetSecuritySettingsError = ZendeskOpError;
@@ -17008,6 +17645,8 @@ export const getSecuritySettings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySettings",
 }));
 
 export type GetSessionError = ZendeskOpError;
@@ -17023,6 +17662,8 @@ export const getSession: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSharingAgreementError = ZendeskOpError;
@@ -17038,6 +17679,8 @@ export const getSharingAgreement: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharingAgreement",
 }));
 
 export type GetSLAPolicyError = ZendeskOpError;
@@ -17053,6 +17696,8 @@ export const getSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSLAPolicy",
 }));
 
 export type GetSLAPolicyFilterDefinitionItemsError = ZendeskOpError;
@@ -17068,6 +17713,8 @@ export const getSLAPolicyFilterDefinitionItems: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSLAPolicyFilterDefinitionItems",
 }));
 
 export type GetSourcesByTargetError = ZendeskOpError;
@@ -17083,6 +17730,8 @@ export const getSourcesByTarget: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourcesByTarget",
 }));
 
 export type GetSupportAddressError = ZendeskOpError;
@@ -17098,6 +17747,8 @@ export const getSupportAddress: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportAddress",
 }));
 
 export type GetSuspendedTicketsError = ZendeskOpError;
@@ -17113,6 +17764,8 @@ export const getSuspendedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuspendedTickets",
 }));
 
 export type GetTargetError = ZendeskOpError;
@@ -17128,6 +17781,8 @@ export const getTarget: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTarget",
 }));
 
 export type GetTargetFailureError = ZendeskOpError;
@@ -17143,6 +17798,8 @@ export const getTargetFailure: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTargetFailure",
 }));
 
 export type GetTaskItemError = ZendeskOpError;
@@ -17158,6 +17815,8 @@ export const getTaskItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskItem",
 }));
 
 export type GetTaskListInstanceError = ZendeskOpError;
@@ -17173,6 +17832,8 @@ export const getTaskListInstance: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskListInstance",
 }));
 
 export type GetTaskListsForTicketError = ZendeskOpError;
@@ -17188,6 +17849,8 @@ export const getTaskListsForTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskListsForTicket",
 }));
 
 export type GetTaskListTemplateError = ZendeskOpError;
@@ -17203,6 +17866,8 @@ export const getTaskListTemplate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskListTemplate",
 }));
 
 export type GetTasksByTaskListTemplateIdError = ZendeskOpError;
@@ -17218,6 +17883,8 @@ export const getTasksByTaskListTemplateId: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksByTaskListTemplateId",
 }));
 
 export type GetTicketError = ZendeskOpError;
@@ -17233,6 +17900,8 @@ export const getTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicket",
 }));
 
 export type GetTicketAfterChangesError = ZendeskOpError;
@@ -17248,6 +17917,8 @@ export const getTicketAfterChanges: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketAfterChanges",
 }));
 
 export type GetTicketAuditError = ZendeskOpError;
@@ -17263,6 +17934,8 @@ export const getTicketAudit: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketAudit",
 }));
 
 export type GetTicketByMessagingConversationIdError = NotFound | ZendeskOpError;
@@ -17278,6 +17951,8 @@ export const getTicketByMessagingConversationId: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketByMessagingConversationId",
 }));
 
 export type GetTicketfieldError = ZendeskOpError;
@@ -17293,6 +17968,8 @@ export const getTicketfield: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketfield",
 }));
 
 export type GetTicketFieldOptionError = ZendeskOpError;
@@ -17308,6 +17985,8 @@ export const getTicketFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketFieldOption",
 }));
 
 export type GetTicketFormError = ZendeskOpError;
@@ -17323,6 +18002,8 @@ export const getTicketForm: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketForm",
 }));
 
 export type GetTicketMetricsError = ZendeskOpError;
@@ -17338,6 +18019,8 @@ export const getTicketMetrics: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketMetrics",
 }));
 
 export type GetTicketMetricsByTicketError = ZendeskOpError;
@@ -17353,6 +18036,8 @@ export const getTicketMetricsByTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketMetricsByTicket",
 }));
 
 export type GettingTwicketStatusError = ZendeskOpError;
@@ -17368,6 +18053,8 @@ export const gettingTwicketStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GettingTwicketStatus",
 }));
 
 export type GetTokenError = ZendeskOpError;
@@ -17383,6 +18070,8 @@ export const getToken: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type GetTriggerError = ZendeskOpError;
@@ -17398,6 +18087,8 @@ export const getTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type GetTriggerCategoryByIdError = NotFound | ZendeskOpError;
@@ -17413,6 +18104,8 @@ export const getTriggerCategoryById: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerCategoryById",
 }));
 
 export type GetTriggerLimitsError = ZendeskOpError;
@@ -17428,6 +18121,8 @@ export const getTriggerLimits: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerLimits",
 }));
 
 export type GetUserError = ZendeskOpError;
@@ -17443,6 +18138,8 @@ export const getUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserBrandAgentByIdError = ZendeskOpError;
@@ -17458,6 +18155,8 @@ export const getUserBrandAgentById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserBrandAgentById",
 }));
 
 export type GetUserComplianceDeletionStatusesError = ZendeskOpError;
@@ -17473,6 +18172,8 @@ export const getUserComplianceDeletionStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserComplianceDeletionStatuses",
 }));
 
 export type GetUserEntitlementsFullError = NotFound | ZendeskOpError;
@@ -17488,6 +18189,8 @@ export const getUserEntitlementsFull: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserEntitlementsFull",
 }));
 
 export type GetUserFieldError = ZendeskOpError;
@@ -17503,6 +18206,8 @@ export const getUserField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserField",
 }));
 
 export type GetUserFieldOptionError = ZendeskOpError;
@@ -17518,6 +18223,8 @@ export const getUserFieldOption: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserFieldOption",
 }));
 
 export type GetUserGroupMembershipByIdError = ZendeskOpError;
@@ -17533,6 +18240,8 @@ export const getUserGroupMembershipById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserGroupMembershipById",
 }));
 
 export type GetUserIdentityError = ZendeskOpError;
@@ -17548,6 +18257,8 @@ export const getUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserIdentity",
 }));
 
 export type GetUserPasswordRequirementsError = ZendeskOpError;
@@ -17563,6 +18274,8 @@ export const getUserPasswordRequirements: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserPasswordRequirements",
 }));
 
 export type GetUserRelatedError = ZendeskOpError;
@@ -17578,6 +18291,8 @@ export const getUserRelated: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRelated",
 }));
 
 export type GetUserSuspensionError = NotFound | ZendeskOpError;
@@ -17593,6 +18308,8 @@ export const getUserSuspension: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSuspension",
 }));
 
 export type GetViewError = ZendeskOpError;
@@ -17608,6 +18325,8 @@ export const getView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetView",
 }));
 
 export type GetViewCountError = ZendeskOpError;
@@ -17623,6 +18342,8 @@ export const getViewCount: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetViewCount",
 }));
 
 export type GetViewCountsError = ZendeskOpError;
@@ -17638,6 +18359,8 @@ export const getViewCounts: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetViewCounts",
 }));
 
 export type GetWorkspaceError = ZendeskOpError;
@@ -17653,6 +18376,8 @@ export const getWorkspace: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GlobalOAuthClientsTokenSummaryError = ZendeskOpError;
@@ -17668,6 +18393,8 @@ export const globalOAuthClientsTokenSummary: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalOAuthClientsTokenSummary",
 }));
 
 export type GroupMembershipBulkCreateError = ZendeskOpError;
@@ -17683,6 +18410,8 @@ export const groupMembershipBulkCreate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupMembershipBulkCreate",
 }));
 
 export type GroupMembershipBulkDeleteError = ZendeskOpError;
@@ -17698,6 +18427,8 @@ export const groupMembershipBulkDelete: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupMembershipBulkDelete",
 }));
 
 export type GroupMembershipSetDefaultError = ZendeskOpError;
@@ -17713,6 +18444,8 @@ export const groupMembershipSetDefault: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupMembershipSetDefault",
 }));
 
 export type ImportTicketError = ZendeskOpError;
@@ -17728,6 +18461,8 @@ export const importTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTicket",
 }));
 
 export type IncrementalCustomObjectRecordExportCursorError =
@@ -17747,6 +18482,8 @@ export const incrementalCustomObjectRecordExportCursor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalCustomObjectRecordExportCursor",
 }));
 
 export type IncrementalTicketEventsError = ZendeskOpError;
@@ -17762,6 +18499,8 @@ export const incrementalTicketEvents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalTicketEvents",
 }));
 
 export type IncrementalTicketExportCursorError = ZendeskOpError;
@@ -17781,6 +18520,8 @@ export const incrementalTicketExportCursor: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalTicketExportCursor",
 }));
 
 export type IncrementalTicketExportTimeError = ZendeskOpError;
@@ -17796,6 +18537,8 @@ export const incrementalTicketExportTime: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalTicketExportTime",
 }));
 
 export type IncrementalUserExportCursorError = ZendeskOpError;
@@ -17811,6 +18554,8 @@ export const incrementalUserExportCursor: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalUserExportCursor",
 }));
 
 export type IncrementalUserExportTimeError = ZendeskOpError;
@@ -17826,6 +18571,8 @@ export const incrementalUserExportTime: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementalUserExportTime",
 }));
 
 export type ItamAssetBulkJobsError = ZendeskOpError;
@@ -17841,6 +18588,8 @@ export const itamAssetBulkJobs: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ItamAssetBulkJobs",
 }));
 
 export type LinkExistingTicketError = ZendeskOpError;
@@ -17856,6 +18605,8 @@ export const linkExistingTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkExistingTicket",
 }));
 
 export type ListAccessRuleDefinitionsError = ZendeskOpError;
@@ -17871,6 +18622,8 @@ export const listAccessRuleDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessRuleDefinitions",
 }));
 
 export type ListAccessRulesError = ZendeskOpError;
@@ -17886,6 +18639,8 @@ export const listAccessRules: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessRules",
 }));
 
 export type ListAccountAttributesError = ZendeskOpError;
@@ -17901,6 +18656,8 @@ export const listAccountAttributes: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountAttributes",
 }));
 
 export type ListActiveAutomationsError = ZendeskOpError;
@@ -17916,6 +18673,8 @@ export const listActiveAutomations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveAutomations",
 }));
 
 export type ListActiveMacrosError = ZendeskOpError;
@@ -17931,6 +18690,8 @@ export const listActiveMacros: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveMacros",
 }));
 
 export type ListActiveObjectTriggersError = ZendeskOpError;
@@ -17946,6 +18707,8 @@ export const listActiveObjectTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveObjectTriggers",
 }));
 
 export type ListActiveTriggersError = ZendeskOpError;
@@ -17961,6 +18724,8 @@ export const listActiveTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveTriggers",
 }));
 
 export type ListActiveViewsError = ZendeskOpError;
@@ -17976,6 +18741,8 @@ export const listActiveViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveViews",
 }));
 
 export type ListActivitiesError = ZendeskOpError;
@@ -17993,6 +18760,8 @@ export const listActivities: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListActivities",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18016,6 +18785,8 @@ export const listAgentAttributeValues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentAttributeValues",
 }));
 
 export type ListApprovalRequestsError = ZendeskOpError;
@@ -18031,6 +18802,8 @@ export const listApprovalRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApprovalRequests",
 }));
 
 export type ListAssignableGroupMembershipsError = ZendeskOpError;
@@ -18046,6 +18819,8 @@ export const listAssignableGroupMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignableGroupMemberships",
 }));
 
 export type ListAssignableGroupMembershipsByGroupError = ZendeskOpError;
@@ -18061,6 +18836,8 @@ export const listAssignableGroupMembershipsByGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignableGroupMembershipsByGroup",
 }));
 
 export type ListAssignableGroupsError = ZendeskOpError;
@@ -18076,6 +18853,8 @@ export const listAssignableGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignableGroups",
 }));
 
 export type ListAttributeValuesError = ZendeskOpError;
@@ -18095,6 +18874,8 @@ export const listAttributeValues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttributeValues",
 }));
 
 export type ListAuditLogsError = ZendeskOpError;
@@ -18110,6 +18891,8 @@ export const listAuditLogs: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuditLogs",
 }));
 
 export type ListAuditsForTicketError = ZendeskOpError;
@@ -18127,6 +18910,8 @@ export const listAuditsForTicket: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAuditsForTicket",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18152,6 +18937,8 @@ export const listAutomations: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAutomations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18175,6 +18962,8 @@ export const listAvailableAgents: API.OperationMethod<
   errors: [Forbidden, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableAgents",
 }));
 
 export type ListAvailablePublicLocalesError = ZendeskOpError;
@@ -18190,6 +18979,8 @@ export const listAvailablePublicLocales: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailablePublicLocales",
 }));
 
 export type ListBookmarksError = ZendeskOpError;
@@ -18205,6 +18996,8 @@ export const listBookmarks: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookmarks",
 }));
 
 export type ListBrandAgentsError = ZendeskOpError;
@@ -18220,6 +19013,8 @@ export const listBrandAgents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrandAgents",
 }));
 
 export type ListBrandAgentsByBrandError = ZendeskOpError;
@@ -18235,6 +19030,8 @@ export const listBrandAgentsByBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrandAgentsByBrand",
 }));
 
 export type ListBrandsError = ZendeskOpError;
@@ -18252,6 +19049,8 @@ export const listBrands: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBrands",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18275,6 +19074,8 @@ export const listCCDRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCCDRequests",
 }));
 
 export type ListCommentsError = ZendeskOpError;
@@ -18290,6 +19091,8 @@ export const listComments: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComments",
 }));
 
 export type ListCompactViewsError = ZendeskOpError;
@@ -18305,6 +19108,8 @@ export const listCompactViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCompactViews",
 }));
 
 export type ListConversationLogForTicketError = ZendeskOpError;
@@ -18320,6 +19125,8 @@ export const listConversationLogForTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationLogForTicket",
 }));
 
 export type ListCountriesError = ZendeskOpError;
@@ -18335,6 +19142,8 @@ export const listCountries: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCountries",
 }));
 
 export type ListCurrentUserOAuthClientsError = ZendeskOpError;
@@ -18350,6 +19159,8 @@ export const listCurrentUserOAuthClients: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCurrentUserOAuthClients",
 }));
 
 export type ListCustomObjectFieldsError = ZendeskOpError;
@@ -18365,6 +19176,8 @@ export const listCustomObjectFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomObjectFields",
 }));
 
 export type ListCustomObjectRecordAttachmentsError = BadRequest | ZendeskOpError;
@@ -18380,6 +19193,8 @@ export const listCustomObjectRecordAttachments: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomObjectRecordAttachments",
 }));
 
 export type ListCustomObjectRecordsError = ZendeskOpError;
@@ -18395,6 +19210,8 @@ export const listCustomObjectRecords: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomObjectRecords",
 }));
 
 export type ListCustomObjectsError = ZendeskOpError;
@@ -18410,6 +19227,8 @@ export const listCustomObjects: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomObjects",
 }));
 
 export type ListCustomRolesError = ZendeskOpError;
@@ -18425,6 +19244,8 @@ export const listCustomRoles: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoles",
 }));
 
 export type ListCustomStatusesError = ZendeskOpError;
@@ -18440,6 +19261,8 @@ export const listCustomStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomStatuses",
 }));
 
 export type ListDeletedTicketsError = ZendeskOpError;
@@ -18457,6 +19280,8 @@ export const listDeletedTickets: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeletedTickets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18480,6 +19305,8 @@ export const listDeletedUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedUsers",
 }));
 
 export type ListDeletionSchedulesError = ZendeskOpError;
@@ -18495,6 +19322,8 @@ export const listDeletionSchedules: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletionSchedules",
 }));
 
 export type ListDynamicContentsError = ZendeskOpError;
@@ -18510,6 +19339,8 @@ export const listDynamicContents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicContents",
 }));
 
 export type ListEmailNotificationsError = ZendeskOpError;
@@ -18525,6 +19356,8 @@ export const listEmailNotifications: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailNotifications",
 }));
 
 export type ListEndUserIdentitiesError = ZendeskOpError;
@@ -18540,6 +19373,8 @@ export const listEndUserIdentities: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndUserIdentities",
 }));
 
 export type ListGlobalOAuthClientsError = ZendeskOpError;
@@ -18555,6 +19390,8 @@ export const listGlobalOAuthClients: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalOAuthClients",
 }));
 
 export type ListGroupMembershipsError = ZendeskOpError;
@@ -18570,6 +19407,8 @@ export const listGroupMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMemberships",
 }));
 
 export type ListGroupMembershipsByGroupError = ZendeskOpError;
@@ -18585,6 +19424,8 @@ export const listGroupMembershipsByGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembershipsByGroup",
 }));
 
 export type ListGroupsError = ZendeskOpError;
@@ -18600,6 +19441,8 @@ export const listGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupSLAPoliciesError = ZendeskOpError;
@@ -18615,6 +19458,8 @@ export const listGroupSLAPolicies: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupSLAPolicies",
 }));
 
 export type ListGroupUsersError = ZendeskOpError;
@@ -18630,6 +19475,8 @@ export const listGroupUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupUsers",
 }));
 
 export type ListItamAssetsError = BadRequest | ZendeskOpError;
@@ -18645,6 +19492,8 @@ export const listItamAssets: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamAssets",
 }));
 
 export type ListItamAssetTypeFieldsError = ZendeskOpError;
@@ -18660,6 +19509,8 @@ export const listItamAssetTypeFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamAssetTypeFields",
 }));
 
 export type ListItamAssetTypesError = ZendeskOpError;
@@ -18675,6 +19526,8 @@ export const listItamAssetTypes: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamAssetTypes",
 }));
 
 export type ListItamFieldsError = ZendeskOpError;
@@ -18690,6 +19543,8 @@ export const listItamFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamFields",
 }));
 
 export type ListItamLocationsError = BadRequest | ZendeskOpError;
@@ -18705,6 +19560,8 @@ export const listItamLocations: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamLocations",
 }));
 
 export type ListItamStatusesError = ZendeskOpError;
@@ -18720,6 +19577,8 @@ export const listItamStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItamStatuses",
 }));
 
 export type ListJobStatusesError = ZendeskOpError;
@@ -18735,6 +19594,8 @@ export const listJobStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobStatuses",
 }));
 
 export type ListLinkedTicketsForTaskItemError = ZendeskOpError;
@@ -18750,6 +19611,8 @@ export const listLinkedTicketsForTaskItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedTicketsForTaskItem",
 }));
 
 export type ListLocalesError = ZendeskOpError;
@@ -18765,6 +19628,8 @@ export const listLocales: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocales",
 }));
 
 export type ListLocalesForAgentError = ZendeskOpError;
@@ -18780,6 +19645,8 @@ export const listLocalesForAgent: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocalesForAgent",
 }));
 
 export type ListMacroActionDefinitionsError = ZendeskOpError;
@@ -18795,6 +19662,8 @@ export const listMacroActionDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacroActionDefinitions",
 }));
 
 export type ListMacroAttachmentsError = ZendeskOpError;
@@ -18810,6 +19679,8 @@ export const listMacroAttachments: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacroAttachments",
 }));
 
 export type ListMacroCategoriesError = ZendeskOpError;
@@ -18825,6 +19696,8 @@ export const listMacroCategories: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacroCategories",
 }));
 
 export type ListMacroGroupsError = ZendeskOpError;
@@ -18840,6 +19713,8 @@ export const listMacroGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacroGroups",
 }));
 
 export type ListMacrosError = ZendeskOpError;
@@ -18857,6 +19732,8 @@ export const listMacros: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMacros",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -18880,6 +19757,8 @@ export const listMacrosActions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacrosActions",
 }));
 
 export type ListManyAgentsAttributeValuesError = BadRequest | ZendeskOpError;
@@ -18895,6 +19774,8 @@ export const listManyAgentsAttributeValues: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManyAgentsAttributeValues",
 }));
 
 export type ListMonitoredTwitterHandlesError = ZendeskOpError;
@@ -18910,6 +19791,8 @@ export const listMonitoredTwitterHandles: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredTwitterHandles",
 }));
 
 export type ListMostUsedMacrosError = ZendeskOpError;
@@ -18925,6 +19808,8 @@ export const listMostUsedMacros: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMostUsedMacros",
 }));
 
 export type ListOAuthClientsError = ZendeskOpError;
@@ -18940,6 +19825,8 @@ export const listOAuthClients: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuthClients",
 }));
 
 export type ListOAuthTokensError = ZendeskOpError;
@@ -18955,6 +19842,8 @@ export const listOAuthTokens: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuthTokens",
 }));
 
 export type ListObjectTriggersError = ZendeskOpError;
@@ -18970,6 +19859,8 @@ export const listObjectTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjectTriggers",
 }));
 
 export type ListObjectTriggersDefinitionsError = ZendeskOpError;
@@ -18985,6 +19876,8 @@ export const listObjectTriggersDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjectTriggersDefinitions",
 }));
 
 export type ListOpenRequestsError = ZendeskOpError;
@@ -19000,6 +19893,8 @@ export const listOpenRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenRequests",
 }));
 
 export type ListOrganizationFieldsError = ZendeskOpError;
@@ -19017,6 +19912,8 @@ export const listOrganizationFields: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationFields",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -19040,6 +19937,8 @@ export const listOrganizationMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMemberships",
 }));
 
 export type ListOrganizationMembershipsByOrganizationError = ZendeskOpError;
@@ -19055,6 +19954,8 @@ export const listOrganizationMembershipsByOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembershipsByOrganization",
 }));
 
 export type ListOrganizationMergesError = ZendeskOpError;
@@ -19070,6 +19971,8 @@ export const listOrganizationMerges: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMerges",
 }));
 
 export type ListOrganizationRequestsError = ZendeskOpError;
@@ -19085,6 +19988,8 @@ export const listOrganizationRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRequests",
 }));
 
 export type ListOrganizationsError = ZendeskOpError;
@@ -19102,6 +20007,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -19125,6 +20032,8 @@ export const listOrganizationSubscriptions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSubscriptions",
 }));
 
 export type ListOrganizationSubscriptionsByOrganizationError = ZendeskOpError;
@@ -19148,6 +20057,8 @@ export const listOrganizationSubscriptionsByOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSubscriptionsByOrganization",
 }));
 
 export type ListOrganizationTagsError = ZendeskOpError;
@@ -19163,6 +20074,8 @@ export const listOrganizationTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTags",
 }));
 
 export type ListOrganizationTicketsError = ZendeskOpError;
@@ -19178,6 +20091,8 @@ export const listOrganizationTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTickets",
 }));
 
 export type ListOrganizationUsersError = ZendeskOpError;
@@ -19193,6 +20108,8 @@ export const listOrganizationUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationUsers",
 }));
 
 export type ListParentTicketReferencesError = ZendeskOpError;
@@ -19208,6 +20125,8 @@ export const listParentTicketReferences: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListParentTicketReferences",
 }));
 
 export type ListPermissionPoliciesError = ZendeskOpError;
@@ -19223,6 +20142,8 @@ export const listPermissionPolicies: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissionPolicies",
 }));
 
 export type ListQueueDefinitionsError = ZendeskOpError;
@@ -19238,6 +20159,8 @@ export const listQueueDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueueDefinitions",
 }));
 
 export type ListQueuesError = ZendeskOpError;
@@ -19253,6 +20176,8 @@ export const listQueues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 }));
 
 export type ListRecentTicketsError = ZendeskOpError;
@@ -19268,6 +20193,8 @@ export const listRecentTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecentTickets",
 }));
 
 export type ListRemoteAuthenticationsError = ZendeskOpError;
@@ -19283,6 +20210,8 @@ export const listRemoteAuthentications: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemoteAuthentications",
 }));
 
 export type ListRequestsError = ZendeskOpError;
@@ -19298,6 +20227,8 @@ export const listRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRequests",
 }));
 
 export type ListResourceCollectionsError = ZendeskOpError;
@@ -19313,6 +20244,8 @@ export const listResourceCollections: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceCollections",
 }));
 
 export type ListResourceTagsError = ZendeskOpError;
@@ -19328,6 +20261,8 @@ export const listResourceTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceTags",
 }));
 
 export type ListRoutingAttributeDefinitionsError = ZendeskOpError;
@@ -19343,6 +20278,8 @@ export const listRoutingAttributeDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoutingAttributeDefinitions",
 }));
 
 export type ListSatisfactionRatingReasonsError = ZendeskOpError;
@@ -19358,6 +20295,8 @@ export const listSatisfactionRatingReasons: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSatisfactionRatingReasons",
 }));
 
 export type ListSatisfactionRatingsError = ZendeskOpError;
@@ -19373,6 +20312,8 @@ export const listSatisfactionRatings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSatisfactionRatings",
 }));
 
 export type ListSavedSearchesError = ZendeskOpError;
@@ -19388,6 +20329,8 @@ export const listSavedSearches: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedSearches",
 }));
 
 export type ListSearchResultsError = ZendeskOpError;
@@ -19403,6 +20346,8 @@ export const listSearchResults: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSearchResults",
 }));
 
 export type ListSessionsError = ZendeskOpError;
@@ -19418,6 +20363,8 @@ export const listSessions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 }));
 
 export type ListSharingAgreementsError = ZendeskOpError;
@@ -19433,6 +20380,8 @@ export const listSharingAgreements: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharingAgreements",
 }));
 
 export type ListSkipsError = ZendeskOpError;
@@ -19448,6 +20397,8 @@ export const listSkips: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkips",
 }));
 
 export type ListSLAPoliciesError = ZendeskOpError;
@@ -19463,6 +20414,8 @@ export const listSLAPolicies: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSLAPolicies",
 }));
 
 export type ListSolvedRequestsError = ZendeskOpError;
@@ -19478,6 +20431,8 @@ export const listSolvedRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSolvedRequests",
 }));
 
 export type ListSupportAddressesError = ZendeskOpError;
@@ -19493,6 +20448,8 @@ export const listSupportAddresses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportAddresses",
 }));
 
 export type ListSuspendedTicketsError = ZendeskOpError;
@@ -19508,6 +20465,8 @@ export const listSuspendedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuspendedTickets",
 }));
 
 export type ListTagsError = ZendeskOpError;
@@ -19525,6 +20484,8 @@ export const listTags: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTags",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -19548,6 +20509,8 @@ export const listTargetFailures: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetFailures",
 }));
 
 export type ListTargetsError = ZendeskOpError;
@@ -19563,6 +20526,8 @@ export const listTargets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 }));
 
 export type ListTaskItemsError = ZendeskOpError;
@@ -19578,6 +20543,8 @@ export const listTaskItems: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskItems",
 }));
 
 export type ListTaskListTemplatesError = ZendeskOpError;
@@ -19593,6 +20560,8 @@ export const listTaskListTemplates: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskListTemplates",
 }));
 
 export type ListTicketAttributeValuesError = ZendeskOpError;
@@ -19608,6 +20577,8 @@ export const listTicketAttributeValues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketAttributeValues",
 }));
 
 export type ListTicketAuditsError = ZendeskOpError;
@@ -19623,6 +20594,8 @@ export const listTicketAudits: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketAudits",
 }));
 
 export type ListTicketCollaboratorsError = ZendeskOpError;
@@ -19638,6 +20611,8 @@ export const listTicketCollaborators: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketCollaborators",
 }));
 
 export type ListTicketCommentsError = ZendeskOpError;
@@ -19653,6 +20628,8 @@ export const listTicketComments: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketComments",
 }));
 
 export type ListTicketContentPinsError = ZendeskOpError;
@@ -19668,6 +20645,8 @@ export const listTicketContentPins: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketContentPins",
 }));
 
 export type ListTicketEmailCCsError = ZendeskOpError;
@@ -19683,6 +20662,8 @@ export const listTicketEmailCCs: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketEmailCCs",
 }));
 
 export type ListTicketFieldOptionsError = ZendeskOpError;
@@ -19698,6 +20679,8 @@ export const listTicketFieldOptions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketFieldOptions",
 }));
 
 export type ListTicketFieldsError = ZendeskOpError;
@@ -19713,6 +20696,8 @@ export const listTicketFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketFields",
 }));
 
 export type ListTicketFollowersError = ZendeskOpError;
@@ -19728,6 +20713,8 @@ export const listTicketFollowers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketFollowers",
 }));
 
 export type ListTicketFormsError = ZendeskOpError;
@@ -19743,6 +20730,8 @@ export const listTicketForms: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketForms",
 }));
 
 export type ListTicketFormStatusesError = ZendeskOpError;
@@ -19758,6 +20747,8 @@ export const listTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketFormStatuses",
 }));
 
 export type ListTicketGroupSlaPolicyMetricsError = ZendeskOpError;
@@ -19773,6 +20764,8 @@ export const listTicketGroupSlaPolicyMetrics: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketGroupSlaPolicyMetrics",
 }));
 
 export type ListTicketIncidentsError = ZendeskOpError;
@@ -19788,6 +20781,8 @@ export const listTicketIncidents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketIncidents",
 }));
 
 export type ListTicketMetricEventsError = ZendeskOpError;
@@ -19803,6 +20798,8 @@ export const listTicketMetricEvents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketMetricEvents",
 }));
 
 export type ListTicketMetricEventsByTicketError = ZendeskOpError;
@@ -19818,6 +20815,8 @@ export const listTicketMetricEventsByTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketMetricEventsByTicket",
 }));
 
 export type ListTicketMetricsError = ZendeskOpError;
@@ -19833,6 +20832,8 @@ export const listTicketMetrics: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketMetrics",
 }));
 
 export type ListTicketProblemsError = ZendeskOpError;
@@ -19848,6 +20849,8 @@ export const listTicketProblems: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketProblems",
 }));
 
 export type ListTicketsError = ZendeskOpError;
@@ -19863,6 +20866,8 @@ export const listTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTickets",
 }));
 
 export type ListTicketsFromViewError = ZendeskOpError;
@@ -19878,6 +20883,8 @@ export const listTicketsFromView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketsFromView",
 }));
 
 export type ListTicketsFullfilledByUserError = ZendeskOpError;
@@ -19893,6 +20900,8 @@ export const listTicketsFullfilledByUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketsFullfilledByUser",
 }));
 
 export type ListTicketSkipsError = ZendeskOpError;
@@ -19908,6 +20917,8 @@ export const listTicketSkips: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketSkips",
 }));
 
 export type ListTicketSkipsByTicketError = ZendeskOpError;
@@ -19923,6 +20934,8 @@ export const listTicketSkipsByTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketSkipsByTicket",
 }));
 
 export type ListTicketSlaPolicyMetricsError = ZendeskOpError;
@@ -19938,6 +20951,8 @@ export const listTicketSlaPolicyMetrics: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketSlaPolicyMetrics",
 }));
 
 export type ListTriggerActionConditionDefinitionsError = ZendeskOpError;
@@ -19953,6 +20968,8 @@ export const listTriggerActionConditionDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerActionConditionDefinitions",
 }));
 
 export type ListTriggerCategoriesError = BadRequest | Forbidden | ZendeskOpError;
@@ -19968,6 +20985,8 @@ export const listTriggerCategories: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerCategories",
 }));
 
 export type ListTriggerRevisionsError = ZendeskOpError;
@@ -19983,6 +21002,8 @@ export const listTriggerRevisions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerRevisions",
 }));
 
 export type ListTriggersError = ZendeskOpError;
@@ -20000,6 +21021,8 @@ export const listTriggers: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTriggers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -20023,6 +21046,8 @@ export const listUserAssignedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserAssignedTickets",
 }));
 
 export type ListUserBrandAgentsError = ZendeskOpError;
@@ -20038,6 +21063,8 @@ export const listUserBrandAgents: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserBrandAgents",
 }));
 
 export type ListUserCCDTicketsError = ZendeskOpError;
@@ -20053,6 +21080,8 @@ export const listUserCCDTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserCCDTickets",
 }));
 
 export type ListUserFieldOptionsError = ZendeskOpError;
@@ -20068,6 +21097,8 @@ export const listUserFieldOptions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserFieldOptions",
 }));
 
 export type ListUserFieldsError = ZendeskOpError;
@@ -20085,6 +21116,8 @@ export const listUserFields: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserFields",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -20108,6 +21141,8 @@ export const listUserFollowedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserFollowedTickets",
 }));
 
 export type ListUserGroupMembershipsError = ZendeskOpError;
@@ -20123,6 +21158,8 @@ export const listUserGroupMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserGroupMemberships",
 }));
 
 export type ListUserGroupsError = ZendeskOpError;
@@ -20138,6 +21175,8 @@ export const listUserGroups: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserGroups",
 }));
 
 export type ListUserIdentitiesError = ZendeskOpError;
@@ -20153,6 +21192,8 @@ export const listUserIdentities: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserIdentities",
 }));
 
 export type ListUserOrganizationMembershipsError = ZendeskOpError;
@@ -20168,6 +21209,8 @@ export const listUserOrganizationMemberships: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserOrganizationMemberships",
 }));
 
 export type ListUserOrganizationsError = Forbidden | NotFound | ZendeskOpError;
@@ -20185,6 +21228,8 @@ export const listUserOrganizations: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserOrganizations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -20208,6 +21253,8 @@ export const listUserOrganizationSubscriptions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserOrganizationSubscriptions",
 }));
 
 export type ListUserRequestedTicketsError = ZendeskOpError;
@@ -20223,6 +21270,8 @@ export const listUserRequestedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRequestedTickets",
 }));
 
 export type ListUserRequestsError = ZendeskOpError;
@@ -20238,6 +21287,8 @@ export const listUserRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRequests",
 }));
 
 export type ListUsersError = ZendeskOpError;
@@ -20253,6 +21304,8 @@ export const listUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListUserSessionsError = ZendeskOpError;
@@ -20268,6 +21321,8 @@ export const listUserSessions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserSessions",
 }));
 
 export type ListUserTagsError = ZendeskOpError;
@@ -20283,6 +21338,8 @@ export const listUserTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserTags",
 }));
 
 export type ListViewDefinitionsError = ZendeskOpError;
@@ -20298,6 +21355,8 @@ export const listViewDefinitions: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListViewDefinitions",
 }));
 
 export type ListViewsError = ZendeskOpError;
@@ -20315,6 +21374,8 @@ export const listViews: API.PaginatedOperationMethod<
     errors: [UnknownZendeskError],
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListViews",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -20338,6 +21399,8 @@ export const listViewsById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListViewsById",
 }));
 
 export type ListWorkspacesError = ZendeskOpError;
@@ -20353,6 +21416,8 @@ export const listWorkspaces: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type LogoutManyUsersError = ZendeskOpError;
@@ -20368,6 +21433,8 @@ export const logoutManyUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutManyUsers",
 }));
 
 export type MakeEndUserIdentityPrimaryError = ZendeskOpError;
@@ -20383,6 +21450,8 @@ export const makeEndUserIdentityPrimary: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeEndUserIdentityPrimary",
 }));
 
 export type MakeTicketCommentPrivateError = ZendeskOpError;
@@ -20398,6 +21467,8 @@ export const makeTicketCommentPrivate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeTicketCommentPrivate",
 }));
 
 export type MakeTicketCommentPrivateFromAuditsError = ZendeskOpError;
@@ -20413,6 +21484,8 @@ export const makeTicketCommentPrivateFromAudits: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeTicketCommentPrivateFromAudits",
 }));
 
 export type MakeUserIdentityPrimaryError = ZendeskOpError;
@@ -20428,6 +21501,8 @@ export const makeUserIdentityPrimary: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeUserIdentityPrimary",
 }));
 
 export type MarkManyTicketsAsSpamError = ZendeskOpError;
@@ -20443,6 +21518,8 @@ export const markManyTicketsAsSpam: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkManyTicketsAsSpam",
 }));
 
 export type MarkTicketAsSpamAndSuspendRequesterError = ZendeskOpError;
@@ -20458,6 +21535,8 @@ export const markTicketAsSpamAndSuspendRequester: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkTicketAsSpamAndSuspendRequester",
 }));
 
 export type MergeEndUsersError = ZendeskOpError;
@@ -20473,6 +21552,8 @@ export const mergeEndUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeEndUsers",
 }));
 
 export type MergeTicketsIntoTargetTicketError = ZendeskOpError;
@@ -20488,6 +21569,8 @@ export const mergeTicketsIntoTargetTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeTicketsIntoTargetTicket",
 }));
 
 export type OpenTicketInAgentBrowserError = NotFound | ZendeskOpError;
@@ -20503,6 +21586,8 @@ export const openTicketInAgentBrowser: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OpenTicketInAgentBrowser",
 }));
 
 export type OpenUsersProfileInAgentBrowserError = NotFound | ZendeskOpError;
@@ -20518,6 +21603,8 @@ export const openUsersProfileInAgentBrowser: API.OperationMethod<
   errors: [NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OpenUsersProfileInAgentBrowser",
 }));
 
 export type OrganizationRelatedError = ZendeskOpError;
@@ -20533,6 +21620,8 @@ export const organizationRelated: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationRelated",
 }));
 
 export type PermanentlyDeleteUserError = ZendeskOpError;
@@ -20548,6 +21637,8 @@ export const permanentlyDeleteUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PermanentlyDeleteUser",
 }));
 
 export type PostAutocompleteTagError = ZendeskOpError;
@@ -20563,6 +21654,8 @@ export const postAutocompleteTag: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAutocompleteTag",
 }));
 
 export type PostAutocompleteUserError = BadRequest | ZendeskOpError;
@@ -20578,6 +21671,8 @@ export const postAutocompleteUser: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAutocompleteUser",
 }));
 
 export type PreviewCountError = ZendeskOpError;
@@ -20593,6 +21688,8 @@ export const previewCount: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewCount",
 }));
 
 export type PreviewViewsError = ZendeskOpError;
@@ -20608,6 +21705,8 @@ export const previewViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewViews",
 }));
 
 export type PushContentToSupportError = ZendeskOpError;
@@ -20623,6 +21722,8 @@ export const pushContentToSupport: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PushContentToSupport",
 }));
 
 export type PushNotificationDevicesError = ZendeskOpError;
@@ -20638,6 +21739,8 @@ export const pushNotificationDevices: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PushNotificationDevices",
 }));
 
 export type PutTagsTicketError = ZendeskOpError;
@@ -20653,6 +21756,8 @@ export const putTagsTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTagsTicket",
 }));
 
 export type PutUserTagsError = ZendeskOpError;
@@ -20668,6 +21773,8 @@ export const putUserTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserTags",
 }));
 
 export type RecordNewSkipError = ZendeskOpError;
@@ -20683,6 +21790,8 @@ export const recordNewSkip: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordNewSkip",
 }));
 
 export type RecoverSuspendedTicketError = UnprocessableEntity | ZendeskOpError;
@@ -20698,6 +21807,8 @@ export const recoverSuspendedTicket: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverSuspendedTicket",
 }));
 
 export type RecoverSuspendedTicketsError = ZendeskOpError;
@@ -20713,6 +21824,8 @@ export const recoverSuspendedTickets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverSuspendedTickets",
 }));
 
 export type RedactChatCommentError = Conflict | ZendeskOpError;
@@ -20728,6 +21841,8 @@ export const redactChatComment: API.OperationMethod<
   errors: [Conflict, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactChatComment",
 }));
 
 export type RedactChatCommentAttachmentError = ZendeskOpError;
@@ -20743,6 +21858,8 @@ export const redactChatCommentAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactChatCommentAttachment",
 }));
 
 export type RedactCommentAttachmentError = ZendeskOpError;
@@ -20758,6 +21875,8 @@ export const redactCommentAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactCommentAttachment",
 }));
 
 export type RedactStringInCommentError = ZendeskOpError;
@@ -20773,6 +21892,8 @@ export const redactStringInComment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactStringInComment",
 }));
 
 export type RedactTicketCommentInAgentWorkspaceError = Conflict | ZendeskOpError;
@@ -20788,6 +21909,8 @@ export const redactTicketCommentInAgentWorkspace: API.OperationMethod<
   errors: [Conflict, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactTicketCommentInAgentWorkspace",
 }));
 
 export type RemoveOrganizationTagsError = ZendeskOpError;
@@ -20803,6 +21926,8 @@ export const removeOrganizationTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationTags",
 }));
 
 export type RenewCurrentSessionError = ZendeskOpError;
@@ -20818,6 +21943,8 @@ export const renewCurrentSession: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewCurrentSession",
 }));
 
 export type ReorderCustomObjectFieldsError = ZendeskOpError;
@@ -20833,6 +21960,8 @@ export const reorderCustomObjectFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderCustomObjectFields",
 }));
 
 export type ReorderGroupSLAPoliciesError = ZendeskOpError;
@@ -20848,6 +21977,8 @@ export const reorderGroupSLAPolicies: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderGroupSLAPolicies",
 }));
 
 export type ReorderOrganizationFieldError = ZendeskOpError;
@@ -20863,6 +21994,8 @@ export const reorderOrganizationField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderOrganizationField",
 }));
 
 export type ReorderQueuesError = ZendeskOpError;
@@ -20878,6 +22011,8 @@ export const reorderQueues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderQueues",
 }));
 
 export type ReorderSLAPoliciesError = ZendeskOpError;
@@ -20893,6 +22028,8 @@ export const reorderSLAPolicies: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSLAPolicies",
 }));
 
 export type ReorderTicketFieldsError = ZendeskOpError;
@@ -20908,6 +22045,8 @@ export const reorderTicketFields: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderTicketFields",
 }));
 
 export type ReorderTicketFormsError = ZendeskOpError;
@@ -20923,6 +22062,8 @@ export const reorderTicketForms: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderTicketForms",
 }));
 
 export type ReorderTriggersError = ZendeskOpError;
@@ -20938,6 +22079,8 @@ export const reorderTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderTriggers",
 }));
 
 export type ReorderUserFieldError = ZendeskOpError;
@@ -20953,6 +22096,8 @@ export const reorderUserField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderUserField",
 }));
 
 export type ReorderWorkspacesError = ZendeskOpError;
@@ -20968,6 +22113,8 @@ export const reorderWorkspaces: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderWorkspaces",
 }));
 
 export type ReportChannelbackErrorError = ZendeskOpError;
@@ -20983,6 +22130,8 @@ export const reportChannelbackError: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportChannelbackError",
 }));
 
 export type RequestEndUserVerificationError = ZendeskOpError;
@@ -20998,6 +22147,8 @@ export const requestEndUserVerification: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestEndUserVerification",
 }));
 
 export type RequestUserVerificationError = ZendeskOpError;
@@ -21013,6 +22164,8 @@ export const requestUserVerification: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestUserVerification",
 }));
 
 export type RestoreDeletedTicketError = ZendeskOpError;
@@ -21028,6 +22181,8 @@ export const restoreDeletedTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDeletedTicket",
 }));
 
 export type RevokeCurrentOAuthTokenError = ZendeskOpError;
@@ -21043,6 +22198,8 @@ export const revokeCurrentOAuthToken: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCurrentOAuthToken",
 }));
 
 export type RevokeOAuthTokenError = ZendeskOpError;
@@ -21058,6 +22215,8 @@ export const revokeOAuthToken: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOAuthToken",
 }));
 
 export type SearchAutocompleteCustomObjectRecordError = ZendeskOpError;
@@ -21073,6 +22232,8 @@ export const searchAutocompleteCustomObjectRecord: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAutocompleteCustomObjectRecord",
 }));
 
 export type SearchAutomationsError = ZendeskOpError;
@@ -21088,6 +22249,8 @@ export const searchAutomations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAutomations",
 }));
 
 export type SearchCustomObjectRecordsError = ZendeskOpError;
@@ -21103,6 +22266,8 @@ export const searchCustomObjectRecords: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCustomObjectRecords",
 }));
 
 export type SearchItamAssetsError = ZendeskOpError;
@@ -21118,6 +22283,8 @@ export const searchItamAssets: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchItamAssets",
 }));
 
 export type SearchMacroError = ZendeskOpError;
@@ -21133,6 +22300,8 @@ export const searchMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMacro",
 }));
 
 export type SearchObjectTriggersError = ZendeskOpError;
@@ -21148,6 +22317,8 @@ export const searchObjectTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchObjectTriggers",
 }));
 
 export type SearchOrganizationsError = ZendeskOpError;
@@ -21163,6 +22334,8 @@ export const searchOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchOrganizations",
 }));
 
 export type SearchRequestsError = ZendeskOpError;
@@ -21178,6 +22351,8 @@ export const searchRequests: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRequests",
 }));
 
 export type SearchTriggersError = ZendeskOpError;
@@ -21193,6 +22368,8 @@ export const searchTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTriggers",
 }));
 
 export type SearchUsersError = ZendeskOpError;
@@ -21208,6 +22385,8 @@ export const searchUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 }));
 
 export type SearchViewsError = ZendeskOpError;
@@ -21223,6 +22402,8 @@ export const searchViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchViews",
 }));
 
 export type SetAgentAttributeValuesError = ZendeskOpError;
@@ -21242,6 +22423,8 @@ export const setAgentAttributeValues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAgentAttributeValues",
 }));
 
 export type SetOrganizationAsDefaultError = ZendeskOpError;
@@ -21257,6 +22440,8 @@ export const setOrganizationAsDefault: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationAsDefault",
 }));
 
 export type SetOrganizationMembershipAsDefaultError = ZendeskOpError;
@@ -21272,6 +22457,8 @@ export const setOrganizationMembershipAsDefault: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationMembershipAsDefault",
 }));
 
 export type SetOrganizationTagsError = ZendeskOpError;
@@ -21287,6 +22474,8 @@ export const setOrganizationTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationTags",
 }));
 
 export type SetTagsTicketError = ZendeskOpError;
@@ -21302,6 +22491,8 @@ export const setTagsTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTagsTicket",
 }));
 
 export type SetTicketAttributeValuesError = ZendeskOpError;
@@ -21317,6 +22508,8 @@ export const setTicketAttributeValues: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTicketAttributeValues",
 }));
 
 export type SetUserPasswordError = ZendeskOpError;
@@ -21332,6 +22525,8 @@ export const setUserPassword: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserPassword",
 }));
 
 export type SetUserTagsError = ZendeskOpError;
@@ -21347,6 +22542,8 @@ export const setUserTags: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserTags",
 }));
 
 export type SuspendedTicketsAttachmentsError = ZendeskOpError;
@@ -21362,6 +22559,8 @@ export const suspendedTicketsAttachments: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendedTicketsAttachments",
 }));
 
 export type TicketBulkImportError = ZendeskOpError;
@@ -21377,6 +22576,8 @@ export const ticketBulkImport: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketBulkImport",
 }));
 
 export type TicketFormTicketFormStatusesError = ZendeskOpError;
@@ -21392,6 +22593,8 @@ export const ticketFormTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketFormTicketFormStatuses",
 }));
 
 export type TicketRelatedInformation2Error = ZendeskOpError;
@@ -21407,6 +22610,8 @@ export const ticketRelatedInformation2: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketRelatedInformation2",
 }));
 
 export type TicketsCreateManyError = ZendeskOpError;
@@ -21422,6 +22627,8 @@ export const ticketsCreateMany: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketsCreateMany",
 }));
 
 export type TicketsShowManyError = ZendeskOpError;
@@ -21437,6 +22644,8 @@ export const ticketsShowMany: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketsShowMany",
 }));
 
 export type TicketsUpdateManyError = ZendeskOpError;
@@ -21452,6 +22661,8 @@ export const ticketsUpdateMany: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TicketsUpdateMany",
 }));
 
 export type TriggerRevisionError = ZendeskOpError;
@@ -21467,6 +22678,8 @@ export const triggerRevision: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRevision",
 }));
 
 export type UnassignOrganizationError = ZendeskOpError;
@@ -21482,6 +22695,8 @@ export const unassignOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignOrganization",
 }));
 
 export type UnlinkTicketError = ZendeskOpError;
@@ -21497,6 +22712,8 @@ export const unlinkTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkTicket",
 }));
 
 export type UpdateAccessRuleError = ZendeskOpError;
@@ -21512,6 +22729,8 @@ export const updateAccessRule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessRule",
 }));
 
 export type UpdateAccountEmailSettingsError = BadRequest | ZendeskOpError;
@@ -21527,6 +22746,8 @@ export const updateAccountEmailSettings: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountEmailSettings",
 }));
 
 export type UpdateAccountSettingsError = ZendeskOpError;
@@ -21542,6 +22763,8 @@ export const updateAccountSettings: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateAttachmentError = ZendeskOpError;
@@ -21557,6 +22780,8 @@ export const updateAttachment: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttachment",
 }));
 
 export type UpdateAttributeError = ZendeskOpError;
@@ -21572,6 +22797,8 @@ export const updateAttribute: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttribute",
 }));
 
 export type UpdateAttributeValueError = ZendeskOpError;
@@ -21587,6 +22814,8 @@ export const updateAttributeValue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributeValue",
 }));
 
 export type UpdateAttributeValuePutError = ZendeskOpError;
@@ -21602,6 +22831,8 @@ export const updateAttributeValuePut: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributeValuePut",
 }));
 
 export type UpdateAutomationError = ZendeskOpError;
@@ -21617,6 +22848,8 @@ export const updateAutomation: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutomation",
 }));
 
 export type UpdateBrandError = ZendeskOpError;
@@ -21632,6 +22865,8 @@ export const updateBrand: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBrand",
 }));
 
 export type UpdateBrandLogoError = ZendeskOpError;
@@ -21647,6 +22882,8 @@ export const updateBrandLogo: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBrandLogo",
 }));
 
 export type UpdateClientError = ZendeskOpError;
@@ -21662,6 +22899,8 @@ export const updateClient: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClient",
 }));
 
 export type UpdateCurrentUserSettingsError = BadRequest | ZendeskOpError;
@@ -21677,6 +22916,8 @@ export const updateCurrentUserSettings: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentUserSettings",
 }));
 
 export type UpdateCustomObjectError = ZendeskOpError;
@@ -21692,6 +22933,8 @@ export const updateCustomObject: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomObject",
 }));
 
 export type UpdateCustomObjectFieldError = ZendeskOpError;
@@ -21707,6 +22950,8 @@ export const updateCustomObjectField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomObjectField",
 }));
 
 export type UpdateCustomObjectRecordError = ZendeskOpError;
@@ -21722,6 +22967,8 @@ export const updateCustomObjectRecord: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomObjectRecord",
 }));
 
 export type UpdateCustomObjectRecordAttachmentError = BadRequest | ZendeskOpError;
@@ -21737,6 +22984,8 @@ export const updateCustomObjectRecordAttachment: API.OperationMethod<
   errors: [BadRequest, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomObjectRecordAttachment",
 }));
 
 export type UpdateCustomRoleByIdError = ZendeskOpError;
@@ -21752,6 +23001,8 @@ export const updateCustomRoleById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoleById",
 }));
 
 export type UpdateCustomStatusError = ZendeskOpError;
@@ -21767,6 +23018,8 @@ export const updateCustomStatus: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomStatus",
 }));
 
 export type UpdateCustomTaskListError = ZendeskOpError;
@@ -21782,6 +23035,8 @@ export const updateCustomTaskList: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomTaskList",
 }));
 
 export type UpdateDeletionScheduleError = ZendeskOpError;
@@ -21797,6 +23052,8 @@ export const updateDeletionSchedule: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeletionSchedule",
 }));
 
 export type UpdateDynamicContentItemError = ZendeskOpError;
@@ -21812,6 +23069,8 @@ export const updateDynamicContentItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicContentItem",
 }));
 
 export type UpdateDynamicContentVariantError = ZendeskOpError;
@@ -21827,6 +23086,8 @@ export const updateDynamicContentVariant: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicContentVariant",
 }));
 
 export type UpdateGroupError = ZendeskOpError;
@@ -21842,6 +23103,8 @@ export const updateGroup: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupSLAPolicyError = ZendeskOpError;
@@ -21857,6 +23120,8 @@ export const updateGroupSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupSLAPolicy",
 }));
 
 export type UpdateItamAssetError = UnprocessableEntity | ZendeskOpError;
@@ -21872,6 +23137,8 @@ export const updateItamAsset: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItamAsset",
 }));
 
 export type UpdateItamAssetTypeError = UnprocessableEntity | ZendeskOpError;
@@ -21887,6 +23154,8 @@ export const updateItamAssetType: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItamAssetType",
 }));
 
 export type UpdateItamFieldError = UnprocessableEntity | ZendeskOpError;
@@ -21902,6 +23171,8 @@ export const updateItamField: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItamField",
 }));
 
 export type UpdateItamLocationError = UnprocessableEntity | ZendeskOpError;
@@ -21917,6 +23188,8 @@ export const updateItamLocation: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItamLocation",
 }));
 
 export type UpdateItamStatusError = UnprocessableEntity | ZendeskOpError;
@@ -21932,6 +23205,8 @@ export const updateItamStatus: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItamStatus",
 }));
 
 export type UpdateMacroError = ZendeskOpError;
@@ -21947,6 +23222,8 @@ export const updateMacro: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMacro",
 }));
 
 export type UpdateManyAutomationsError = ZendeskOpError;
@@ -21962,6 +23239,8 @@ export const updateManyAutomations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyAutomations",
 }));
 
 export type UpdateManyDynamicContentVariantsError = ZendeskOpError;
@@ -21977,6 +23256,8 @@ export const updateManyDynamicContentVariants: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyDynamicContentVariants",
 }));
 
 export type UpdateManyMacrosError = ZendeskOpError;
@@ -21992,6 +23273,8 @@ export const updateManyMacros: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyMacros",
 }));
 
 export type UpdateManyObjectTriggersError = ZendeskOpError;
@@ -22007,6 +23290,8 @@ export const updateManyObjectTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyObjectTriggers",
 }));
 
 export type UpdateManyOrganizationsError = ZendeskOpError;
@@ -22022,6 +23307,8 @@ export const updateManyOrganizations: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyOrganizations",
 }));
 
 export type UpdateManyTriggersError = ZendeskOpError;
@@ -22037,6 +23324,8 @@ export const updateManyTriggers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyTriggers",
 }));
 
 export type UpdateManyUsersError = ZendeskOpError;
@@ -22052,6 +23341,8 @@ export const updateManyUsers: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyUsers",
 }));
 
 export type UpdateManyViewsError = ZendeskOpError;
@@ -22067,6 +23358,8 @@ export const updateManyViews: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManyViews",
 }));
 
 export type UpdateObjectTriggerError = ZendeskOpError;
@@ -22082,6 +23375,8 @@ export const updateObjectTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObjectTrigger",
 }));
 
 export type UpdateOrganizationError = ZendeskOpError;
@@ -22097,6 +23392,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationFieldError = ZendeskOpError;
@@ -22112,6 +23409,8 @@ export const updateOrganizationField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationField",
 }));
 
 export type UpdatePermissionPolicyError = ZendeskOpError;
@@ -22127,6 +23426,8 @@ export const updatePermissionPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionPolicy",
 }));
 
 export type UpdateQueueError = ZendeskOpError;
@@ -22142,6 +23443,8 @@ export const updateQueue: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 export type UpdateRequestError = ZendeskOpError;
@@ -22157,6 +23460,8 @@ export const updateRequest: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRequest",
 }));
 
 export type UpdateResourceCollectionError = ZendeskOpError;
@@ -22172,6 +23477,8 @@ export const updateResourceCollection: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceCollection",
 }));
 
 export type UpdateSavedSearchError = NotFound | Conflict | UnprocessableEntity | ZendeskOpError;
@@ -22187,6 +23494,8 @@ export const updateSavedSearch: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedSearch",
 }));
 
 export type UpdateSharingAgreementError = ZendeskOpError;
@@ -22202,6 +23511,8 @@ export const updateSharingAgreement: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSharingAgreement",
 }));
 
 export type UpdateSLAPolicyError = ZendeskOpError;
@@ -22217,6 +23528,8 @@ export const updateSLAPolicy: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSLAPolicy",
 }));
 
 export type UpdateSupportAddressError = ZendeskOpError;
@@ -22232,6 +23545,8 @@ export const updateSupportAddress: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupportAddress",
 }));
 
 export type UpdateTargetError = ZendeskOpError;
@@ -22247,6 +23562,8 @@ export const updateTarget: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTarget",
 }));
 
 export type UpdateTaskItemError = ZendeskOpError;
@@ -22262,6 +23579,8 @@ export const updateTaskItem: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskItem",
 }));
 
 export type UpdateTaskListTemplateError = ZendeskOpError;
@@ -22277,6 +23596,8 @@ export const updateTaskListTemplate: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskListTemplate",
 }));
 
 export type UpdateTicketError = ZendeskOpError;
@@ -22292,6 +23613,8 @@ export const updateTicket: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicket",
 }));
 
 export type UpdateTicketFieldError = ZendeskOpError;
@@ -22307,6 +23630,8 @@ export const updateTicketField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketField",
 }));
 
 export type UpdateTicketFormError = ZendeskOpError;
@@ -22322,6 +23647,8 @@ export const updateTicketForm: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketForm",
 }));
 
 export type UpdateTicketFormStatusByIdError = ZendeskOpError;
@@ -22337,6 +23664,8 @@ export const updateTicketFormStatusById: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketFormStatusById",
 }));
 
 export type UpdateTicketFormStatusesError = ZendeskOpError;
@@ -22352,6 +23681,8 @@ export const updateTicketFormStatuses: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketFormStatuses",
 }));
 
 export type UpdateTriggerError = ZendeskOpError;
@@ -22367,6 +23698,8 @@ export const updateTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrigger",
 }));
 
 export type UpdateTriggerCategoryError = BadRequest | NotFound | ZendeskOpError;
@@ -22382,6 +23715,8 @@ export const updateTriggerCategory: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTriggerCategory",
 }));
 
 export type UpdateUserError = ZendeskOpError;
@@ -22397,6 +23732,8 @@ export const updateUser: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserFieldError = ZendeskOpError;
@@ -22412,6 +23749,8 @@ export const updateUserField: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserField",
 }));
 
 export type UpdateUserIdentityError = ZendeskOpError;
@@ -22427,6 +23766,8 @@ export const updateUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserIdentity",
 }));
 
 export type UpdateUserSuspensionError =
@@ -22446,6 +23787,8 @@ export const updateUserSuspension: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserSuspension",
 }));
 
 export type UpdateViewError = ZendeskOpError;
@@ -22461,6 +23804,8 @@ export const updateView: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateView",
 }));
 
 export type UpdateWorkspaceError = ZendeskOpError;
@@ -22476,6 +23821,8 @@ export const updateWorkspace: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type UploadFilesError = ZendeskOpError;
@@ -22491,6 +23838,8 @@ export const uploadFiles: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFiles",
 }));
 
 export type UpsertCustomObjectRecordByExternalIdOrNameError = ZendeskOpError;
@@ -22510,6 +23859,8 @@ export const upsertCustomObjectRecordByExternalIdOrName: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCustomObjectRecordByExternalIdOrName",
 }));
 
 export type ValidateTokenError = ZendeskOpError;
@@ -22525,6 +23876,8 @@ export const validateToken: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateToken",
 }));
 
 export type ValidateTriggerError = ZendeskOpError;
@@ -22540,6 +23893,8 @@ export const validateTrigger: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateTrigger",
 }));
 
 export type VerifySubdomainAvailabilityError = ZendeskOpError;
@@ -22555,6 +23910,8 @@ export const verifySubdomainAvailability: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifySubdomainAvailability",
 }));
 
 export type VerifySupportAddressForwardingError = ZendeskOpError;
@@ -22570,6 +23927,8 @@ export const verifySupportAddressForwarding: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifySupportAddressForwarding",
 }));
 
 export type VerifyUserIdentityError = ZendeskOpError;
@@ -22585,6 +23944,8 @@ export const verifyUserIdentity: API.OperationMethod<
   errors: [UnknownZendeskError],
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyUserIdentity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -22675,11 +24036,14 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ViaObjectSourceTo" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          from: S.optional(__S(192, __c6, 0)),
-          rel: S.optional(S.NullOr(S.String)),
-          to: S.optional(__S(193, __c6, 1)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            from: S.optional(__S(192, __c6, 0)),
+            rel: S.optional(S.NullOr(S.String)),
+            to: S.optional(__S(193, __c6, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ViaObjectSource" });
     case 3:
       return S.suspend(() =>
@@ -22930,43 +24294,46 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          id: S.optional(S.Number),
-          title: S.String,
-          type: S.String,
-          message_id: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          project_id: S.optional(S.String),
-          resource: S.optional(S.String),
-          target_url: S.optional(S.String),
-          todo_list_id: S.optional(S.String),
-          token: S.optional(S.String),
-          username: S.optional(S.String),
-          preserve_format: S.optional(S.Boolean),
-          room: S.optional(S.String),
-          ssl: S.optional(S.Boolean),
-          subdomain: S.optional(S.String),
-          api_id: S.optional(S.String),
-          attribute: S.optional(S.String),
-          from: S.optional(S.String),
-          method: S.optional(S.String),
-          to: S.optional(S.String),
-          us_small_business_account: S.optional(S.String),
-          email: S.optional(S.String),
-          subject: S.optional(S.String),
-          api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_name: S.optional(S.String),
-          owner_by: S.optional(S.String),
-          requested_by: S.optional(S.String),
-          story_labels: S.optional(S.String),
-          story_title: S.optional(S.String),
-          story_type: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          content_type: S.optional(S.String),
-          group_id: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            created_at: S.optional(S.String),
+            id: S.optional(S.Number),
+            title: S.String,
+            type: S.String,
+            message_id: S.optional(S.String),
+            password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            project_id: S.optional(S.String),
+            resource: S.optional(S.String),
+            target_url: S.optional(S.String),
+            todo_list_id: S.optional(S.String),
+            token: S.optional(S.String),
+            username: S.optional(S.String),
+            preserve_format: S.optional(S.Boolean),
+            room: S.optional(S.String),
+            ssl: S.optional(S.Boolean),
+            subdomain: S.optional(S.String),
+            api_id: S.optional(S.String),
+            attribute: S.optional(S.String),
+            from: S.optional(S.String),
+            method: S.optional(S.String),
+            to: S.optional(S.String),
+            us_small_business_account: S.optional(S.String),
+            email: S.optional(S.String),
+            subject: S.optional(S.String),
+            api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            account_name: S.optional(S.String),
+            owner_by: S.optional(S.String),
+            requested_by: S.optional(S.String),
+            story_labels: S.optional(S.String),
+            story_title: S.optional(S.String),
+            story_type: S.optional(S.String),
+            secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            content_type: S.optional(S.String),
+            group_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TargetObject" });
   }
 }
@@ -23115,7 +24482,7 @@ function __c25(j: number): any {
         S.Struct({
           include: S.optional(S.String.pipe(T.Query())),
           system_metadata: S.optional(__S(27392, __c856, 0)),
-          ticket: __S(928, __c29, 0),
+          ticket: __S(929, __c29, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketRequest" });
   }
@@ -23264,23 +24631,26 @@ function __c28(j: number): any {
           wait_time: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "TicketObjectInputTpeVoiceComment" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          answered_by_id: S.optional(S.NullOr(S.Number)),
-          call_duration: S.optional(S.Number),
-          from: S.optional(S.String),
-          location: S.optional(S.NullOr(S.String)),
-          recording_url: S.optional(S.NullOr(S.String)),
-          to: S.optional(S.String),
-          transcription_text: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TicketObjectInputVoiceComment" });
   }
 }
 function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            answered_by_id: S.optional(S.NullOr(S.Number)),
+            call_duration: S.optional(S.Number),
+            from: S.optional(S.String),
+            location: S.optional(S.NullOr(S.String)),
+            recording_url: S.optional(S.NullOr(S.String)),
+            to: S.optional(S.String),
+            transcription_text: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TicketObjectInputVoiceComment" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           additional_collaborators: S.optional(__S(865, __c27, 1)),
@@ -23330,7 +24700,7 @@ function __c29(j: number): any {
           updated_stamp: S.optional(S.String),
           via_followup_source_id: S.optional(S.Number),
           via_id: S.optional(S.Number),
-          voice_comment: S.optional(__S(901, __c28, 5)),
+          voice_comment: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "TicketObjectInput" });
   }
@@ -23654,6 +25024,24 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            answered_by_id: S.optional(S.NullOr(S.Number)),
+            call_duration: S.optional(S.Number),
+            from: S.optional(S.String),
+            location: S.optional(S.NullOr(S.String)),
+            recording_url: S.optional(S.NullOr(S.String)),
+            to: S.optional(S.String),
+            transcription_text: S.optional(S.NullOr(S.String)),
+            public: S.optional(S.Boolean),
+            recording_type: S.optional(S.String),
+            started_at: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TicketCreateVoicemailTicketInputInputVoiceComment" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           additional_collaborators: S.optional(__S(865, __c27, 1)),
           assignee_email: S.optional(S.String),
@@ -23702,16 +25090,16 @@ function __c45(j: number): any {
           updated_stamp: S.optional(S.String),
           via_followup_source_id: S.optional(S.Number),
           via_id: S.optional(S.Number),
-          voice_comment: S.optional(__S(901, __c28, 5)),
+          voice_comment: S.optional(__S(1440, __c45, 0)),
           additional_tags: S.optional(__S(19008, __c594, 0)),
           remove_tags: S.optional(__S(19008, __c594, 0)),
         }),
       ).annotate({ identifier: "TicketCreateVoicemailTicketInputInput" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           display_to_agent: S.optional(S.Number),
-          ticket: S.optional(__S(1440, __c45, 0)),
+          ticket: S.optional(__S(1441, __c45, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/channels/voice/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketOrVoicemailTicketRequest" });
   }
@@ -26998,51 +28386,54 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          agent_brand_ids: S.optional(__S(32, __c1, 0)),
-          alias: S.optional(S.String),
-          chat_only: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          custom_role_id: S.optional(S.NullOr(S.Number)),
-          default_group_id: S.optional(S.Number),
-          details: S.optional(S.String),
-          email: S.optional(S.String),
-          external_id: S.optional(S.NullOr(S.String)),
-          iana_time_zone: S.optional(S.String),
-          id: S.optional(S.Number),
-          last_login_at: S.optional(S.String),
-          locale: S.optional(S.String),
-          locale_id: S.optional(S.Number),
-          moderator: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          notes: S.optional(S.String),
-          only_private_comments: S.optional(S.Boolean),
-          organization_id: S.optional(S.NullOr(S.Number)),
-          phone: S.optional(S.NullOr(S.String)),
-          photo: S.optional(S.NullOr(__S(27392, __c856, 0))),
-          remote_photo_url: S.optional(S.String),
-          report_csv: S.optional(S.Boolean),
-          restricted_agent: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          role_type: S.optional(S.NullOr(S.Number)),
-          separation: S.optional(__S(7712, __c241, 0)),
-          shared: S.optional(S.Boolean),
-          shared_agent: S.optional(S.Boolean),
-          shared_phone_number: S.optional(S.NullOr(S.Boolean)),
-          signature: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          suspension_details: S.optional(S.NullOr(__S(7713, __c241, 1))),
-          tags: S.optional(__S(19008, __c594, 0)),
-          ticket_restriction: S.optional(S.NullOr(S.String)),
-          time_zone: S.optional(S.String),
-          two_factor_auth_enabled: S.optional(S.NullOr(S.Boolean)),
-          updated_at: S.optional(S.String),
-          url: S.optional(S.String),
-          user_fields: S.optional(__S(27392, __c856, 0)),
-          verified: S.optional(S.Boolean),
-          authenticity_token: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            agent_brand_ids: S.optional(__S(32, __c1, 0)),
+            alias: S.optional(S.String),
+            chat_only: S.optional(S.Boolean),
+            created_at: S.optional(S.String),
+            custom_role_id: S.optional(S.NullOr(S.Number)),
+            default_group_id: S.optional(S.Number),
+            details: S.optional(S.String),
+            email: S.optional(S.String),
+            external_id: S.optional(S.NullOr(S.String)),
+            iana_time_zone: S.optional(S.String),
+            id: S.optional(S.Number),
+            last_login_at: S.optional(S.String),
+            locale: S.optional(S.String),
+            locale_id: S.optional(S.Number),
+            moderator: S.optional(S.Boolean),
+            name: S.optional(S.String),
+            notes: S.optional(S.String),
+            only_private_comments: S.optional(S.Boolean),
+            organization_id: S.optional(S.NullOr(S.Number)),
+            phone: S.optional(S.NullOr(S.String)),
+            photo: S.optional(__S(27392, __c856, 0)),
+            remote_photo_url: S.optional(S.String),
+            report_csv: S.optional(S.Boolean),
+            restricted_agent: S.optional(S.Boolean),
+            role: S.optional(S.String),
+            role_type: S.optional(S.NullOr(S.Number)),
+            separation: S.optional(__S(7712, __c241, 0)),
+            shared: S.optional(S.Boolean),
+            shared_agent: S.optional(S.Boolean),
+            shared_phone_number: S.optional(S.NullOr(S.Boolean)),
+            signature: S.optional(S.String),
+            suspended: S.optional(S.Boolean),
+            suspension_details: S.optional(S.NullOr(__S(7713, __c241, 1))),
+            tags: S.optional(__S(19008, __c594, 0)),
+            ticket_restriction: S.optional(S.NullOr(S.String)),
+            time_zone: S.optional(S.String),
+            two_factor_auth_enabled: S.optional(S.NullOr(S.Boolean)),
+            updated_at: S.optional(S.String),
+            url: S.optional(S.String),
+            user_fields: S.optional(__S(27392, __c856, 0)),
+            verified: S.optional(S.Boolean),
+            authenticity_token: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "CurrentUserResponseUser" });
     case 4:
       return S.suspend(() =>
@@ -27064,20 +28455,26 @@ function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          has_admin_center_side_nav_open: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            has_admin_center_side_nav_open: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UserSettingsResponseSettingsAdminCenter" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          agent_workspace_theme_preference: S.optional(S.String),
-          agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
-          keyboard_shortcuts_enabled: S.optional(S.Boolean),
-          macro_shortcuts_enabled: S.optional(S.Boolean),
-          show_onboarding_tooltips: S.optional(S.Boolean),
-          two_factor_authentication: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            agent_workspace_theme_preference: S.optional(S.String),
+            agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
+            keyboard_shortcuts_enabled: S.optional(S.Boolean),
+            macro_shortcuts_enabled: S.optional(S.Boolean),
+            show_onboarding_tooltips: S.optional(S.Boolean),
+            two_factor_authentication: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UserSettingsResponseSettingsLotus" });
     case 2:
       return S.suspend(() =>
@@ -29580,19 +30977,22 @@ function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          add_short_url: S.optional(S.Boolean),
-          author_id: S.optional(S.NullOr(S.Number)),
-          body: S.optional(S.String),
-          channel_back: S.optional(S.String),
-          channel_source_id: S.optional(S.NullOr(S.String)),
-          html_body: S.optional(S.String),
-          public: S.optional(S.Boolean),
-          translate_to: S.optional(S.NullOr(S.String)),
-          uploads: S.optional(__S(19008, __c594, 0)),
-          via: S.optional(__S(2784, __c87, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            value: S.optional(S.String),
+            add_short_url: S.optional(S.Boolean),
+            author_id: S.optional(S.NullOr(S.Number)),
+            body: S.optional(S.String),
+            channel_back: S.optional(S.String),
+            channel_source_id: S.optional(S.NullOr(S.String)),
+            html_body: S.optional(S.String),
+            public: S.optional(S.Boolean),
+            translate_to: S.optional(S.NullOr(S.String)),
+            uploads: S.optional(__S(19008, __c594, 0)),
+            via: S.optional(__S(2784, __c87, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TicketImportInputInputComment" });
     case 1:
       return S.Array(__S(12512, __c391, 0));
@@ -30712,24 +32112,30 @@ function __c446(j: number): any {
       ).annotate({ identifier: "ListConversationLogForTicketRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          zen_sunco_user_id: S.optional(S.String.pipe(T.Body("zen:sunco:user_id"))),
-          zen_support_user_id: S.optional(S.Number.pipe(T.Body("zen:support:user_id"))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+            zen_sunco_user_id: S.optional(S.String.pipe(T.Body("zen:sunco:user_id"))),
+            zen_support_user_id: S.optional(S.Number.pipe(T.Body("zen:support:user_id"))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ConversationLogObjectAuthor" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          attachments: __S(128, __c4, 0),
-          author: __S(14273, __c446, 1),
-          content: __S(27392, __c856, 0),
-          created_at: S.String,
-          id: S.String,
-          metadata: __S(27392, __c856, 0),
-          reference: S.String,
-          type: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            attachments: __S(128, __c4, 0),
+            author: __S(14273, __c446, 1),
+            content: __S(27392, __c856, 0),
+            created_at: S.String,
+            id: S.String,
+            metadata: __S(27392, __c856, 0),
+            reference: S.String,
+            type: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ConversationLogObject" });
     case 3:
       return S.Array(__S(14274, __c446, 2));
@@ -35223,7 +36629,7 @@ function __c709(j: number): any {
 function __c710(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(929, __c29, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -35531,13 +36937,16 @@ function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          agent_workspace_theme_preference: S.optional(S.String),
-          agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
-          keyboard_shortcuts_enabled: S.optional(S.Boolean),
-          macro_shortcuts_enabled: S.optional(S.Boolean),
-          show_onboarding_tooltips: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            agent_workspace_theme_preference: S.optional(S.String),
+            agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
+            keyboard_shortcuts_enabled: S.optional(S.Boolean),
+            macro_shortcuts_enabled: S.optional(S.Boolean),
+            show_onboarding_tooltips: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UpdateCurrentUserSettingsRequestSettingsLotus" });
     case 1:
       return S.suspend(() =>
@@ -36555,7 +37964,7 @@ function __c788(j: number): any {
         S.Struct({
           ticket_id: S.Number.pipe(T.Label()),
           system_metadata: S.optional(__S(27392, __c856, 0)),
-          ticket: S.optional(__S(928, __c29, 0)),
+          ticket: S.optional(__S(929, __c29, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v2/tickets/{ticket_id}", code: 200 })),
       ).annotate({ identifier: "UpdateTicketRequest" });
     case 1:
@@ -37650,11 +39059,14 @@ function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          ids: S.optional(__S(32, __c1, 0)),
-          type: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.Number),
+            ids: S.optional(__S(32, __c1, 0)),
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "MacroInputRestriction" });
     case 1:
       return S.suspend(() =>

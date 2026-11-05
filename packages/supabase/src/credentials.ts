@@ -22,7 +22,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "SupabaseCredentials",
   ) {}
 
@@ -43,7 +43,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       accessToken: Redacted.make(accessToken),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
-    Effect.orDie,
   ),
 );
 

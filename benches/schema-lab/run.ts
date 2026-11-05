@@ -17,7 +17,7 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
-import { annotateNestedCalls } from "@distilled.cloud/core/codegen/pure";
+import { annotateNestedCalls } from "@distilled.cloud/dev/codegen/pure";
 import { rolldown } from "rolldown";
 import { applyDedupe, dedupe } from "./src/dedupe.ts";
 import { CANDIDATES, emit, type Candidate } from "./src/emit.ts";

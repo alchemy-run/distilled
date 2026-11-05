@@ -43,7 +43,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "CoinbaseCredentials",
   ) {}
 
@@ -92,5 +92,5 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       walletSecret: Option.getOrUndefined(config.walletSecret),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

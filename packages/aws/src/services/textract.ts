@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -70,6 +72,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://textract.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Textract",
+  service: "Textract",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -872,7 +889,7 @@ export type AnalyzeDocumentError =
  * Analysis.
  */
 export const analyzeDocument: API.OperationMethod<
-  AnalyzeDocumentRequest,
+  AnalyzeDocumentRequest & RegionInput,
   AnalyzeDocumentResponse,
   AnalyzeDocumentError,
   Credentials | HttpClient.HttpClient
@@ -894,6 +911,8 @@ export const analyzeDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeDocument",
+  telemetry: TELEMETRY,
+  span: "AnalyzeDocument",
 }));
 
 export type AnalyzeExpenseError =
@@ -922,7 +941,7 @@ export type AnalyzeExpenseError =
  * header information or the vendors name.
  */
 export const analyzeExpense: API.OperationMethod<
-  AnalyzeExpenseRequest,
+  AnalyzeExpenseRequest & RegionInput,
   AnalyzeExpenseResponse,
   AnalyzeExpenseError,
   Credentials | HttpClient.HttpClient
@@ -943,6 +962,8 @@ export const analyzeExpense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeExpense",
+  telemetry: TELEMETRY,
+  span: "AnalyzeExpense",
 }));
 
 export type AnalyzeIDError =
@@ -963,7 +984,7 @@ export type AnalyzeIDError =
  * `AnalyzeID` doesn't return any Geometry data.
  */
 export const analyzeID: API.OperationMethod<
-  AnalyzeIDRequest,
+  AnalyzeIDRequest & RegionInput,
   AnalyzeIDResponse,
   AnalyzeIDError,
   Credentials | HttpClient.HttpClient
@@ -984,6 +1005,8 @@ export const analyzeID: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AnalyzeID",
+  telemetry: TELEMETRY,
+  span: "AnalyzeID",
 }));
 
 export type CreateAdapterError =
@@ -1006,7 +1029,7 @@ export type CreateAdapterError =
  * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
  */
 export const createAdapter: API.OperationMethod<
-  CreateAdapterRequest,
+  CreateAdapterRequest & RegionInput,
   CreateAdapterResponse,
   CreateAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1028,6 +1051,8 @@ export const createAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdapter",
+  telemetry: TELEMETRY,
+  span: "CreateAdapter",
 }));
 
 export type CreateAdapterVersionError =
@@ -1052,7 +1077,7 @@ export type CreateAdapterVersionError =
  * an optional ClientRequestToken, and optional tags.
  */
 export const createAdapterVersion: API.OperationMethod<
-  CreateAdapterVersionRequest,
+  CreateAdapterVersionRequest & RegionInput,
   CreateAdapterVersionResponse,
   CreateAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1077,6 +1102,8 @@ export const createAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdapterVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAdapterVersion",
 }));
 
 export type DeleteAdapterError =
@@ -1093,7 +1120,7 @@ export type DeleteAdapterError =
  * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
  */
 export const deleteAdapter: API.OperationMethod<
-  DeleteAdapterRequest,
+  DeleteAdapterRequest & RegionInput,
   DeleteAdapterResponse,
   DeleteAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1113,6 +1140,8 @@ export const deleteAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdapter",
+  telemetry: TELEMETRY,
+  span: "DeleteAdapter",
 }));
 
 export type DeleteAdapterVersionError =
@@ -1130,7 +1159,7 @@ export type DeleteAdapterVersionError =
  * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
  */
 export const deleteAdapterVersion: API.OperationMethod<
-  DeleteAdapterVersionRequest,
+  DeleteAdapterVersionRequest & RegionInput,
   DeleteAdapterVersionResponse,
   DeleteAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1150,6 +1179,8 @@ export const deleteAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdapterVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAdapterVersion",
 }));
 
 export type DetectDocumentTextError =
@@ -1179,7 +1210,7 @@ export type DetectDocumentTextError =
  * For more information, see Document Text Detection.
  */
 export const detectDocumentText: API.OperationMethod<
-  DetectDocumentTextRequest,
+  DetectDocumentTextRequest & RegionInput,
   DetectDocumentTextResponse,
   DetectDocumentTextError,
   Credentials | HttpClient.HttpClient
@@ -1200,6 +1231,8 @@ export const detectDocumentText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDocumentText",
+  telemetry: TELEMETRY,
+  span: "DetectDocumentText",
 }));
 
 export type GetAdapterError =
@@ -1216,7 +1249,7 @@ export type GetAdapterError =
  * CreationTime, AutoUpdate status, and FeatureTypes.
  */
 export const getAdapter: API.OperationMethod<
-  GetAdapterRequest,
+  GetAdapterRequest & RegionInput,
   GetAdapterResponse,
   GetAdapterError,
   Credentials | HttpClient.HttpClient
@@ -1235,6 +1268,8 @@ export const getAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdapter",
+  telemetry: TELEMETRY,
+  span: "GetAdapter",
 }));
 
 export type GetAdapterVersionError =
@@ -1252,7 +1287,7 @@ export type GetAdapterVersionError =
  * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
  */
 export const getAdapterVersion: API.OperationMethod<
-  GetAdapterVersionRequest,
+  GetAdapterVersionRequest & RegionInput,
   GetAdapterVersionResponse,
   GetAdapterVersionError,
   Credentials | HttpClient.HttpClient
@@ -1271,6 +1306,8 @@ export const getAdapterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdapterVersion",
+  telemetry: TELEMETRY,
+  span: "GetAdapterVersion",
 }));
 
 export type GetDocumentAnalysisError =
@@ -1343,7 +1380,7 @@ export type GetDocumentAnalysisError =
  * Analysis.
  */
 export const getDocumentAnalysis: API.OperationMethod<
-  GetDocumentAnalysisRequest,
+  GetDocumentAnalysisRequest & RegionInput,
   GetDocumentAnalysisResponse,
   GetDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1363,6 +1400,8 @@ export const getDocumentAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetDocumentAnalysis",
 }));
 
 export type GetDocumentTextDetectionError =
@@ -1406,7 +1445,7 @@ export type GetDocumentTextDetectionError =
  * For more information, see Document Text Detection.
  */
 export const getDocumentTextDetection: API.OperationMethod<
-  GetDocumentTextDetectionRequest,
+  GetDocumentTextDetectionRequest & RegionInput,
   GetDocumentTextDetectionResponse,
   GetDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -1426,6 +1465,8 @@ export const getDocumentTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentTextDetection",
+  telemetry: TELEMETRY,
+  span: "GetDocumentTextDetection",
 }));
 
 export type GetExpenseAnalysisError =
@@ -1461,7 +1502,7 @@ export type GetExpenseAnalysisError =
  * For more information, see Analyzing Invoices and Receipts.
  */
 export const getExpenseAnalysis: API.OperationMethod<
-  GetExpenseAnalysisRequest,
+  GetExpenseAnalysisRequest & RegionInput,
   GetExpenseAnalysisResponse,
   GetExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1481,6 +1522,8 @@ export const getExpenseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExpenseAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetExpenseAnalysis",
 }));
 
 export type GetLendingAnalysisError =
@@ -1509,7 +1552,7 @@ export type GetLendingAnalysisError =
  * `StartLendingAnalysis`.
  */
 export const getLendingAnalysis: API.OperationMethod<
-  GetLendingAnalysisRequest,
+  GetLendingAnalysisRequest & RegionInput,
   GetLendingAnalysisResponse,
   GetLendingAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1572,8 @@ export const getLendingAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLendingAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetLendingAnalysis",
 }));
 
 export type GetLendingAnalysisSummaryError =
@@ -1558,7 +1603,7 @@ export type GetLendingAnalysisSummaryError =
  * the initial call to `StartLendingAnalysis`.
  */
 export const getLendingAnalysisSummary: API.OperationMethod<
-  GetLendingAnalysisSummaryRequest,
+  GetLendingAnalysisSummaryRequest & RegionInput,
   GetLendingAnalysisSummaryResponse,
   GetLendingAnalysisSummaryError,
   Credentials | HttpClient.HttpClient
@@ -1578,6 +1623,8 @@ export const getLendingAnalysisSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLendingAnalysisSummary",
+  telemetry: TELEMETRY,
+  span: "GetLendingAnalysisSummary",
 }));
 
 export type ListAdaptersError =
@@ -1592,7 +1639,7 @@ export type ListAdaptersError =
  * Lists all adapters that match the specified filtration criteria.
  */
 export const listAdapters: API.PaginatedOperationMethod<
-  ListAdaptersRequest,
+  ListAdaptersRequest & RegionInput,
   ListAdaptersResponse,
   ListAdaptersError,
   Credentials | HttpClient.HttpClient,
@@ -1617,6 +1664,8 @@ export const listAdapters: API.PaginatedOperationMethod<
     items: "Adapters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdapters",
 })) as any;
 
 export type ListAdapterVersionsError =
@@ -1632,7 +1681,7 @@ export type ListAdapterVersionsError =
  * List all version of an adapter that meet the specified filtration criteria.
  */
 export const listAdapterVersions: API.PaginatedOperationMethod<
-  ListAdapterVersionsRequest,
+  ListAdapterVersionsRequest & RegionInput,
   ListAdapterVersionsResponse,
   ListAdapterVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1658,6 +1707,8 @@ export const listAdapterVersions: API.PaginatedOperationMethod<
     items: "AdapterVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdapterVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1673,7 +1724,7 @@ export type ListTagsForResourceError =
  * Lists all tags for an Amazon Textract resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1692,6 +1743,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartDocumentAnalysisError =
@@ -1728,7 +1781,7 @@ export type StartDocumentAnalysisError =
  * For more information, see Document Text Analysis.
  */
 export const startDocumentAnalysis: API.OperationMethod<
-  StartDocumentAnalysisRequest,
+  StartDocumentAnalysisRequest & RegionInput,
   StartDocumentAnalysisResponse,
   StartDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1752,6 +1805,8 @@ export const startDocumentAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartDocumentAnalysis",
 }));
 
 export type StartDocumentTextDetectionError =
@@ -1788,7 +1843,7 @@ export type StartDocumentTextDetectionError =
  * For more information, see Document Text Detection.
  */
 export const startDocumentTextDetection: API.OperationMethod<
-  StartDocumentTextDetectionRequest,
+  StartDocumentTextDetectionRequest & RegionInput,
   StartDocumentTextDetectionResponse,
   StartDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
@@ -1812,6 +1867,8 @@ export const startDocumentTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentTextDetection",
+  telemetry: TELEMETRY,
+  span: "StartDocumentTextDetection",
 }));
 
 export type StartExpenseAnalysisError =
@@ -1847,7 +1904,7 @@ export type StartExpenseAnalysisError =
  * For more information, see Analyzing Invoices and Receipts.
  */
 export const startExpenseAnalysis: API.OperationMethod<
-  StartExpenseAnalysisRequest,
+  StartExpenseAnalysisRequest & RegionInput,
   StartExpenseAnalysisResponse,
   StartExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1871,6 +1928,8 @@ export const startExpenseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExpenseAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartExpenseAnalysis",
 }));
 
 export type StartLendingAnalysisError =
@@ -1917,7 +1976,7 @@ export type StartLendingAnalysisError =
  * - splitDocuments (documents split across logical boundaries)
  */
 export const startLendingAnalysis: API.OperationMethod<
-  StartLendingAnalysisRequest,
+  StartLendingAnalysisRequest & RegionInput,
   StartLendingAnalysisResponse,
   StartLendingAnalysisError,
   Credentials | HttpClient.HttpClient
@@ -1941,6 +2000,8 @@ export const startLendingAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLendingAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartLendingAnalysis",
 }));
 
 export type TagResourceError =
@@ -1957,7 +2018,7 @@ export type TagResourceError =
  * Adds one or more tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1977,6 +2038,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1992,7 +2055,7 @@ export type UntagResourceError =
  * Removes any tags with the specified keys from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2011,6 +2074,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAdapterError =
@@ -2028,7 +2093,7 @@ export type UpdateAdapterError =
  * At least one new parameter must be specified as an argument.
  */
 export const updateAdapter: API.OperationMethod<
-  UpdateAdapterRequest,
+  UpdateAdapterRequest & RegionInput,
   UpdateAdapterResponse,
   UpdateAdapterError,
   Credentials | HttpClient.HttpClient
@@ -2048,6 +2113,8 @@ export const updateAdapter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdapter",
+  telemetry: TELEMETRY,
+  span: "UpdateAdapter",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

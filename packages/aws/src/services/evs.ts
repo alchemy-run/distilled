@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -73,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://evs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "evs",
+  service: "evs",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -649,7 +666,7 @@ export type AssociateEipToVlanError =
  * Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
 export const associateEipToVlan: API.OperationMethod<
-  AssociateEipToVlanRequest,
+  AssociateEipToVlanRequest & RegionInput,
   AssociateEipToVlanResponse,
   AssociateEipToVlanError,
   Credentials | HttpClient.HttpClient
@@ -660,6 +677,8 @@ export const associateEipToVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEipToVlan",
+  telemetry: TELEMETRY,
+  span: "AssociateEipToVlan",
 }));
 
 export type CreateEntitlementError =
@@ -671,7 +690,7 @@ export type CreateEntitlementError =
  * Creates a Windows Server License entitlement for virtual machines in an Amazon EVS environment using the provided vCenter Server connector. This is an asynchronous operation. Amazon EVS validates the specified virtual machines before starting usage tracking.
  */
 export const createEntitlement: API.OperationMethod<
-  CreateEntitlementRequest,
+  CreateEntitlementRequest & RegionInput,
   CreateEntitlementResponse,
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -682,6 +701,8 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  telemetry: TELEMETRY,
+  span: "CreateEntitlement",
 }));
 
 export type CreateEnvironmentError = ValidationException | CommonErrors;
@@ -697,7 +718,7 @@ export type CreateEnvironmentError = ValidationException | CommonErrors;
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironment` action. This results in a `ValidationException` response.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -708,6 +729,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateEnvironmentConnectorError =
@@ -723,7 +746,7 @@ export type CreateEnvironmentConnectorError =
  * Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance.
  */
 export const createEnvironmentConnector: API.OperationMethod<
-  CreateEnvironmentConnectorRequest,
+  CreateEnvironmentConnectorRequest & RegionInput,
   CreateEnvironmentConnectorResponse,
   CreateEnvironmentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -734,6 +757,8 @@ export const createEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentConnector",
 }));
 
 export type CreateEnvironmentHostError = ThrottlingException | ValidationException | CommonErrors;
@@ -751,7 +776,7 @@ export type CreateEnvironmentHostError = ThrottlingException | ValidationExcepti
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironmentHost` action. This results in a `ValidationException` response.
  */
 export const createEnvironmentHost: API.OperationMethod<
-  CreateEnvironmentHostRequest,
+  CreateEnvironmentHostRequest & RegionInput,
   CreateEnvironmentHostResponse,
   CreateEnvironmentHostError,
   Credentials | HttpClient.HttpClient
@@ -762,6 +787,8 @@ export const createEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentHost",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentHost",
 }));
 
 export type DeleteEntitlementError =
@@ -773,7 +800,7 @@ export type DeleteEntitlementError =
  * Deletes a Windows Server License entitlement for virtual machines in an Amazon EVS environment. Deleting an entitlement stops usage tracking for the specified virtual machines.
  */
 export const deleteEntitlement: API.OperationMethod<
-  DeleteEntitlementRequest,
+  DeleteEntitlementRequest & RegionInput,
   DeleteEntitlementResponse,
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
@@ -784,6 +811,8 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  telemetry: TELEMETRY,
+  span: "DeleteEntitlement",
 }));
 
 export type DeleteEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -795,7 +824,7 @@ export type DeleteEnvironmentError = ResourceNotFoundException | ValidationExcep
  * Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -806,6 +835,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentConnectorError =
@@ -819,7 +850,7 @@ export type DeleteEnvironmentConnectorError =
  * Before deleting a connector, you must remove all entitlements that are associated with the same vCenter.
  */
 export const deleteEnvironmentConnector: API.OperationMethod<
-  DeleteEnvironmentConnectorRequest,
+  DeleteEnvironmentConnectorRequest & RegionInput,
   DeleteEnvironmentConnectorResponse,
   DeleteEnvironmentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -830,6 +861,8 @@ export const deleteEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentConnector",
 }));
 
 export type DeleteEnvironmentHostError =
@@ -842,7 +875,7 @@ export type DeleteEnvironmentHostError =
  * Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
  */
 export const deleteEnvironmentHost: API.OperationMethod<
-  DeleteEnvironmentHostRequest,
+  DeleteEnvironmentHostRequest & RegionInput,
   DeleteEnvironmentHostResponse,
   DeleteEnvironmentHostError,
   Credentials | HttpClient.HttpClient
@@ -853,6 +886,8 @@ export const deleteEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentHost",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentHost",
 }));
 
 export type DisassociateEipFromVlanError =
@@ -864,7 +899,7 @@ export type DisassociateEipFromVlanError =
  * Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
 export const disassociateEipFromVlan: API.OperationMethod<
-  DisassociateEipFromVlanRequest,
+  DisassociateEipFromVlanRequest & RegionInput,
   DisassociateEipFromVlanResponse,
   DisassociateEipFromVlanError,
   Credentials | HttpClient.HttpClient
@@ -875,6 +910,8 @@ export const disassociateEipFromVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEipFromVlan",
+  telemetry: TELEMETRY,
+  span: "DisassociateEipFromVlan",
 }));
 
 export type GetAccountSettingsError =
@@ -886,7 +923,7 @@ export type GetAccountSettingsError =
  * Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -897,6 +934,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetDepotUrlError =
@@ -910,7 +949,7 @@ export type GetDepotUrlError =
  * The depot URL remains active until you rotate the authentication token by calling this action with `rotate` set to `true`.
  */
 export const getDepotUrl: API.OperationMethod<
-  GetDepotUrlRequest,
+  GetDepotUrlRequest & RegionInput,
   GetDepotUrlResponse,
   GetDepotUrlError,
   Credentials | HttpClient.HttpClient
@@ -921,6 +960,8 @@ export const getDepotUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDepotUrl",
+  telemetry: TELEMETRY,
+  span: "GetDepotUrl",
 }));
 
 export type GetEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -928,7 +969,7 @@ export type GetEnvironmentError = ResourceNotFoundException | ValidationExceptio
  * Returns a description of the specified environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -939,6 +980,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetVersionsError = InternalServerException | ThrottlingException | CommonErrors;
@@ -946,7 +989,7 @@ export type GetVersionsError = InternalServerException | ThrottlingException | C
  * Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
  */
 export const getVersions: API.OperationMethod<
-  GetVersionsRequest,
+  GetVersionsRequest & RegionInput,
   GetVersionsResponse,
   GetVersionsError,
   Credentials | HttpClient.HttpClient
@@ -957,6 +1000,8 @@ export const getVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVersions",
+  telemetry: TELEMETRY,
+  span: "GetVersions",
 }));
 
 export type ListEnvironmentConnectorsError =
@@ -967,7 +1012,7 @@ export type ListEnvironmentConnectorsError =
  * Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details.
  */
 export const listEnvironmentConnectors: API.PaginatedOperationMethod<
-  ListEnvironmentConnectorsRequest,
+  ListEnvironmentConnectorsRequest & RegionInput,
   ListEnvironmentConnectorsResponse,
   ListEnvironmentConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -985,6 +1030,8 @@ export const listEnvironmentConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentConnectors",
 })) as any;
 
 export type ListEnvironmentHostsError =
@@ -995,7 +1042,7 @@ export type ListEnvironmentHostsError =
  * List the hosts within an environment.
  */
 export const listEnvironmentHosts: API.PaginatedOperationMethod<
-  ListEnvironmentHostsRequest,
+  ListEnvironmentHostsRequest & RegionInput,
   ListEnvironmentHostsResponse,
   ListEnvironmentHostsError,
   Credentials | HttpClient.HttpClient,
@@ -1013,6 +1060,8 @@ export const listEnvironmentHosts: API.PaginatedOperationMethod<
     items: "environmentHosts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentHosts",
 })) as any;
 
 export type ListEnvironmentsError = ValidationException | CommonErrors;
@@ -1020,7 +1069,7 @@ export type ListEnvironmentsError = ValidationException | CommonErrors;
  * Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -1038,6 +1087,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environmentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListEnvironmentVlansError =
@@ -1048,7 +1099,7 @@ export type ListEnvironmentVlansError =
  * Lists environment VLANs that are associated with the specified environment.
  */
 export const listEnvironmentVlans: API.PaginatedOperationMethod<
-  ListEnvironmentVlansRequest,
+  ListEnvironmentVlansRequest & RegionInput,
   ListEnvironmentVlansResponse,
   ListEnvironmentVlansError,
   Credentials | HttpClient.HttpClient,
@@ -1066,6 +1117,8 @@ export const listEnvironmentVlans: API.PaginatedOperationMethod<
     items: "environmentVlans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentVlans",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1073,7 +1126,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists the tags for an Amazon EVS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1084,6 +1137,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVmEntitlementsError =
@@ -1094,7 +1149,7 @@ export type ListVmEntitlementsError =
  * Lists the Windows Server License entitlements for virtual machines in an Amazon EVS environment. Returns existing entitlements for virtual machines associated with the specified environment and connector.
  */
 export const listVmEntitlements: API.PaginatedOperationMethod<
-  ListVmEntitlementsRequest,
+  ListVmEntitlementsRequest & RegionInput,
   ListVmEntitlementsResponse,
   ListVmEntitlementsError,
   Credentials | HttpClient.HttpClient,
@@ -1112,6 +1167,8 @@ export const listVmEntitlements: API.PaginatedOperationMethod<
     items: "entitlements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVmEntitlements",
 })) as any;
 
 export type PutAccountSettingsError =
@@ -1125,7 +1182,7 @@ export type PutAccountSettingsError =
  * EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values.
  */
 export const putAccountSettings: API.OperationMethod<
-  PutAccountSettingsRequest,
+  PutAccountSettingsRequest & RegionInput,
   PutAccountSettingsResponse,
   PutAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1136,6 +1193,8 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
+  telemetry: TELEMETRY,
+  span: "PutAccountSettings",
 }));
 
 export type TagResourceError =
@@ -1148,7 +1207,7 @@ export type TagResourceError =
  * Associates the specified tags to an Amazon EVS resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1164,6 +1223,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | TagPolicyException | CommonErrors;
@@ -1171,7 +1232,7 @@ export type UntagResourceError = ResourceNotFoundException | TagPolicyException 
  * Deletes specified tags from an Amazon EVS resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1182,6 +1243,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnvironmentConnectorError =
@@ -1195,7 +1258,7 @@ export type UpdateEnvironmentConnectorError =
  * You cannot update both the secret and the FQDN in the same request.
  */
 export const updateEnvironmentConnector: API.OperationMethod<
-  UpdateEnvironmentConnectorRequest,
+  UpdateEnvironmentConnectorRequest & RegionInput,
   UpdateEnvironmentConnectorResponse,
   UpdateEnvironmentConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1206,6 +1269,8 @@ export const updateEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentConnector",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

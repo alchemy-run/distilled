@@ -9,6 +9,8 @@ import { describe, expect, test } from "vitest";
 import {
   GqlTransport,
   GraphQLFailure,
+  GraphQLTransportError,
+  UnknownGraphQLError,
   connectionField,
   errorFields,
   errorSpec,
@@ -414,6 +416,68 @@ describe("Redacted arguments", () => {
       { variables: { S3_SECRET: "first-secret" } },
       { variables: { S3_SECRET: "second-secret" } },
     ]);
+  });
+});
+
+describe("malformed responses fail with typed errors", () => {
+  class NotFound extends S.TaggedError<NotFound>()("NotFound", errorFields) {}
+  const errors = [errorSpec(NotFound, "NotFound", [{ code: "NOT_FOUND" }])];
+  // A mutation, so a transport failure is not retried.
+  const ping = (response: unknown) =>
+    Effect.runPromise(
+      Query.fn(() => rootLeaf<boolean>("mutation", "ping", false, {}, {}, errors))().pipe(
+        Effect.flip,
+        Effect.provide(
+          Layer.succeed(GqlTransport, {
+            execute: () => Effect.succeed(response as GraphQLResponse),
+          }),
+        ),
+      ),
+    );
+
+  test.each([{}, { data: null }, { data: null, errors: [] }])(
+    "%j without errors is a GraphQLTransportError",
+    async (response) => {
+      expect(await ping(response)).toBeInstanceOf(GraphQLTransportError);
+    },
+  );
+
+  test.each([
+    [null, "malformed GraphQL error entry (null)"],
+    [42, "malformed GraphQL error entry (number)"],
+    ["boom", "boom"],
+  ])("an errors entry %j is an UnknownGraphQLError", async (entry, message) => {
+    const error = await ping({ data: null, errors: [entry] });
+    expect(error).toBeInstanceOf(UnknownGraphQLError);
+    expect((error as UnknownGraphQLError).message).toBe(message);
+  });
+
+  test("a path with a non-string, non-number element is left out; its root still classifies", async () => {
+    const error = await ping({
+      data: null,
+      errors: [{ message: "gone", path: ["ping", null], extensions: { code: "NOT_FOUND" } }],
+    });
+    expect(error).toBeInstanceOf(NotFound);
+    expect((error as { path?: unknown }).path).toBeUndefined();
+  });
+
+  test.each([[[{ line: "1", column: 2 }]], [[null]], ["1:2"]])(
+    "malformed locations %j are left out",
+    async (locations) => {
+      const error = await ping({ data: null, errors: [{ message: "bad", locations }] });
+      expect(error).toBeInstanceOf(UnknownGraphQLError);
+      expect((error as UnknownGraphQLError).locations).toBeUndefined();
+    },
+  );
+
+  test("well-formed path and locations are kept", async () => {
+    const error = await ping({
+      data: null,
+      errors: [{ message: "bad", path: ["ping", 0], locations: [{ line: 1, column: 2 }] }],
+    });
+    expect(error).toBeInstanceOf(UnknownGraphQLError);
+    expect((error as UnknownGraphQLError).path).toEqual(["ping", 0]);
+    expect((error as UnknownGraphQLError).locations).toEqual([{ line: 1, column: 2 }]);
   });
 });
 

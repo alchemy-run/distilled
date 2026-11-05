@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -76,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://waf-regional.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WAFRegional",
+  service: "WAFRegional",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class WAFBadRequestException
   extends /*@__PURE__*/ S.TaggedError<WAFBadRequestException>()("WAFBadRequestException", {
@@ -1457,7 +1474,7 @@ export type AssociateWebACLError =
  * Associates a web ACL with a resource, either an application load balancer or Amazon API Gateway stage.
  */
 export const associateWebACL: API.OperationMethod<
-  AssociateWebACLRequest,
+  AssociateWebACLRequest & RegionInput,
   AssociateWebACLResponse,
   AssociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -1474,6 +1491,8 @@ export const associateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateWebACL",
 }));
 
 export type CreateByteMatchSetError =
@@ -1514,7 +1533,7 @@ export type CreateByteMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createByteMatchSet: API.OperationMethod<
-  CreateByteMatchSetRequest,
+  CreateByteMatchSetRequest & RegionInput,
   CreateByteMatchSetResponse,
   CreateByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1532,6 +1551,8 @@ export const createByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateByteMatchSet",
 }));
 
 export type CreateGeoMatchSetError =
@@ -1569,7 +1590,7 @@ export type CreateGeoMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createGeoMatchSet: API.OperationMethod<
-  CreateGeoMatchSetRequest,
+  CreateGeoMatchSetRequest & RegionInput,
   CreateGeoMatchSetResponse,
   CreateGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1587,6 +1608,8 @@ export const createGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateGeoMatchSet",
 }));
 
 export type CreateIPSetError =
@@ -1629,7 +1652,7 @@ export type CreateIPSetError =
  * AWS WAF Developer Guide.
  */
 export const createIPSet: API.OperationMethod<
-  CreateIPSetRequest,
+  CreateIPSetRequest & RegionInput,
   CreateIPSetResponse,
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -1647,6 +1670,8 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  telemetry: TELEMETRY,
+  span: "CreateIPSet",
 }));
 
 export type CreateRateBasedRuleError =
@@ -1737,7 +1762,7 @@ export type CreateRateBasedRuleError =
  * Guide.
  */
 export const createRateBasedRule: API.OperationMethod<
-  CreateRateBasedRuleRequest,
+  CreateRateBasedRuleRequest & RegionInput,
   CreateRateBasedRuleResponse,
   CreateRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -1757,6 +1782,8 @@ export const createRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "CreateRateBasedRule",
 }));
 
 export type CreateRegexMatchSetError =
@@ -1795,7 +1822,7 @@ export type CreateRegexMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createRegexMatchSet: API.OperationMethod<
-  CreateRegexMatchSetRequest,
+  CreateRegexMatchSetRequest & RegionInput,
   CreateRegexMatchSetResponse,
   CreateRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -1811,6 +1838,8 @@ export const createRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateRegexMatchSet",
 }));
 
 export type CreateRegexPatternSetError =
@@ -1845,7 +1874,7 @@ export type CreateRegexPatternSetError =
  * AWS WAF Developer Guide.
  */
 export const createRegexPatternSet: API.OperationMethod<
-  CreateRegexPatternSetRequest,
+  CreateRegexPatternSetRequest & RegionInput,
   CreateRegexPatternSetResponse,
   CreateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -1861,6 +1890,8 @@ export const createRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "CreateRegexPatternSet",
 }));
 
 export type CreateRuleError =
@@ -1917,7 +1948,7 @@ export type CreateRuleError =
  * AWS WAF Developer Guide.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -1937,6 +1968,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateRuleGroupError =
@@ -1970,7 +2003,7 @@ export type CreateRuleGroupError =
  * AWS WAF Developer Guide.
  */
 export const createRuleGroup: API.OperationMethod<
-  CreateRuleGroupRequest,
+  CreateRuleGroupRequest & RegionInput,
   CreateRuleGroupResponse,
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -1989,6 +2022,8 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroup",
 }));
 
 export type CreateSizeConstraintSetError =
@@ -2029,7 +2064,7 @@ export type CreateSizeConstraintSetError =
  * AWS WAF Developer Guide.
  */
 export const createSizeConstraintSet: API.OperationMethod<
-  CreateSizeConstraintSetRequest,
+  CreateSizeConstraintSetRequest & RegionInput,
   CreateSizeConstraintSetResponse,
   CreateSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -2047,6 +2082,8 @@ export const createSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "CreateSizeConstraintSet",
 }));
 
 export type CreateSqlInjectionMatchSetError =
@@ -2085,7 +2122,7 @@ export type CreateSqlInjectionMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createSqlInjectionMatchSet: API.OperationMethod<
-  CreateSqlInjectionMatchSetRequest,
+  CreateSqlInjectionMatchSetRequest & RegionInput,
   CreateSqlInjectionMatchSetResponse,
   CreateSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2103,6 +2140,8 @@ export const createSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateSqlInjectionMatchSet",
 }));
 
 export type CreateWebACLError =
@@ -2153,7 +2192,7 @@ export type CreateWebACLError =
  * For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide.
  */
 export const createWebACL: API.OperationMethod<
-  CreateWebACLRequest,
+  CreateWebACLRequest & RegionInput,
   CreateWebACLResponse,
   CreateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2174,6 +2213,8 @@ export const createWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
+  telemetry: TELEMETRY,
+  span: "CreateWebACL",
 }));
 
 export type CreateWebACLMigrationStackError =
@@ -2195,7 +2236,7 @@ export type CreateWebACLMigrationStackError =
  * Developer Guide.
  */
 export const createWebACLMigrationStack: API.OperationMethod<
-  CreateWebACLMigrationStackRequest,
+  CreateWebACLMigrationStackRequest & RegionInput,
   CreateWebACLMigrationStackResponse,
   CreateWebACLMigrationStackError,
   Credentials | HttpClient.HttpClient
@@ -2212,6 +2253,8 @@ export const createWebACLMigrationStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACLMigrationStack",
+  telemetry: TELEMETRY,
+  span: "CreateWebACLMigrationStack",
 }));
 
 export type CreateXssMatchSetError =
@@ -2250,7 +2293,7 @@ export type CreateXssMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const createXssMatchSet: API.OperationMethod<
-  CreateXssMatchSetRequest,
+  CreateXssMatchSetRequest & RegionInput,
   CreateXssMatchSetResponse,
   CreateXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2268,6 +2311,8 @@ export const createXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateXssMatchSet",
 }));
 
 export type DeleteByteMatchSetError =
@@ -2301,7 +2346,7 @@ export type DeleteByteMatchSetError =
  * - Submit a `DeleteByteMatchSet` request.
  */
 export const deleteByteMatchSet: API.OperationMethod<
-  DeleteByteMatchSetRequest,
+  DeleteByteMatchSetRequest & RegionInput,
   DeleteByteMatchSetResponse,
   DeleteByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2319,6 +2364,8 @@ export const deleteByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteByteMatchSet",
 }));
 
 export type DeleteGeoMatchSetError =
@@ -2352,7 +2399,7 @@ export type DeleteGeoMatchSetError =
  * - Submit a `DeleteGeoMatchSet` request.
  */
 export const deleteGeoMatchSet: API.OperationMethod<
-  DeleteGeoMatchSetRequest,
+  DeleteGeoMatchSetRequest & RegionInput,
   DeleteGeoMatchSetResponse,
   DeleteGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2370,6 +2417,8 @@ export const deleteGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteGeoMatchSet",
 }));
 
 export type DeleteIPSetError =
@@ -2403,7 +2452,7 @@ export type DeleteIPSetError =
  * - Submit a `DeleteIPSet` request.
  */
 export const deleteIPSet: API.OperationMethod<
-  DeleteIPSetRequest,
+  DeleteIPSetRequest & RegionInput,
   DeleteIPSetResponse,
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
@@ -2421,6 +2470,8 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  telemetry: TELEMETRY,
+  span: "DeleteIPSet",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -2440,7 +2491,7 @@ export type DeleteLoggingConfigurationError =
  * ACL.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2451,6 +2502,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeletePermissionPolicyError =
@@ -2471,7 +2524,7 @@ export type DeletePermissionPolicyError =
  * The user making the request must be the owner of the RuleGroup.
  */
 export const deletePermissionPolicy: API.OperationMethod<
-  DeletePermissionPolicyRequest,
+  DeletePermissionPolicyRequest & RegionInput,
   DeletePermissionPolicyResponse,
   DeletePermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2482,6 +2535,8 @@ export const deletePermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionPolicy",
 }));
 
 export type DeleteRateBasedRuleError =
@@ -2521,7 +2576,7 @@ export type DeleteRateBasedRuleError =
  * - Submit a `DeleteRateBasedRule` request.
  */
 export const deleteRateBasedRule: API.OperationMethod<
-  DeleteRateBasedRuleRequest,
+  DeleteRateBasedRuleRequest & RegionInput,
   DeleteRateBasedRuleResponse,
   DeleteRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -2541,6 +2596,8 @@ export const deleteRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRateBasedRule",
 }));
 
 export type DeleteRegexMatchSetError =
@@ -2574,7 +2631,7 @@ export type DeleteRegexMatchSetError =
  * - Submit a `DeleteRegexMatchSet` request.
  */
 export const deleteRegexMatchSet: API.OperationMethod<
-  DeleteRegexMatchSetRequest,
+  DeleteRegexMatchSetRequest & RegionInput,
   DeleteRegexMatchSetResponse,
   DeleteRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2592,6 +2649,8 @@ export const deleteRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRegexMatchSet",
 }));
 
 export type DeleteRegexPatternSetError =
@@ -2614,7 +2673,7 @@ export type DeleteRegexPatternSetError =
  * or if the `RegexPatternSet` is not empty.
  */
 export const deleteRegexPatternSet: API.OperationMethod<
-  DeleteRegexPatternSetRequest,
+  DeleteRegexPatternSetRequest & RegionInput,
   DeleteRegexPatternSetResponse,
   DeleteRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -2632,6 +2691,8 @@ export const deleteRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRegexPatternSet",
 }));
 
 export type DeleteRuleError =
@@ -2667,7 +2728,7 @@ export type DeleteRuleError =
  * - Submit a `DeleteRule` request.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2687,6 +2748,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteRuleGroupError =
@@ -2722,7 +2785,7 @@ export type DeleteRuleGroupError =
  * - Submit a `DeleteRuleGroup` request.
  */
 export const deleteRuleGroup: API.OperationMethod<
-  DeleteRuleGroupRequest,
+  DeleteRuleGroupRequest & RegionInput,
   DeleteRuleGroupResponse,
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -2742,6 +2805,8 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroup",
 }));
 
 export type DeleteSizeConstraintSetError =
@@ -2775,7 +2840,7 @@ export type DeleteSizeConstraintSetError =
  * - Submit a `DeleteSizeConstraintSet` request.
  */
 export const deleteSizeConstraintSet: API.OperationMethod<
-  DeleteSizeConstraintSetRequest,
+  DeleteSizeConstraintSetRequest & RegionInput,
   DeleteSizeConstraintSetResponse,
   DeleteSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -2793,6 +2858,8 @@ export const deleteSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "DeleteSizeConstraintSet",
 }));
 
 export type DeleteSqlInjectionMatchSetError =
@@ -2827,7 +2894,7 @@ export type DeleteSqlInjectionMatchSetError =
  * - Submit a `DeleteSqlInjectionMatchSet` request.
  */
 export const deleteSqlInjectionMatchSet: API.OperationMethod<
-  DeleteSqlInjectionMatchSetRequest,
+  DeleteSqlInjectionMatchSetRequest & RegionInput,
   DeleteSqlInjectionMatchSetResponse,
   DeleteSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2845,6 +2912,8 @@ export const deleteSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteSqlInjectionMatchSet",
 }));
 
 export type DeleteWebACLError =
@@ -2877,7 +2946,7 @@ export type DeleteWebACLError =
  * - Submit a `DeleteWebACL` request.
  */
 export const deleteWebACL: API.OperationMethod<
-  DeleteWebACLRequest,
+  DeleteWebACLRequest & RegionInput,
   DeleteWebACLResponse,
   DeleteWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2897,6 +2966,8 @@ export const deleteWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
+  telemetry: TELEMETRY,
+  span: "DeleteWebACL",
 }));
 
 export type DeleteXssMatchSetError =
@@ -2931,7 +3002,7 @@ export type DeleteXssMatchSetError =
  * - Submit a `DeleteXssMatchSet` request.
  */
 export const deleteXssMatchSet: API.OperationMethod<
-  DeleteXssMatchSetRequest,
+  DeleteXssMatchSetRequest & RegionInput,
   DeleteXssMatchSetResponse,
   DeleteXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -2949,6 +3020,8 @@ export const deleteXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteXssMatchSet",
 }));
 
 export type DisassociateWebACLError =
@@ -2968,7 +3041,7 @@ export type DisassociateWebACLError =
  * Removes a web ACL from the specified resource, either an application load balancer or Amazon API Gateway stage.
  */
 export const disassociateWebACL: API.OperationMethod<
-  DisassociateWebACLRequest,
+  DisassociateWebACLRequest & RegionInput,
   DisassociateWebACLResponse,
   DisassociateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -2984,6 +3057,8 @@ export const disassociateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateWebACL",
 }));
 
 export type GetByteMatchSetError =
@@ -3002,7 +3077,7 @@ export type GetByteMatchSetError =
  * Returns the ByteMatchSet specified by `ByteMatchSetId`.
  */
 export const getByteMatchSet: API.OperationMethod<
-  GetByteMatchSetRequest,
+  GetByteMatchSetRequest & RegionInput,
   GetByteMatchSetResponse,
   GetByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3013,6 +3088,8 @@ export const getByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetByteMatchSet",
 }));
 
 export type GetChangeTokenError = WAFInternalErrorException | CommonErrors;
@@ -3035,7 +3112,7 @@ export type GetChangeTokenError = WAFInternalErrorException | CommonErrors;
  * status of your change token.
  */
 export const getChangeToken: API.OperationMethod<
-  GetChangeTokenRequest,
+  GetChangeTokenRequest & RegionInput,
   GetChangeTokenResponse,
   GetChangeTokenError,
   Credentials | HttpClient.HttpClient
@@ -3046,6 +3123,8 @@ export const getChangeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeToken",
+  telemetry: TELEMETRY,
+  span: "GetChangeToken",
 }));
 
 export type GetChangeTokenStatusError =
@@ -3071,7 +3150,7 @@ export type GetChangeTokenStatusError =
  * - `INSYNC`: Propagation is complete.
  */
 export const getChangeTokenStatus: API.OperationMethod<
-  GetChangeTokenStatusRequest,
+  GetChangeTokenStatusRequest & RegionInput,
   GetChangeTokenStatusResponse,
   GetChangeTokenStatusError,
   Credentials | HttpClient.HttpClient
@@ -3082,6 +3161,8 @@ export const getChangeTokenStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeTokenStatus",
+  telemetry: TELEMETRY,
+  span: "GetChangeTokenStatus",
 }));
 
 export type GetGeoMatchSetError =
@@ -3100,7 +3181,7 @@ export type GetGeoMatchSetError =
  * Returns the GeoMatchSet that is specified by `GeoMatchSetId`.
  */
 export const getGeoMatchSet: API.OperationMethod<
-  GetGeoMatchSetRequest,
+  GetGeoMatchSetRequest & RegionInput,
   GetGeoMatchSetResponse,
   GetGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3111,6 +3192,8 @@ export const getGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetGeoMatchSet",
 }));
 
 export type GetIPSetError =
@@ -3129,7 +3212,7 @@ export type GetIPSetError =
  * Returns the IPSet that is specified by `IPSetId`.
  */
 export const getIPSet: API.OperationMethod<
-  GetIPSetRequest,
+  GetIPSetRequest & RegionInput,
   GetIPSetResponse,
   GetIPSetError,
   Credentials | HttpClient.HttpClient
@@ -3140,6 +3223,8 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  telemetry: TELEMETRY,
+  span: "GetIPSet",
 }));
 
 export type GetLoggingConfigurationError =
@@ -3157,7 +3242,7 @@ export type GetLoggingConfigurationError =
  * Returns the LoggingConfiguration for the specified web ACL.
  */
 export const getLoggingConfiguration: API.OperationMethod<
-  GetLoggingConfigurationRequest,
+  GetLoggingConfigurationRequest & RegionInput,
   GetLoggingConfigurationResponse,
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3168,6 +3253,8 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLoggingConfiguration",
 }));
 
 export type GetPermissionPolicyError =
@@ -3185,7 +3272,7 @@ export type GetPermissionPolicyError =
  * Returns the IAM policy attached to the RuleGroup.
  */
 export const getPermissionPolicy: API.OperationMethod<
-  GetPermissionPolicyRequest,
+  GetPermissionPolicyRequest & RegionInput,
   GetPermissionPolicyResponse,
   GetPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3196,6 +3283,8 @@ export const getPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPermissionPolicy",
 }));
 
 export type GetRateBasedRuleError =
@@ -3216,7 +3305,7 @@ export type GetRateBasedRuleError =
  * request.
  */
 export const getRateBasedRule: API.OperationMethod<
-  GetRateBasedRuleRequest,
+  GetRateBasedRuleRequest & RegionInput,
   GetRateBasedRuleResponse,
   GetRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -3227,6 +3316,8 @@ export const getRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "GetRateBasedRule",
 }));
 
 export type GetRateBasedRuleManagedKeysError =
@@ -3248,7 +3339,7 @@ export type GetRateBasedRuleManagedKeysError =
  * the rate limit, the 10,000 addresses with the highest rates will be blocked.
  */
 export const getRateBasedRuleManagedKeys: API.OperationMethod<
-  GetRateBasedRuleManagedKeysRequest,
+  GetRateBasedRuleManagedKeysRequest & RegionInput,
   GetRateBasedRuleManagedKeysResponse,
   GetRateBasedRuleManagedKeysError,
   Credentials | HttpClient.HttpClient
@@ -3264,6 +3355,8 @@ export const getRateBasedRuleManagedKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRuleManagedKeys",
+  telemetry: TELEMETRY,
+  span: "GetRateBasedRuleManagedKeys",
 }));
 
 export type GetRegexMatchSetError =
@@ -3282,7 +3375,7 @@ export type GetRegexMatchSetError =
  * Returns the RegexMatchSet specified by `RegexMatchSetId`.
  */
 export const getRegexMatchSet: API.OperationMethod<
-  GetRegexMatchSetRequest,
+  GetRegexMatchSetRequest & RegionInput,
   GetRegexMatchSetResponse,
   GetRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3293,6 +3386,8 @@ export const getRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetRegexMatchSet",
 }));
 
 export type GetRegexPatternSetError =
@@ -3311,7 +3406,7 @@ export type GetRegexPatternSetError =
  * Returns the RegexPatternSet specified by `RegexPatternSetId`.
  */
 export const getRegexPatternSet: API.OperationMethod<
-  GetRegexPatternSetRequest,
+  GetRegexPatternSetRequest & RegionInput,
   GetRegexPatternSetResponse,
   GetRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -3322,6 +3417,8 @@ export const getRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "GetRegexPatternSet",
 }));
 
 export type GetRuleError =
@@ -3340,7 +3437,7 @@ export type GetRuleError =
  * Returns the Rule that is specified by the `RuleId` that you included in the `GetRule` request.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -3351,6 +3448,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetRuleGroupError =
@@ -3370,7 +3469,7 @@ export type GetRuleGroupError =
  * To view the rules in a rule group, use ListActivatedRulesInRuleGroup.
  */
 export const getRuleGroup: API.OperationMethod<
-  GetRuleGroupRequest,
+  GetRuleGroupRequest & RegionInput,
   GetRuleGroupResponse,
   GetRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3381,6 +3480,8 @@ export const getRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
+  telemetry: TELEMETRY,
+  span: "GetRuleGroup",
 }));
 
 export type GetSampledRequestsError =
@@ -3402,7 +3503,7 @@ export type GetSampledRequestsError =
  * returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
  */
 export const getSampledRequests: API.OperationMethod<
-  GetSampledRequestsRequest,
+  GetSampledRequestsRequest & RegionInput,
   GetSampledRequestsResponse,
   GetSampledRequestsError,
   Credentials | HttpClient.HttpClient
@@ -3413,6 +3514,8 @@ export const getSampledRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
+  telemetry: TELEMETRY,
+  span: "GetSampledRequests",
 }));
 
 export type GetSizeConstraintSetError =
@@ -3431,7 +3534,7 @@ export type GetSizeConstraintSetError =
  * Returns the SizeConstraintSet specified by `SizeConstraintSetId`.
  */
 export const getSizeConstraintSet: API.OperationMethod<
-  GetSizeConstraintSetRequest,
+  GetSizeConstraintSetRequest & RegionInput,
   GetSizeConstraintSetResponse,
   GetSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -3442,6 +3545,8 @@ export const getSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "GetSizeConstraintSet",
 }));
 
 export type GetSqlInjectionMatchSetError =
@@ -3460,7 +3565,7 @@ export type GetSqlInjectionMatchSetError =
  * Returns the SqlInjectionMatchSet that is specified by `SqlInjectionMatchSetId`.
  */
 export const getSqlInjectionMatchSet: API.OperationMethod<
-  GetSqlInjectionMatchSetRequest,
+  GetSqlInjectionMatchSetRequest & RegionInput,
   GetSqlInjectionMatchSetResponse,
   GetSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3471,6 +3576,8 @@ export const getSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetSqlInjectionMatchSet",
 }));
 
 export type GetWebACLError =
@@ -3489,7 +3596,7 @@ export type GetWebACLError =
  * Returns the WebACL that is specified by `WebACLId`.
  */
 export const getWebACL: API.OperationMethod<
-  GetWebACLRequest,
+  GetWebACLRequest & RegionInput,
   GetWebACLResponse,
   GetWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3500,6 +3607,8 @@ export const getWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
+  telemetry: TELEMETRY,
+  span: "GetWebACL",
 }));
 
 export type GetWebACLForResourceError =
@@ -3520,7 +3629,7 @@ export type GetWebACLForResourceError =
  * Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage.
  */
 export const getWebACLForResource: API.OperationMethod<
-  GetWebACLForResourceRequest,
+  GetWebACLForResourceRequest & RegionInput,
   GetWebACLForResourceResponse,
   GetWebACLForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3537,6 +3646,8 @@ export const getWebACLForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACLForResource",
+  telemetry: TELEMETRY,
+  span: "GetWebACLForResource",
 }));
 
 export type GetXssMatchSetError =
@@ -3555,7 +3666,7 @@ export type GetXssMatchSetError =
  * Returns the XssMatchSet that is specified by `XssMatchSetId`.
  */
 export const getXssMatchSet: API.OperationMethod<
-  GetXssMatchSetRequest,
+  GetXssMatchSetRequest & RegionInput,
   GetXssMatchSetResponse,
   GetXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -3566,6 +3677,8 @@ export const getXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetXssMatchSet",
 }));
 
 export type ListActivatedRulesInRuleGroupError =
@@ -3584,7 +3697,7 @@ export type ListActivatedRulesInRuleGroupError =
  * Returns an array of ActivatedRule objects.
  */
 export const listActivatedRulesInRuleGroup: API.OperationMethod<
-  ListActivatedRulesInRuleGroupRequest,
+  ListActivatedRulesInRuleGroupRequest & RegionInput,
   ListActivatedRulesInRuleGroupResponse,
   ListActivatedRulesInRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -3595,6 +3708,8 @@ export const listActivatedRulesInRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListActivatedRulesInRuleGroup",
+  telemetry: TELEMETRY,
+  span: "ListActivatedRulesInRuleGroup",
 }));
 
 export type ListByteMatchSetsError =
@@ -3612,7 +3727,7 @@ export type ListByteMatchSetsError =
  * Returns an array of ByteMatchSetSummary objects.
  */
 export const listByteMatchSets: API.OperationMethod<
-  ListByteMatchSetsRequest,
+  ListByteMatchSetsRequest & RegionInput,
   ListByteMatchSetsResponse,
   ListByteMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3623,6 +3738,8 @@ export const listByteMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListByteMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListByteMatchSets",
 }));
 
 export type ListGeoMatchSetsError =
@@ -3640,7 +3757,7 @@ export type ListGeoMatchSetsError =
  * Returns an array of GeoMatchSetSummary objects in the response.
  */
 export const listGeoMatchSets: API.OperationMethod<
-  ListGeoMatchSetsRequest,
+  ListGeoMatchSetsRequest & RegionInput,
   ListGeoMatchSetsResponse,
   ListGeoMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3651,6 +3768,8 @@ export const listGeoMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGeoMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListGeoMatchSets",
 }));
 
 export type ListIPSetsError = WAFInternalErrorException | WAFInvalidAccountException | CommonErrors;
@@ -3665,7 +3784,7 @@ export type ListIPSetsError = WAFInternalErrorException | WAFInvalidAccountExcep
  * Returns an array of IPSetSummary objects in the response.
  */
 export const listIPSets: API.OperationMethod<
-  ListIPSetsRequest,
+  ListIPSetsRequest & RegionInput,
   ListIPSetsResponse,
   ListIPSetsError,
   Credentials | HttpClient.HttpClient
@@ -3676,6 +3795,8 @@ export const listIPSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
+  telemetry: TELEMETRY,
+  span: "ListIPSets",
 }));
 
 export type ListLoggingConfigurationsError =
@@ -3694,7 +3815,7 @@ export type ListLoggingConfigurationsError =
  * Returns an array of LoggingConfiguration objects.
  */
 export const listLoggingConfigurations: API.OperationMethod<
-  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsRequest & RegionInput,
   ListLoggingConfigurationsResponse,
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -3705,6 +3826,8 @@ export const listLoggingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListLoggingConfigurations",
 }));
 
 export type ListRateBasedRulesError =
@@ -3722,7 +3845,7 @@ export type ListRateBasedRulesError =
  * Returns an array of RuleSummary objects.
  */
 export const listRateBasedRules: API.OperationMethod<
-  ListRateBasedRulesRequest,
+  ListRateBasedRulesRequest & RegionInput,
   ListRateBasedRulesResponse,
   ListRateBasedRulesError,
   Credentials | HttpClient.HttpClient
@@ -3733,6 +3856,8 @@ export const listRateBasedRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRateBasedRules",
+  telemetry: TELEMETRY,
+  span: "ListRateBasedRules",
 }));
 
 export type ListRegexMatchSetsError =
@@ -3750,7 +3875,7 @@ export type ListRegexMatchSetsError =
  * Returns an array of RegexMatchSetSummary objects.
  */
 export const listRegexMatchSets: API.OperationMethod<
-  ListRegexMatchSetsRequest,
+  ListRegexMatchSetsRequest & RegionInput,
   ListRegexMatchSetsResponse,
   ListRegexMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3761,6 +3886,8 @@ export const listRegexMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListRegexMatchSets",
 }));
 
 export type ListRegexPatternSetsError =
@@ -3778,7 +3905,7 @@ export type ListRegexPatternSetsError =
  * Returns an array of RegexPatternSetSummary objects.
  */
 export const listRegexPatternSets: API.OperationMethod<
-  ListRegexPatternSetsRequest,
+  ListRegexPatternSetsRequest & RegionInput,
   ListRegexPatternSetsResponse,
   ListRegexPatternSetsError,
   Credentials | HttpClient.HttpClient
@@ -3789,6 +3916,8 @@ export const listRegexPatternSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
+  telemetry: TELEMETRY,
+  span: "ListRegexPatternSets",
 }));
 
 export type ListResourcesForWebACLError =
@@ -3808,7 +3937,7 @@ export type ListResourcesForWebACLError =
  * Returns an array of resources associated with the specified web ACL.
  */
 export const listResourcesForWebACL: API.OperationMethod<
-  ListResourcesForWebACLRequest,
+  ListResourcesForWebACLRequest & RegionInput,
   ListResourcesForWebACLResponse,
   ListResourcesForWebACLError,
   Credentials | HttpClient.HttpClient
@@ -3824,6 +3953,8 @@ export const listResourcesForWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcesForWebACL",
+  telemetry: TELEMETRY,
+  span: "ListResourcesForWebACL",
 }));
 
 export type ListRuleGroupsError = WAFInternalErrorException | CommonErrors;
@@ -3838,7 +3969,7 @@ export type ListRuleGroupsError = WAFInternalErrorException | CommonErrors;
  * Returns an array of RuleGroup objects.
  */
 export const listRuleGroups: API.OperationMethod<
-  ListRuleGroupsRequest,
+  ListRuleGroupsRequest & RegionInput,
   ListRuleGroupsResponse,
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3849,6 +3980,8 @@ export const listRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListRuleGroups",
 }));
 
 export type ListRulesError = WAFInternalErrorException | WAFInvalidAccountException | CommonErrors;
@@ -3863,7 +3996,7 @@ export type ListRulesError = WAFInternalErrorException | WAFInvalidAccountExcept
  * Returns an array of RuleSummary objects.
  */
 export const listRules: API.OperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
@@ -3874,6 +4007,8 @@ export const listRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListSizeConstraintSetsError =
@@ -3891,7 +4026,7 @@ export type ListSizeConstraintSetsError =
  * Returns an array of SizeConstraintSetSummary objects.
  */
 export const listSizeConstraintSets: API.OperationMethod<
-  ListSizeConstraintSetsRequest,
+  ListSizeConstraintSetsRequest & RegionInput,
   ListSizeConstraintSetsResponse,
   ListSizeConstraintSetsError,
   Credentials | HttpClient.HttpClient
@@ -3902,6 +4037,8 @@ export const listSizeConstraintSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSizeConstraintSets",
+  telemetry: TELEMETRY,
+  span: "ListSizeConstraintSets",
 }));
 
 export type ListSqlInjectionMatchSetsError =
@@ -3919,7 +4056,7 @@ export type ListSqlInjectionMatchSetsError =
  * Returns an array of SqlInjectionMatchSet objects.
  */
 export const listSqlInjectionMatchSets: API.OperationMethod<
-  ListSqlInjectionMatchSetsRequest,
+  ListSqlInjectionMatchSetsRequest & RegionInput,
   ListSqlInjectionMatchSetsResponse,
   ListSqlInjectionMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -3930,6 +4067,8 @@ export const listSqlInjectionMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSqlInjectionMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListSqlInjectionMatchSets",
 }));
 
 export type ListSubscribedRuleGroupsError =
@@ -3947,7 +4086,7 @@ export type ListSubscribedRuleGroupsError =
  * Returns an array of RuleGroup objects that you are subscribed to.
  */
 export const listSubscribedRuleGroups: API.OperationMethod<
-  ListSubscribedRuleGroupsRequest,
+  ListSubscribedRuleGroupsRequest & RegionInput,
   ListSubscribedRuleGroupsResponse,
   ListSubscribedRuleGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3958,6 +4097,8 @@ export const listSubscribedRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscribedRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListSubscribedRuleGroups",
 }));
 
 export type ListTagsForResourceError =
@@ -3981,7 +4122,7 @@ export type ListTagsForResourceError =
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3999,6 +4140,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebACLsError =
@@ -4016,7 +4159,7 @@ export type ListWebACLsError =
  * Returns an array of WebACLSummary objects in the response.
  */
 export const listWebACLs: API.OperationMethod<
-  ListWebACLsRequest,
+  ListWebACLsRequest & RegionInput,
   ListWebACLsResponse,
   ListWebACLsError,
   Credentials | HttpClient.HttpClient
@@ -4027,6 +4170,8 @@ export const listWebACLs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
+  telemetry: TELEMETRY,
+  span: "ListWebACLs",
 }));
 
 export type ListXssMatchSetsError =
@@ -4044,7 +4189,7 @@ export type ListXssMatchSetsError =
  * Returns an array of XssMatchSet objects.
  */
 export const listXssMatchSets: API.OperationMethod<
-  ListXssMatchSetsRequest,
+  ListXssMatchSetsRequest & RegionInput,
   ListXssMatchSetsResponse,
   ListXssMatchSetsError,
   Credentials | HttpClient.HttpClient
@@ -4055,6 +4200,8 @@ export const listXssMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListXssMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListXssMatchSets",
 }));
 
 export type PutLoggingConfigurationError =
@@ -4088,7 +4235,7 @@ export type PutLoggingConfigurationError =
  * When you successfully enable logging using a `PutLoggingConfiguration` request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more information, see Logging Web ACL Traffic Information in the *AWS WAF Developer Guide*.
  */
 export const putLoggingConfiguration: API.OperationMethod<
-  PutLoggingConfigurationRequest,
+  PutLoggingConfigurationRequest & RegionInput,
   PutLoggingConfigurationResponse,
   PutLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4104,6 +4251,8 @@ export const putLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutLoggingConfiguration",
 }));
 
 export type PutPermissionPolicyError =
@@ -4145,7 +4294,7 @@ export type PutPermissionPolicyError =
  * An example of a valid policy parameter is shown in the Examples section below.
  */
 export const putPermissionPolicy: API.OperationMethod<
-  PutPermissionPolicyRequest,
+  PutPermissionPolicyRequest & RegionInput,
   PutPermissionPolicyResponse,
   PutPermissionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4161,6 +4310,8 @@ export const putPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPermissionPolicy",
 }));
 
 export type TagResourceError =
@@ -4185,7 +4336,7 @@ export type TagResourceError =
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4204,6 +4355,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4223,7 +4376,7 @@ export type UntagResourceError =
  * WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4241,6 +4394,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateByteMatchSetError =
@@ -4293,7 +4448,7 @@ export type UpdateByteMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateByteMatchSet: API.OperationMethod<
-  UpdateByteMatchSetRequest,
+  UpdateByteMatchSetRequest & RegionInput,
   UpdateByteMatchSetResponse,
   UpdateByteMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4313,6 +4468,8 @@ export const updateByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateByteMatchSet",
 }));
 
 export type UpdateGeoMatchSetError =
@@ -4359,7 +4516,7 @@ export type UpdateGeoMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateGeoMatchSet: API.OperationMethod<
-  UpdateGeoMatchSetRequest,
+  UpdateGeoMatchSetRequest & RegionInput,
   UpdateGeoMatchSetResponse,
   UpdateGeoMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4380,6 +4537,8 @@ export const updateGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateGeoMatchSet",
 }));
 
 export type UpdateIPSetError =
@@ -4460,7 +4619,7 @@ export type UpdateIPSetError =
  * Developer Guide.
  */
 export const updateIPSet: API.OperationMethod<
-  UpdateIPSetRequest,
+  UpdateIPSetRequest & RegionInput,
   UpdateIPSetResponse,
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
@@ -4481,6 +4640,8 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  telemetry: TELEMETRY,
+  span: "UpdateIPSet",
 }));
 
 export type UpdateRateBasedRuleError =
@@ -4542,7 +4703,7 @@ export type UpdateRateBasedRuleError =
  * By adding this `RateBasedRule` to a `WebACL`, you could limit requests to your login page without affecting the rest of your site.
  */
 export const updateRateBasedRule: API.OperationMethod<
-  UpdateRateBasedRuleRequest,
+  UpdateRateBasedRuleRequest & RegionInput,
   UpdateRateBasedRuleResponse,
   UpdateRateBasedRuleError,
   Credentials | HttpClient.HttpClient
@@ -4563,6 +4724,8 @@ export const updateRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRateBasedRule",
 }));
 
 export type UpdateRegexMatchSetError =
@@ -4612,7 +4775,7 @@ export type UpdateRegexMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateRegexMatchSet: API.OperationMethod<
-  UpdateRegexMatchSetRequest,
+  UpdateRegexMatchSetRequest & RegionInput,
   UpdateRegexMatchSetResponse,
   UpdateRegexMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4632,6 +4795,8 @@ export const updateRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRegexMatchSet",
 }));
 
 export type UpdateRegexPatternSetError =
@@ -4682,7 +4847,7 @@ export type UpdateRegexPatternSetError =
  * AWS WAF Developer Guide.
  */
 export const updateRegexPatternSet: API.OperationMethod<
-  UpdateRegexPatternSetRequest,
+  UpdateRegexPatternSetRequest & RegionInput,
   UpdateRegexPatternSetResponse,
   UpdateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
@@ -4702,6 +4867,8 @@ export const updateRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRegexPatternSet",
 }));
 
 export type UpdateRuleError =
@@ -4759,7 +4926,7 @@ export type UpdateRuleError =
  * AWS WAF Developer Guide.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -4780,6 +4947,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateRuleGroupError =
@@ -4823,7 +4992,7 @@ export type UpdateRuleGroupError =
  * AWS WAF Developer Guide.
  */
 export const updateRuleGroup: API.OperationMethod<
-  UpdateRuleGroupRequest,
+  UpdateRuleGroupRequest & RegionInput,
   UpdateRuleGroupResponse,
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
@@ -4842,6 +5011,8 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleGroup",
 }));
 
 export type UpdateSizeConstraintSetError =
@@ -4900,7 +5071,7 @@ export type UpdateSizeConstraintSetError =
  * AWS WAF Developer Guide.
  */
 export const updateSizeConstraintSet: API.OperationMethod<
-  UpdateSizeConstraintSetRequest,
+  UpdateSizeConstraintSetRequest & RegionInput,
   UpdateSizeConstraintSetResponse,
   UpdateSizeConstraintSetError,
   Credentials | HttpClient.HttpClient
@@ -4921,6 +5092,8 @@ export const updateSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "UpdateSizeConstraintSet",
 }));
 
 export type UpdateSqlInjectionMatchSetError =
@@ -4976,7 +5149,7 @@ export type UpdateSqlInjectionMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateSqlInjectionMatchSet: API.OperationMethod<
-  UpdateSqlInjectionMatchSetRequest,
+  UpdateSqlInjectionMatchSetRequest & RegionInput,
   UpdateSqlInjectionMatchSetResponse,
   UpdateSqlInjectionMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -4996,6 +5169,8 @@ export const updateSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateSqlInjectionMatchSet",
 }));
 
 export type UpdateWebACLError =
@@ -5082,7 +5257,7 @@ export type UpdateWebACLError =
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
  */
 export const updateWebACL: API.OperationMethod<
-  UpdateWebACLRequest,
+  UpdateWebACLRequest & RegionInput,
   UpdateWebACLResponse,
   UpdateWebACLError,
   Credentials | HttpClient.HttpClient
@@ -5104,6 +5279,8 @@ export const updateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
+  telemetry: TELEMETRY,
+  span: "UpdateWebACL",
 }));
 
 export type UpdateXssMatchSetError =
@@ -5161,7 +5338,7 @@ export type UpdateXssMatchSetError =
  * AWS WAF Developer Guide.
  */
 export const updateXssMatchSet: API.OperationMethod<
-  UpdateXssMatchSetRequest,
+  UpdateXssMatchSetRequest & RegionInput,
   UpdateXssMatchSetResponse,
   UpdateXssMatchSetError,
   Credentials | HttpClient.HttpClient
@@ -5181,6 +5358,8 @@ export const updateXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateXssMatchSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

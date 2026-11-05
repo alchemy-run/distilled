@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://managedblockchain.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ManagedBlockchain",
+  service: "ManagedBlockchain",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -687,7 +703,7 @@ export type CreateAccessorError =
  * The accessor contains information required for token based access.
  */
 export const createAccessor: API.OperationMethod<
-  CreateAccessorInput,
+  CreateAccessorInput & RegionInput,
   CreateAccessorOutput,
   CreateAccessorError,
   Credentials | HttpClient.HttpClient
@@ -706,6 +722,8 @@ export const createAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessor",
+  telemetry: TELEMETRY,
+  span: "CreateAccessor",
 }));
 
 export type CreateMemberError =
@@ -725,7 +743,7 @@ export type CreateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const createMember: API.OperationMethod<
-  CreateMemberInput,
+  CreateMemberInput & RegionInput,
   CreateMemberOutput,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
@@ -746,6 +764,8 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateNetworkError =
@@ -763,7 +783,7 @@ export type CreateNetworkError =
  * Applies only to Hyperledger Fabric.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkInput,
+  CreateNetworkInput & RegionInput,
   CreateNetworkOutput,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -782,6 +802,8 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateNodeError =
@@ -801,7 +823,7 @@ export type CreateNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const createNode: API.OperationMethod<
-  CreateNodeInput,
+  CreateNodeInput & RegionInput,
   CreateNodeOutput,
   CreateNodeError,
   Credentials | HttpClient.HttpClient
@@ -822,6 +844,8 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
+  telemetry: TELEMETRY,
+  span: "CreateNode",
 }));
 
 export type CreateProposalError =
@@ -839,7 +863,7 @@ export type CreateProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const createProposal: API.OperationMethod<
-  CreateProposalInput,
+  CreateProposalInput & RegionInput,
   CreateProposalOutput,
   CreateProposalError,
   Credentials | HttpClient.HttpClient
@@ -858,6 +882,8 @@ export const createProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProposal",
+  telemetry: TELEMETRY,
+  span: "CreateProposal",
 }));
 
 export type DeleteAccessorError =
@@ -877,7 +903,7 @@ export type DeleteAccessorError =
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
 export const deleteAccessor: API.OperationMethod<
-  DeleteAccessorInput,
+  DeleteAccessorInput & RegionInput,
   DeleteAccessorOutput,
   DeleteAccessorError,
   Credentials | HttpClient.HttpClient
@@ -894,6 +920,8 @@ export const deleteAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessor",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessor",
 }));
 
 export type DeleteMemberError =
@@ -910,7 +938,7 @@ export type DeleteMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -928,6 +956,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteNodeError =
@@ -944,7 +974,7 @@ export type DeleteNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const deleteNode: API.OperationMethod<
-  DeleteNodeInput,
+  DeleteNodeInput & RegionInput,
   DeleteNodeOutput,
   DeleteNodeError,
   Credentials | HttpClient.HttpClient
@@ -962,6 +992,8 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
+  telemetry: TELEMETRY,
+  span: "DeleteNode",
 }));
 
 export type GetAccessorError =
@@ -976,7 +1008,7 @@ export type GetAccessorError =
  * information required for token based access to your Ethereum nodes.
  */
 export const getAccessor: API.OperationMethod<
-  GetAccessorInput,
+  GetAccessorInput & RegionInput,
   GetAccessorOutput,
   GetAccessorError,
   Credentials | HttpClient.HttpClient
@@ -993,6 +1025,8 @@ export const getAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessor",
+  telemetry: TELEMETRY,
+  span: "GetAccessor",
 }));
 
 export type GetMemberError =
@@ -1008,7 +1042,7 @@ export type GetMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const getMember: API.OperationMethod<
-  GetMemberInput,
+  GetMemberInput & RegionInput,
   GetMemberOutput,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -1025,6 +1059,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetNetworkError =
@@ -1040,7 +1076,7 @@ export type GetNetworkError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkInput,
+  GetNetworkInput & RegionInput,
   GetNetworkOutput,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1057,6 +1093,8 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetNodeError =
@@ -1072,7 +1110,7 @@ export type GetNodeError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const getNode: API.OperationMethod<
-  GetNodeInput,
+  GetNodeInput & RegionInput,
   GetNodeOutput,
   GetNodeError,
   Credentials | HttpClient.HttpClient
@@ -1089,6 +1127,8 @@ export const getNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNode",
+  telemetry: TELEMETRY,
+  span: "GetNode",
 }));
 
 export type GetProposalError =
@@ -1104,7 +1144,7 @@ export type GetProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const getProposal: API.OperationMethod<
-  GetProposalInput,
+  GetProposalInput & RegionInput,
   GetProposalOutput,
   GetProposalError,
   Credentials | HttpClient.HttpClient
@@ -1121,6 +1161,8 @@ export const getProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProposal",
+  telemetry: TELEMETRY,
+  span: "GetProposal",
 }));
 
 export type ListAccessorsError =
@@ -1134,7 +1176,7 @@ export type ListAccessorsError =
  * information required for token based access to your Ethereum nodes.
  */
 export const listAccessors: API.PaginatedOperationMethod<
-  ListAccessorsInput,
+  ListAccessorsInput & RegionInput,
   ListAccessorsOutput,
   ListAccessorsError,
   Credentials | HttpClient.HttpClient,
@@ -1157,6 +1199,8 @@ export const listAccessors: API.PaginatedOperationMethod<
     items: "Accessors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessors",
 })) as any;
 
 export type ListInvitationsError =
@@ -1173,7 +1217,7 @@ export type ListInvitationsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listInvitations: API.PaginatedOperationMethod<
-  ListInvitationsInput,
+  ListInvitationsInput & RegionInput,
   ListInvitationsOutput,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1197,6 +1241,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -1211,7 +1257,7 @@ export type ListMembersError =
  * Applies only to Hyperledger Fabric.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -1233,6 +1279,8 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListNetworksError =
@@ -1247,7 +1295,7 @@ export type ListNetworksError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksInput,
+  ListNetworksInput & RegionInput,
   ListNetworksOutput,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -1269,6 +1317,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 })) as any;
 
 export type ListNodesError =
@@ -1283,7 +1333,7 @@ export type ListNodesError =
  * Applies to Hyperledger Fabric and Ethereum.
  */
 export const listNodes: API.PaginatedOperationMethod<
-  ListNodesInput,
+  ListNodesInput & RegionInput,
   ListNodesOutput,
   ListNodesError,
   Credentials | HttpClient.HttpClient,
@@ -1305,6 +1355,8 @@ export const listNodes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListProposalsError =
@@ -1320,7 +1372,7 @@ export type ListProposalsError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposals: API.PaginatedOperationMethod<
-  ListProposalsInput,
+  ListProposalsInput & RegionInput,
   ListProposalsOutput,
   ListProposalsError,
   Credentials | HttpClient.HttpClient,
@@ -1343,6 +1395,8 @@ export const listProposals: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposals",
 })) as any;
 
 export type ListProposalVotesError =
@@ -1357,7 +1411,7 @@ export type ListProposalVotesError =
  * Applies only to Hyperledger Fabric.
  */
 export const listProposalVotes: API.PaginatedOperationMethod<
-  ListProposalVotesInput,
+  ListProposalVotesInput & RegionInput,
   ListProposalVotesOutput,
   ListProposalVotesError,
   Credentials | HttpClient.HttpClient,
@@ -1379,6 +1433,8 @@ export const listProposalVotes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposalVotes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1393,7 +1449,7 @@ export type ListTagsForResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1409,6 +1465,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectInvitationError =
@@ -1425,7 +1483,7 @@ export type RejectInvitationError =
  * Applies only to Hyperledger Fabric.
  */
 export const rejectInvitation: API.OperationMethod<
-  RejectInvitationInput,
+  RejectInvitationInput & RegionInput,
   RejectInvitationOutput,
   RejectInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1443,6 +1501,8 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectInvitation",
 }));
 
 export type TagResourceError =
@@ -1462,7 +1522,7 @@ export type TagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1479,6 +1539,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1493,7 +1555,7 @@ export type UntagResourceError =
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1509,6 +1571,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMemberError =
@@ -1524,7 +1588,7 @@ export type UpdateMemberError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateMember: API.OperationMethod<
-  UpdateMemberInput,
+  UpdateMemberInput & RegionInput,
   UpdateMemberOutput,
   UpdateMemberError,
   Credentials | HttpClient.HttpClient
@@ -1541,6 +1605,8 @@ export const updateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMember",
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdateNodeError =
@@ -1556,7 +1622,7 @@ export type UpdateNodeError =
  * Applies only to Hyperledger Fabric.
  */
 export const updateNode: API.OperationMethod<
-  UpdateNodeInput,
+  UpdateNodeInput & RegionInput,
   UpdateNodeOutput,
   UpdateNodeError,
   Credentials | HttpClient.HttpClient
@@ -1573,6 +1639,8 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
+  telemetry: TELEMETRY,
+  span: "UpdateNode",
 }));
 
 export type VoteOnProposalError =
@@ -1589,7 +1657,7 @@ export type VoteOnProposalError =
  * Applies only to Hyperledger Fabric.
  */
 export const voteOnProposal: API.OperationMethod<
-  VoteOnProposalInput,
+  VoteOnProposalInput & RegionInput,
   VoteOnProposalOutput,
   VoteOnProposalError,
   Credentials | HttpClient.HttpClient
@@ -1607,6 +1675,8 @@ export const voteOnProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VoteOnProposal",
+  telemetry: TELEMETRY,
+  span: "VoteOnProposal",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

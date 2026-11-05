@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://databrew.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DataBrew",
+  service: "DataBrew",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1124,7 +1140,7 @@ export type BatchDeleteRecipeVersionError =
  * partial failure in the response.
  */
 export const batchDeleteRecipeVersion: API.OperationMethod<
-  BatchDeleteRecipeVersionRequest,
+  BatchDeleteRecipeVersionRequest & RegionInput,
   BatchDeleteRecipeVersionResponse,
   BatchDeleteRecipeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1140,6 +1156,8 @@ export const batchDeleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRecipeVersion",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteRecipeVersion",
 }));
 
 export type CreateDatasetError =
@@ -1153,7 +1171,7 @@ export type CreateDatasetError =
  * Creates a new DataBrew dataset.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1170,6 +1188,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateProfileJobError =
@@ -1185,7 +1205,7 @@ export type CreateProfileJobError =
  * Creates a new job to analyze a dataset and create its data profile.
  */
 export const createProfileJob: API.OperationMethod<
-  CreateProfileJobRequest,
+  CreateProfileJobRequest & RegionInput,
   CreateProfileJobResponse,
   CreateProfileJobError,
   Credentials | HttpClient.HttpClient
@@ -1204,6 +1224,8 @@ export const createProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileJob",
+  telemetry: TELEMETRY,
+  span: "CreateProfileJob",
 }));
 
 export type CreateProjectError =
@@ -1218,7 +1240,7 @@ export type CreateProjectError =
  * Creates a new DataBrew project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1236,6 +1258,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRecipeError =
@@ -1248,7 +1272,7 @@ export type CreateRecipeError =
  * Creates a new DataBrew recipe.
  */
 export const createRecipe: API.OperationMethod<
-  CreateRecipeRequest,
+  CreateRecipeRequest & RegionInput,
   CreateRecipeResponse,
   CreateRecipeError,
   Credentials | HttpClient.HttpClient
@@ -1264,6 +1288,8 @@ export const createRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateRecipe",
 }));
 
 export type CreateRecipeJobError =
@@ -1279,7 +1305,7 @@ export type CreateRecipeJobError =
  * Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
  */
 export const createRecipeJob: API.OperationMethod<
-  CreateRecipeJobRequest,
+  CreateRecipeJobRequest & RegionInput,
   CreateRecipeJobResponse,
   CreateRecipeJobError,
   Credentials | HttpClient.HttpClient
@@ -1298,6 +1324,8 @@ export const createRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipeJob",
+  telemetry: TELEMETRY,
+  span: "CreateRecipeJob",
 }));
 
 export type CreateRulesetError =
@@ -1311,7 +1339,7 @@ export type CreateRulesetError =
  * the data quality of a dataset.
  */
 export const createRuleset: API.OperationMethod<
-  CreateRulesetRequest,
+  CreateRulesetRequest & RegionInput,
   CreateRulesetResponse,
   CreateRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1327,6 +1355,8 @@ export const createRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleset",
+  telemetry: TELEMETRY,
+  span: "CreateRuleset",
 }));
 
 export type CreateScheduleError =
@@ -1340,7 +1370,7 @@ export type CreateScheduleError =
  * date and time, or at regular intervals.
  */
 export const createSchedule: API.OperationMethod<
-  CreateScheduleRequest,
+  CreateScheduleRequest & RegionInput,
   CreateScheduleResponse,
   CreateScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1356,6 +1386,8 @@ export const createSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateSchedule",
 }));
 
 export type DeleteDatasetError =
@@ -1368,7 +1400,7 @@ export type DeleteDatasetError =
  * Deletes a dataset from DataBrew.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1384,6 +1416,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteJobError =
@@ -1396,7 +1430,7 @@ export type DeleteJobError =
  * Deletes the specified DataBrew job.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -1412,6 +1446,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteProjectError =
@@ -1424,7 +1460,7 @@ export type DeleteProjectError =
  * Deletes an existing DataBrew project.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1440,6 +1476,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRecipeVersionError =
@@ -1452,7 +1490,7 @@ export type DeleteRecipeVersionError =
  * Deletes a single version of a DataBrew recipe.
  */
 export const deleteRecipeVersion: API.OperationMethod<
-  DeleteRecipeVersionRequest,
+  DeleteRecipeVersionRequest & RegionInput,
   DeleteRecipeVersionResponse,
   DeleteRecipeVersionError,
   Credentials | HttpClient.HttpClient
@@ -1468,6 +1506,8 @@ export const deleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecipeVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteRecipeVersion",
 }));
 
 export type DeleteRulesetError =
@@ -1480,7 +1520,7 @@ export type DeleteRulesetError =
  * Deletes a ruleset.
  */
 export const deleteRuleset: API.OperationMethod<
-  DeleteRulesetRequest,
+  DeleteRulesetRequest & RegionInput,
   DeleteRulesetResponse,
   DeleteRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1496,6 +1536,8 @@ export const deleteRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleset",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleset",
 }));
 
 export type DeleteScheduleError =
@@ -1507,7 +1549,7 @@ export type DeleteScheduleError =
  * Deletes the specified DataBrew schedule.
  */
 export const deleteSchedule: API.OperationMethod<
-  DeleteScheduleRequest,
+  DeleteScheduleRequest & RegionInput,
   DeleteScheduleResponse,
   DeleteScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1518,6 +1560,8 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DescribeDatasetError =
@@ -1529,7 +1573,7 @@ export type DescribeDatasetError =
  * Returns the definition of a specific DataBrew dataset.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1540,6 +1584,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeJobError =
@@ -1551,7 +1597,7 @@ export type DescribeJobError =
  * Returns the definition of a specific DataBrew job.
  */
 export const describeJob: API.OperationMethod<
-  DescribeJobRequest,
+  DescribeJobRequest & RegionInput,
   DescribeJobResponse,
   DescribeJobError,
   Credentials | HttpClient.HttpClient
@@ -1562,6 +1608,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeJobRunError =
@@ -1573,7 +1621,7 @@ export type DescribeJobRunError =
  * Represents one run of a DataBrew job.
  */
 export const describeJobRun: API.OperationMethod<
-  DescribeJobRunRequest,
+  DescribeJobRunRequest & RegionInput,
   DescribeJobRunResponse,
   DescribeJobRunError,
   Credentials | HttpClient.HttpClient
@@ -1584,6 +1632,8 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  telemetry: TELEMETRY,
+  span: "DescribeJobRun",
 }));
 
 export type DescribeProjectError =
@@ -1595,7 +1645,7 @@ export type DescribeProjectError =
  * Returns the definition of a specific DataBrew project.
  */
 export const describeProject: API.OperationMethod<
-  DescribeProjectRequest,
+  DescribeProjectRequest & RegionInput,
   DescribeProjectResponse,
   DescribeProjectError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1656,8 @@ export const describeProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
+  telemetry: TELEMETRY,
+  span: "DescribeProject",
 }));
 
 export type DescribeRecipeError =
@@ -1618,7 +1670,7 @@ export type DescribeRecipeError =
  * version.
  */
 export const describeRecipe: API.OperationMethod<
-  DescribeRecipeRequest,
+  DescribeRecipeRequest & RegionInput,
   DescribeRecipeResponse,
   DescribeRecipeError,
   Credentials | HttpClient.HttpClient
@@ -1629,6 +1681,8 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
+  telemetry: TELEMETRY,
+  span: "DescribeRecipe",
 }));
 
 export type DescribeRulesetError =
@@ -1640,7 +1694,7 @@ export type DescribeRulesetError =
  * Retrieves detailed information about the ruleset.
  */
 export const describeRuleset: API.OperationMethod<
-  DescribeRulesetRequest,
+  DescribeRulesetRequest & RegionInput,
   DescribeRulesetResponse,
   DescribeRulesetError,
   Credentials | HttpClient.HttpClient
@@ -1651,6 +1705,8 @@ export const describeRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleset",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleset",
 }));
 
 export type DescribeScheduleError =
@@ -1662,7 +1718,7 @@ export type DescribeScheduleError =
  * Returns the definition of a specific DataBrew schedule.
  */
 export const describeSchedule: API.OperationMethod<
-  DescribeScheduleRequest,
+  DescribeScheduleRequest & RegionInput,
   DescribeScheduleResponse,
   DescribeScheduleError,
   Credentials | HttpClient.HttpClient
@@ -1673,6 +1729,8 @@ export const describeSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeSchedule",
 }));
 
 export type ListDatasetsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1680,7 +1738,7 @@ export type ListDatasetsError = ValidationException | TooManyRequestsException |
  * Lists all of the DataBrew datasets.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -1698,6 +1756,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "Datasets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListJobRunsError =
@@ -1709,7 +1769,7 @@ export type ListJobRunsError =
  * Lists all of the previous runs of a particular DataBrew job.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsRequest,
+  ListJobRunsRequest & RegionInput,
   ListJobRunsResponse,
   ListJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1727,6 +1787,8 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "JobRuns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobRuns",
 })) as any;
 
 export type ListJobsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1734,7 +1796,7 @@ export type ListJobsError = ValidationException | TooManyRequestsException | Com
  * Lists all of the DataBrew jobs that are defined.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1752,6 +1814,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListProjectsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1759,7 +1823,7 @@ export type ListProjectsError = ValidationException | TooManyRequestsException |
  * Lists all of the DataBrew projects that are defined.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResponse,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -1777,6 +1841,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "Projects",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListRecipesError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1784,7 +1850,7 @@ export type ListRecipesError = ValidationException | TooManyRequestsException | 
  * Lists all of the DataBrew recipes that are defined.
  */
 export const listRecipes: API.PaginatedOperationMethod<
-  ListRecipesRequest,
+  ListRecipesRequest & RegionInput,
   ListRecipesResponse,
   ListRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -1802,6 +1868,8 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipes",
 })) as any;
 
 export type ListRecipeVersionsError =
@@ -1814,7 +1882,7 @@ export type ListRecipeVersionsError =
  * `LATEST_WORKING`.
  */
 export const listRecipeVersions: API.PaginatedOperationMethod<
-  ListRecipeVersionsRequest,
+  ListRecipeVersionsRequest & RegionInput,
   ListRecipeVersionsResponse,
   ListRecipeVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1832,6 +1900,8 @@ export const listRecipeVersions: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipeVersions",
 })) as any;
 
 export type ListRulesetsError =
@@ -1844,7 +1914,7 @@ export type ListRulesetsError =
  * with a specific resource (dataset).
  */
 export const listRulesets: API.PaginatedOperationMethod<
-  ListRulesetsRequest,
+  ListRulesetsRequest & RegionInput,
   ListRulesetsResponse,
   ListRulesetsError,
   Credentials | HttpClient.HttpClient,
@@ -1862,6 +1932,8 @@ export const listRulesets: API.PaginatedOperationMethod<
     items: "Rulesets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRulesets",
 })) as any;
 
 export type ListSchedulesError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1869,7 +1941,7 @@ export type ListSchedulesError = ValidationException | TooManyRequestsException 
  * Lists the DataBrew schedules that are defined.
  */
 export const listSchedules: API.PaginatedOperationMethod<
-  ListSchedulesRequest,
+  ListSchedulesRequest & RegionInput,
   ListSchedulesResponse,
   ListSchedulesError,
   Credentials | HttpClient.HttpClient,
@@ -1887,6 +1959,8 @@ export const listSchedules: API.PaginatedOperationMethod<
     items: "Schedules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchedules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1899,7 +1973,7 @@ export type ListTagsForResourceError =
  * Lists all the tags for a DataBrew resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1915,6 +1989,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishRecipeError =
@@ -1927,7 +2003,7 @@ export type PublishRecipeError =
  * Publishes a new version of a DataBrew recipe.
  */
 export const publishRecipe: API.OperationMethod<
-  PublishRecipeRequest,
+  PublishRecipeRequest & RegionInput,
   PublishRecipeResponse,
   PublishRecipeError,
   Credentials | HttpClient.HttpClient
@@ -1943,6 +2019,8 @@ export const publishRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishRecipe",
+  telemetry: TELEMETRY,
+  span: "PublishRecipe",
 }));
 
 export type SendProjectSessionActionError =
@@ -1955,7 +2033,7 @@ export type SendProjectSessionActionError =
  * open.
  */
 export const sendProjectSessionAction: API.OperationMethod<
-  SendProjectSessionActionRequest,
+  SendProjectSessionActionRequest & RegionInput,
   SendProjectSessionActionResponse,
   SendProjectSessionActionError,
   Credentials | HttpClient.HttpClient
@@ -1966,6 +2044,8 @@ export const sendProjectSessionAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProjectSessionAction",
+  telemetry: TELEMETRY,
+  span: "SendProjectSessionAction",
 }));
 
 export type StartJobRunError =
@@ -1979,7 +2059,7 @@ export type StartJobRunError =
  * Runs a DataBrew job.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2076,8 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  telemetry: TELEMETRY,
+  span: "StartJobRun",
 }));
 
 export type StartProjectSessionError =
@@ -2009,7 +2091,7 @@ export type StartProjectSessionError =
  * project.
  */
 export const startProjectSession: API.OperationMethod<
-  StartProjectSessionRequest,
+  StartProjectSessionRequest & RegionInput,
   StartProjectSessionResponse,
   StartProjectSessionError,
   Credentials | HttpClient.HttpClient
@@ -2025,6 +2107,8 @@ export const startProjectSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectSession",
+  telemetry: TELEMETRY,
+  span: "StartProjectSession",
 }));
 
 export type StopJobRunError =
@@ -2036,7 +2120,7 @@ export type StopJobRunError =
  * Stops a particular run of a job.
  */
 export const stopJobRun: API.OperationMethod<
-  StopJobRunRequest,
+  StopJobRunRequest & RegionInput,
   StopJobRunResponse,
   StopJobRunError,
   Credentials | HttpClient.HttpClient
@@ -2047,6 +2131,8 @@ export const stopJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJobRun",
+  telemetry: TELEMETRY,
+  span: "StopJobRun",
 }));
 
 export type TagResourceError =
@@ -2060,7 +2146,7 @@ export type TagResourceError =
  * schedule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2076,6 +2162,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2088,7 +2176,7 @@ export type UntagResourceError =
  * Removes metadata tags from a DataBrew resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2104,6 +2192,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasetError =
@@ -2116,7 +2206,7 @@ export type UpdateDatasetError =
  * Modifies the definition of an existing DataBrew dataset.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2132,6 +2222,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateProfileJobError =
@@ -2145,7 +2237,7 @@ export type UpdateProfileJobError =
  * Modifies the definition of an existing profile job.
  */
 export const updateProfileJob: API.OperationMethod<
-  UpdateProfileJobRequest,
+  UpdateProfileJobRequest & RegionInput,
   UpdateProfileJobResponse,
   UpdateProfileJobError,
   Credentials | HttpClient.HttpClient
@@ -2162,6 +2254,8 @@ export const updateProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileJob",
+  telemetry: TELEMETRY,
+  span: "UpdateProfileJob",
 }));
 
 export type UpdateProjectError =
@@ -2174,7 +2268,7 @@ export type UpdateProjectError =
  * Modifies the definition of an existing DataBrew project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResponse,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2190,6 +2284,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateRecipeError =
@@ -2202,7 +2298,7 @@ export type UpdateRecipeError =
  * recipe.
  */
 export const updateRecipe: API.OperationMethod<
-  UpdateRecipeRequest,
+  UpdateRecipeRequest & RegionInput,
   UpdateRecipeResponse,
   UpdateRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2213,6 +2309,8 @@ export const updateRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipe",
+  telemetry: TELEMETRY,
+  span: "UpdateRecipe",
 }));
 
 export type UpdateRecipeJobError =
@@ -2226,7 +2324,7 @@ export type UpdateRecipeJobError =
  * Modifies the definition of an existing DataBrew recipe job.
  */
 export const updateRecipeJob: API.OperationMethod<
-  UpdateRecipeJobRequest,
+  UpdateRecipeJobRequest & RegionInput,
   UpdateRecipeJobResponse,
   UpdateRecipeJobError,
   Credentials | HttpClient.HttpClient
@@ -2243,6 +2341,8 @@ export const updateRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipeJob",
+  telemetry: TELEMETRY,
+  span: "UpdateRecipeJob",
 }));
 
 export type UpdateRulesetError =
@@ -2254,7 +2354,7 @@ export type UpdateRulesetError =
  * Updates specified ruleset.
  */
 export const updateRuleset: API.OperationMethod<
-  UpdateRulesetRequest,
+  UpdateRulesetRequest & RegionInput,
   UpdateRulesetResponse,
   UpdateRulesetError,
   Credentials | HttpClient.HttpClient
@@ -2265,6 +2365,8 @@ export const updateRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleset",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleset",
 }));
 
 export type UpdateScheduleError =
@@ -2277,7 +2379,7 @@ export type UpdateScheduleError =
  * Modifies the definition of an existing DataBrew schedule.
  */
 export const updateSchedule: API.OperationMethod<
-  UpdateScheduleRequest,
+  UpdateScheduleRequest & RegionInput,
   UpdateScheduleResponse,
   UpdateScheduleError,
   Credentials | HttpClient.HttpClient
@@ -2293,6 +2395,8 @@ export const updateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

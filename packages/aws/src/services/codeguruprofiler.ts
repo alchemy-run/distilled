@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeguru-profiler.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeGuruProfiler",
+  service: "CodeGuruProfiler",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -469,7 +485,7 @@ export type AddNotificationChannelsError =
  * Add up to 2 anomaly notifications channels for a profiling group.
  */
 export const addNotificationChannels: API.OperationMethod<
-  AddNotificationChannelsRequest,
+  AddNotificationChannelsRequest & RegionInput,
   AddNotificationChannelsResponse,
   AddNotificationChannelsError,
   Credentials | HttpClient.HttpClient
@@ -487,6 +503,8 @@ export const addNotificationChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannels",
+  telemetry: TELEMETRY,
+  span: "AddNotificationChannels",
 }));
 
 export type BatchGetFrameMetricDataError =
@@ -500,7 +518,7 @@ export type BatchGetFrameMetricDataError =
  * of frame metrics from a time period.
  */
 export const batchGetFrameMetricData: API.OperationMethod<
-  BatchGetFrameMetricDataRequest,
+  BatchGetFrameMetricDataRequest & RegionInput,
   BatchGetFrameMetricDataResponse,
   BatchGetFrameMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -516,6 +534,8 @@ export const batchGetFrameMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFrameMetricData",
+  telemetry: TELEMETRY,
+  span: "BatchGetFrameMetricData",
 }));
 
 export type ConfigureAgentError =
@@ -530,7 +550,7 @@ export type ConfigureAgentError =
  * to tell an agent whether to profile or not and for how long to return profiling data.
  */
 export const configureAgent: API.OperationMethod<
-  ConfigureAgentRequest,
+  ConfigureAgentRequest & RegionInput,
   ConfigureAgentResponse,
   ConfigureAgentError,
   Credentials | HttpClient.HttpClient
@@ -546,6 +566,8 @@ export const configureAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureAgent",
+  telemetry: TELEMETRY,
+  span: "ConfigureAgent",
 }));
 
 export type CreateProfilingGroupError =
@@ -559,7 +581,7 @@ export type CreateProfilingGroupError =
  * Creates a profiling group.
  */
 export const createProfilingGroup: API.OperationMethod<
-  CreateProfilingGroupRequest,
+  CreateProfilingGroupRequest & RegionInput,
   CreateProfilingGroupResponse,
   CreateProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -576,6 +598,8 @@ export const createProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateProfilingGroup",
 }));
 
 export type DeleteProfilingGroupError =
@@ -589,7 +613,7 @@ export type DeleteProfilingGroupError =
  * Deletes a profiling group.
  */
 export const deleteProfilingGroup: API.OperationMethod<
-  DeleteProfilingGroupRequest,
+  DeleteProfilingGroupRequest & RegionInput,
   DeleteProfilingGroupResponse,
   DeleteProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -606,6 +630,8 @@ export const deleteProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteProfilingGroup",
 }));
 
 export type DescribeProfilingGroupError =
@@ -621,7 +647,7 @@ export type DescribeProfilingGroupError =
  * object that contains information about the requested profiling group.
  */
 export const describeProfilingGroup: API.OperationMethod<
-  DescribeProfilingGroupRequest,
+  DescribeProfilingGroupRequest & RegionInput,
   DescribeProfilingGroupResponse,
   DescribeProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -637,6 +663,8 @@ export const describeProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeProfilingGroup",
 }));
 
 export type GetFindingsReportAccountSummaryError =
@@ -652,7 +680,7 @@ export type GetFindingsReportAccountSummaryError =
  * objects that contain analysis results for all profiling groups in your AWS account.
  */
 export const getFindingsReportAccountSummary: API.PaginatedOperationMethod<
-  GetFindingsReportAccountSummaryRequest,
+  GetFindingsReportAccountSummaryRequest & RegionInput,
   GetFindingsReportAccountSummaryResponse,
   GetFindingsReportAccountSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -669,6 +697,8 @@ export const getFindingsReportAccountSummary: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingsReportAccountSummary",
 })) as any;
 
 export type GetNotificationConfigurationError =
@@ -681,7 +711,7 @@ export type GetNotificationConfigurationError =
  * Get the current configuration for anomaly notifications for a profiling group.
  */
 export const getNotificationConfiguration: API.OperationMethod<
-  GetNotificationConfigurationRequest,
+  GetNotificationConfigurationRequest & RegionInput,
   GetNotificationConfigurationResponse,
   GetNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -697,6 +727,8 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotificationConfiguration",
 }));
 
 export type GetPolicyError =
@@ -708,7 +740,7 @@ export type GetPolicyError =
  * Returns the JSON-formatted resource-based policy on a profiling group.
  */
 export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
+  GetPolicyRequest & RegionInput,
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
@@ -719,6 +751,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetProfileError =
@@ -770,7 +804,7 @@ export type GetProfileError =
  * from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -786,6 +820,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetRecommendationsError =
@@ -807,7 +843,7 @@ export type GetRecommendationsError =
  * returned.
  */
 export const getRecommendations: API.OperationMethod<
-  GetRecommendationsRequest,
+  GetRecommendationsRequest & RegionInput,
   GetRecommendationsResponse,
   GetRecommendationsError,
   Credentials | HttpClient.HttpClient
@@ -823,6 +859,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 export type ListFindingsReportsError =
@@ -835,7 +873,7 @@ export type ListFindingsReportsError =
  * List the available reports for a given profiling group and time range.
  */
 export const listFindingsReports: API.PaginatedOperationMethod<
-  ListFindingsReportsRequest,
+  ListFindingsReportsRequest & RegionInput,
   ListFindingsReportsResponse,
   ListFindingsReportsError,
   Credentials | HttpClient.HttpClient,
@@ -857,6 +895,8 @@ export const listFindingsReports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsReports",
 })) as any;
 
 export type ListProfileTimesError =
@@ -870,7 +910,7 @@ export type ListProfileTimesError =
  * for an aggregation period within the specified time range.
  */
 export const listProfileTimes: API.PaginatedOperationMethod<
-  ListProfileTimesRequest,
+  ListProfileTimesRequest & RegionInput,
   ListProfileTimesResponse,
   ListProfileTimesError,
   Credentials | HttpClient.HttpClient,
@@ -893,6 +933,8 @@ export const listProfileTimes: API.PaginatedOperationMethod<
     items: "profileTimes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileTimes",
 })) as any;
 
 export type ListProfilingGroupsError = InternalServerException | ThrottlingException | CommonErrors;
@@ -904,7 +946,7 @@ export type ListProfilingGroupsError = InternalServerException | ThrottlingExcep
  * objects.
  */
 export const listProfilingGroups: API.PaginatedOperationMethod<
-  ListProfilingGroupsRequest,
+  ListProfilingGroupsRequest & RegionInput,
   ListProfilingGroupsResponse,
   ListProfilingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -921,6 +963,8 @@ export const listProfilingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfilingGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -932,7 +976,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags that are assigned to a specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -943,6 +987,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PostAgentProfileError =
@@ -959,7 +1005,7 @@ export type PostAgentProfileError =
  * .
  */
 export const postAgentProfile: API.OperationMethod<
-  PostAgentProfileRequest,
+  PostAgentProfileRequest & RegionInput,
   PostAgentProfileResponse,
   PostAgentProfileError,
   Credentials | HttpClient.HttpClient
@@ -975,6 +1021,8 @@ export const postAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostAgentProfile",
+  telemetry: TELEMETRY,
+  span: "PostAgentProfile",
 }));
 
 export type PutPermissionError =
@@ -1007,7 +1055,7 @@ export type PutPermissionError =
  * The response contains the profiling group's JSON-formatted resource policy.
  */
 export const putPermission: API.OperationMethod<
-  PutPermissionRequest,
+  PutPermissionRequest & RegionInput,
   PutPermissionResponse,
   PutPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1024,6 +1072,8 @@ export const putPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermission",
+  telemetry: TELEMETRY,
+  span: "PutPermission",
 }));
 
 export type RemoveNotificationChannelError =
@@ -1036,7 +1086,7 @@ export type RemoveNotificationChannelError =
  * Remove one anomaly notifications channel for a profiling group.
  */
 export const removeNotificationChannel: API.OperationMethod<
-  RemoveNotificationChannelRequest,
+  RemoveNotificationChannelRequest & RegionInput,
   RemoveNotificationChannelResponse,
   RemoveNotificationChannelError,
   Credentials | HttpClient.HttpClient
@@ -1052,6 +1102,8 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "RemoveNotificationChannel",
 }));
 
 export type RemovePermissionError =
@@ -1073,7 +1125,7 @@ export type RemovePermissionError =
  * .
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1090,6 +1142,8 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: "RemovePermission",
 }));
 
 export type SubmitFeedbackError =
@@ -1103,7 +1157,7 @@ export type SubmitFeedbackError =
  * useful or not.
  */
 export const submitFeedback: API.OperationMethod<
-  SubmitFeedbackRequest,
+  SubmitFeedbackRequest & RegionInput,
   SubmitFeedbackResponse,
   SubmitFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1119,6 +1173,8 @@ export const submitFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitFeedback",
+  telemetry: TELEMETRY,
+  span: "SubmitFeedback",
 }));
 
 export type TagResourceError =
@@ -1130,7 +1186,7 @@ export type TagResourceError =
  * Use to assign one or more tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1141,6 +1197,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1152,7 +1210,7 @@ export type UntagResourceError =
  * Use to remove one or more tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1163,6 +1221,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateProfilingGroupError =
@@ -1176,7 +1236,7 @@ export type UpdateProfilingGroupError =
  * Updates a profiling group.
  */
 export const updateProfilingGroup: API.OperationMethod<
-  UpdateProfilingGroupRequest,
+  UpdateProfilingGroupRequest & RegionInput,
   UpdateProfilingGroupResponse,
   UpdateProfilingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1193,6 +1253,8 @@ export const updateProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateProfilingGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

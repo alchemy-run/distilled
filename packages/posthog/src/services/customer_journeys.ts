@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomerJourneys",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateCustomerJourneyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -80,6 +93,8 @@ export const createCustomerJourney: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerJourney",
 }));
 
 export type CustomerJourneysDestroyError = PosthogOpError;
@@ -94,6 +109,8 @@ export const customerJourneysDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerJourneysDestroy",
 }));
 
 export type GetCustomerJourneyError = PosthogOpError;
@@ -108,6 +125,8 @@ export const getCustomerJourney: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerJourney",
 }));
 
 export type ListCustomerJourneysError = PosthogOpError;
@@ -122,6 +141,8 @@ export const listCustomerJourneys: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerJourneys",
 }));
 
 export type UpdateCustomerJourneyError = PosthogOpError;
@@ -136,6 +157,8 @@ export const updateCustomerJourney: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerJourney",
 }));
 
 export type UpdateCustomerJourneysPartialError = PosthogOpError;
@@ -150,6 +173,8 @@ export const updateCustomerJourneysPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerJourneysPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

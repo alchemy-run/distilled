@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -8,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotsitewise.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTSiteWise",
+  service: "IoTSiteWise",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3660,7 +3676,7 @@ export type AssociateAssetsError =
  * *IoT SiteWise User Guide*.
  */
 export const associateAssets: API.OperationMethod<
-  AssociateAssetsRequest,
+  AssociateAssetsRequest & RegionInput,
   AssociateAssetsResponse,
   AssociateAssetsError,
   Credentials | HttpClient.HttpClient
@@ -3680,6 +3696,8 @@ export const associateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateAssets",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "AssociateAssets",
 }));
 
 export type AssociateTimeSeriesToAssetPropertyError =
@@ -3693,7 +3711,7 @@ export type AssociateTimeSeriesToAssetPropertyError =
  * Associates a time series (data stream) with an asset property.
  */
 export const associateTimeSeriesToAssetProperty: API.OperationMethod<
-  AssociateTimeSeriesToAssetPropertyRequest,
+  AssociateTimeSeriesToAssetPropertyRequest & RegionInput,
   AssociateTimeSeriesToAssetPropertyResponse,
   AssociateTimeSeriesToAssetPropertyError,
   Credentials | HttpClient.HttpClient
@@ -3711,6 +3729,8 @@ export const associateTimeSeriesToAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTimeSeriesToAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "AssociateTimeSeriesToAssetProperty",
 }));
 
 export type BatchAssociateDataSegmentsToDatasetError =
@@ -3728,7 +3748,7 @@ export type BatchAssociateDataSegmentsToDatasetError =
  * belong to.
  */
 export const batchAssociateDataSegmentsToDataset: API.OperationMethod<
-  BatchAssociateDataSegmentsToDatasetRequest,
+  BatchAssociateDataSegmentsToDatasetRequest & RegionInput,
   BatchAssociateDataSegmentsToDatasetResponse,
   BatchAssociateDataSegmentsToDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3747,6 +3767,8 @@ export const batchAssociateDataSegmentsToDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateDataSegmentsToDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateDataSegmentsToDataset",
 }));
 
 export type BatchAssociateProjectAssetsError =
@@ -3765,7 +3787,7 @@ export type BatchAssociateProjectAssetsError =
  * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
  */
 export const batchAssociateProjectAssets: API.OperationMethod<
-  BatchAssociateProjectAssetsRequest,
+  BatchAssociateProjectAssetsRequest & RegionInput,
   BatchAssociateProjectAssetsResponse,
   BatchAssociateProjectAssetsError,
   Credentials | HttpClient.HttpClient
@@ -3783,6 +3805,8 @@ export const batchAssociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateProjectAssets",
 }));
 
 export type BatchDeleteDatasetDataSegmentsError =
@@ -3797,7 +3821,7 @@ export type BatchDeleteDatasetDataSegmentsError =
  * the underlying time series data for the segment's time range.
  */
 export const batchDeleteDatasetDataSegments: API.OperationMethod<
-  BatchDeleteDatasetDataSegmentsRequest,
+  BatchDeleteDatasetDataSegmentsRequest & RegionInput,
   BatchDeleteDatasetDataSegmentsResponse,
   BatchDeleteDatasetDataSegmentsError,
   Credentials | HttpClient.HttpClient
@@ -3815,6 +3839,8 @@ export const batchDeleteDatasetDataSegments: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDatasetDataSegments",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDatasetDataSegments",
 }));
 
 export type BatchDisassociateDataSegmentsFromDatasetError =
@@ -3829,7 +3855,7 @@ export type BatchDisassociateDataSegmentsFromDatasetError =
  * segment doesn't delete the underlying data in the source session dataset.
  */
 export const batchDisassociateDataSegmentsFromDataset: API.OperationMethod<
-  BatchDisassociateDataSegmentsFromDatasetRequest,
+  BatchDisassociateDataSegmentsFromDatasetRequest & RegionInput,
   BatchDisassociateDataSegmentsFromDatasetResponse,
   BatchDisassociateDataSegmentsFromDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3847,6 +3873,8 @@ export const batchDisassociateDataSegmentsFromDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateDataSegmentsFromDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateDataSegmentsFromDataset",
 }));
 
 export type BatchDisassociateProjectAssetsError =
@@ -3859,7 +3887,7 @@ export type BatchDisassociateProjectAssetsError =
  * Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
  */
 export const batchDisassociateProjectAssets: API.OperationMethod<
-  BatchDisassociateProjectAssetsRequest,
+  BatchDisassociateProjectAssetsRequest & RegionInput,
   BatchDisassociateProjectAssetsResponse,
   BatchDisassociateProjectAssetsError,
   Credentials | HttpClient.HttpClient
@@ -3876,6 +3904,8 @@ export const batchDisassociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateProjectAssets",
 }));
 
 export type BatchGetAssetPropertyAggregatesError =
@@ -3890,7 +3920,7 @@ export type BatchGetAssetPropertyAggregatesError =
  * *IoT SiteWise User Guide*.
  */
 export const batchGetAssetPropertyAggregates: API.PaginatedOperationMethod<
-  BatchGetAssetPropertyAggregatesRequest,
+  BatchGetAssetPropertyAggregatesRequest & RegionInput,
   BatchGetAssetPropertyAggregatesResponse,
   BatchGetAssetPropertyAggregatesError,
   Credentials | HttpClient.HttpClient,
@@ -3913,6 +3943,8 @@ export const batchGetAssetPropertyAggregates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyAggregates",
 })) as any;
 
 export type BatchGetAssetPropertyValueError =
@@ -3926,7 +3958,7 @@ export type BatchGetAssetPropertyValueError =
  * current values in the *IoT SiteWise User Guide*.
  */
 export const batchGetAssetPropertyValue: API.PaginatedOperationMethod<
-  BatchGetAssetPropertyValueRequest,
+  BatchGetAssetPropertyValueRequest & RegionInput,
   BatchGetAssetPropertyValueResponse,
   BatchGetAssetPropertyValueError,
   Credentials | HttpClient.HttpClient,
@@ -3945,6 +3977,8 @@ export const batchGetAssetPropertyValue: API.PaginatedOperationMethod<
   operationName: "BatchGetAssetPropertyValue",
   endpointHostPrefix: "data.",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyValue",
 })) as any;
 
 export type BatchGetAssetPropertyValueHistoryError =
@@ -3958,7 +3992,7 @@ export type BatchGetAssetPropertyValueHistoryError =
  * Querying historical values in the *IoT SiteWise User Guide*.
  */
 export const batchGetAssetPropertyValueHistory: API.PaginatedOperationMethod<
-  BatchGetAssetPropertyValueHistoryRequest,
+  BatchGetAssetPropertyValueHistoryRequest & RegionInput,
   BatchGetAssetPropertyValueHistoryResponse,
   BatchGetAssetPropertyValueHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -3981,6 +4015,8 @@ export const batchGetAssetPropertyValueHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyValueHistory",
 })) as any;
 
 export type BatchPutAssetPropertyValueError =
@@ -4018,7 +4054,7 @@ export type BatchPutAssetPropertyValueError =
  * *IoT SiteWise User Guide*.
  */
 export const batchPutAssetPropertyValue: API.OperationMethod<
-  BatchPutAssetPropertyValueRequest,
+  BatchPutAssetPropertyValueRequest & RegionInput,
   BatchPutAssetPropertyValueResponse,
   BatchPutAssetPropertyValueError,
   Credentials | HttpClient.HttpClient
@@ -4038,6 +4074,8 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutAssetPropertyValue",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "BatchPutAssetPropertyValue",
 }));
 
 export type CancelEnrichmentJobError =
@@ -4085,7 +4123,7 @@ export type CancelEnrichmentJobError =
  * than CANCELLED.
  */
 export const cancelEnrichmentJob: API.OperationMethod<
-  CancelEnrichmentJobRequest,
+  CancelEnrichmentJobRequest & RegionInput,
   CancelEnrichmentJobResponse,
   CancelEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -4105,6 +4143,8 @@ export const cancelEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelEnrichmentJob",
 }));
 
 export type CancelPipelineExecutionError =
@@ -4125,7 +4165,7 @@ export type CancelPipelineExecutionError =
  * the stateDetails field when you describe the execution.
  */
 export const cancelPipelineExecution: API.OperationMethod<
-  CancelPipelineExecutionRequest,
+  CancelPipelineExecutionRequest & RegionInput,
   CancelPipelineExecutionResponse,
   CancelPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -4144,6 +4184,8 @@ export const cancelPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "CancelPipelineExecution",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelPipelineExecution",
 }));
 
 export type CancelQueryError =
@@ -4158,7 +4200,7 @@ export type CancelQueryError =
  * Cancels a running query.
  */
 export const cancelQuery: API.OperationMethod<
-  CancelQueryRequest,
+  CancelQueryRequest & RegionInput,
   CancelQueryResponse,
   CancelQueryError,
   Credentials | HttpClient.HttpClient
@@ -4177,6 +4219,8 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateAccessPolicyError =
@@ -4198,7 +4242,7 @@ export type CreateAccessPolicyError =
  * Support for access policies that use an SSO Group as the identity is not supported at this time.
  */
 export const createAccessPolicy: API.OperationMethod<
-  CreateAccessPolicyRequest,
+  CreateAccessPolicyRequest & RegionInput,
   CreateAccessPolicyResponse,
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4216,6 +4260,8 @@ export const createAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateApplicationError =
@@ -4231,7 +4277,7 @@ export type CreateApplicationError =
  * Creates a new application for the workspace and IdC application provided
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4251,6 +4297,8 @@ export const createApplication: API.OperationMethod<
   retry: Retry,
   operationName: "CreateApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateAssetError =
@@ -4267,7 +4315,7 @@ export type CreateAssetError =
  * *IoT SiteWise User Guide*.
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
+  CreateAssetRequest & RegionInput,
   CreateAssetResponse,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -4287,6 +4335,8 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreateAssetModelError =
@@ -4320,7 +4370,7 @@ export type CreateAssetModelError =
  * that defines a standard structure that can be applied to different asset models.
  */
 export const createAssetModel: API.OperationMethod<
-  CreateAssetModelRequest,
+  CreateAssetModelRequest & RegionInput,
   CreateAssetModelResponse,
   CreateAssetModelError,
   Credentials | HttpClient.HttpClient
@@ -4340,6 +4390,8 @@ export const createAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetModel",
 }));
 
 export type CreateAssetModelCompositeModelError =
@@ -4376,7 +4428,7 @@ export type CreateAssetModelCompositeModelError =
  * don't include an `composedAssetModelId`.
  */
 export const createAssetModelCompositeModel: API.OperationMethod<
-  CreateAssetModelCompositeModelRequest,
+  CreateAssetModelCompositeModelRequest & RegionInput,
   CreateAssetModelCompositeModelResponse,
   CreateAssetModelCompositeModelError,
   Credentials | HttpClient.HttpClient
@@ -4397,6 +4449,8 @@ export const createAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetModelCompositeModel",
 }));
 
 export type CreateBulkImportJobError =
@@ -4429,7 +4483,7 @@ export type CreateBulkImportJobError =
  * - Data older than 7 days does not trigger computations or notifications.
  */
 export const createBulkImportJob: API.OperationMethod<
-  CreateBulkImportJobRequest,
+  CreateBulkImportJobRequest & RegionInput,
   CreateBulkImportJobResponse,
   CreateBulkImportJobError,
   Credentials | HttpClient.HttpClient
@@ -4449,6 +4503,8 @@ export const createBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBulkImportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateBulkImportJob",
 }));
 
 export type CreateComputationModelError =
@@ -4464,7 +4520,7 @@ export type CreateComputationModelError =
  * Create a computation model with a configuration and data binding.
  */
 export const createComputationModel: API.OperationMethod<
-  CreateComputationModelRequest,
+  CreateComputationModelRequest & RegionInput,
   CreateComputationModelResponse,
   CreateComputationModelError,
   Credentials | HttpClient.HttpClient
@@ -4484,6 +4540,8 @@ export const createComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateComputationModel",
 }));
 
 export type CreateDashboardError =
@@ -4502,7 +4560,7 @@ export type CreateDashboardError =
  * Creates a dashboard in an IoT SiteWise Monitor project.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -4520,6 +4578,8 @@ export const createDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDatasetError =
@@ -4535,7 +4595,7 @@ export type CreateDatasetError =
  * Creates a dataset. Session and curated datasets are created in a workspace. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source session datasets. A dataset that connects to an external datasource is created outside of a workspace.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -4555,6 +4615,8 @@ export const createDataset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetExportJobError =
@@ -4571,7 +4633,7 @@ export type CreateDatasetExportJobError =
  * ListDatasetExportJobs to enumerate a workspace's jobs.
  */
 export const createDatasetExportJob: API.OperationMethod<
-  CreateDatasetExportJobRequest,
+  CreateDatasetExportJobRequest & RegionInput,
   CreateDatasetExportJobResponse,
   CreateDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -4590,6 +4652,8 @@ export const createDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDatasetExportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetExportJob",
 }));
 
 export type CreateEnrichmentJobError =
@@ -4645,7 +4709,7 @@ export type CreateEnrichmentJobError =
  * - LimitExceededException: Too many concurrent jobs or requests
  */
 export const createEnrichmentJob: API.OperationMethod<
-  CreateEnrichmentJobRequest,
+  CreateEnrichmentJobRequest & RegionInput,
   CreateEnrichmentJobResponse,
   CreateEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -4665,6 +4729,8 @@ export const createEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateEnrichmentJob",
 }));
 
 export type CreateGatewayError =
@@ -4680,7 +4746,7 @@ export type CreateGatewayError =
  * *IoT SiteWise User Guide*.
  */
 export const createGateway: API.OperationMethod<
-  CreateGatewayRequest,
+  CreateGatewayRequest & RegionInput,
   CreateGatewayResponse,
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -4698,6 +4764,8 @@ export const createGateway: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreatePipelineError =
@@ -4720,7 +4788,7 @@ export type CreatePipelineError =
  * compute nodes, and override them at the individual compute node level.
  */
 export const createPipeline: API.OperationMethod<
-  CreatePipelineRequest,
+  CreatePipelineRequest & RegionInput,
   CreatePipelineResponse,
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -4740,6 +4808,8 @@ export const createPipeline: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePortalError =
@@ -4763,7 +4833,7 @@ export type CreatePortalError =
  * administrators in the *IoT SiteWise User Guide*.
  */
 export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
+  CreatePortalRequest & RegionInput,
   CreatePortalResponse,
   CreatePortalError,
   Credentials | HttpClient.HttpClient
@@ -4781,6 +4851,8 @@ export const createPortal: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreatePortal",
 }));
 
 export type CreateProjectError =
@@ -4802,7 +4874,7 @@ export type CreateProjectError =
  * information.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectRequest,
+  CreateProjectRequest & RegionInput,
   CreateProjectResponse,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -4820,6 +4892,8 @@ export const createProject: API.OperationMethod<
   retry: Retry,
   operationName: "CreateProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateTaskError =
@@ -4839,7 +4913,7 @@ export type CreateTaskError =
  * configurable ECR image, processing type, processing unit, and environment variables.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskRequest,
+  CreateTaskRequest & RegionInput,
   CreateTaskResponse,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -4859,6 +4933,8 @@ export const createTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateTask",
 }));
 
 export type CreateWorkspaceError =
@@ -4878,7 +4954,7 @@ export type CreateWorkspaceError =
  * state is `ACTIVE`, or `FAILED` if provisioning doesn't complete.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -4897,6 +4973,8 @@ export const createWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteAccessPolicyError =
@@ -4911,7 +4989,7 @@ export type DeleteAccessPolicyError =
  * resource.
  */
 export const deleteAccessPolicy: API.OperationMethod<
-  DeleteAccessPolicyRequest,
+  DeleteAccessPolicyRequest & RegionInput,
   DeleteAccessPolicyResponse,
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4928,6 +5006,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteApplicationError =
@@ -4942,7 +5022,7 @@ export type DeleteApplicationError =
  * Deletes an application by ID
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -4961,6 +5041,8 @@ export const deleteApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAssetError =
@@ -4978,7 +5060,7 @@ export type DeleteAssetError =
  * DisassociateAssets.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -4996,6 +5078,8 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetModelError =
@@ -5014,7 +5098,7 @@ export type DeleteAssetModelError =
  * *IoT SiteWise User Guide*.
  */
 export const deleteAssetModel: API.OperationMethod<
-  DeleteAssetModelRequest,
+  DeleteAssetModelRequest & RegionInput,
   DeleteAssetModelResponse,
   DeleteAssetModelError,
   Credentials | HttpClient.HttpClient
@@ -5033,6 +5117,8 @@ export const deleteAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModel",
 }));
 
 export type DeleteAssetModelCompositeModelError =
@@ -5051,7 +5137,7 @@ export type DeleteAssetModelCompositeModelError =
  * models in the *IoT SiteWise User Guide*.
  */
 export const deleteAssetModelCompositeModel: API.OperationMethod<
-  DeleteAssetModelCompositeModelRequest,
+  DeleteAssetModelCompositeModelRequest & RegionInput,
   DeleteAssetModelCompositeModelResponse,
   DeleteAssetModelCompositeModelError,
   Credentials | HttpClient.HttpClient
@@ -5070,6 +5156,8 @@ export const deleteAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModelCompositeModel",
 }));
 
 export type DeleteAssetModelInterfaceRelationshipError =
@@ -5084,7 +5172,7 @@ export type DeleteAssetModelInterfaceRelationshipError =
  * model.
  */
 export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
-  DeleteAssetModelInterfaceRelationshipRequest,
+  DeleteAssetModelInterfaceRelationshipRequest & RegionInput,
   DeleteAssetModelInterfaceRelationshipResponse,
   DeleteAssetModelInterfaceRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -5102,6 +5190,8 @@ export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModelInterfaceRelationship",
 }));
 
 export type DeleteComputationModelError =
@@ -5115,7 +5205,7 @@ export type DeleteComputationModelError =
  * Deletes a computation model. This action can't be undone.
  */
 export const deleteComputationModel: API.OperationMethod<
-  DeleteComputationModelRequest,
+  DeleteComputationModelRequest & RegionInput,
   DeleteComputationModelResponse,
   DeleteComputationModelError,
   Credentials | HttpClient.HttpClient
@@ -5133,6 +5223,8 @@ export const deleteComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteComputationModel",
 }));
 
 export type DeleteDashboardError =
@@ -5145,7 +5237,7 @@ export type DeleteDashboardError =
  * Deletes a dashboard from IoT SiteWise Monitor.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -5162,6 +5254,8 @@ export const deleteDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDatasetError =
@@ -5175,7 +5269,7 @@ export type DeleteDatasetError =
  * Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -5193,6 +5287,8 @@ export const deleteDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteGatewayError =
@@ -5207,7 +5303,7 @@ export type DeleteGatewayError =
  * in your gateway's file system.
  */
 export const deleteGateway: API.OperationMethod<
-  DeleteGatewayRequest,
+  DeleteGatewayRequest & RegionInput,
   DeleteGatewayResponse,
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
@@ -5225,6 +5321,8 @@ export const deleteGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeletePipelineError =
@@ -5242,7 +5340,7 @@ export type DeletePipelineError =
  * execution.
  */
 export const deletePipeline: API.OperationMethod<
-  DeletePipelineRequest,
+  DeletePipelineRequest & RegionInput,
   DeletePipelineResponse,
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
@@ -5261,6 +5359,8 @@ export const deletePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePortalError =
@@ -5274,7 +5374,7 @@ export type DeletePortalError =
  * Deletes a portal from IoT SiteWise Monitor.
  */
 export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
+  DeletePortalRequest & RegionInput,
   DeletePortalResponse,
   DeletePortalError,
   Credentials | HttpClient.HttpClient
@@ -5292,6 +5392,8 @@ export const deletePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeletePortal",
 }));
 
 export type DeleteProjectError =
@@ -5304,7 +5406,7 @@ export type DeleteProjectError =
  * Deletes a project from IoT SiteWise Monitor.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectRequest,
+  DeleteProjectRequest & RegionInput,
   DeleteProjectResponse,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -5321,6 +5423,8 @@ export const deleteProject: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteTaskError =
@@ -5337,7 +5441,7 @@ export type DeleteTaskError =
  * pipelines before attempting to delete it.
  */
 export const deleteTask: API.OperationMethod<
-  DeleteTaskRequest,
+  DeleteTaskRequest & RegionInput,
   DeleteTaskResponse,
   DeleteTaskError,
   Credentials | HttpClient.HttpClient
@@ -5356,6 +5460,8 @@ export const deleteTask: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteTask",
 }));
 
 export type DeleteTimeSeriesError =
@@ -5384,7 +5490,7 @@ export type DeleteTimeSeriesError =
  * - The `assetId` and `propertyId` that identifies the asset property.
  */
 export const deleteTimeSeries: API.OperationMethod<
-  DeleteTimeSeriesRequest,
+  DeleteTimeSeriesRequest & RegionInput,
   DeleteTimeSeriesResponse,
   DeleteTimeSeriesError,
   Credentials | HttpClient.HttpClient
@@ -5402,6 +5508,8 @@ export const deleteTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTimeSeries",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteTimeSeries",
 }));
 
 export type DeleteWorkspaceError =
@@ -5418,7 +5526,7 @@ export type DeleteWorkspaceError =
  * and tasks.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -5437,6 +5545,8 @@ export const deleteWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DescribeAccessPolicyError =
@@ -5450,7 +5560,7 @@ export type DescribeAccessPolicyError =
  * project.
  */
 export const describeAccessPolicy: API.OperationMethod<
-  DescribeAccessPolicyRequest,
+  DescribeAccessPolicyRequest & RegionInput,
   DescribeAccessPolicyResponse,
   DescribeAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5467,6 +5577,8 @@ export const describeAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeAccessPolicy",
 }));
 
 export type DescribeActionError =
@@ -5479,7 +5591,7 @@ export type DescribeActionError =
  * Retrieves information about an action.
  */
 export const describeAction: API.OperationMethod<
-  DescribeActionRequest,
+  DescribeActionRequest & RegionInput,
   DescribeActionResponse,
   DescribeActionError,
   Credentials | HttpClient.HttpClient
@@ -5496,6 +5608,8 @@ export const describeAction: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAction",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAction",
 }));
 
 export type DescribeApplicationError =
@@ -5509,7 +5623,7 @@ export type DescribeApplicationError =
  * Retrieves Application details based on the ID
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -5527,6 +5641,8 @@ export const describeApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeAssetError =
@@ -5539,7 +5655,7 @@ export type DescribeAssetError =
  * Retrieves information about an asset.
  */
 export const describeAsset: API.OperationMethod<
-  DescribeAssetRequest,
+  DescribeAssetRequest & RegionInput,
   DescribeAssetResponse,
   DescribeAssetError,
   Credentials | HttpClient.HttpClient
@@ -5556,6 +5672,8 @@ export const describeAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAsset",
 }));
 
 export type DescribeAssetCompositeModelError =
@@ -5571,7 +5689,7 @@ export type DescribeAssetCompositeModelError =
  * based on, call DescribeAssetModelCompositeModel.
  */
 export const describeAssetCompositeModel: API.OperationMethod<
-  DescribeAssetCompositeModelRequest,
+  DescribeAssetCompositeModelRequest & RegionInput,
   DescribeAssetCompositeModelResponse,
   DescribeAssetCompositeModelError,
   Credentials | HttpClient.HttpClient
@@ -5588,6 +5706,8 @@ export const describeAssetCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetCompositeModel",
 }));
 
 export type DescribeAssetModelError =
@@ -5602,7 +5722,7 @@ export type DescribeAssetModelError =
  * implements interfaces.
  */
 export const describeAssetModel: API.OperationMethod<
-  DescribeAssetModelRequest,
+  DescribeAssetModelRequest & RegionInput,
   DescribeAssetModelResponse,
   DescribeAssetModelError,
   Credentials | HttpClient.HttpClient
@@ -5619,6 +5739,8 @@ export const describeAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModel",
 }));
 
 export type DescribeAssetModelCompositeModelError =
@@ -5633,7 +5755,7 @@ export type DescribeAssetModelCompositeModelError =
  * (Components) in the *IoT SiteWise User Guide*.
  */
 export const describeAssetModelCompositeModel: API.OperationMethod<
-  DescribeAssetModelCompositeModelRequest,
+  DescribeAssetModelCompositeModelRequest & RegionInput,
   DescribeAssetModelCompositeModelResponse,
   DescribeAssetModelCompositeModelError,
   Credentials | HttpClient.HttpClient
@@ -5650,6 +5772,8 @@ export const describeAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModelCompositeModel",
 }));
 
 export type DescribeAssetModelInterfaceRelationshipError =
@@ -5663,7 +5787,7 @@ export type DescribeAssetModelInterfaceRelationshipError =
  * interface asset model.
  */
 export const describeAssetModelInterfaceRelationship: API.OperationMethod<
-  DescribeAssetModelInterfaceRelationshipRequest,
+  DescribeAssetModelInterfaceRelationshipRequest & RegionInput,
   DescribeAssetModelInterfaceRelationshipResponse,
   DescribeAssetModelInterfaceRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -5680,6 +5804,8 @@ export const describeAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModelInterfaceRelationship",
 }));
 
 export type DescribeAssetPropertyError =
@@ -5699,7 +5825,7 @@ export type DescribeAssetPropertyError =
  * asset property, use GetAssetPropertyValue.
  */
 export const describeAssetProperty: API.OperationMethod<
-  DescribeAssetPropertyRequest,
+  DescribeAssetPropertyRequest & RegionInput,
   DescribeAssetPropertyResponse,
   DescribeAssetPropertyError,
   Credentials | HttpClient.HttpClient
@@ -5716,6 +5842,8 @@ export const describeAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetProperty",
 }));
 
 export type DescribeBulkImportJobError =
@@ -5729,7 +5857,7 @@ export type DescribeBulkImportJobError =
  * a bulk import job (CLI) in the *Amazon Simple Storage Service User Guide*.
  */
 export const describeBulkImportJob: API.OperationMethod<
-  DescribeBulkImportJobRequest,
+  DescribeBulkImportJobRequest & RegionInput,
   DescribeBulkImportJobResponse,
   DescribeBulkImportJobError,
   Credentials | HttpClient.HttpClient
@@ -5746,6 +5874,8 @@ export const describeBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeBulkImportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeBulkImportJob",
 }));
 
 export type DescribeComputationModelError =
@@ -5758,7 +5888,7 @@ export type DescribeComputationModelError =
  * Retrieves information about a computation model.
  */
 export const describeComputationModel: API.OperationMethod<
-  DescribeComputationModelRequest,
+  DescribeComputationModelRequest & RegionInput,
   DescribeComputationModelResponse,
   DescribeComputationModelError,
   Credentials | HttpClient.HttpClient
@@ -5775,6 +5905,8 @@ export const describeComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeComputationModel",
 }));
 
 export type DescribeComputationModelExecutionSummaryError =
@@ -5787,7 +5919,7 @@ export type DescribeComputationModelExecutionSummaryError =
  * Retrieves information about the execution summary of a computation model.
  */
 export const describeComputationModelExecutionSummary: API.OperationMethod<
-  DescribeComputationModelExecutionSummaryRequest,
+  DescribeComputationModelExecutionSummaryRequest & RegionInput,
   DescribeComputationModelExecutionSummaryResponse,
   DescribeComputationModelExecutionSummaryError,
   Credentials | HttpClient.HttpClient
@@ -5804,6 +5936,8 @@ export const describeComputationModelExecutionSummary: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModelExecutionSummary",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeComputationModelExecutionSummary",
 }));
 
 export type DescribeDashboardError =
@@ -5816,7 +5950,7 @@ export type DescribeDashboardError =
  * Retrieves information about a dashboard.
  */
 export const describeDashboard: API.OperationMethod<
-  DescribeDashboardRequest,
+  DescribeDashboardRequest & RegionInput,
   DescribeDashboardResponse,
   DescribeDashboardError,
   Credentials | HttpClient.HttpClient
@@ -5833,6 +5967,8 @@ export const describeDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboard",
 }));
 
 export type DescribeDatasetError =
@@ -5845,7 +5981,7 @@ export type DescribeDatasetError =
  * Retrieves information about a dataset.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -5862,6 +5998,8 @@ export const describeDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDatasetExportJobError =
@@ -5875,7 +6013,7 @@ export type DescribeDatasetExportJobError =
  * Retrieves information about a dataset export job.
  */
 export const describeDatasetExportJob: API.OperationMethod<
-  DescribeDatasetExportJobRequest,
+  DescribeDatasetExportJobRequest & RegionInput,
   DescribeDatasetExportJobResponse,
   DescribeDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -5893,6 +6031,8 @@ export const describeDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetExportJob",
 }));
 
 export type DescribeDefaultEncryptionConfigurationError =
@@ -5907,7 +6047,7 @@ export type DescribeDefaultEncryptionConfigurationError =
  * *IoT SiteWise User Guide*.
  */
 export const describeDefaultEncryptionConfiguration: API.OperationMethod<
-  DescribeDefaultEncryptionConfigurationRequest,
+  DescribeDefaultEncryptionConfigurationRequest & RegionInput,
   DescribeDefaultEncryptionConfigurationResponse,
   DescribeDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5924,6 +6064,8 @@ export const describeDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultEncryptionConfiguration",
 }));
 
 export type DescribeEnrichmentJobError =
@@ -5976,7 +6118,7 @@ export type DescribeEnrichmentJobError =
  * - Failure details if status is FAILED
  */
 export const describeEnrichmentJob: API.OperationMethod<
-  DescribeEnrichmentJobRequest,
+  DescribeEnrichmentJobRequest & RegionInput,
   DescribeEnrichmentJobResponse,
   DescribeEnrichmentJobError,
   Credentials | HttpClient.HttpClient
@@ -5996,6 +6138,8 @@ export const describeEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeEnrichmentJob",
 }));
 
 export type DescribeExecutionError =
@@ -6008,7 +6152,7 @@ export type DescribeExecutionError =
  * Retrieves information about the execution.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionRequest,
+  DescribeExecutionRequest & RegionInput,
   DescribeExecutionResponse,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -6025,6 +6169,8 @@ export const describeExecution: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeExecution",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeExecution",
 }));
 
 export type DescribeGatewayError =
@@ -6037,7 +6183,7 @@ export type DescribeGatewayError =
  * Retrieves information about a gateway.
  */
 export const describeGateway: API.OperationMethod<
-  DescribeGatewayRequest,
+  DescribeGatewayRequest & RegionInput,
   DescribeGatewayResponse,
   DescribeGatewayError,
   Credentials | HttpClient.HttpClient
@@ -6054,6 +6200,8 @@ export const describeGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeGateway",
 }));
 
 export type DescribeGatewayCapabilityConfigurationError =
@@ -6078,7 +6226,7 @@ export type DescribeGatewayCapabilityConfigurationError =
  * A gateway can have multiple capability configurations with different namespaces.
  */
 export const describeGatewayCapabilityConfiguration: API.OperationMethod<
-  DescribeGatewayCapabilityConfigurationRequest,
+  DescribeGatewayCapabilityConfigurationRequest & RegionInput,
   DescribeGatewayCapabilityConfigurationResponse,
   DescribeGatewayCapabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6095,6 +6243,8 @@ export const describeGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayCapabilityConfiguration",
 }));
 
 export type DescribeLoggingOptionsError =
@@ -6107,7 +6257,7 @@ export type DescribeLoggingOptionsError =
  * Retrieves the current IoT SiteWise logging options.
  */
 export const describeLoggingOptions: API.OperationMethod<
-  DescribeLoggingOptionsRequest,
+  DescribeLoggingOptionsRequest & RegionInput,
   DescribeLoggingOptionsResponse,
   DescribeLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -6124,6 +6274,8 @@ export const describeLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeLoggingOptions",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingOptions",
 }));
 
 export type DescribePipelineError =
@@ -6137,7 +6289,7 @@ export type DescribePipelineError =
  * Retrieves detailed information about a specific pipeline in a workspace.
  */
 export const describePipeline: API.OperationMethod<
-  DescribePipelineRequest,
+  DescribePipelineRequest & RegionInput,
   DescribePipelineResponse,
   DescribePipelineError,
   Credentials | HttpClient.HttpClient
@@ -6155,6 +6307,8 @@ export const describePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribePipeline",
 }));
 
 export type DescribePipelineExecutionError =
@@ -6171,7 +6325,7 @@ export type DescribePipelineExecutionError =
  * variables, and error details.
  */
 export const describePipelineExecution: API.PaginatedOperationMethod<
-  DescribePipelineExecutionRequest,
+  DescribePipelineExecutionRequest & RegionInput,
   DescribePipelineExecutionResponse,
   DescribePipelineExecutionError,
   Credentials | HttpClient.HttpClient,
@@ -6196,6 +6350,8 @@ export const describePipelineExecution: API.PaginatedOperationMethod<
     items: "computeNodeExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePipelineExecution",
 })) as any;
 
 export type DescribePortalError =
@@ -6208,7 +6364,7 @@ export type DescribePortalError =
  * Retrieves information about a portal.
  */
 export const describePortal: API.OperationMethod<
-  DescribePortalRequest,
+  DescribePortalRequest & RegionInput,
   DescribePortalResponse,
   DescribePortalError,
   Credentials | HttpClient.HttpClient
@@ -6225,6 +6381,8 @@ export const describePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribePortal",
 }));
 
 export type DescribeProjectError =
@@ -6237,7 +6395,7 @@ export type DescribeProjectError =
  * Retrieves information about a project.
  */
 export const describeProject: API.OperationMethod<
-  DescribeProjectRequest,
+  DescribeProjectRequest & RegionInput,
   DescribeProjectResponse,
   DescribeProjectError,
   Credentials | HttpClient.HttpClient
@@ -6254,6 +6412,8 @@ export const describeProject: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeProject",
 }));
 
 export type DescribeQueryError =
@@ -6267,7 +6427,7 @@ export type DescribeQueryError =
  * Retrieves information about a query, including its status.
  */
 export const describeQuery: API.OperationMethod<
-  DescribeQueryRequest,
+  DescribeQueryRequest & RegionInput,
   DescribeQueryResponse,
   DescribeQueryError,
   Credentials | HttpClient.HttpClient
@@ -6285,6 +6445,8 @@ export const describeQuery: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeQuery",
 }));
 
 export type DescribeSearchError =
@@ -6301,7 +6463,7 @@ export type DescribeSearchError =
  * `FAILED`).
  */
 export const describeSearch: API.OperationMethod<
-  DescribeSearchRequest,
+  DescribeSearchRequest & RegionInput,
   DescribeSearchResponse,
   DescribeSearchError,
   Credentials | HttpClient.HttpClient
@@ -6319,6 +6481,8 @@ export const describeSearch: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeSearch",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeSearch",
 }));
 
 export type DescribeStorageConfigurationError =
@@ -6333,7 +6497,7 @@ export type DescribeStorageConfigurationError =
  * Retrieves information about the storage configuration for IoT SiteWise.
  */
 export const describeStorageConfiguration: API.OperationMethod<
-  DescribeStorageConfigurationRequest,
+  DescribeStorageConfigurationRequest & RegionInput,
   DescribeStorageConfigurationResponse,
   DescribeStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6352,6 +6516,8 @@ export const describeStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeStorageConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeStorageConfiguration",
 }));
 
 export type DescribeTaskError =
@@ -6365,7 +6531,7 @@ export type DescribeTaskError =
  * Retrieves detailed information about a specific task in a workspace.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskRequest,
+  DescribeTaskRequest & RegionInput,
   DescribeTaskResponse,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -6383,6 +6549,8 @@ export const describeTask: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeTask",
 }));
 
 export type DescribeTimeSeriesError =
@@ -6407,7 +6575,7 @@ export type DescribeTimeSeriesError =
  * - The `assetId` and `propertyId` that identifies the asset property.
  */
 export const describeTimeSeries: API.OperationMethod<
-  DescribeTimeSeriesRequest,
+  DescribeTimeSeriesRequest & RegionInput,
   DescribeTimeSeriesResponse,
   DescribeTimeSeriesError,
   Credentials | HttpClient.HttpClient
@@ -6424,6 +6592,8 @@ export const describeTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTimeSeries",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeTimeSeries",
 }));
 
 export type DescribeWorkspaceError =
@@ -6437,7 +6607,7 @@ export type DescribeWorkspaceError =
  * Retrieves information about a workspace.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -6455,6 +6625,8 @@ export const describeWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DisassociateAssetsError =
@@ -6469,7 +6641,7 @@ export type DisassociateAssetsError =
  * parent asset's model.
  */
 export const disassociateAssets: API.OperationMethod<
-  DisassociateAssetsRequest,
+  DisassociateAssetsRequest & RegionInput,
   DisassociateAssetsResponse,
   DisassociateAssetsError,
   Credentials | HttpClient.HttpClient
@@ -6487,6 +6659,8 @@ export const disassociateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateAssets",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DisassociateAssets",
 }));
 
 export type DisassociateTimeSeriesFromAssetPropertyError =
@@ -6500,7 +6674,7 @@ export type DisassociateTimeSeriesFromAssetPropertyError =
  * Disassociates a time series (data stream) from an asset property.
  */
 export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
-  DisassociateTimeSeriesFromAssetPropertyRequest,
+  DisassociateTimeSeriesFromAssetPropertyRequest & RegionInput,
   DisassociateTimeSeriesFromAssetPropertyResponse,
   DisassociateTimeSeriesFromAssetPropertyError,
   Credentials | HttpClient.HttpClient
@@ -6518,6 +6692,8 @@ export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTimeSeriesFromAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DisassociateTimeSeriesFromAssetProperty",
 }));
 
 export type ExecuteActionError =
@@ -6532,7 +6708,7 @@ export type ExecuteActionError =
  * Executes an action on a target resource.
  */
 export const executeAction: API.OperationMethod<
-  ExecuteActionRequest,
+  ExecuteActionRequest & RegionInput,
   ExecuteActionResponse,
   ExecuteActionError,
   Credentials | HttpClient.HttpClient
@@ -6551,6 +6727,8 @@ export const executeAction: API.OperationMethod<
   retry: Retry,
   operationName: "ExecuteAction",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ExecuteAction",
 }));
 
 export type ExecuteQueryError =
@@ -6567,7 +6745,7 @@ export type ExecuteQueryError =
  * measurements, metrics, transforms, and aggregates.
  */
 export const executeQuery: API.PaginatedOperationMethod<
-  ExecuteQueryRequest,
+  ExecuteQueryRequest & RegionInput,
   ExecuteQueryResponse,
   ExecuteQueryError,
   Credentials | HttpClient.HttpClient,
@@ -6594,6 +6772,8 @@ export const executeQuery: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ExecuteQuery",
 })) as any;
 
 export type GetAssetPropertyAggregatesError =
@@ -6615,7 +6795,7 @@ export type GetAssetPropertyAggregatesError =
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
 export const getAssetPropertyAggregates: API.PaginatedOperationMethod<
-  GetAssetPropertyAggregatesRequest,
+  GetAssetPropertyAggregatesRequest & RegionInput,
   GetAssetPropertyAggregatesResponse,
   GetAssetPropertyAggregatesError,
   Credentials | HttpClient.HttpClient,
@@ -6640,6 +6820,8 @@ export const getAssetPropertyAggregates: API.PaginatedOperationMethod<
     items: "aggregatedValues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyAggregates",
 })) as any;
 
 export type GetAssetPropertyValueError =
@@ -6661,7 +6843,7 @@ export type GetAssetPropertyValueError =
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
 export const getAssetPropertyValue: API.OperationMethod<
-  GetAssetPropertyValueRequest,
+  GetAssetPropertyValueRequest & RegionInput,
   GetAssetPropertyValueResponse,
   GetAssetPropertyValueError,
   Credentials | HttpClient.HttpClient
@@ -6679,6 +6861,8 @@ export const getAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetPropertyValue",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyValue",
 }));
 
 export type GetAssetPropertyValueHistoryError =
@@ -6700,7 +6884,7 @@ export type GetAssetPropertyValueHistoryError =
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
 export const getAssetPropertyValueHistory: API.PaginatedOperationMethod<
-  GetAssetPropertyValueHistoryRequest,
+  GetAssetPropertyValueHistoryRequest & RegionInput,
   GetAssetPropertyValueHistoryResponse,
   GetAssetPropertyValueHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -6725,6 +6909,8 @@ export const getAssetPropertyValueHistory: API.PaginatedOperationMethod<
     items: "assetPropertyValueHistory",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyValueHistory",
 })) as any;
 
 export type GetCaptureDataError =
@@ -6738,7 +6924,7 @@ export type GetCaptureDataError =
  * Retrieves video data for a specific time range.
  */
 export const getCaptureData: API.OperationMethod<
-  GetCaptureDataRequest,
+  GetCaptureDataRequest & RegionInput,
   GetCaptureDataResponse,
   GetCaptureDataError,
   Credentials | HttpClient.HttpClient
@@ -6756,6 +6942,8 @@ export const getCaptureData: API.OperationMethod<
   retry: Retry,
   operationName: "GetCaptureData",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "GetCaptureData",
 }));
 
 export type GetInterpolatedAssetPropertyValuesError =
@@ -6781,7 +6969,7 @@ export type GetInterpolatedAssetPropertyValuesError =
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
 export const getInterpolatedAssetPropertyValues: API.PaginatedOperationMethod<
-  GetInterpolatedAssetPropertyValuesRequest,
+  GetInterpolatedAssetPropertyValuesRequest & RegionInput,
   GetInterpolatedAssetPropertyValuesResponse,
   GetInterpolatedAssetPropertyValuesError,
   Credentials | HttpClient.HttpClient,
@@ -6806,6 +6994,8 @@ export const getInterpolatedAssetPropertyValues: API.PaginatedOperationMethod<
     items: "interpolatedAssetPropertyValues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInterpolatedAssetPropertyValues",
 })) as any;
 
 export type GetQueryResultsError =
@@ -6819,7 +7009,7 @@ export type GetQueryResultsError =
  * Retrieves the paginated results of a query. Returns empty rows if the query is not yet complete.
  */
 export const getQueryResults: API.PaginatedOperationMethod<
-  GetQueryResultsRequest,
+  GetQueryResultsRequest & RegionInput,
   GetQueryResultsResponse,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient,
@@ -6844,6 +7034,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetSearchResultsError =
@@ -6861,7 +7053,7 @@ export type GetSearchResultsError =
  * `nextToken` is present, pass it on a subsequent call to retrieve the next page.
  */
 export const getSearchResults: API.PaginatedOperationMethod<
-  GetSearchResultsRequest,
+  GetSearchResultsRequest & RegionInput,
   GetSearchResultsResponse,
   GetSearchResultsError,
   Credentials | HttpClient.HttpClient,
@@ -6886,6 +7078,8 @@ export const getSearchResults: API.PaginatedOperationMethod<
     items: "searchResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSearchResults",
 })) as any;
 
 export type InvokeAssistantError =
@@ -6901,7 +7095,7 @@ export type InvokeAssistantError =
  * Invokes SiteWise Assistant to start or continue a conversation.
  */
 export const invokeAssistant: API.OperationMethod<
-  InvokeAssistantRequest,
+  InvokeAssistantRequest & RegionInput,
   InvokeAssistantResponse,
   InvokeAssistantError,
   Credentials | HttpClient.HttpClient
@@ -6921,6 +7115,8 @@ export const invokeAssistant: API.OperationMethod<
   retry: Retry,
   operationName: "InvokeAssistant",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "InvokeAssistant",
 }));
 
 export type ListAccessPoliciesError =
@@ -6933,7 +7129,7 @@ export type ListAccessPoliciesError =
  * group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -6952,6 +7148,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     items: "accessPolicySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 })) as any;
 
 export type ListActionsError =
@@ -6964,7 +7162,7 @@ export type ListActionsError =
  * Retrieves a paginated list of actions for a specific target resource.
  */
 export const listActions: API.PaginatedOperationMethod<
-  ListActionsRequest,
+  ListActionsRequest & RegionInput,
   ListActionsResponse,
   ListActionsError,
   Credentials | HttpClient.HttpClient,
@@ -6988,6 +7186,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListApplicationsError =
@@ -7001,7 +7201,7 @@ export type ListApplicationsError =
  * Retrieves a paginated list of existing applications
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -7026,6 +7226,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAssetModelCompositeModelsError =
@@ -7038,7 +7240,7 @@ export type ListAssetModelCompositeModelsError =
  * Retrieves a paginated list of composite models associated with the asset model
  */
 export const listAssetModelCompositeModels: API.PaginatedOperationMethod<
-  ListAssetModelCompositeModelsRequest,
+  ListAssetModelCompositeModelsRequest & RegionInput,
   ListAssetModelCompositeModelsResponse,
   ListAssetModelCompositeModelsError,
   Credentials | HttpClient.HttpClient,
@@ -7062,6 +7264,8 @@ export const listAssetModelCompositeModels: API.PaginatedOperationMethod<
     items: "assetModelCompositeModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModelCompositeModels",
 })) as any;
 
 export type ListAssetModelPropertiesError =
@@ -7076,7 +7280,7 @@ export type ListAssetModelPropertiesError =
  * you need to start all over again.
  */
 export const listAssetModelProperties: API.PaginatedOperationMethod<
-  ListAssetModelPropertiesRequest,
+  ListAssetModelPropertiesRequest & RegionInput,
   ListAssetModelPropertiesResponse,
   ListAssetModelPropertiesError,
   Credentials | HttpClient.HttpClient,
@@ -7100,6 +7304,8 @@ export const listAssetModelProperties: API.PaginatedOperationMethod<
     items: "assetModelPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModelProperties",
 })) as any;
 
 export type ListAssetModelsError =
@@ -7112,7 +7318,7 @@ export type ListAssetModelsError =
  * Retrieves a paginated list of summaries of all asset models.
  */
 export const listAssetModels: API.PaginatedOperationMethod<
-  ListAssetModelsRequest,
+  ListAssetModelsRequest & RegionInput,
   ListAssetModelsResponse,
   ListAssetModelsError,
   Credentials | HttpClient.HttpClient,
@@ -7136,6 +7342,8 @@ export const listAssetModels: API.PaginatedOperationMethod<
     items: "assetModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModels",
 })) as any;
 
 export type ListAssetPropertiesError =
@@ -7150,7 +7358,7 @@ export type ListAssetPropertiesError =
  * you need to start all over again.
  */
 export const listAssetProperties: API.PaginatedOperationMethod<
-  ListAssetPropertiesRequest,
+  ListAssetPropertiesRequest & RegionInput,
   ListAssetPropertiesResponse,
   ListAssetPropertiesError,
   Credentials | HttpClient.HttpClient,
@@ -7174,6 +7382,8 @@ export const listAssetProperties: API.PaginatedOperationMethod<
     items: "assetPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetProperties",
 })) as any;
 
 export type ListAssetRelationshipsError =
@@ -7188,7 +7398,7 @@ export type ListAssetRelationshipsError =
  * root.
  */
 export const listAssetRelationships: API.PaginatedOperationMethod<
-  ListAssetRelationshipsRequest,
+  ListAssetRelationshipsRequest & RegionInput,
   ListAssetRelationshipsResponse,
   ListAssetRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -7212,6 +7422,8 @@ export const listAssetRelationships: API.PaginatedOperationMethod<
     items: "assetRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetRelationships",
 })) as any;
 
 export type ListAssetsError =
@@ -7234,7 +7446,7 @@ export type ListAssetsError =
  * assets for each asset model.
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsRequest,
+  ListAssetsRequest & RegionInput,
   ListAssetsResponse,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -7258,6 +7470,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListAssociatedAssetsError =
@@ -7276,7 +7490,7 @@ export type ListAssociatedAssetsError =
  * - `PARENT` - List the asset's parent asset.
  */
 export const listAssociatedAssets: API.PaginatedOperationMethod<
-  ListAssociatedAssetsRequest,
+  ListAssociatedAssetsRequest & RegionInput,
   ListAssociatedAssetsResponse,
   ListAssociatedAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -7300,6 +7514,8 @@ export const listAssociatedAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedAssets",
 })) as any;
 
 export type ListBulkImportJobsError =
@@ -7313,7 +7529,7 @@ export type ListBulkImportJobsError =
  * import jobs (CLI) in the *IoT SiteWise User Guide*.
  */
 export const listBulkImportJobs: API.PaginatedOperationMethod<
-  ListBulkImportJobsRequest,
+  ListBulkImportJobsRequest & RegionInput,
   ListBulkImportJobsResponse,
   ListBulkImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -7337,6 +7553,8 @@ export const listBulkImportJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBulkImportJobs",
 })) as any;
 
 export type ListCompositionRelationshipsError =
@@ -7350,7 +7568,7 @@ export type ListCompositionRelationshipsError =
  * `COMPONENT_MODEL`.
  */
 export const listCompositionRelationships: API.PaginatedOperationMethod<
-  ListCompositionRelationshipsRequest,
+  ListCompositionRelationshipsRequest & RegionInput,
   ListCompositionRelationshipsResponse,
   ListCompositionRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -7374,6 +7592,8 @@ export const listCompositionRelationships: API.PaginatedOperationMethod<
     items: "compositionRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompositionRelationships",
 })) as any;
 
 export type ListComputationModelDataBindingUsagesError =
@@ -7387,7 +7607,7 @@ export type ListComputationModelDataBindingUsagesError =
  * dependencies between data sources and computation models.
  */
 export const listComputationModelDataBindingUsages: API.PaginatedOperationMethod<
-  ListComputationModelDataBindingUsagesRequest,
+  ListComputationModelDataBindingUsagesRequest & RegionInput,
   ListComputationModelDataBindingUsagesResponse,
   ListComputationModelDataBindingUsagesError,
   Credentials | HttpClient.HttpClient,
@@ -7406,6 +7626,8 @@ export const listComputationModelDataBindingUsages: API.PaginatedOperationMethod
     items: "dataBindingUsageSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModelDataBindingUsages",
 })) as any;
 
 export type ListComputationModelResolveToResourcesError =
@@ -7419,7 +7641,7 @@ export type ListComputationModelResolveToResourcesError =
  * computation model.
  */
 export const listComputationModelResolveToResources: API.PaginatedOperationMethod<
-  ListComputationModelResolveToResourcesRequest,
+  ListComputationModelResolveToResourcesRequest & RegionInput,
   ListComputationModelResolveToResourcesResponse,
   ListComputationModelResolveToResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -7443,6 +7665,8 @@ export const listComputationModelResolveToResources: API.PaginatedOperationMetho
     items: "computationModelResolveToResourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModelResolveToResources",
 })) as any;
 
 export type ListComputationModelsError =
@@ -7454,7 +7678,7 @@ export type ListComputationModelsError =
  * Retrieves a paginated list of summaries of all computation models.
  */
 export const listComputationModels: API.PaginatedOperationMethod<
-  ListComputationModelsRequest,
+  ListComputationModelsRequest & RegionInput,
   ListComputationModelsResponse,
   ListComputationModelsError,
   Credentials | HttpClient.HttpClient,
@@ -7473,6 +7697,8 @@ export const listComputationModels: API.PaginatedOperationMethod<
     items: "computationModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModels",
 })) as any;
 
 export type ListDashboardsError =
@@ -7484,7 +7710,7 @@ export type ListDashboardsError =
  * Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -7503,6 +7729,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "dashboardSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListDatasetDataSegmentRelationshipsError =
@@ -7517,7 +7745,7 @@ export type ListDatasetDataSegmentRelationshipsError =
  * dataset. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listDatasetDataSegmentRelationships: API.PaginatedOperationMethod<
-  ListDatasetDataSegmentRelationshipsRequest,
+  ListDatasetDataSegmentRelationshipsRequest & RegionInput,
   ListDatasetDataSegmentRelationshipsResponse,
   ListDatasetDataSegmentRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -7541,6 +7769,8 @@ export const listDatasetDataSegmentRelationships: API.PaginatedOperationMethod<
     items: "dataSegmentRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetDataSegmentRelationships",
 })) as any;
 
 export type ListDatasetDataSegmentsError =
@@ -7553,7 +7783,7 @@ export type ListDatasetDataSegmentsError =
  * Retrieves a paginated list of data segments associated with a dataset. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listDatasetDataSegments: API.PaginatedOperationMethod<
-  ListDatasetDataSegmentsRequest,
+  ListDatasetDataSegmentsRequest & RegionInput,
   ListDatasetDataSegmentsResponse,
   ListDatasetDataSegmentsError,
   Credentials | HttpClient.HttpClient,
@@ -7577,6 +7807,8 @@ export const listDatasetDataSegments: API.PaginatedOperationMethod<
     items: "dataSegments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetDataSegments",
 })) as any;
 
 export type ListDatasetExportJobsError =
@@ -7590,7 +7822,7 @@ export type ListDatasetExportJobsError =
  * Retrieves a paginated list of dataset export jobs for a workspace.
  */
 export const listDatasetExportJobs: API.PaginatedOperationMethod<
-  ListDatasetExportJobsRequest,
+  ListDatasetExportJobsRequest & RegionInput,
   ListDatasetExportJobsResponse,
   ListDatasetExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -7615,6 +7847,8 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetExportJobs",
 })) as any;
 
 export type ListDatasetsError =
@@ -7627,7 +7861,7 @@ export type ListDatasetsError =
  * Retrieves a paginated list of datasets for a specific target resource.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -7651,6 +7885,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListEnrichmentJobsError =
@@ -7710,7 +7946,7 @@ export type ListEnrichmentJobsError =
  * Performance is optimal when filtering by supported fields (datasetId, propertyAlias, timeSeriesId, status, jobType).
  */
 export const listEnrichmentJobs: API.PaginatedOperationMethod<
-  ListEnrichmentJobsRequest,
+  ListEnrichmentJobsRequest & RegionInput,
   ListEnrichmentJobsResponse,
   ListEnrichmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -7737,6 +7973,8 @@ export const listEnrichmentJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnrichmentJobs",
 })) as any;
 
 export type ListExecutionsError =
@@ -7749,7 +7987,7 @@ export type ListExecutionsError =
  * Retrieves a paginated list of summaries of all executions.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsRequest,
+  ListExecutionsRequest & RegionInput,
   ListExecutionsResponse,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -7773,6 +8011,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListGatewaysError =
@@ -7784,7 +8024,7 @@ export type ListGatewaysError =
  * Retrieves a paginated list of gateways.
  */
 export const listGateways: API.PaginatedOperationMethod<
-  ListGatewaysRequest,
+  ListGatewaysRequest & RegionInput,
   ListGatewaysResponse,
   ListGatewaysError,
   Credentials | HttpClient.HttpClient,
@@ -7803,6 +8043,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "gatewaySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListInterfaceRelationshipsError =
@@ -7816,7 +8058,7 @@ export type ListInterfaceRelationshipsError =
  * applied to them.
  */
 export const listInterfaceRelationships: API.PaginatedOperationMethod<
-  ListInterfaceRelationshipsRequest,
+  ListInterfaceRelationshipsRequest & RegionInput,
   ListInterfaceRelationshipsResponse,
   ListInterfaceRelationshipsError,
   Credentials | HttpClient.HttpClient,
@@ -7840,6 +8082,8 @@ export const listInterfaceRelationships: API.PaginatedOperationMethod<
     items: "interfaceRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInterfaceRelationships",
 })) as any;
 
 export type ListPipelineExecutionsError =
@@ -7859,7 +8103,7 @@ export type ListPipelineExecutionsError =
  * executions have no endTime.
  */
 export const listPipelineExecutions: API.PaginatedOperationMethod<
-  ListPipelineExecutionsRequest,
+  ListPipelineExecutionsRequest & RegionInput,
   ListPipelineExecutionsResponse,
   ListPipelineExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -7884,6 +8128,8 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "pipelineExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineExecutions",
 })) as any;
 
 export type ListPipelinesError =
@@ -7897,7 +8143,7 @@ export type ListPipelinesError =
  * Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline.
  */
 export const listPipelines: API.PaginatedOperationMethod<
-  ListPipelinesRequest,
+  ListPipelinesRequest & RegionInput,
   ListPipelinesResponse,
   ListPipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -7922,6 +8168,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "pipelineSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListPortalsError =
@@ -7933,7 +8181,7 @@ export type ListPortalsError =
  * Retrieves a paginated list of IoT SiteWise Monitor portals.
  */
 export const listPortals: API.PaginatedOperationMethod<
-  ListPortalsRequest,
+  ListPortalsRequest & RegionInput,
   ListPortalsResponse,
   ListPortalsError,
   Credentials | HttpClient.HttpClient,
@@ -7952,6 +8200,8 @@ export const listPortals: API.PaginatedOperationMethod<
     items: "portalSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortals",
 })) as any;
 
 export type ListProjectAssetsError =
@@ -7963,7 +8213,7 @@ export type ListProjectAssetsError =
  * Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
  */
 export const listProjectAssets: API.PaginatedOperationMethod<
-  ListProjectAssetsRequest,
+  ListProjectAssetsRequest & RegionInput,
   ListProjectAssetsResponse,
   ListProjectAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -7982,6 +8232,8 @@ export const listProjectAssets: API.PaginatedOperationMethod<
     items: "assetIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjectAssets",
 })) as any;
 
 export type ListProjectsError =
@@ -7993,7 +8245,7 @@ export type ListProjectsError =
  * Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsRequest,
+  ListProjectsRequest & RegionInput,
   ListProjectsResponse,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -8012,6 +8264,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "projectSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListQueriesError =
@@ -8025,7 +8279,7 @@ export type ListQueriesError =
  * Retrieves a paginated list of queries for a workspace.
  */
 export const listQueries: API.PaginatedOperationMethod<
-  ListQueriesRequest,
+  ListQueriesRequest & RegionInput,
   ListQueriesResponse,
   ListQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -8050,6 +8304,8 @@ export const listQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueries",
 })) as any;
 
 export type ListSearchesError =
@@ -8065,7 +8321,7 @@ export type ListSearchesError =
  * `nextToken` is present, pass it on a subsequent call to retrieve the next page.
  */
 export const listSearches: API.PaginatedOperationMethod<
-  ListSearchesRequest,
+  ListSearchesRequest & RegionInput,
   ListSearchesResponse,
   ListSearchesError,
   Credentials | HttpClient.HttpClient,
@@ -8090,6 +8346,8 @@ export const listSearches: API.PaginatedOperationMethod<
     items: "searchSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearches",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -8105,7 +8363,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for an IoT SiteWise resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8125,6 +8383,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTasksError =
@@ -8138,7 +8398,7 @@ export type ListTasksError =
  * Lists tasks in a workspace. To get complete details about a task, use DescribeTask.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -8163,6 +8423,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type ListTimeSeriesError =
@@ -8175,7 +8437,7 @@ export type ListTimeSeriesError =
  * Retrieves a paginated list of time series (data streams).
  */
 export const listTimeSeries: API.PaginatedOperationMethod<
-  ListTimeSeriesRequest,
+  ListTimeSeriesRequest & RegionInput,
   ListTimeSeriesResponse,
   ListTimeSeriesError,
   Credentials | HttpClient.HttpClient,
@@ -8199,6 +8461,8 @@ export const listTimeSeries: API.PaginatedOperationMethod<
     items: "TimeSeriesSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTimeSeries",
 })) as any;
 
 export type ListWorkspacesError =
@@ -8211,7 +8475,7 @@ export type ListWorkspacesError =
  * Retrieves a paginated list of workspaces. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -8235,6 +8499,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type PutAssetModelInterfaceRelationshipError =
@@ -8250,7 +8516,7 @@ export type PutAssetModelInterfaceRelationshipError =
  * model. This operation applies an interface to an asset model.
  */
 export const putAssetModelInterfaceRelationship: API.OperationMethod<
-  PutAssetModelInterfaceRelationshipRequest,
+  PutAssetModelInterfaceRelationshipRequest & RegionInput,
   PutAssetModelInterfaceRelationshipResponse,
   PutAssetModelInterfaceRelationshipError,
   Credentials | HttpClient.HttpClient
@@ -8269,6 +8535,8 @@ export const putAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "PutAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutAssetModelInterfaceRelationship",
 }));
 
 export type PutDefaultEncryptionConfigurationError =
@@ -8285,7 +8553,7 @@ export type PutDefaultEncryptionConfigurationError =
  * the *IoT SiteWise User Guide*.
  */
 export const putDefaultEncryptionConfiguration: API.OperationMethod<
-  PutDefaultEncryptionConfigurationRequest,
+  PutDefaultEncryptionConfigurationRequest & RegionInput,
   PutDefaultEncryptionConfigurationResponse,
   PutDefaultEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8304,6 +8572,8 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutDefaultEncryptionConfiguration",
 }));
 
 export type PutLoggingOptionsError =
@@ -8317,7 +8587,7 @@ export type PutLoggingOptionsError =
  * Sets logging options for IoT SiteWise.
  */
 export const putLoggingOptions: API.OperationMethod<
-  PutLoggingOptionsRequest,
+  PutLoggingOptionsRequest & RegionInput,
   PutLoggingOptionsResponse,
   PutLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -8335,6 +8605,8 @@ export const putLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "PutLoggingOptions",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutLoggingOptions",
 }));
 
 export type PutStorageConfigurationError =
@@ -8350,7 +8622,7 @@ export type PutStorageConfigurationError =
  * Configures storage settings for IoT SiteWise.
  */
 export const putStorageConfiguration: API.OperationMethod<
-  PutStorageConfigurationRequest,
+  PutStorageConfigurationRequest & RegionInput,
   PutStorageConfigurationResponse,
   PutStorageConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8370,6 +8642,8 @@ export const putStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutStorageConfiguration",
 }));
 
 export type StartPipelineExecutionError =
@@ -8391,7 +8665,7 @@ export type StartPipelineExecutionError =
  * in the environment variable hierarchy, without modifying the pipeline definition.
  */
 export const startPipelineExecution: API.OperationMethod<
-  StartPipelineExecutionRequest,
+  StartPipelineExecutionRequest & RegionInput,
   StartPipelineExecutionResponse,
   StartPipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -8411,6 +8685,8 @@ export const startPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "StartPipelineExecution",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartPipelineExecution",
 }));
 
 export type StartQueryError =
@@ -8425,7 +8701,7 @@ export type StartQueryError =
  * Starts an asynchronous SQL query against workspace telemetry, annotations, data segment, and dataset data.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryRequest,
+  StartQueryRequest & RegionInput,
   StartQueryResponse,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -8444,6 +8720,8 @@ export const startQuery: API.OperationMethod<
   retry: Retry,
   operationName: "StartQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartQuery",
 }));
 
 export type StartSearchError =
@@ -8463,7 +8741,7 @@ export type StartSearchError =
  * same token returns the original search instead of starting a new one.
  */
 export const startSearch: API.OperationMethod<
-  StartSearchRequest,
+  StartSearchRequest & RegionInput,
   StartSearchResponse,
   StartSearchError,
   Credentials | HttpClient.HttpClient
@@ -8483,6 +8761,8 @@ export const startSearch: API.OperationMethod<
   retry: Retry,
   operationName: "StartSearch",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartSearch",
 }));
 
 export type TagResourceError =
@@ -8500,7 +8780,7 @@ export type TagResourceError =
  * updates the tag's value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8521,6 +8801,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -8536,7 +8818,7 @@ export type UntagResourceError =
  * Removes a tag from an IoT SiteWise resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -8556,6 +8838,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessPolicyError =
@@ -8574,7 +8858,7 @@ export type UpdateAccessPolicyError =
  * portal or project resource.
  */
 export const updateAccessPolicy: API.OperationMethod<
-  UpdateAccessPolicyRequest,
+  UpdateAccessPolicyRequest & RegionInput,
   UpdateAccessPolicyResponse,
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8591,6 +8875,8 @@ export const updateAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAssetError =
@@ -8606,7 +8892,7 @@ export type UpdateAssetError =
  * *IoT SiteWise User Guide*.
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -8625,6 +8911,8 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetModelError =
@@ -8657,7 +8945,7 @@ export type UpdateAssetModelError =
  * one and IoT SiteWise will generate a new unique `id`.
  */
 export const updateAssetModel: API.OperationMethod<
-  UpdateAssetModelRequest,
+  UpdateAssetModelRequest & RegionInput,
   UpdateAssetModelResponse,
   UpdateAssetModelError,
   Credentials | HttpClient.HttpClient
@@ -8678,6 +8966,8 @@ export const updateAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetModel",
 }));
 
 export type UpdateAssetModelCompositeModelError =
@@ -8710,7 +9000,7 @@ export type UpdateAssetModelCompositeModelError =
  * previous one and IoT SiteWise will generate a new unique `id`.
  */
 export const updateAssetModelCompositeModel: API.OperationMethod<
-  UpdateAssetModelCompositeModelRequest,
+  UpdateAssetModelCompositeModelRequest & RegionInput,
   UpdateAssetModelCompositeModelResponse,
   UpdateAssetModelCompositeModelError,
   Credentials | HttpClient.HttpClient
@@ -8731,6 +9021,8 @@ export const updateAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetModelCompositeModel",
 }));
 
 export type UpdateAssetPropertyError =
@@ -8748,7 +9040,7 @@ export type UpdateAssetPropertyError =
  * in the UpdateAssetProperty request. For more information, see DescribeAssetProperty.
  */
 export const updateAssetProperty: API.OperationMethod<
-  UpdateAssetPropertyRequest,
+  UpdateAssetPropertyRequest & RegionInput,
   UpdateAssetPropertyResponse,
   UpdateAssetPropertyError,
   Credentials | HttpClient.HttpClient
@@ -8766,6 +9058,8 @@ export const updateAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetProperty",
 }));
 
 export type UpdateComputationModelError =
@@ -8781,7 +9075,7 @@ export type UpdateComputationModelError =
  * Updates the computation model.
  */
 export const updateComputationModel: API.OperationMethod<
-  UpdateComputationModelRequest,
+  UpdateComputationModelRequest & RegionInput,
   UpdateComputationModelResponse,
   UpdateComputationModelError,
   Credentials | HttpClient.HttpClient
@@ -8801,6 +9095,8 @@ export const updateComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateComputationModel",
 }));
 
 export type UpdateDashboardError =
@@ -8818,7 +9114,7 @@ export type UpdateDashboardError =
  * Updates an IoT SiteWise Monitor dashboard.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -8835,6 +9131,8 @@ export const updateDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDatasetError =
@@ -8850,7 +9148,7 @@ export type UpdateDatasetError =
  * Updates a dataset.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -8870,6 +9168,8 @@ export const updateDataset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateGatewayError =
@@ -8883,7 +9183,7 @@ export type UpdateGatewayError =
  * Updates a gateway's name.
  */
 export const updateGateway: API.OperationMethod<
-  UpdateGatewayRequest,
+  UpdateGatewayRequest & RegionInput,
   UpdateGatewayResponse,
   UpdateGatewayError,
   Credentials | HttpClient.HttpClient
@@ -8901,6 +9201,8 @@ export const updateGateway: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateGateway",
 }));
 
 export type UpdateGatewayCapabilityConfigurationError =
@@ -8931,7 +9233,7 @@ export type UpdateGatewayCapabilityConfigurationError =
  * A gateway can have multiple capability configurations with different namespaces.
  */
 export const updateGatewayCapabilityConfiguration: API.OperationMethod<
-  UpdateGatewayCapabilityConfigurationRequest,
+  UpdateGatewayCapabilityConfigurationRequest & RegionInput,
   UpdateGatewayCapabilityConfigurationResponse,
   UpdateGatewayCapabilityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8950,6 +9252,8 @@ export const updateGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayCapabilityConfiguration",
 }));
 
 export type UpdatePipelineError =
@@ -8968,7 +9272,7 @@ export type UpdatePipelineError =
  * list of compute nodes independently.
  */
 export const updatePipeline: API.OperationMethod<
-  UpdatePipelineRequest,
+  UpdatePipelineRequest & RegionInput,
   UpdatePipelineResponse,
   UpdatePipelineError,
   Credentials | HttpClient.HttpClient
@@ -8988,6 +9292,8 @@ export const updatePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type UpdatePortalError =
@@ -9006,7 +9312,7 @@ export type UpdatePortalError =
  * Updates an IoT SiteWise Monitor portal.
  */
 export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
+  UpdatePortalRequest & RegionInput,
   UpdatePortalResponse,
   UpdatePortalError,
   Credentials | HttpClient.HttpClient
@@ -9024,6 +9330,8 @@ export const updatePortal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdatePortal",
 }));
 
 export type UpdateProjectError =
@@ -9041,7 +9349,7 @@ export type UpdateProjectError =
  * Updates an IoT SiteWise Monitor project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectRequest,
+  UpdateProjectRequest & RegionInput,
   UpdateProjectResponse,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -9058,6 +9366,8 @@ export const updateProject: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateTaskError =
@@ -9074,7 +9384,7 @@ export type UpdateTaskError =
  * unchanged.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -9093,6 +9403,8 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 export type UpdateWorkspaceError =
@@ -9110,7 +9422,7 @@ export type UpdateWorkspaceError =
  * encryption configuration again.
  */
 export const updateWorkspace: API.OperationMethod<
-  UpdateWorkspaceRequest,
+  UpdateWorkspaceRequest & RegionInput,
   UpdateWorkspaceResponse,
   UpdateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -9129,6 +9441,8 @@ export const updateWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pca-connector-ad.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PcaConnectorAd",
+  service: "PcaConnectorAd",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -797,7 +813,7 @@ export type CreateConnectorError =
  * directory ID, and security groups.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -816,6 +832,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateDirectoryRegistrationError =
@@ -831,7 +849,7 @@ export type CreateDirectoryRegistrationError =
  * Active Directory
  */
 export const createDirectoryRegistration: API.OperationMethod<
-  CreateDirectoryRegistrationRequest,
+  CreateDirectoryRegistrationRequest & RegionInput,
   CreateDirectoryRegistrationResponse,
   CreateDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -849,6 +867,8 @@ export const createDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "CreateDirectoryRegistration",
 }));
 
 export type CreateServicePrincipalNameError =
@@ -865,7 +885,7 @@ export type CreateServicePrincipalNameError =
  * account.
  */
 export const createServicePrincipalName: API.OperationMethod<
-  CreateServicePrincipalNameRequest,
+  CreateServicePrincipalNameRequest & RegionInput,
   CreateServicePrincipalNameResponse,
   CreateServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -883,6 +903,8 @@ export const createServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "CreateServicePrincipalName",
 }));
 
 export type CreateTemplateError =
@@ -899,7 +921,7 @@ export type CreateTemplateError =
  * using these templates based on the requester's Active Directory group membership.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -918,6 +940,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateTemplateGroupAccessControlEntryError =
@@ -934,7 +958,7 @@ export type CreateTemplateGroupAccessControlEntryError =
  * autoenrolling with the template based on the group security identifiers (SIDs).
  */
 export const createTemplateGroupAccessControlEntry: API.OperationMethod<
-  CreateTemplateGroupAccessControlEntryRequest,
+  CreateTemplateGroupAccessControlEntryRequest & RegionInput,
   CreateTemplateGroupAccessControlEntryResponse,
   CreateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -953,6 +977,8 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateGroupAccessControlEntry",
 }));
 
 export type DeleteConnectorError =
@@ -971,7 +997,7 @@ export type DeleteConnectorError =
  * action.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -989,6 +1015,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteDirectoryRegistrationError =
@@ -1003,7 +1031,7 @@ export type DeleteDirectoryRegistrationError =
  * Amazon Web Services Private CA with the directory.
  */
 export const deleteDirectoryRegistration: API.OperationMethod<
-  DeleteDirectoryRegistrationRequest,
+  DeleteDirectoryRegistrationRequest & RegionInput,
   DeleteDirectoryRegistrationResponse,
   DeleteDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1020,6 +1048,8 @@ export const deleteDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryRegistration",
 }));
 
 export type DeleteServicePrincipalNameError =
@@ -1034,7 +1064,7 @@ export type DeleteServicePrincipalNameError =
  * Active Directory.
  */
 export const deleteServicePrincipalName: API.OperationMethod<
-  DeleteServicePrincipalNameRequest,
+  DeleteServicePrincipalNameRequest & RegionInput,
   DeleteServicePrincipalNameResponse,
   DeleteServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -1051,6 +1081,8 @@ export const deleteServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "DeleteServicePrincipalName",
 }));
 
 export type DeleteTemplateError =
@@ -1066,7 +1098,7 @@ export type DeleteTemplateError =
  * are revoked or expired.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1084,6 +1116,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteTemplateGroupAccessControlEntryError =
@@ -1098,7 +1132,7 @@ export type DeleteTemplateGroupAccessControlEntryError =
  * Deletes a group access control entry.
  */
 export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
-  DeleteTemplateGroupAccessControlEntryRequest,
+  DeleteTemplateGroupAccessControlEntryRequest & RegionInput,
   DeleteTemplateGroupAccessControlEntryResponse,
   DeleteTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -1116,6 +1150,8 @@ export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateGroupAccessControlEntry",
 }));
 
 export type GetConnectorError =
@@ -1130,7 +1166,7 @@ export type GetConnectorError =
  * (Amazon Resource Name).
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1147,6 +1183,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetDirectoryRegistrationError =
@@ -1160,7 +1198,7 @@ export type GetDirectoryRegistrationError =
  * A structure that contains information about your directory registration.
  */
 export const getDirectoryRegistration: API.OperationMethod<
-  GetDirectoryRegistrationRequest,
+  GetDirectoryRegistrationRequest & RegionInput,
   GetDirectoryRegistrationResponse,
   GetDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1177,6 +1215,8 @@ export const getDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "GetDirectoryRegistration",
 }));
 
 export type GetServicePrincipalNameError =
@@ -1191,7 +1231,7 @@ export type GetServicePrincipalNameError =
  * Active Directory.
  */
 export const getServicePrincipalName: API.OperationMethod<
-  GetServicePrincipalNameRequest,
+  GetServicePrincipalNameRequest & RegionInput,
   GetServicePrincipalNameResponse,
   GetServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -1208,6 +1248,8 @@ export const getServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "GetServicePrincipalName",
 }));
 
 export type GetTemplateError =
@@ -1222,7 +1264,7 @@ export type GetTemplateError =
  * private CA.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1239,6 +1281,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type GetTemplateGroupAccessControlEntryError =
@@ -1252,7 +1296,7 @@ export type GetTemplateGroupAccessControlEntryError =
  * Retrieves the group access control entries for a template.
  */
 export const getTemplateGroupAccessControlEntry: API.OperationMethod<
-  GetTemplateGroupAccessControlEntryRequest,
+  GetTemplateGroupAccessControlEntryRequest & RegionInput,
   GetTemplateGroupAccessControlEntryResponse,
   GetTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -1269,6 +1313,8 @@ export const getTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "GetTemplateGroupAccessControlEntry",
 }));
 
 export type ListConnectorsError =
@@ -1281,7 +1327,7 @@ export type ListConnectorsError =
  * Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1304,6 +1350,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListDirectoryRegistrationsError =
@@ -1317,7 +1365,7 @@ export type ListDirectoryRegistrationsError =
  * action.
  */
 export const listDirectoryRegistrations: API.PaginatedOperationMethod<
-  ListDirectoryRegistrationsRequest,
+  ListDirectoryRegistrationsRequest & RegionInput,
   ListDirectoryRegistrationsResponse,
   ListDirectoryRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1340,6 +1388,8 @@ export const listDirectoryRegistrations: API.PaginatedOperationMethod<
     items: "DirectoryRegistrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryRegistrations",
 })) as any;
 
 export type ListServicePrincipalNamesError =
@@ -1354,7 +1404,7 @@ export type ListServicePrincipalNamesError =
  * Active Directory.
  */
 export const listServicePrincipalNames: API.PaginatedOperationMethod<
-  ListServicePrincipalNamesRequest,
+  ListServicePrincipalNamesRequest & RegionInput,
   ListServicePrincipalNamesResponse,
   ListServicePrincipalNamesError,
   Credentials | HttpClient.HttpClient,
@@ -1378,6 +1428,8 @@ export const listServicePrincipalNames: API.PaginatedOperationMethod<
     items: "ServicePrincipalNames",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePrincipalNames",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1391,7 +1443,7 @@ export type ListTagsForResourceError =
  * Lists the tags, if any, that are associated with your resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1408,6 +1460,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateGroupAccessControlEntriesError =
@@ -1421,7 +1475,7 @@ export type ListTemplateGroupAccessControlEntriesError =
  * Lists group access control entries you created.
  */
 export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod<
-  ListTemplateGroupAccessControlEntriesRequest,
+  ListTemplateGroupAccessControlEntriesRequest & RegionInput,
   ListTemplateGroupAccessControlEntriesResponse,
   ListTemplateGroupAccessControlEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -1445,6 +1499,8 @@ export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod
     items: "AccessControlEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateGroupAccessControlEntries",
 })) as any;
 
 export type ListTemplatesError =
@@ -1458,7 +1514,7 @@ export type ListTemplatesError =
  * Lists the templates, if any, that are associated with a connector.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1482,6 +1538,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "Templates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type TagResourceError =
@@ -1495,7 +1553,7 @@ export type TagResourceError =
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1512,6 +1570,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1525,7 +1585,7 @@ export type UntagResourceError =
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1542,6 +1602,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateTemplateError =
@@ -1556,7 +1618,7 @@ export type UpdateTemplateError =
  * Update template configuration to define the information included in certificates.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1574,6 +1636,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type UpdateTemplateGroupAccessControlEntryError =
@@ -1588,7 +1652,7 @@ export type UpdateTemplateGroupAccessControlEntryError =
  * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
  */
 export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
-  UpdateTemplateGroupAccessControlEntryRequest,
+  UpdateTemplateGroupAccessControlEntryRequest & RegionInput,
   UpdateTemplateGroupAccessControlEntryResponse,
   UpdateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -1606,6 +1670,8 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateGroupAccessControlEntry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

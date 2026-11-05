@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -74,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://inspector2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Inspector2",
+  service: "Inspector2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3271,7 +3287,7 @@ export type AssociateMemberError =
  * accounts or GetMembers for a single account.
  */
 export const associateMember: API.OperationMethod<
-  AssociateMemberRequest,
+  AssociateMemberRequest & RegionInput,
   AssociateMemberResponse,
   AssociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -3288,6 +3304,8 @@ export const associateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMember",
+  telemetry: TELEMETRY,
+  span: "AssociateMember",
 }));
 
 export type BatchAssociateCodeSecurityScanConfigurationError =
@@ -3303,7 +3321,7 @@ export type BatchAssociateCodeSecurityScanConfigurationError =
  * configuration.
  */
 export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
-  BatchAssociateCodeSecurityScanConfigurationRequest,
+  BatchAssociateCodeSecurityScanConfigurationRequest & RegionInput,
   BatchAssociateCodeSecurityScanConfigurationResponse,
   BatchAssociateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3329,6 +3347,8 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateCodeSecurityScanConfiguration",
 }));
 
 export type BatchDisassociateCodeSecurityScanConfigurationError =
@@ -3344,7 +3364,7 @@ export type BatchDisassociateCodeSecurityScanConfigurationError =
  * configuration.
  */
 export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod<
-  BatchDisassociateCodeSecurityScanConfigurationRequest,
+  BatchDisassociateCodeSecurityScanConfigurationRequest & RegionInput,
   BatchDisassociateCodeSecurityScanConfigurationResponse,
   BatchDisassociateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3366,6 +3386,8 @@ export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateCodeSecurityScanConfiguration",
 }));
 
 export type BatchGetAccountStatusError =
@@ -3379,7 +3401,7 @@ export type BatchGetAccountStatusError =
  * Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
  */
 export const batchGetAccountStatus: API.OperationMethod<
-  BatchGetAccountStatusRequest,
+  BatchGetAccountStatusRequest & RegionInput,
   BatchGetAccountStatusResponse,
   BatchGetAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -3396,6 +3418,8 @@ export const batchGetAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAccountStatus",
+  telemetry: TELEMETRY,
+  span: "BatchGetAccountStatus",
 }));
 
 export type BatchGetCodeSnippetError =
@@ -3409,7 +3433,7 @@ export type BatchGetCodeSnippetError =
  * in.
  */
 export const batchGetCodeSnippet: API.OperationMethod<
-  BatchGetCodeSnippetRequest,
+  BatchGetCodeSnippetRequest & RegionInput,
   BatchGetCodeSnippetResponse,
   BatchGetCodeSnippetError,
   Credentials | HttpClient.HttpClient
@@ -3425,6 +3449,8 @@ export const batchGetCodeSnippet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeSnippet",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeSnippet",
 }));
 
 export type BatchGetFindingDetailsError =
@@ -3437,7 +3463,7 @@ export type BatchGetFindingDetailsError =
  * Gets vulnerability details for findings.
  */
 export const batchGetFindingDetails: API.OperationMethod<
-  BatchGetFindingDetailsRequest,
+  BatchGetFindingDetailsRequest & RegionInput,
   BatchGetFindingDetailsResponse,
   BatchGetFindingDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3453,6 +3479,8 @@ export const batchGetFindingDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindingDetails",
+  telemetry: TELEMETRY,
+  span: "BatchGetFindingDetails",
 }));
 
 export type BatchGetFreeTrialInfoError =
@@ -3465,7 +3493,7 @@ export type BatchGetFreeTrialInfoError =
  * Gets free trial status for multiple Amazon Web Services accounts.
  */
 export const batchGetFreeTrialInfo: API.OperationMethod<
-  BatchGetFreeTrialInfoRequest,
+  BatchGetFreeTrialInfoRequest & RegionInput,
   BatchGetFreeTrialInfoResponse,
   BatchGetFreeTrialInfoError,
   Credentials | HttpClient.HttpClient
@@ -3481,6 +3509,8 @@ export const batchGetFreeTrialInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFreeTrialInfo",
+  telemetry: TELEMETRY,
+  span: "BatchGetFreeTrialInfo",
 }));
 
 export type BatchGetMemberEc2DeepInspectionStatusError =
@@ -3495,7 +3525,7 @@ export type BatchGetMemberEc2DeepInspectionStatusError =
  * use this API.
  */
 export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
-  BatchGetMemberEc2DeepInspectionStatusRequest,
+  BatchGetMemberEc2DeepInspectionStatusRequest & RegionInput,
   BatchGetMemberEc2DeepInspectionStatusResponse,
   BatchGetMemberEc2DeepInspectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3511,6 +3541,8 @@ export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberEc2DeepInspectionStatus",
+  telemetry: TELEMETRY,
+  span: "BatchGetMemberEc2DeepInspectionStatus",
 }));
 
 export type BatchUpdateMemberEc2DeepInspectionStatusError =
@@ -3525,7 +3557,7 @@ export type BatchUpdateMemberEc2DeepInspectionStatusError =
  * this API.
  */
 export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
-  BatchUpdateMemberEc2DeepInspectionStatusRequest,
+  BatchUpdateMemberEc2DeepInspectionStatusRequest & RegionInput,
   BatchUpdateMemberEc2DeepInspectionStatusResponse,
   BatchUpdateMemberEc2DeepInspectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3541,6 +3573,8 @@ export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemberEc2DeepInspectionStatus",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMemberEc2DeepInspectionStatus",
 }));
 
 export type CancelFindingsReportError =
@@ -3554,7 +3588,7 @@ export type CancelFindingsReportError =
  * Cancels the given findings report.
  */
 export const cancelFindingsReport: API.OperationMethod<
-  CancelFindingsReportRequest,
+  CancelFindingsReportRequest & RegionInput,
   CancelFindingsReportResponse,
   CancelFindingsReportError,
   Credentials | HttpClient.HttpClient
@@ -3571,6 +3605,8 @@ export const cancelFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelFindingsReport",
+  telemetry: TELEMETRY,
+  span: "CancelFindingsReport",
 }));
 
 export type CancelSbomExportError =
@@ -3584,7 +3620,7 @@ export type CancelSbomExportError =
  * Cancels a software bill of materials (SBOM) report.
  */
 export const cancelSbomExport: API.OperationMethod<
-  CancelSbomExportRequest,
+  CancelSbomExportRequest & RegionInput,
   CancelSbomExportResponse,
   CancelSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -3601,6 +3637,8 @@ export const cancelSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSbomExport",
+  telemetry: TELEMETRY,
+  span: "CancelSbomExport",
 }));
 
 export type CreateCisScanConfigurationError =
@@ -3613,7 +3651,7 @@ export type CreateCisScanConfigurationError =
  * Creates a CIS scan configuration.
  */
 export const createCisScanConfiguration: API.OperationMethod<
-  CreateCisScanConfigurationRequest,
+  CreateCisScanConfigurationRequest & RegionInput,
   CreateCisScanConfigurationResponse,
   CreateCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3629,6 +3667,8 @@ export const createCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCisScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateCisScanConfiguration",
 }));
 
 export type CreateCodeSecurityIntegrationError =
@@ -3648,7 +3688,7 @@ export type CreateCodeSecurityIntegrationError =
  * to complete the integration setup
  */
 export const createCodeSecurityIntegration: API.OperationMethod<
-  CreateCodeSecurityIntegrationRequest,
+  CreateCodeSecurityIntegrationRequest & RegionInput,
   CreateCodeSecurityIntegrationResponse,
   CreateCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3666,6 +3706,8 @@ export const createCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateCodeSecurityIntegration",
 }));
 
 export type CreateCodeSecurityScanConfigurationError =
@@ -3680,7 +3722,7 @@ export type CreateCodeSecurityScanConfigurationError =
  * Creates a scan configuration for code security scanning.
  */
 export const createCodeSecurityScanConfiguration: API.OperationMethod<
-  CreateCodeSecurityScanConfigurationRequest,
+  CreateCodeSecurityScanConfigurationRequest & RegionInput,
   CreateCodeSecurityScanConfigurationResponse,
   CreateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3698,6 +3740,8 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateCodeSecurityScanConfiguration",
 }));
 
 export type CreateConnectorError =
@@ -3712,7 +3756,7 @@ export type CreateConnectorError =
  * Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3730,6 +3774,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateFilterError =
@@ -3745,7 +3791,7 @@ export type CreateFilterError =
  * to `SUPPRESS` this action creates a suppression rule.
  */
 export const createFilter: API.OperationMethod<
-  CreateFilterRequest,
+  CreateFilterRequest & RegionInput,
   CreateFilterResponse,
   CreateFilterError,
   Credentials | HttpClient.HttpClient
@@ -3763,6 +3809,8 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFilter",
 }));
 
 export type CreateFindingsReportError =
@@ -3778,7 +3826,7 @@ export type CreateFindingsReportError =
  * a value for the `findingStatus` filter criteria.
  */
 export const createFindingsReport: API.OperationMethod<
-  CreateFindingsReportRequest,
+  CreateFindingsReportRequest & RegionInput,
   CreateFindingsReportResponse,
   CreateFindingsReportError,
   Credentials | HttpClient.HttpClient
@@ -3795,6 +3843,8 @@ export const createFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsReport",
+  telemetry: TELEMETRY,
+  span: "CreateFindingsReport",
 }));
 
 export type CreateSbomExportError =
@@ -3808,7 +3858,7 @@ export type CreateSbomExportError =
  * Creates a software bill of materials (SBOM) report.
  */
 export const createSbomExport: API.OperationMethod<
-  CreateSbomExportRequest,
+  CreateSbomExportRequest & RegionInput,
   CreateSbomExportResponse,
   CreateSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -3825,6 +3875,8 @@ export const createSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSbomExport",
+  telemetry: TELEMETRY,
+  span: "CreateSbomExport",
 }));
 
 export type DeleteCisScanConfigurationError =
@@ -3838,7 +3890,7 @@ export type DeleteCisScanConfigurationError =
  * Deletes a CIS scan configuration.
  */
 export const deleteCisScanConfiguration: API.OperationMethod<
-  DeleteCisScanConfigurationRequest,
+  DeleteCisScanConfigurationRequest & RegionInput,
   DeleteCisScanConfigurationResponse,
   DeleteCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3855,6 +3907,8 @@ export const deleteCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCisScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteCisScanConfiguration",
 }));
 
 export type DeleteCodeSecurityIntegrationError =
@@ -3868,7 +3922,7 @@ export type DeleteCodeSecurityIntegrationError =
  * Deletes a code security integration.
  */
 export const deleteCodeSecurityIntegration: API.OperationMethod<
-  DeleteCodeSecurityIntegrationRequest,
+  DeleteCodeSecurityIntegrationRequest & RegionInput,
   DeleteCodeSecurityIntegrationResponse,
   DeleteCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3885,6 +3939,8 @@ export const deleteCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteCodeSecurityIntegration",
 }));
 
 export type DeleteCodeSecurityScanConfigurationError =
@@ -3898,7 +3954,7 @@ export type DeleteCodeSecurityScanConfigurationError =
  * Deletes a code security scan configuration.
  */
 export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
-  DeleteCodeSecurityScanConfigurationRequest,
+  DeleteCodeSecurityScanConfigurationRequest & RegionInput,
   DeleteCodeSecurityScanConfigurationResponse,
   DeleteCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3915,6 +3971,8 @@ export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteCodeSecurityScanConfiguration",
 }));
 
 export type DeleteConnectorError =
@@ -3929,7 +3987,7 @@ export type DeleteConnectorError =
  * Deletes a connector from your account.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3947,6 +4005,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteFilterError =
@@ -3960,7 +4020,7 @@ export type DeleteFilterError =
  * Deletes a filter resource.
  */
 export const deleteFilter: API.OperationMethod<
-  DeleteFilterRequest,
+  DeleteFilterRequest & RegionInput,
   DeleteFilterResponse,
   DeleteFilterError,
   Credentials | HttpClient.HttpClient
@@ -3977,6 +4037,8 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFilter",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -3989,7 +4051,7 @@ export type DescribeOrganizationConfigurationError =
  * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4005,6 +4067,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DisableError =
@@ -4019,7 +4083,7 @@ export type DisableError =
  * account disables the Amazon Inspector service.
  */
 export const disable: API.OperationMethod<
-  DisableRequest,
+  DisableRequest & RegionInput,
   DisableResponse,
   DisableError,
   Credentials | HttpClient.HttpClient
@@ -4036,6 +4100,8 @@ export const disable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Disable",
+  telemetry: TELEMETRY,
+  span: "Disable",
 }));
 
 export type DisableDelegatedAdminAccountError =
@@ -4050,7 +4116,7 @@ export type DisableDelegatedAdminAccountError =
  * Disables the Amazon Inspector delegated administrator for your organization.
  */
 export const disableDelegatedAdminAccount: API.OperationMethod<
-  DisableDelegatedAdminAccountRequest,
+  DisableDelegatedAdminAccountRequest & RegionInput,
   DisableDelegatedAdminAccountResponse,
   DisableDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4068,6 +4134,8 @@ export const disableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDelegatedAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableDelegatedAdminAccount",
 }));
 
 export type DisassociateMemberError =
@@ -4080,7 +4148,7 @@ export type DisassociateMemberError =
  * Disassociates a member account from an Amazon Inspector delegated administrator.
  */
 export const disassociateMember: API.OperationMethod<
-  DisassociateMemberRequest,
+  DisassociateMemberRequest & RegionInput,
   DisassociateMemberResponse,
   DisassociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -4096,6 +4164,8 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
+  telemetry: TELEMETRY,
+  span: "DisassociateMember",
 }));
 
 export type EnableError =
@@ -4109,7 +4179,7 @@ export type EnableError =
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
 export const enable: API.OperationMethod<
-  EnableRequest,
+  EnableRequest & RegionInput,
   EnableResponse,
   EnableError,
   Credentials | HttpClient.HttpClient
@@ -4126,6 +4196,8 @@ export const enable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Enable",
+  telemetry: TELEMETRY,
+  span: "Enable",
 }));
 
 export type EnableDelegatedAdminAccountError =
@@ -4140,7 +4212,7 @@ export type EnableDelegatedAdminAccountError =
  * Enables the Amazon Inspector delegated administrator for your Organizations organization.
  */
 export const enableDelegatedAdminAccount: API.OperationMethod<
-  EnableDelegatedAdminAccountRequest,
+  EnableDelegatedAdminAccountRequest & RegionInput,
   EnableDelegatedAdminAccountResponse,
   EnableDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4158,6 +4230,8 @@ export const enableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDelegatedAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableDelegatedAdminAccount",
 }));
 
 export type GetCisScanReportError =
@@ -4171,7 +4245,7 @@ export type GetCisScanReportError =
  * Retrieves a CIS scan report.
  */
 export const getCisScanReport: API.OperationMethod<
-  GetCisScanReportRequest,
+  GetCisScanReportRequest & RegionInput,
   GetCisScanReportResponse,
   GetCisScanReportError,
   Credentials | HttpClient.HttpClient
@@ -4188,6 +4262,8 @@ export const getCisScanReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCisScanReport",
+  telemetry: TELEMETRY,
+  span: "GetCisScanReport",
 }));
 
 export type GetCisScanResultDetailsError =
@@ -4200,7 +4276,7 @@ export type GetCisScanResultDetailsError =
  * Retrieves CIS scan result details.
  */
 export const getCisScanResultDetails: API.PaginatedOperationMethod<
-  GetCisScanResultDetailsRequest,
+  GetCisScanResultDetailsRequest & RegionInput,
   GetCisScanResultDetailsResponse,
   GetCisScanResultDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4223,6 +4299,8 @@ export const getCisScanResultDetails: API.PaginatedOperationMethod<
     items: "scanResultDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCisScanResultDetails",
 })) as any;
 
 export type GetClustersForImageError =
@@ -4235,7 +4313,7 @@ export type GetClustersForImageError =
  * Returns a list of clusters and metadata associated with an image.
  */
 export const getClustersForImage: API.PaginatedOperationMethod<
-  GetClustersForImageRequest,
+  GetClustersForImageRequest & RegionInput,
   GetClustersForImageResponse,
   GetClustersForImageError,
   Credentials | HttpClient.HttpClient,
@@ -4258,6 +4336,8 @@ export const getClustersForImage: API.PaginatedOperationMethod<
     items: "cluster",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetClustersForImage",
 })) as any;
 
 export type GetCodeSecurityIntegrationError =
@@ -4271,7 +4351,7 @@ export type GetCodeSecurityIntegrationError =
  * Retrieves information about a code security integration.
  */
 export const getCodeSecurityIntegration: API.OperationMethod<
-  GetCodeSecurityIntegrationRequest,
+  GetCodeSecurityIntegrationRequest & RegionInput,
   GetCodeSecurityIntegrationResponse,
   GetCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4288,6 +4368,8 @@ export const getCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityIntegration",
+  telemetry: TELEMETRY,
+  span: "GetCodeSecurityIntegration",
 }));
 
 export type GetCodeSecurityScanError =
@@ -4302,7 +4384,7 @@ export type GetCodeSecurityScanError =
  * Retrieves information about a specific code security scan.
  */
 export const getCodeSecurityScan: API.OperationMethod<
-  GetCodeSecurityScanRequest,
+  GetCodeSecurityScanRequest & RegionInput,
   GetCodeSecurityScanResponse,
   GetCodeSecurityScanError,
   Credentials | HttpClient.HttpClient
@@ -4320,6 +4402,8 @@ export const getCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScan",
+  telemetry: TELEMETRY,
+  span: "GetCodeSecurityScan",
 }));
 
 export type GetCodeSecurityScanConfigurationError =
@@ -4333,7 +4417,7 @@ export type GetCodeSecurityScanConfigurationError =
  * Retrieves information about a code security scan configuration.
  */
 export const getCodeSecurityScanConfiguration: API.OperationMethod<
-  GetCodeSecurityScanConfigurationRequest,
+  GetCodeSecurityScanConfigurationRequest & RegionInput,
   GetCodeSecurityScanConfigurationResponse,
   GetCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4350,6 +4434,8 @@ export const getCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCodeSecurityScanConfiguration",
 }));
 
 export type GetConfigurationError =
@@ -4367,7 +4453,7 @@ export type GetConfigurationError =
  * scan configuration.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   GetConfigurationResponse,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4384,6 +4470,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetDelegatedAdminAccountError =
@@ -4398,7 +4486,7 @@ export type GetDelegatedAdminAccountError =
  * organization.
  */
 export const getDelegatedAdminAccount: API.OperationMethod<
-  GetDelegatedAdminAccountRequest,
+  GetDelegatedAdminAccountRequest & RegionInput,
   GetDelegatedAdminAccountResponse,
   GetDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4415,6 +4503,8 @@ export const getDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAdminAccount",
+  telemetry: TELEMETRY,
+  span: "GetDelegatedAdminAccount",
 }));
 
 export type GetEc2DeepInspectionConfigurationError =
@@ -4428,7 +4518,7 @@ export type GetEc2DeepInspectionConfigurationError =
  * with your account.
  */
 export const getEc2DeepInspectionConfiguration: API.OperationMethod<
-  GetEc2DeepInspectionConfigurationRequest,
+  GetEc2DeepInspectionConfigurationRequest & RegionInput,
   GetEc2DeepInspectionConfigurationResponse,
   GetEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4444,6 +4534,8 @@ export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEc2DeepInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEc2DeepInspectionConfiguration",
 }));
 
 export type GetEncryptionKeyError =
@@ -4457,7 +4549,7 @@ export type GetEncryptionKeyError =
  * Gets an encryption key.
  */
 export const getEncryptionKey: API.OperationMethod<
-  GetEncryptionKeyRequest,
+  GetEncryptionKeyRequest & RegionInput,
   GetEncryptionKeyResponse,
   GetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -4474,6 +4566,8 @@ export const getEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "GetEncryptionKey",
 }));
 
 export type GetFindingsReportStatusError =
@@ -4487,7 +4581,7 @@ export type GetFindingsReportStatusError =
  * Gets the status of a findings report.
  */
 export const getFindingsReportStatus: API.OperationMethod<
-  GetFindingsReportStatusRequest,
+  GetFindingsReportStatusRequest & RegionInput,
   GetFindingsReportStatusResponse,
   GetFindingsReportStatusError,
   Credentials | HttpClient.HttpClient
@@ -4504,6 +4598,8 @@ export const getFindingsReportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsReportStatus",
+  telemetry: TELEMETRY,
+  span: "GetFindingsReportStatus",
 }));
 
 export type GetMemberError =
@@ -4517,7 +4613,7 @@ export type GetMemberError =
  * Gets member information for your organization.
  */
 export const getMember: API.OperationMethod<
-  GetMemberRequest,
+  GetMemberRequest & RegionInput,
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -4534,6 +4630,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetSbomExportError =
@@ -4547,7 +4645,7 @@ export type GetSbomExportError =
  * Gets details of a software bill of materials (SBOM) report.
  */
 export const getSbomExport: API.OperationMethod<
-  GetSbomExportRequest,
+  GetSbomExportRequest & RegionInput,
   GetSbomExportResponse,
   GetSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -4564,6 +4662,8 @@ export const getSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSbomExport",
+  telemetry: TELEMETRY,
+  span: "GetSbomExport",
 }));
 
 export type ListAccountPermissionsError =
@@ -4577,7 +4677,7 @@ export type ListAccountPermissionsError =
  * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
  */
 export const listAccountPermissions: API.PaginatedOperationMethod<
-  ListAccountPermissionsRequest,
+  ListAccountPermissionsRequest & RegionInput,
   ListAccountPermissionsResponse,
   ListAccountPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -4600,6 +4700,8 @@ export const listAccountPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountPermissions",
 })) as any;
 
 export type ListCisScanConfigurationsError =
@@ -4612,7 +4714,7 @@ export type ListCisScanConfigurationsError =
  * Lists CIS scan configurations.
  */
 export const listCisScanConfigurations: API.PaginatedOperationMethod<
-  ListCisScanConfigurationsRequest,
+  ListCisScanConfigurationsRequest & RegionInput,
   ListCisScanConfigurationsResponse,
   ListCisScanConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4635,6 +4737,8 @@ export const listCisScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCisScanConfigurations",
 })) as any;
 
 export type ListCisScanResultsAggregatedByChecksError =
@@ -4647,7 +4751,7 @@ export type ListCisScanResultsAggregatedByChecksError =
  * Lists scan results aggregated by checks.
  */
 export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
-  ListCisScanResultsAggregatedByChecksRequest,
+  ListCisScanResultsAggregatedByChecksRequest & RegionInput,
   ListCisScanResultsAggregatedByChecksResponse,
   ListCisScanResultsAggregatedByChecksError,
   Credentials | HttpClient.HttpClient,
@@ -4670,6 +4774,8 @@ export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
     items: "checkAggregations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCisScanResultsAggregatedByChecks",
 })) as any;
 
 export type ListCisScanResultsAggregatedByTargetResourceError =
@@ -4682,7 +4788,7 @@ export type ListCisScanResultsAggregatedByTargetResourceError =
  * Lists scan results aggregated by a target resource.
  */
 export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperationMethod<
-  ListCisScanResultsAggregatedByTargetResourceRequest,
+  ListCisScanResultsAggregatedByTargetResourceRequest & RegionInput,
   ListCisScanResultsAggregatedByTargetResourceResponse,
   ListCisScanResultsAggregatedByTargetResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4713,6 +4819,8 @@ export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperatio
     items: "targetResourceAggregations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCisScanResultsAggregatedByTargetResource",
 })) as any;
 
 export type ListCisScansError =
@@ -4725,7 +4833,7 @@ export type ListCisScansError =
  * Returns a CIS scan list.
  */
 export const listCisScans: API.PaginatedOperationMethod<
-  ListCisScansRequest,
+  ListCisScansRequest & RegionInput,
   ListCisScansResponse,
   ListCisScansError,
   Credentials | HttpClient.HttpClient,
@@ -4748,6 +4856,8 @@ export const listCisScans: API.PaginatedOperationMethod<
     items: "scans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCisScans",
 })) as any;
 
 export type ListCodeSecurityIntegrationsError =
@@ -4760,7 +4870,7 @@ export type ListCodeSecurityIntegrationsError =
  * Lists all code security integrations in your account.
  */
 export const listCodeSecurityIntegrations: API.OperationMethod<
-  ListCodeSecurityIntegrationsRequest,
+  ListCodeSecurityIntegrationsRequest & RegionInput,
   ListCodeSecurityIntegrationsResponse,
   ListCodeSecurityIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -4776,6 +4886,8 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityIntegrations",
+  telemetry: TELEMETRY,
+  span: "ListCodeSecurityIntegrations",
 }));
 
 export type ListCodeSecurityScanConfigurationAssociationsError =
@@ -4790,7 +4902,7 @@ export type ListCodeSecurityScanConfigurationAssociationsError =
  * configurations.
  */
 export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
-  ListCodeSecurityScanConfigurationAssociationsRequest,
+  ListCodeSecurityScanConfigurationAssociationsRequest & RegionInput,
   ListCodeSecurityScanConfigurationAssociationsResponse,
   ListCodeSecurityScanConfigurationAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -4815,6 +4927,8 @@ export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurationAssociations",
+  telemetry: TELEMETRY,
+  span: "ListCodeSecurityScanConfigurationAssociations",
 }));
 
 export type ListCodeSecurityScanConfigurationsError =
@@ -4828,7 +4942,7 @@ export type ListCodeSecurityScanConfigurationsError =
  * Lists all code security scan configurations in your account.
  */
 export const listCodeSecurityScanConfigurations: API.OperationMethod<
-  ListCodeSecurityScanConfigurationsRequest,
+  ListCodeSecurityScanConfigurationsRequest & RegionInput,
   ListCodeSecurityScanConfigurationsResponse,
   ListCodeSecurityScanConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -4845,6 +4959,8 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListCodeSecurityScanConfigurations",
 }));
 
 export type ListConnectorsError =
@@ -4857,7 +4973,7 @@ export type ListConnectorsError =
  * Lists connectors in your account. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -4880,6 +4996,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListConnectorScanConfigurationsError =
@@ -4892,7 +5010,7 @@ export type ListConnectorScanConfigurationsError =
  * Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
-  ListConnectorScanConfigurationsRequest,
+  ListConnectorScanConfigurationsRequest & RegionInput,
   ListConnectorScanConfigurationsResponse,
   ListConnectorScanConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4915,6 +5033,8 @@ export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectorScanConfigurations",
 })) as any;
 
 export type ListCoverageError =
@@ -4926,7 +5046,7 @@ export type ListCoverageError =
  * Lists coverage details for your environment.
  */
 export const listCoverage: API.PaginatedOperationMethod<
-  ListCoverageRequest,
+  ListCoverageRequest & RegionInput,
   ListCoverageResponse,
   ListCoverageError,
   Credentials | HttpClient.HttpClient,
@@ -4944,6 +5064,8 @@ export const listCoverage: API.PaginatedOperationMethod<
     items: "coveredResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoverage",
 })) as any;
 
 export type ListCoverageStatisticsError =
@@ -4955,7 +5077,7 @@ export type ListCoverageStatisticsError =
  * Lists Amazon Inspector coverage statistics for your environment.
  */
 export const listCoverageStatistics: API.PaginatedOperationMethod<
-  ListCoverageStatisticsRequest,
+  ListCoverageStatisticsRequest & RegionInput,
   ListCoverageStatisticsResponse,
   ListCoverageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -4972,6 +5094,8 @@ export const listCoverageStatistics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "countsByGroup",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoverageStatistics",
 })) as any;
 
 export type ListDelegatedAdminAccountsError =
@@ -4984,7 +5108,7 @@ export type ListDelegatedAdminAccountsError =
  * Lists information about the Amazon Inspector delegated administrator of your organization.
  */
 export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
-  ListDelegatedAdminAccountsRequest,
+  ListDelegatedAdminAccountsRequest & RegionInput,
   ListDelegatedAdminAccountsResponse,
   ListDelegatedAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -5007,6 +5131,8 @@ export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
     items: "delegatedAdminAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedAdminAccounts",
 })) as any;
 
 export type ListFiltersError =
@@ -5019,7 +5145,7 @@ export type ListFiltersError =
  * Lists the filters associated with your account.
  */
 export const listFilters: API.PaginatedOperationMethod<
-  ListFiltersRequest,
+  ListFiltersRequest & RegionInput,
   ListFiltersResponse,
   ListFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -5042,6 +5168,8 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "filters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilters",
 })) as any;
 
 export type ListFindingAggregationsError =
@@ -5053,7 +5181,7 @@ export type ListFindingAggregationsError =
  * Lists aggregated finding data for your environment based on specific criteria.
  */
 export const listFindingAggregations: API.PaginatedOperationMethod<
-  ListFindingAggregationsRequest,
+  ListFindingAggregationsRequest & RegionInput,
   ListFindingAggregationsResponse,
   ListFindingAggregationsError,
   Credentials | HttpClient.HttpClient,
@@ -5071,6 +5199,8 @@ export const listFindingAggregations: API.PaginatedOperationMethod<
     items: "responses",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingAggregations",
 })) as any;
 
 export type ListFindingsError =
@@ -5082,7 +5212,7 @@ export type ListFindingsError =
  * Lists findings for your environment.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -5100,6 +5230,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListMembersError =
@@ -5113,7 +5245,7 @@ export type ListMembersError =
  * organization.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5136,6 +5268,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5148,7 +5282,7 @@ export type ListTagsForResourceError =
  * Lists all tags attached to a given resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5164,6 +5298,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUsageTotalsError =
@@ -5176,7 +5312,7 @@ export type ListUsageTotalsError =
  * Lists the Amazon Inspector usage totals over the last 30 days.
  */
 export const listUsageTotals: API.PaginatedOperationMethod<
-  ListUsageTotalsRequest,
+  ListUsageTotalsRequest & RegionInput,
   ListUsageTotalsResponse,
   ListUsageTotalsError,
   Credentials | HttpClient.HttpClient,
@@ -5199,6 +5335,8 @@ export const listUsageTotals: API.PaginatedOperationMethod<
     items: "totals",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsageTotals",
 })) as any;
 
 export type ResetEncryptionKeyError =
@@ -5213,7 +5351,7 @@ export type ResetEncryptionKeyError =
  * Amazon Web Services owned key.
  */
 export const resetEncryptionKey: API.OperationMethod<
-  ResetEncryptionKeyRequest,
+  ResetEncryptionKeyRequest & RegionInput,
   ResetEncryptionKeyResponse,
   ResetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -5230,6 +5368,8 @@ export const resetEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "ResetEncryptionKey",
 }));
 
 export type SearchVulnerabilitiesError =
@@ -5242,7 +5382,7 @@ export type SearchVulnerabilitiesError =
  * Lists Amazon Inspector coverage details for a specific vulnerability.
  */
 export const searchVulnerabilities: API.PaginatedOperationMethod<
-  SearchVulnerabilitiesRequest,
+  SearchVulnerabilitiesRequest & RegionInput,
   SearchVulnerabilitiesResponse,
   SearchVulnerabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -5264,6 +5404,8 @@ export const searchVulnerabilities: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "vulnerabilities",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchVulnerabilities",
 })) as any;
 
 export type SendCisSessionHealthError =
@@ -5279,7 +5421,7 @@ export type SendCisSessionHealthError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionHealth: API.OperationMethod<
-  SendCisSessionHealthRequest,
+  SendCisSessionHealthRequest & RegionInput,
   SendCisSessionHealthResponse,
   SendCisSessionHealthError,
   Credentials | HttpClient.HttpClient
@@ -5296,6 +5438,8 @@ export const sendCisSessionHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionHealth",
+  telemetry: TELEMETRY,
+  span: "SendCisSessionHealth",
 }));
 
 export type SendCisSessionTelemetryError =
@@ -5311,7 +5455,7 @@ export type SendCisSessionTelemetryError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionTelemetry: API.OperationMethod<
-  SendCisSessionTelemetryRequest,
+  SendCisSessionTelemetryRequest & RegionInput,
   SendCisSessionTelemetryResponse,
   SendCisSessionTelemetryError,
   Credentials | HttpClient.HttpClient
@@ -5328,6 +5472,8 @@ export const sendCisSessionTelemetry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionTelemetry",
+  telemetry: TELEMETRY,
+  span: "SendCisSessionTelemetry",
 }));
 
 export type StartCisSessionError =
@@ -5343,7 +5489,7 @@ export type StartCisSessionError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const startCisSession: API.OperationMethod<
-  StartCisSessionRequest,
+  StartCisSessionRequest & RegionInput,
   StartCisSessionResponse,
   StartCisSessionError,
   Credentials | HttpClient.HttpClient
@@ -5360,6 +5506,8 @@ export const startCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCisSession",
+  telemetry: TELEMETRY,
+  span: "StartCisSession",
 }));
 
 export type StartCodeSecurityScanError =
@@ -5374,7 +5522,7 @@ export type StartCodeSecurityScanError =
  * Initiates a code security scan on a specified repository.
  */
 export const startCodeSecurityScan: API.OperationMethod<
-  StartCodeSecurityScanRequest,
+  StartCodeSecurityScanRequest & RegionInput,
   StartCodeSecurityScanResponse,
   StartCodeSecurityScanError,
   Credentials | HttpClient.HttpClient
@@ -5392,6 +5540,8 @@ export const startCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeSecurityScan",
+  telemetry: TELEMETRY,
+  span: "StartCodeSecurityScan",
 }));
 
 export type StopCisSessionError =
@@ -5407,7 +5557,7 @@ export type StopCisSessionError =
  * this API to stop a CIS scan session for the scan ID supplied by the service.
  */
 export const stopCisSession: API.OperationMethod<
-  StopCisSessionRequest,
+  StopCisSessionRequest & RegionInput,
   StopCisSessionResponse,
   StopCisSessionError,
   Credentials | HttpClient.HttpClient
@@ -5424,6 +5574,8 @@ export const stopCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCisSession",
+  telemetry: TELEMETRY,
+  span: "StopCisSession",
 }));
 
 export type TagResourceError =
@@ -5437,7 +5589,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5454,6 +5606,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5466,7 +5620,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5482,6 +5636,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCisScanConfigurationError =
@@ -5495,7 +5651,7 @@ export type UpdateCisScanConfigurationError =
  * Updates a CIS scan configuration.
  */
 export const updateCisScanConfiguration: API.OperationMethod<
-  UpdateCisScanConfigurationRequest,
+  UpdateCisScanConfigurationRequest & RegionInput,
   UpdateCisScanConfigurationResponse,
   UpdateCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5512,6 +5668,8 @@ export const updateCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCisScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateCisScanConfiguration",
 }));
 
 export type UpdateCodeSecurityIntegrationError =
@@ -5531,7 +5689,7 @@ export type UpdateCodeSecurityIntegrationError =
  * to complete the integration setup
  */
 export const updateCodeSecurityIntegration: API.OperationMethod<
-  UpdateCodeSecurityIntegrationRequest,
+  UpdateCodeSecurityIntegrationRequest & RegionInput,
   UpdateCodeSecurityIntegrationResponse,
   UpdateCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5549,6 +5707,8 @@ export const updateCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeSecurityIntegration",
 }));
 
 export type UpdateCodeSecurityScanConfigurationError =
@@ -5563,7 +5723,7 @@ export type UpdateCodeSecurityScanConfigurationError =
  * Updates an existing code security scan configuration.
  */
 export const updateCodeSecurityScanConfiguration: API.OperationMethod<
-  UpdateCodeSecurityScanConfigurationRequest,
+  UpdateCodeSecurityScanConfigurationRequest & RegionInput,
   UpdateCodeSecurityScanConfigurationResponse,
   UpdateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5581,6 +5741,8 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeSecurityScanConfiguration",
 }));
 
 export type UpdateConfigurationError =
@@ -5598,7 +5760,7 @@ export type UpdateConfigurationError =
  * member accounts cannot call this operation.
  */
 export const updateConfiguration: API.OperationMethod<
-  UpdateConfigurationRequest,
+  UpdateConfigurationRequest & RegionInput,
   UpdateConfigurationResponse,
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5614,6 +5776,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateConnectorError =
@@ -5628,7 +5792,7 @@ export type UpdateConnectorError =
  * Updates the description or provider-specific configuration details of an existing connector.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -5646,6 +5810,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateConnectorScanConfigurationError =
@@ -5660,7 +5826,7 @@ export type UpdateConnectorScanConfigurationError =
  * Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
  */
 export const updateConnectorScanConfiguration: API.OperationMethod<
-  UpdateConnectorScanConfigurationRequest,
+  UpdateConnectorScanConfigurationRequest & RegionInput,
   UpdateConnectorScanConfigurationResponse,
   UpdateConnectorScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5678,6 +5844,8 @@ export const updateConnectorScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorScanConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorScanConfiguration",
 }));
 
 export type UpdateEc2DeepInspectionConfigurationError =
@@ -5690,7 +5858,7 @@ export type UpdateEc2DeepInspectionConfigurationError =
  * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
  */
 export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
-  UpdateEc2DeepInspectionConfigurationRequest,
+  UpdateEc2DeepInspectionConfigurationRequest & RegionInput,
   UpdateEc2DeepInspectionConfigurationResponse,
   UpdateEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5706,6 +5874,8 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEc2DeepInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateEc2DeepInspectionConfiguration",
 }));
 
 export type UpdateEncryptionKeyError =
@@ -5720,7 +5890,7 @@ export type UpdateEncryptionKeyError =
  * Amazon Web Services owned key is being used for encryption.
  */
 export const updateEncryptionKey: API.OperationMethod<
-  UpdateEncryptionKeyRequest,
+  UpdateEncryptionKeyRequest & RegionInput,
   UpdateEncryptionKeyResponse,
   UpdateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -5737,6 +5907,8 @@ export const updateEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "UpdateEncryptionKey",
 }));
 
 export type UpdateFilterError =
@@ -5750,7 +5922,7 @@ export type UpdateFilterError =
  * Specifies the action that is to be applied to the findings that match the filter.
  */
 export const updateFilter: API.OperationMethod<
-  UpdateFilterRequest,
+  UpdateFilterRequest & RegionInput,
   UpdateFilterResponse,
   UpdateFilterError,
   Credentials | HttpClient.HttpClient
@@ -5767,6 +5939,8 @@ export const updateFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateFilter",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -5779,7 +5953,7 @@ export type UpdateOrganizationConfigurationError =
  * Updates the configurations for your Amazon Inspector organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5795,6 +5969,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 export type UpdateOrgEc2DeepInspectionConfigurationError =
@@ -5808,7 +5984,7 @@ export type UpdateOrgEc2DeepInspectionConfigurationError =
  * Amazon Inspector delegated administrator to use this API.
  */
 export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
-  UpdateOrgEc2DeepInspectionConfigurationRequest,
+  UpdateOrgEc2DeepInspectionConfigurationRequest & RegionInput,
   UpdateOrgEc2DeepInspectionConfigurationResponse,
   UpdateOrgEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5824,6 +6000,8 @@ export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrgEc2DeepInspectionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrgEc2DeepInspectionConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

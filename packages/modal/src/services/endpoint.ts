@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "EndpointService",
+  propagate: "w3c",
+} as const;
+
 export type StringList = Array<string>;
 /** google.protobuf.Empty as a nested field. */
 export interface GoogleProtobufEmpty {}
@@ -216,6 +228,8 @@ export const createEndpoint: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type EndpointGetByNameError = ModalOpError;
@@ -230,6 +244,8 @@ export const endpointGetByName: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointGetByName",
 }));
 
 export type EndpointGetInfoError = ModalOpError;
@@ -244,6 +260,8 @@ export const endpointGetInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointGetInfo",
 }));
 
 export type EndpointGetLifecycleError = ModalOpError;
@@ -258,6 +276,8 @@ export const endpointGetLifecycle: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointGetLifecycle",
 }));
 
 export type ListEndpointError = ModalOpError;
@@ -272,6 +292,8 @@ export const listEndpoint: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndpoint",
 }));
 
 export type StopEndpointError = ModalOpError;
@@ -286,6 +308,8 @@ export const stopEndpoint: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

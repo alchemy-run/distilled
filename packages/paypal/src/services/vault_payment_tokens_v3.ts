@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "VaultPaymentTokensV3",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -898,6 +912,8 @@ export const createPaymentToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentToken",
 }));
 
 export type CreateSetupTokenError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -913,6 +929,8 @@ export const createSetupToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupToken",
 }));
 
 export type DeletePaymentTokenError = BadRequest | Forbidden | PaypalOpError;
@@ -928,6 +946,8 @@ export const deletePaymentToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePaymentToken",
 }));
 
 export type GetCustomerPaymentTokenError = BadRequest | Forbidden | PaypalOpError;
@@ -943,6 +963,8 @@ export const getCustomerPaymentToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerPaymentToken",
 }));
 
 export type GetPaymentTokenError = Forbidden | NotFound | UnprocessableEntity | PaypalOpError;
@@ -958,6 +980,8 @@ export const getPaymentToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentToken",
 }));
 
 export type GetSetupTokenError = Forbidden | NotFound | UnprocessableEntity | PaypalOpError;
@@ -973,6 +997,8 @@ export const getSetupToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetupToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

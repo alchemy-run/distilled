@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Teams",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1886,6 +1900,8 @@ export const createTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateTeamDsyncRoleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1901,6 +1917,8 @@ export const createTeamDsyncRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamDsyncRole",
 }));
 
 export type DeleteMicrofrontendsGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1916,6 +1934,8 @@ export const deleteMicrofrontendsGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMicrofrontendsGroup",
 }));
 
 export type DeleteTeamError =
@@ -1937,6 +1957,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTeamInviteCodeError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1952,6 +1974,8 @@ export const deleteTeamInviteCode: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamInviteCode",
 }));
 
 export type GetTeamError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1963,6 +1987,8 @@ export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, Ve
     errors: [BadRequest, Forbidden, NotFound],
     protocol: VercelProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTeam",
   }));
 
 export type GetTeamAccessRequestError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1978,6 +2004,8 @@ export const getTeamAccessRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamAccessRequest",
 }));
 
 export type GetTeamMembersError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1993,6 +2021,8 @@ export const getTeamMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMembers",
 }));
 
 export type GetTeamsError = BadRequest | Forbidden | VercelOpError;
@@ -2008,6 +2038,8 @@ export const getTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeams",
 }));
 
 export type InviteUserToTeamError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2023,6 +2055,8 @@ export const inviteUserToTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteUserToTeam",
 }));
 
 export type JoinTeamError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -2038,6 +2072,8 @@ export const joinTeam: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinTeam",
 }));
 
 export type RemoveTeamMemberError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2053,6 +2089,8 @@ export const removeTeamMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamMember",
 }));
 
 export type RequestAccessToTeamError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2068,6 +2106,8 @@ export const requestAccessToTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestAccessToTeam",
 }));
 
 export type UpdateMicrofrontendsGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2083,6 +2123,8 @@ export const updateMicrofrontendsGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMicrofrontendsGroup",
 }));
 
 export type UpdateTeamError =
@@ -2104,6 +2146,8 @@ export const updateTeam: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTeamMemberError =
@@ -2125,6 +2169,8 @@ export const updateTeamMember: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamMember",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

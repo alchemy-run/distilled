@@ -1,10 +1,12 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -72,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudhsm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudHSM",
+  service: "CloudHSM",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CloudHsmInternalException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()("CloudHsmInternalException", {
@@ -334,7 +351,7 @@ export type AddTagsToResourceError =
  * resource.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -345,6 +362,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type CreateHapgError =
@@ -368,7 +387,7 @@ export type CreateHapgError =
  * group of partitions that spans multiple physical HSMs.
  */
 export const createHapg: API.OperationMethod<
-  CreateHapgRequest,
+  CreateHapgRequest & RegionInput,
   CreateHapgResponse,
   CreateHapgError,
   Credentials | HttpClient.HttpClient
@@ -379,6 +398,8 @@ export const createHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHapg",
+  telemetry: TELEMETRY,
+  span: "CreateHapg",
 }));
 
 export type CreateHsmError =
@@ -410,7 +431,7 @@ export type CreateHsmError =
  * initialized when the status changes to `RUNNING`.
  */
 export const createHsm: API.OperationMethod<
-  CreateHsmRequest,
+  CreateHsmRequest & RegionInput,
   CreateHsmResponse,
   CreateHsmError,
   Credentials | HttpClient.HttpClient
@@ -421,6 +442,8 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
+  telemetry: TELEMETRY,
+  span: "CreateHsm",
 }));
 
 export type CreateLunaClientError =
@@ -443,7 +466,7 @@ export type CreateLunaClientError =
  * Creates an HSM client.
  */
 export const createLunaClient: API.OperationMethod<
-  CreateLunaClientRequest,
+  CreateLunaClientRequest & RegionInput,
   CreateLunaClientResponse,
   CreateLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -454,6 +477,8 @@ export const createLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLunaClient",
+  telemetry: TELEMETRY,
+  span: "CreateLunaClient",
 }));
 
 export type DeleteHapgError =
@@ -476,7 +501,7 @@ export type DeleteHapgError =
  * Deletes a high-availability partition group.
  */
 export const deleteHapg: API.OperationMethod<
-  DeleteHapgRequest,
+  DeleteHapgRequest & RegionInput,
   DeleteHapgResponse,
   DeleteHapgError,
   Credentials | HttpClient.HttpClient
@@ -487,6 +512,8 @@ export const deleteHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHapg",
+  telemetry: TELEMETRY,
+  span: "DeleteHapg",
 }));
 
 export type DeleteHsmError =
@@ -510,7 +537,7 @@ export type DeleteHsmError =
  * cannot be recovered.
  */
 export const deleteHsm: API.OperationMethod<
-  DeleteHsmRequest,
+  DeleteHsmRequest & RegionInput,
   DeleteHsmResponse,
   DeleteHsmError,
   Credentials | HttpClient.HttpClient
@@ -521,6 +548,8 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
+  telemetry: TELEMETRY,
+  span: "DeleteHsm",
 }));
 
 export type DeleteLunaClientError =
@@ -543,7 +572,7 @@ export type DeleteLunaClientError =
  * Deletes a client.
  */
 export const deleteLunaClient: API.OperationMethod<
-  DeleteLunaClientRequest,
+  DeleteLunaClientRequest & RegionInput,
   DeleteLunaClientResponse,
   DeleteLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -554,6 +583,8 @@ export const deleteLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLunaClient",
+  telemetry: TELEMETRY,
+  span: "DeleteLunaClient",
 }));
 
 export type DescribeHapgError =
@@ -576,7 +607,7 @@ export type DescribeHapgError =
  * Retrieves information about a high-availability partition group.
  */
 export const describeHapg: API.OperationMethod<
-  DescribeHapgRequest,
+  DescribeHapgRequest & RegionInput,
   DescribeHapgResponse,
   DescribeHapgError,
   Credentials | HttpClient.HttpClient
@@ -587,6 +618,8 @@ export const describeHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHapg",
+  telemetry: TELEMETRY,
+  span: "DescribeHapg",
 }));
 
 export type DescribeHsmError =
@@ -610,7 +643,7 @@ export type DescribeHsmError =
  * number.
  */
 export const describeHsm: API.OperationMethod<
-  DescribeHsmRequest,
+  DescribeHsmRequest & RegionInput,
   DescribeHsmResponse,
   DescribeHsmError,
   Credentials | HttpClient.HttpClient
@@ -621,6 +654,8 @@ export const describeHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHsm",
+  telemetry: TELEMETRY,
+  span: "DescribeHsm",
 }));
 
 export type DescribeLunaClientError =
@@ -643,7 +678,7 @@ export type DescribeLunaClientError =
  * Retrieves information about an HSM client.
  */
 export const describeLunaClient: API.OperationMethod<
-  DescribeLunaClientRequest,
+  DescribeLunaClientRequest & RegionInput,
   DescribeLunaClientResponse,
   DescribeLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -654,6 +689,8 @@ export const describeLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLunaClient",
+  telemetry: TELEMETRY,
+  span: "DescribeLunaClient",
 }));
 
 export type GetConfigError =
@@ -677,7 +714,7 @@ export type GetConfigError =
  * groups the client is associated with.
  */
 export const getConfig: API.OperationMethod<
-  GetConfigRequest,
+  GetConfigRequest & RegionInput,
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
@@ -688,6 +725,8 @@ export const getConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type ListAvailableZonesError =
@@ -710,7 +749,7 @@ export type ListAvailableZonesError =
  * Lists the Availability Zones that have available AWS CloudHSM capacity.
  */
 export const listAvailableZones: API.OperationMethod<
-  ListAvailableZonesRequest,
+  ListAvailableZonesRequest & RegionInput,
   ListAvailableZonesResponse,
   ListAvailableZonesError,
   Credentials | HttpClient.HttpClient
@@ -721,6 +760,8 @@ export const listAvailableZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableZones",
+  telemetry: TELEMETRY,
+  span: "ListAvailableZones",
 }));
 
 export type ListHapgsError =
@@ -748,7 +789,7 @@ export type ListHapgsError =
  * items.
  */
 export const listHapgs: API.OperationMethod<
-  ListHapgsRequest,
+  ListHapgsRequest & RegionInput,
   ListHapgsResponse,
   ListHapgsError,
   Credentials | HttpClient.HttpClient
@@ -759,6 +800,8 @@ export const listHapgs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHapgs",
+  telemetry: TELEMETRY,
+  span: "ListHapgs",
 }));
 
 export type ListHsmsError =
@@ -787,7 +830,7 @@ export type ListHsmsError =
  * items.
  */
 export const listHsms: API.OperationMethod<
-  ListHsmsRequest,
+  ListHsmsRequest & RegionInput,
   ListHsmsResponse,
   ListHsmsError,
   Credentials | HttpClient.HttpClient
@@ -798,6 +841,8 @@ export const listHsms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHsms",
+  telemetry: TELEMETRY,
+  span: "ListHsms",
 }));
 
 export type ListLunaClientsError =
@@ -825,7 +870,7 @@ export type ListLunaClientsError =
  * of items.
  */
 export const listLunaClients: API.OperationMethod<
-  ListLunaClientsRequest,
+  ListLunaClientsRequest & RegionInput,
   ListLunaClientsResponse,
   ListLunaClientsError,
   Credentials | HttpClient.HttpClient
@@ -836,6 +881,8 @@ export const listLunaClients: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLunaClients",
+  telemetry: TELEMETRY,
+  span: "ListLunaClients",
 }));
 
 export type ListTagsForResourceError =
@@ -858,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags for the specified AWS CloudHSM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -869,6 +916,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyHapgError =
@@ -891,7 +940,7 @@ export type ModifyHapgError =
  * Modifies an existing high-availability partition group.
  */
 export const modifyHapg: API.OperationMethod<
-  ModifyHapgRequest,
+  ModifyHapgRequest & RegionInput,
   ModifyHapgResponse,
   ModifyHapgError,
   Credentials | HttpClient.HttpClient
@@ -902,6 +951,8 @@ export const modifyHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHapg",
+  telemetry: TELEMETRY,
+  span: "ModifyHapg",
 }));
 
 export type ModifyHsmError =
@@ -929,7 +980,7 @@ export type ModifyHsmError =
  * operation during a maintenance window.
  */
 export const modifyHsm: API.OperationMethod<
-  ModifyHsmRequest,
+  ModifyHsmRequest & RegionInput,
   ModifyHsmResponse,
   ModifyHsmError,
   Credentials | HttpClient.HttpClient
@@ -940,6 +991,8 @@ export const modifyHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHsm",
+  telemetry: TELEMETRY,
+  span: "ModifyHsm",
 }));
 
 export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
@@ -961,7 +1014,7 @@ export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
  * client's HSMs.
  */
 export const modifyLunaClient: API.OperationMethod<
-  ModifyLunaClientRequest,
+  ModifyLunaClientRequest & RegionInput,
   ModifyLunaClientResponse,
   ModifyLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -972,6 +1025,8 @@ export const modifyLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLunaClient",
+  telemetry: TELEMETRY,
+  span: "ModifyLunaClient",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -997,7 +1052,7 @@ export type RemoveTagsFromResourceError =
  * value for an existing tag, use AddTagsToResource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -1008,6 +1063,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

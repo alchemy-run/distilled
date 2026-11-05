@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "TaskCommandRouterService",
+  propagate: "w3c",
+} as const;
+
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export interface VolumeMount {
@@ -342,6 +354,8 @@ export const createTaskContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskContainer",
 }));
 
 export type GetTaskContainerError = ModalOpError;
@@ -357,6 +371,8 @@ export const getTaskContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskContainer",
 }));
 
 export type ListTaskContainerError = ModalOpError;
@@ -372,6 +388,8 @@ export const listTaskContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskContainer",
 }));
 
 export type SandboxStdinWriteV2Error = ModalOpError;
@@ -386,6 +404,8 @@ export const sandboxStdinWriteV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxStdinWriteV2",
 }));
 
 export type SandboxWaitUntilReadyError = ModalOpError;
@@ -400,6 +420,8 @@ export const sandboxWaitUntilReady: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxWaitUntilReady",
 }));
 
 export type TaskExecPollError = ModalOpError;
@@ -415,6 +437,8 @@ export const taskExecPoll: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecPoll",
 }));
 
 export type TaskExecStartError = ModalOpError;
@@ -430,6 +454,8 @@ export const taskExecStart: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecStart",
 }));
 
 export type TaskExecStdinStatusError = ModalOpError;
@@ -445,6 +471,8 @@ export const taskExecStdinStatus: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecStdinStatus",
 }));
 
 export type TaskExecStdinWriteError = ModalOpError;
@@ -460,6 +488,8 @@ export const taskExecStdinWrite: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecStdinWrite",
 }));
 
 export type TaskExecWaitError = ModalOpError;
@@ -475,6 +505,8 @@ export const taskExecWait: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecWait",
 }));
 
 export type TaskMountDirectoryError = ModalOpError;
@@ -490,6 +522,8 @@ export const taskMountDirectory: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskMountDirectory",
 }));
 
 export type TaskReloadVolumesError = ModalOpError;
@@ -505,6 +539,8 @@ export const taskReloadVolumes: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskReloadVolumes",
 }));
 
 export type TaskSetNetworkAccessError = ModalOpError;
@@ -520,6 +556,8 @@ export const taskSetNetworkAccess: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskSetNetworkAccess",
 }));
 
 export type TaskSetOutboundPolicyError = ModalOpError;
@@ -535,6 +573,8 @@ export const taskSetOutboundPolicy: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskSetOutboundPolicy",
 }));
 
 export type TaskSnapshotDirectoryError = ModalOpError;
@@ -550,6 +590,8 @@ export const taskSnapshotDirectory: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskSnapshotDirectory",
 }));
 
 export type TaskSnapshotFilesystemError = ModalOpError;
@@ -565,6 +607,8 @@ export const taskSnapshotFilesystem: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskSnapshotFilesystem",
 }));
 
 export type TaskSnapshotMemoryError = ModalOpError;
@@ -580,6 +624,8 @@ export const taskSnapshotMemory: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskSnapshotMemory",
 }));
 
 export type TaskUnmountDirectoryError = ModalOpError;
@@ -595,6 +641,8 @@ export const taskUnmountDirectory: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskUnmountDirectory",
 }));
 
 export type TerminateTaskContainerError = ModalOpError;
@@ -610,6 +658,8 @@ export const terminateTaskContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateTaskContainer",
 }));
 
 export type WaitTaskContainerError = ModalOpError;
@@ -625,6 +675,8 @@ export const waitTaskContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitTaskContainer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

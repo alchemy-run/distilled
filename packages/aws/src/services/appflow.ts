@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appflow.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Appflow",
+  service: "Appflow",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1782,7 +1798,7 @@ export type CancelFlowExecutionsError =
  * charges for Amazon AppFlow apply. For the pricing information, see Amazon AppFlow pricing.
  */
 export const cancelFlowExecutions: API.OperationMethod<
-  CancelFlowExecutionsRequest,
+  CancelFlowExecutionsRequest & RegionInput,
   CancelFlowExecutionsResponse,
   CancelFlowExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1799,6 +1815,8 @@ export const cancelFlowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelFlowExecutions",
+  telemetry: TELEMETRY,
+  span: "CancelFlowExecutions",
 }));
 
 export type CreateConnectorProfileError =
@@ -1817,7 +1835,7 @@ export type CreateConnectorProfileError =
  * create, you can provide the credentials and properties for only one connector.
  */
 export const createConnectorProfile: API.OperationMethod<
-  CreateConnectorProfileRequest,
+  CreateConnectorProfileRequest & RegionInput,
   CreateConnectorProfileResponse,
   CreateConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -1835,6 +1853,8 @@ export const createConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorProfile",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorProfile",
 }));
 
 export type CreateFlowError =
@@ -1855,7 +1875,7 @@ export type CreateFlowError =
  * once.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -1875,6 +1895,8 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type DeleteConnectorProfileError =
@@ -1886,7 +1908,7 @@ export type DeleteConnectorProfileError =
  * Enables you to delete an existing connector profile.
  */
 export const deleteConnectorProfile: API.OperationMethod<
-  DeleteConnectorProfileRequest,
+  DeleteConnectorProfileRequest & RegionInput,
   DeleteConnectorProfileResponse,
   DeleteConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -1897,6 +1919,8 @@ export const deleteConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorProfile",
 }));
 
 export type DeleteFlowError =
@@ -1909,7 +1933,7 @@ export type DeleteFlowError =
  * delete flows one at a time.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -1920,6 +1944,8 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DescribeConnectorError =
@@ -1933,7 +1959,7 @@ export type DescribeConnectorError =
  * authored connectors.
  */
 export const describeConnector: API.OperationMethod<
-  DescribeConnectorRequest,
+  DescribeConnectorRequest & RegionInput,
   DescribeConnectorResponse,
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1944,6 +1970,8 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeConnector",
 }));
 
 export type DescribeConnectorEntityError =
@@ -1958,7 +1986,7 @@ export type DescribeConnectorEntityError =
  * data model for each field in that entity.
  */
 export const describeConnectorEntity: API.OperationMethod<
-  DescribeConnectorEntityRequest,
+  DescribeConnectorEntityRequest & RegionInput,
   DescribeConnectorEntityResponse,
   DescribeConnectorEntityError,
   Credentials | HttpClient.HttpClient
@@ -1975,6 +2003,8 @@ export const describeConnectorEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorEntity",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectorEntity",
 }));
 
 export type DescribeConnectorProfilesError =
@@ -1990,7 +2020,7 @@ export type DescribeConnectorProfilesError =
  * in a paginated form. If there is no match, this operation returns an empty list.
  */
 export const describeConnectorProfiles: API.PaginatedOperationMethod<
-  DescribeConnectorProfilesRequest,
+  DescribeConnectorProfilesRequest & RegionInput,
   DescribeConnectorProfilesResponse,
   DescribeConnectorProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -2007,6 +2037,8 @@ export const describeConnectorProfiles: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConnectorProfiles",
 })) as any;
 
 export type DescribeConnectorsError = InternalServerException | ValidationException | CommonErrors;
@@ -2017,7 +2049,7 @@ export type DescribeConnectorsError = InternalServerException | ValidationExcept
  * `DescribeConnectors` API operation to retrieve the next page.
  */
 export const describeConnectors: API.PaginatedOperationMethod<
-  DescribeConnectorsRequest,
+  DescribeConnectorsRequest & RegionInput,
   DescribeConnectorsResponse,
   DescribeConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2034,6 +2066,8 @@ export const describeConnectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConnectors",
 })) as any;
 
 export type DescribeFlowError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -2041,7 +2075,7 @@ export type DescribeFlowError = InternalServerException | ResourceNotFoundExcept
  * Provides a description of the specified flow.
  */
 export const describeFlow: API.OperationMethod<
-  DescribeFlowRequest,
+  DescribeFlowRequest & RegionInput,
   DescribeFlowResponse,
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
@@ -2052,6 +2086,8 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeFlow",
 }));
 
 export type DescribeFlowExecutionRecordsError =
@@ -2063,7 +2099,7 @@ export type DescribeFlowExecutionRecordsError =
  * Fetches the execution history of the flow.
  */
 export const describeFlowExecutionRecords: API.PaginatedOperationMethod<
-  DescribeFlowExecutionRecordsRequest,
+  DescribeFlowExecutionRecordsRequest & RegionInput,
   DescribeFlowExecutionRecordsResponse,
   DescribeFlowExecutionRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -2080,6 +2116,8 @@ export const describeFlowExecutionRecords: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFlowExecutionRecords",
 })) as any;
 
 export type ListConnectorEntitiesError =
@@ -2096,7 +2134,7 @@ export type ListConnectorEntitiesError =
  * *Incident* entity.
  */
 export const listConnectorEntities: API.OperationMethod<
-  ListConnectorEntitiesRequest,
+  ListConnectorEntitiesRequest & RegionInput,
   ListConnectorEntitiesResponse,
   ListConnectorEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2113,6 +2151,8 @@ export const listConnectorEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorEntities",
+  telemetry: TELEMETRY,
+  span: "ListConnectorEntities",
 }));
 
 export type ListConnectorsError = InternalServerException | ValidationException | CommonErrors;
@@ -2122,7 +2162,7 @@ export type ListConnectorsError = InternalServerException | ValidationException 
  * authored connectors.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2139,6 +2179,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListFlowsError = InternalServerException | ValidationException | CommonErrors;
@@ -2146,7 +2188,7 @@ export type ListFlowsError = InternalServerException | ValidationException | Com
  * Lists all of the flows associated with your account.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsRequest,
+  ListFlowsRequest & RegionInput,
   ListFlowsResponse,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -2163,6 +2205,8 @@ export const listFlows: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2174,7 +2218,7 @@ export type ListTagsForResourceError =
  * Retrieves the tags that are associated with a specified flow.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2185,6 +2229,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterConnectorError =
@@ -2204,7 +2250,7 @@ export type RegisterConnectorError =
  * account.
  */
 export const registerConnector: API.OperationMethod<
-  RegisterConnectorRequest,
+  RegisterConnectorRequest & RegionInput,
   RegisterConnectorResponse,
   RegisterConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2225,6 +2271,8 @@ export const registerConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterConnector",
+  telemetry: TELEMETRY,
+  span: "RegisterConnector",
 }));
 
 export type ResetConnectorMetadataCacheError =
@@ -2244,7 +2292,7 @@ export type ResetConnectorMetadataCacheError =
  * but you can use this action when you want to get the latest metadata right away.
  */
 export const resetConnectorMetadataCache: API.OperationMethod<
-  ResetConnectorMetadataCacheRequest,
+  ResetConnectorMetadataCacheRequest & RegionInput,
   ResetConnectorMetadataCacheResponse,
   ResetConnectorMetadataCacheError,
   Credentials | HttpClient.HttpClient
@@ -2260,6 +2308,8 @@ export const resetConnectorMetadataCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetConnectorMetadataCache",
+  telemetry: TELEMETRY,
+  span: "ResetConnectorMetadataCache",
 }));
 
 export type StartFlowError =
@@ -2273,7 +2323,7 @@ export type StartFlowError =
  * immediately. For schedule and event-triggered flows, this operation activates the flow.
  */
 export const startFlow: API.OperationMethod<
-  StartFlowRequest,
+  StartFlowRequest & RegionInput,
   StartFlowResponse,
   StartFlowError,
   Credentials | HttpClient.HttpClient
@@ -2289,6 +2339,8 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
+  telemetry: TELEMETRY,
+  span: "StartFlow",
 }));
 
 export type StopFlowError =
@@ -2303,7 +2355,7 @@ export type StopFlowError =
  * flows, this operation deactivates the flow.
  */
 export const stopFlow: API.OperationMethod<
-  StopFlowRequest,
+  StopFlowRequest & RegionInput,
   StopFlowResponse,
   StopFlowError,
   Credentials | HttpClient.HttpClient
@@ -2319,6 +2371,8 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
+  telemetry: TELEMETRY,
+  span: "StopFlow",
 }));
 
 export type TagResourceError =
@@ -2330,7 +2384,7 @@ export type TagResourceError =
  * Applies a tag to the specified flow.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2341,6 +2395,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnregisterConnectorError =
@@ -2353,7 +2409,7 @@ export type UnregisterConnectorError =
  * label provided in the request.
  */
 export const unregisterConnector: API.OperationMethod<
-  UnregisterConnectorRequest,
+  UnregisterConnectorRequest & RegionInput,
   UnregisterConnectorResponse,
   UnregisterConnectorError,
   Credentials | HttpClient.HttpClient
@@ -2364,6 +2420,8 @@ export const unregisterConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnregisterConnector",
+  telemetry: TELEMETRY,
+  span: "UnregisterConnector",
 }));
 
 export type UntagResourceError =
@@ -2375,7 +2433,7 @@ export type UntagResourceError =
  * Removes a tag from the specified flow.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2386,6 +2444,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectorProfileError =
@@ -2400,7 +2460,7 @@ export type UpdateConnectorProfileError =
  * Updates a given connector profile associated with your account.
  */
 export const updateConnectorProfile: API.OperationMethod<
-  UpdateConnectorProfileRequest,
+  UpdateConnectorProfileRequest & RegionInput,
   UpdateConnectorProfileResponse,
   UpdateConnectorProfileError,
   Credentials | HttpClient.HttpClient
@@ -2418,6 +2478,8 @@ export const updateConnectorProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorProfile",
 }));
 
 export type UpdateConnectorRegistrationError =
@@ -2440,7 +2502,7 @@ export type UpdateConnectorRegistrationError =
  * - A new AWS Lambda function that you specify
  */
 export const updateConnectorRegistration: API.OperationMethod<
-  UpdateConnectorRegistrationRequest,
+  UpdateConnectorRegistrationRequest & RegionInput,
   UpdateConnectorRegistrationResponse,
   UpdateConnectorRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -2461,6 +2523,8 @@ export const updateConnectorRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorRegistration",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorRegistration",
 }));
 
 export type UpdateFlowError =
@@ -2477,7 +2541,7 @@ export type UpdateFlowError =
  * Updates an existing flow.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
@@ -2497,6 +2561,8 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

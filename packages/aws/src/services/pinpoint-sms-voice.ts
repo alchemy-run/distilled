@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sms-voice.pinpoint.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PinpointSMSVoice",
+  service: "PinpointSMSVoice",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -231,7 +247,7 @@ export type CreateConfigurationSetError =
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
 export const createConfigurationSet: API.OperationMethod<
-  CreateConfigurationSetRequest,
+  CreateConfigurationSetRequest & RegionInput,
   CreateConfigurationSetResponse,
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -248,6 +264,8 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSet",
 }));
 
 export type CreateConfigurationSetEventDestinationError =
@@ -262,7 +280,7 @@ export type CreateConfigurationSetEventDestinationError =
  * Create a new event destination in a configuration set.
  */
 export const createConfigurationSetEventDestination: API.OperationMethod<
-  CreateConfigurationSetEventDestinationRequest,
+  CreateConfigurationSetEventDestinationRequest & RegionInput,
   CreateConfigurationSetEventDestinationResponse,
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -280,6 +298,8 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetEventDestination",
 }));
 
 export type DeleteConfigurationSetError =
@@ -292,7 +312,7 @@ export type DeleteConfigurationSetError =
  * Deletes an existing configuration set.
  */
 export const deleteConfigurationSet: API.OperationMethod<
-  DeleteConfigurationSetRequest,
+  DeleteConfigurationSetRequest & RegionInput,
   DeleteConfigurationSetResponse,
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
@@ -308,6 +328,8 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSet",
 }));
 
 export type DeleteConfigurationSetEventDestinationError =
@@ -320,7 +342,7 @@ export type DeleteConfigurationSetEventDestinationError =
  * Deletes an event destination in a configuration set.
  */
 export const deleteConfigurationSetEventDestination: API.OperationMethod<
-  DeleteConfigurationSetEventDestinationRequest,
+  DeleteConfigurationSetEventDestinationRequest & RegionInput,
   DeleteConfigurationSetEventDestinationResponse,
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -336,6 +358,8 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetEventDestination",
 }));
 
 export type GetConfigurationSetEventDestinationsError =
@@ -348,7 +372,7 @@ export type GetConfigurationSetEventDestinationsError =
  * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
 export const getConfigurationSetEventDestinations: API.OperationMethod<
-  GetConfigurationSetEventDestinationsRequest,
+  GetConfigurationSetEventDestinationsRequest & RegionInput,
   GetConfigurationSetEventDestinationsResponse,
   GetConfigurationSetEventDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -364,6 +388,8 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSetEventDestinations",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationSetEventDestinations",
 }));
 
 export type ListConfigurationSetsError =
@@ -375,7 +401,7 @@ export type ListConfigurationSetsError =
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
 export const listConfigurationSets: API.OperationMethod<
-  ListConfigurationSetsRequest,
+  ListConfigurationSetsRequest & RegionInput,
   ListConfigurationSetsResponse,
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
@@ -386,6 +412,8 @@ export const listConfigurationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationSets",
 }));
 
 export type SendVoiceMessageError =
@@ -397,7 +425,7 @@ export type SendVoiceMessageError =
  * Create a new voice message and send it to a recipient's phone number.
  */
 export const sendVoiceMessage: API.OperationMethod<
-  SendVoiceMessageRequest,
+  SendVoiceMessageRequest & RegionInput,
   SendVoiceMessageResponse,
   SendVoiceMessageError,
   Credentials | HttpClient.HttpClient
@@ -408,6 +436,8 @@ export const sendVoiceMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendVoiceMessage",
+  telemetry: TELEMETRY,
+  span: "SendVoiceMessage",
 }));
 
 export type UpdateConfigurationSetEventDestinationError =
@@ -420,7 +450,7 @@ export type UpdateConfigurationSetEventDestinationError =
  * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
  */
 export const updateConfigurationSetEventDestination: API.OperationMethod<
-  UpdateConfigurationSetEventDestinationRequest,
+  UpdateConfigurationSetEventDestinationRequest & RegionInput,
   UpdateConfigurationSetEventDestinationResponse,
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
@@ -436,6 +466,8 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetEventDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

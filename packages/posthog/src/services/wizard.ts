@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Wizard",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -475,6 +488,8 @@ export const createWizardRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWizardRun",
 }));
 
 export type CreateWizardSessionError = Forbidden | PosthogOpError;
@@ -490,6 +505,8 @@ export const createWizardSession: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWizardSession",
 }));
 
 export type GetWizardRunError = NotFound | PosthogOpError;
@@ -505,6 +522,8 @@ export const getWizardRun: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardRun",
 }));
 
 export type GetWizardRunsArtifactsContentError = NotFound | PosthogOpError;
@@ -520,6 +539,8 @@ export const getWizardRunsArtifactsContent: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardRunsArtifactsContent",
 }));
 
 export type GetWizardRunsStreamError = PosthogOpError;
@@ -535,6 +556,8 @@ export const getWizardRunsStream: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardRunsStream",
 }));
 
 export type GetWizardRunsTaskError = PosthogOpError;
@@ -550,6 +573,8 @@ export const getWizardRunsTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardRunsTask",
 }));
 
 export type GetWizardSessionError = NotFound | PosthogOpError;
@@ -565,6 +590,8 @@ export const getWizardSession: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardSession",
 }));
 
 export type GetWizardSessionsLatestError = PosthogOpError;
@@ -580,6 +607,8 @@ export const getWizardSessionsLatest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardSessionsLatest",
 }));
 
 export type GetWizardSessionsStreamError = PosthogOpError;
@@ -595,6 +624,8 @@ export const getWizardSessionsStream: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWizardSessionsStream",
 }));
 
 export type ListWizardRegistryError = PosthogOpError;
@@ -610,6 +641,8 @@ export const listWizardRegistry: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWizardRegistry",
 }));
 
 export type ListWizardRunsError = PosthogOpError;
@@ -625,6 +658,8 @@ export const listWizardRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWizardRuns",
 }));
 
 export type ListWizardRunsArtifactsError = NotFound | PosthogOpError;
@@ -640,6 +675,8 @@ export const listWizardRunsArtifacts: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWizardRunsArtifacts",
 }));
 
 export type ListWizardSessionsError = PosthogOpError;
@@ -655,6 +692,8 @@ export const listWizardSessions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWizardSessions",
 }));
 
 export type UpdateWizardRunsPartialError =
@@ -675,6 +714,8 @@ export const updateWizardRunsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWizardRunsPartial",
 }));
 
 export type UpdateWizardRunsTaskError = PosthogOpError;
@@ -690,6 +731,8 @@ export const updateWizardRunsTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWizardRunsTask",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WarehouseTables",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1667,6 +1680,8 @@ export const createWarehouseTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseTable",
 }));
 
 export type CreateWarehouseTablesFileError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1682,6 +1697,8 @@ export const createWarehouseTablesFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseTablesFile",
 }));
 
 export type GetWarehouseTableError = Forbidden | NotFound | PosthogOpError;
@@ -1697,6 +1714,8 @@ export const getWarehouseTable: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseTable",
 }));
 
 export type ListWarehouseTablesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1712,6 +1731,8 @@ export const listWarehouseTables: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWarehouseTables",
 }));
 
 export type UpdateWarehouseTableError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1727,6 +1748,8 @@ export const updateWarehouseTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseTable",
 }));
 
 export type UpdateWarehouseTablesPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1742,6 +1765,8 @@ export const updateWarehouseTablesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseTablesPartial",
 }));
 
 export type WarehouseTablesCreateFromUploadCreateError = PosthogOpError;
@@ -1757,6 +1782,8 @@ export const warehouseTablesCreateFromUploadCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesCreateFromUploadCreate",
 }));
 
 export type WarehouseTablesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1772,6 +1799,8 @@ export const warehouseTablesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesDestroy",
 }));
 
 export type WarehouseTablesRefreshSchemaCreateError =
@@ -1791,6 +1820,8 @@ export const warehouseTablesRefreshSchemaCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesRefreshSchemaCreate",
 }));
 
 export type WarehouseTablesUpdateSchemaCreateError =
@@ -1810,6 +1841,8 @@ export const warehouseTablesUpdateSchemaCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesUpdateSchemaCreate",
 }));
 
 export type WarehouseTablesUploadFileCreateError = PosthogOpError;
@@ -1825,6 +1858,8 @@ export const warehouseTablesUploadFileCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesUploadFileCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

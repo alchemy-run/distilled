@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { MeilisearchOpError, MeilisearchOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "meilisearch-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Meilisearch",
+  service: "Meilisearch",
+  labels: "meilisearch",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4037,6 +4050,8 @@ export const cancelLogs: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelLogs",
 }));
 
 export type CancelTasksError = BadRequest | MeilisearchOpError;
@@ -4052,6 +4067,8 @@ export const cancelTasks: API.OperationMethod<
   errors: [BadRequest, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTasks",
 }));
 
 export type ChatError = NotFound | MeilisearchOpError;
@@ -4067,6 +4084,8 @@ export const chat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Chat",
 }));
 
 export type ClearAllDocumentsError = NotFound | MeilisearchOpError;
@@ -4082,6 +4101,8 @@ export const clearAllDocuments: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearAllDocuments",
 }));
 
 export type ClearRulesError = MeilisearchOpError;
@@ -4097,6 +4118,8 @@ export const clearRules: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearRules",
 }));
 
 export type CompactError = NotFound | MeilisearchOpError;
@@ -4112,6 +4135,8 @@ export const compact: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Compact",
 }));
 
 export type CompactTaskQueueError = MeilisearchOpError;
@@ -4127,6 +4152,8 @@ export const compactTaskQueue: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompactTaskQueue",
 }));
 
 export type CreateApiKeyError = MeilisearchOpError;
@@ -4142,6 +4169,8 @@ export const createApiKey: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateDumpError = MeilisearchOpError;
@@ -4157,6 +4186,8 @@ export const createDump: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDump",
 }));
 
 export type CreateIndexError = MeilisearchOpError;
@@ -4172,6 +4203,8 @@ export const createIndex: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateIndexFieldError = NotFound | MeilisearchOpError;
@@ -4187,6 +4220,8 @@ export const createIndexField: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndexField",
 }));
 
 export type CreateSnapshotError = MeilisearchOpError;
@@ -4202,6 +4237,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateWebhookError = BadRequest | MeilisearchOpError;
@@ -4217,6 +4254,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteAllError = NotFound | MeilisearchOpError;
@@ -4232,6 +4271,8 @@ export const deleteAll: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAll",
 }));
 
 export type DeleteApiKeyError = NotFound | MeilisearchOpError;
@@ -4247,6 +4288,8 @@ export const deleteApiKey: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeletechatError = NotFound | MeilisearchOpError;
@@ -4262,6 +4305,8 @@ export const deletechat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletechat",
 }));
 
 export type DeleteChatError = NotFound | MeilisearchOpError;
@@ -4277,6 +4322,8 @@ export const deleteChat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChat",
 }));
 
 export type DeletedictionaryError = NotFound | MeilisearchOpError;
@@ -4292,6 +4339,8 @@ export const deletedictionary: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletedictionary",
 }));
 
 export type DeletedisplayedAttributesError = NotFound | MeilisearchOpError;
@@ -4307,6 +4356,8 @@ export const deletedisplayedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletedisplayedAttributes",
 }));
 
 export type DeletedistinctAttributeError = NotFound | MeilisearchOpError;
@@ -4322,6 +4373,8 @@ export const deletedistinctAttribute: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletedistinctAttribute",
 }));
 
 export type DeleteDocumentError = NotFound | MeilisearchOpError;
@@ -4337,6 +4390,8 @@ export const deleteDocument: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteDocumentsBatchError = NotFound | MeilisearchOpError;
@@ -4352,6 +4407,8 @@ export const deleteDocumentsBatch: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentsBatch",
 }));
 
 export type DeleteDocumentsByFilterError = NotFound | MeilisearchOpError;
@@ -4367,6 +4424,8 @@ export const deleteDocumentsByFilter: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentsByFilter",
 }));
 
 export type DeleteembeddersError = NotFound | MeilisearchOpError;
@@ -4382,6 +4441,8 @@ export const deleteembedders: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deleteembedders",
 }));
 
 export type DeletefacetingError = NotFound | MeilisearchOpError;
@@ -4397,6 +4458,8 @@ export const deletefaceting: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletefaceting",
 }));
 
 export type DeletefilterableAttributesError = NotFound | MeilisearchOpError;
@@ -4412,6 +4475,8 @@ export const deletefilterableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletefilterableAttributes",
 }));
 
 export type DeleteforeignKeysError = NotFound | MeilisearchOpError;
@@ -4427,6 +4492,8 @@ export const deleteforeignKeys: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteforeignKeys",
 }));
 
 export type DeleteIndexError = NotFound | MeilisearchOpError;
@@ -4442,6 +4509,8 @@ export const deleteIndex: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeletelocalizedAttributesError = NotFound | MeilisearchOpError;
@@ -4457,6 +4526,8 @@ export const deletelocalizedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletelocalizedAttributes",
 }));
 
 export type DeletenonSeparatorTokensError = NotFound | MeilisearchOpError;
@@ -4472,6 +4543,8 @@ export const deletenonSeparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletenonSeparatorTokens",
 }));
 
 export type DeletepaginationError = NotFound | MeilisearchOpError;
@@ -4487,6 +4560,8 @@ export const deletepagination: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletepagination",
 }));
 
 export type DeleteproximityPrecisionError = NotFound | MeilisearchOpError;
@@ -4502,6 +4577,8 @@ export const deleteproximityPrecision: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteproximityPrecision",
 }));
 
 export type DeleterankingRulesError = NotFound | MeilisearchOpError;
@@ -4517,6 +4594,8 @@ export const deleterankingRules: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleterankingRules",
 }));
 
 export type DeleteRuleError = MeilisearchOpError;
@@ -4532,6 +4611,8 @@ export const deleteRule: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeletesearchableAttributesError = NotFound | MeilisearchOpError;
@@ -4547,6 +4628,8 @@ export const deletesearchableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletesearchableAttributes",
 }));
 
 export type DeletesearchCutoffMsError = NotFound | MeilisearchOpError;
@@ -4562,6 +4645,8 @@ export const deletesearchCutoffMs: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletesearchCutoffMs",
 }));
 
 export type DeleteseparatorTokensError = NotFound | MeilisearchOpError;
@@ -4577,6 +4662,8 @@ export const deleteseparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteseparatorTokens",
 }));
 
 export type DeletesortableAttributesError = NotFound | MeilisearchOpError;
@@ -4592,6 +4679,8 @@ export const deletesortableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletesortableAttributes",
 }));
 
 export type DeletestopWordsError = NotFound | MeilisearchOpError;
@@ -4607,6 +4696,8 @@ export const deletestopWords: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletestopWords",
 }));
 
 export type DeletesynonymsError = NotFound | MeilisearchOpError;
@@ -4622,6 +4713,8 @@ export const deletesynonyms: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletesynonyms",
 }));
 
 export type DeleteTasksError = BadRequest | NotFound | MeilisearchOpError;
@@ -4637,6 +4730,8 @@ export const deleteTasks: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTasks",
 }));
 
 export type DeletetypoToleranceError = NotFound | MeilisearchOpError;
@@ -4652,6 +4747,8 @@ export const deletetypoTolerance: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletetypoTolerance",
 }));
 
 export type DeleteWebhookError = NotFound | MeilisearchOpError;
@@ -4667,6 +4764,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type EditDocumentsByFunctionError = NotFound | MeilisearchOpError;
@@ -4682,6 +4781,8 @@ export const editDocumentsByFunction: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDocumentsByFunction",
 }));
 
 export type ExportError = MeilisearchOpError;
@@ -4697,6 +4798,8 @@ export const Export: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Export",
 }));
 
 export type GetAllError = NotFound | MeilisearchOpError;
@@ -4712,6 +4815,8 @@ export const getAll: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAll",
 }));
 
 export type GetApiKeyError = NotFound | MeilisearchOpError;
@@ -4727,6 +4832,8 @@ export const getApiKey: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKey",
 }));
 
 export type GetBatchError = NotFound | MeilisearchOpError;
@@ -4742,6 +4849,8 @@ export const getBatch: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatch",
 }));
 
 export type GetBatchesError = MeilisearchOpError;
@@ -4757,6 +4866,8 @@ export const getBatches: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatches",
 }));
 
 export type GetBatchesStreamError = MeilisearchOpError;
@@ -4772,6 +4883,8 @@ export const getBatchesStream: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchesStream",
 }));
 
 export type GetchatError = NotFound | MeilisearchOpError;
@@ -4787,6 +4900,8 @@ export const getchat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getchat",
 }));
 
 export type GetChatError = NotFound | MeilisearchOpError;
@@ -4802,6 +4917,8 @@ export const getChat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChat",
 }));
 
 export type GetdictionaryError = NotFound | MeilisearchOpError;
@@ -4817,6 +4934,8 @@ export const getdictionary: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getdictionary",
 }));
 
 export type GetdisplayedAttributesError = NotFound | MeilisearchOpError;
@@ -4832,6 +4951,8 @@ export const getdisplayedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetdisplayedAttributes",
 }));
 
 export type GetdistinctAttributeError = NotFound | MeilisearchOpError;
@@ -4847,6 +4968,8 @@ export const getdistinctAttribute: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetdistinctAttribute",
 }));
 
 export type GetDocumentError = NotFound | MeilisearchOpError;
@@ -4862,6 +4985,8 @@ export const getDocument: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetDocumentsError = NotFound | MeilisearchOpError;
@@ -4877,6 +5002,8 @@ export const getDocuments: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocuments",
 }));
 
 export type GetembeddersError = NotFound | MeilisearchOpError;
@@ -4892,6 +5019,8 @@ export const getembedders: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getembedders",
 }));
 
 export type GetfacetingError = NotFound | MeilisearchOpError;
@@ -4907,6 +5036,8 @@ export const getfaceting: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getfaceting",
 }));
 
 export type GetFeaturesError = MeilisearchOpError;
@@ -4922,6 +5053,8 @@ export const getFeatures: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatures",
 }));
 
 export type GetfilterableAttributesError = NotFound | MeilisearchOpError;
@@ -4937,6 +5070,8 @@ export const getfilterableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetfilterableAttributes",
 }));
 
 export type GetforeignKeysError = NotFound | MeilisearchOpError;
@@ -4952,6 +5087,8 @@ export const getforeignKeys: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetforeignKeys",
 }));
 
 export type GetHealthError = MeilisearchOpError;
@@ -4967,6 +5104,8 @@ export const getHealth: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealth",
 }));
 
 export type GetIndexError = NotFound | MeilisearchOpError;
@@ -4982,6 +5121,8 @@ export const getIndex: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetIndexStatsError = NotFound | MeilisearchOpError;
@@ -4997,6 +5138,8 @@ export const getIndexStats: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndexStats",
 }));
 
 export type GetlocalizedAttributesError = NotFound | MeilisearchOpError;
@@ -5012,6 +5155,8 @@ export const getlocalizedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetlocalizedAttributes",
 }));
 
 export type GetLogsError = BadRequest | MeilisearchOpError;
@@ -5027,6 +5172,8 @@ export const getLogs: API.OperationMethod<
   errors: [BadRequest, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogs",
 }));
 
 export type GetMetricsError = MeilisearchOpError;
@@ -5042,6 +5189,8 @@ export const getMetrics: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type GetNetworkError = MeilisearchOpError;
@@ -5057,6 +5206,8 @@ export const getNetwork: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetnonSeparatorTokensError = NotFound | MeilisearchOpError;
@@ -5072,6 +5223,8 @@ export const getnonSeparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetnonSeparatorTokens",
 }));
 
 export type GetpaginationError = NotFound | MeilisearchOpError;
@@ -5087,6 +5240,8 @@ export const getpagination: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getpagination",
 }));
 
 export type GetproximityPrecisionError = NotFound | MeilisearchOpError;
@@ -5102,6 +5257,8 @@ export const getproximityPrecision: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetproximityPrecision",
 }));
 
 export type GetrankingRulesError = NotFound | MeilisearchOpError;
@@ -5117,6 +5274,8 @@ export const getrankingRules: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetrankingRules",
 }));
 
 export type GetRuleError = NotFound | MeilisearchOpError;
@@ -5132,6 +5291,8 @@ export const getRule: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetsearchableAttributesError = NotFound | MeilisearchOpError;
@@ -5147,6 +5308,8 @@ export const getsearchableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetsearchableAttributes",
 }));
 
 export type GetsearchCutoffMsError = NotFound | MeilisearchOpError;
@@ -5162,6 +5325,8 @@ export const getsearchCutoffMs: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetsearchCutoffMs",
 }));
 
 export type GetseparatorTokensError = NotFound | MeilisearchOpError;
@@ -5177,6 +5342,8 @@ export const getseparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetseparatorTokens",
 }));
 
 export type GetSettingsError = NotFound | MeilisearchOpError;
@@ -5192,6 +5359,8 @@ export const getSettings: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type GetSimilarError = NotFound | MeilisearchOpError;
@@ -5207,6 +5376,8 @@ export const getSimilar: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSimilar",
 }));
 
 export type GetsortableAttributesError = NotFound | MeilisearchOpError;
@@ -5222,6 +5393,8 @@ export const getsortableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetsortableAttributes",
 }));
 
 export type GetStatsError = MeilisearchOpError;
@@ -5237,6 +5410,8 @@ export const getStats: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStats",
 }));
 
 export type GetstopWordsError = NotFound | MeilisearchOpError;
@@ -5252,6 +5427,8 @@ export const getstopWords: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetstopWords",
 }));
 
 export type GetsynonymsError = NotFound | MeilisearchOpError;
@@ -5267,6 +5444,8 @@ export const getsynonyms: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getsynonyms",
 }));
 
 export type GetTaskError = NotFound | MeilisearchOpError;
@@ -5282,6 +5461,8 @@ export const getTask: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetTaskDocumentsFileError = NotFound | MeilisearchOpError;
@@ -5297,6 +5478,8 @@ export const getTaskDocumentsFile: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskDocumentsFile",
 }));
 
 export type GetTasksError = MeilisearchOpError;
@@ -5312,6 +5495,8 @@ export const getTasks: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasks",
 }));
 
 export type GetTasksStreamError = MeilisearchOpError;
@@ -5327,6 +5512,8 @@ export const getTasksStream: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksStream",
 }));
 
 export type GettypoToleranceError = NotFound | MeilisearchOpError;
@@ -5342,6 +5529,8 @@ export const gettypoTolerance: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GettypoTolerance",
 }));
 
 export type GetVersionError = MeilisearchOpError;
@@ -5357,6 +5546,8 @@ export const getVersion: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWebhookError = NotFound | MeilisearchOpError;
@@ -5372,6 +5563,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhooksError = MeilisearchOpError;
@@ -5387,6 +5580,8 @@ export const getWebhooks: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooks",
 }));
 
 export type ListApiKeysError = MeilisearchOpError;
@@ -5402,6 +5597,8 @@ export const listApiKeys: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 }));
 
 export type ListIndexesError = MeilisearchOpError;
@@ -5417,6 +5614,8 @@ export const listIndexes: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIndexes",
 }));
 
 export type ListRulesError = MeilisearchOpError;
@@ -5432,6 +5631,8 @@ export const listRules: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListWorkspacesError = MeilisearchOpError;
@@ -5447,6 +5648,8 @@ export const listWorkspaces: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type McpError = MeilisearchOpError;
@@ -5458,6 +5661,8 @@ export const mcp: API.OperationMethod<McpRequest, McpResponse, McpError, Meilise
     errors: [UnknownMeilisearchError],
     protocol: MeilisearchProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Mcp",
   }));
 
 export type MultiSearchWithPostError = MeilisearchOpError;
@@ -5473,6 +5678,8 @@ export const multiSearchWithPost: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MultiSearchWithPost",
 }));
 
 export type PatchApiKeyError = NotFound | MeilisearchOpError;
@@ -5488,6 +5695,8 @@ export const patchApiKey: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApiKey",
 }));
 
 export type PatchchatError = NotFound | MeilisearchOpError;
@@ -5503,6 +5712,8 @@ export const patchchat: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patchchat",
 }));
 
 export type PatchembeddersError = NotFound | MeilisearchOpError;
@@ -5518,6 +5729,8 @@ export const patchembedders: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patchembedders",
 }));
 
 export type PatchfacetingError = NotFound | MeilisearchOpError;
@@ -5533,6 +5746,8 @@ export const patchfaceting: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patchfaceting",
 }));
 
 export type PatchFeaturesError = MeilisearchOpError;
@@ -5548,6 +5763,8 @@ export const patchFeatures: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFeatures",
 }));
 
 export type PatchpaginationError = NotFound | MeilisearchOpError;
@@ -5563,6 +5780,8 @@ export const patchpagination: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patchpagination",
 }));
 
 export type PatchSettingsError = NotFound | MeilisearchOpError;
@@ -5578,6 +5797,8 @@ export const patchSettings: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettings",
 }));
 
 export type PatchtypoToleranceError = NotFound | MeilisearchOpError;
@@ -5593,6 +5814,8 @@ export const patchtypoTolerance: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchtypoTolerance",
 }));
 
 export type PostDocumentsByQueryError = NotFound | MeilisearchOpError;
@@ -5608,6 +5831,8 @@ export const postDocumentsByQuery: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDocumentsByQuery",
 }));
 
 export type PostNetworkChangeError = MeilisearchOpError;
@@ -5623,6 +5848,8 @@ export const postNetworkChange: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostNetworkChange",
 }));
 
 export type PostRenderError = BadRequest | NotFound | MeilisearchOpError;
@@ -5638,6 +5865,8 @@ export const postRender: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRender",
 }));
 
 export type PostSimilarError = NotFound | MeilisearchOpError;
@@ -5653,6 +5882,8 @@ export const postSimilar: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSimilar",
 }));
 
 export type PutdictionaryError = NotFound | MeilisearchOpError;
@@ -5668,6 +5899,8 @@ export const putdictionary: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Putdictionary",
 }));
 
 export type PutdisplayedAttributesError = NotFound | MeilisearchOpError;
@@ -5683,6 +5916,8 @@ export const putdisplayedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutdisplayedAttributes",
 }));
 
 export type PutdistinctAttributeError = NotFound | MeilisearchOpError;
@@ -5698,6 +5933,8 @@ export const putdistinctAttribute: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutdistinctAttribute",
 }));
 
 export type PutfilterableAttributesError = NotFound | MeilisearchOpError;
@@ -5713,6 +5950,8 @@ export const putfilterableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutfilterableAttributes",
 }));
 
 export type PutforeignKeysError = NotFound | MeilisearchOpError;
@@ -5728,6 +5967,8 @@ export const putforeignKeys: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutforeignKeys",
 }));
 
 export type PutlocalizedAttributesError = NotFound | MeilisearchOpError;
@@ -5743,6 +5984,8 @@ export const putlocalizedAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutlocalizedAttributes",
 }));
 
 export type PutnonSeparatorTokensError = NotFound | MeilisearchOpError;
@@ -5758,6 +6001,8 @@ export const putnonSeparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutnonSeparatorTokens",
 }));
 
 export type PutproximityPrecisionError = NotFound | MeilisearchOpError;
@@ -5773,6 +6018,8 @@ export const putproximityPrecision: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutproximityPrecision",
 }));
 
 export type PutrankingRulesError = NotFound | MeilisearchOpError;
@@ -5788,6 +6035,8 @@ export const putrankingRules: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutrankingRules",
 }));
 
 export type PutsearchableAttributesError = NotFound | MeilisearchOpError;
@@ -5803,6 +6052,8 @@ export const putsearchableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutsearchableAttributes",
 }));
 
 export type PutsearchCutoffMsError = NotFound | MeilisearchOpError;
@@ -5818,6 +6069,8 @@ export const putsearchCutoffMs: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutsearchCutoffMs",
 }));
 
 export type PutseparatorTokensError = NotFound | MeilisearchOpError;
@@ -5833,6 +6086,8 @@ export const putseparatorTokens: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutseparatorTokens",
 }));
 
 export type PutsortableAttributesError = NotFound | MeilisearchOpError;
@@ -5848,6 +6103,8 @@ export const putsortableAttributes: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutsortableAttributes",
 }));
 
 export type PutstopWordsError = NotFound | MeilisearchOpError;
@@ -5863,6 +6120,8 @@ export const putstopWords: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutstopWords",
 }));
 
 export type PutsynonymsError = NotFound | MeilisearchOpError;
@@ -5878,6 +6137,8 @@ export const putsynonyms: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Putsynonyms",
 }));
 
 export type ReplaceDocumentsError = NotFound | MeilisearchOpError;
@@ -5893,6 +6154,8 @@ export const replaceDocuments: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDocuments",
 }));
 
 export type ResetSettingsError = NotFound | MeilisearchOpError;
@@ -5908,6 +6171,8 @@ export const resetSettings: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetSettings",
 }));
 
 export type SearchError = NotFound | MeilisearchOpError;
@@ -5923,6 +6188,8 @@ export const search: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Search",
 }));
 
 export type SearchDeletefacetError = NotFound | MeilisearchOpError;
@@ -5938,6 +6205,8 @@ export const searchDeletefacet: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDeletefacet",
 }));
 
 export type SearchDeleteprefixError = NotFound | MeilisearchOpError;
@@ -5953,6 +6222,8 @@ export const searchDeleteprefix: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDeleteprefix",
 }));
 
 export type SearchGetfacetError = NotFound | MeilisearchOpError;
@@ -5968,6 +6239,8 @@ export const searchGetfacet: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGetfacet",
 }));
 
 export type SearchGetprefixError = NotFound | MeilisearchOpError;
@@ -5983,6 +6256,8 @@ export const searchGetprefix: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGetprefix",
 }));
 
 export type SearchPutfacetError = NotFound | MeilisearchOpError;
@@ -5998,6 +6273,8 @@ export const searchPutfacet: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPutfacet",
 }));
 
 export type SearchPutprefixError = NotFound | MeilisearchOpError;
@@ -6013,6 +6290,8 @@ export const searchPutprefix: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPutprefix",
 }));
 
 export type SearchWithPostError = NotFound | MeilisearchOpError;
@@ -6028,6 +6307,8 @@ export const searchWithPost: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchWithPost",
 }));
 
 export type SearchWithUrlQueryError = NotFound | MeilisearchOpError;
@@ -6043,6 +6324,8 @@ export const searchWithUrlQuery: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchWithUrlQuery",
 }));
 
 export type SwapIndexesError = MeilisearchOpError;
@@ -6058,6 +6341,8 @@ export const swapIndexes: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwapIndexes",
 }));
 
 export type UpdateAllError = NotFound | MeilisearchOpError;
@@ -6073,6 +6358,8 @@ export const updateAll: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAll",
 }));
 
 export type UpdateDocumentsError = NotFound | MeilisearchOpError;
@@ -6088,6 +6375,8 @@ export const updateDocuments: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocuments",
 }));
 
 export type UpdateIndexError = NotFound | MeilisearchOpError;
@@ -6103,6 +6392,8 @@ export const updateIndex: API.OperationMethod<
   errors: [NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdateNetworkError = MeilisearchOpError;
@@ -6118,6 +6409,8 @@ export const updateNetwork: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetwork",
 }));
 
 export type UpdateOrCreateRuleError = MeilisearchOpError;
@@ -6133,6 +6426,8 @@ export const updateOrCreateRule: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrCreateRule",
 }));
 
 export type UpdateStderrTargetError = MeilisearchOpError;
@@ -6148,6 +6443,8 @@ export const updateStderrTarget: API.OperationMethod<
   errors: [UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStderrTarget",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | MeilisearchOpError;
@@ -6163,6 +6460,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMeilisearchError],
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

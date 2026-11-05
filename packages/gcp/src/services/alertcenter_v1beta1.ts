@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "alertcenter" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Alertcenter",
+  service: "alertcenter",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -294,6 +313,8 @@ export const batchDeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAlerts",
 }));
 
 export type BatchUndeleteAlertsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -309,6 +330,8 @@ export const batchUndeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUndeleteAlerts",
 }));
 
 export type CreateAlertsFeedbackError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -324,6 +347,8 @@ export const createAlertsFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsFeedback",
 }));
 
 export type DeleteAlertsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -339,6 +364,8 @@ export const deleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlerts",
 }));
 
 export type GetAlertsError = NotFound | Forbidden | GcpOpError;
@@ -350,6 +377,8 @@ export const getAlerts: API.OperationMethod<GetAlertsRequest, Alert, GetAlertsEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAlerts",
   }));
 
 export type GetMetadataAlertsError = NotFound | Forbidden | GcpOpError;
@@ -365,6 +394,8 @@ export const getMetadataAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataAlerts",
 }));
 
 export type GetSettingsV1beta1Error = NotFound | Forbidden | GcpOpError;
@@ -380,6 +411,8 @@ export const getSettingsV1beta1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsV1beta1",
 }));
 
 export type ListAlertsError = NotFound | Forbidden | GcpOpError;
@@ -396,6 +429,8 @@ export const listAlerts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlerts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -412,6 +447,8 @@ export const listAlertsFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsFeedback",
 }));
 
 export type UndeleteAlertsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -427,6 +464,8 @@ export const undeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteAlerts",
 }));
 
 export type UpdateSettingsV1beta1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -442,6 +481,8 @@ export const updateSettingsV1beta1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSettingsV1beta1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

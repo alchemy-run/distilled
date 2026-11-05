@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -75,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideoWebRTCStorage",
+  service: "KinesisVideoWebRTCStorage",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -163,7 +179,7 @@ export type JoinStorageSessionError =
  * - **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each call.
  */
 export const joinStorageSession: API.OperationMethod<
-  JoinStorageSessionInput,
+  JoinStorageSessionInput & RegionInput,
   JoinStorageSessionResponse,
   JoinStorageSessionError,
   Credentials | HttpClient.HttpClient
@@ -179,6 +195,8 @@ export const joinStorageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSession",
+  telemetry: TELEMETRY,
+  span: "JoinStorageSession",
 }));
 
 export type JoinStorageSessionAsViewerError =
@@ -207,7 +225,7 @@ export type JoinStorageSessionAsViewerError =
  * `clientId` that's found in the join session request, the new request takes precedence.
  */
 export const joinStorageSessionAsViewer: API.OperationMethod<
-  JoinStorageSessionAsViewerInput,
+  JoinStorageSessionAsViewerInput & RegionInput,
   JoinStorageSessionAsViewerResponse,
   JoinStorageSessionAsViewerError,
   Credentials | HttpClient.HttpClient
@@ -223,6 +241,8 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSessionAsViewer",
+  telemetry: TELEMETRY,
+  span: "JoinStorageSessionAsViewer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

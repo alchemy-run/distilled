@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataQualityRuns",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** Ids of the checks to run. Omit to run every enabled check in the project. */
 export type CreateDataQualityRunRequestCheckIdsList = Array<string>;
 /** * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
@@ -139,6 +152,8 @@ export const createDataQualityRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataQualityRun",
 }));
 
 export type GetDataQualityRunError = PosthogOpError;
@@ -154,6 +169,8 @@ export const getDataQualityRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataQualityRun",
 }));
 
 export type ListDataQualityRunsError = PosthogOpError;
@@ -169,6 +186,8 @@ export const listDataQualityRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityRuns",
 }));
 
 export type ListDataQualityRunsCheckRunsError = PosthogOpError;
@@ -184,6 +203,8 @@ export const listDataQualityRunsCheckRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityRunsCheckRuns",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ZoneRrsets",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Type of the [RRSet](#tag/zone-rrsets). */
 export type CreateZoneRrsetRequestType =
   | "A"
@@ -468,6 +481,8 @@ export const createZoneRrset: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZoneRrset",
 }));
 
 export type DeleteZoneRrsetError = HetznerOpError;
@@ -483,6 +498,8 @@ export const deleteZoneRrset: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZoneRrset",
 }));
 
 export type GetZoneRrsetError = HetznerOpError;
@@ -498,6 +515,8 @@ export const getZoneRrset: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZoneRrset",
 }));
 
 export type ListZoneRrsetsError = HetznerOpError;
@@ -515,6 +534,8 @@ export const listZoneRrsets: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZoneRrsets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -539,6 +560,8 @@ export const updateZoneRrset: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZoneRrset",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elemental-inference.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElementalInference",
+  service: "ElementalInference",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -515,7 +531,7 @@ export type AssociateFeedError =
  * Also note that you can't change the feed name with AssociateFeed. Instead, use UpdateFeed.
  */
 export const associateFeed: API.OperationMethod<
-  AssociateFeedRequest,
+  AssociateFeedRequest & RegionInput,
   AssociateFeedResponse,
   AssociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -534,6 +550,8 @@ export const associateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFeed",
+  telemetry: TELEMETRY,
+  span: "AssociateFeed",
 }));
 
 export type CreateDictionaryError =
@@ -548,7 +566,7 @@ export type CreateDictionaryError =
  * Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output.
  */
 export const createDictionary: API.OperationMethod<
-  CreateDictionaryRequest,
+  CreateDictionaryRequest & RegionInput,
   CreateDictionaryResponse,
   CreateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -566,6 +584,8 @@ export const createDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDictionary",
+  telemetry: TELEMETRY,
+  span: "CreateDictionary",
 }));
 
 export type CreateFeedError =
@@ -582,7 +602,7 @@ export type CreateFeedError =
  * The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
  */
 export const createFeed: API.OperationMethod<
-  CreateFeedRequest,
+  CreateFeedRequest & RegionInput,
   CreateFeedResponse,
   CreateFeedError,
   Credentials | HttpClient.HttpClient
@@ -600,6 +620,8 @@ export const createFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeed",
+  telemetry: TELEMETRY,
+  span: "CreateFeed",
 }));
 
 export type DeleteDictionaryError =
@@ -614,7 +636,7 @@ export type DeleteDictionaryError =
  * Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
  */
 export const deleteDictionary: API.OperationMethod<
-  DeleteDictionaryRequest,
+  DeleteDictionaryRequest & RegionInput,
   DeleteDictionaryResponse,
   DeleteDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -632,6 +654,8 @@ export const deleteDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDictionary",
+  telemetry: TELEMETRY,
+  span: "DeleteDictionary",
 }));
 
 export type DeleteFeedError =
@@ -646,7 +670,7 @@ export type DeleteFeedError =
  * Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide.
  */
 export const deleteFeed: API.OperationMethod<
-  DeleteFeedRequest,
+  DeleteFeedRequest & RegionInput,
   DeleteFeedResponse,
   DeleteFeedError,
   Credentials | HttpClient.HttpClient
@@ -664,6 +688,8 @@ export const deleteFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeed",
+  telemetry: TELEMETRY,
+  span: "DeleteFeed",
 }));
 
 export type DeleteFeedPolicyError =
@@ -677,7 +703,7 @@ export type DeleteFeedPolicyError =
  * Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted.
  */
 export const deleteFeedPolicy: API.OperationMethod<
-  DeleteFeedPolicyRequest,
+  DeleteFeedPolicyRequest & RegionInput,
   DeleteFeedPolicyResponse,
   DeleteFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -694,6 +720,8 @@ export const deleteFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteFeedPolicy",
 }));
 
 export type DisassociateFeedError =
@@ -708,7 +736,7 @@ export type DisassociateFeedError =
  * Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
  */
 export const disassociateFeed: API.OperationMethod<
-  DisassociateFeedRequest,
+  DisassociateFeedRequest & RegionInput,
   DisassociateFeedResponse,
   DisassociateFeedError,
   Credentials | HttpClient.HttpClient
@@ -726,6 +754,8 @@ export const disassociateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFeed",
+  telemetry: TELEMETRY,
+  span: "DisassociateFeed",
 }));
 
 export type ExportDictionaryEntriesError =
@@ -739,7 +769,7 @@ export type ExportDictionaryEntriesError =
  * Exports the entries from the specified dictionary.
  */
 export const exportDictionaryEntries: API.OperationMethod<
-  ExportDictionaryEntriesRequest,
+  ExportDictionaryEntriesRequest & RegionInput,
   ExportDictionaryEntriesResponse,
   ExportDictionaryEntriesError,
   Credentials | HttpClient.HttpClient
@@ -756,6 +786,8 @@ export const exportDictionaryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportDictionaryEntries",
+  telemetry: TELEMETRY,
+  span: "ExportDictionaryEntries",
 }));
 
 export type GetDictionaryError =
@@ -769,7 +801,7 @@ export type GetDictionaryError =
  * Retrieves information about the specified dictionary.
  */
 export const getDictionary: API.OperationMethod<
-  GetDictionaryRequest,
+  GetDictionaryRequest & RegionInput,
   GetDictionaryResponse,
   GetDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -786,6 +818,8 @@ export const getDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDictionary",
+  telemetry: TELEMETRY,
+  span: "GetDictionary",
 }));
 
 export type GetFeedError =
@@ -798,7 +832,7 @@ export type GetFeedError =
  * Retrieves information about the specified feed.
  */
 export const getFeed: API.OperationMethod<
-  GetFeedRequest,
+  GetFeedRequest & RegionInput,
   GetFeedResponse,
   GetFeedError,
   Credentials | HttpClient.HttpClient
@@ -814,6 +848,8 @@ export const getFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeed",
+  telemetry: TELEMETRY,
+  span: "GetFeed",
 }));
 
 export type GetFeedPolicyError =
@@ -827,7 +863,7 @@ export type GetFeedPolicyError =
  * Retrieves the resource-based policy attached to the specified feed.
  */
 export const getFeedPolicy: API.OperationMethod<
-  GetFeedPolicyRequest,
+  GetFeedPolicyRequest & RegionInput,
   GetFeedPolicyResponse,
   GetFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -844,6 +880,8 @@ export const getFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "GetFeedPolicy",
 }));
 
 export type GetFixtureError =
@@ -859,7 +897,7 @@ export type GetFixtureError =
  * Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
  */
 export const getFixture: API.OperationMethod<
-  GetFixtureRequest,
+  GetFixtureRequest & RegionInput,
   GetFixtureResponse,
   GetFixtureError,
   Credentials | HttpClient.HttpClient
@@ -878,6 +916,8 @@ export const getFixture: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFixture",
+  telemetry: TELEMETRY,
+  span: "GetFixture",
 }));
 
 export type ListDictionariesError =
@@ -890,7 +930,7 @@ export type ListDictionariesError =
  * Lists the dictionaries in your account.
  */
 export const listDictionaries: API.PaginatedOperationMethod<
-  ListDictionariesRequest,
+  ListDictionariesRequest & RegionInput,
   ListDictionariesResponse,
   ListDictionariesError,
   Credentials | HttpClient.HttpClient,
@@ -913,6 +953,8 @@ export const listDictionaries: API.PaginatedOperationMethod<
     items: "dictionaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDictionaries",
 })) as any;
 
 export type ListFeedsError =
@@ -926,7 +968,7 @@ export type ListFeedsError =
  * Displays a list of feeds that belong to this AWS account.
  */
 export const listFeeds: API.PaginatedOperationMethod<
-  ListFeedsRequest,
+  ListFeedsRequest & RegionInput,
   ListFeedsResponse,
   ListFeedsError,
   Credentials | HttpClient.HttpClient,
@@ -950,6 +992,8 @@ export const listFeeds: API.PaginatedOperationMethod<
     items: "feeds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFeeds",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -963,7 +1007,7 @@ export type ListTagsForResourceError =
  * List all tags that are on an Elemental Inference resource in the current region.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -980,6 +1024,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutFeedPolicyError =
@@ -994,7 +1040,7 @@ export type PutFeedPolicyError =
  * Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed.
  */
 export const putFeedPolicy: API.OperationMethod<
-  PutFeedPolicyRequest,
+  PutFeedPolicyRequest & RegionInput,
   PutFeedPolicyResponse,
   PutFeedPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1012,6 +1058,8 @@ export const putFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFeedPolicy",
 }));
 
 export type SearchFixturesError =
@@ -1026,7 +1074,7 @@ export type SearchFixturesError =
  * Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
  */
 export const searchFixtures: API.PaginatedOperationMethod<
-  SearchFixturesRequest,
+  SearchFixturesRequest & RegionInput,
   SearchFixturesResponse,
   SearchFixturesError,
   Credentials | HttpClient.HttpClient,
@@ -1051,6 +1099,8 @@ export const searchFixtures: API.PaginatedOperationMethod<
     items: "fixtures",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFixtures",
 })) as any;
 
 export type TagResourceError =
@@ -1065,7 +1115,7 @@ export type TagResourceError =
  * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1083,6 +1133,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1097,7 +1149,7 @@ export type UntagResourceError =
  * Deletes specified tags from the specified resource in the current region.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1115,6 +1167,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDictionaryError =
@@ -1129,7 +1183,7 @@ export type UpdateDictionaryError =
  * Updates the specified dictionary.
  */
 export const updateDictionary: API.OperationMethod<
-  UpdateDictionaryRequest,
+  UpdateDictionaryRequest & RegionInput,
   UpdateDictionaryResponse,
   UpdateDictionaryError,
   Credentials | HttpClient.HttpClient
@@ -1147,6 +1201,8 @@ export const updateDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDictionary",
+  telemetry: TELEMETRY,
+  span: "UpdateDictionary",
 }));
 
 export type UpdateFeedError =
@@ -1168,7 +1224,7 @@ export type UpdateFeedError =
  * If you want to patch the array of outputs to make selective additions, use AssociateFeed.
  */
 export const updateFeed: API.OperationMethod<
-  UpdateFeedRequest,
+  UpdateFeedRequest & RegionInput,
   UpdateFeedResponse,
   UpdateFeedError,
   Credentials | HttpClient.HttpClient
@@ -1187,6 +1243,8 @@ export const updateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeed",
+  telemetry: TELEMETRY,
+  span: "UpdateFeed",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

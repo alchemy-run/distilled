@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotthingsgraph.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTThingsGraph",
+  service: "IoTThingsGraph",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
@@ -605,7 +622,7 @@ export type AssociateEntityToThingError =
  * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
  */
 export const associateEntityToThing: API.OperationMethod<
-  AssociateEntityToThingRequest,
+  AssociateEntityToThingRequest & RegionInput,
   AssociateEntityToThingResponse,
   AssociateEntityToThingError,
   Credentials | HttpClient.HttpClient
@@ -621,6 +638,8 @@ export const associateEntityToThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEntityToThing",
+  telemetry: TELEMETRY,
+  span: "AssociateEntityToThing",
 }));
 
 export type CreateFlowTemplateError =
@@ -636,7 +655,7 @@ export type CreateFlowTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createFlowTemplate: API.OperationMethod<
-  CreateFlowTemplateRequest,
+  CreateFlowTemplateRequest & RegionInput,
   CreateFlowTemplateResponse,
   CreateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -653,6 +672,8 @@ export const createFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateFlowTemplate",
 }));
 
 export type CreateSystemInstanceError =
@@ -678,7 +699,7 @@ export type CreateSystemInstanceError =
  * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
  */
 export const createSystemInstance: API.OperationMethod<
-  CreateSystemInstanceRequest,
+  CreateSystemInstanceRequest & RegionInput,
   CreateSystemInstanceResponse,
   CreateSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -695,6 +716,8 @@ export const createSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystemInstance",
+  telemetry: TELEMETRY,
+  span: "CreateSystemInstance",
 }));
 
 export type CreateSystemTemplateError =
@@ -708,7 +731,7 @@ export type CreateSystemTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createSystemTemplate: API.OperationMethod<
-  CreateSystemTemplateRequest,
+  CreateSystemTemplateRequest & RegionInput,
   CreateSystemTemplateResponse,
   CreateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -724,6 +747,8 @@ export const createSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateSystemTemplate",
 }));
 
 export type DeleteFlowTemplateError =
@@ -737,7 +762,7 @@ export type DeleteFlowTemplateError =
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
  */
 export const deleteFlowTemplate: API.OperationMethod<
-  DeleteFlowTemplateRequest,
+  DeleteFlowTemplateRequest & RegionInput,
   DeleteFlowTemplateResponse,
   DeleteFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -753,6 +778,8 @@ export const deleteFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteFlowTemplate",
 }));
 
 export type DeleteNamespaceError = InternalFailureException | ThrottlingException | CommonErrors;
@@ -761,7 +788,7 @@ export type DeleteNamespaceError = InternalFailureException | ThrottlingExceptio
  * request parameters.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -772,6 +799,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteSystemInstanceError =
@@ -787,7 +816,7 @@ export type DeleteSystemInstanceError =
  * Users can create a new system instance that has the same ID as a deleted system instance.
  */
 export const deleteSystemInstance: API.OperationMethod<
-  DeleteSystemInstanceRequest,
+  DeleteSystemInstanceRequest & RegionInput,
   DeleteSystemInstanceResponse,
   DeleteSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -803,6 +832,8 @@ export const deleteSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystemInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteSystemInstance",
 }));
 
 export type DeleteSystemTemplateError =
@@ -816,7 +847,7 @@ export type DeleteSystemTemplateError =
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
  */
 export const deleteSystemTemplate: API.OperationMethod<
-  DeleteSystemTemplateRequest,
+  DeleteSystemTemplateRequest & RegionInput,
   DeleteSystemTemplateResponse,
   DeleteSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -832,6 +863,8 @@ export const deleteSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteSystemTemplate",
 }));
 
 export type DeploySystemInstanceError =
@@ -857,7 +890,7 @@ export type DeploySystemInstanceError =
  * For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
  */
 export const deploySystemInstance: API.OperationMethod<
-  DeploySystemInstanceRequest,
+  DeploySystemInstanceRequest & RegionInput,
   DeploySystemInstanceResponse,
   DeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -874,6 +907,8 @@ export const deploySystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeploySystemInstance",
+  telemetry: TELEMETRY,
+  span: "DeploySystemInstance",
 }));
 
 export type DeprecateFlowTemplateError =
@@ -886,7 +921,7 @@ export type DeprecateFlowTemplateError =
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
 export const deprecateFlowTemplate: API.OperationMethod<
-  DeprecateFlowTemplateRequest,
+  DeprecateFlowTemplateRequest & RegionInput,
   DeprecateFlowTemplateResponse,
   DeprecateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -902,6 +937,8 @@ export const deprecateFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "DeprecateFlowTemplate",
 }));
 
 export type DeprecateSystemTemplateError =
@@ -914,7 +951,7 @@ export type DeprecateSystemTemplateError =
  * Deprecates the specified system.
  */
 export const deprecateSystemTemplate: API.OperationMethod<
-  DeprecateSystemTemplateRequest,
+  DeprecateSystemTemplateRequest & RegionInput,
   DeprecateSystemTemplateResponse,
   DeprecateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -930,6 +967,8 @@ export const deprecateSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "DeprecateSystemTemplate",
 }));
 
 export type DescribeNamespaceError =
@@ -942,7 +981,7 @@ export type DescribeNamespaceError =
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
 export const describeNamespace: API.OperationMethod<
-  DescribeNamespaceRequest,
+  DescribeNamespaceRequest & RegionInput,
   DescribeNamespaceResponse,
   DescribeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -958,6 +997,8 @@ export const describeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNamespace",
+  telemetry: TELEMETRY,
+  span: "DescribeNamespace",
 }));
 
 export type DissociateEntityFromThingError =
@@ -971,7 +1012,7 @@ export type DissociateEntityFromThingError =
  * one entity of a particular type can be associated with a thing.
  */
 export const dissociateEntityFromThing: API.OperationMethod<
-  DissociateEntityFromThingRequest,
+  DissociateEntityFromThingRequest & RegionInput,
   DissociateEntityFromThingResponse,
   DissociateEntityFromThingError,
   Credentials | HttpClient.HttpClient
@@ -987,6 +1028,8 @@ export const dissociateEntityFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociateEntityFromThing",
+  telemetry: TELEMETRY,
+  span: "DissociateEntityFromThing",
 }));
 
 export type GetEntitiesError =
@@ -1020,7 +1063,7 @@ export type GetEntitiesError =
  * This action doesn't return definitions for systems, flows, and deployments.
  */
 export const getEntities: API.OperationMethod<
-  GetEntitiesRequest,
+  GetEntitiesRequest & RegionInput,
   GetEntitiesResponse,
   GetEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1036,6 +1079,8 @@ export const getEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntities",
+  telemetry: TELEMETRY,
+  span: "GetEntities",
 }));
 
 export type GetFlowTemplateError =
@@ -1048,7 +1093,7 @@ export type GetFlowTemplateError =
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
 export const getFlowTemplate: API.OperationMethod<
-  GetFlowTemplateRequest,
+  GetFlowTemplateRequest & RegionInput,
   GetFlowTemplateResponse,
   GetFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1064,6 +1109,8 @@ export const getFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "GetFlowTemplate",
 }));
 
 export type GetFlowTemplateRevisionsError =
@@ -1077,7 +1124,7 @@ export type GetFlowTemplateRevisionsError =
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
  */
 export const getFlowTemplateRevisions: API.PaginatedOperationMethod<
-  GetFlowTemplateRevisionsRequest,
+  GetFlowTemplateRevisionsRequest & RegionInput,
   GetFlowTemplateRevisionsResponse,
   GetFlowTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1100,6 +1147,8 @@ export const getFlowTemplateRevisions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFlowTemplateRevisions",
 })) as any;
 
 export type GetNamespaceDeletionStatusError =
@@ -1111,7 +1160,7 @@ export type GetNamespaceDeletionStatusError =
  * Gets the status of a namespace deletion task.
  */
 export const getNamespaceDeletionStatus: API.OperationMethod<
-  GetNamespaceDeletionStatusRequest,
+  GetNamespaceDeletionStatusRequest & RegionInput,
   GetNamespaceDeletionStatusResponse,
   GetNamespaceDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1122,6 +1171,8 @@ export const getNamespaceDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespaceDeletionStatus",
+  telemetry: TELEMETRY,
+  span: "GetNamespaceDeletionStatus",
 }));
 
 export type GetSystemInstanceError =
@@ -1134,7 +1185,7 @@ export type GetSystemInstanceError =
  * Gets a system instance.
  */
 export const getSystemInstance: API.OperationMethod<
-  GetSystemInstanceRequest,
+  GetSystemInstanceRequest & RegionInput,
   GetSystemInstanceResponse,
   GetSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1150,6 +1201,8 @@ export const getSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemInstance",
+  telemetry: TELEMETRY,
+  span: "GetSystemInstance",
 }));
 
 export type GetSystemTemplateError =
@@ -1162,7 +1215,7 @@ export type GetSystemTemplateError =
  * Gets a system.
  */
 export const getSystemTemplate: API.OperationMethod<
-  GetSystemTemplateRequest,
+  GetSystemTemplateRequest & RegionInput,
   GetSystemTemplateResponse,
   GetSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1178,6 +1231,8 @@ export const getSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSystemTemplate",
 }));
 
 export type GetSystemTemplateRevisionsError =
@@ -1191,7 +1246,7 @@ export type GetSystemTemplateRevisionsError =
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
  */
 export const getSystemTemplateRevisions: API.PaginatedOperationMethod<
-  GetSystemTemplateRevisionsRequest,
+  GetSystemTemplateRevisionsRequest & RegionInput,
   GetSystemTemplateRevisionsResponse,
   GetSystemTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1214,6 +1269,8 @@ export const getSystemTemplateRevisions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSystemTemplateRevisions",
 })) as any;
 
 export type GetUploadStatusError =
@@ -1226,7 +1283,7 @@ export type GetUploadStatusError =
  * Gets the status of the specified upload.
  */
 export const getUploadStatus: API.OperationMethod<
-  GetUploadStatusRequest,
+  GetUploadStatusRequest & RegionInput,
   GetUploadStatusResponse,
   GetUploadStatusError,
   Credentials | HttpClient.HttpClient
@@ -1242,6 +1299,8 @@ export const getUploadStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadStatus",
+  telemetry: TELEMETRY,
+  span: "GetUploadStatus",
 }));
 
 export type ListFlowExecutionMessagesError =
@@ -1254,7 +1313,7 @@ export type ListFlowExecutionMessagesError =
  * Returns a list of objects that contain information about events in a flow execution.
  */
 export const listFlowExecutionMessages: API.PaginatedOperationMethod<
-  ListFlowExecutionMessagesRequest,
+  ListFlowExecutionMessagesRequest & RegionInput,
   ListFlowExecutionMessagesResponse,
   ListFlowExecutionMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -1277,6 +1336,8 @@ export const listFlowExecutionMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowExecutionMessages",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1289,7 +1350,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an AWS IoT Things Graph resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1312,6 +1373,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type SearchEntitiesError =
@@ -1323,7 +1386,7 @@ export type SearchEntitiesError =
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
 export const searchEntities: API.PaginatedOperationMethod<
-  SearchEntitiesRequest,
+  SearchEntitiesRequest & RegionInput,
   SearchEntitiesResponse,
   SearchEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1341,6 +1404,8 @@ export const searchEntities: API.PaginatedOperationMethod<
     items: "descriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchEntities",
 })) as any;
 
 export type SearchFlowExecutionsError =
@@ -1353,7 +1418,7 @@ export type SearchFlowExecutionsError =
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
 export const searchFlowExecutions: API.PaginatedOperationMethod<
-  SearchFlowExecutionsRequest,
+  SearchFlowExecutionsRequest & RegionInput,
   SearchFlowExecutionsResponse,
   SearchFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1376,6 +1441,8 @@ export const searchFlowExecutions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFlowExecutions",
 })) as any;
 
 export type SearchFlowTemplatesError =
@@ -1387,7 +1454,7 @@ export type SearchFlowTemplatesError =
  * Searches for summary information about workflows.
  */
 export const searchFlowTemplates: API.PaginatedOperationMethod<
-  SearchFlowTemplatesRequest,
+  SearchFlowTemplatesRequest & RegionInput,
   SearchFlowTemplatesResponse,
   SearchFlowTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1405,6 +1472,8 @@ export const searchFlowTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFlowTemplates",
 })) as any;
 
 export type SearchSystemInstancesError =
@@ -1416,7 +1485,7 @@ export type SearchSystemInstancesError =
  * Searches for system instances in the user's account.
  */
 export const searchSystemInstances: API.PaginatedOperationMethod<
-  SearchSystemInstancesRequest,
+  SearchSystemInstancesRequest & RegionInput,
   SearchSystemInstancesResponse,
   SearchSystemInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1434,6 +1503,8 @@ export const searchSystemInstances: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSystemInstances",
 })) as any;
 
 export type SearchSystemTemplatesError =
@@ -1445,7 +1516,7 @@ export type SearchSystemTemplatesError =
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
 export const searchSystemTemplates: API.PaginatedOperationMethod<
-  SearchSystemTemplatesRequest,
+  SearchSystemTemplatesRequest & RegionInput,
   SearchSystemTemplatesResponse,
   SearchSystemTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1463,6 +1534,8 @@ export const searchSystemTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSystemTemplates",
 })) as any;
 
 export type SearchThingsError =
@@ -1480,7 +1553,7 @@ export type SearchThingsError =
  * This action searches for exact matches and doesn't perform partial text matching.
  */
 export const searchThings: API.PaginatedOperationMethod<
-  SearchThingsRequest,
+  SearchThingsRequest & RegionInput,
   SearchThingsResponse,
   SearchThingsError,
   Credentials | HttpClient.HttpClient,
@@ -1503,6 +1576,8 @@ export const searchThings: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchThings",
 })) as any;
 
 export type TagResourceError =
@@ -1515,7 +1590,7 @@ export type TagResourceError =
  * Creates a tag for the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1531,6 +1606,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UndeploySystemInstanceError =
@@ -1544,7 +1621,7 @@ export type UndeploySystemInstanceError =
  * Removes a system instance from its target (Cloud or Greengrass).
  */
 export const undeploySystemInstance: API.OperationMethod<
-  UndeploySystemInstanceRequest,
+  UndeploySystemInstanceRequest & RegionInput,
   UndeploySystemInstanceResponse,
   UndeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1561,6 +1638,8 @@ export const undeploySystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeploySystemInstance",
+  telemetry: TELEMETRY,
+  span: "UndeploySystemInstance",
 }));
 
 export type UntagResourceError =
@@ -1573,7 +1652,7 @@ export type UntagResourceError =
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1589,6 +1668,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFlowTemplateError =
@@ -1602,7 +1683,7 @@ export type UpdateFlowTemplateError =
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
  */
 export const updateFlowTemplate: API.OperationMethod<
-  UpdateFlowTemplateRequest,
+  UpdateFlowTemplateRequest & RegionInput,
   UpdateFlowTemplateResponse,
   UpdateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1618,6 +1699,8 @@ export const updateFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowTemplate",
 }));
 
 export type UpdateSystemTemplateError =
@@ -1630,7 +1713,7 @@ export type UpdateSystemTemplateError =
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
 export const updateSystemTemplate: API.OperationMethod<
-  UpdateSystemTemplateRequest,
+  UpdateSystemTemplateRequest & RegionInput,
   UpdateSystemTemplateResponse,
   UpdateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1646,6 +1729,8 @@ export const updateSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSystemTemplate",
 }));
 
 export type UploadEntityDefinitionsError =
@@ -1669,7 +1754,7 @@ export type UploadEntityDefinitionsError =
  * `Mapping`, `Enum`.
  */
 export const uploadEntityDefinitions: API.OperationMethod<
-  UploadEntityDefinitionsRequest,
+  UploadEntityDefinitionsRequest & RegionInput,
   UploadEntityDefinitionsResponse,
   UploadEntityDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -1680,6 +1765,8 @@ export const uploadEntityDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadEntityDefinitions",
+  telemetry: TELEMETRY,
+  span: "UploadEntityDefinitions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,6 +16,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CloudConnector",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CloudConnectorRulesNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CloudConnectorRulesNotFound>()("CloudConnectorRulesNotFound", {
@@ -130,6 +144,8 @@ export const listRules: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudConnectorRulesNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -150,6 +166,8 @@ export const putRule: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

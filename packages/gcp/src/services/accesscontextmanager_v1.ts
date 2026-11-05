@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "accesscontextmanager" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Accesscontextmanager",
+  service: "accesscontextmanager",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1019,6 +1038,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type CommitAccessPoliciesServicePerimetersError =
@@ -1039,6 +1060,8 @@ export const commitAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitAccessPoliciesServicePerimeters",
 }));
 
 export type CreateAccessPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1054,6 +1077,8 @@ export const createAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicies",
 }));
 
 export type CreateAccessPoliciesAccessLevelsError =
@@ -1074,6 +1099,8 @@ export const createAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPoliciesAccessLevels",
 }));
 
 export type CreateAccessPoliciesAuthorizedOrgsDescsError =
@@ -1094,6 +1121,8 @@ export const createAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPoliciesAuthorizedOrgsDescs",
 }));
 
 export type CreateAccessPoliciesServicePerimetersError =
@@ -1114,6 +1143,8 @@ export const createAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPoliciesServicePerimeters",
 }));
 
 export type CreateOrganizationsGcpUserAccessBindingsError =
@@ -1134,6 +1165,8 @@ export const createOrganizationsGcpUserAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsGcpUserAccessBindings",
 }));
 
 export type DeleteAccessPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1149,6 +1182,8 @@ export const deleteAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicies",
 }));
 
 export type DeleteAccessPoliciesAccessLevelsError =
@@ -1169,6 +1204,8 @@ export const deleteAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPoliciesAccessLevels",
 }));
 
 export type DeleteAccessPoliciesAuthorizedOrgsDescsError =
@@ -1189,6 +1226,8 @@ export const deleteAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPoliciesAuthorizedOrgsDescs",
 }));
 
 export type DeleteAccessPoliciesServicePerimetersError =
@@ -1209,6 +1248,8 @@ export const deleteAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPoliciesServicePerimeters",
 }));
 
 export type DeleteOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1224,6 +1265,8 @@ export const deleteOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperations",
 }));
 
 export type DeleteOrganizationsGcpUserAccessBindingsError =
@@ -1244,6 +1287,8 @@ export const deleteOrganizationsGcpUserAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsGcpUserAccessBindings",
 }));
 
 export type GetAccessPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -1259,6 +1304,8 @@ export const getAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicies",
 }));
 
 export type GetAccessPoliciesAccessLevelsError = NotFound | Forbidden | GcpOpError;
@@ -1274,6 +1321,8 @@ export const getAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPoliciesAccessLevels",
 }));
 
 export type GetAccessPoliciesAuthorizedOrgsDescsError = NotFound | Forbidden | GcpOpError;
@@ -1289,6 +1338,8 @@ export const getAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPoliciesAuthorizedOrgsDescs",
 }));
 
 export type GetAccessPoliciesServicePerimetersError = NotFound | Forbidden | GcpOpError;
@@ -1304,6 +1355,8 @@ export const getAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPoliciesServicePerimeters",
 }));
 
 export type GetIamPolicyAccessPoliciesError =
@@ -1324,6 +1377,8 @@ export const getIamPolicyAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyAccessPolicies",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1339,6 +1394,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetOrganizationsGcpUserAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -1354,6 +1411,8 @@ export const getOrganizationsGcpUserAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsGcpUserAccessBindings",
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -1369,6 +1428,8 @@ export const getServices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServices",
 }));
 
 export type ListAccessPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -1385,6 +1446,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1402,6 +1465,8 @@ export const listAccessPoliciesAccessLevels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPoliciesAccessLevels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1419,6 +1484,8 @@ export const listAccessPoliciesAuthorizedOrgsDescs: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPoliciesAuthorizedOrgsDescs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1436,6 +1503,8 @@ export const listAccessPoliciesServicePerimeters: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPoliciesServicePerimeters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1453,6 +1522,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1470,6 +1541,8 @@ export const listOrganizationsGcpUserAccessBindings: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsGcpUserAccessBindings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1487,6 +1560,8 @@ export const listPermissions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1504,6 +1579,8 @@ export const listServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1520,6 +1597,8 @@ export const lookupConfiguredServicePerimeterFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupConfiguredServicePerimeterFolders",
 }));
 
 export type LookupConfiguredServicePerimeterProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1535,6 +1614,8 @@ export const lookupConfiguredServicePerimeterProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupConfiguredServicePerimeterProjects",
 }));
 
 export type PatchAccessPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1550,6 +1631,8 @@ export const patchAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessPolicies",
 }));
 
 export type PatchAccessPoliciesAccessLevelsError =
@@ -1570,6 +1653,8 @@ export const patchAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessPoliciesAccessLevels",
 }));
 
 export type PatchAccessPoliciesAuthorizedOrgsDescsError =
@@ -1590,6 +1675,8 @@ export const patchAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessPoliciesAuthorizedOrgsDescs",
 }));
 
 export type PatchAccessPoliciesServicePerimetersError =
@@ -1610,6 +1697,8 @@ export const patchAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessPoliciesServicePerimeters",
 }));
 
 export type PatchOrganizationsGcpUserAccessBindingsError =
@@ -1630,6 +1719,8 @@ export const patchOrganizationsGcpUserAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsGcpUserAccessBindings",
 }));
 
 export type ReplaceAllAccessPoliciesAccessLevelsError =
@@ -1650,6 +1741,8 @@ export const replaceAllAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAllAccessPoliciesAccessLevels",
 }));
 
 export type ReplaceAllAccessPoliciesServicePerimetersError =
@@ -1670,6 +1763,8 @@ export const replaceAllAccessPoliciesServicePerimeters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAllAccessPoliciesServicePerimeters",
 }));
 
 export type SetIamPolicyAccessPoliciesError =
@@ -1690,6 +1785,8 @@ export const setIamPolicyAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyAccessPolicies",
 }));
 
 export type TestIamPermissionsAccessPoliciesError =
@@ -1710,6 +1807,8 @@ export const testIamPermissionsAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsAccessPolicies",
 }));
 
 export type TestIamPermissionsAccessPoliciesAccessLevelsError =
@@ -1734,6 +1833,8 @@ export const testIamPermissionsAccessPoliciesAccessLevels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsAccessPoliciesAccessLevels",
 }));
 
 export type TestIamPermissionsAccessPoliciesServicePerimetersError =
@@ -1758,6 +1859,8 @@ export const testIamPermissionsAccessPoliciesServicePerimeters: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsAccessPoliciesServicePerimeters",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

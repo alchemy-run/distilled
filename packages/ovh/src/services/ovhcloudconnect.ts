@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Ovhcloudconnect",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -957,6 +971,8 @@ export const confirmOvhCloudConnectTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmOvhCloudConnectTermination",
 }));
 
 export type CreateOvhCloudConnectChangeContactError = OvhOpError;
@@ -972,6 +988,8 @@ export const createOvhCloudConnectChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectChangeContact",
 }));
 
 export type CreateOvhCloudConnectConfigPopError = OvhOpError;
@@ -987,6 +1005,8 @@ export const createOvhCloudConnectConfigPop: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectConfigPop",
 }));
 
 export type CreateOvhCloudConnectConfigPopDatacenterError = OvhOpError;
@@ -1002,6 +1022,8 @@ export const createOvhCloudConnectConfigPopDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectConfigPopDatacenter",
 }));
 
 export type CreateOvhCloudConnectConfigPopDatacenterExtraError = OvhOpError;
@@ -1021,6 +1043,8 @@ export const createOvhCloudConnectConfigPopDatacenterExtra: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectConfigPopDatacenterExtra",
 }));
 
 export type CreateOvhCloudConnectDiagnosticError = OvhOpError;
@@ -1036,6 +1060,8 @@ export const createOvhCloudConnectDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectDiagnostic",
 }));
 
 export type CreateOvhCloudConnectLoaError = OvhOpError;
@@ -1051,6 +1077,8 @@ export const createOvhCloudConnectLoa: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectLoa",
 }));
 
 export type CreateOvhCloudConnectLogSubscriptionError = OvhOpError;
@@ -1066,6 +1094,8 @@ export const createOvhCloudConnectLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectLogSubscription",
 }));
 
 export type CreateOvhCloudConnectLogUrlError = OvhOpError;
@@ -1081,6 +1111,8 @@ export const createOvhCloudConnectLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectLogUrl",
 }));
 
 export type CreateOvhCloudConnectMonitoringError = OvhOpError;
@@ -1096,6 +1128,8 @@ export const createOvhCloudConnectMonitoring: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhCloudConnectMonitoring",
 }));
 
 export type DeleteOvhCloudConnectConfigPopError = OvhOpError;
@@ -1111,6 +1145,8 @@ export const deleteOvhCloudConnectConfigPop: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhCloudConnectConfigPop",
 }));
 
 export type DeleteOvhCloudConnectConfigPopDatacenterError = OvhOpError;
@@ -1126,6 +1162,8 @@ export const deleteOvhCloudConnectConfigPopDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhCloudConnectConfigPopDatacenter",
 }));
 
 export type DeleteOvhCloudConnectConfigPopDatacenterExtraError = OvhOpError;
@@ -1141,6 +1179,8 @@ export const deleteOvhCloudConnectConfigPopDatacenterExtra: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhCloudConnectConfigPopDatacenterExtra",
 }));
 
 export type DeleteOvhCloudConnectLogSubscriptionError = OvhOpError;
@@ -1156,6 +1196,8 @@ export const deleteOvhCloudConnectLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhCloudConnectLogSubscription",
 }));
 
 export type DeleteOvhCloudConnectMonitoringError = OvhOpError;
@@ -1171,6 +1213,8 @@ export const deleteOvhCloudConnectMonitoring: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhCloudConnectMonitoring",
 }));
 
 export type GetOvhCloudConnectError = OvhOpError;
@@ -1186,6 +1230,8 @@ export const getOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnect",
 }));
 
 export type GetOvhCloudConnectConfigPopError = OvhOpError;
@@ -1201,6 +1247,8 @@ export const getOvhCloudConnectConfigPop: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectConfigPop",
 }));
 
 export type GetOvhCloudConnectConfigPopDatacenterError = OvhOpError;
@@ -1216,6 +1264,8 @@ export const getOvhCloudConnectConfigPopDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectConfigPopDatacenter",
 }));
 
 export type GetOvhCloudConnectConfigPopDatacenterExtraError = OvhOpError;
@@ -1231,6 +1281,8 @@ export const getOvhCloudConnectConfigPopDatacenterExtra: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectConfigPopDatacenterExtra",
 }));
 
 export type GetOvhCloudConnectConfigPopStatusError = OvhOpError;
@@ -1246,6 +1298,8 @@ export const getOvhCloudConnectConfigPopStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectConfigPopStatus",
 }));
 
 export type GetOvhCloudConnectDatacenterError = OvhOpError;
@@ -1261,6 +1315,8 @@ export const getOvhCloudConnectDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectDatacenter",
 }));
 
 export type GetOvhCloudConnectDiagnosticError = OvhOpError;
@@ -1276,6 +1332,8 @@ export const getOvhCloudConnectDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectDiagnostic",
 }));
 
 export type GetOvhCloudConnectIncidentError = OvhOpError;
@@ -1291,6 +1349,8 @@ export const getOvhCloudConnectIncident: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectIncident",
 }));
 
 export type GetOvhCloudConnectInterfaceError = OvhOpError;
@@ -1306,6 +1366,8 @@ export const getOvhCloudConnectInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectInterface",
 }));
 
 export type GetOvhCloudConnectInterfaceStatusError = OvhOpError;
@@ -1321,6 +1383,8 @@ export const getOvhCloudConnectInterfaceStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectInterfaceStatus",
 }));
 
 export type GetOvhCloudConnectLogKindError = OvhOpError;
@@ -1336,6 +1400,8 @@ export const getOvhCloudConnectLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectLogKind",
 }));
 
 export type GetOvhCloudConnectLogSubscriptionError = OvhOpError;
@@ -1351,6 +1417,8 @@ export const getOvhCloudConnectLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectLogSubscription",
 }));
 
 export type GetOvhCloudConnectServiceInfosError = OvhOpError;
@@ -1366,6 +1434,8 @@ export const getOvhCloudConnectServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectServiceInfos",
 }));
 
 export type GetOvhCloudConnectServiceKeyError = OvhOpError;
@@ -1381,6 +1451,8 @@ export const getOvhCloudConnectServiceKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectServiceKey",
 }));
 
 export type GetOvhCloudConnectTaskError = OvhOpError;
@@ -1396,6 +1468,8 @@ export const getOvhCloudConnectTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhCloudConnectTask",
 }));
 
 export type ListOvhCloudConnectError = OvhOpError;
@@ -1411,6 +1485,8 @@ export const listOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnect",
 }));
 
 export type ListOvhCloudConnectConfigPopError = OvhOpError;
@@ -1426,6 +1502,8 @@ export const listOvhCloudConnectConfigPop: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectConfigPop",
 }));
 
 export type ListOvhCloudConnectConfigPopDatacenterError = OvhOpError;
@@ -1441,6 +1519,8 @@ export const listOvhCloudConnectConfigPopDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectConfigPopDatacenter",
 }));
 
 export type ListOvhCloudConnectConfigPopDatacenterExtraError = OvhOpError;
@@ -1456,6 +1536,8 @@ export const listOvhCloudConnectConfigPopDatacenterExtra: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectConfigPopDatacenterExtra",
 }));
 
 export type ListOvhCloudConnectConfigPopStatisticsError = OvhOpError;
@@ -1471,6 +1553,8 @@ export const listOvhCloudConnectConfigPopStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectConfigPopStatistics",
 }));
 
 export type ListOvhCloudConnectDatacenterError = OvhOpError;
@@ -1486,6 +1570,8 @@ export const listOvhCloudConnectDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectDatacenter",
 }));
 
 export type ListOvhCloudConnectDiagnosticError = OvhOpError;
@@ -1501,6 +1587,8 @@ export const listOvhCloudConnectDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectDiagnostic",
 }));
 
 export type ListOvhCloudConnectIncidentError = OvhOpError;
@@ -1516,6 +1604,8 @@ export const listOvhCloudConnectIncident: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectIncident",
 }));
 
 export type ListOvhCloudConnectInterfaceError = OvhOpError;
@@ -1531,6 +1621,8 @@ export const listOvhCloudConnectInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectInterface",
 }));
 
 export type ListOvhCloudConnectInterfaceStatisticsError = OvhOpError;
@@ -1546,6 +1638,8 @@ export const listOvhCloudConnectInterfaceStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectInterfaceStatistics",
 }));
 
 export type ListOvhCloudConnectLogKindError = OvhOpError;
@@ -1561,6 +1655,8 @@ export const listOvhCloudConnectLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectLogKind",
 }));
 
 export type ListOvhCloudConnectLogSubscriptionError = OvhOpError;
@@ -1576,6 +1672,8 @@ export const listOvhCloudConnectLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectLogSubscription",
 }));
 
 export type ListOvhCloudConnectMonitoringError = OvhOpError;
@@ -1591,6 +1689,8 @@ export const listOvhCloudConnectMonitoring: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectMonitoring",
 }));
 
 export type ListOvhCloudConnectServiceKeyError = OvhOpError;
@@ -1606,6 +1706,8 @@ export const listOvhCloudConnectServiceKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectServiceKey",
 }));
 
 export type ListOvhCloudConnectTaskError = OvhOpError;
@@ -1621,6 +1723,8 @@ export const listOvhCloudConnectTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhCloudConnectTask",
 }));
 
 export type LockOvhCloudConnectInterfaceError = OvhOpError;
@@ -1636,6 +1740,8 @@ export const lockOvhCloudConnectInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockOvhCloudConnectInterface",
 }));
 
 export type PutOvhCloudConnectError = OvhOpError;
@@ -1651,6 +1757,8 @@ export const putOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOvhCloudConnect",
 }));
 
 export type PutOvhCloudConnectServiceInfosError = OvhOpError;
@@ -1666,6 +1774,8 @@ export const putOvhCloudConnectServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOvhCloudConnectServiceInfos",
 }));
 
 export type RegenerateOvhCloudConnectServiceKeyError = OvhOpError;
@@ -1681,6 +1791,8 @@ export const regenerateOvhCloudConnectServiceKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateOvhCloudConnectServiceKey",
 }));
 
 export type SendOvhCloudConnectServiceKeyError = OvhOpError;
@@ -1696,6 +1808,8 @@ export const sendOvhCloudConnectServiceKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendOvhCloudConnectServiceKey",
 }));
 
 export type TerminateOvhCloudConnectError = OvhOpError;
@@ -1711,6 +1825,8 @@ export const terminateOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateOvhCloudConnect",
 }));
 
 export type UnlockOvhCloudConnectInterfaceError = OvhOpError;
@@ -1726,6 +1842,8 @@ export const unlockOvhCloudConnectInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockOvhCloudConnectInterface",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

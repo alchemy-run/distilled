@@ -14,6 +14,18 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Agents",
+  propagate: "w3c",
+} as const;
+
 export interface GetAgentHarnessesRequest {}
 /** Standard environment variables that any agent can set to identify itself. Their value is matched against the harness ids. */
 export type GetAgentHarnessesResponseStandardEnvVarsList = Array<string>;
@@ -56,6 +68,8 @@ export const getAgentHarnesses: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentHarnesses",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

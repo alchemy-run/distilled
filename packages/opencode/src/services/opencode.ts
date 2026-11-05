@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { OpencodeOpError, OpencodeOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "opencode-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OpenCode",
+  service: "Opencode",
+  labels: "opencode",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4627,6 +4640,8 @@ export const abortSession: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortSession",
 }));
 
 export type AddMcpError = BadRequest | OpencodeOpError;
@@ -4642,6 +4657,8 @@ export const addMcp: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMcp",
 }));
 
 export type AppAgentsError = BadRequest | OpencodeOpError;
@@ -4657,6 +4674,8 @@ export const appAgents: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppAgents",
 }));
 
 export type AppLogError = BadRequest | OpencodeOpError;
@@ -4672,6 +4691,8 @@ export const appLog: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppLog",
 }));
 
 export type ApplyVcsError = BadRequest | OpencodeOpError;
@@ -4687,6 +4708,8 @@ export const applyVcs: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyVcs",
 }));
 
 export type AppSkillsError = BadRequest | OpencodeOpError;
@@ -4702,6 +4725,8 @@ export const appSkills: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppSkills",
 }));
 
 export type AuthenticateMcpAuthError = BadRequest | NotFound | OpencodeOpError;
@@ -4717,6 +4742,8 @@ export const authenticateMcpAuth: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticateMcpAuth",
 }));
 
 export type AuthorizeProviderOauthError = BadRequest | OpencodeOpError;
@@ -4732,6 +4759,8 @@ export const authorizeProviderOauth: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeProviderOauth",
 }));
 
 export type CancelV2IntegrationAttemptError = BadRequest | OpencodeOpError;
@@ -4747,6 +4776,8 @@ export const cancelV2IntegrationAttempt: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelV2IntegrationAttempt",
 }));
 
 export type ClearV2SessionRevertError = BadRequest | NotFound | OpencodeOpError;
@@ -4762,6 +4793,8 @@ export const clearV2SessionRevert: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearV2SessionRevert",
 }));
 
 export type CommitV2SessionRevertError = BadRequest | NotFound | OpencodeOpError;
@@ -4777,6 +4810,8 @@ export const commitV2SessionRevert: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitV2SessionRevert",
 }));
 
 export type CompactV2SessionError = BadRequest | NotFound | OpencodeOpError;
@@ -4792,6 +4827,8 @@ export const compactV2Session: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompactV2Session",
 }));
 
 export type CompleteV2IntegrationAttemptError = BadRequest | OpencodeOpError;
@@ -4807,6 +4844,8 @@ export const completeV2IntegrationAttempt: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteV2IntegrationAttempt",
 }));
 
 export type ConfigProvidersError = BadRequest | OpencodeOpError;
@@ -4822,6 +4861,8 @@ export const configProviders: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigProviders",
 }));
 
 export type ConnectMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -4837,6 +4878,8 @@ export const connectMcp: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectMcp",
 }));
 
 export type ConnectPtyError = Forbidden | NotFound | OpencodeOpError;
@@ -4852,6 +4895,8 @@ export const connectPty: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectPty",
 }));
 
 export type ConnectV2PtyError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -4867,6 +4912,8 @@ export const connectV2Pty: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectV2Pty",
 }));
 
 export type CreateExperimentalWorkspaceError = BadRequest | OpencodeOpError;
@@ -4882,6 +4929,8 @@ export const createExperimentalWorkspace: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentalWorkspace",
 }));
 
 export type CreatePtyError = BadRequest | OpencodeOpError;
@@ -4897,6 +4946,8 @@ export const createPty: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePty",
 }));
 
 export type CreateSessionError = BadRequest | OpencodeOpError;
@@ -4912,6 +4963,8 @@ export const createSession: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateV2PtyError = BadRequest | OpencodeOpError;
@@ -4927,6 +4980,8 @@ export const createV2Pty: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Pty",
 }));
 
 export type CreateV2SessionError = BadRequest | OpencodeOpError;
@@ -4942,6 +4997,8 @@ export const createV2Session: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Session",
 }));
 
 export type CreateV2SessionPermissionError = BadRequest | NotFound | OpencodeOpError;
@@ -4957,6 +5014,8 @@ export const createV2SessionPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2SessionPermission",
 }));
 
 export type CreateWorktreeError = BadRequest | OpencodeOpError;
@@ -4972,6 +5031,8 @@ export const createWorktree: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorktree",
 }));
 
 export type DeletePartError = BadRequest | NotFound | OpencodeOpError;
@@ -4987,6 +5048,8 @@ export const deletePart: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePart",
 }));
 
 export type DeleteSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -5002,6 +5065,8 @@ export const deleteSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DisconnectMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -5017,6 +5082,8 @@ export const disconnectMcp: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectMcp",
 }));
 
 export type ExperimentalConsoleListOrgsError = BadRequest | OpencodeOpError;
@@ -5032,6 +5099,8 @@ export const experimentalConsoleListOrgs: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalConsoleListOrgs",
 }));
 
 export type ExperimentalConsoleSwitchOrgError = OpencodeOpError;
@@ -5047,6 +5116,8 @@ export const experimentalConsoleSwitchOrg: API.OperationMethod<
   errors: [UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalConsoleSwitchOrg",
 }));
 
 export type ExperimentalControlPlaneMoveSessionError = BadRequest | OpencodeOpError;
@@ -5062,6 +5133,8 @@ export const experimentalControlPlaneMoveSession: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalControlPlaneMoveSession",
 }));
 
 export type ExperimentalProjectCopyGenerateNameError = BadRequest | OpencodeOpError;
@@ -5077,6 +5150,8 @@ export const experimentalProjectCopyGenerateName: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalProjectCopyGenerateName",
 }));
 
 export type ExperimentalSessionBackgroundError = BadRequest | OpencodeOpError;
@@ -5092,6 +5167,8 @@ export const experimentalSessionBackground: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalSessionBackground",
 }));
 
 export type ExperimentalWorkspaceStatusError = BadRequest | OpencodeOpError;
@@ -5107,6 +5184,8 @@ export const experimentalWorkspaceStatus: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalWorkspaceStatus",
 }));
 
 export type ExperimentalWorkspaceWarpError = BadRequest | NotFound | OpencodeOpError;
@@ -5122,6 +5201,8 @@ export const experimentalWorkspaceWarp: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalWorkspaceWarp",
 }));
 
 export type FileStatus2Error = BadRequest | OpencodeOpError;
@@ -5137,6 +5218,8 @@ export const fileStatus2: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileStatus2",
 }));
 
 export type FindFilesError = BadRequest | OpencodeOpError;
@@ -5152,6 +5235,8 @@ export const findFiles: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindFiles",
 }));
 
 export type FindSymbolsError = BadRequest | OpencodeOpError;
@@ -5167,6 +5252,8 @@ export const findSymbols: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindSymbols",
 }));
 
 export type FindTextError = BadRequest | OpencodeOpError;
@@ -5182,6 +5269,8 @@ export const findText: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindText",
 }));
 
 export type ForkSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -5197,6 +5286,8 @@ export const forkSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkSession",
 }));
 
 export type FormatterStatus2Error = BadRequest | OpencodeOpError;
@@ -5212,6 +5303,8 @@ export const formatterStatus2: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FormatterStatus2",
 }));
 
 export type GetConfigError = BadRequest | OpencodeOpError;
@@ -5227,6 +5320,8 @@ export const getConfig: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetExperimentalCapabilityError = BadRequest | OpencodeOpError;
@@ -5242,6 +5337,8 @@ export const getExperimentalCapability: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentalCapability",
 }));
 
 export type GetExperimentalConsoleError = BadRequest | OpencodeOpError;
@@ -5257,6 +5354,8 @@ export const getExperimentalConsole: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentalConsole",
 }));
 
 export type GetGlobalConfigError = BadRequest | OpencodeOpError;
@@ -5272,6 +5371,8 @@ export const getGlobalConfig: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalConfig",
 }));
 
 export type GetPathError = BadRequest | OpencodeOpError;
@@ -5283,6 +5384,8 @@ export const getPath: API.OperationMethod<GetPathRequest, Path, GetPathError, Op
     errors: [BadRequest, UnknownOpencodeError],
     protocol: OpencodeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPath",
   }));
 
 export type GetPtyError = BadRequest | NotFound | OpencodeOpError;
@@ -5294,6 +5397,8 @@ export const getPty: API.OperationMethod<GetPtyRequest, Pty, GetPtyError, Openco
     errors: [BadRequest, NotFound, UnknownOpencodeError],
     protocol: OpencodeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPty",
   }));
 
 export type GetSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -5309,6 +5414,8 @@ export const getSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetV2HealthError = BadRequest | OpencodeOpError;
@@ -5324,6 +5431,8 @@ export const getV2Health: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Health",
 }));
 
 export type GetV2IntegrationError = BadRequest | OpencodeOpError;
@@ -5339,6 +5448,8 @@ export const getV2Integration: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Integration",
 }));
 
 export type GetV2LocationError = BadRequest | OpencodeOpError;
@@ -5354,6 +5465,8 @@ export const getV2Location: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Location",
 }));
 
 export type GetV2ProviderError = BadRequest | NotFound | OpencodeOpError;
@@ -5369,6 +5482,8 @@ export const getV2Provider: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Provider",
 }));
 
 export type GetV2PtyError = BadRequest | NotFound | OpencodeOpError;
@@ -5384,6 +5499,8 @@ export const getV2Pty: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Pty",
 }));
 
 export type GetV2SessionError = BadRequest | NotFound | OpencodeOpError;
@@ -5399,6 +5516,8 @@ export const getV2Session: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Session",
 }));
 
 export type GetV2SessionPermissionError = BadRequest | NotFound | OpencodeOpError;
@@ -5414,6 +5533,8 @@ export const getV2SessionPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2SessionPermission",
 }));
 
 export type GetVcsError = BadRequest | OpencodeOpError;
@@ -5425,6 +5546,8 @@ export const getVcs: API.OperationMethod<GetVcsRequest, VcsInfo, GetVcsError, Op
     errors: [BadRequest, UnknownOpencodeError],
     protocol: OpencodeProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetVcs",
   }));
 
 export type GlobalDisposeError = BadRequest | OpencodeOpError;
@@ -5440,6 +5563,8 @@ export const globalDispose: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalDispose",
 }));
 
 export type GlobalEventError = BadRequest | OpencodeOpError;
@@ -5455,6 +5580,8 @@ export const globalEvent: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalEvent",
 }));
 
 export type GlobalHealthError = BadRequest | OpencodeOpError;
@@ -5470,6 +5597,8 @@ export const globalHealth: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalHealth",
 }));
 
 export type GlobalUpgradeError = BadRequest | OpencodeOpError;
@@ -5485,6 +5614,8 @@ export const globalUpgrade: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalUpgrade",
 }));
 
 export type InstanceDisposeError = BadRequest | OpencodeOpError;
@@ -5500,6 +5631,8 @@ export const instanceDispose: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstanceDispose",
 }));
 
 export type ListCommandError = BadRequest | OpencodeOpError;
@@ -5515,6 +5648,8 @@ export const listCommand: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommand",
 }));
 
 export type ListExperimentalResourceError = BadRequest | OpencodeOpError;
@@ -5530,6 +5665,8 @@ export const listExperimentalResource: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalResource",
 }));
 
 export type ListExperimentalSessionError = BadRequest | OpencodeOpError;
@@ -5545,6 +5682,8 @@ export const listExperimentalSession: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalSession",
 }));
 
 export type ListExperimentalWorkspaceError = BadRequest | OpencodeOpError;
@@ -5560,6 +5699,8 @@ export const listExperimentalWorkspace: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalWorkspace",
 }));
 
 export type ListExperimentalWorkspaceAdapterError = BadRequest | OpencodeOpError;
@@ -5575,6 +5716,8 @@ export const listExperimentalWorkspaceAdapter: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalWorkspaceAdapter",
 }));
 
 export type ListExperimentalWorkspaceSyncError = BadRequest | OpencodeOpError;
@@ -5590,6 +5733,8 @@ export const listExperimentalWorkspaceSync: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalWorkspaceSync",
 }));
 
 export type ListFileError = BadRequest | OpencodeOpError;
@@ -5605,6 +5750,8 @@ export const listFile: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFile",
 }));
 
 export type ListPermissionError = BadRequest | OpencodeOpError;
@@ -5620,6 +5767,8 @@ export const listPermission: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermission",
 }));
 
 export type ListProjectError = BadRequest | OpencodeOpError;
@@ -5635,6 +5784,8 @@ export const listProject: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProject",
 }));
 
 export type ListProviderError = BadRequest | OpencodeOpError;
@@ -5650,6 +5801,8 @@ export const listProvider: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProvider",
 }));
 
 export type ListProviderAuthMethodsError = BadRequest | OpencodeOpError;
@@ -5665,6 +5818,8 @@ export const listProviderAuthMethods: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderAuthMethods",
 }));
 
 export type ListPtyError = BadRequest | OpencodeOpError;
@@ -5680,6 +5835,8 @@ export const listPty: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPty",
 }));
 
 export type ListQuestionError = BadRequest | OpencodeOpError;
@@ -5695,6 +5852,8 @@ export const listQuestion: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuestion",
 }));
 
 export type ListSessionError = BadRequest | OpencodeOpError;
@@ -5710,6 +5869,8 @@ export const listSession: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSession",
 }));
 
 export type ListSyncHistoryError = BadRequest | OpencodeOpError;
@@ -5725,6 +5886,8 @@ export const listSyncHistory: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyncHistory",
 }));
 
 export type ListToolError = BadRequest | OpencodeOpError;
@@ -5740,6 +5903,8 @@ export const listTool: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTool",
 }));
 
 export type ListV2AgentError = BadRequest | OpencodeOpError;
@@ -5755,6 +5920,8 @@ export const listV2Agent: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Agent",
 }));
 
 export type ListV2CommandError = BadRequest | OpencodeOpError;
@@ -5770,6 +5937,8 @@ export const listV2Command: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Command",
 }));
 
 export type ListV2FsError = BadRequest | OpencodeOpError;
@@ -5785,6 +5954,8 @@ export const listV2Fs: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Fs",
 }));
 
 export type ListV2IntegrationError = BadRequest | OpencodeOpError;
@@ -5800,6 +5971,8 @@ export const listV2Integration: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Integration",
 }));
 
 export type ListV2ModelError = BadRequest | OpencodeOpError;
@@ -5815,6 +5988,8 @@ export const listV2Model: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Model",
 }));
 
 export type ListV2PermissionRequestError = BadRequest | OpencodeOpError;
@@ -5830,6 +6005,8 @@ export const listV2PermissionRequest: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2PermissionRequest",
 }));
 
 export type ListV2PermissionSavedError = BadRequest | OpencodeOpError;
@@ -5845,6 +6022,8 @@ export const listV2PermissionSaved: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2PermissionSaved",
 }));
 
 export type ListV2ProviderError = BadRequest | OpencodeOpError;
@@ -5860,6 +6039,8 @@ export const listV2Provider: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Provider",
 }));
 
 export type ListV2PtyError = BadRequest | OpencodeOpError;
@@ -5875,6 +6056,8 @@ export const listV2Pty: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Pty",
 }));
 
 export type ListV2QuestionRequestError = BadRequest | OpencodeOpError;
@@ -5890,6 +6073,8 @@ export const listV2QuestionRequest: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2QuestionRequest",
 }));
 
 export type ListV2ReferenceError = BadRequest | OpencodeOpError;
@@ -5905,6 +6090,8 @@ export const listV2Reference: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Reference",
 }));
 
 export type ListV2SessionError = BadRequest | OpencodeOpError;
@@ -5920,6 +6107,8 @@ export const listV2Session: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Session",
 }));
 
 export type ListV2SessionPermissionError = BadRequest | NotFound | OpencodeOpError;
@@ -5935,6 +6124,8 @@ export const listV2SessionPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2SessionPermission",
 }));
 
 export type ListV2SessionQuestionError = BadRequest | NotFound | OpencodeOpError;
@@ -5950,6 +6141,8 @@ export const listV2SessionQuestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2SessionQuestion",
 }));
 
 export type ListV2SkillError = BadRequest | OpencodeOpError;
@@ -5965,6 +6158,8 @@ export const listV2Skill: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2Skill",
 }));
 
 export type ListWorktreeError = BadRequest | OpencodeOpError;
@@ -5980,6 +6175,8 @@ export const listWorktree: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorktree",
 }));
 
 export type LspStatusError = BadRequest | OpencodeOpError;
@@ -5995,6 +6192,8 @@ export const lspStatus: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LspStatus",
 }));
 
 export type McpAuthCallbackError = BadRequest | NotFound | OpencodeOpError;
@@ -6010,6 +6209,8 @@ export const mcpAuthCallback: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAuthCallback",
 }));
 
 export type McpStatusError = BadRequest | OpencodeOpError;
@@ -6025,6 +6226,8 @@ export const mcpStatus: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpStatus",
 }));
 
 export type ProjectCurrentError = BadRequest | OpencodeOpError;
@@ -6040,6 +6243,8 @@ export const projectCurrent: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectCurrent",
 }));
 
 export type ProjectDirectories2Error = BadRequest | OpencodeOpError;
@@ -6055,6 +6260,8 @@ export const projectDirectories2: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectDirectories2",
 }));
 
 export type ProjectInitGitError = BadRequest | OpencodeOpError;
@@ -6070,6 +6277,8 @@ export const projectInitGit: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectInitGit",
 }));
 
 export type ProviderOauthCallbackError = BadRequest | OpencodeOpError;
@@ -6085,6 +6294,8 @@ export const providerOauthCallback: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderOauthCallback",
 }));
 
 export type PtyConnectTokenError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -6100,6 +6311,8 @@ export const ptyConnectToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PtyConnectToken",
 }));
 
 export type PtyShellsError = BadRequest | OpencodeOpError;
@@ -6115,6 +6328,8 @@ export const ptyShells: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PtyShells",
 }));
 
 export type PublishTuiError = BadRequest | OpencodeOpError;
@@ -6130,6 +6345,8 @@ export const publishTui: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishTui",
 }));
 
 export type ReadFileError = BadRequest | OpencodeOpError;
@@ -6145,6 +6362,8 @@ export const readFile: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFile",
 }));
 
 export type ReadV2FsError = BadRequest | OpencodeOpError;
@@ -6160,6 +6379,8 @@ export const readV2Fs: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadV2Fs",
 }));
 
 export type RejectQuestionError = BadRequest | NotFound | OpencodeOpError;
@@ -6175,6 +6396,8 @@ export const rejectQuestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectQuestion",
 }));
 
 export type RejectV2SessionQuestionError = BadRequest | NotFound | OpencodeOpError;
@@ -6190,6 +6413,8 @@ export const rejectV2SessionQuestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectV2SessionQuestion",
 }));
 
 export type RemoveAuthError = BadRequest | OpencodeOpError;
@@ -6205,6 +6430,8 @@ export const removeAuth: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuth",
 }));
 
 export type RemoveExperimentalWorkspaceError = BadRequest | OpencodeOpError;
@@ -6220,6 +6447,8 @@ export const removeExperimentalWorkspace: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExperimentalWorkspace",
 }));
 
 export type RemoveMcpAuthError = BadRequest | NotFound | OpencodeOpError;
@@ -6235,6 +6464,8 @@ export const removeMcpAuth: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMcpAuth",
 }));
 
 export type RemovePtyError = BadRequest | NotFound | OpencodeOpError;
@@ -6250,6 +6481,8 @@ export const removePty: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePty",
 }));
 
 export type RemoveV2CredentialError = BadRequest | OpencodeOpError;
@@ -6265,6 +6498,8 @@ export const removeV2Credential: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveV2Credential",
 }));
 
 export type RemoveV2PermissionSavedError = BadRequest | OpencodeOpError;
@@ -6280,6 +6515,8 @@ export const removeV2PermissionSaved: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveV2PermissionSaved",
 }));
 
 export type RemoveV2PtyError = BadRequest | NotFound | OpencodeOpError;
@@ -6295,6 +6532,8 @@ export const removeV2Pty: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveV2Pty",
 }));
 
 export type RemoveWorktreeError = BadRequest | OpencodeOpError;
@@ -6310,6 +6549,8 @@ export const removeWorktree: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWorktree",
 }));
 
 export type ReplyPermissionError = BadRequest | NotFound | OpencodeOpError;
@@ -6325,6 +6566,8 @@ export const replyPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyPermission",
 }));
 
 export type ReplyQuestionError = BadRequest | NotFound | OpencodeOpError;
@@ -6340,6 +6583,8 @@ export const replyQuestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyQuestion",
 }));
 
 export type ReplyV2SessionPermissionError = BadRequest | NotFound | OpencodeOpError;
@@ -6355,6 +6600,8 @@ export const replyV2SessionPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyV2SessionPermission",
 }));
 
 export type ReplyV2SessionQuestionError = BadRequest | NotFound | OpencodeOpError;
@@ -6370,6 +6617,8 @@ export const replyV2SessionQuestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyV2SessionQuestion",
 }));
 
 export type ResetWorktreeError = BadRequest | OpencodeOpError;
@@ -6385,6 +6634,8 @@ export const resetWorktree: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetWorktree",
 }));
 
 export type SessionChildrenError = BadRequest | NotFound | OpencodeOpError;
@@ -6400,6 +6651,8 @@ export const sessionChildren: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionChildren",
 }));
 
 export type SessionCommandError = BadRequest | NotFound | OpencodeOpError;
@@ -6415,6 +6668,8 @@ export const sessionCommand: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionCommand",
 }));
 
 export type SessionDeleteMessageError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -6430,6 +6685,8 @@ export const sessionDeleteMessage: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionDeleteMessage",
 }));
 
 export type SessionDiffError = BadRequest | OpencodeOpError;
@@ -6445,6 +6702,8 @@ export const sessionDiff: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionDiff",
 }));
 
 export type SessionInitError = BadRequest | NotFound | OpencodeOpError;
@@ -6460,6 +6719,8 @@ export const sessionInit: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionInit",
 }));
 
 export type SessionMessageError = BadRequest | NotFound | OpencodeOpError;
@@ -6475,6 +6736,8 @@ export const sessionMessage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionMessage",
 }));
 
 export type SessionMessagesError = BadRequest | NotFound | OpencodeOpError;
@@ -6490,6 +6753,8 @@ export const sessionMessages: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionMessages",
 }));
 
 export type SessionPromptError = BadRequest | NotFound | OpencodeOpError;
@@ -6505,6 +6770,8 @@ export const sessionPrompt: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionPrompt",
 }));
 
 export type SessionPromptAsyncError = BadRequest | NotFound | OpencodeOpError;
@@ -6520,6 +6787,8 @@ export const sessionPromptAsync: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionPromptAsync",
 }));
 
 export type SessionRevert2Error = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -6535,6 +6804,8 @@ export const sessionRevert2: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionRevert2",
 }));
 
 export type SessionShellError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -6550,6 +6821,8 @@ export const sessionShell: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionShell",
 }));
 
 export type SessionStatus2Error = BadRequest | OpencodeOpError;
@@ -6565,6 +6838,8 @@ export const sessionStatus2: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionStatus2",
 }));
 
 export type SessionSummarizeError = BadRequest | NotFound | OpencodeOpError;
@@ -6580,6 +6855,8 @@ export const sessionSummarize: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionSummarize",
 }));
 
 export type SessionTodoError = BadRequest | NotFound | OpencodeOpError;
@@ -6595,6 +6872,8 @@ export const sessionTodo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionTodo",
 }));
 
 export type SessionUnrevertError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -6610,6 +6889,8 @@ export const sessionUnrevert: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionUnrevert",
 }));
 
 export type SetAuthError = BadRequest | OpencodeOpError;
@@ -6625,6 +6906,8 @@ export const setAuth: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAuth",
 }));
 
 export type ShareSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -6640,6 +6923,8 @@ export const shareSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareSession",
 }));
 
 export type StartMcpAuthError = BadRequest | NotFound | OpencodeOpError;
@@ -6655,6 +6940,8 @@ export const startMcpAuth: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartMcpAuth",
 }));
 
 export type StartSyncError = BadRequest | OpencodeOpError;
@@ -6670,6 +6957,8 @@ export const startSync: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSync",
 }));
 
 export type SubscribeEventError = OpencodeOpError;
@@ -6685,6 +6974,8 @@ export const subscribeEvent: API.OperationMethod<
   errors: [UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeEvent",
 }));
 
 export type SubscribeV2EventError = BadRequest | OpencodeOpError;
@@ -6700,6 +6991,8 @@ export const subscribeV2Event: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeV2Event",
 }));
 
 export type SyncReplayError = BadRequest | OpencodeOpError;
@@ -6715,6 +7008,8 @@ export const syncReplay: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncReplay",
 }));
 
 export type SyncStealError = BadRequest | OpencodeOpError;
@@ -6730,6 +7025,8 @@ export const syncSteal: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncSteal",
 }));
 
 export type ToolIdsError = BadRequest | OpencodeOpError;
@@ -6745,6 +7042,8 @@ export const toolIds: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolIds",
 }));
 
 export type TuiAppendPromptError = BadRequest | OpencodeOpError;
@@ -6760,6 +7059,8 @@ export const tuiAppendPrompt: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiAppendPrompt",
 }));
 
 export type TuiClearPromptError = BadRequest | OpencodeOpError;
@@ -6775,6 +7076,8 @@ export const tuiClearPrompt: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiClearPrompt",
 }));
 
 export type TuiControlNextError = BadRequest | OpencodeOpError;
@@ -6790,6 +7093,8 @@ export const tuiControlNext: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiControlNext",
 }));
 
 export type TuiControlResponseError = BadRequest | OpencodeOpError;
@@ -6805,6 +7110,8 @@ export const tuiControlResponse: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiControlResponse",
 }));
 
 export type TuiExecuteCommandError = BadRequest | OpencodeOpError;
@@ -6820,6 +7127,8 @@ export const tuiExecuteCommand: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiExecuteCommand",
 }));
 
 export type TuiOpenHelpError = BadRequest | OpencodeOpError;
@@ -6835,6 +7144,8 @@ export const tuiOpenHelp: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiOpenHelp",
 }));
 
 export type TuiOpenModelsError = BadRequest | OpencodeOpError;
@@ -6850,6 +7161,8 @@ export const tuiOpenModels: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiOpenModels",
 }));
 
 export type TuiOpenSessionsError = BadRequest | OpencodeOpError;
@@ -6865,6 +7178,8 @@ export const tuiOpenSessions: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiOpenSessions",
 }));
 
 export type TuiOpenThemesError = BadRequest | OpencodeOpError;
@@ -6880,6 +7195,8 @@ export const tuiOpenThemes: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiOpenThemes",
 }));
 
 export type TuiSelectSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -6895,6 +7212,8 @@ export const tuiSelectSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiSelectSession",
 }));
 
 export type TuiShowToastError = BadRequest | OpencodeOpError;
@@ -6910,6 +7229,8 @@ export const tuiShowToast: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiShowToast",
 }));
 
 export type TuiSubmitPromptError = BadRequest | OpencodeOpError;
@@ -6925,6 +7246,8 @@ export const tuiSubmitPrompt: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuiSubmitPrompt",
 }));
 
 export type UnshareSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -6940,6 +7263,8 @@ export const unshareSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnshareSession",
 }));
 
 export type UpdateConfigError = BadRequest | OpencodeOpError;
@@ -6955,6 +7280,8 @@ export const updateConfig: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateGlobalConfigError = BadRequest | OpencodeOpError;
@@ -6970,6 +7297,8 @@ export const updateGlobalConfig: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalConfig",
 }));
 
 export type UpdatePartError = BadRequest | NotFound | OpencodeOpError;
@@ -6985,6 +7314,8 @@ export const updatePart: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePart",
 }));
 
 export type UpdateProjectError = BadRequest | NotFound | OpencodeOpError;
@@ -7000,6 +7331,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdatePtyError = BadRequest | NotFound | OpencodeOpError;
@@ -7015,6 +7348,8 @@ export const updatePty: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePty",
 }));
 
 export type UpdateSessionError = BadRequest | NotFound | OpencodeOpError;
@@ -7030,6 +7365,8 @@ export const updateSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateV2CredentialError = BadRequest | OpencodeOpError;
@@ -7045,6 +7382,8 @@ export const updateV2Credential: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateV2Credential",
 }));
 
 export type UpdateV2PtyError = BadRequest | NotFound | OpencodeOpError;
@@ -7060,6 +7399,8 @@ export const updateV2Pty: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateV2Pty",
 }));
 
 export type V2FsFindError = BadRequest | OpencodeOpError;
@@ -7075,6 +7416,8 @@ export const v2FsFind: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2FsFind",
 }));
 
 export type V2IntegrationAttemptStatusError = BadRequest | OpencodeOpError;
@@ -7090,6 +7433,8 @@ export const v2IntegrationAttemptStatus: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2IntegrationAttemptStatus",
 }));
 
 export type V2IntegrationConnectKeyError = BadRequest | OpencodeOpError;
@@ -7105,6 +7450,8 @@ export const v2IntegrationConnectKey: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2IntegrationConnectKey",
 }));
 
 export type V2IntegrationConnectOauthError = BadRequest | OpencodeOpError;
@@ -7120,6 +7467,8 @@ export const v2IntegrationConnectOauth: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2IntegrationConnectOauth",
 }));
 
 export type V2ProjectCopyCreateError = BadRequest | OpencodeOpError;
@@ -7134,6 +7483,8 @@ export const v2ProjectCopyCreate: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2ProjectCopyCreate",
 }));
 
 export type V2ProjectCopyRefreshError = BadRequest | OpencodeOpError;
@@ -7148,6 +7499,8 @@ export const v2ProjectCopyRefresh: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2ProjectCopyRefresh",
 }));
 
 export type V2ProjectCopyRemoveError = BadRequest | OpencodeOpError;
@@ -7162,6 +7515,8 @@ export const v2ProjectCopyRemove: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2ProjectCopyRemove",
 }));
 
 export type V2PtyConnectTokenError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -7177,6 +7532,8 @@ export const v2PtyConnectToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2PtyConnectToken",
 }));
 
 export type V2SessionActiveError = BadRequest | OpencodeOpError;
@@ -7192,6 +7549,8 @@ export const v2SessionActive: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionActive",
 }));
 
 export type V2SessionContextError = BadRequest | NotFound | OpencodeOpError;
@@ -7207,6 +7566,8 @@ export const v2SessionContext: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionContext",
 }));
 
 export type V2SessionEventsError = BadRequest | NotFound | OpencodeOpError;
@@ -7222,6 +7583,8 @@ export const v2SessionEvents: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionEvents",
 }));
 
 export type V2SessionHistoryError = BadRequest | NotFound | OpencodeOpError;
@@ -7237,6 +7600,8 @@ export const v2SessionHistory: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionHistory",
 }));
 
 export type V2SessionInterruptError = BadRequest | NotFound | OpencodeOpError;
@@ -7252,6 +7617,8 @@ export const v2SessionInterrupt: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionInterrupt",
 }));
 
 export type V2SessionMessageError = BadRequest | NotFound | OpencodeOpError;
@@ -7267,6 +7634,8 @@ export const v2SessionMessage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionMessage",
 }));
 
 export type V2SessionMessagesError = BadRequest | NotFound | OpencodeOpError;
@@ -7282,6 +7651,8 @@ export const v2SessionMessages: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionMessages",
 }));
 
 export type V2SessionPromptError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -7297,6 +7668,8 @@ export const v2SessionPrompt: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionPrompt",
 }));
 
 export type V2SessionRevertStageError = BadRequest | NotFound | OpencodeOpError;
@@ -7312,6 +7685,8 @@ export const v2SessionRevertStage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionRevertStage",
 }));
 
 export type V2SessionSwitchAgentError = BadRequest | NotFound | OpencodeOpError;
@@ -7327,6 +7702,8 @@ export const v2SessionSwitchAgent: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionSwitchAgent",
 }));
 
 export type V2SessionSwitchModelError = BadRequest | NotFound | OpencodeOpError;
@@ -7342,6 +7719,8 @@ export const v2SessionSwitchModel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2SessionSwitchModel",
 }));
 
 export type VcsDiffError = BadRequest | OpencodeOpError;
@@ -7357,6 +7736,8 @@ export const vcsDiff: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VcsDiff",
 }));
 
 export type VcsDiffRawError = BadRequest | OpencodeOpError;
@@ -7372,6 +7753,8 @@ export const vcsDiffRaw: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VcsDiffRaw",
 }));
 
 export type VcsStatusError = BadRequest | OpencodeOpError;
@@ -7387,6 +7770,8 @@ export const vcsStatus: API.OperationMethod<
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VcsStatus",
 }));
 
 export type WaitV2SessionError = BadRequest | NotFound | OpencodeOpError;
@@ -7402,6 +7787,8 @@ export const waitV2Session: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitV2Session",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

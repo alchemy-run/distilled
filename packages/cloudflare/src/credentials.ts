@@ -24,12 +24,24 @@ const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 export interface ApiTokenConfig {
   readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  /**
+   * The account the credentials act on, for APIs addressed by account
+   * rather than by an `accountId` parameter (R2's S3 endpoint). Read from
+   * `CLOUDFLARE_ACCOUNT_ID` by `fromEnv`.
+   */
+  readonly accountId?: string;
 }
 
 export interface ApiKeyConfig {
   readonly apiKey: Redacted.Redacted<string>;
   readonly email: string;
   readonly apiBaseUrl?: string;
+  /**
+   * The account the credentials act on, for APIs addressed by account
+   * rather than by an `accountId` parameter (R2's S3 endpoint). Read from
+   * `CLOUDFLARE_ACCOUNT_ID` by `fromEnv`.
+   */
+  readonly accountId?: string;
 }
 
 export interface OAuthConfig {
@@ -42,12 +54,19 @@ export interface OAuthProvider {
   readonly load: Effect.Effect<OAuthConfig, unknown>;
   readonly refresh: (credentials: OAuthConfig) => Effect.Effect<OAuthConfig, unknown>;
   readonly apiBaseUrl?: string;
+  /**
+   * The account the credentials act on, for APIs addressed by account
+   * rather than by an `accountId` parameter (R2's S3 endpoint). Read from
+   * `CLOUDFLARE_ACCOUNT_ID` by `fromEnv`.
+   */
+  readonly accountId?: string;
 }
 
 export interface ApiTokenCredentials {
   readonly type: "apiToken";
   readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  readonly accountId?: string;
 }
 
 export interface ApiKeyCredentials {
@@ -55,6 +74,7 @@ export interface ApiKeyCredentials {
   readonly apiKey: Redacted.Redacted<string>;
   readonly email: string;
   readonly apiBaseUrl: string;
+  readonly accountId?: string;
 }
 
 export interface OAuthCredentials {
@@ -63,6 +83,7 @@ export interface OAuthCredentials {
   readonly refreshToken: Redacted.Redacted<string> | undefined;
   readonly expiresAt?: number;
   readonly apiBaseUrl: string;
+  readonly accountId?: string;
 }
 
 export type ResolvedCredentials = ApiTokenCredentials | ApiKeyCredentials | OAuthCredentials;
@@ -87,6 +108,7 @@ export const apiTokenCredentials = (config: ApiTokenConfig): ApiTokenCredentials
   type: "apiToken",
   apiToken: config.apiToken,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
+  ...(config.accountId === undefined ? {} : { accountId: config.accountId }),
 });
 
 export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
@@ -94,14 +116,20 @@ export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
   apiKey: config.apiKey,
   email: config.email,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
+  ...(config.accountId === undefined ? {} : { accountId: config.accountId }),
 });
 
-export const oauthCredentials = (config: OAuthConfig, apiBaseUrl?: string): OAuthCredentials => ({
+export const oauthCredentials = (
+  config: OAuthConfig,
+  apiBaseUrl?: string,
+  accountId?: string,
+): OAuthCredentials => ({
   type: "oauth",
   accessToken: config.accessToken,
   refreshToken: config.refreshToken,
   expiresAt: config.expiresAt,
   apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
+  ...(accountId === undefined ? {} : { accountId }),
 });
 
 const getRefreshAt = (credentials: ResolvedCredentials): number => {
@@ -172,7 +200,7 @@ export const fromOAuth = (provider: OAuthProvider): Layer.Layer<Credentials> => 
       : loadedCredentials;
 
     currentCredentials = credentials;
-    return oauthCredentials(credentials, provider.apiBaseUrl);
+    return oauthCredentials(credentials, provider.apiBaseUrl, provider.accountId);
   });
 
   return Layer.succeed(Credentials, createCachedCredentialsEffect(resolve));
@@ -206,6 +234,9 @@ const envConfig = /*@__PURE__*/ Config.all({
   apiBaseUrl: /*@__PURE__*/ Config.String("CLOUDFLARE_API_BASE_URL").pipe(
     /*@__PURE__*/ Config.withDefault(DEFAULT_API_BASE_URL),
   ),
+  accountId: /*@__PURE__*/ Config.option(/*@__PURE__*/ Config.String("CLOUDFLARE_ACCOUNT_ID")).pipe(
+    /*@__PURE__*/ Config.map(Option.filter((v) => v.length > 0)),
+  ),
 });
 
 export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
@@ -217,13 +248,14 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
     const apiKey = Option.getOrUndefined(config.apiKey);
     const email = Option.getOrUndefined(config.email);
     const apiBaseUrl = config.apiBaseUrl;
+    const accountId = Option.getOrUndefined(config.accountId);
 
     if (apiToken) {
-      return apiTokenCredentials({ apiToken, apiBaseUrl });
+      return apiTokenCredentials({ apiToken, apiBaseUrl, accountId });
     }
 
     if (apiKey && email) {
-      return apiKeyCredentials({ apiKey, email, apiBaseUrl });
+      return apiKeyCredentials({ apiKey, email, apiBaseUrl, accountId });
     }
 
     if (apiKey && !email) {

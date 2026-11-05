@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WarehouseExpressions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateWarehouseExpressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -139,6 +152,8 @@ export const createWarehouseExpression: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseExpression",
 }));
 
 export type GetWarehouseExpressionError = PosthogOpError;
@@ -154,6 +169,8 @@ export const getWarehouseExpression: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseExpression",
 }));
 
 export type ListWarehouseExpressionsError = PosthogOpError;
@@ -169,6 +186,8 @@ export const listWarehouseExpressions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWarehouseExpressions",
 }));
 
 export type UpdateWarehouseExpressionError = PosthogOpError;
@@ -184,6 +203,8 @@ export const updateWarehouseExpression: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseExpression",
 }));
 
 export type UpdateWarehouseExpressionsPartialError = PosthogOpError;
@@ -199,6 +220,8 @@ export const updateWarehouseExpressionsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseExpressionsPartial",
 }));
 
 export type WarehouseExpressionsDestroyError = PosthogOpError;
@@ -214,6 +237,8 @@ export const warehouseExpressionsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseExpressionsDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

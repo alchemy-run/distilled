@@ -1,3 +1,5 @@
+import { selectSchema, type GraphQLSelection } from "./graphql-selection.ts";
+
 /**
  * The add-ons subset of Fly's GraphQL schema (the spec mirror's
  * `graphql.json`, the full introspection of https://api.fly.io/graphql).
@@ -8,9 +10,7 @@
  * the argument names to keep. Everything about a kept field (type,
  * nullability, arguments) comes from the schema.
  */
-export const ADDONS_SELECTION: Readonly<
-  Record<string, Readonly<Record<string, readonly string[] | null>> | null>
-> = {
+export const ADDONS_SELECTION: GraphQLSelection = {
   String: null,
   ID: null,
   Int: null,
@@ -135,27 +135,4 @@ export const ADDONS_SELECTION: Readonly<
 };
 
 /** The schema reduced to {@link ADDONS_SELECTION}, in selection order. */
-export const selectAddons = (schema: any): any => {
-  const byName = new Map<string, any>(schema.types.map((t: any) => [t.name, t]));
-  const types = Object.entries(ADDONS_SELECTION).map(([name, fields]) => {
-    const type = byName.get(name);
-    if (type === undefined)
-      throw new Error(`add-ons: type ${name} is not in the Fly GraphQL schema`);
-    if (fields === null) return type;
-    const key = type.inputFields ? "inputFields" : "fields";
-    const byField = new Map<string, any>(type[key].map((f: any) => [f.name, f]));
-    return {
-      ...type,
-      [key]: Object.entries(fields).map(([fieldName, args]) => {
-        const field = byField.get(fieldName);
-        if (field === undefined) {
-          throw new Error(`add-ons: ${name}.${fieldName} is not in the Fly GraphQL schema`);
-        }
-        return args === null
-          ? field
-          : { ...field, args: field.args.filter((a: any) => args.includes(a.name)) };
-      }),
-    };
-  });
-  return { ...schema, types };
-};
+export const selectAddons = (schema: any): any => selectSchema(schema, ADDONS_SELECTION, "add-ons");

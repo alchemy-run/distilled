@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "bigqueryconnection" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Bigqueryconnection",
+  service: "bigqueryconnection",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -272,6 +291,8 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsConnections",
 }));
 
 export type DeleteProjectsLocationsConnectionsError =
@@ -292,6 +313,8 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsConnections",
 }));
 
 export type GetIamPolicyProjectsLocationsConnectionsError =
@@ -312,6 +335,8 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsConnections",
 }));
 
 export type GetProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -327,6 +352,8 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsConnections",
 }));
 
 export type ListProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -343,6 +370,8 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnections",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -364,6 +393,8 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsConnections",
 }));
 
 export type SetIamPolicyProjectsLocationsConnectionsError =
@@ -384,6 +415,8 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsConnections",
 }));
 
 export type TestIamPermissionsProjectsLocationsConnectionsError =
@@ -404,6 +437,8 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsConnections",
 }));
 
 export type UpdateCredentialProjectsLocationsConnectionsError =
@@ -424,6 +459,8 @@ export const updateCredentialProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCredentialProjectsLocationsConnections",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

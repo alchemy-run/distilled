@@ -1,4 +1,6 @@
 import * as crypto from "node:crypto";
+import { inspect } from "node:util";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -31,6 +33,7 @@ import {
 
 const BASE_URL = "https://cdp.test/platform";
 const KEY_ID = "organizations/org-1/apiKeys/key-1";
+const SECRET = "sentinel-secret-7f3a";
 
 interface Recorded {
   readonly method: string;
@@ -204,6 +207,46 @@ describe("JWT bearer authentication", () => {
     expect(crypto.verify(null, jwt.signingInput, edKeys.publicKey, jwt.signature)).toBe(true);
   });
 
+  describe("an unusable secret or base URL fails with ConfigError before any request", () => {
+    const configError = async (overrides: Partial<Config>) => {
+      const { result, requests } = run(
+        Effect.flip(getEvmAccount({ address: "0xabc" })),
+        () => json(account),
+        configFor(overrides),
+      );
+      const error = await result;
+      expect(error).toBeInstanceOf(ConfigError);
+      expect(requests).toHaveLength(0);
+      return error as ConfigError;
+    };
+
+    test("a malformed PEM secret", async () => {
+      const secret = "-----BEGIN EC PRIVATE KEY-----\nnot-a-key\n-----END EC PRIVATE KEY-----";
+      const error = await configError({ apiKeySecret: Redacted.make(secret) });
+      expect(error.message).toContain("not a valid EC PEM private key");
+      expect(error.message).not.toContain("not-a-key");
+    });
+
+    test("an Ed25519 key in PEM form, which cannot sign ES256", async () => {
+      const pem = edKeys.privateKey.export({ format: "pem", type: "pkcs8" }).toString();
+      const error = await configError({ apiKeySecret: Redacted.make(pem) });
+      expect(error.message).toContain("cannot sign a ES256 JWT");
+    });
+
+    test("a secret that is neither PEM nor 64-byte base64", async () => {
+      const error = await configError({ apiKeySecret: Redacted.make("c2hvcnQ=") });
+      expect(error.message).toBe(
+        "Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.",
+      );
+    });
+
+    test("an apiBaseUrl that is not an absolute URL", async () => {
+      const error = await configError({ apiBaseUrl: "cdp.test/platform" });
+      expect(error.message).toContain("absolute URL");
+      expect(error.message).toContain('"cdp.test/platform"');
+    });
+  });
+
   test("the uri claim carries method, host and path but not the query string", async () => {
     const { result, requests } = run(listEvmAccounts({ pageSize: 5, pageToken: "next" }), () =>
       json({ accounts: [account], nextPageToken: "n2" }),
@@ -311,6 +354,29 @@ describe("Response decoding", () => {
     );
     expect(error).toBeInstanceOf(CoinbaseParseError);
   });
+
+  const subscription = getWebhookSubscription({ subscriptionId: "sub-1" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await runError(
+        subscription.pipe(Effect.provide(mode)),
+        () => new Response(`{"secret":"${SECRET}`),
+      );
+      expect(error).toBeInstanceOf(CoinbaseParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const error = await runError(subscription.pipe(Effect.provide(ResponseValidation.strict)), () =>
+      json({ secret: SECRET }),
+    );
+    expect(error).toBeInstanceOf(CoinbaseParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
 });
 
 describe("Error decoding", () => {
@@ -381,14 +447,16 @@ describe("Error decoding", () => {
     });
   });
 
-  test("a body that is not the Coinbase envelope is UnknownCoinbaseError with the raw body", async () => {
+  test("a body that is not the Coinbase envelope maps by HTTP status", async () => {
     const plain = await runError(call(), () => new Response("upstream exploded", { status: 500 }));
-    expect(plain).toBeInstanceOf(UnknownCoinbaseError);
-    expect(plain).toMatchObject({ body: "upstream exploded" });
+    expect(plain).toMatchObject({ _tag: "InternalServerError", message: "upstream exploded" });
 
     const other = await runError(call(), () => json({ message: "nope" }, 404));
-    expect(other).toBeInstanceOf(UnknownCoinbaseError);
-    expect(other).toMatchObject({ body: { message: "nope" } });
+    expect(other).toMatchObject({ _tag: "NotFound", message: '{"message":"nope"}' });
+
+    const unmapped = await runError(call(), () => new Response("teapot", { status: 418 }));
+    expect(unmapped).toBeInstanceOf(UnknownCoinbaseError);
+    expect(unmapped).toMatchObject({ body: "teapot" });
   });
 
   test("an isValid/success body with an error status is a success value", async () => {

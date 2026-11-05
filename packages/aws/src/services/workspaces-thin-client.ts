@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://thinclient.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkSpacesThinClient",
+  service: "WorkSpacesThinClient",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -477,7 +493,7 @@ export type CreateEnvironmentError =
  * Creates an environment for your thin client devices.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentRequest,
+  CreateEnvironmentRequest & RegionInput,
   CreateEnvironmentResponse,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -497,6 +513,8 @@ export const createEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type DeleteDeviceError =
@@ -511,7 +529,7 @@ export type DeleteDeviceError =
  * Deletes a thin client device.
  */
 export const deleteDevice: API.OperationMethod<
-  DeleteDeviceRequest,
+  DeleteDeviceRequest & RegionInput,
   DeleteDeviceResponse,
   DeleteDeviceError,
   Credentials | HttpClient.HttpClient
@@ -530,6 +548,8 @@ export const deleteDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteEnvironmentError =
@@ -544,7 +564,7 @@ export type DeleteEnvironmentError =
  * Deletes an environment.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -563,6 +583,8 @@ export const deleteEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeregisterDeviceError =
@@ -577,7 +599,7 @@ export type DeregisterDeviceError =
  * Deregisters a thin client device.
  */
 export const deregisterDevice: API.OperationMethod<
-  DeregisterDeviceRequest,
+  DeregisterDeviceRequest & RegionInput,
   DeregisterDeviceResponse,
   DeregisterDeviceError,
   Credentials | HttpClient.HttpClient
@@ -596,6 +618,8 @@ export const deregisterDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeregisterDevice",
 }));
 
 export type GetDeviceError =
@@ -609,7 +633,7 @@ export type GetDeviceError =
  * Returns information for a thin client device.
  */
 export const getDevice: API.OperationMethod<
-  GetDeviceRequest,
+  GetDeviceRequest & RegionInput,
   GetDeviceResponse,
   GetDeviceError,
   Credentials | HttpClient.HttpClient
@@ -627,6 +651,8 @@ export const getDevice: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetEnvironmentError =
@@ -640,7 +666,7 @@ export type GetEnvironmentError =
  * Returns information for an environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentRequest,
+  GetEnvironmentRequest & RegionInput,
   GetEnvironmentResponse,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -658,6 +684,8 @@ export const getEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetSoftwareSetError =
@@ -671,7 +699,7 @@ export type GetSoftwareSetError =
  * Returns information for a software set.
  */
 export const getSoftwareSet: API.OperationMethod<
-  GetSoftwareSetRequest,
+  GetSoftwareSetRequest & RegionInput,
   GetSoftwareSetResponse,
   GetSoftwareSetError,
   Credentials | HttpClient.HttpClient
@@ -689,6 +717,8 @@ export const getSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetSoftwareSet",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetSoftwareSet",
 }));
 
 export type ListDevicesError =
@@ -701,7 +731,7 @@ export type ListDevicesError =
  * Returns a list of thin client devices.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesRequest,
+  ListDevicesRequest & RegionInput,
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -725,6 +755,8 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -737,7 +769,7 @@ export type ListEnvironmentsError =
  * Returns a list of environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResponse,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -761,6 +793,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListSoftwareSetsError =
@@ -773,7 +807,7 @@ export type ListSoftwareSetsError =
  * Returns a list of software sets.
  */
 export const listSoftwareSets: API.PaginatedOperationMethod<
-  ListSoftwareSetsRequest,
+  ListSoftwareSetsRequest & RegionInput,
   ListSoftwareSetsResponse,
   ListSoftwareSetsError,
   Credentials | HttpClient.HttpClient,
@@ -797,6 +831,8 @@ export const listSoftwareSets: API.PaginatedOperationMethod<
     items: "softwareSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSoftwareSets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -810,7 +846,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -828,6 +864,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -842,7 +880,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -861,6 +899,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -875,7 +915,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -894,6 +934,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeviceError =
@@ -907,7 +949,7 @@ export type UpdateDeviceError =
  * Updates a thin client device.
  */
 export const updateDevice: API.OperationMethod<
-  UpdateDeviceRequest,
+  UpdateDeviceRequest & RegionInput,
   UpdateDeviceResponse,
   UpdateDeviceError,
   Credentials | HttpClient.HttpClient
@@ -925,6 +967,8 @@ export const updateDevice: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateDevice",
 }));
 
 export type UpdateEnvironmentError =
@@ -939,7 +983,7 @@ export type UpdateEnvironmentError =
  * Updates an environment.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResponse,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -958,6 +1002,8 @@ export const updateEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateSoftwareSetError =
@@ -971,7 +1017,7 @@ export type UpdateSoftwareSetError =
  * Updates a software set.
  */
 export const updateSoftwareSet: API.OperationMethod<
-  UpdateSoftwareSetRequest,
+  UpdateSoftwareSetRequest & RegionInput,
   UpdateSoftwareSetResponse,
   UpdateSoftwareSetError,
   Credentials | HttpClient.HttpClient
@@ -989,6 +1035,8 @@ export const updateSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSoftwareSet",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateSoftwareSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

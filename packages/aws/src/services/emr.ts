@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -78,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticmapreduce.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EMR",
+  service: "EMR",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClusterNotFound
   extends /*@__PURE__*/ S.TaggedError<ClusterNotFound>()(
@@ -1976,7 +1993,7 @@ export type AddInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x.
  */
 export const addInstanceFleet: API.OperationMethod<
-  AddInstanceFleetInput,
+  AddInstanceFleetInput & RegionInput,
   AddInstanceFleetOutput,
   AddInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -1987,6 +2004,8 @@ export const addInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceFleet",
+  telemetry: TELEMETRY,
+  span: "AddInstanceFleet",
 }));
 
 export type AddInstanceGroupsError = InternalServerError | CommonErrors;
@@ -1994,7 +2013,7 @@ export type AddInstanceGroupsError = InternalServerError | CommonErrors;
  * Adds one or more instance groups to a running cluster.
  */
 export const addInstanceGroups: API.OperationMethod<
-  AddInstanceGroupsInput,
+  AddInstanceGroupsInput & RegionInput,
   AddInstanceGroupsOutput,
   AddInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -2005,6 +2024,8 @@ export const addInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceGroups",
+  telemetry: TELEMETRY,
+  span: "AddInstanceGroups",
 }));
 
 export type AddJobFlowStepsError = InternalServerError | CommonErrors;
@@ -2033,7 +2054,7 @@ export type AddJobFlowStepsError = InternalServerError | CommonErrors;
  * of 10240 characters.
  */
 export const addJobFlowSteps: API.OperationMethod<
-  AddJobFlowStepsInput,
+  AddJobFlowStepsInput & RegionInput,
   AddJobFlowStepsOutput,
   AddJobFlowStepsError,
   Creds | HttpClient.HttpClient
@@ -2044,6 +2065,8 @@ export const addJobFlowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddJobFlowSteps",
+  telemetry: TELEMETRY,
+  span: "AddJobFlowSteps",
 }));
 
 export type AddTagsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2055,7 +2078,7 @@ export type AddTagsError = InternalServerException | InvalidRequestException | C
  * Clusters.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Creds | HttpClient.HttpClient
@@ -2066,6 +2089,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CancelStepsError = InternalServerError | InvalidRequestException | CommonErrors;
@@ -2077,7 +2102,7 @@ export type CancelStepsError = InternalServerError | InvalidRequestException | C
  * `PENDING` or `RUNNING` state. In earlier versions of Amazon EMR, you can only cancel steps that are in a `PENDING` state.
  */
 export const cancelSteps: API.OperationMethod<
-  CancelStepsInput,
+  CancelStepsInput & RegionInput,
   CancelStepsOutput,
   CancelStepsError,
   Creds | HttpClient.HttpClient
@@ -2088,6 +2113,8 @@ export const cancelSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSteps",
+  telemetry: TELEMETRY,
+  span: "CancelSteps",
 }));
 
 export type CreatePersistentAppUIError =
@@ -2098,7 +2125,7 @@ export type CreatePersistentAppUIError =
  * Creates a persistent application user interface.
  */
 export const createPersistentAppUI: API.OperationMethod<
-  CreatePersistentAppUIInput,
+  CreatePersistentAppUIInput & RegionInput,
   CreatePersistentAppUIOutput,
   CreatePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2109,6 +2136,8 @@ export const createPersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePersistentAppUI",
+  telemetry: TELEMETRY,
+  span: "CreatePersistentAppUI",
 }));
 
 export type CreateSecurityConfigurationError =
@@ -2121,7 +2150,7 @@ export type CreateSecurityConfigurationError =
  * when a cluster is created.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationInput,
+  CreateSecurityConfigurationInput & RegionInput,
   CreateSecurityConfigurationOutput,
   CreateSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2132,6 +2161,8 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfiguration",
 }));
 
 export type CreateStudioError =
@@ -2144,7 +2175,7 @@ export type CreateStudioError =
  * Creates a new Amazon EMR Studio.
  */
 export const createStudio: API.OperationMethod<
-  CreateStudioInput,
+  CreateStudioInput & RegionInput,
   CreateStudioOutput,
   CreateStudioError,
   Creds | HttpClient.HttpClient
@@ -2160,6 +2191,8 @@ export const createStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudio",
+  telemetry: TELEMETRY,
+  span: "CreateStudio",
 }));
 
 export type CreateStudioSessionMappingError =
@@ -2174,7 +2207,7 @@ export type CreateStudioSessionMappingError =
  * Studio when you use IAM authentication, see Assign a user or group to your EMR Studio.
  */
 export const createStudioSessionMapping: API.OperationMethod<
-  CreateStudioSessionMappingInput,
+  CreateStudioSessionMappingInput & RegionInput,
   CreateStudioSessionMappingResponse,
   CreateStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2185,6 +2218,8 @@ export const createStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "CreateStudioSessionMapping",
 }));
 
 export type DeleteSecurityConfigurationError =
@@ -2196,7 +2231,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationInput,
+  DeleteSecurityConfigurationInput & RegionInput,
   DeleteSecurityConfigurationOutput,
   DeleteSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2207,6 +2242,8 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfiguration",
 }));
 
 export type DeleteStudioError =
@@ -2218,7 +2255,7 @@ export type DeleteStudioError =
  * Removes an Amazon EMR Studio from the Studio metadata store.
  */
 export const deleteStudio: API.OperationMethod<
-  DeleteStudioInput,
+  DeleteStudioInput & RegionInput,
   DeleteStudioResponse,
   DeleteStudioError,
   Creds | HttpClient.HttpClient
@@ -2229,6 +2266,8 @@ export const deleteStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudio",
+  telemetry: TELEMETRY,
+  span: "DeleteStudio",
 }));
 
 export type DeleteStudioSessionMappingError =
@@ -2239,7 +2278,7 @@ export type DeleteStudioSessionMappingError =
  * Removes a user or group from an Amazon EMR Studio.
  */
 export const deleteStudioSessionMapping: API.OperationMethod<
-  DeleteStudioSessionMappingInput,
+  DeleteStudioSessionMappingInput & RegionInput,
   DeleteStudioSessionMappingResponse,
   DeleteStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2250,6 +2289,8 @@ export const deleteStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteStudioSessionMapping",
 }));
 
 export type DescribeClusterError =
@@ -2262,7 +2303,7 @@ export type DescribeClusterError =
  * VPC settings, and so on.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterInput,
+  DescribeClusterInput & RegionInput,
   DescribeClusterOutput,
   DescribeClusterError,
   Creds | HttpClient.HttpClient
@@ -2273,6 +2314,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeJobFlowsError = InternalServerError | CommonErrors;
@@ -2299,7 +2342,7 @@ export type DescribeJobFlowsError = InternalServerError | CommonErrors;
  * Amazon EMR can return a maximum of 512 job flow descriptions.
  */
 export const describeJobFlows: API.OperationMethod<
-  DescribeJobFlowsInput,
+  DescribeJobFlowsInput & RegionInput,
   DescribeJobFlowsOutput,
   DescribeJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -2310,6 +2353,8 @@ export const describeJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobFlows",
+  telemetry: TELEMETRY,
+  span: "DescribeJobFlows",
 }));
 
 export type DescribeNotebookExecutionError =
@@ -2320,7 +2365,7 @@ export type DescribeNotebookExecutionError =
  * Provides details of a notebook execution.
  */
 export const describeNotebookExecution: API.OperationMethod<
-  DescribeNotebookExecutionInput,
+  DescribeNotebookExecutionInput & RegionInput,
   DescribeNotebookExecutionOutput,
   DescribeNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -2331,6 +2376,8 @@ export const describeNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeNotebookExecution",
 }));
 
 export type DescribePersistentAppUIError =
@@ -2341,7 +2388,7 @@ export type DescribePersistentAppUIError =
  * Describes a persistent application user interface.
  */
 export const describePersistentAppUI: API.OperationMethod<
-  DescribePersistentAppUIInput,
+  DescribePersistentAppUIInput & RegionInput,
   DescribePersistentAppUIOutput,
   DescribePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2352,6 +2399,8 @@ export const describePersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePersistentAppUI",
+  telemetry: TELEMETRY,
+  span: "DescribePersistentAppUI",
 }));
 
 export type DescribeReleaseLabelError =
@@ -2364,7 +2413,7 @@ export type DescribeReleaseLabelError =
  * specified version of Spark.
  */
 export const describeReleaseLabel: API.OperationMethod<
-  DescribeReleaseLabelInput,
+  DescribeReleaseLabelInput & RegionInput,
   DescribeReleaseLabelOutput,
   DescribeReleaseLabelError,
   Creds | HttpClient.HttpClient
@@ -2375,6 +2424,8 @@ export const describeReleaseLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReleaseLabel",
+  telemetry: TELEMETRY,
+  span: "DescribeReleaseLabel",
 }));
 
 export type DescribeSecurityConfigurationError =
@@ -2387,7 +2438,7 @@ export type DescribeSecurityConfigurationError =
  * JSON.
  */
 export const describeSecurityConfiguration: API.OperationMethod<
-  DescribeSecurityConfigurationInput,
+  DescribeSecurityConfigurationInput & RegionInput,
   DescribeSecurityConfigurationOutput,
   DescribeSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2398,6 +2449,8 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityConfiguration",
 }));
 
 export type DescribeStepError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2405,7 +2458,7 @@ export type DescribeStepError = InternalServerException | InvalidRequestExceptio
  * Provides more detail about the cluster step.
  */
 export const describeStep: API.OperationMethod<
-  DescribeStepInput,
+  DescribeStepInput & RegionInput,
   DescribeStepOutput,
   DescribeStepError,
   Creds | HttpClient.HttpClient
@@ -2416,6 +2469,8 @@ export const describeStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStep",
+  telemetry: TELEMETRY,
+  span: "DescribeStep",
 }));
 
 export type DescribeStudioError =
@@ -2428,7 +2483,7 @@ export type DescribeStudioError =
  * Studio access URL, and so on.
  */
 export const describeStudio: API.OperationMethod<
-  DescribeStudioInput,
+  DescribeStudioInput & RegionInput,
   DescribeStudioOutput,
   DescribeStudioError,
   Creds | HttpClient.HttpClient
@@ -2439,6 +2494,8 @@ export const describeStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStudio",
+  telemetry: TELEMETRY,
+  span: "DescribeStudio",
 }));
 
 export type GetAutoTerminationPolicyError = CommonErrors;
@@ -2446,7 +2503,7 @@ export type GetAutoTerminationPolicyError = CommonErrors;
  * Returns the auto-termination policy for an Amazon EMR cluster.
  */
 export const getAutoTerminationPolicy: API.OperationMethod<
-  GetAutoTerminationPolicyInput,
+  GetAutoTerminationPolicyInput & RegionInput,
   GetAutoTerminationPolicyOutput,
   GetAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -2457,6 +2514,8 @@ export const getAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAutoTerminationPolicy",
 }));
 
 export type GetBlockPublicAccessConfigurationError =
@@ -2469,7 +2528,7 @@ export type GetBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const getBlockPublicAccessConfiguration: API.OperationMethod<
-  GetBlockPublicAccessConfigurationInput,
+  GetBlockPublicAccessConfigurationInput & RegionInput,
   GetBlockPublicAccessConfigurationOutput,
   GetBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2480,6 +2539,8 @@ export const getBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlockPublicAccessConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBlockPublicAccessConfiguration",
 }));
 
 export type GetClusterSessionCredentialsError =
@@ -2493,7 +2554,7 @@ export type GetClusterSessionCredentialsError =
  * username and password authentication.
  */
 export const getClusterSessionCredentials: API.OperationMethod<
-  GetClusterSessionCredentialsInput,
+  GetClusterSessionCredentialsInput & RegionInput,
   GetClusterSessionCredentialsOutput,
   GetClusterSessionCredentialsError,
   Creds | HttpClient.HttpClient
@@ -2504,6 +2565,8 @@ export const getClusterSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSessionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetClusterSessionCredentials",
 }));
 
 export type GetManagedScalingPolicyError = CommonErrors;
@@ -2511,7 +2574,7 @@ export type GetManagedScalingPolicyError = CommonErrors;
  * Fetches the attached managed scaling policy for an Amazon EMR cluster.
  */
 export const getManagedScalingPolicy: API.OperationMethod<
-  GetManagedScalingPolicyInput,
+  GetManagedScalingPolicyInput & RegionInput,
   GetManagedScalingPolicyOutput,
   GetManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -2522,6 +2585,8 @@ export const getManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "GetManagedScalingPolicy",
 }));
 
 export type GetOnClusterAppUIPresignedURLError =
@@ -2532,7 +2597,7 @@ export type GetOnClusterAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getOnClusterAppUIPresignedURL: API.OperationMethod<
-  GetOnClusterAppUIPresignedURLInput,
+  GetOnClusterAppUIPresignedURLInput & RegionInput,
   GetOnClusterAppUIPresignedURLOutput,
   GetOnClusterAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2543,6 +2608,8 @@ export const getOnClusterAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnClusterAppUIPresignedURL",
+  telemetry: TELEMETRY,
+  span: "GetOnClusterAppUIPresignedURL",
 }));
 
 export type GetPersistentAppUIPresignedURLError =
@@ -2553,7 +2620,7 @@ export type GetPersistentAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getPersistentAppUIPresignedURL: API.OperationMethod<
-  GetPersistentAppUIPresignedURLInput,
+  GetPersistentAppUIPresignedURLInput & RegionInput,
   GetPersistentAppUIPresignedURLOutput,
   GetPersistentAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2564,6 +2631,8 @@ export const getPersistentAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersistentAppUIPresignedURL",
+  telemetry: TELEMETRY,
+  span: "GetPersistentAppUIPresignedURL",
 }));
 
 export type GetSessionError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2571,7 +2640,7 @@ export type GetSessionError = InternalServerException | InvalidRequestException 
  * Returns detailed information about a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionInput,
+  GetSessionInput & RegionInput,
   GetSessionOutput,
   GetSessionError,
   Creds | HttpClient.HttpClient
@@ -2582,6 +2651,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionEndpointError =
@@ -2592,7 +2663,7 @@ export type GetSessionEndpointError =
  * Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointInput,
+  GetSessionEndpointInput & RegionInput,
   GetSessionEndpointOutput,
   GetSessionEndpointError,
   Creds | HttpClient.HttpClient
@@ -2603,6 +2674,8 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSessionEndpoint",
 }));
 
 export type GetStudioSessionMappingError =
@@ -2614,7 +2687,7 @@ export type GetStudioSessionMappingError =
  * or group).
  */
 export const getStudioSessionMapping: API.OperationMethod<
-  GetStudioSessionMappingInput,
+  GetStudioSessionMappingInput & RegionInput,
   GetStudioSessionMappingOutput,
   GetStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2625,6 +2698,8 @@ export const getStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "GetStudioSessionMapping",
 }));
 
 export type ListBootstrapActionsError =
@@ -2635,7 +2710,7 @@ export type ListBootstrapActionsError =
  * Provides information about the bootstrap actions associated with a cluster.
  */
 export const listBootstrapActions: API.PaginatedOperationMethod<
-  ListBootstrapActionsInput,
+  ListBootstrapActionsInput & RegionInput,
   ListBootstrapActionsOutput,
   ListBootstrapActionsError,
   Creds | HttpClient.HttpClient,
@@ -2648,6 +2723,8 @@ export const listBootstrapActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBootstrapActions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "BootstrapActions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBootstrapActions",
 })) as any;
 
 export type ListClustersError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2659,7 +2736,7 @@ export type ListClustersError = InternalServerException | InvalidRequestExceptio
  * across multiple ListClusters calls.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Creds | HttpClient.HttpClient,
@@ -2672,6 +2749,8 @@ export const listClusters: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListClusters",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Clusters" } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListInstanceFleetsError =
@@ -2685,7 +2764,7 @@ export type ListInstanceFleetsError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const listInstanceFleets: API.PaginatedOperationMethod<
-  ListInstanceFleetsInput,
+  ListInstanceFleetsInput & RegionInput,
   ListInstanceFleetsOutput,
   ListInstanceFleetsError,
   Creds | HttpClient.HttpClient,
@@ -2698,6 +2777,8 @@ export const listInstanceFleets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceFleets",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceFleets" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceFleets",
 })) as any;
 
 export type ListInstanceGroupsError =
@@ -2708,7 +2789,7 @@ export type ListInstanceGroupsError =
  * Provides all available details about the instance groups in a cluster.
  */
 export const listInstanceGroups: API.PaginatedOperationMethod<
-  ListInstanceGroupsInput,
+  ListInstanceGroupsInput & RegionInput,
   ListInstanceGroupsOutput,
   ListInstanceGroupsError,
   Creds | HttpClient.HttpClient,
@@ -2721,6 +2802,8 @@ export const listInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceGroups",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceGroups" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceGroups",
 })) as any;
 
 export type ListInstancesError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2731,7 +2814,7 @@ export type ListInstancesError = InternalServerException | InvalidRequestExcepti
  * PROVISIONING, BOOTSTRAPPING, RUNNING.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesInput,
+  ListInstancesInput & RegionInput,
   ListInstancesOutput,
   ListInstancesError,
   Creds | HttpClient.HttpClient,
@@ -2744,6 +2827,8 @@ export const listInstances: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Instances" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListNotebookExecutionsError =
@@ -2757,7 +2842,7 @@ export type ListNotebookExecutionsError =
  * multiple `ListNotebookExecutions` calls.
  */
 export const listNotebookExecutions: API.PaginatedOperationMethod<
-  ListNotebookExecutionsInput,
+  ListNotebookExecutionsInput & RegionInput,
   ListNotebookExecutionsOutput,
   ListNotebookExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -2770,6 +2855,8 @@ export const listNotebookExecutions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotebookExecutions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "NotebookExecutions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotebookExecutions",
 })) as any;
 
 export type ListReleaseLabelsError =
@@ -2781,7 +2868,7 @@ export type ListReleaseLabelsError =
  * called.
  */
 export const listReleaseLabels: API.PaginatedOperationMethod<
-  ListReleaseLabelsInput,
+  ListReleaseLabelsInput & RegionInput,
   ListReleaseLabelsOutput,
   ListReleaseLabelsError,
   Creds | HttpClient.HttpClient,
@@ -2798,6 +2885,8 @@ export const listReleaseLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReleaseLabels",
 })) as any;
 
 export type ListSecurityConfigurationsError =
@@ -2811,7 +2900,7 @@ export type ListSecurityConfigurationsError =
  * ListSecurityConfigurations calls.
  */
 export const listSecurityConfigurations: API.PaginatedOperationMethod<
-  ListSecurityConfigurationsInput,
+  ListSecurityConfigurationsInput & RegionInput,
   ListSecurityConfigurationsOutput,
   ListSecurityConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -2828,6 +2917,8 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     outputToken: "Marker",
     items: "SecurityConfigurations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigurations",
 })) as any;
 
 export type ListSessionsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2835,7 +2926,7 @@ export type ListSessionsError = InternalServerException | InvalidRequestExceptio
  * Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsInput,
+  ListSessionsInput & RegionInput,
   ListSessionsOutput,
   ListSessionsError,
   Creds | HttpClient.HttpClient,
@@ -2848,6 +2939,8 @@ export const listSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSessions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Sessions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListStepsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2860,7 +2953,7 @@ export type ListStepsError = InternalServerException | InvalidRequestException |
  * that indicates the next set of steps to retrieve.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsInput,
+  ListStepsInput & RegionInput,
   ListStepsOutput,
   ListStepsError,
   Creds | HttpClient.HttpClient,
@@ -2873,6 +2966,8 @@ export const listSteps: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSteps",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Steps" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSteps",
 })) as any;
 
 export type ListStudiosError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2881,7 +2976,7 @@ export type ListStudiosError = InternalServerException | InvalidRequestException
  * creation time for each Studio.
  */
 export const listStudios: API.PaginatedOperationMethod<
-  ListStudiosInput,
+  ListStudiosInput & RegionInput,
   ListStudiosOutput,
   ListStudiosError,
   Creds | HttpClient.HttpClient,
@@ -2894,6 +2989,8 @@ export const listStudios: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudios",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Studios" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStudios",
 })) as any;
 
 export type ListStudioSessionMappingsError =
@@ -2905,7 +3002,7 @@ export type ListStudioSessionMappingsError =
  * specified by `StudioId`.
  */
 export const listStudioSessionMappings: API.PaginatedOperationMethod<
-  ListStudioSessionMappingsInput,
+  ListStudioSessionMappingsInput & RegionInput,
   ListStudioSessionMappingsOutput,
   ListStudioSessionMappingsError,
   Creds | HttpClient.HttpClient,
@@ -2918,6 +3015,8 @@ export const listStudioSessionMappings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudioSessionMappings",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "SessionMappings" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStudioSessionMappings",
 })) as any;
 
 export type ListSupportedInstanceTypesError =
@@ -2929,7 +3028,7 @@ export type ListSupportedInstanceTypesError =
  * list by Amazon Web Services Region and Amazon EMR release.
  */
 export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
-  ListSupportedInstanceTypesInput,
+  ListSupportedInstanceTypesInput & RegionInput,
   ListSupportedInstanceTypesOutput,
   ListSupportedInstanceTypesError,
   Creds | HttpClient.HttpClient,
@@ -2942,6 +3041,8 @@ export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSupportedInstanceTypes",
   pagination: { inputToken: "Marker", outputToken: "Marker" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportedInstanceTypes",
 })) as any;
 
 export type ModifyClusterError = InternalServerError | InvalidRequestException | CommonErrors;
@@ -2950,7 +3051,7 @@ export type ModifyClusterError = InternalServerError | InvalidRequestException |
  * using ClusterID.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterInput,
+  ModifyClusterInput & RegionInput,
   ModifyClusterOutput,
   ModifyClusterError,
   Creds | HttpClient.HttpClient
@@ -2961,6 +3062,8 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCluster",
 }));
 
 export type ModifyInstanceFleetError =
@@ -2976,7 +3079,7 @@ export type ModifyInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const modifyInstanceFleet: API.OperationMethod<
-  ModifyInstanceFleetInput,
+  ModifyInstanceFleetInput & RegionInput,
   ModifyInstanceFleetResponse,
   ModifyInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -2987,6 +3090,8 @@ export const modifyInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceFleet",
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceFleet",
 }));
 
 export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
@@ -2996,7 +3101,7 @@ export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
  * and the instance group ID. The call will either succeed or fail atomically.
  */
 export const modifyInstanceGroups: API.OperationMethod<
-  ModifyInstanceGroupsInput,
+  ModifyInstanceGroupsInput & RegionInput,
   ModifyInstanceGroupsResponse,
   ModifyInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -3007,6 +3112,8 @@ export const modifyInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceGroups",
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceGroups",
 }));
 
 export type PutAutoScalingPolicyError = CommonErrors;
@@ -3017,7 +3124,7 @@ export type PutAutoScalingPolicyError = CommonErrors;
  * to the value of a CloudWatch metric.
  */
 export const putAutoScalingPolicy: API.OperationMethod<
-  PutAutoScalingPolicyInput,
+  PutAutoScalingPolicyInput & RegionInput,
   PutAutoScalingPolicyOutput,
   PutAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3028,6 +3135,8 @@ export const putAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAutoScalingPolicy",
 }));
 
 export type PutAutoTerminationPolicyError = CommonErrors;
@@ -3042,7 +3151,7 @@ export type PutAutoTerminationPolicyError = CommonErrors;
  * cluster termination.
  */
 export const putAutoTerminationPolicy: API.OperationMethod<
-  PutAutoTerminationPolicyInput,
+  PutAutoTerminationPolicyInput & RegionInput,
   PutAutoTerminationPolicyOutput,
   PutAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3053,6 +3162,8 @@ export const putAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAutoTerminationPolicy",
 }));
 
 export type PutBlockPublicAccessConfigurationError =
@@ -3066,7 +3177,7 @@ export type PutBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const putBlockPublicAccessConfiguration: API.OperationMethod<
-  PutBlockPublicAccessConfigurationInput,
+  PutBlockPublicAccessConfigurationInput & RegionInput,
   PutBlockPublicAccessConfigurationOutput,
   PutBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -3077,6 +3188,8 @@ export const putBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBlockPublicAccessConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBlockPublicAccessConfiguration",
 }));
 
 export type PutManagedScalingPolicyError = CommonErrors;
@@ -3087,7 +3200,7 @@ export type PutManagedScalingPolicyError = CommonErrors;
  * core and task nodes. The master node cannot be scaled after initial configuration.
  */
 export const putManagedScalingPolicy: API.OperationMethod<
-  PutManagedScalingPolicyInput,
+  PutManagedScalingPolicyInput & RegionInput,
   PutManagedScalingPolicyOutput,
   PutManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3098,6 +3211,8 @@ export const putManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutManagedScalingPolicy",
 }));
 
 export type RemoveAutoScalingPolicyError = CommonErrors;
@@ -3105,7 +3220,7 @@ export type RemoveAutoScalingPolicyError = CommonErrors;
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
 export const removeAutoScalingPolicy: API.OperationMethod<
-  RemoveAutoScalingPolicyInput,
+  RemoveAutoScalingPolicyInput & RegionInput,
   RemoveAutoScalingPolicyOutput,
   RemoveAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3116,6 +3231,8 @@ export const removeAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveAutoScalingPolicy",
 }));
 
 export type RemoveAutoTerminationPolicyError = CommonErrors;
@@ -3123,7 +3240,7 @@ export type RemoveAutoTerminationPolicyError = CommonErrors;
  * Removes an auto-termination policy from an Amazon EMR cluster.
  */
 export const removeAutoTerminationPolicy: API.OperationMethod<
-  RemoveAutoTerminationPolicyInput,
+  RemoveAutoTerminationPolicyInput & RegionInput,
   RemoveAutoTerminationPolicyOutput,
   RemoveAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3134,6 +3251,8 @@ export const removeAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveAutoTerminationPolicy",
 }));
 
 export type RemoveManagedScalingPolicyError = CommonErrors;
@@ -3141,7 +3260,7 @@ export type RemoveManagedScalingPolicyError = CommonErrors;
  * Removes a managed scaling policy from a specified Amazon EMR cluster.
  */
 export const removeManagedScalingPolicy: API.OperationMethod<
-  RemoveManagedScalingPolicyInput,
+  RemoveManagedScalingPolicyInput & RegionInput,
   RemoveManagedScalingPolicyOutput,
   RemoveManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3152,6 +3271,8 @@ export const removeManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveManagedScalingPolicy",
 }));
 
 export type RemoveTagsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -3164,7 +3285,7 @@ export type RemoveTagsError = InternalServerException | InvalidRequestException 
  * The following example removes the stack tag with value Prod from a cluster:
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Creds | HttpClient.HttpClient
@@ -3175,6 +3296,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady | CommonErrors;
@@ -3206,7 +3329,7 @@ export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady |
  * InstanceFleets parameters or InstanceGroups parameters, but not both.
  */
 export const runJobFlow: API.OperationMethod<
-  RunJobFlowInput,
+  RunJobFlowInput & RegionInput,
   RunJobFlowOutput,
   RunJobFlowError,
   Creds | HttpClient.HttpClient
@@ -3217,6 +3340,8 @@ export const runJobFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunJobFlow",
+  telemetry: TELEMETRY,
+  span: "RunJobFlow",
 }));
 
 export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonErrors;
@@ -3228,7 +3353,7 @@ export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonEr
  * For more information, see Managing Cluster Termination in the *Amazon EMR Management Guide*.
  */
 export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
-  SetKeepJobFlowAliveWhenNoStepsInput,
+  SetKeepJobFlowAliveWhenNoStepsInput & RegionInput,
   SetKeepJobFlowAliveWhenNoStepsResponse,
   SetKeepJobFlowAliveWhenNoStepsError,
   Creds | HttpClient.HttpClient
@@ -3239,6 +3364,8 @@ export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetKeepJobFlowAliveWhenNoSteps",
+  telemetry: TELEMETRY,
+  span: "SetKeepJobFlowAliveWhenNoSteps",
 }));
 
 export type SetTerminationProtectionError = InternalServerError | JobFlowNotFound | CommonErrors;
@@ -3264,7 +3391,7 @@ export type SetTerminationProtectionError = InternalServerError | JobFlowNotFoun
  * Termination in the *Amazon EMR Management Guide*.
  */
 export const setTerminationProtection: API.OperationMethod<
-  SetTerminationProtectionInput,
+  SetTerminationProtectionInput & RegionInput,
   SetTerminationProtectionResponse,
   SetTerminationProtectionError,
   Creds | HttpClient.HttpClient
@@ -3275,6 +3402,8 @@ export const setTerminationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTerminationProtection",
+  telemetry: TELEMETRY,
+  span: "SetTerminationProtection",
 }));
 
 export type SetUnhealthyNodeReplacementError = InternalServerError | CommonErrors;
@@ -3295,7 +3424,7 @@ export type SetUnhealthyNodeReplacementError = InternalServerError | CommonError
  * node replacement in the *Amazon EMR Management Guide*.
  */
 export const setUnhealthyNodeReplacement: API.OperationMethod<
-  SetUnhealthyNodeReplacementInput,
+  SetUnhealthyNodeReplacementInput & RegionInput,
   SetUnhealthyNodeReplacementResponse,
   SetUnhealthyNodeReplacementError,
   Creds | HttpClient.HttpClient
@@ -3306,6 +3435,8 @@ export const setUnhealthyNodeReplacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUnhealthyNodeReplacement",
+  telemetry: TELEMETRY,
+  span: "SetUnhealthyNodeReplacement",
 }));
 
 export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
@@ -3326,7 +3457,7 @@ export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
  * *Amazon EMR Management Guide*.
  */
 export const setVisibleToAllUsers: API.OperationMethod<
-  SetVisibleToAllUsersInput,
+  SetVisibleToAllUsersInput & RegionInput,
   SetVisibleToAllUsersResponse,
   SetVisibleToAllUsersError,
   Creds | HttpClient.HttpClient
@@ -3337,6 +3468,8 @@ export const setVisibleToAllUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVisibleToAllUsers",
+  telemetry: TELEMETRY,
+  span: "SetVisibleToAllUsers",
 }));
 
 export type StartNotebookExecutionError =
@@ -3347,7 +3480,7 @@ export type StartNotebookExecutionError =
  * Starts a notebook execution.
  */
 export const startNotebookExecution: API.OperationMethod<
-  StartNotebookExecutionInput,
+  StartNotebookExecutionInput & RegionInput,
   StartNotebookExecutionOutput,
   StartNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3358,6 +3491,8 @@ export const startNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "StartNotebookExecution",
 }));
 
 export type StartSessionError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -3365,7 +3500,7 @@ export type StartSessionError = InternalServerException | InvalidRequestExceptio
  * Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the `RUNNING` or `WAITING` state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
  */
 export const startSession: API.OperationMethod<
-  StartSessionInput,
+  StartSessionInput & RegionInput,
   StartSessionOutput,
   StartSessionError,
   Creds | HttpClient.HttpClient
@@ -3376,6 +3511,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopNotebookExecutionError =
@@ -3386,7 +3523,7 @@ export type StopNotebookExecutionError =
  * Stops a notebook execution.
  */
 export const stopNotebookExecution: API.OperationMethod<
-  StopNotebookExecutionInput,
+  StopNotebookExecutionInput & RegionInput,
   StopNotebookExecutionResponse,
   StopNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3397,6 +3534,8 @@ export const stopNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "StopNotebookExecution",
 }));
 
 export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | CommonErrors;
@@ -3411,7 +3550,7 @@ export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | Com
  * Amazon EC2 instances.
  */
 export const terminateJobFlows: API.OperationMethod<
-  TerminateJobFlowsInput,
+  TerminateJobFlowsInput & RegionInput,
   TerminateJobFlowsResponse,
   TerminateJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -3422,6 +3561,8 @@ export const terminateJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJobFlows",
+  telemetry: TELEMETRY,
+  span: "TerminateJobFlows",
 }));
 
 export type TerminateSessionError =
@@ -3432,7 +3573,7 @@ export type TerminateSessionError =
  * Terminates an active session. After you call this operation, the session enters the `TERMINATING` state and then transitions to `TERMINATED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionInput,
+  TerminateSessionInput & RegionInput,
   TerminateSessionOutput,
   TerminateSessionError,
   Creds | HttpClient.HttpClient
@@ -3443,6 +3584,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UpdateStudioError =
@@ -3455,7 +3598,7 @@ export type UpdateStudioError =
  * description, and subnets.
  */
 export const updateStudio: API.OperationMethod<
-  UpdateStudioInput,
+  UpdateStudioInput & RegionInput,
   UpdateStudioResponse,
   UpdateStudioError,
   Creds | HttpClient.HttpClient
@@ -3466,6 +3609,8 @@ export const updateStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudio",
+  telemetry: TELEMETRY,
+  span: "UpdateStudio",
 }));
 
 export type UpdateStudioSessionMappingError =
@@ -3476,7 +3621,7 @@ export type UpdateStudioSessionMappingError =
  * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
  */
 export const updateStudioSessionMapping: API.OperationMethod<
-  UpdateStudioSessionMappingInput,
+  UpdateStudioSessionMappingInput & RegionInput,
   UpdateStudioSessionMappingResponse,
   UpdateStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -3487,6 +3632,8 @@ export const updateStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateStudioSessionMapping",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

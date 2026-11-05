@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "iap" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Iap",
+  service: "iap",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -498,6 +517,8 @@ export const createProjectsBrands: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsBrands",
 }));
 
 export type CreateProjectsBrandsIdentityAwareProxyClientsError =
@@ -522,6 +543,8 @@ export const createProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsBrandsIdentityAwareProxyClients",
 }));
 
 export type CreateProjectsIap_tunnelLocationsDestGroupsError =
@@ -542,6 +565,8 @@ export const createProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsIap_tunnelLocationsDestGroups",
 }));
 
 export type DeleteProjectsBrandsIdentityAwareProxyClientsError =
@@ -566,6 +591,8 @@ export const deleteProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsBrandsIdentityAwareProxyClients",
 }));
 
 export type DeleteProjectsIap_tunnelLocationsDestGroupsError =
@@ -586,6 +613,8 @@ export const deleteProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsIap_tunnelLocationsDestGroups",
 }));
 
 export type GetIamPolicyV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -601,6 +630,8 @@ export const getIamPolicyV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyV1",
 }));
 
 export type GetIapSettingsV1Error = NotFound | Forbidden | GcpOpError;
@@ -616,6 +647,8 @@ export const getIapSettingsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIapSettingsV1",
 }));
 
 export type GetProjectsBrandsError = NotFound | Forbidden | GcpOpError;
@@ -631,6 +664,8 @@ export const getProjectsBrands: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsBrands",
 }));
 
 export type GetProjectsBrandsIdentityAwareProxyClientsError = NotFound | Forbidden | GcpOpError;
@@ -646,6 +681,8 @@ export const getProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsBrandsIdentityAwareProxyClients",
 }));
 
 export type GetProjectsIap_tunnelLocationsDestGroupsError = NotFound | Forbidden | GcpOpError;
@@ -661,6 +698,8 @@ export const getProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsIap_tunnelLocationsDestGroups",
 }));
 
 export type ListProjectsBrandsError = NotFound | Forbidden | GcpOpError;
@@ -676,6 +715,8 @@ export const listProjectsBrands: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsBrands",
 }));
 
 export type ListProjectsBrandsIdentityAwareProxyClientsError = NotFound | Forbidden | GcpOpError;
@@ -692,6 +733,8 @@ export const listProjectsBrandsIdentityAwareProxyClients: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsBrandsIdentityAwareProxyClients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -709,6 +752,8 @@ export const listProjectsIap_tunnelLocationsDestGroups: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsIap_tunnelLocationsDestGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -730,6 +775,8 @@ export const patchProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsIap_tunnelLocationsDestGroups",
 }));
 
 export type ResetSecretProjectsBrandsIdentityAwareProxyClientsError =
@@ -754,6 +801,8 @@ export const resetSecretProjectsBrandsIdentityAwareProxyClients: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetSecretProjectsBrandsIdentityAwareProxyClients",
 }));
 
 export type SetIamPolicyV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -769,6 +818,8 @@ export const setIamPolicyV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyV1",
 }));
 
 export type TestIamPermissionsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -784,6 +835,8 @@ export const testIamPermissionsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsV1",
 }));
 
 export type UpdateIapSettingsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -799,6 +852,8 @@ export const updateIapSettingsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIapSettingsV1",
 }));
 
 export type ValidateAttributeExpressionV1Error =
@@ -819,6 +874,8 @@ export const validateAttributeExpressionV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAttributeExpressionV1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

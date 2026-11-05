@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "ImageService",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteImageRequest {
   imageId?: string;
 }
@@ -278,6 +290,8 @@ export const deleteImage: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type GetImageBuildChainError = ModalOpError;
@@ -293,6 +307,8 @@ export const getImageBuildChain: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImageBuildChain",
 }));
 
 export type ImageFromIdError = ModalOpError;
@@ -307,6 +323,8 @@ export const imageFromId: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageFromId",
 }));
 
 export type ImageGetByTagError = ModalOpError;
@@ -321,6 +339,8 @@ export const imageGetByTag: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageGetByTag",
 }));
 
 export type ImageGetOrCreateError = ModalOpError;
@@ -335,6 +355,8 @@ export const imageGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageGetOrCreate",
 }));
 
 export type ImageListTagsError = ModalOpError;
@@ -349,6 +371,8 @@ export const imageListTags: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageListTags",
 }));
 
 export type ImageTagRevisionsError = ModalOpError;
@@ -363,6 +387,8 @@ export const imageTagRevisions: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageTagRevisions",
 }));
 
 export type PublishImageError = ModalOpError;
@@ -377,6 +403,8 @@ export const publishImage: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishImage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

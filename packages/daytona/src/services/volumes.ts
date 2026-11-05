@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Volumes",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface CreateVolumeRequest {
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string;
@@ -83,6 +96,8 @@ export const createVolume: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type DeleteVolumeError = DaytonaOpError;
@@ -98,6 +113,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type GetVolumeError = DaytonaOpError;
@@ -113,6 +130,8 @@ export const getVolume: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetVolumeByNameError = DaytonaOpError;
@@ -128,6 +147,8 @@ export const getVolumeByName: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeByName",
 }));
 
 export type ListVolumesError = DaytonaOpError;
@@ -143,6 +164,8 @@ export const listVolumes: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

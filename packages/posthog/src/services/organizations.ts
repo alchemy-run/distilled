@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Organizations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5806,6 +5819,8 @@ export const billingSpendExportDownload: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingSpendExportDownload",
 }));
 
 export type BillingUsageExportDownloadError = PosthogOpError;
@@ -5821,6 +5836,8 @@ export const billingUsageExportDownload: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingUsageExportDownload",
 }));
 
 export type CimdVerificationTokensDestroyError = PosthogOpError;
@@ -5836,6 +5853,8 @@ export const cimdVerificationTokensDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CimdVerificationTokensDestroy",
 }));
 
 export type CreateError = BadRequest | Forbidden | PosthogOpError;
@@ -5850,6 +5869,8 @@ export const create: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Create",
 }));
 
 export type CreateCimdVerificationTokenError = PosthogOpError;
@@ -5865,6 +5886,8 @@ export const createCimdVerificationToken: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCimdVerificationToken",
 }));
 
 export type CreateDomainError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5879,6 +5902,8 @@ export const createDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateIdentityProviderConfigError = PosthogOpError;
@@ -5893,6 +5918,8 @@ export const createIdentityProviderConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderConfig",
 }));
 
 export type CreateIdentityProviderConfigsScimTokenError = PosthogOpError;
@@ -5908,6 +5935,8 @@ export const createIdentityProviderConfigsScimToken: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderConfigsScimToken",
 }));
 
 export type CreateInviteError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5922,6 +5951,8 @@ export const createInvite: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvite",
 }));
 
 export type CreateInvitesDelegateError = PosthogOpError;
@@ -5937,6 +5968,8 @@ export const createInvitesDelegate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitesDelegate",
 }));
 
 export type CreateLegalDocumentError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5951,6 +5984,8 @@ export const createLegalDocument: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLegalDocument",
 }));
 
 export type CreateOrganizationsProjectError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5966,6 +6001,8 @@ export const createOrganizationsProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsProject",
 }));
 
 export type CreateOrganizationsProjectsChangeOrganizationError =
@@ -5989,6 +6026,8 @@ export const createOrganizationsProjectsChangeOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsProjectsChangeOrganization",
 }));
 
 export type CreateOrganizationsProjectsDefaultEvaluationContextError = PosthogOpError;
@@ -6008,6 +6047,8 @@ export const createOrganizationsProjectsDefaultEvaluationContext: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsProjectsDefaultEvaluationContext",
 }));
 
 export type CreateOrganizationsProjectsEvaluationContextSuggestionError = PosthogOpError;
@@ -6027,6 +6068,8 @@ export const createOrganizationsProjectsEvaluationContextSuggestion: API.Operati
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsProjectsEvaluationContextSuggestion",
 }));
 
 export type CreateRequestAiAccessError = PosthogOpError;
@@ -6042,6 +6085,8 @@ export const createRequestAiAccess: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRequestAiAccess",
 }));
 
 export type CreateRoleError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6057,6 +6102,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateRoleExternalReferenceError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6071,6 +6118,8 @@ export const createRoleExternalReference: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRoleExternalReference",
 }));
 
 export type CreateRolesRoleMembershipError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6086,6 +6135,8 @@ export const createRolesRoleMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRolesRoleMembership",
 }));
 
 export type DestroyError = Forbidden | NotFound | PosthogOpError;
@@ -6100,6 +6151,8 @@ export const destroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Destroy",
 }));
 
 export type DomainsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -6114,6 +6167,8 @@ export const domainsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsDestroy",
 }));
 
 export type DomainsVerifyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6128,6 +6183,8 @@ export const domainsVerifyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsVerifyCreate",
 }));
 
 export type GetError = Forbidden | NotFound | PosthogOpError;
@@ -6138,6 +6195,8 @@ export const get: API.OperationMethod<GetRequest, Organization, GetError, Postho
     errors: [Forbidden, NotFound],
     protocol: PosthogProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetBillingFeatureError = PosthogOpError;
@@ -6153,6 +6212,8 @@ export const getBillingFeature: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingFeature",
 }));
 
 export type GetBillingForecastError = PosthogOpError;
@@ -6168,6 +6229,8 @@ export const getBillingForecast: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingForecast",
 }));
 
 export type GetBillingInvoicesContentError = PosthogOpError;
@@ -6183,6 +6246,8 @@ export const getBillingInvoicesContent: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingInvoicesContent",
 }));
 
 export type GetBillingLimitError = PosthogOpError;
@@ -6198,6 +6263,8 @@ export const getBillingLimit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingLimit",
 }));
 
 export type GetBillingProductError = PosthogOpError;
@@ -6213,6 +6280,8 @@ export const getBillingProduct: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProduct",
 }));
 
 export type GetBillingProductsSummaryError = PosthogOpError;
@@ -6228,6 +6297,8 @@ export const getBillingProductsSummary: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProductsSummary",
 }));
 
 export type GetBillingSpendSummaryError = PosthogOpError;
@@ -6243,6 +6314,8 @@ export const getBillingSpendSummary: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSpendSummary",
 }));
 
 export type GetBillingSpendTimeseriesError = PosthogOpError;
@@ -6258,6 +6331,8 @@ export const getBillingSpendTimeseries: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSpendTimeseries",
 }));
 
 export type GetBillingSubscriptionError = PosthogOpError;
@@ -6273,6 +6348,8 @@ export const getBillingSubscription: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSubscription",
 }));
 
 export type GetBillingUsageStatusError = PosthogOpError;
@@ -6288,6 +6365,8 @@ export const getBillingUsageStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsageStatus",
 }));
 
 export type GetBillingUsageSummaryError = PosthogOpError;
@@ -6303,6 +6382,8 @@ export const getBillingUsageSummary: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsageSummary",
 }));
 
 export type GetBillingUsageTimeseriesError = PosthogOpError;
@@ -6318,6 +6399,8 @@ export const getBillingUsageTimeseries: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingUsageTimeseries",
 }));
 
 export type GetCimdVerificationTokenError = PosthogOpError;
@@ -6333,6 +6416,8 @@ export const getCimdVerificationToken: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCimdVerificationToken",
 }));
 
 export type GetDomainError = Forbidden | NotFound | PosthogOpError;
@@ -6347,6 +6432,8 @@ export const getDomain: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainsScimLogError = Forbidden | NotFound | PosthogOpError;
@@ -6361,6 +6448,8 @@ export const getDomainsScimLog: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainsScimLog",
 }));
 
 export type GetIdentityProviderConfigError = PosthogOpError;
@@ -6375,6 +6464,8 @@ export const getIdentityProviderConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderConfig",
 }));
 
 export type GetIdentityProviderConfigsScimLogError = PosthogOpError;
@@ -6389,6 +6480,8 @@ export const getIdentityProviderConfigsScimLog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderConfigsScimLog",
 }));
 
 export type GetLegalDocumentError = Forbidden | NotFound | PosthogOpError;
@@ -6403,6 +6496,8 @@ export const getLegalDocument: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLegalDocument",
 }));
 
 export type GetMembersGithubLoginError = PosthogOpError;
@@ -6417,6 +6512,8 @@ export const getMembersGithubLogin: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembersGithubLogin",
 }));
 
 export type GetMembersProjectAccessError = PosthogOpError;
@@ -6432,6 +6529,8 @@ export const getMembersProjectAccess: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembersProjectAccess",
 }));
 
 export type GetMembersScopedApiKeyError = Forbidden | NotFound | PosthogOpError;
@@ -6446,6 +6545,8 @@ export const getMembersScopedApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembersScopedApiKey",
 }));
 
 export type GetOrganizationsProjectError = Forbidden | NotFound | PosthogOpError;
@@ -6461,6 +6562,8 @@ export const getOrganizationsProject: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProject",
 }));
 
 export type GetOrganizationsProjectsAccessControlDefaultError = PosthogOpError;
@@ -6480,6 +6583,8 @@ export const getOrganizationsProjectsAccessControlDefault: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlDefault",
 }));
 
 export type GetOrganizationsProjectsAccessControlDefaultObjectError = PosthogOpError;
@@ -6499,6 +6604,8 @@ export const getOrganizationsProjectsAccessControlDefaultObject: API.OperationMe
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlDefaultObject",
 }));
 
 export type GetOrganizationsProjectsAccessControlDefaultPropertyError = PosthogOpError;
@@ -6518,6 +6625,8 @@ export const getOrganizationsProjectsAccessControlDefaultProperty: API.Operation
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlDefaultProperty",
 }));
 
 export type GetOrganizationsProjectsAccessControlMemberError = PosthogOpError;
@@ -6533,6 +6642,8 @@ export const getOrganizationsProjectsAccessControlMember: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlMember",
 }));
 
 export type GetOrganizationsProjectsAccessControlMemberObjectError = PosthogOpError;
@@ -6552,6 +6663,8 @@ export const getOrganizationsProjectsAccessControlMemberObject: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlMemberObject",
 }));
 
 export type GetOrganizationsProjectsAccessControlMemberPropertyError = PosthogOpError;
@@ -6571,6 +6684,8 @@ export const getOrganizationsProjectsAccessControlMemberProperty: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlMemberProperty",
 }));
 
 export type GetOrganizationsProjectsAccessControlRoleError = PosthogOpError;
@@ -6586,6 +6701,8 @@ export const getOrganizationsProjectsAccessControlRole: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlRole",
 }));
 
 export type GetOrganizationsProjectsAccessControlRoleObjectError = PosthogOpError;
@@ -6605,6 +6722,8 @@ export const getOrganizationsProjectsAccessControlRoleObject: API.OperationMetho
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlRoleObject",
 }));
 
 export type GetOrganizationsProjectsAccessControlRolePropertyError = PosthogOpError;
@@ -6624,6 +6743,8 @@ export const getOrganizationsProjectsAccessControlRoleProperty: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsAccessControlRoleProperty",
 }));
 
 export type GetOrganizationsProjectsActivityError = Forbidden | NotFound | PosthogOpError;
@@ -6639,6 +6760,8 @@ export const getOrganizationsProjectsActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsActivity",
 }));
 
 export type GetOrganizationsProjectsDefaultEvaluationContextError = PosthogOpError;
@@ -6658,6 +6781,8 @@ export const getOrganizationsProjectsDefaultEvaluationContext: API.OperationMeth
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsDefaultEvaluationContext",
 }));
 
 export type GetOrganizationsProjectsDefaultReleaseConditionError = PosthogOpError;
@@ -6677,6 +6802,8 @@ export const getOrganizationsProjectsDefaultReleaseCondition: API.OperationMetho
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsDefaultReleaseCondition",
 }));
 
 export type GetOrganizationsProjectsExperimentsConfigError = PosthogOpError;
@@ -6692,6 +6819,8 @@ export const getOrganizationsProjectsExperimentsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsExperimentsConfig",
 }));
 
 export type GetOrganizationsProjectsIsGeneratingDemoDataError =
@@ -6714,6 +6843,8 @@ export const getOrganizationsProjectsIsGeneratingDemoData: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsIsGeneratingDemoData",
 }));
 
 export type GetOrganizationsProjectsLogsConfigError = PosthogOpError;
@@ -6729,6 +6860,8 @@ export const getOrganizationsProjectsLogsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsLogsConfig",
 }));
 
 export type GetOrganizationsProjectsSettingsAsOfError = PosthogOpError;
@@ -6744,6 +6877,8 @@ export const getOrganizationsProjectsSettingsAsOf: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsSettingsAsOf",
 }));
 
 export type GetOrganizationsProjectsTracingConfigError = PosthogOpError;
@@ -6759,6 +6894,8 @@ export const getOrganizationsProjectsTracingConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsProjectsTracingConfig",
 }));
 
 export type GetRoleError = Forbidden | NotFound | PosthogOpError;
@@ -6770,6 +6907,8 @@ export const getRole: API.OperationMethod<GetRoleRequest, Role, GetRoleError, Po
     errors: [Forbidden, NotFound],
     protocol: PosthogProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRole",
   }));
 
 export type GetRoleExternalReferencesLookupError =
@@ -6788,6 +6927,8 @@ export const getRoleExternalReferencesLookup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleExternalReferencesLookup",
 }));
 
 export type GetRolesRoleMembershipError = Forbidden | NotFound | PosthogOpError;
@@ -6803,6 +6944,8 @@ export const getRolesRoleMembership: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRolesRoleMembership",
 }));
 
 export type GetTeamsDataFreshnessError = PosthogOpError;
@@ -6818,6 +6961,8 @@ export const getTeamsDataFreshness: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamsDataFreshness",
 }));
 
 export type GetWelcomeCurrentError = Forbidden | NotFound | PosthogOpError;
@@ -6833,6 +6978,8 @@ export const getWelcomeCurrent: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWelcomeCurrent",
 }));
 
 export type IdentityProviderConfigsDestroyError = PosthogOpError;
@@ -6847,6 +6994,8 @@ export const identityProviderConfigsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IdentityProviderConfigsDestroy",
 }));
 
 export type InvitesBulkCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6861,6 +7010,8 @@ export const invitesBulkCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvitesBulkCreate",
 }));
 
 export type InvitesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -6875,6 +7026,8 @@ export const invitesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvitesDestroy",
 }));
 
 export type LegalDocumentsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -6890,6 +7043,8 @@ export const legalDocumentsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LegalDocumentsDestroy",
 }));
 
 export type LegalDocumentsDownloadRetrieveError = Forbidden | NotFound | PosthogOpError;
@@ -6905,6 +7060,8 @@ export const legalDocumentsDownloadRetrieve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LegalDocumentsDownloadRetrieve",
 }));
 
 export type ListError = BadRequest | Forbidden | PosthogOpError;
@@ -6919,6 +7076,8 @@ export const list: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "List",
 }));
 
 export type ListBillingInvoicesError = PosthogOpError;
@@ -6934,6 +7093,8 @@ export const listBillingInvoices: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingInvoices",
 }));
 
 export type ListBillingProductsError = PosthogOpError;
@@ -6949,6 +7110,8 @@ export const listBillingProducts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingProducts",
 }));
 
 export type ListBillingProjectError = PosthogOpError;
@@ -6964,6 +7127,8 @@ export const listBillingProject: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingProject",
 }));
 
 export type ListCimdVerificationTokensError = PosthogOpError;
@@ -6979,6 +7144,8 @@ export const listCimdVerificationTokens: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCimdVerificationTokens",
 }));
 
 export type ListDomainsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6993,6 +7160,8 @@ export const listDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListIdentityProviderConfigsError = PosthogOpError;
@@ -7007,6 +7176,8 @@ export const listIdentityProviderConfigs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderConfigs",
 }));
 
 export type ListInvitesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7021,6 +7192,8 @@ export const listInvites: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvites",
 }));
 
 export type ListLegalDocumentsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7035,6 +7208,8 @@ export const listLegalDocuments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLegalDocuments",
 }));
 
 export type ListMembersError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7049,6 +7224,8 @@ export const listMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 }));
 
 export type ListOauthApplicationsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7064,6 +7241,8 @@ export const listOauthApplications: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOauthApplications",
 }));
 
 export type ListOrganizationsProjectsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7079,6 +7258,8 @@ export const listOrganizationsProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsProjects",
 }));
 
 export type ListOrganizationsProjectsEventIngestionRestrictionsError = PosthogOpError;
@@ -7102,6 +7283,8 @@ export const listOrganizationsProjectsEventIngestionRestrictions: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsProjectsEventIngestionRestrictions",
 }));
 
 export type ListRoleExternalReferencesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7116,6 +7299,8 @@ export const listRoleExternalReferences: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleExternalReferences",
 }));
 
 export type ListRolesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7131,6 +7316,8 @@ export const listRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListRolesRoleMembershipsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7146,6 +7333,8 @@ export const listRolesRoleMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRolesRoleMemberships",
 }));
 
 export type MembersDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -7160,6 +7349,8 @@ export const membersDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MembersDestroy",
 }));
 
 export type OrganizationsProjectsAddProductIntentPartialUpdateError =
@@ -7183,6 +7374,8 @@ export const organizationsProjectsAddProductIntentPartialUpdate: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsAddProductIntentPartialUpdate",
 }));
 
 export type OrganizationsProjectsCancelDeletionCreateError = PosthogOpError;
@@ -7198,6 +7391,8 @@ export const organizationsProjectsCancelDeletionCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsCancelDeletionCreate",
 }));
 
 export type OrganizationsProjectsDefaultEvaluationContextsDestroyError = PosthogOpError;
@@ -7221,6 +7416,8 @@ export const organizationsProjectsDefaultEvaluationContextsDestroy: API.Operatio
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsDefaultEvaluationContextsDestroy",
 }));
 
 export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateError =
@@ -7244,6 +7441,8 @@ export const organizationsProjectsDeleteSecretTokenBackupPartialUpdate: API.Oper
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsDeleteSecretTokenBackupPartialUpdate",
 }));
 
 export type OrganizationsProjectsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -7259,6 +7458,8 @@ export const organizationsProjectsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsDestroy",
 }));
 
 export type OrganizationsProjectsEvaluationContextSuggestionsDestroyError = PosthogOpError;
@@ -7278,6 +7479,8 @@ export const organizationsProjectsEvaluationContextSuggestionsDestroy: API.Opera
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsEvaluationContextSuggestionsDestroy",
 }));
 
 export type OrganizationsProjectsGenerateConversationsPublicTokenCreateError =
@@ -7301,6 +7504,8 @@ export const organizationsProjectsGenerateConversationsPublicTokenCreate: API.Op
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsGenerateConversationsPublicTokenCreate",
 }));
 
 export type OrganizationsProjectsResetTokenPartialUpdateError =
@@ -7324,6 +7529,8 @@ export const organizationsProjectsResetTokenPartialUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsResetTokenPartialUpdate",
 }));
 
 export type OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateError = PosthogOpError;
@@ -7343,6 +7550,8 @@ export const organizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdate: A
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdate",
 }));
 
 export type OrganizationsProjectsRotateSecretTokenPartialUpdateError =
@@ -7366,6 +7575,8 @@ export const organizationsProjectsRotateSecretTokenPartialUpdate: API.OperationM
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsProjectsRotateSecretTokenPartialUpdate",
 }));
 
 export type RemoveBlockedMembersAndEnforceVerifiedDomainsCreateError = PosthogOpError;
@@ -7385,6 +7596,8 @@ export const removeBlockedMembersAndEnforceVerifiedDomainsCreate: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveBlockedMembersAndEnforceVerifiedDomainsCreate",
 }));
 
 export type RoleExternalReferencesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -7399,6 +7612,8 @@ export const roleExternalReferencesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RoleExternalReferencesDestroy",
 }));
 
 export type RolesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -7414,6 +7629,8 @@ export const rolesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RolesDestroy",
 }));
 
 export type RolesRoleMembershipsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -7429,6 +7646,8 @@ export const rolesRoleMembershipsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RolesRoleMembershipsDestroy",
 }));
 
 export type UpdateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7443,6 +7662,8 @@ export const update: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateCimdVerificationTokensPartialError = PosthogOpError;
@@ -7458,6 +7679,8 @@ export const updateCimdVerificationTokensPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCimdVerificationTokensPartial",
 }));
 
 export type UpdateDomainError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7472,6 +7695,8 @@ export const updateDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateDomainsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7486,6 +7711,8 @@ export const updateDomainsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainsPartial",
 }));
 
 export type UpdateIdentityProviderConfigError = PosthogOpError;
@@ -7500,6 +7727,8 @@ export const updateIdentityProviderConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderConfig",
 }));
 
 export type UpdateIdentityProviderConfigsPartialError = PosthogOpError;
@@ -7514,6 +7743,8 @@ export const updateIdentityProviderConfigsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderConfigsPartial",
 }));
 
 export type UpdateIntegrationsEnvironmentMappingPartialError =
@@ -7533,6 +7764,8 @@ export const updateIntegrationsEnvironmentMappingPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationsEnvironmentMappingPartial",
 }));
 
 export type UpdateMemberError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7547,6 +7780,8 @@ export const updateMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdateMembersPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7561,6 +7796,8 @@ export const updateMembersPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembersPartial",
 }));
 
 export type UpdateOrganizationsProjectError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7576,6 +7813,8 @@ export const updateOrganizationsProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProject",
 }));
 
 export type UpdateOrganizationsProjectsCompleteProductOnboardingPartialError =
@@ -7599,6 +7838,8 @@ export const updateOrganizationsProjectsCompleteProductOnboardingPartial: API.Op
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsCompleteProductOnboardingPartial",
 }));
 
 export type UpdateOrganizationsProjectsDefaultReleaseConditionError = PosthogOpError;
@@ -7618,6 +7859,8 @@ export const updateOrganizationsProjectsDefaultReleaseCondition: API.OperationMe
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsDefaultReleaseCondition",
 }));
 
 export type UpdateOrganizationsProjectsExperimentsConfigPartialError = PosthogOpError;
@@ -7637,6 +7880,8 @@ export const updateOrganizationsProjectsExperimentsConfigPartial: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsExperimentsConfigPartial",
 }));
 
 export type UpdateOrganizationsProjectsLogsConfigPartialError = PosthogOpError;
@@ -7652,6 +7897,8 @@ export const updateOrganizationsProjectsLogsConfigPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsLogsConfigPartial",
 }));
 
 export type UpdateOrganizationsProjectsPartialError =
@@ -7671,6 +7918,8 @@ export const updateOrganizationsProjectsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsPartial",
 }));
 
 export type UpdateOrganizationsProjectsTracingConfigPartialError = PosthogOpError;
@@ -7690,6 +7939,8 @@ export const updateOrganizationsProjectsTracingConfigPartial: API.OperationMetho
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsProjectsTracingConfigPartial",
 }));
 
 export type UpdatePartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7704,6 +7955,8 @@ export const updatePartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePartial",
 }));
 
 export type UpdateRoleError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7719,6 +7972,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateRolesPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -7734,6 +7989,8 @@ export const updateRolesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRolesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

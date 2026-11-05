@@ -7,11 +7,14 @@
     "typecheck": "tsrs -p tsconfig.json && tsrs -p tsconfig.spec-repos.json"
   },
   "dependencies": {
+    "@alchemy.run/cloudflare": "catalog:",
+    "@alchemy.run/github": "catalog:",
     "@effect/platform-node": "catalog:",
     "alchemy": "catalog:",
     "effect": "catalog:"
   },
   "devDependencies": {
+    "graphql": "catalog:",
     "tsrs": "catalog:",
     "yaml": "catalog:"
   }

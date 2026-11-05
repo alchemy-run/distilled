@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "EnvironmentService",
+  propagate: "w3c",
+} as const;
+
 /** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
 export interface EnvironmentSettings {
   imageBuilderVersion?: string;
@@ -234,6 +246,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type DeleteEnvironmentError = ModalOpError;
@@ -248,6 +262,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type EnvironmentBillingSummaryError = ModalOpError;
@@ -263,6 +279,8 @@ export const environmentBillingSummary: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentBillingSummary",
 }));
 
 export type EnvironmentGetBudgetError = ModalOpError;
@@ -277,6 +295,8 @@ export const environmentGetBudget: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentGetBudget",
 }));
 
 export type EnvironmentGetManagedError = ModalOpError;
@@ -291,6 +311,8 @@ export const environmentGetManaged: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentGetManaged",
 }));
 
 export type EnvironmentGetOrCreateError = ModalOpError;
@@ -305,6 +327,8 @@ export const environmentGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentGetOrCreate",
 }));
 
 export type EnvironmentGetRolesError = ModalOpError;
@@ -319,6 +343,8 @@ export const environmentGetRoles: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentGetRoles",
 }));
 
 export type EnvironmentSetBudgetError = ModalOpError;
@@ -333,6 +359,8 @@ export const environmentSetBudget: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentSetBudget",
 }));
 
 export type EnvironmentSetDefaultMemberRoleError = ModalOpError;
@@ -347,6 +375,8 @@ export const environmentSetDefaultMemberRole: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentSetDefaultMemberRole",
 }));
 
 export type EnvironmentSetManagedError = ModalOpError;
@@ -361,6 +391,8 @@ export const environmentSetManaged: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentSetManaged",
 }));
 
 export type ListEnvironmentError = ModalOpError;
@@ -375,6 +407,8 @@ export const listEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironment",
 }));
 
 export type SetEnvironmentRoleError = ModalOpError;
@@ -389,6 +423,8 @@ export const setEnvironmentRole: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEnvironmentRole",
 }));
 
 export type UpdateEnvironmentError = ModalOpError;
@@ -403,6 +439,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

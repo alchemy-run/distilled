@@ -3,6 +3,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -11,16 +12,10 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  hasSensitiveMember,
   makeRestProtocol,
   unwrapRedactedDeep,
-  wrapSensitive,
+  validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import {
-  failUnlessLenient,
-  validateResponse,
-  withholdActual,
-} from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), GraphQL add-ons, and
@@ -88,7 +83,8 @@ export type FlyIoOpError =
   | DefaultErrors
   | ConfigError
   | CreateExtensionTosAgreementNotAuthorized
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by Machines / MPG / GraphQL operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
@@ -243,11 +239,10 @@ const isMintOp = (http: HttpTrait | undefined): boolean =>
 
 const SPRITES_NOT_ENABLED = /sprites not enabled/i;
 
-const readResponseText = (response: HttpClientResponse.HttpClientResponse): Effect.Effect<string> =>
-  response.text.pipe(
-    Effect.orDie,
-    Effect.map((text) => text ?? ""),
-  );
+const readResponseText = (
+  response: HttpClientResponse.HttpClientResponse,
+): Effect.Effect<string, HttpClientError.HttpClientError> =>
+  response.text.pipe(Effect.map((text) => text ?? ""));
 
 const parseJson = (text: string): unknown => {
   if (text.trim().length === 0) return undefined;
@@ -475,7 +470,7 @@ const encodeSpritesRequest = ({
       const token = yield* mintSpritesToken(fly);
       authorization = `Bearer ${Redacted.value(token)}`;
     }
-    return buildRequest({
+    return yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: DEFAULT_SPRITES_API_BASE_URL,
@@ -561,26 +556,18 @@ const decodeSpritesResponse = ({
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
-    // output schema. For an output with sensitive members, a non-JSON body
-    // fails in every mode and parse errors withhold the body.
-    const sensitive = hasSensitiveMember(outputAst);
-    const reported = sensitive ? "[REDACTED]" : (execFrames ?? (nonJson ? text : json));
-    if (nonJson && sensitive) {
-      return yield* fail(
-        new FlyIoParseError({
-          body: "[REDACTED]",
-          cause: "Invalid JSON response",
-        }),
-      );
-    }
+    // output schema, and parse errors withhold a body that can hold a secret
+    // (core `validateSuccess`).
     const body: unknown = execFrames ?? parseMaybeNdjson(nonJson ? text : (json ?? {}));
-    const mapped = yield* validateResponse(
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) =>
-        new FlyIoParseError({ body: reported, cause: sensitive ? withholdActual(cause) : cause }),
+      {
+        value: mapKeys(outputAst, body, "decode"),
+        body: execFrames ?? (nonJson ? text : json),
+        nonJson,
+      },
+      (info) => new FlyIoParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
@@ -715,7 +702,7 @@ const graphqlDecode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 
@@ -730,28 +717,16 @@ const graphqlDecode = ({
       }
     }
 
-    // For an output with sensitive members, a non-JSON body fails in every
-    // mode and parse errors withhold the body.
-    const sensitive = hasSensitiveMember(outputAst);
     if (!parsed) {
       if (status >= 400) {
         return yield* matchGraphqlError(status, text, headers, errors);
       }
-      if (sensitive) {
-        return yield* fail(
-          new FlyIoParseError({
-            body: "[REDACTED]",
-            cause: "response body is not valid JSON",
-          }),
-        );
-      }
-      // Lenient mode returns the body as read.
-      return yield* failUnlessLenient(
-        new FlyIoParseError({
-          body: text,
-          cause: "response body is not valid JSON",
-        }),
-        text,
+      // Lenient mode returns the body as read, except for an output that can
+      // hold a secret (core `validateSuccess`).
+      return yield* validateSuccess(
+        outputAst,
+        { value: text, body: text, nonJson: true },
+        (info) => new FlyIoParseError(info),
       ).pipe(Effect.catch(fail));
     }
 
@@ -778,16 +753,11 @@ const graphqlDecode = ({
     }
     // Strict mode checks the payload at the response path against the
     // output schema.
-    const validated = yield* validateResponse(
+    return yield* validateSuccess(
       outputAst,
-      payload === undefined ? null : payload,
-      (cause) =>
-        new FlyIoParseError({
-          body: sensitive ? "[REDACTED]" : json,
-          cause: sensitive ? withholdActual(cause) : cause,
-        }),
+      { value: payload === undefined ? null : payload, body: json, nonJson: false },
+      (info) => new FlyIoParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, validated);
   });
 
 export const FlyGraphqlProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

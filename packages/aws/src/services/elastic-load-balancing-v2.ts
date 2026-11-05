@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -85,6 +87,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticloadbalancing.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticLoadBalancingv2",
+  service: "ElasticLoadBalancingv2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AllocationIdNotFoundException
   extends /*@__PURE__*/ S.TaggedError<AllocationIdNotFoundException>()(
@@ -1895,7 +1912,7 @@ export type AddListenerCertificatesError =
  * certificates in the *Network Load Balancers Guide*.
  */
 export const addListenerCertificates: API.OperationMethod<
-  AddListenerCertificatesInput,
+  AddListenerCertificatesInput & RegionInput,
   AddListenerCertificatesOutput,
   AddListenerCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -1906,6 +1923,8 @@ export const addListenerCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddListenerCertificates",
+  telemetry: TELEMETRY,
+  span: "AddListenerCertificates",
 }));
 
 export type AddTagsError =
@@ -1926,7 +1945,7 @@ export type AddTagsError =
  * same key, `AddTags` updates its value.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Credentials | HttpClient.HttpClient
@@ -1945,6 +1964,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AddTrustStoreRevocationsError =
@@ -1957,7 +1978,7 @@ export type AddTrustStoreRevocationsError =
  * Adds the specified revocation file to the specified trust store.
  */
 export const addTrustStoreRevocations: API.OperationMethod<
-  AddTrustStoreRevocationsInput,
+  AddTrustStoreRevocationsInput & RegionInput,
   AddTrustStoreRevocationsOutput,
   AddTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
@@ -1973,6 +1994,8 @@ export const addTrustStoreRevocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTrustStoreRevocations",
+  telemetry: TELEMETRY,
+  span: "AddTrustStoreRevocations",
 }));
 
 export type CreateListenerError =
@@ -2016,7 +2039,7 @@ export type CreateListenerError =
  * attempt to create multiple listeners with the same settings, each call succeeds.
  */
 export const createListener: API.OperationMethod<
-  CreateListenerInput,
+  CreateListenerInput & RegionInput,
   CreateListenerOutput,
   CreateListenerError,
   Credentials | HttpClient.HttpClient
@@ -2048,6 +2071,8 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  telemetry: TELEMETRY,
+  span: "CreateListener",
 }));
 
 export type CreateLoadBalancerError =
@@ -2083,7 +2108,7 @@ export type CreateLoadBalancerError =
  * attempt to create multiple load balancers with the same settings, each call succeeds.
  */
 export const createLoadBalancer: API.OperationMethod<
-  CreateLoadBalancerInput,
+  CreateLoadBalancerInput & RegionInput,
   CreateLoadBalancerOutput,
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -2108,6 +2133,8 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type CreateRuleError =
@@ -2138,7 +2165,7 @@ export type CreateRuleError =
  * Listener rules in the *Network Load Balancers Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleInput,
+  CreateRuleInput & RegionInput,
   CreateRuleOutput,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -2165,6 +2192,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateTargetGroupError =
@@ -2191,7 +2220,7 @@ export type CreateTargetGroupError =
  * attempt to create multiple target groups with the same settings, each call succeeds.
  */
 export const createTargetGroup: API.OperationMethod<
-  CreateTargetGroupInput,
+  CreateTargetGroupInput & RegionInput,
   CreateTargetGroupOutput,
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2207,6 +2236,8 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateTargetGroup",
 }));
 
 export type CreateTrustStoreError =
@@ -2223,7 +2254,7 @@ export type CreateTrustStoreError =
  * For more information, see Mutual TLS for Application Load Balancers.
  */
 export const createTrustStore: API.OperationMethod<
-  CreateTrustStoreInput,
+  CreateTrustStoreInput & RegionInput,
   CreateTrustStoreOutput,
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2241,6 +2272,8 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  telemetry: TELEMETRY,
+  span: "CreateTrustStore",
 }));
 
 export type DeleteListenerError = ListenerNotFoundException | ResourceInUseException | CommonErrors;
@@ -2251,7 +2284,7 @@ export type DeleteListenerError = ListenerNotFoundException | ResourceInUseExcep
  * attached.
  */
 export const deleteListener: API.OperationMethod<
-  DeleteListenerInput,
+  DeleteListenerInput & RegionInput,
   DeleteListenerOutput,
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
@@ -2262,6 +2295,8 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  telemetry: TELEMETRY,
+  span: "DeleteListener",
 }));
 
 export type DeleteLoadBalancerError =
@@ -2281,7 +2316,7 @@ export type DeleteLoadBalancerError =
  * need these EC2 instances, you can stop or terminate them.
  */
 export const deleteLoadBalancer: API.OperationMethod<
-  DeleteLoadBalancerInput,
+  DeleteLoadBalancerInput & RegionInput,
   DeleteLoadBalancerOutput,
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
@@ -2292,6 +2327,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type DeleteRuleError = OperationNotPermittedException | RuleNotFoundException | CommonErrors;
@@ -2301,7 +2338,7 @@ export type DeleteRuleError = OperationNotPermittedException | RuleNotFoundExcep
  * You can't delete the default rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
+  DeleteRuleInput & RegionInput,
   DeleteRuleOutput,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2312,6 +2349,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteSharedTrustStoreAssociationError =
@@ -2323,7 +2362,7 @@ export type DeleteSharedTrustStoreAssociationError =
  * Deletes a shared trust store association.
  */
 export const deleteSharedTrustStoreAssociation: API.OperationMethod<
-  DeleteSharedTrustStoreAssociationInput,
+  DeleteSharedTrustStoreAssociationInput & RegionInput,
   DeleteSharedTrustStoreAssociationOutput,
   DeleteSharedTrustStoreAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2338,6 +2377,8 @@ export const deleteSharedTrustStoreAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSharedTrustStoreAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteSharedTrustStoreAssociation",
 }));
 
 export type DeleteTargetGroupError = ResourceInUseException | CommonErrors;
@@ -2350,7 +2391,7 @@ export type DeleteTargetGroupError = ResourceInUseException | CommonErrors;
  * them.
  */
 export const deleteTargetGroup: API.OperationMethod<
-  DeleteTargetGroupInput,
+  DeleteTargetGroupInput & RegionInput,
   DeleteTargetGroupOutput,
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2361,6 +2402,8 @@ export const deleteTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetGroup",
 }));
 
 export type DeleteTrustStoreError =
@@ -2371,7 +2414,7 @@ export type DeleteTrustStoreError =
  * Deletes a trust store.
  */
 export const deleteTrustStore: API.OperationMethod<
-  DeleteTrustStoreInput,
+  DeleteTrustStoreInput & RegionInput,
   DeleteTrustStoreOutput,
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -2382,6 +2425,8 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustStore",
 }));
 
 export type DeregisterTargetsError =
@@ -2410,7 +2455,7 @@ export type DeregisterTargetsError =
  * Note: If the specified target does not exist, the action returns successfully.
  */
 export const deregisterTargets: API.OperationMethod<
-  DeregisterTargetsInput,
+  DeregisterTargetsInput & RegionInput,
   DeregisterTargetsOutput,
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2421,6 +2466,8 @@ export const deregisterTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
+  telemetry: TELEMETRY,
+  span: "DeregisterTargets",
 }));
 
 export type DescribeAccountLimitsError = CommonErrors;
@@ -2440,7 +2487,7 @@ export type DescribeAccountLimitsError = CommonErrors;
  * Load Balancers
  */
 export const describeAccountLimits: API.PaginatedOperationMethod<
-  DescribeAccountLimitsInput,
+  DescribeAccountLimitsInput & RegionInput,
   DescribeAccountLimitsOutput,
   DescribeAccountLimitsError,
   Credentials | HttpClient.HttpClient,
@@ -2453,6 +2500,8 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeAccountLimits",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Limits" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 })) as any;
 
 export type DescribeCapacityReservationError = LoadBalancerNotFoundException | CommonErrors;
@@ -2460,7 +2509,7 @@ export type DescribeCapacityReservationError = LoadBalancerNotFoundException | C
  * Describes the capacity reservation status for the specified load balancer.
  */
 export const describeCapacityReservation: API.OperationMethod<
-  DescribeCapacityReservationInput,
+  DescribeCapacityReservationInput & RegionInput,
   DescribeCapacityReservationOutput,
   DescribeCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -2471,6 +2520,8 @@ export const describeCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "DescribeCapacityReservation",
 }));
 
 export type DescribeListenerAttributesError = ListenerNotFoundException | CommonErrors;
@@ -2478,7 +2529,7 @@ export type DescribeListenerAttributesError = ListenerNotFoundException | Common
  * Describes the attributes for the specified listener.
  */
 export const describeListenerAttributes: API.OperationMethod<
-  DescribeListenerAttributesInput,
+  DescribeListenerAttributesInput & RegionInput,
   DescribeListenerAttributesOutput,
   DescribeListenerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2489,6 +2540,8 @@ export const describeListenerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListenerAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeListenerAttributes",
 }));
 
 export type DescribeListenerCertificatesError = ListenerNotFoundException | CommonErrors;
@@ -2505,7 +2558,7 @@ export type DescribeListenerCertificatesError = ListenerNotFoundException | Comm
  * Guide.
  */
 export const describeListenerCertificates: API.PaginatedOperationMethod<
-  DescribeListenerCertificatesInput,
+  DescribeListenerCertificatesInput & RegionInput,
   DescribeListenerCertificatesOutput,
   DescribeListenerCertificatesError,
   Credentials | HttpClient.HttpClient,
@@ -2518,6 +2571,8 @@ export const describeListenerCertificates: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeListenerCertificates",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Certificates" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeListenerCertificates",
 })) as any;
 
 export type DescribeListenersError =
@@ -2531,7 +2586,7 @@ export type DescribeListenersError =
  * balancer or one or more listeners.
  */
 export const describeListeners: API.PaginatedOperationMethod<
-  DescribeListenersInput,
+  DescribeListenersInput & RegionInput,
   DescribeListenersOutput,
   DescribeListenersError,
   Credentials | HttpClient.HttpClient,
@@ -2544,6 +2599,8 @@ export const describeListeners: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeListeners",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Listeners" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeListeners",
 })) as any;
 
 export type DescribeLoadBalancerAttributesError = LoadBalancerNotFoundException | CommonErrors;
@@ -2563,7 +2620,7 @@ export type DescribeLoadBalancerAttributesError = LoadBalancerNotFoundException 
  * Guide
  */
 export const describeLoadBalancerAttributes: API.OperationMethod<
-  DescribeLoadBalancerAttributesInput,
+  DescribeLoadBalancerAttributesInput & RegionInput,
   DescribeLoadBalancerAttributesOutput,
   DescribeLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2574,6 +2631,8 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerAttributes",
 }));
 
 export type DescribeLoadBalancersError = LoadBalancerNotFoundException | CommonErrors;
@@ -2581,7 +2640,7 @@ export type DescribeLoadBalancersError = LoadBalancerNotFoundException | CommonE
  * Describes the specified load balancers or all of your load balancers.
  */
 export const describeLoadBalancers: API.PaginatedOperationMethod<
-  DescribeLoadBalancersInput,
+  DescribeLoadBalancersInput & RegionInput,
   DescribeLoadBalancersOutput,
   DescribeLoadBalancersError,
   Credentials | HttpClient.HttpClient,
@@ -2594,6 +2653,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeLoadBalancers",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "LoadBalancers" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancers",
 })) as any;
 
 export type DescribeRulesError =
@@ -2606,7 +2667,7 @@ export type DescribeRulesError =
  * either a listener or rules.
  */
 export const describeRules: API.PaginatedOperationMethod<
-  DescribeRulesInput,
+  DescribeRulesInput & RegionInput,
   DescribeRulesOutput,
   DescribeRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2619,6 +2680,8 @@ export const describeRules: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeRules",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Rules" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRules",
 })) as any;
 
 export type DescribeSSLPoliciesError = SSLPolicyNotFoundException | CommonErrors;
@@ -2629,7 +2692,7 @@ export type DescribeSSLPoliciesError = SSLPolicyNotFoundException | CommonErrors
  * Security policies in the *Network Load Balancers Guide*.
  */
 export const describeSSLPolicies: API.OperationMethod<
-  DescribeSSLPoliciesInput,
+  DescribeSSLPoliciesInput & RegionInput,
   DescribeSSLPoliciesOutput,
   DescribeSSLPoliciesError,
   Credentials | HttpClient.HttpClient
@@ -2640,6 +2703,8 @@ export const describeSSLPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSSLPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeSSLPolicies",
 }));
 
 export type DescribeTagsError =
@@ -2655,7 +2720,7 @@ export type DescribeTagsError =
  * Balancers, target groups, listeners, or rules.
  */
 export const describeTags: API.OperationMethod<
-  DescribeTagsInput,
+  DescribeTagsInput & RegionInput,
   DescribeTagsOutput,
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
@@ -2672,6 +2737,8 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type DescribeTargetGroupAttributesError = TargetGroupNotFoundException | CommonErrors;
@@ -2690,7 +2757,7 @@ export type DescribeTargetGroupAttributesError = TargetGroupNotFoundException | 
  * Guide
  */
 export const describeTargetGroupAttributes: API.OperationMethod<
-  DescribeTargetGroupAttributesInput,
+  DescribeTargetGroupAttributesInput & RegionInput,
   DescribeTargetGroupAttributesOutput,
   DescribeTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -2701,6 +2768,8 @@ export const describeTargetGroupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetGroupAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeTargetGroupAttributes",
 }));
 
 export type DescribeTargetGroupsError =
@@ -2714,7 +2783,7 @@ export type DescribeTargetGroupsError =
  * one or more target groups.
  */
 export const describeTargetGroups: API.PaginatedOperationMethod<
-  DescribeTargetGroupsInput,
+  DescribeTargetGroupsInput & RegionInput,
   DescribeTargetGroupsOutput,
   DescribeTargetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2727,6 +2796,8 @@ export const describeTargetGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeTargetGroups",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "TargetGroups" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTargetGroups",
 })) as any;
 
 export type DescribeTargetHealthError =
@@ -2738,7 +2809,7 @@ export type DescribeTargetHealthError =
  * Describes the health of the specified targets or all of your targets.
  */
 export const describeTargetHealth: API.OperationMethod<
-  DescribeTargetHealthInput,
+  DescribeTargetHealthInput & RegionInput,
   DescribeTargetHealthOutput,
   DescribeTargetHealthError,
   Credentials | HttpClient.HttpClient
@@ -2749,6 +2820,8 @@ export const describeTargetHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeTargetHealth",
 }));
 
 export type DescribeTrustStoreAssociationsError = TrustStoreNotFoundException | CommonErrors;
@@ -2756,7 +2829,7 @@ export type DescribeTrustStoreAssociationsError = TrustStoreNotFoundException | 
  * Describes all resources associated with the specified trust store.
  */
 export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
-  DescribeTrustStoreAssociationsInput,
+  DescribeTrustStoreAssociationsInput & RegionInput,
   DescribeTrustStoreAssociationsOutput,
   DescribeTrustStoreAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2774,6 +2847,8 @@ export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
     items: "TrustStoreAssociations",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrustStoreAssociations",
 })) as any;
 
 export type DescribeTrustStoreRevocationsError =
@@ -2785,7 +2860,7 @@ export type DescribeTrustStoreRevocationsError =
  * files.
  */
 export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
-  DescribeTrustStoreRevocationsInput,
+  DescribeTrustStoreRevocationsInput & RegionInput,
   DescribeTrustStoreRevocationsOutput,
   DescribeTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient,
@@ -2803,6 +2878,8 @@ export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
     items: "TrustStoreRevocations",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrustStoreRevocations",
 })) as any;
 
 export type DescribeTrustStoresError = TrustStoreNotFoundException | CommonErrors;
@@ -2810,7 +2887,7 @@ export type DescribeTrustStoresError = TrustStoreNotFoundException | CommonError
  * Describes all trust stores for the specified account.
  */
 export const describeTrustStores: API.PaginatedOperationMethod<
-  DescribeTrustStoresInput,
+  DescribeTrustStoresInput & RegionInput,
   DescribeTrustStoresOutput,
   DescribeTrustStoresError,
   Credentials | HttpClient.HttpClient,
@@ -2828,6 +2905,8 @@ export const describeTrustStores: API.PaginatedOperationMethod<
     items: "TrustStores",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrustStores",
 })) as any;
 
 export type GetResourcePolicyError = ResourceNotFoundException | CommonErrors;
@@ -2835,7 +2914,7 @@ export type GetResourcePolicyError = ResourceNotFoundException | CommonErrors;
  * Retrieves the resource policy for a specified resource.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2846,6 +2925,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetTrustStoreCaCertificatesBundleError = TrustStoreNotFoundException | CommonErrors;
@@ -2856,7 +2937,7 @@ export type GetTrustStoreCaCertificatesBundleError = TrustStoreNotFoundException
  * active for ten minutes.
  */
 export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
-  GetTrustStoreCaCertificatesBundleInput,
+  GetTrustStoreCaCertificatesBundleInput & RegionInput,
   GetTrustStoreCaCertificatesBundleOutput,
   GetTrustStoreCaCertificatesBundleError,
   Credentials | HttpClient.HttpClient
@@ -2867,6 +2948,8 @@ export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCaCertificatesBundle",
+  telemetry: TELEMETRY,
+  span: "GetTrustStoreCaCertificatesBundle",
 }));
 
 export type GetTrustStoreRevocationContentError =
@@ -2880,7 +2963,7 @@ export type GetTrustStoreRevocationContentError =
  * active for ten minutes.
  */
 export const getTrustStoreRevocationContent: API.OperationMethod<
-  GetTrustStoreRevocationContentInput,
+  GetTrustStoreRevocationContentInput & RegionInput,
   GetTrustStoreRevocationContentOutput,
   GetTrustStoreRevocationContentError,
   Credentials | HttpClient.HttpClient
@@ -2891,6 +2974,8 @@ export const getTrustStoreRevocationContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreRevocationContent",
+  telemetry: TELEMETRY,
+  span: "GetTrustStoreRevocationContent",
 }));
 
 export type ModifyCapacityReservationError =
@@ -2910,7 +2995,7 @@ export type ModifyCapacityReservationError =
  * or `ResetCapacityReservation`.
  */
 export const modifyCapacityReservation: API.OperationMethod<
-  ModifyCapacityReservationInput,
+  ModifyCapacityReservationInput & RegionInput,
   ModifyCapacityReservationOutput,
   ModifyCapacityReservationError,
   Credentials | HttpClient.HttpClient
@@ -2930,6 +3015,8 @@ export const modifyCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "ModifyCapacityReservation",
 }));
 
 export type ModifyIpPoolsError = LoadBalancerNotFoundException | CommonErrors;
@@ -2937,7 +3024,7 @@ export type ModifyIpPoolsError = LoadBalancerNotFoundException | CommonErrors;
  * [Application Load Balancers] Modify the IP pool associated to a load balancer.
  */
 export const modifyIpPools: API.OperationMethod<
-  ModifyIpPoolsInput,
+  ModifyIpPoolsInput & RegionInput,
   ModifyIpPoolsOutput,
   ModifyIpPoolsError,
   Credentials | HttpClient.HttpClient
@@ -2948,6 +3035,8 @@ export const modifyIpPools: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpPools",
+  telemetry: TELEMETRY,
+  span: "ModifyIpPools",
 }));
 
 export type ModifyListenerError =
@@ -2984,7 +3073,7 @@ export type ModifyListenerError =
  * actions plus the new action.
  */
 export const modifyListener: API.OperationMethod<
-  ModifyListenerInput,
+  ModifyListenerInput & RegionInput,
   ModifyListenerOutput,
   ModifyListenerError,
   Credentials | HttpClient.HttpClient
@@ -3015,6 +3104,8 @@ export const modifyListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListener",
+  telemetry: TELEMETRY,
+  span: "ModifyListener",
 }));
 
 export type ModifyListenerAttributesError =
@@ -3025,7 +3116,7 @@ export type ModifyListenerAttributesError =
  * Modifies the specified attributes of the specified listener.
  */
 export const modifyListenerAttributes: API.OperationMethod<
-  ModifyListenerAttributesInput,
+  ModifyListenerAttributesInput & RegionInput,
   ModifyListenerAttributesOutput,
   ModifyListenerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3036,6 +3127,8 @@ export const modifyListenerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListenerAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyListenerAttributes",
 }));
 
 export type ModifyLoadBalancerAttributesError =
@@ -3050,7 +3143,7 @@ export type ModifyLoadBalancerAttributesError =
  * existing attributes that you do not modify retain their current values.
  */
 export const modifyLoadBalancerAttributes: API.OperationMethod<
-  ModifyLoadBalancerAttributesInput,
+  ModifyLoadBalancerAttributesInput & RegionInput,
   ModifyLoadBalancerAttributesOutput,
   ModifyLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3061,6 +3154,8 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyLoadBalancerAttributes",
 }));
 
 export type ModifyRuleError =
@@ -3085,7 +3180,7 @@ export type ModifyRuleError =
  * actions plus the new action.
  */
 export const modifyRule: API.OperationMethod<
-  ModifyRuleInput,
+  ModifyRuleInput & RegionInput,
   ModifyRuleOutput,
   ModifyRuleError,
   Credentials | HttpClient.HttpClient
@@ -3108,6 +3203,8 @@ export const modifyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRule",
+  telemetry: TELEMETRY,
+  span: "ModifyRule",
 }));
 
 export type ModifyTargetGroupError =
@@ -3119,7 +3216,7 @@ export type ModifyTargetGroupError =
  * specified target group.
  */
 export const modifyTargetGroup: API.OperationMethod<
-  ModifyTargetGroupInput,
+  ModifyTargetGroupInput & RegionInput,
   ModifyTargetGroupOutput,
   ModifyTargetGroupError,
   Credentials | HttpClient.HttpClient
@@ -3130,6 +3227,8 @@ export const modifyTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyTargetGroup",
 }));
 
 export type ModifyTargetGroupAttributesError =
@@ -3140,7 +3239,7 @@ export type ModifyTargetGroupAttributesError =
  * Modifies the specified attributes of the specified target group.
  */
 export const modifyTargetGroupAttributes: API.OperationMethod<
-  ModifyTargetGroupAttributesInput,
+  ModifyTargetGroupAttributesInput & RegionInput,
   ModifyTargetGroupAttributesOutput,
   ModifyTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3151,6 +3250,8 @@ export const modifyTargetGroupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroupAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyTargetGroupAttributes",
 }));
 
 export type ModifyTrustStoreError =
@@ -3162,7 +3263,7 @@ export type ModifyTrustStoreError =
  * Update the ca certificate bundle for the specified trust store.
  */
 export const modifyTrustStore: API.OperationMethod<
-  ModifyTrustStoreInput,
+  ModifyTrustStoreInput & RegionInput,
   ModifyTrustStoreOutput,
   ModifyTrustStoreError,
   Credentials | HttpClient.HttpClient
@@ -3177,6 +3278,8 @@ export const modifyTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrustStore",
+  telemetry: TELEMETRY,
+  span: "ModifyTrustStore",
 }));
 
 export type RegisterTargetsError =
@@ -3208,7 +3311,7 @@ export type RegisterTargetsError =
  * Gateway Load Balancer
  */
 export const registerTargets: API.OperationMethod<
-  RegisterTargetsInput,
+  RegisterTargetsInput & RegionInput,
   RegisterTargetsOutput,
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
@@ -3224,6 +3327,8 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
+  telemetry: TELEMETRY,
+  span: "RegisterTargets",
 }));
 
 export type RemoveListenerCertificatesError =
@@ -3235,7 +3340,7 @@ export type RemoveListenerCertificatesError =
  * listener.
  */
 export const removeListenerCertificates: API.OperationMethod<
-  RemoveListenerCertificatesInput,
+  RemoveListenerCertificatesInput & RegionInput,
   RemoveListenerCertificatesOutput,
   RemoveListenerCertificatesError,
   Credentials | HttpClient.HttpClient
@@ -3246,6 +3351,8 @@ export const removeListenerCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveListenerCertificates",
+  telemetry: TELEMETRY,
+  span: "RemoveListenerCertificates",
 }));
 
 export type RemoveTagsError =
@@ -3262,7 +3369,7 @@ export type RemoveTagsError =
  * Load Balancers, target groups, listeners, or rules.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
@@ -3280,6 +3387,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RemoveTrustStoreRevocationsError =
@@ -3290,7 +3399,7 @@ export type RemoveTrustStoreRevocationsError =
  * Removes the specified revocation file from the specified trust store.
  */
 export const removeTrustStoreRevocations: API.OperationMethod<
-  RemoveTrustStoreRevocationsInput,
+  RemoveTrustStoreRevocationsInput & RegionInput,
   RemoveTrustStoreRevocationsOutput,
   RemoveTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
@@ -3301,6 +3410,8 @@ export const removeTrustStoreRevocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTrustStoreRevocations",
+  telemetry: TELEMETRY,
+  span: "RemoveTrustStoreRevocations",
 }));
 
 export type SetIpAddressTypeError =
@@ -3312,7 +3423,7 @@ export type SetIpAddressTypeError =
  * Sets the type of IP addresses used by the subnets of the specified load balancer.
  */
 export const setIpAddressType: API.OperationMethod<
-  SetIpAddressTypeInput,
+  SetIpAddressTypeInput & RegionInput,
   SetIpAddressTypeOutput,
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
@@ -3327,6 +3438,8 @@ export const setIpAddressType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
+  telemetry: TELEMETRY,
+  span: "SetIpAddressType",
 }));
 
 export type SetRulePrioritiesError =
@@ -3341,7 +3454,7 @@ export type SetRulePrioritiesError =
  * existing rules that you do not specify retain their current priority.
  */
 export const setRulePriorities: API.OperationMethod<
-  SetRulePrioritiesInput,
+  SetRulePrioritiesInput & RegionInput,
   SetRulePrioritiesOutput,
   SetRulePrioritiesError,
   Credentials | HttpClient.HttpClient
@@ -3352,6 +3465,8 @@ export const setRulePriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRulePriorities",
+  telemetry: TELEMETRY,
+  span: "SetRulePriorities",
 }));
 
 export type SetSecurityGroupsError =
@@ -3370,7 +3485,7 @@ export type SetSecurityGroupsError =
  * You can't associate a security group with a Gateway Load Balancer.
  */
 export const setSecurityGroups: API.OperationMethod<
-  SetSecurityGroupsInput,
+  SetSecurityGroupsInput & RegionInput,
   SetSecurityGroupsOutput,
   SetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
@@ -3385,6 +3500,8 @@ export const setSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityGroups",
+  telemetry: TELEMETRY,
+  span: "SetSecurityGroups",
 }));
 
 export type SetSubnetsError =
@@ -3402,7 +3519,7 @@ export type SetSubnetsError =
  * replace the previously enabled subnets.
  */
 export const setSubnets: API.OperationMethod<
-  SetSubnetsInput,
+  SetSubnetsInput & RegionInput,
   SetSubnetsOutput,
   SetSubnetsError,
   Credentials | HttpClient.HttpClient
@@ -3421,6 +3538,8 @@ export const setSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubnets",
+  telemetry: TELEMETRY,
+  span: "SetSubnets",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

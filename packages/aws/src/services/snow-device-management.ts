@@ -1,11 +1,13 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://snow-device-management.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SnowDeviceManagement",
+  service: "SnowDeviceManagement",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -368,7 +384,7 @@ export type CancelTaskError =
  * `CancelTask` operation changes the task's state.
  */
 export const cancelTask: API.OperationMethod<
-  CancelTaskInput,
+  CancelTaskInput & RegionInput,
   CancelTaskOutput,
   CancelTaskError,
   Credentials | HttpClient.HttpClient
@@ -385,6 +401,8 @@ export const cancelTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTask",
+  telemetry: TELEMETRY,
+  span: "CancelTask",
 }));
 
 export type CreateTaskError =
@@ -399,7 +417,7 @@ export type CreateTaskError =
  * Instructs one or more devices to start a task, such as unlocking or rebooting.
  */
 export const createTask: API.OperationMethod<
-  CreateTaskInput,
+  CreateTaskInput & RegionInput,
   CreateTaskOutput,
   CreateTaskError,
   Credentials | HttpClient.HttpClient
@@ -417,6 +435,8 @@ export const createTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTask",
+  telemetry: TELEMETRY,
+  span: "CreateTask",
 }));
 
 export type DescribeDeviceError =
@@ -431,7 +451,7 @@ export type DescribeDeviceError =
  * addresses, and lock status.
  */
 export const describeDevice: API.OperationMethod<
-  DescribeDeviceInput,
+  DescribeDeviceInput & RegionInput,
   DescribeDeviceOutput,
   DescribeDeviceError,
   Credentials | HttpClient.HttpClient
@@ -448,6 +468,8 @@ export const describeDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDevice",
+  telemetry: TELEMETRY,
+  span: "DescribeDevice",
 }));
 
 export type DescribeDeviceEc2InstancesError =
@@ -463,7 +485,7 @@ export type DescribeDeviceEc2InstancesError =
  * Amazon Web Services Cloud and include a subset of the available fields.
  */
 export const describeDeviceEc2Instances: API.OperationMethod<
-  DescribeDeviceEc2Input,
+  DescribeDeviceEc2Input & RegionInput,
   DescribeDeviceEc2Output,
   DescribeDeviceEc2InstancesError,
   Credentials | HttpClient.HttpClient
@@ -480,6 +502,8 @@ export const describeDeviceEc2Instances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeviceEc2Instances",
+  telemetry: TELEMETRY,
+  span: "DescribeDeviceEc2Instances",
 }));
 
 export type DescribeExecutionError =
@@ -493,7 +517,7 @@ export type DescribeExecutionError =
  * Checks the status of a remote task running on one or more target devices.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionInput,
+  DescribeExecutionInput & RegionInput,
   DescribeExecutionOutput,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -510,6 +534,8 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeExecution",
 }));
 
 export type DescribeTaskError =
@@ -523,7 +549,7 @@ export type DescribeTaskError =
  * Checks the metadata for a given task on a device.
  */
 export const describeTask: API.OperationMethod<
-  DescribeTaskInput,
+  DescribeTaskInput & RegionInput,
   DescribeTaskOutput,
   DescribeTaskError,
   Credentials | HttpClient.HttpClient
@@ -540,6 +566,8 @@ export const describeTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTask",
+  telemetry: TELEMETRY,
+  span: "DescribeTask",
 }));
 
 export type ListDeviceResourcesError =
@@ -553,7 +581,7 @@ export type ListDeviceResourcesError =
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
 export const listDeviceResources: API.PaginatedOperationMethod<
-  ListDeviceResourcesInput,
+  ListDeviceResourcesInput & RegionInput,
   ListDeviceResourcesOutput,
   ListDeviceResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -577,6 +605,8 @@ export const listDeviceResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeviceResources",
 })) as any;
 
 export type ListDevicesError =
@@ -590,7 +620,7 @@ export type ListDevicesError =
  * enabled in the Amazon Web Services Region where the command is run.
  */
 export const listDevices: API.PaginatedOperationMethod<
-  ListDevicesInput,
+  ListDevicesInput & RegionInput,
   ListDevicesOutput,
   ListDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -613,6 +643,8 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListExecutionsError =
@@ -626,7 +658,7 @@ export type ListExecutionsError =
  * Returns the status of tasks for one or more target devices.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsInput,
+  ListExecutionsInput & RegionInput,
   ListExecutionsOutput,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -650,6 +682,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -661,7 +695,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a managed device or task.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -672,6 +706,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTasksError =
@@ -684,7 +720,7 @@ export type ListTasksError =
  * Returns a list of tasks that can be filtered by state.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksInput,
+  ListTasksInput & RegionInput,
   ListTasksOutput,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -707,6 +743,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type TagResourceError =
@@ -718,7 +756,7 @@ export type TagResourceError =
  * Adds or replaces tags on a device or task.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -729,6 +767,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -740,7 +780,7 @@ export type UntagResourceError =
  * Removes a tag from a device or task.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -751,6 +791,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

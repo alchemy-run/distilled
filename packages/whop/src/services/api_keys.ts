@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "ApiKeys",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -445,6 +458,8 @@ export const createApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type DeleteApiKeyError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -460,6 +475,8 @@ export const deleteApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type GetApiKeyError = Forbidden | NotFound | WhopOpError;
@@ -475,6 +492,8 @@ export const getApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKey",
 }));
 
 export type ListApiKeyPermissionsError = WhopOpError;
@@ -490,6 +509,8 @@ export const listApiKeyPermissions: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiKeyPermissions",
 }));
 
 export type ListApiKeysError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -507,6 +528,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApiKeys",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -532,6 +555,8 @@ export const rotateApiKey: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateApiKey",
 }));
 
 export type UpdateApiKeyError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -547,6 +572,8 @@ export const updateApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApiKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

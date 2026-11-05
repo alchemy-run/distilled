@@ -1,12 +1,14 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -77,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotfleetwise.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTFleetWise",
+  service: "IoTFleetWise",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1511,7 +1527,7 @@ export type AssociateVehicleFleetError =
  * Adds, or associates, a vehicle with a fleet.
  */
 export const associateVehicleFleet: API.OperationMethod<
-  AssociateVehicleFleetRequest,
+  AssociateVehicleFleetRequest & RegionInput,
   AssociateVehicleFleetResponse,
   AssociateVehicleFleetError,
   Credentials | HttpClient.HttpClient
@@ -1529,6 +1545,8 @@ export const associateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVehicleFleet",
+  telemetry: TELEMETRY,
+  span: "AssociateVehicleFleet",
 }));
 
 export type BatchCreateVehicleError =
@@ -1548,7 +1566,7 @@ export type BatchCreateVehicleError =
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const batchCreateVehicle: API.OperationMethod<
-  BatchCreateVehicleRequest,
+  BatchCreateVehicleRequest & RegionInput,
   BatchCreateVehicleResponse,
   BatchCreateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1565,6 +1583,8 @@ export const batchCreateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVehicle",
+  telemetry: TELEMETRY,
+  span: "BatchCreateVehicle",
 }));
 
 export type BatchUpdateVehicleError =
@@ -1584,7 +1604,7 @@ export type BatchUpdateVehicleError =
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const batchUpdateVehicle: API.OperationMethod<
-  BatchUpdateVehicleRequest,
+  BatchUpdateVehicleRequest & RegionInput,
   BatchUpdateVehicleResponse,
   BatchUpdateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1601,6 +1621,8 @@ export const batchUpdateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateVehicle",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateVehicle",
 }));
 
 export type CreateCampaignError =
@@ -1623,7 +1645,7 @@ export type CreateCampaignError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1641,6 +1663,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateDecoderManifestError =
@@ -1665,7 +1689,7 @@ export type CreateDecoderManifestError =
  * - The signal decoders are specified in the model manifest.
  */
 export const createDecoderManifest: API.OperationMethod<
-  CreateDecoderManifestRequest,
+  CreateDecoderManifestRequest & RegionInput,
   CreateDecoderManifestResponse,
   CreateDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -1684,6 +1708,8 @@ export const createDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "CreateDecoderManifest",
 }));
 
 export type CreateFleetError =
@@ -1704,7 +1730,7 @@ export type CreateFleetError =
  * *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResponse,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -1723,6 +1749,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateModelManifestError =
@@ -1742,7 +1770,7 @@ export type CreateModelManifestError =
  * in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createModelManifest: API.OperationMethod<
-  CreateModelManifestRequest,
+  CreateModelManifestRequest & RegionInput,
   CreateModelManifestResponse,
   CreateModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -1761,6 +1789,8 @@ export const createModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelManifest",
+  telemetry: TELEMETRY,
+  span: "CreateModelManifest",
 }));
 
 export type CreateSignalCatalogError =
@@ -1777,7 +1807,7 @@ export type CreateSignalCatalogError =
  * models.
  */
 export const createSignalCatalog: API.OperationMethod<
-  CreateSignalCatalogRequest,
+  CreateSignalCatalogRequest & RegionInput,
   CreateSignalCatalogResponse,
   CreateSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -1796,6 +1826,8 @@ export const createSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "CreateSignalCatalog",
 }));
 
 export type CreateStateTemplateError =
@@ -1814,7 +1846,7 @@ export type CreateStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createStateTemplate: API.OperationMethod<
-  CreateStateTemplateRequest,
+  CreateStateTemplateRequest & RegionInput,
   CreateStateTemplateResponse,
   CreateStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1834,6 +1866,8 @@ export const createStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateStateTemplate",
 }));
 
 export type CreateVehicleError =
@@ -1857,7 +1891,7 @@ export type CreateVehicleError =
  * (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const createVehicle: API.OperationMethod<
-  CreateVehicleRequest,
+  CreateVehicleRequest & RegionInput,
   CreateVehicleResponse,
   CreateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -1876,6 +1910,8 @@ export const createVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVehicle",
+  telemetry: TELEMETRY,
+  span: "CreateVehicle",
 }));
 
 export type DeleteCampaignError =
@@ -1889,7 +1925,7 @@ export type DeleteCampaignError =
  * and removes it from any vehicles.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1905,6 +1941,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteDecoderManifestError =
@@ -1919,7 +1957,7 @@ export type DeleteDecoderManifestError =
  * associated with it.
  */
 export const deleteDecoderManifest: API.OperationMethod<
-  DeleteDecoderManifestRequest,
+  DeleteDecoderManifestRequest & RegionInput,
   DeleteDecoderManifestResponse,
   DeleteDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -1936,6 +1974,8 @@ export const deleteDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "DeleteDecoderManifest",
 }));
 
 export type DeleteFleetError =
@@ -1950,7 +1990,7 @@ export type DeleteFleetError =
  * CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -1966,6 +2006,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteModelManifestError =
@@ -1979,7 +2021,7 @@ export type DeleteModelManifestError =
  * Deletes a vehicle model (model manifest).
  */
 export const deleteModelManifest: API.OperationMethod<
-  DeleteModelManifestRequest,
+  DeleteModelManifestRequest & RegionInput,
   DeleteModelManifestResponse,
   DeleteModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -1996,6 +2038,8 @@ export const deleteModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelManifest",
+  telemetry: TELEMETRY,
+  span: "DeleteModelManifest",
 }));
 
 export type DeleteSignalCatalogError =
@@ -2009,7 +2053,7 @@ export type DeleteSignalCatalogError =
  * Deletes a signal catalog.
  */
 export const deleteSignalCatalog: API.OperationMethod<
-  DeleteSignalCatalogRequest,
+  DeleteSignalCatalogRequest & RegionInput,
   DeleteSignalCatalogResponse,
   DeleteSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2026,6 +2070,8 @@ export const deleteSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "DeleteSignalCatalog",
 }));
 
 export type DeleteStateTemplateError =
@@ -2038,7 +2084,7 @@ export type DeleteStateTemplateError =
  * Deletes a state template.
  */
 export const deleteStateTemplate: API.OperationMethod<
-  DeleteStateTemplateRequest,
+  DeleteStateTemplateRequest & RegionInput,
   DeleteStateTemplateResponse,
   DeleteStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2054,6 +2100,8 @@ export const deleteStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteStateTemplate",
 }));
 
 export type DeleteVehicleError =
@@ -2066,7 +2114,7 @@ export type DeleteVehicleError =
  * Deletes a vehicle and removes it from any campaigns.
  */
 export const deleteVehicle: API.OperationMethod<
-  DeleteVehicleRequest,
+  DeleteVehicleRequest & RegionInput,
   DeleteVehicleResponse,
   DeleteVehicleError,
   Credentials | HttpClient.HttpClient
@@ -2082,6 +2130,8 @@ export const deleteVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVehicle",
+  telemetry: TELEMETRY,
+  span: "DeleteVehicle",
 }));
 
 export type DisassociateVehicleFleetError =
@@ -2096,7 +2146,7 @@ export type DisassociateVehicleFleetError =
  * fleet doesn't delete the vehicle.
  */
 export const disassociateVehicleFleet: API.OperationMethod<
-  DisassociateVehicleFleetRequest,
+  DisassociateVehicleFleetRequest & RegionInput,
   DisassociateVehicleFleetResponse,
   DisassociateVehicleFleetError,
   Credentials | HttpClient.HttpClient
@@ -2113,6 +2163,8 @@ export const disassociateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVehicleFleet",
+  telemetry: TELEMETRY,
+  span: "DisassociateVehicleFleet",
 }));
 
 export type GetCampaignError =
@@ -2127,7 +2179,7 @@ export type GetCampaignError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const getCampaign: API.OperationMethod<
-  GetCampaignRequest,
+  GetCampaignRequest & RegionInput,
   GetCampaignResponse,
   GetCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2143,6 +2195,8 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
+  telemetry: TELEMETRY,
+  span: "GetCampaign",
 }));
 
 export type GetDecoderManifestError =
@@ -2155,7 +2209,7 @@ export type GetDecoderManifestError =
  * Retrieves information about a created decoder manifest.
  */
 export const getDecoderManifest: API.OperationMethod<
-  GetDecoderManifestRequest,
+  GetDecoderManifestRequest & RegionInput,
   GetDecoderManifestResponse,
   GetDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -2171,6 +2225,8 @@ export const getDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "GetDecoderManifest",
 }));
 
 export type GetEncryptionConfigurationError =
@@ -2184,7 +2240,7 @@ export type GetEncryptionConfigurationError =
  * Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
  */
 export const getEncryptionConfiguration: API.OperationMethod<
-  GetEncryptionConfigurationRequest,
+  GetEncryptionConfigurationRequest & RegionInput,
   GetEncryptionConfigurationResponse,
   GetEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2201,6 +2257,8 @@ export const getEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEncryptionConfiguration",
 }));
 
 export type GetFleetError =
@@ -2214,7 +2272,7 @@ export type GetFleetError =
  * Retrieves information about a fleet.
  */
 export const getFleet: API.OperationMethod<
-  GetFleetRequest,
+  GetFleetRequest & RegionInput,
   GetFleetResponse,
   GetFleetError,
   Credentials | HttpClient.HttpClient
@@ -2231,6 +2289,8 @@ export const getFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFleet",
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException | CommonErrors;
@@ -2238,7 +2298,7 @@ export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException
  * Retrieves the logging options.
  */
 export const getLoggingOptions: API.OperationMethod<
-  GetLoggingOptionsRequest,
+  GetLoggingOptionsRequest & RegionInput,
   GetLoggingOptionsResponse,
   GetLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -2249,6 +2309,8 @@ export const getLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingOptions",
+  telemetry: TELEMETRY,
+  span: "GetLoggingOptions",
 }));
 
 export type GetModelManifestError =
@@ -2261,7 +2323,7 @@ export type GetModelManifestError =
  * Retrieves information about a vehicle model (model manifest).
  */
 export const getModelManifest: API.OperationMethod<
-  GetModelManifestRequest,
+  GetModelManifestRequest & RegionInput,
   GetModelManifestResponse,
   GetModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -2277,6 +2339,8 @@ export const getModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelManifest",
+  telemetry: TELEMETRY,
+  span: "GetModelManifest",
 }));
 
 export type GetRegisterAccountStatusError =
@@ -2296,7 +2360,7 @@ export type GetRegisterAccountStatusError =
  * This API operation doesn't require input parameters.
  */
 export const getRegisterAccountStatus: API.OperationMethod<
-  GetRegisterAccountStatusRequest,
+  GetRegisterAccountStatusRequest & RegionInput,
   GetRegisterAccountStatusResponse,
   GetRegisterAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -2313,6 +2377,8 @@ export const getRegisterAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisterAccountStatus",
+  telemetry: TELEMETRY,
+  span: "GetRegisterAccountStatus",
 }));
 
 export type GetSignalCatalogError =
@@ -2325,7 +2391,7 @@ export type GetSignalCatalogError =
  * Retrieves information about a signal catalog.
  */
 export const getSignalCatalog: API.OperationMethod<
-  GetSignalCatalogRequest,
+  GetSignalCatalogRequest & RegionInput,
   GetSignalCatalogResponse,
   GetSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2341,6 +2407,8 @@ export const getSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "GetSignalCatalog",
 }));
 
 export type GetStateTemplateError =
@@ -2356,7 +2424,7 @@ export type GetStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const getStateTemplate: API.OperationMethod<
-  GetStateTemplateRequest,
+  GetStateTemplateRequest & RegionInput,
   GetStateTemplateResponse,
   GetStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2373,6 +2441,8 @@ export const getStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStateTemplate",
+  telemetry: TELEMETRY,
+  span: "GetStateTemplate",
 }));
 
 export type GetVehicleError =
@@ -2386,7 +2456,7 @@ export type GetVehicleError =
  * Retrieves information about a vehicle.
  */
 export const getVehicle: API.OperationMethod<
-  GetVehicleRequest,
+  GetVehicleRequest & RegionInput,
   GetVehicleResponse,
   GetVehicleError,
   Credentials | HttpClient.HttpClient
@@ -2403,6 +2473,8 @@ export const getVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVehicle",
+  telemetry: TELEMETRY,
+  span: "GetVehicle",
 }));
 
 export type GetVehicleStatusError =
@@ -2416,7 +2488,7 @@ export type GetVehicleStatusError =
  * associated with a vehicle.
  */
 export const getVehicleStatus: API.PaginatedOperationMethod<
-  GetVehicleStatusRequest,
+  GetVehicleStatusRequest & RegionInput,
   GetVehicleStatusResponse,
   GetVehicleStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2439,6 +2511,8 @@ export const getVehicleStatus: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetVehicleStatus",
 })) as any;
 
 export type ImportDecoderManifestError =
@@ -2456,7 +2530,7 @@ export type ImportDecoderManifestError =
  * The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
  */
 export const importDecoderManifest: API.OperationMethod<
-  ImportDecoderManifestRequest,
+  ImportDecoderManifestRequest & RegionInput,
   ImportDecoderManifestResponse,
   ImportDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -2475,6 +2549,8 @@ export const importDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "ImportDecoderManifest",
 }));
 
 export type ImportSignalCatalogError =
@@ -2492,7 +2568,7 @@ export type ImportSignalCatalogError =
  * device.
  */
 export const importSignalCatalog: API.OperationMethod<
-  ImportSignalCatalogRequest,
+  ImportSignalCatalogRequest & RegionInput,
   ImportSignalCatalogResponse,
   ImportSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -2512,6 +2588,8 @@ export const importSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "ImportSignalCatalog",
 }));
 
 export type ListCampaignsError =
@@ -2525,7 +2603,7 @@ export type ListCampaignsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -2543,6 +2621,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListDecoderManifestNetworkInterfacesError =
@@ -2558,7 +2638,7 @@ export type ListDecoderManifestNetworkInterfacesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifestNetworkInterfaces: API.PaginatedOperationMethod<
-  ListDecoderManifestNetworkInterfacesRequest,
+  ListDecoderManifestNetworkInterfacesRequest & RegionInput,
   ListDecoderManifestNetworkInterfacesResponse,
   ListDecoderManifestNetworkInterfacesError,
   Credentials | HttpClient.HttpClient,
@@ -2582,6 +2662,8 @@ export const listDecoderManifestNetworkInterfaces: API.PaginatedOperationMethod<
     items: "networkInterfaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifestNetworkInterfaces",
 })) as any;
 
 export type ListDecoderManifestsError =
@@ -2596,7 +2678,7 @@ export type ListDecoderManifestsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifests: API.PaginatedOperationMethod<
-  ListDecoderManifestsRequest,
+  ListDecoderManifestsRequest & RegionInput,
   ListDecoderManifestsResponse,
   ListDecoderManifestsError,
   Credentials | HttpClient.HttpClient,
@@ -2619,6 +2701,8 @@ export const listDecoderManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifests",
 })) as any;
 
 export type ListDecoderManifestSignalsError =
@@ -2634,7 +2718,7 @@ export type ListDecoderManifestSignalsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listDecoderManifestSignals: API.PaginatedOperationMethod<
-  ListDecoderManifestSignalsRequest,
+  ListDecoderManifestSignalsRequest & RegionInput,
   ListDecoderManifestSignalsResponse,
   ListDecoderManifestSignalsError,
   Credentials | HttpClient.HttpClient,
@@ -2658,6 +2742,8 @@ export const listDecoderManifestSignals: API.PaginatedOperationMethod<
     items: "signalDecoders",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifestSignals",
 })) as any;
 
 export type ListFleetsError =
@@ -2673,7 +2759,7 @@ export type ListFleetsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsRequest,
+  ListFleetsRequest & RegionInput,
   ListFleetsResponse,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -2697,6 +2783,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListFleetsForVehicleError =
@@ -2712,7 +2800,7 @@ export type ListFleetsForVehicleError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listFleetsForVehicle: API.PaginatedOperationMethod<
-  ListFleetsForVehicleRequest,
+  ListFleetsForVehicleRequest & RegionInput,
   ListFleetsForVehicleResponse,
   ListFleetsForVehicleError,
   Credentials | HttpClient.HttpClient,
@@ -2736,6 +2824,8 @@ export const listFleetsForVehicle: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetsForVehicle",
 })) as any;
 
 export type ListModelManifestNodesError =
@@ -2752,7 +2842,7 @@ export type ListModelManifestNodesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listModelManifestNodes: API.PaginatedOperationMethod<
-  ListModelManifestNodesRequest,
+  ListModelManifestNodesRequest & RegionInput,
   ListModelManifestNodesResponse,
   ListModelManifestNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2777,6 +2867,8 @@ export const listModelManifestNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelManifestNodes",
 })) as any;
 
 export type ListModelManifestsError =
@@ -2791,7 +2883,7 @@ export type ListModelManifestsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listModelManifests: API.PaginatedOperationMethod<
-  ListModelManifestsRequest,
+  ListModelManifestsRequest & RegionInput,
   ListModelManifestsResponse,
   ListModelManifestsError,
   Credentials | HttpClient.HttpClient,
@@ -2814,6 +2906,8 @@ export const listModelManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelManifests",
 })) as any;
 
 export type ListSignalCatalogNodesError =
@@ -2830,7 +2924,7 @@ export type ListSignalCatalogNodesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listSignalCatalogNodes: API.PaginatedOperationMethod<
-  ListSignalCatalogNodesRequest,
+  ListSignalCatalogNodesRequest & RegionInput,
   ListSignalCatalogNodesResponse,
   ListSignalCatalogNodesError,
   Credentials | HttpClient.HttpClient,
@@ -2855,6 +2949,8 @@ export const listSignalCatalogNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalCatalogNodes",
 })) as any;
 
 export type ListSignalCatalogsError =
@@ -2872,7 +2968,7 @@ export type ListSignalCatalogsError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listSignalCatalogs: API.PaginatedOperationMethod<
-  ListSignalCatalogsRequest,
+  ListSignalCatalogsRequest & RegionInput,
   ListSignalCatalogsResponse,
   ListSignalCatalogsError,
   Credentials | HttpClient.HttpClient,
@@ -2895,6 +2991,8 @@ export const listSignalCatalogs: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalCatalogs",
 })) as any;
 
 export type ListStateTemplatesError =
@@ -2909,7 +3007,7 @@ export type ListStateTemplatesError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const listStateTemplates: API.PaginatedOperationMethod<
-  ListStateTemplatesRequest,
+  ListStateTemplatesRequest & RegionInput,
   ListStateTemplatesResponse,
   ListStateTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -2932,6 +3030,8 @@ export const listStateTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStateTemplates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2945,7 +3045,7 @@ export type ListTagsForResourceError =
  * Lists the tags (metadata) you have assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2962,6 +3062,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVehiclesError =
@@ -2976,7 +3078,7 @@ export type ListVehiclesError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listVehicles: API.PaginatedOperationMethod<
-  ListVehiclesRequest,
+  ListVehiclesRequest & RegionInput,
   ListVehiclesResponse,
   ListVehiclesError,
   Credentials | HttpClient.HttpClient,
@@ -2999,6 +3101,8 @@ export const listVehicles: API.PaginatedOperationMethod<
     items: "vehicleSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVehicles",
 })) as any;
 
 export type ListVehiclesInFleetError =
@@ -3014,7 +3118,7 @@ export type ListVehiclesInFleetError =
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
 export const listVehiclesInFleet: API.PaginatedOperationMethod<
-  ListVehiclesInFleetRequest,
+  ListVehiclesInFleetRequest & RegionInput,
   ListVehiclesInFleetResponse,
   ListVehiclesInFleetError,
   Credentials | HttpClient.HttpClient,
@@ -3038,6 +3142,8 @@ export const listVehiclesInFleet: API.PaginatedOperationMethod<
     items: "vehicles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVehiclesInFleet",
 })) as any;
 
 export type PutEncryptionConfigurationError =
@@ -3055,7 +3161,7 @@ export type PutEncryptionConfigurationError =
  * encryption in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const putEncryptionConfiguration: API.OperationMethod<
-  PutEncryptionConfigurationRequest,
+  PutEncryptionConfigurationRequest & RegionInput,
   PutEncryptionConfigurationResponse,
   PutEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3073,6 +3179,8 @@ export const putEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEncryptionConfiguration",
 }));
 
 export type PutLoggingOptionsError =
@@ -3086,7 +3194,7 @@ export type PutLoggingOptionsError =
  * Creates or updates the logging option.
  */
 export const putLoggingOptions: API.OperationMethod<
-  PutLoggingOptionsRequest,
+  PutLoggingOptionsRequest & RegionInput,
   PutLoggingOptionsResponse,
   PutLoggingOptionsError,
   Credentials | HttpClient.HttpClient
@@ -3103,6 +3211,8 @@ export const putLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingOptions",
+  telemetry: TELEMETRY,
+  span: "PutLoggingOptions",
 }));
 
 export type RegisterAccountError =
@@ -3139,7 +3249,7 @@ export type RegisterAccountError =
  * contain many users and roles.
  */
 export const registerAccount: API.OperationMethod<
-  RegisterAccountRequest,
+  RegisterAccountRequest & RegionInput,
   RegisterAccountResponse,
   RegisterAccountError,
   Credentials | HttpClient.HttpClient
@@ -3157,6 +3267,8 @@ export const registerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccount",
+  telemetry: TELEMETRY,
+  span: "RegisterAccount",
 }));
 
 export type TagResourceError =
@@ -3171,7 +3283,7 @@ export type TagResourceError =
  * used to manage a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3188,6 +3300,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3201,7 +3315,7 @@ export type UntagResourceError =
  * Removes the given tags (metadata) from the resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3218,6 +3332,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignError =
@@ -3231,7 +3347,7 @@ export type UpdateCampaignError =
  * Updates a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -3248,6 +3364,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateDecoderManifestError =
@@ -3266,7 +3384,7 @@ export type UpdateDecoderManifestError =
  * `ACTIVE` decoder manifests can be associated with vehicles.
  */
 export const updateDecoderManifest: API.OperationMethod<
-  UpdateDecoderManifestRequest,
+  UpdateDecoderManifestRequest & RegionInput,
   UpdateDecoderManifestResponse,
   UpdateDecoderManifestError,
   Credentials | HttpClient.HttpClient
@@ -3285,6 +3403,8 @@ export const updateDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "UpdateDecoderManifest",
 }));
 
 export type UpdateFleetError =
@@ -3299,7 +3419,7 @@ export type UpdateFleetError =
  * Updates the description of an existing fleet.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResponse,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3317,6 +3437,8 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateModelManifestError =
@@ -3333,7 +3455,7 @@ export type UpdateModelManifestError =
  * vehicle model, it can't be updated.
  */
 export const updateModelManifest: API.OperationMethod<
-  UpdateModelManifestRequest,
+  UpdateModelManifestRequest & RegionInput,
   UpdateModelManifestResponse,
   UpdateModelManifestError,
   Credentials | HttpClient.HttpClient
@@ -3352,6 +3474,8 @@ export const updateModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelManifest",
+  telemetry: TELEMETRY,
+  span: "UpdateModelManifest",
 }));
 
 export type UpdateSignalCatalogError =
@@ -3369,7 +3493,7 @@ export type UpdateSignalCatalogError =
  * Updates a signal catalog.
  */
 export const updateSignalCatalog: API.OperationMethod<
-  UpdateSignalCatalogRequest,
+  UpdateSignalCatalogRequest & RegionInput,
   UpdateSignalCatalogResponse,
   UpdateSignalCatalogError,
   Credentials | HttpClient.HttpClient
@@ -3390,6 +3514,8 @@ export const updateSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "UpdateSignalCatalog",
 }));
 
 export type UpdateStateTemplateError =
@@ -3407,7 +3533,7 @@ export type UpdateStateTemplateError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const updateStateTemplate: API.OperationMethod<
-  UpdateStateTemplateRequest,
+  UpdateStateTemplateRequest & RegionInput,
   UpdateStateTemplateResponse,
   UpdateStateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3426,6 +3552,8 @@ export const updateStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateStateTemplate",
 }));
 
 export type UpdateVehicleError =
@@ -3443,7 +3571,7 @@ export type UpdateVehicleError =
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
 export const updateVehicle: API.OperationMethod<
-  UpdateVehicleRequest,
+  UpdateVehicleRequest & RegionInput,
   UpdateVehicleResponse,
   UpdateVehicleError,
   Credentials | HttpClient.HttpClient
@@ -3462,6 +3590,8 @@ export const updateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVehicle",
+  telemetry: TELEMETRY,
+  span: "UpdateVehicle",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
