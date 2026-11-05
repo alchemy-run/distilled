@@ -68,6 +68,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "docker" },
   { package: "doppler" },
   { package: "elasticsearch" },
+  { package: "entire" },
   { package: "expo-eas" },
   { package: "fly-io" },
   { package: "forgejo" },
