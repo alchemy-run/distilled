@@ -21,6 +21,7 @@ catalog:
   "@effect/platform-node": "^4.1.2"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
+  "@alchemy.run/aws": "2.0.0-beta.85"
   "@alchemy.run/cloudflare": "2.0.0-beta.85"
   "@alchemy.run/github": "2.0.0-beta.85"
   alchemy: "2.0.0-beta.85"
