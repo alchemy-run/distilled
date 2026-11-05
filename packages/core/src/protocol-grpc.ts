@@ -46,7 +46,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as API from "./api.ts";
-import { GrpcTransport, trailersOf } from "./grpc-transport.ts";
+import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
 import {
   decodeMessage,
   encodeMessage,
@@ -55,7 +55,7 @@ import {
   type ProtobufEncodeError,
   type ProtoDescriptors,
 } from "./protobuf.ts";
-import { InvalidInput } from "./protocol-http.ts";
+import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import { makeRestProtocol, type RestProtocolOptions } from "./protocol-rest.ts";
 import * as Telemetry from "./telemetry.ts";
 
@@ -117,7 +117,66 @@ export const Deadline = /*@__PURE__*/ Context.Reference<Duration.Input | undefin
 export interface GrpcProtocolOptions<C> extends RestProtocolOptions<C> {
   /** The SDK's generated descriptors (`src/descriptors.ts`). */
   readonly descriptors: ProtoDescriptors;
+  /**
+   * The error for a non-zero status no typed error matched, from its gRPC
+   * code. By default the REST decoder classifies it by the HTTP status the
+   * code maps to (`UNAVAILABLE` -> `ServiceUnavailable`, which retries), which
+   * keeps retries working but merges codes that share a status
+   * (`INVALID_ARGUMENT`, `FAILED_PRECONDITION` and `OUT_OF_RANGE` are all
+   * `BadRequest`).
+   */
+  readonly statusError?: (info: StatusInfo) => unknown;
 }
+
+/** A non-OK gRPC status, as `statusError` receives it. */
+export interface StatusInfo {
+  readonly code: number;
+  readonly message: string;
+  /** `google.rpc.Status.details` from `grpc-status-details-bin`, as proto3 JSON `Any`s. */
+  readonly details: ReadonlyArray<unknown>;
+  readonly headers: Readonly<Record<string, string>>;
+}
+
+/** gRPC's mapping of an HTTP status, for a reply that carries no gRPC status. */
+export const HTTP_GRPC_STATUS: Readonly<Record<number, number>> = {
+  400: 13,
+  401: 16,
+  403: 7,
+  404: 12,
+  429: 14,
+  502: 14,
+  503: 14,
+  504: 14,
+};
+
+const STATUS_DESCRIPTORS: ProtoDescriptors = {
+  messages: {
+    "google.rpc.Status": [
+      [1, "code", "int32"],
+      [2, "message", "string"],
+      [3, "details", "message", "google.protobuf.Any", 1],
+    ],
+  },
+  enums: {},
+  methods: {},
+};
+
+/** The details of `grpc-status-details-bin` (base64, padding optional). */
+const detailsOf = (raw: string | undefined): ReadonlyArray<unknown> => {
+  if (!raw) return [];
+  try {
+    const padded = raw.padEnd(raw.length + ((4 - (raw.length % 4)) % 4), "=");
+    const bin = atob(padded.replace(/-/g, "+").replace(/_/g, "/"));
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    const status = decodeMessage(STATUS_DESCRIPTORS, "google.rpc.Status", bytes) as {
+      readonly details: ReadonlyArray<unknown>;
+    };
+    return status.details;
+  } catch {
+    // Malformed details don't hide the status itself.
+    return [];
+  }
+};
 
 type Headers = Readonly<Record<string, string | undefined>>;
 
@@ -238,30 +297,144 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
           );
         });
 
-      /** A gRPC status as the REST decoder sees it: the operation's typed error. */
+      /** A gRPC status as the operation's typed error. */
       const failWith = (
         args: DecodeArgs,
         request: HttpClientRequest.HttpClientRequest,
         headers: Headers,
         status: number,
         message: string | undefined,
-      ): Effect.Effect<never> =>
-        Effect.flatMap(
+        details: ReadonlyArray<unknown> = [],
+      ): Effect.Effect<never> => {
+        const httpStatus = GRPC_HTTP_STATUS[status] ?? 500;
+        const body = {
+          code: status,
+          status: GRPC_STATUS_NAMES[status] ?? String(status),
+          message: messageOf(message, status),
+          details,
+        };
+        if (options.statusError !== undefined) {
+          const plain = plainHeaders(headers);
+          const typed = matchTypedError(
+            args.errors,
+            httpStatus,
+            [{ code: status, message: body.message }],
+            { body, headers: plain },
+          );
+          return Effect.fail(
+            typed ??
+              options.statusError({ code: status, message: body.message, details, headers: plain }),
+          ) as Effect.Effect<never>;
+        }
+        return Effect.flatMap(
           rest.decode({
             ...args,
-            response: jsonResponse(
-              request,
-              GRPC_HTTP_STATUS[status] ?? 500,
-              plainHeaders(headers),
-              {
-                code: status,
-                status: GRPC_STATUS_NAMES[status] ?? String(status),
-                message: messageOf(message, status),
-              },
-            ),
+            response: jsonResponse(request, httpStatus, plainHeaders(headers), body),
           }),
           () => Effect.die(new Error(`gRPC status ${status} decoded as a success`)),
         );
+      };
+
+      /**
+       * The call's failure, if any, once its body has ended. The status is in
+       * the trailers, or in the headers of a trailers-only reply (one with no
+       * body); a status in the headers of a reply with a body is ignored. A
+       * transport that reads trailers must deliver one; over `fetch`, which
+       * can't, a reply with messages and no status is OK.
+       */
+      const endOf = (
+        args: DecodeArgs,
+        response: HttpClientResponse.HttpClientResponse,
+        trailers: Readonly<Record<string, string>>,
+        sawBody: boolean,
+      ): Effect.Effect<void> => {
+        const headers = response.headers as Headers;
+        const readsTrailers = hasTrailers(response);
+        const source =
+          trailers["grpc-status"] !== undefined
+            ? trailers
+            : !sawBody || !readsTrailers
+              ? headers
+              : undefined;
+        const status = statusOf(source?.["grpc-status"]);
+        if (source === undefined || status === undefined) {
+          if (readsTrailers) {
+            return failWith(
+              args,
+              response.request,
+              headers,
+              13,
+              "server ended the call without a grpc-status",
+            );
+          }
+          return sawBody
+            ? Effect.void
+            : failWith(
+                args,
+                response.request,
+                headers,
+                2,
+                "gRPC response carried no message and no grpc-status",
+              );
+        }
+        return status === 0
+          ? Effect.void
+          : failWith(
+              args,
+              response.request,
+              headers,
+              status,
+              source["grpc-message"],
+              detailsOf(source["grpc-status-details-bin"]),
+            );
+      };
+
+      /** A malformed frame (compressed, truncated): gRPC's INTERNAL. */
+      const badFrame = (
+        args: DecodeArgs,
+        response: HttpClientResponse.HttpClientResponse,
+        cause: unknown,
+      ) =>
+        failWith(
+          args,
+          response.request,
+          response.headers as Headers,
+          13,
+          cause instanceof Error ? cause.message : String(cause),
+        );
+
+      /**
+       * A reply that isn't gRPC: a status other than 200, or another content
+       * type. The REST decoder classifies a non-200 by its HTTP status; with
+       * `statusError`, it maps as gRPC specifies (503 -> UNAVAILABLE, ...).
+       */
+      const notGrpc = (
+        args: DecodeArgs,
+        response: HttpClientResponse.HttpClientResponse,
+      ): Effect.Effect<never> | undefined => {
+        const headers = response.headers as Headers;
+        const isGrpc = (headers["content-type"] ?? "").startsWith("application/grpc");
+        if (response.status === 200 && isGrpc) return undefined;
+        if (response.status !== 200 && options.statusError === undefined) {
+          return rest.decode({ ...args, response }) as Effect.Effect<never>;
+        }
+        if (response.status !== 200) {
+          return failWith(
+            args,
+            response.request,
+            headers,
+            HTTP_GRPC_STATUS[response.status] ?? 2,
+            `HTTP ${response.status}`,
+          );
+        }
+        return failWith(
+          args,
+          response.request,
+          headers,
+          2,
+          `unexpected content-type ${JSON.stringify(headers["content-type"] ?? "")}`,
+        );
+      };
 
       /** A reply value decoded by the operation's output schema. */
       const succeedWith = (
@@ -306,56 +479,46 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
       /** Decode a whole reply (its body read to the end). */
       const decode: API.ProtocolShape["decode"] = (args) => {
         const { response } = args;
+        const failed = notGrpc(args, response);
+        if (failed) return failed;
         const headers = response.headers as Headers;
-        const contentType = headers["content-type"] ?? "";
-        // A proxy's own failure (415, 503 text/plain) is not gRPC: let the
-        // REST decoder classify it by HTTP status.
-        if (!contentType.startsWith("application/grpc")) return rest.decode(args);
         const request = response.request;
         const method = methodOf(request.url);
         if (!method) return Effect.die(new Error(`no gRPC descriptor for ${request.url}`));
         // Protocol effects carry no error type: callers see the operation's.
         return Effect.flatMap(response.arrayBuffer as Effect.Effect<ArrayBuffer>, (buffer) =>
           Effect.flatMap(trailersOf(response), (trailers) => {
-            const status = statusOf(trailers["grpc-status"] ?? headers["grpc-status"]);
-            if (status !== undefined && status !== 0) {
-              return failWith(
-                args,
-                request,
-                headers,
-                status,
-                trailers["grpc-message"] ?? headers["grpc-message"],
-              );
-            }
             const reader = new FrameReader();
             let frames: Uint8Array[];
             try {
               frames = reader.push(new Uint8Array(buffer));
             } catch (cause) {
-              return parseFailure(buffer, cause);
-            }
-            if (reader.rest !== 0) return parseFailure(buffer, "truncated gRPC frame");
-            if (frames.length === 0 && status === undefined) {
-              return failWith(
-                args,
-                request,
-                headers,
-                2,
-                "gRPC response carried no message and no grpc-status",
+              return Effect.flatMap(endOf(args, response, trailers, true), () =>
+                badFrame(args, response, cause),
               );
             }
-            const [, responseType, stream] = method;
-            let value: unknown;
-            try {
-              value = stream
-                ? { items: frames.map((f) => decodeMessage(d, responseType, f)) }
-                : frames.length === 0
-                  ? {}
+            return Effect.flatMap(endOf(args, response, trailers, buffer.byteLength > 0), () => {
+              if (reader.rest !== 0) return badFrame(args, response, "truncated gRPC frame");
+              const [, responseType, stream] = method;
+              if (!stream && frames.length !== 1) {
+                return failWith(
+                  args,
+                  request,
+                  headers,
+                  12,
+                  `expected one response message, got ${frames.length}`,
+                );
+              }
+              let value: unknown;
+              try {
+                value = stream
+                  ? { items: frames.map((f) => decodeMessage(d, responseType, f)) }
                   : decodeMessage(d, responseType, frames[0]!);
-            } catch (cause) {
-              return parseFailure(buffer, cause);
-            }
-            return succeedWith(args, request, headers, value);
+              } catch (cause) {
+                return parseFailure(buffer, cause);
+              }
+              return succeedWith(args, request, headers, value);
+            });
           }),
         );
       };
@@ -430,20 +593,10 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
       ): Stream.Stream<unknown, unknown> {
         const headers = response.headers as Headers;
         const request = response.request;
-        const contentType = headers["content-type"] ?? "";
-        if (!contentType.startsWith("application/grpc")) {
-          // Not gRPC: the REST decoder fails it by HTTP status.
-          return Stream.drain(Stream.fromEffect(rest.decode({ ...args, response })));
-        }
+        const failed = notGrpc(args, response);
+        if (failed) return Stream.fromEffect(failed);
         const method = methodOf(request.url);
         if (!method) return Stream.die(new Error(`no gRPC descriptor for ${request.url}`));
-        // A trailers-only reply: the call failed before any message.
-        const early = statusOf(headers["grpc-status"]);
-        if (early !== undefined && early !== 0) {
-          return Stream.fromEffect(
-            failWith(args, request, headers, early, headers["grpc-message"]),
-          );
-        }
         const [, responseType] = method;
         const reader = new FrameReader();
         const item = (payload: Uint8Array) => {
@@ -461,29 +614,23 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const messages = Stream.flatMap(response.stream, (chunk) =>
           Stream.fromIterableEffect(
             Effect.suspend(() => {
+              if (chunk.length > 0) sawBody = true;
               let frames: Uint8Array[];
               try {
                 frames = reader.push(chunk);
               } catch (cause) {
-                return parseFailure(chunk, cause);
+                return badFrame(args, response, cause);
               }
               return Effect.forEach(frames, item);
             }),
           ),
         );
-        const end = Effect.flatMap(trailersOf(response), (trailers) => {
-          if (reader.rest !== 0) return parseFailure(undefined, "truncated gRPC frame");
-          const status = statusOf(trailers["grpc-status"] ?? headers["grpc-status"]);
-          return status !== undefined && status !== 0
-            ? failWith(
-                args,
-                request,
-                headers,
-                status,
-                trailers["grpc-message"] ?? headers["grpc-message"],
-              )
-            : Effect.void;
-        });
+        let sawBody = false;
+        const end = Effect.flatMap(trailersOf(response), (trailers) =>
+          Effect.flatMap(endOf(args, response, trailers, sawBody), () =>
+            reader.rest !== 0 ? badFrame(args, response, "truncated gRPC frame") : Effect.void,
+          ),
+        );
         return Stream.concat(messages, Stream.drain(Stream.fromEffect(end)));
       }
     }),

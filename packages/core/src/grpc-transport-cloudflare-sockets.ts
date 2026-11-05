@@ -25,7 +25,12 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as Layer from "effect/Layer";
-import { layer as transportLayer, respond, type Trailers } from "./grpc-transport.ts";
+import {
+  isResponseStatus,
+  layer as transportLayer,
+  respond,
+  type Trailers,
+} from "./grpc-transport.ts";
 
 /** The part of `cloudflare:sockets` this transport uses. */
 type Connect = (
@@ -225,6 +230,7 @@ const send = async (
   }
   const [statusLine = "", ...lines] = decoder.decode(buf.subarray(0, end)).split("\r\n");
   const status = Number(statusLine.split(" ")[1] ?? 0);
+  if (!isResponseStatus(status)) throw new ProtocolViolation(`invalid HTTP status ${status}`);
   const headers: Record<string, string> = {};
   parseHeaderLines(lines, headers);
   const framing = decoderFor(headers);

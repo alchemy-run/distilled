@@ -54,6 +54,13 @@ const trailersByRequest = /*@__PURE__*/ new WeakMap<
 >();
 
 /**
+ * Whether `status` is a final HTTP status a response can carry (200 to 599).
+ * A transport fails the call with a transport error for any other.
+ */
+export const isResponseStatus = (status: number): boolean =>
+  Number.isInteger(status) && status >= 200 && status <= 599;
+
+/**
  * Build a transport's response: the status, the headers, the body as it
  * arrives, and the trailers, which settle once the body has ended.
  */
@@ -72,6 +79,10 @@ export const respond = (
     new Response(reply.body, { status: reply.status, headers: reply.headers }),
   );
 };
+
+/** Whether `response` came from a transport that reads trailers ({@link respond}). */
+export const hasTrailers = (response: HttpClientResponse.HttpClientResponse): boolean =>
+  trailersByRequest.has(response.request);
 
 /**
  * The trailers of a response a transport built with {@link respond}, read

@@ -19,7 +19,12 @@ import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import type * as Layer from "effect/Layer";
-import { layer as transportLayer, respond, type Trailers } from "./grpc-transport.ts";
+import {
+  isResponseStatus,
+  layer as transportLayer,
+  respond,
+  type Trailers,
+} from "./grpc-transport.ts";
 
 type Http2 = typeof import("node:http2");
 type Session = import("node:http2").ClientHttp2Session;
@@ -147,14 +152,15 @@ export const client: HttpClient.HttpClient = /*@__PURE__*/ HttpClient.make((requ
             stream.close(http2.constants.NGHTTP2_CANCEL);
           },
         });
+        const status = Number(incoming[":status"] ?? 0);
+        if (!isResponseStatus(status)) {
+          stream.close(http2.constants.NGHTTP2_CANCEL);
+          resume(Effect.fail(transportError(request, new Error(`invalid HTTP status ${status}`))));
+          return;
+        }
         resume(
           Effect.succeed(
-            respond(request, {
-              status: Number(incoming[":status"] ?? 200),
-              headers: plain(incoming),
-              body,
-              trailers: trailersDone,
-            }),
+            respond(request, { status, headers: plain(incoming), body, trailers: trailersDone }),
           ),
         );
       });

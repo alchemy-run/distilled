@@ -91,6 +91,8 @@ export interface ProtoField {
   readonly type: string;
   readonly repeated: boolean;
   readonly optional: boolean;
+  /** The `oneof` the field belongs to, by its index in the message (0-based). */
+  readonly oneof?: number;
   readonly mapKey?: string;
   readonly mapValue?: string;
   readonly jsonName?: string;
@@ -478,6 +480,7 @@ class Parser {
     const fullName = prefix ? `${prefix}.${name}` : `${pkg}.${name}`;
     this.expect("{");
     const fields: ProtoField[] = [];
+    let oneofs = 0;
     const messages: ProtoMessage[] = [];
     const enums: ProtoEnum[] = [];
     while (true) {
@@ -499,6 +502,7 @@ class Parser {
       if (this.tryIdent("oneof")) {
         this.ident();
         this.expect("{");
+        const oneof = oneofs++;
         while (true) {
           this.skipTrivia();
           if (this.peekChar() === "}") break;
@@ -507,7 +511,7 @@ class Parser {
             this.expect(";");
             continue;
           }
-          fields.push({ ...this.parseField(), optional: true });
+          fields.push({ ...this.parseField(), optional: true, oneof });
         }
         this.expect("}");
         continue;
@@ -735,8 +739,22 @@ const ident = (s: string): string => {
   return out || "_";
 };
 
-const camel = (s: string): string =>
-  s.replace(/[_-]+([A-Za-z0-9])/g, (_, c: string) => c.toUpperCase());
+/**
+ * A field's proto3 JSON name, by protoc's rule: drop every `_` and upper-case
+ * the character after it (`field__name4_` -> `fieldName4`).
+ */
+const jsonNameOf = (name: string): string => {
+  let out = "";
+  let upper = false;
+  for (const c of name) {
+    if (c === "_") upper = true;
+    else {
+      out += upper ? c.toUpperCase() : c;
+      upper = false;
+    }
+  }
+  return out;
+};
 
 const shapeNameFor = (fullName: string): string => {
   const parts = fullName.split(".").filter(Boolean);
@@ -880,7 +898,7 @@ const memberTraits = (field: ProtoField, tsName: string): Record<string, any> =>
   const traits: Record<string, any> = {};
   const doc = oneLineDoc(field.documentation);
   if (doc) traits["smithy.api#documentation"] = doc;
-  const wire = field.jsonName ?? camel(field.name);
+  const wire = field.jsonName ?? jsonNameOf(field.name);
   if (wire !== tsName) traits["smithy.api#jsonName"] = wire;
   if (isSensitive(field.name) || isSensitive(tsName)) {
     traits["smithy.api#sensitive"] = {};
@@ -932,9 +950,9 @@ const emitMembers = (
   const members: Record<string, any> = {};
   const used = new Set<string>();
   for (const field of fields) {
-    let tsName = ident(camel(field.name));
+    let tsName = ident(jsonNameOf(field.name));
     let k = 2;
-    while (used.has(tsName)) tsName = `${ident(camel(field.name))}${k++}`;
+    while (used.has(tsName)) tsName = `${ident(jsonNameOf(field.name))}${k++}`;
     used.add(tsName);
     const traits = memberTraits(field, tsName);
     const fallback = proto3Default(ctx, field, scope);
@@ -1186,7 +1204,7 @@ type DescriptorField = [
   string,
   (string | [string, string, string?] | 0)?,
   (0 | 1)?,
-  1?,
+  number?,
 ];
 
 export interface ProtoDescriptorTable {
@@ -1223,7 +1241,7 @@ export const protoDescriptors = (
   for (const [name, msg] of index.messages) {
     const pkg = pkgOf(name);
     table.messages[name] = msg.fields.map((f): DescriptorField => {
-      const json = f.jsonName ?? camel(f.name);
+      const json = f.jsonName ?? jsonNameOf(f.name);
       if (f.mapKey && f.mapValue) {
         const [kk] = kindOf(f.mapKey, pkg, name);
         const [vk, vr] = kindOf(f.mapValue, pkg, name);
@@ -1232,7 +1250,11 @@ export const protoDescriptors = (
       const [kind, ref] = kindOf(f.type, pkg, name);
       if (f.repeated) return [f.number, json, kind, ref ?? 0, 1];
       // `optional` and `oneof` fields have presence: absent stays absent.
-      if (f.optional) return [f.number, json, kind, ref ?? 0, 0, 1];
+      // A oneof member's presence names its oneof (2, 3, ...), so setting one
+      // member clears the others.
+      if (f.optional) {
+        return [f.number, json, kind, ref ?? 0, 0, f.oneof === undefined ? 1 : f.oneof + 2];
+      }
       return ref ? [f.number, json, kind, ref] : [f.number, json, kind];
     });
   }
