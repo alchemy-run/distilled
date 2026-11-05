@@ -140,7 +140,7 @@ export const operationIam = (options: {
   // A service-wide removal never takes an operation's own action away:
   // `DescribeStandardsControls` is a legacy action everywhere else.
   const removedEverywhere = (options.removeEverywhere ?? []).map(glob);
-  const own = (a: string) => a.split(":")[1]?.toLowerCase() === opName.toLowerCase();
+  const own = (a: string) => a.toLowerCase() === `${prefix}:${opName}`.toLowerCase();
   actions = [...new Set([...actions, ...(patch?.add ?? [])])].filter(
     (a) => !removed.some((r) => r.test(a)) && (own(a) || !removedEverywhere.some((r) => r.test(a))),
   );

@@ -626,7 +626,7 @@ export const createGroup: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGroup",
   iam: {
-    actions: ["identitystore:CreateGroup", "sso-directory:CreateGroup"],
+    actions: ["identitystore:CreateGroup"],
     resources: {
       "identitystore:CreateGroup": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
@@ -704,7 +704,7 @@ export const createUser: API.OperationMethod<
   retry: Retry,
   operationName: "CreateUser",
   iam: {
-    actions: ["identitystore:CreateUser", "sso-directory:CreateUser"],
+    actions: ["identitystore:CreateUser"],
     resources: {
       "identitystore:CreateUser": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
@@ -736,7 +736,7 @@ export const deleteGroup: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGroup",
   iam: {
-    actions: ["identitystore:DeleteGroup", "sso-directory:DeleteGroup"],
+    actions: ["identitystore:DeleteGroup"],
     resources: {
       "identitystore:DeleteGroup": [
         "arn:${Partition}:identitystore:::group/${GroupId}",
@@ -804,7 +804,7 @@ export const deleteUser: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteUser",
   iam: {
-    actions: ["identitystore:DeleteUser", "sso-directory:DeleteUser"],
+    actions: ["identitystore:DeleteUser"],
     resources: {
       "identitystore:DeleteUser": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
@@ -835,7 +835,7 @@ export const describeGroup: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGroup",
   iam: {
-    actions: ["identitystore:DescribeGroup", "sso-directory:DescribeGroup"],
+    actions: ["identitystore:DescribeGroup"],
     resources: {
       "identitystore:DescribeGroup": [
         "arn:${Partition}:identitystore:::group/${GroupId}",
@@ -933,7 +933,7 @@ export const describeUser: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeUser",
   iam: {
-    actions: ["identitystore:DescribeUser", "sso-directory:DescribeUser"],
+    actions: ["identitystore:DescribeUser"],
     resources: {
       "identitystore:DescribeUser": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
@@ -964,7 +964,7 @@ export const getGroupId: API.OperationMethod<
   retry: Retry,
   operationName: "GetGroupId",
   iam: {
-    actions: ["identitystore:GetGroupId", "sso-directory:GetGroupId"],
+    actions: ["identitystore:GetGroupId"],
     resources: {
       "identitystore:GetGroupId": [
         "arn:${Partition}:identitystore:::group/${GroupId}",
@@ -1031,7 +1031,7 @@ export const getUserId: API.OperationMethod<
   retry: Retry,
   operationName: "GetUserId",
   iam: {
-    actions: ["identitystore:GetUserId", "sso-directory:GetUserId"],
+    actions: ["identitystore:GetUserId"],
     resources: {
       "identitystore:GetUserId": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
@@ -1062,7 +1062,7 @@ export const isMemberInGroups: API.OperationMethod<
   retry: Retry,
   operationName: "IsMemberInGroups",
   iam: {
-    actions: ["identitystore:IsMemberInGroups", "sso-directory:IsMemberInGroups"],
+    actions: ["identitystore:IsMemberInGroups"],
     resources: {
       "identitystore:IsMemberInGroups": [
         "arn:${Partition}:identitystore:::membership/*",
@@ -1186,7 +1186,7 @@ export const listGroups: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
   iam: {
-    actions: ["identitystore:ListGroups", "sso-directory:ListGroups"],
+    actions: ["identitystore:ListGroups"],
     resources: {
       "identitystore:ListGroups": [
         "arn:${Partition}:identitystore:::group/*",
@@ -1254,7 +1254,7 @@ export const listUsers: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
   iam: {
-    actions: ["identitystore:ListUsers", "sso-directory:ListUsers"],
+    actions: ["identitystore:ListUsers"],
     resources: {
       "identitystore:ListUsers": [
         "arn:${Partition}:identitystore:::user/*",
@@ -1293,7 +1293,7 @@ export const updateGroup: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGroup",
   iam: {
-    actions: ["identitystore:UpdateGroup", "sso-directory:UpdateGroup"],
+    actions: ["identitystore:UpdateGroup"],
     resources: {
       "identitystore:UpdateGroup": [
         "arn:${Partition}:identitystore:::group/${GroupId}",
@@ -1364,7 +1364,7 @@ export const updateUser: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateUser",
   iam: {
-    actions: ["identitystore:UpdateUser", "sso-directory:UpdateUser"],
+    actions: ["identitystore:UpdateUser"],
     resources: {
       "identitystore:UpdateUser": [
         "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
