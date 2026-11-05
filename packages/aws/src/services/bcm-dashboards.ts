@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -546,7 +547,7 @@ export type CreateDashboardError =
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
 export const createDashboard: API.OperationMethod<
-  CreateDashboardRequest,
+  CreateDashboardRequest & RegionInput,
   CreateDashboardResponse,
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -579,7 +580,7 @@ export type CreateScheduledReportError =
  * Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
  */
 export const createScheduledReport: API.OperationMethod<
-  CreateScheduledReportRequest,
+  CreateScheduledReportRequest & RegionInput,
   CreateScheduledReportResponse,
   CreateScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -611,7 +612,7 @@ export type DeleteDashboardError =
  * Deletes a specified dashboard. This action cannot be undone.
  */
 export const deleteDashboard: API.OperationMethod<
-  DeleteDashboardRequest,
+  DeleteDashboardRequest & RegionInput,
   DeleteDashboardResponse,
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DeleteScheduledReportError =
  * Deletes a specified scheduled report. This is an irreversible operation.
  */
 export const deleteScheduledReport: API.OperationMethod<
-  DeleteScheduledReportRequest,
+  DeleteScheduledReportRequest & RegionInput,
   DeleteScheduledReportResponse,
   DeleteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -677,7 +678,7 @@ export type ExecuteScheduledReportError =
  * If a `clientToken` is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
  */
 export const executeScheduledReport: API.OperationMethod<
-  ExecuteScheduledReportRequest,
+  ExecuteScheduledReportRequest & RegionInput,
   ExecuteScheduledReportResponse,
   ExecuteScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -710,7 +711,7 @@ export type GetDashboardError =
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardRequest,
+  GetDashboardRequest & RegionInput,
   GetDashboardResponse,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -742,7 +743,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -774,7 +775,7 @@ export type GetScheduledReportError =
  * Retrieves the configuration and metadata of a specified scheduled report.
  */
 export const getScheduledReport: API.OperationMethod<
-  GetScheduledReportRequest,
+  GetScheduledReportRequest & RegionInput,
   GetScheduledReportResponse,
   GetScheduledReportError,
   Credentials | HttpClient.HttpClient
@@ -805,7 +806,7 @@ export type ListDashboardsError =
  * Returns a list of all dashboards in your account.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsRequest,
+  ListDashboardsRequest & RegionInput,
   ListDashboardsResponse,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -842,7 +843,7 @@ export type ListScheduledReportsError =
  * Returns a list of scheduled reports in your account.
  */
 export const listScheduledReports: API.PaginatedOperationMethod<
-  ListScheduledReportsRequest,
+  ListScheduledReportsRequest & RegionInput,
   ListScheduledReportsResponse,
   ListScheduledReportsError,
   Credentials | HttpClient.HttpClient,
@@ -879,7 +880,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags associated with a specified dashboard resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -909,7 +910,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified dashboard resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type UntagResourceError =
  * Removes specified tags from a dashboard resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -970,7 +971,7 @@ export type UpdateDashboardError =
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
 export const updateDashboard: API.OperationMethod<
-  UpdateDashboardRequest,
+  UpdateDashboardRequest & RegionInput,
   UpdateDashboardResponse,
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
@@ -1003,7 +1004,7 @@ export type UpdateScheduledReportError =
  * Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
  */
 export const updateScheduledReport: API.OperationMethod<
-  UpdateScheduledReportRequest,
+  UpdateScheduledReportRequest & RegionInput,
   UpdateScheduledReportResponse,
   UpdateScheduledReportError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -633,7 +634,7 @@ export type AssociateFraudsterError =
  * Associates the fraudsters with the watchlist specified in the same domain.
  */
 export const associateFraudster: API.OperationMethod<
-  AssociateFraudsterRequest,
+  AssociateFraudsterRequest & RegionInput,
   AssociateFraudsterResponse,
   AssociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type CreateDomainError =
  * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -706,7 +707,7 @@ export type CreateWatchlistError =
  * Creates a watchlist that fraudsters can be a part of.
  */
 export const createWatchlist: API.OperationMethod<
-  CreateWatchlistRequest,
+  CreateWatchlistRequest & RegionInput,
   CreateWatchlistResponse,
   CreateWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -741,7 +742,7 @@ export type DeleteDomainError =
  * Deletes the specified domain from Voice ID.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -775,7 +776,7 @@ export type DeleteFraudsterError =
  * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
  */
 export const deleteFraudster: API.OperationMethod<
-  DeleteFraudsterRequest,
+  DeleteFraudsterRequest & RegionInput,
   DeleteFraudsterResponse,
   DeleteFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -809,7 +810,7 @@ export type DeleteSpeakerError =
  * Deletes the specified speaker from Voice ID.
  */
 export const deleteSpeaker: API.OperationMethod<
-  DeleteSpeakerRequest,
+  DeleteSpeakerRequest & RegionInput,
   DeleteSpeakerResponse,
   DeleteSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -845,7 +846,7 @@ export type DeleteWatchlistError =
  * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
  */
 export const deleteWatchlist: API.OperationMethod<
-  DeleteWatchlistRequest,
+  DeleteWatchlistRequest & RegionInput,
   DeleteWatchlistResponse,
   DeleteWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -878,7 +879,7 @@ export type DescribeDomainError =
  * Describes the specified domain.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
@@ -910,7 +911,7 @@ export type DescribeFraudsterError =
  * Describes the specified fraudster.
  */
 export const describeFraudster: API.OperationMethod<
-  DescribeFraudsterRequest,
+  DescribeFraudsterRequest & RegionInput,
   DescribeFraudsterResponse,
   DescribeFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DescribeFraudsterRegistrationJobError =
  * Describes the specified fraudster registration job.
  */
 export const describeFraudsterRegistrationJob: API.OperationMethod<
-  DescribeFraudsterRegistrationJobRequest,
+  DescribeFraudsterRegistrationJobRequest & RegionInput,
   DescribeFraudsterRegistrationJobResponse,
   DescribeFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -974,7 +975,7 @@ export type DescribeSpeakerError =
  * Describes the specified speaker.
  */
 export const describeSpeaker: API.OperationMethod<
-  DescribeSpeakerRequest,
+  DescribeSpeakerRequest & RegionInput,
   DescribeSpeakerResponse,
   DescribeSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -1006,7 +1007,7 @@ export type DescribeSpeakerEnrollmentJobError =
  * Describes the specified speaker enrollment job.
  */
 export const describeSpeakerEnrollmentJob: API.OperationMethod<
-  DescribeSpeakerEnrollmentJobRequest,
+  DescribeSpeakerEnrollmentJobRequest & RegionInput,
   DescribeSpeakerEnrollmentJobResponse,
   DescribeSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type DescribeWatchlistError =
  * Describes the specified watchlist.
  */
 export const describeWatchlist: API.OperationMethod<
-  DescribeWatchlistRequest,
+  DescribeWatchlistRequest & RegionInput,
   DescribeWatchlistResponse,
   DescribeWatchlistError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type DisassociateFraudsterError =
  * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
  */
 export const disassociateFraudster: API.OperationMethod<
-  DisassociateFraudsterRequest,
+  DisassociateFraudsterRequest & RegionInput,
   DisassociateFraudsterResponse,
   DisassociateFraudsterError,
   Credentials | HttpClient.HttpClient
@@ -1108,7 +1109,7 @@ export type EvaluateSessionError =
  * Amazon Connect Voice ID call.
  */
 export const evaluateSession: API.OperationMethod<
-  EvaluateSessionRequest,
+  EvaluateSessionRequest & RegionInput,
   EvaluateSessionResponse,
   EvaluateSessionError,
   Credentials | HttpClient.HttpClient
@@ -1140,7 +1141,7 @@ export type ListDomainsError =
  * Lists all the domains in the Amazon Web Services account.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1180,7 +1181,7 @@ export type ListFraudsterRegistrationJobsError =
  * fraudster registration jobs in the given domain.
  */
 export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
-  ListFraudsterRegistrationJobsRequest,
+  ListFraudsterRegistrationJobsRequest & RegionInput,
   ListFraudsterRegistrationJobsResponse,
   ListFraudsterRegistrationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1219,7 +1220,7 @@ export type ListFraudstersError =
  * Lists all fraudsters in a specified watchlist or domain.
  */
 export const listFraudsters: API.PaginatedOperationMethod<
-  ListFraudstersRequest,
+  ListFraudstersRequest & RegionInput,
   ListFraudstersResponse,
   ListFraudstersError,
   Credentials | HttpClient.HttpClient,
@@ -1260,7 +1261,7 @@ export type ListSpeakerEnrollmentJobsError =
  * jobs with all possible speaker enrollment job statuses.
  */
 export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
-  ListSpeakerEnrollmentJobsRequest,
+  ListSpeakerEnrollmentJobsRequest & RegionInput,
   ListSpeakerEnrollmentJobsResponse,
   ListSpeakerEnrollmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -1299,7 +1300,7 @@ export type ListSpeakersError =
  * Lists all speakers in a specified domain.
  */
 export const listSpeakers: API.PaginatedOperationMethod<
-  ListSpeakersRequest,
+  ListSpeakersRequest & RegionInput,
   ListSpeakersResponse,
   ListSpeakersError,
   Credentials | HttpClient.HttpClient,
@@ -1338,7 +1339,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a specified Voice ID resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1371,7 @@ export type ListWatchlistsError =
  * Lists all watchlists in a specified domain.
  */
 export const listWatchlists: API.PaginatedOperationMethod<
-  ListWatchlistsRequest,
+  ListWatchlistsRequest & RegionInput,
   ListWatchlistsResponse,
   ListWatchlistsError,
   Credentials | HttpClient.HttpClient,
@@ -1416,7 +1417,7 @@ export type OptOutSpeakerError =
  * Voice ID.
  */
 export const optOutSpeaker: API.OperationMethod<
-  OptOutSpeakerRequest,
+  OptOutSpeakerRequest & RegionInput,
   OptOutSpeakerResponse,
   OptOutSpeakerError,
   Credentials | HttpClient.HttpClient
@@ -1452,7 +1453,7 @@ export type StartFraudsterRegistrationJobError =
  * Starts a new batch fraudster registration job using provided details.
  */
 export const startFraudsterRegistrationJob: API.OperationMethod<
-  StartFraudsterRegistrationJobRequest,
+  StartFraudsterRegistrationJobRequest & RegionInput,
   StartFraudsterRegistrationJobResponse,
   StartFraudsterRegistrationJobError,
   Credentials | HttpClient.HttpClient
@@ -1488,7 +1489,7 @@ export type StartSpeakerEnrollmentJobError =
  * Starts a new batch speaker enrollment job using specified details.
  */
 export const startSpeakerEnrollmentJob: API.OperationMethod<
-  StartSpeakerEnrollmentJobRequest,
+  StartSpeakerEnrollmentJobRequest & RegionInput,
   StartSpeakerEnrollmentJobResponse,
   StartSpeakerEnrollmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1524,7 @@ export type TagResourceError =
  * Tags a Voice ID resource with the provided list of tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1557,7 +1558,7 @@ export type UntagResourceError =
  * Removes specified tags from a specified Amazon Connect Voice ID resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1593,7 +1594,7 @@ export type UpdateDomainError =
  * removed from the domain.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainRequest,
+  UpdateDomainRequest & RegionInput,
   UpdateDomainResponse,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -1627,7 +1628,7 @@ export type UpdateWatchlistError =
  * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
  */
 export const updateWatchlist: API.OperationMethod<
-  UpdateWatchlistRequest,
+  UpdateWatchlistRequest & RegionInput,
   UpdateWatchlistResponse,
   UpdateWatchlistError,
   Credentials | HttpClient.HttpClient

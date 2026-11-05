@@ -324,27 +324,27 @@ export interface CreateBucketDomainCustomResponse {
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
   minTLS?: BucketsDomainsCustomCreateResponseMinTLS | null;
 }
+export type CreateBucketsJobRequestJobType = "prefixDelete" | "storageClassMigration";
+export type CreateBucketsJobRequestDestinationStorageClass = "Standard" | "InfrequentAccess";
+export type CreateBucketsJobRequestSourceStorageClass = "Standard" | "InfrequentAccess";
 export type CreateBucketsJobRequestCfR2Jurisdiction =
   | "default"
   | "eu"
   | "us"
   | "fedramp"
   | "fedramp-high";
-export type CreateBucketsJobRequestJobType = "prefixDelete" | "storageClassMigration";
-export type CreateBucketsJobRequestDestinationStorageClass = "Standard" | "InfrequentAccess";
-export type CreateBucketsJobRequestSourceStorageClass = "Standard" | "InfrequentAccess";
 export interface CreateBucketsJobRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
   cfR2DataCatalogCheck?: string;
-  cfR2Jurisdiction?: CreateBucketsJobRequestCfR2Jurisdiction | (string & {});
   jobType: CreateBucketsJobRequestJobType | (string & {});
   /** Prefix matched against object keys. A non-empty value must end in `/`. An empty string empties the entire bucket. */
   prefix?: string;
   destinationStorageClass?: CreateBucketsJobRequestDestinationStorageClass | (string & {});
   sourceStorageClass?: CreateBucketsJobRequestSourceStorageClass | (string & {});
+  jurisdiction?: CreateBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type CreateBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export interface CreateBucketsJobResultPrefixDeletePrefixDelete {
@@ -604,9 +604,9 @@ export interface DeleteBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsDeleteRequestCfR2Jurisdiction | (string & {});
   /** The key (name) of the object to delete. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsDeleteRequestCfR2Jurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteBucketObjectResponse {
@@ -638,7 +638,7 @@ export interface DeleteObjectsRequest {
   bucketName: string;
   prefix?: string;
   body?: DeleteObjectsKeyList;
-  cfR2Jurisdiction?: string;
+  jurisdiction?: string;
 }
 export type DeleteObjectsResponse = unknown;
 export type BucketsGetRequestCfR2Jurisdiction =
@@ -975,13 +975,13 @@ export interface GetBucketObjectRequest {
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {});
   /** Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`. */
   ifModifiedSince?: string;
   /** Returns the object only if its ETag does not match the given value. */
   ifNoneMatch?: string;
   /** The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsGetRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketObjectResponseCfR2StorageClass = "Standard" | "InfrequentAccess";
 export interface GetBucketObjectResponse {
@@ -1065,7 +1065,7 @@ export interface GetBucketsJobRequest {
   /** Name of the bucket. */
   bucketName: string;
   jobId: string;
-  cfR2Jurisdiction?: GetBucketsJobRequestCfR2Jurisdiction | (string & {});
+  jurisdiction?: GetBucketsJobRequestCfR2Jurisdiction | (string & {});
 }
 export type GetBucketsJobResultPrefixDeleteJobType = "prefixDelete";
 export type GetBucketsJobResultPrefixDeletePrefixDelete =
@@ -1381,7 +1381,7 @@ export interface ListBucketObjectsRequest {
   prefix?: string;
   /** Returns objects with keys that come after the specified key in lexicographic order. */
   startAfter?: string;
-  cfR2Jurisdiction?: BucketsObjectsListRequestCfR2Jurisdiction | (string & {});
+  jurisdiction?: BucketsObjectsListRequestCfR2Jurisdiction | (string & {});
 }
 export type BucketsObjectsListResultItemCustomMetadataMap = { [key: string]: string | undefined };
 export interface BucketsObjectsListResultItemHttpMetadata {
@@ -1506,7 +1506,7 @@ export interface ListBucketsJobsRequest {
   maxKeys?: number;
   /** Restricts results to jobs with the specified status. `jobType` is required when this parameter is provided. */
   status?: ListBucketsJobsRequestStatus | (string & {});
-  cfR2Jurisdiction?: ListBucketsJobsRequestCfR2Jurisdiction | (string & {});
+  jurisdiction?: ListBucketsJobsRequestCfR2Jurisdiction | (string & {});
 }
 export type ListBucketsJobsResponseJobsItemPrefixDeleteJobType = "prefixDelete";
 export type ListBucketsJobsResponseJobsItemPrefixDeletePrefixDelete =
@@ -2192,23 +2192,23 @@ export interface UpdateBucketDomainCustomResponse {
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
   minTLS?: BucketsDomainsCustomUpdateResponseMinTLS | null;
 }
+export type BucketsObjectsUploadRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
 export type BucketsObjectsUploadRequestCfR2Jurisdiction =
   | "default"
   | "eu"
   | "us"
   | "fedramp"
   | "fedramp-high";
-export type BucketsObjectsUploadRequestCfR2StorageClass = "Standard" | "InfrequentAccess";
 export interface UploadBucketObjectRequest {
   /** Cloudflare account ID that owns the R2 resource. */
   accountId: string;
   /** Name of the bucket. */
   bucketName: string;
-  cfR2Jurisdiction?: BucketsObjectsUploadRequestCfR2Jurisdiction | (string & {});
   /** Storage class for newly uploaded objects, unless specified otherwise. */
   cfR2StorageClass?: BucketsObjectsUploadRequestCfR2StorageClass | (string & {});
   /** The key (name) to assign to the object. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual. */
   objectName: string;
+  jurisdiction?: BucketsObjectsUploadRequestCfR2Jurisdiction | (string & {});
   /** The object content -- sent verbatim as the request body. */
   body?: Blob | Uint8Array | ArrayBuffer | string;
   /** MIME type stored with the object. */
@@ -3382,6 +3382,7 @@ function __c3(j: number): any {
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketRequest" });
   }
@@ -3421,6 +3422,7 @@ function __c5(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketDomainCustomRequest" });
     case 1:
@@ -3449,11 +3451,11 @@ function __c7(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           cfR2DataCatalogCheck: S.optional(S.String.pipe(T.Header("cf-r2-data-catalog-check"))),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           jobType: S.String,
           prefix: S.optional(S.String),
           destinationStorageClass: S.optional(S.String),
           sourceStorageClass: S.optional(S.String),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3462,6 +3464,7 @@ function __c7(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketsJobRequest" });
     case 1:
@@ -3582,6 +3585,7 @@ function __c11(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
@@ -3610,6 +3614,7 @@ function __c13(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketCorsRequest" });
   }
@@ -3631,6 +3636,7 @@ function __c14(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketDomainCustomRequest" });
     case 1:
@@ -3658,6 +3664,7 @@ function __c15(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketEventNotificationRequest" });
   }
@@ -3669,8 +3676,8 @@ function __c16(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3679,6 +3686,7 @@ function __c16(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketObjectRequest" });
     case 1:
@@ -3705,6 +3713,7 @@ function __c17(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketSippyRequest" });
   }
@@ -3728,7 +3737,7 @@ function __c19(j: number): any {
           bucketName: S.String.pipe(T.Label("bucket_name")),
           prefix: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -3737,6 +3746,7 @@ function __c19(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteObjectsRequest" });
   }
@@ -3757,6 +3767,7 @@ function __c20(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketRequest" });
   }
@@ -3777,6 +3788,7 @@ function __c21(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketCorsRequest" });
     case 1:
@@ -3829,6 +3841,7 @@ function __c23(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketDomainCustomRequest" });
     case 1:
@@ -3873,6 +3886,7 @@ function __c25(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketEventNotificationRequest" });
     case 1:
@@ -3918,6 +3932,7 @@ function __c27(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLifecycleRequest" });
     case 1:
@@ -4044,6 +4059,7 @@ function __c30(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLockRequest" });
     case 1:
@@ -4079,10 +4095,10 @@ function __c31(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           ifModifiedSince: S.optional(S.String.pipe(T.Header("If-Modified-Since"))),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4091,6 +4107,7 @@ function __c31(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketObjectRequest" });
     case 1:
@@ -4128,6 +4145,7 @@ function __c32(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketSippyRequest" });
   }
@@ -4171,7 +4189,7 @@ function __c34(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           jobId: S.String.pipe(T.Label("job_id")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4180,6 +4198,7 @@ function __c34(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketsJobRequest" });
     case 1:
@@ -4268,6 +4287,7 @@ function __c37(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketDomainCustomsRequest" });
     case 1:
@@ -4308,6 +4328,7 @@ function __c38(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketDomainManagedsRequest" });
   }
@@ -4340,6 +4361,7 @@ function __c40(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketEventNotificationsRequest" });
     case 1:
@@ -4407,7 +4429,7 @@ function __c42(j: number): any {
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           prefix: S.optional(S.String.pipe(T.Query())),
           startAfter: S.optional(S.String.pipe(T.Query("start_after"))),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4416,6 +4438,7 @@ function __c42(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketObjectsRequest" });
     case 1:
@@ -4470,6 +4493,7 @@ function __c43(j: number): any {
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/r2/buckets", code: 200 }))
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsRequest" });
     case 1:
@@ -4503,7 +4527,7 @@ function __c44(j: number): any {
           jobType: S.optional(S.String.pipe(T.Query())),
           maxKeys: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
             T.Http({
@@ -4512,6 +4536,7 @@ function __c44(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsJobsRequest" });
     case 1:
@@ -4638,6 +4663,7 @@ function __c47(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchBucketRequest" });
   }
@@ -4728,6 +4754,7 @@ function __c50(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketCorsRequest" });
   }
@@ -4749,6 +4776,7 @@ function __c51(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketDomainManagedRequest" });
   }
@@ -4782,6 +4810,7 @@ function __c52(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketEventNotificationRequest" });
   }
@@ -4861,6 +4890,7 @@ function __c53(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketLifecycleRequest" });
   }
@@ -4920,6 +4950,7 @@ function __c55(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketLockRequest" });
   }
@@ -4962,6 +4993,7 @@ function __c56(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutBucketSippyRequest" });
   }
@@ -5070,6 +5102,7 @@ function __c61(j: number): any {
               code: 200,
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateBucketDomainCustomRequest" });
     case 1:
@@ -5090,9 +5123,9 @@ function __c62(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           cfR2StorageClass: S.optional(S.String.pipe(T.Header("cf-r2-storage-class"))),
           objectName: S.String.pipe(T.Label("object_name")),
+          jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
           body: S.optional(S.String.pipe(T.HttpBody())),
           contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
           contentDisposition: S.optional(S.String.pipe(T.Header("Content-Disposition"))),
@@ -5110,6 +5143,7 @@ function __c62(j: number): any {
               bodyMediaType: "application/octet-stream",
             }),
           )
+          .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UploadBucketObjectRequest" });
     case 1:
@@ -5129,3 +5163,5 @@ function __c62(j: number): any {
 function __S(i: number, f: (j: number) => unknown, j: number): any {
   return (__s[i] ??= __L.at(f, j));
 }
+
+export { layerS3, S3CredentialsError } from "../layer-s3.ts";

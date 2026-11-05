@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1234,7 +1235,7 @@ export type GetListingError = ResourceNotFoundException | CommonErrors;
  * Provides details about a listing, such as descriptions, badges, categories, pricing model summaries, reviews, and associated products and offers.
  */
 export const getListing: API.OperationMethod<
-  GetListingInput,
+  GetListingInput & RegionInput,
   GetListingOutput,
   GetListingError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type GetOfferError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer, such as the pricing model, seller of record, availability dates, badges, and associated products.
  */
 export const getOffer: API.OperationMethod<
-  GetOfferInput,
+  GetOfferInput & RegionInput,
   GetOfferOutput,
   GetOfferError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetOfferSetError = ResourceNotFoundException | CommonErrors;
  * Provides details about an offer set, which is a bundle of offers across multiple products. Includes the seller, availability dates, buyer notes, and associated product-offer pairs.
  */
 export const getOfferSet: API.OperationMethod<
-  GetOfferSetInput,
+  GetOfferSetInput & RegionInput,
   GetOfferSetOutput,
   GetOfferSetError,
   Credentials | HttpClient.HttpClient
@@ -1294,7 +1295,7 @@ export type GetOfferTermsError = ResourceNotFoundException | CommonErrors;
  * Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.
  */
 export const getOfferTerms: API.PaginatedOperationMethod<
-  GetOfferTermsInput,
+  GetOfferTermsInput & RegionInput,
   GetOfferTermsOutput,
   GetOfferTermsError,
   Credentials | HttpClient.HttpClient,
@@ -1321,7 +1322,7 @@ export type GetProductError = ResourceNotFoundException | CommonErrors;
  * Provides details about a product, such as descriptions, highlights, categories, fulfillment option summaries, promotional media, and seller engagement options.
  */
 export const getProduct: API.OperationMethod<
-  GetProductInput,
+  GetProductInput & RegionInput,
   GetProductOutput,
   GetProductError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErro
  * Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
  */
 export const listFulfillmentOptions: API.PaginatedOperationMethod<
-  ListFulfillmentOptionsInput,
+  ListFulfillmentOptionsInput & RegionInput,
   ListFulfillmentOptionsOutput,
   ListFulfillmentOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1370,7 +1371,7 @@ export type ListPurchaseOptionsError = CommonErrors;
  * You must include at least one of the following filters in the request: a `PRODUCT_ID` filter to specify the product for which to retrieve purchase options, or a `VISIBILITY_SCOPE` filter to retrieve purchase options by visibility.
  */
 export const listPurchaseOptions: API.PaginatedOperationMethod<
-  ListPurchaseOptionsInput,
+  ListPurchaseOptionsInput & RegionInput,
   ListPurchaseOptionsOutput,
   ListPurchaseOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -1396,7 +1397,7 @@ export type SearchFacetsError = CommonErrors;
  * Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.
  */
 export const searchFacets: API.PaginatedOperationMethod<
-  SearchFacetsInput,
+  SearchFacetsInput & RegionInput,
   SearchFacetsOutput,
   SearchFacetsError,
   Credentials | HttpClient.HttpClient,
@@ -1422,7 +1423,7 @@ export type SearchListingsError = CommonErrors;
  * Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating.
  */
 export const searchListings: API.PaginatedOperationMethod<
-  SearchListingsInput,
+  SearchListingsInput & RegionInput,
   SearchListingsOutput,
   SearchListingsError,
   Credentials | HttpClient.HttpClient,

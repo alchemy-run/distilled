@@ -6,6 +6,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -318,7 +319,7 @@ export type BatchDeleteAttributesError = CommonErrors;
  * Deletes attributes (or whole items) on up to 25 items in a single call. Idempotent -- missing items/attributes are not an error.
  */
 export const batchDeleteAttributes: API.OperationMethod<
-  BatchDeleteAttributesRequest,
+  BatchDeleteAttributesRequest & RegionInput,
   BatchDeleteAttributesResponse,
   BatchDeleteAttributesError,
   Credentials | HttpClient.HttpClient
@@ -346,7 +347,7 @@ export type BatchPutAttributesError =
  * Puts attributes on up to 25 items in a single call.
  */
 export const batchPutAttributes: API.OperationMethod<
-  BatchPutAttributesRequest,
+  BatchPutAttributesRequest & RegionInput,
   BatchPutAttributesResponse,
   BatchPutAttributesError,
   Credentials | HttpClient.HttpClient
@@ -378,7 +379,7 @@ export type CreateDomainError =
  * Creates a new SimpleDB domain. Idempotent -- creating an existing domain succeeds without error.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -401,7 +402,7 @@ export type DeleteAttributesError =
  * Deletes one or more attributes of a SimpleDB item -- or the whole item when no attributes are named. Idempotent: deleting a missing attribute/item succeeds.
  */
 export const deleteAttributes: API.OperationMethod<
-  DeleteAttributesRequest,
+  DeleteAttributesRequest & RegionInput,
   DeleteAttributesResponse,
   DeleteAttributesError,
   Credentials | HttpClient.HttpClient
@@ -419,7 +420,7 @@ export type DeleteDomainError = MissingParameter | CommonErrors;
  * Deletes a SimpleDB domain and all of its items. Idempotent -- deleting a missing domain succeeds without error.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -437,7 +438,7 @@ export type DomainMetadataError = MissingParameter | NoSuchDomain | CommonErrors
  * Returns information about a SimpleDB domain (item count, sizes, timestamp).
  */
 export const domainMetadata: API.OperationMethod<
-  DomainMetadataRequest,
+  DomainMetadataRequest & RegionInput,
   DomainMetadataResponse,
   DomainMetadataError,
   Credentials | HttpClient.HttpClient
@@ -459,7 +460,7 @@ export type GetAttributesError =
  * Returns all (or the requested subset of) attributes of a SimpleDB item. Reads are eventually consistent unless `ConsistentRead` is set.
  */
 export const getAttributes: API.OperationMethod<
-  GetAttributesRequest,
+  GetAttributesRequest & RegionInput,
   GetAttributesResponse,
   GetAttributesError,
   Credentials | HttpClient.HttpClient
@@ -477,7 +478,7 @@ export type ListDomainsError = InvalidNextToken | InvalidParameterValue | Common
  * Lists all SimpleDB domains in the account/region. Paginated.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -510,7 +511,7 @@ export type PutAttributesError =
  * Creates or replaces attributes of a SimpleDB item. With `Replace: true` an attribute's existing values are overwritten; otherwise values accumulate.
  */
 export const putAttributes: API.OperationMethod<
-  PutAttributesRequest,
+  PutAttributesRequest & RegionInput,
   PutAttributesResponse,
   PutAttributesError,
   Credentials | HttpClient.HttpClient
@@ -546,7 +547,7 @@ export type SelectError =
  * Runs a SimpleDB select expression (`select output_list from domain [where ...]`). Paginated via `NextToken`.
  */
 export const select: API.PaginatedOperationMethod<
-  SelectRequest,
+  SelectRequest & RegionInput,
   SelectResponse,
   SelectError,
   Credentials | HttpClient.HttpClient,

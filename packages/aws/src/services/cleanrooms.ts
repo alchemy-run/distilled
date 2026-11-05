@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2885,7 +2886,7 @@ export type BatchGetCollaborationAnalysisTemplateError =
  * Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
  */
 export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
-  BatchGetCollaborationAnalysisTemplateInput,
+  BatchGetCollaborationAnalysisTemplateInput & RegionInput,
   BatchGetCollaborationAnalysisTemplateOutput,
   BatchGetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -2917,7 +2918,7 @@ export type BatchGetSchemaError =
  * Retrieves multiple schemas by their identifiers.
  */
 export const batchGetSchema: API.OperationMethod<
-  BatchGetSchemaInput,
+  BatchGetSchemaInput & RegionInput,
   BatchGetSchemaOutput,
   BatchGetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2949,7 +2950,7 @@ export type BatchGetSchemaAnalysisRuleError =
  * Retrieves multiple analysis rule schemas.
  */
 export const batchGetSchemaAnalysisRule: API.OperationMethod<
-  BatchGetSchemaAnalysisRuleInput,
+  BatchGetSchemaAnalysisRuleInput & RegionInput,
   BatchGetSchemaAnalysisRuleOutput,
   BatchGetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -2983,7 +2984,7 @@ export type CreateAnalysisTemplateError =
  * Creates a new analysis template.
  */
 export const createAnalysisTemplate: API.OperationMethod<
-  CreateAnalysisTemplateInput,
+  CreateAnalysisTemplateInput & RegionInput,
   CreateAnalysisTemplateOutput,
   CreateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3017,7 +3018,7 @@ export type CreateCollaborationError =
  * Creates a new collaboration.
  */
 export const createCollaboration: API.OperationMethod<
-  CreateCollaborationInput,
+  CreateCollaborationInput & RegionInput,
   CreateCollaborationOutput,
   CreateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3051,7 +3052,7 @@ export type CreateCollaborationChangeRequestError =
  * Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
  */
 export const createCollaborationChangeRequest: API.OperationMethod<
-  CreateCollaborationChangeRequestInput,
+  CreateCollaborationChangeRequestInput & RegionInput,
   CreateCollaborationChangeRequestOutput,
   CreateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -3087,7 +3088,7 @@ export type CreateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to create a configured audience model association.
  */
 export const createConfiguredAudienceModelAssociation: API.OperationMethod<
-  CreateConfiguredAudienceModelAssociationInput,
+  CreateConfiguredAudienceModelAssociationInput & RegionInput,
   CreateConfiguredAudienceModelAssociationOutput,
   CreateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3123,7 +3124,7 @@ export type CreateConfiguredTableError =
  * Creates a new configured table resource.
  */
 export const createConfiguredTable: API.OperationMethod<
-  CreateConfiguredTableInput,
+  CreateConfiguredTableInput & RegionInput,
   CreateConfiguredTableOutput,
   CreateConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -3159,7 +3160,7 @@ export type CreateConfiguredTableAnalysisRuleError =
  * Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
  */
 export const createConfiguredTableAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAnalysisRuleInput,
+  CreateConfiguredTableAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAnalysisRuleOutput,
   CreateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3195,7 +3196,7 @@ export type CreateConfiguredTableAssociationError =
  * Creates a configured table association. A configured table association links a configured table with a collaboration.
  */
 export const createConfiguredTableAssociation: API.OperationMethod<
-  CreateConfiguredTableAssociationInput,
+  CreateConfiguredTableAssociationInput & RegionInput,
   CreateConfiguredTableAssociationOutput,
   CreateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3231,7 @@ export type CreateConfiguredTableAssociationAnalysisRuleError =
  * Creates a new analysis rule for an associated configured table.
  */
 export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  CreateConfiguredTableAssociationAnalysisRuleInput,
+  CreateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   CreateConfiguredTableAssociationAnalysisRuleOutput,
   CreateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3265,7 +3266,7 @@ export type CreateIdMappingTableError =
  * Creates an ID mapping table.
  */
 export const createIdMappingTable: API.OperationMethod<
-  CreateIdMappingTableInput,
+  CreateIdMappingTableInput & RegionInput,
   CreateIdMappingTableOutput,
   CreateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -3301,7 +3302,7 @@ export type CreateIdNamespaceAssociationError =
  * Creates an ID namespace association.
  */
 export const createIdNamespaceAssociation: API.OperationMethod<
-  CreateIdNamespaceAssociationInput,
+  CreateIdNamespaceAssociationInput & RegionInput,
   CreateIdNamespaceAssociationOutput,
   CreateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3337,7 +3338,7 @@ export type CreateIntermediateTableError =
  * Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use `PopulateIntermediateTable`.
  */
 export const createIntermediateTable: API.OperationMethod<
-  CreateIntermediateTableInput,
+  CreateIntermediateTableInput & RegionInput,
   CreateIntermediateTableOutput,
   CreateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3373,7 +3374,7 @@ export type CreateIntermediateTableAnalysisRuleError =
  * Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
  */
 export const createIntermediateTableAnalysisRule: API.OperationMethod<
-  CreateIntermediateTableAnalysisRuleInput,
+  CreateIntermediateTableAnalysisRuleInput & RegionInput,
   CreateIntermediateTableAnalysisRuleOutput,
   CreateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3409,7 +3410,7 @@ export type CreateMembershipError =
  * Creates a membership for a specific collaboration identifier and joins the collaboration.
  */
 export const createMembership: API.OperationMethod<
-  CreateMembershipInput,
+  CreateMembershipInput & RegionInput,
   CreateMembershipOutput,
   CreateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3445,7 +3446,7 @@ export type CreatePrivacyBudgetTemplateError =
  * Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
  */
 export const createPrivacyBudgetTemplate: API.OperationMethod<
-  CreatePrivacyBudgetTemplateInput,
+  CreatePrivacyBudgetTemplateInput & RegionInput,
   CreatePrivacyBudgetTemplateOutput,
   CreatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3479,7 +3480,7 @@ export type DeleteAnalysisTemplateError =
  * Deletes an analysis template.
  */
 export const deleteAnalysisTemplate: API.OperationMethod<
-  DeleteAnalysisTemplateInput,
+  DeleteAnalysisTemplateInput & RegionInput,
   DeleteAnalysisTemplateOutput,
   DeleteAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3510,7 +3511,7 @@ export type DeleteCollaborationError =
  * Deletes a collaboration. It can only be called by the collaboration owner.
  */
 export const deleteCollaboration: API.OperationMethod<
-  DeleteCollaborationInput,
+  DeleteCollaborationInput & RegionInput,
   DeleteCollaborationOutput,
   DeleteCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -3541,7 +3542,7 @@ export type DeleteConfiguredAudienceModelAssociationError =
  * Provides the information necessary to delete a configured audience model association.
  */
 export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
-  DeleteConfiguredAudienceModelAssociationInput,
+  DeleteConfiguredAudienceModelAssociationInput & RegionInput,
   DeleteConfiguredAudienceModelAssociationOutput,
   DeleteConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3574,7 +3575,7 @@ export type DeleteConfiguredTableError =
  * Deletes a configured table.
  */
 export const deleteConfiguredTable: API.OperationMethod<
-  DeleteConfiguredTableInput,
+  DeleteConfiguredTableInput & RegionInput,
   DeleteConfiguredTableOutput,
   DeleteConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -3608,7 +3609,7 @@ export type DeleteConfiguredTableAnalysisRuleError =
  * Deletes a configured table analysis rule.
  */
 export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAnalysisRuleInput,
+  DeleteConfiguredTableAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAnalysisRuleOutput,
   DeleteConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3642,7 +3643,7 @@ export type DeleteConfiguredTableAssociationError =
  * Deletes a configured table association.
  */
 export const deleteConfiguredTableAssociation: API.OperationMethod<
-  DeleteConfiguredTableAssociationInput,
+  DeleteConfiguredTableAssociationInput & RegionInput,
   DeleteConfiguredTableAssociationOutput,
   DeleteConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3676,7 +3677,7 @@ export type DeleteConfiguredTableAssociationAnalysisRuleError =
  * Deletes an analysis rule for a configured table association.
  */
 export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  DeleteConfiguredTableAssociationAnalysisRuleInput,
+  DeleteConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   DeleteConfiguredTableAssociationAnalysisRuleOutput,
   DeleteConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3713,7 +3714,7 @@ export type DeleteIdMappingTableError =
  * Deletes an ID mapping table.
  */
 export const deleteIdMappingTable: API.OperationMethod<
-  DeleteIdMappingTableInput,
+  DeleteIdMappingTableInput & RegionInput,
   DeleteIdMappingTableOutput,
   DeleteIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -3745,7 +3746,7 @@ export type DeleteIdNamespaceAssociationError =
  * Deletes an ID namespace association.
  */
 export const deleteIdNamespaceAssociation: API.OperationMethod<
-  DeleteIdNamespaceAssociationInput,
+  DeleteIdNamespaceAssociationInput & RegionInput,
   DeleteIdNamespaceAssociationOutput,
   DeleteIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -3778,7 +3779,7 @@ export type DeleteIntermediateTableError =
  * Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTable: API.OperationMethod<
-  DeleteIntermediateTableInput,
+  DeleteIntermediateTableInput & RegionInput,
   DeleteIntermediateTableOutput,
   DeleteIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3812,7 +3813,7 @@ export type DeleteIntermediateTableAnalysisRuleError =
  * Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
  */
 export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
-  DeleteIntermediateTableAnalysisRuleInput,
+  DeleteIntermediateTableAnalysisRuleInput & RegionInput,
   DeleteIntermediateTableAnalysisRuleOutput,
   DeleteIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -3846,7 +3847,7 @@ export type DeleteMemberError =
  * Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
  */
 export const deleteMember: API.OperationMethod<
-  DeleteMemberInput,
+  DeleteMemberInput & RegionInput,
   DeleteMemberOutput,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
@@ -3880,7 +3881,7 @@ export type DeleteMembershipError =
  * Deletes a specified membership. All resources under a membership must be deleted.
  */
 export const deleteMembership: API.OperationMethod<
-  DeleteMembershipInput,
+  DeleteMembershipInput & RegionInput,
   DeleteMembershipOutput,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3914,7 @@ export type DeletePrivacyBudgetTemplateError =
  * Deletes a privacy budget template for a specified collaboration.
  */
 export const deletePrivacyBudgetTemplate: API.OperationMethod<
-  DeletePrivacyBudgetTemplateInput,
+  DeletePrivacyBudgetTemplateInput & RegionInput,
   DeletePrivacyBudgetTemplateOutput,
   DeletePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3946,7 +3947,7 @@ export type DisallowIntermediateTableError =
  * Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
  */
 export const disallowIntermediateTable: API.OperationMethod<
-  DisallowIntermediateTableInput,
+  DisallowIntermediateTableInput & RegionInput,
   DisallowIntermediateTableOutput,
   DisallowIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -3981,7 +3982,7 @@ export type GetAnalysisLogExportError =
  * Poll this operation until the `status` is `SUCCESS` or `FAILED`. An export can't be canceled after it starts.
  */
 export const getAnalysisLogExport: API.OperationMethod<
-  GetAnalysisLogExportInput,
+  GetAnalysisLogExportInput & RegionInput,
   GetAnalysisLogExportOutput,
   GetAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
@@ -4013,7 +4014,7 @@ export type GetAnalysisTemplateError =
  * Retrieves an analysis template.
  */
 export const getAnalysisTemplate: API.OperationMethod<
-  GetAnalysisTemplateInput,
+  GetAnalysisTemplateInput & RegionInput,
   GetAnalysisTemplateOutput,
   GetAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4044,7 +4045,7 @@ export type GetCollaborationError =
  * Returns metadata about a collaboration.
  */
 export const getCollaboration: API.OperationMethod<
-  GetCollaborationInput,
+  GetCollaborationInput & RegionInput,
   GetCollaborationOutput,
   GetCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -4075,7 +4076,7 @@ export type GetCollaborationAnalysisTemplateError =
  * Retrieves an analysis template within a collaboration.
  */
 export const getCollaborationAnalysisTemplate: API.OperationMethod<
-  GetCollaborationAnalysisTemplateInput,
+  GetCollaborationAnalysisTemplateInput & RegionInput,
   GetCollaborationAnalysisTemplateOutput,
   GetCollaborationAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4107,7 +4108,7 @@ export type GetCollaborationChangeRequestError =
  * Retrieves detailed information about a specific collaboration change request.
  */
 export const getCollaborationChangeRequest: API.OperationMethod<
-  GetCollaborationChangeRequestInput,
+  GetCollaborationChangeRequestInput & RegionInput,
   GetCollaborationChangeRequestOutput,
   GetCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -4139,7 +4140,7 @@ export type GetCollaborationConfiguredAudienceModelAssociationError =
  * Retrieves a configured audience model association within a collaboration.
  */
 export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetCollaborationConfiguredAudienceModelAssociationInput,
+  GetCollaborationConfiguredAudienceModelAssociationInput & RegionInput,
   GetCollaborationConfiguredAudienceModelAssociationOutput,
   GetCollaborationConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4179,7 +4180,7 @@ export type GetCollaborationIdNamespaceAssociationError =
  * Retrieves an ID namespace association from a specific collaboration.
  */
 export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
-  GetCollaborationIdNamespaceAssociationInput,
+  GetCollaborationIdNamespaceAssociationInput & RegionInput,
   GetCollaborationIdNamespaceAssociationOutput,
   GetCollaborationIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4211,7 +4212,7 @@ export type GetCollaborationPrivacyBudgetTemplateError =
  * Returns details about a specified privacy budget template.
  */
 export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
-  GetCollaborationPrivacyBudgetTemplateInput,
+  GetCollaborationPrivacyBudgetTemplateInput & RegionInput,
   GetCollaborationPrivacyBudgetTemplateOutput,
   GetCollaborationPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4243,7 +4244,7 @@ export type GetConfiguredAudienceModelAssociationError =
  * Returns information about a configured audience model association.
  */
 export const getConfiguredAudienceModelAssociation: API.OperationMethod<
-  GetConfiguredAudienceModelAssociationInput,
+  GetConfiguredAudienceModelAssociationInput & RegionInput,
   GetConfiguredAudienceModelAssociationOutput,
   GetConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4275,7 +4276,7 @@ export type GetConfiguredTableError =
  * Retrieves a configured table.
  */
 export const getConfiguredTable: API.OperationMethod<
-  GetConfiguredTableInput,
+  GetConfiguredTableInput & RegionInput,
   GetConfiguredTableOutput,
   GetConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -4307,7 +4308,7 @@ export type GetConfiguredTableAnalysisRuleError =
  * Retrieves a configured table analysis rule.
  */
 export const getConfiguredTableAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAnalysisRuleInput,
+  GetConfiguredTableAnalysisRuleInput & RegionInput,
   GetConfiguredTableAnalysisRuleOutput,
   GetConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4339,7 +4340,7 @@ export type GetConfiguredTableAssociationError =
  * Retrieves a configured table association.
  */
 export const getConfiguredTableAssociation: API.OperationMethod<
-  GetConfiguredTableAssociationInput,
+  GetConfiguredTableAssociationInput & RegionInput,
   GetConfiguredTableAssociationOutput,
   GetConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4371,7 +4372,7 @@ export type GetConfiguredTableAssociationAnalysisRuleError =
  * Retrieves the analysis rule for a configured table association.
  */
 export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  GetConfiguredTableAssociationAnalysisRuleInput,
+  GetConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   GetConfiguredTableAssociationAnalysisRuleOutput,
   GetConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4403,7 +4404,7 @@ export type GetIdMappingTableError =
  * Retrieves an ID mapping table.
  */
 export const getIdMappingTable: API.OperationMethod<
-  GetIdMappingTableInput,
+  GetIdMappingTableInput & RegionInput,
   GetIdMappingTableOutput,
   GetIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -4435,7 +4436,7 @@ export type GetIdNamespaceAssociationError =
  * Retrieves an ID namespace association.
  */
 export const getIdNamespaceAssociation: API.OperationMethod<
-  GetIdNamespaceAssociationInput,
+  GetIdNamespaceAssociationInput & RegionInput,
   GetIdNamespaceAssociationOutput,
   GetIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -4467,7 +4468,7 @@ export type GetIntermediateTableError =
  * Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
  */
 export const getIntermediateTable: API.OperationMethod<
-  GetIntermediateTableInput,
+  GetIntermediateTableInput & RegionInput,
   GetIntermediateTableOutput,
   GetIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -4499,7 +4500,7 @@ export type GetIntermediateTableAnalysisRuleError =
  * Retrieves the analysis rule for an intermediate table.
  */
 export const getIntermediateTableAnalysisRule: API.OperationMethod<
-  GetIntermediateTableAnalysisRuleInput,
+  GetIntermediateTableAnalysisRuleInput & RegionInput,
   GetIntermediateTableAnalysisRuleOutput,
   GetIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4531,7 +4532,7 @@ export type GetMembershipError =
  * Retrieves a specified membership for an identifier.
  */
 export const getMembership: API.OperationMethod<
-  GetMembershipInput,
+  GetMembershipInput & RegionInput,
   GetMembershipOutput,
   GetMembershipError,
   Credentials | HttpClient.HttpClient
@@ -4563,7 +4564,7 @@ export type GetPrivacyBudgetTemplateError =
  * Returns details for a specified privacy budget template.
  */
 export const getPrivacyBudgetTemplate: API.OperationMethod<
-  GetPrivacyBudgetTemplateInput,
+  GetPrivacyBudgetTemplateInput & RegionInput,
   GetPrivacyBudgetTemplateOutput,
   GetPrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -4595,7 +4596,7 @@ export type GetProtectedJobError =
  * Returns job processing metadata.
  */
 export const getProtectedJob: API.OperationMethod<
-  GetProtectedJobInput,
+  GetProtectedJobInput & RegionInput,
   GetProtectedJobOutput,
   GetProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -4627,7 +4628,7 @@ export type GetProtectedQueryError =
  * Returns query processing metadata.
  */
 export const getProtectedQuery: API.OperationMethod<
-  GetProtectedQueryInput,
+  GetProtectedQueryInput & RegionInput,
   GetProtectedQueryOutput,
   GetProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -4659,7 +4660,7 @@ export type GetSchemaError =
  * Retrieves the schema for a relation within a collaboration.
  */
 export const getSchema: API.OperationMethod<
-  GetSchemaInput,
+  GetSchemaInput & RegionInput,
   GetSchemaOutput,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -4691,7 +4692,7 @@ export type GetSchemaAnalysisRuleError =
  * Retrieves a schema analysis rule.
  */
 export const getSchemaAnalysisRule: API.OperationMethod<
-  GetSchemaAnalysisRuleInput,
+  GetSchemaAnalysisRuleInput & RegionInput,
   GetSchemaAnalysisRuleOutput,
   GetSchemaAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -4723,7 +4724,7 @@ export type ListAnalysisLogExportsError =
  * Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listAnalysisLogExports: API.PaginatedOperationMethod<
-  ListAnalysisLogExportsInput,
+  ListAnalysisLogExportsInput & RegionInput,
   ListAnalysisLogExportsOutput,
   ListAnalysisLogExportsError,
   Credentials | HttpClient.HttpClient,
@@ -4762,7 +4763,7 @@ export type ListAnalysisTemplatesError =
  * Lists analysis templates that the caller owns.
  */
 export const listAnalysisTemplates: API.PaginatedOperationMethod<
-  ListAnalysisTemplatesInput,
+  ListAnalysisTemplatesInput & RegionInput,
   ListAnalysisTemplatesOutput,
   ListAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4801,7 +4802,7 @@ export type ListCollaborationAnalysisTemplatesError =
  * Lists analysis templates within a collaboration.
  */
 export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
-  ListCollaborationAnalysisTemplatesInput,
+  ListCollaborationAnalysisTemplatesInput & RegionInput,
   ListCollaborationAnalysisTemplatesOutput,
   ListCollaborationAnalysisTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4840,7 +4841,7 @@ export type ListCollaborationChangeRequestsError =
  * Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
  */
 export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
-  ListCollaborationChangeRequestsInput,
+  ListCollaborationChangeRequestsInput & RegionInput,
   ListCollaborationChangeRequestsOutput,
   ListCollaborationChangeRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -4879,7 +4880,7 @@ export type ListCollaborationConfiguredAudienceModelAssociationsError =
  * Lists configured audience model associations within a collaboration.
  */
 export const listCollaborationConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ListCollaborationConfiguredAudienceModelAssociationsInput & RegionInput,
   ListCollaborationConfiguredAudienceModelAssociationsOutput,
   ListCollaborationConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4926,7 +4927,7 @@ export type ListCollaborationIdNamespaceAssociationsError =
  * Returns a list of the ID namespace associations in a collaboration.
  */
 export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListCollaborationIdNamespaceAssociationsInput,
+  ListCollaborationIdNamespaceAssociationsInput & RegionInput,
   ListCollaborationIdNamespaceAssociationsOutput,
   ListCollaborationIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -4965,7 +4966,7 @@ export type ListCollaborationPrivacyBudgetsError =
  * Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
  */
 export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetsInput,
+  ListCollaborationPrivacyBudgetsInput & RegionInput,
   ListCollaborationPrivacyBudgetsOutput,
   ListCollaborationPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5004,7 +5005,7 @@ export type ListCollaborationPrivacyBudgetTemplatesError =
  * Returns an array that summarizes each privacy budget template in a specified collaboration.
  */
 export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListCollaborationPrivacyBudgetTemplatesInput,
+  ListCollaborationPrivacyBudgetTemplatesInput & RegionInput,
   ListCollaborationPrivacyBudgetTemplatesOutput,
   ListCollaborationPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5042,7 +5043,7 @@ export type ListCollaborationsError =
  * Lists collaborations the caller owns, is active in, or has been invited to.
  */
 export const listCollaborations: API.PaginatedOperationMethod<
-  ListCollaborationsInput,
+  ListCollaborationsInput & RegionInput,
   ListCollaborationsOutput,
   ListCollaborationsError,
   Credentials | HttpClient.HttpClient,
@@ -5080,7 +5081,7 @@ export type ListConfiguredAudienceModelAssociationsError =
  * Lists information about requested configured audience model associations.
  */
 export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMethod<
-  ListConfiguredAudienceModelAssociationsInput,
+  ListConfiguredAudienceModelAssociationsInput & RegionInput,
   ListConfiguredAudienceModelAssociationsOutput,
   ListConfiguredAudienceModelAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5119,7 +5120,7 @@ export type ListConfiguredTableAssociationsError =
  * Lists configured table associations for a membership.
  */
 export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
-  ListConfiguredTableAssociationsInput,
+  ListConfiguredTableAssociationsInput & RegionInput,
   ListConfiguredTableAssociationsOutput,
   ListConfiguredTableAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5157,7 +5158,7 @@ export type ListConfiguredTablesError =
  * Lists configured tables.
  */
 export const listConfiguredTables: API.PaginatedOperationMethod<
-  ListConfiguredTablesInput,
+  ListConfiguredTablesInput & RegionInput,
   ListConfiguredTablesOutput,
   ListConfiguredTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5195,7 +5196,7 @@ export type ListIdMappingTablesError =
  * Returns a list of ID mapping tables.
  */
 export const listIdMappingTables: API.PaginatedOperationMethod<
-  ListIdMappingTablesInput,
+  ListIdMappingTablesInput & RegionInput,
   ListIdMappingTablesOutput,
   ListIdMappingTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5234,7 +5235,7 @@ export type ListIdNamespaceAssociationsError =
  * Returns a list of ID namespace associations.
  */
 export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
-  ListIdNamespaceAssociationsInput,
+  ListIdNamespaceAssociationsInput & RegionInput,
   ListIdNamespaceAssociationsOutput,
   ListIdNamespaceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -5273,7 +5274,7 @@ export type ListIntermediateTablesError =
  * Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTables: API.PaginatedOperationMethod<
-  ListIntermediateTablesInput,
+  ListIntermediateTablesInput & RegionInput,
   ListIntermediateTablesOutput,
   ListIntermediateTablesError,
   Credentials | HttpClient.HttpClient,
@@ -5312,7 +5313,7 @@ export type ListIntermediateTableVersionsError =
  * Lists the version history of an intermediate table. Each call to `PopulateIntermediateTable` creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listIntermediateTableVersions: API.PaginatedOperationMethod<
-  ListIntermediateTableVersionsInput,
+  ListIntermediateTableVersionsInput & RegionInput,
   ListIntermediateTableVersionsOutput,
   ListIntermediateTableVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5351,7 +5352,7 @@ export type ListMembersError =
  * Lists all members within a collaboration.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersInput,
+  ListMembersInput & RegionInput,
   ListMembersOutput,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5389,7 +5390,7 @@ export type ListMembershipsError =
  * Lists all memberships resources within the caller's account.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsInput,
+  ListMembershipsInput & RegionInput,
   ListMembershipsOutput,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -5427,7 +5428,7 @@ export type ListPrivacyBudgetsError =
  * Returns detailed information about the privacy budgets in a specified membership.
  */
 export const listPrivacyBudgets: API.PaginatedOperationMethod<
-  ListPrivacyBudgetsInput,
+  ListPrivacyBudgetsInput & RegionInput,
   ListPrivacyBudgetsOutput,
   ListPrivacyBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -5466,7 +5467,7 @@ export type ListPrivacyBudgetTemplatesError =
  * Returns detailed information about the privacy budget templates in a specified membership.
  */
 export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
-  ListPrivacyBudgetTemplatesInput,
+  ListPrivacyBudgetTemplatesInput & RegionInput,
   ListPrivacyBudgetTemplatesOutput,
   ListPrivacyBudgetTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -5505,7 +5506,7 @@ export type ListProtectedJobsError =
  * Lists protected jobs, sorted by most recent job.
  */
 export const listProtectedJobs: API.PaginatedOperationMethod<
-  ListProtectedJobsInput,
+  ListProtectedJobsInput & RegionInput,
   ListProtectedJobsOutput,
   ListProtectedJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5544,7 +5545,7 @@ export type ListProtectedQueriesError =
  * Lists protected queries, sorted by the most recent query.
  */
 export const listProtectedQueries: API.PaginatedOperationMethod<
-  ListProtectedQueriesInput,
+  ListProtectedQueriesInput & RegionInput,
   ListProtectedQueriesOutput,
   ListProtectedQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -5583,7 +5584,7 @@ export type ListSchemasError =
  * Lists the schemas for relations within a collaboration.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasInput,
+  ListSchemasInput & RegionInput,
   ListSchemasOutput,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -5619,7 +5620,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags that have been added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5647,7 +5648,7 @@ export type PopulateIdMappingTableError =
  * Defines the information that's necessary to populate an ID mapping table.
  */
 export const populateIdMappingTable: API.OperationMethod<
-  PopulateIdMappingTableInput,
+  PopulateIdMappingTableInput & RegionInput,
   PopulateIdMappingTableOutput,
   PopulateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -5683,7 +5684,7 @@ export type PopulateIntermediateTableError =
  * Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use `GetProtectedQuery` with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
  */
 export const populateIntermediateTable: API.OperationMethod<
-  PopulateIntermediateTableInput,
+  PopulateIntermediateTableInput & RegionInput,
   PopulateIntermediateTableOutput,
   PopulateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -5717,7 +5718,7 @@ export type PreviewPrivacyImpactError =
  * An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
  */
 export const previewPrivacyImpact: API.OperationMethod<
-  PreviewPrivacyImpactInput,
+  PreviewPrivacyImpactInput & RegionInput,
   PreviewPrivacyImpactOutput,
   PreviewPrivacyImpactError,
   Credentials | HttpClient.HttpClient
@@ -5764,7 +5765,7 @@ export type StartAnalysisLogExportError =
  * For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
  */
 export const startAnalysisLogExport: API.OperationMethod<
-  StartAnalysisLogExportInput,
+  StartAnalysisLogExportInput & RegionInput,
   StartAnalysisLogExportOutput,
   StartAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
@@ -5798,7 +5799,7 @@ export type StartProtectedJobError =
  * Creates a protected job that is started by Clean Rooms.
  */
 export const startProtectedJob: API.OperationMethod<
-  StartProtectedJobInput,
+  StartProtectedJobInput & RegionInput,
   StartProtectedJobOutput,
   StartProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -5832,7 +5833,7 @@ export type StartProtectedQueryError =
  * Creates a protected query that is started by Clean Rooms.
  */
 export const startProtectedQuery: API.OperationMethod<
-  StartProtectedQueryInput,
+  StartProtectedQueryInput & RegionInput,
   StartProtectedQueryOutput,
   StartProtectedQueryError,
   Credentials | HttpClient.HttpClient
@@ -5859,7 +5860,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Tags a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5879,7 +5880,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Removes a tag or list of tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5905,7 +5906,7 @@ export type UpdateAnalysisTemplateError =
  * Updates the analysis template metadata.
  */
 export const updateAnalysisTemplate: API.OperationMethod<
-  UpdateAnalysisTemplateInput,
+  UpdateAnalysisTemplateInput & RegionInput,
   UpdateAnalysisTemplateOutput,
   UpdateAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
@@ -5936,7 +5937,7 @@ export type UpdateCollaborationError =
  * Updates collaboration metadata and can only be called by the collaboration owner.
  */
 export const updateCollaboration: API.OperationMethod<
-  UpdateCollaborationInput,
+  UpdateCollaborationInput & RegionInput,
   UpdateCollaborationOutput,
   UpdateCollaborationError,
   Credentials | HttpClient.HttpClient
@@ -5970,7 +5971,7 @@ export type UpdateCollaborationChangeRequestError =
  * For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
  */
 export const updateCollaborationChangeRequest: API.OperationMethod<
-  UpdateCollaborationChangeRequestInput,
+  UpdateCollaborationChangeRequestInput & RegionInput,
   UpdateCollaborationChangeRequestOutput,
   UpdateCollaborationChangeRequestError,
   Credentials | HttpClient.HttpClient
@@ -6003,7 +6004,7 @@ export type UpdateConfiguredAudienceModelAssociationError =
  * Provides the details necessary to update a configured audience model association.
  */
 export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
-  UpdateConfiguredAudienceModelAssociationInput,
+  UpdateConfiguredAudienceModelAssociationInput & RegionInput,
   UpdateConfiguredAudienceModelAssociationOutput,
   UpdateConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6037,7 +6038,7 @@ export type UpdateConfiguredTableError =
  * Updates a configured table.
  */
 export const updateConfiguredTable: API.OperationMethod<
-  UpdateConfiguredTableInput,
+  UpdateConfiguredTableInput & RegionInput,
   UpdateConfiguredTableOutput,
   UpdateConfiguredTableError,
   Credentials | HttpClient.HttpClient
@@ -6073,7 +6074,7 @@ export type UpdateConfiguredTableAnalysisRuleError =
  * Updates a configured table analysis rule.
  */
 export const updateConfiguredTableAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAnalysisRuleInput,
+  UpdateConfiguredTableAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAnalysisRuleOutput,
   UpdateConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6108,7 +6109,7 @@ export type UpdateConfiguredTableAssociationError =
  * Updates a configured table association.
  */
 export const updateConfiguredTableAssociation: API.OperationMethod<
-  UpdateConfiguredTableAssociationInput,
+  UpdateConfiguredTableAssociationInput & RegionInput,
   UpdateConfiguredTableAssociationOutput,
   UpdateConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6142,7 +6143,7 @@ export type UpdateConfiguredTableAssociationAnalysisRuleError =
  * Updates the analysis rule for a configured table association.
  */
 export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
-  UpdateConfiguredTableAssociationAnalysisRuleInput,
+  UpdateConfiguredTableAssociationAnalysisRuleInput & RegionInput,
   UpdateConfiguredTableAssociationAnalysisRuleOutput,
   UpdateConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6175,7 +6176,7 @@ export type UpdateIdMappingTableError =
  * Provides the details that are necessary to update an ID mapping table.
  */
 export const updateIdMappingTable: API.OperationMethod<
-  UpdateIdMappingTableInput,
+  UpdateIdMappingTableInput & RegionInput,
   UpdateIdMappingTableOutput,
   UpdateIdMappingTableError,
   Credentials | HttpClient.HttpClient
@@ -6207,7 +6208,7 @@ export type UpdateIdNamespaceAssociationError =
  * Provides the details that are necessary to update an ID namespace association.
  */
 export const updateIdNamespaceAssociation: API.OperationMethod<
-  UpdateIdNamespaceAssociationInput,
+  UpdateIdNamespaceAssociationInput & RegionInput,
   UpdateIdNamespaceAssociationOutput,
   UpdateIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -6239,7 +6240,7 @@ export type UpdateIntermediateTableError =
  * Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTable: API.OperationMethod<
-  UpdateIntermediateTableInput,
+  UpdateIntermediateTableInput & RegionInput,
   UpdateIntermediateTableOutput,
   UpdateIntermediateTableError,
   Credentials | HttpClient.HttpClient
@@ -6272,7 +6273,7 @@ export type UpdateIntermediateTableAnalysisRuleError =
  * Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
  */
 export const updateIntermediateTableAnalysisRule: API.OperationMethod<
-  UpdateIntermediateTableAnalysisRuleInput,
+  UpdateIntermediateTableAnalysisRuleInput & RegionInput,
   UpdateIntermediateTableAnalysisRuleOutput,
   UpdateIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
@@ -6306,7 +6307,7 @@ export type UpdateMembershipError =
  * Updates a membership.
  */
 export const updateMembership: API.OperationMethod<
-  UpdateMembershipInput,
+  UpdateMembershipInput & RegionInput,
   UpdateMembershipOutput,
   UpdateMembershipError,
   Credentials | HttpClient.HttpClient
@@ -6340,7 +6341,7 @@ export type UpdatePrivacyBudgetTemplateError =
  * Updates the privacy budget template for the specified collaboration.
  */
 export const updatePrivacyBudgetTemplate: API.OperationMethod<
-  UpdatePrivacyBudgetTemplateInput,
+  UpdatePrivacyBudgetTemplateInput & RegionInput,
   UpdatePrivacyBudgetTemplateOutput,
   UpdatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -6374,7 +6375,7 @@ export type UpdateProtectedJobError =
  * Updates the processing of a currently running job.
  */
 export const updateProtectedJob: API.OperationMethod<
-  UpdateProtectedJobInput,
+  UpdateProtectedJobInput & RegionInput,
   UpdateProtectedJobOutput,
   UpdateProtectedJobError,
   Credentials | HttpClient.HttpClient
@@ -6408,7 +6409,7 @@ export type UpdateProtectedQueryError =
  * Updates the processing of a currently running query.
  */
 export const updateProtectedQuery: API.OperationMethod<
-  UpdateProtectedQueryInput,
+  UpdateProtectedQueryInput & RegionInput,
   UpdateProtectedQueryOutput,
   UpdateProtectedQueryError,
   Credentials | HttpClient.HttpClient

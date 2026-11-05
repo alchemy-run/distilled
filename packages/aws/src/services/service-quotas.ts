@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -577,7 +578,7 @@ export type AssociateServiceQuotaTemplateError =
  * for any adjustable quota to your template.
  */
 export const associateServiceQuotaTemplate: API.OperationMethod<
-  AssociateServiceQuotaTemplateRequest,
+  AssociateServiceQuotaTemplateRequest & RegionInput,
   AssociateServiceQuotaTemplateResponse,
   AssociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -616,7 +617,7 @@ export type CreateSupportCaseError =
  * a Support case if the request has a `Pending` status.
  */
 export const createSupportCase: API.OperationMethod<
-  CreateSupportCaseRequest,
+  CreateSupportCaseRequest & RegionInput,
   CreateSupportCaseResponse,
   CreateSupportCaseError,
   Credentials | HttpClient.HttpClient
@@ -656,7 +657,7 @@ export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
   DeleteServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type DisassociateServiceQuotaTemplateError =
  * Disabling a quota request template does not apply its quota increase requests.
  */
 export const disassociateServiceQuotaTemplate: API.OperationMethod<
-  DisassociateServiceQuotaTemplateRequest,
+  DisassociateServiceQuotaTemplateRequest & RegionInput,
   DisassociateServiceQuotaTemplateResponse,
   DisassociateServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -735,7 +736,7 @@ export type GetAssociationForServiceQuotaTemplateError =
  * Retrieves the status of the association for the quota request template.
  */
 export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
-  GetAssociationForServiceQuotaTemplateRequest,
+  GetAssociationForServiceQuotaTemplateRequest & RegionInput,
   GetAssociationForServiceQuotaTemplateResponse,
   GetAssociationForServiceQuotaTemplateError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type GetAutoManagementConfigurationError =
  * run out of your allocated quotas.
  */
 export const getAutoManagementConfiguration: API.OperationMethod<
-  GetAutoManagementConfigurationRequest,
+  GetAutoManagementConfigurationRequest & RegionInput,
   GetAutoManagementConfigurationResponse,
   GetAutoManagementConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -804,7 +805,7 @@ export type GetAWSDefaultServiceQuotaError =
  * reflect any quota increases.
  */
 export const getAWSDefaultServiceQuota: API.OperationMethod<
-  GetAWSDefaultServiceQuotaRequest,
+  GetAWSDefaultServiceQuotaRequest & RegionInput,
   GetAWSDefaultServiceQuotaResponse,
   GetAWSDefaultServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type GetQuotaUtilizationReportError =
  * 15 minutes.
  */
 export const getQuotaUtilizationReport: API.OperationMethod<
-  GetQuotaUtilizationReportRequest,
+  GetQuotaUtilizationReportRequest & RegionInput,
   GetQuotaUtilizationReportResponse,
   GetQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -881,7 +882,7 @@ export type GetRequestedServiceQuotaChangeError =
  * Retrieves information about the specified quota increase request.
  */
 export const getRequestedServiceQuotaChange: API.OperationMethod<
-  GetRequestedServiceQuotaChangeRequest,
+  GetRequestedServiceQuotaChangeRequest & RegionInput,
   GetRequestedServiceQuotaChangeResponse,
   GetRequestedServiceQuotaChangeError,
   Credentials | HttpClient.HttpClient
@@ -915,7 +916,7 @@ export type GetServiceQuotaError =
  * value is not available for a quota, the quota is not retrieved.
  */
 export const getServiceQuota: API.OperationMethod<
-  GetServiceQuotaRequest,
+  GetServiceQuotaRequest & RegionInput,
   GetServiceQuotaResponse,
   GetServiceQuotaError,
   Credentials | HttpClient.HttpClient
@@ -952,7 +953,7 @@ export type GetServiceQuotaIncreaseRequestFromTemplateError =
  * template.
  */
 export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
-  GetServiceQuotaIncreaseRequestFromTemplateRequest,
+  GetServiceQuotaIncreaseRequestFromTemplateRequest & RegionInput,
   GetServiceQuotaIncreaseRequestFromTemplateResponse,
   GetServiceQuotaIncreaseRequestFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -990,7 +991,7 @@ export type ListAWSDefaultServiceQuotasError =
  * value does not reflect any quota increases.
  */
 export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
-  ListAWSDefaultServiceQuotasRequest,
+  ListAWSDefaultServiceQuotasRequest & RegionInput,
   ListAWSDefaultServiceQuotasResponse,
   ListAWSDefaultServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -1033,7 +1034,7 @@ export type ListRequestedServiceQuotaChangeHistoryError =
  * levels. Responses include any open or closed requests within 90 days.
  */
 export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryRequest,
+  ListRequestedServiceQuotaChangeHistoryRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryResponse,
   ListRequestedServiceQuotaChangeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1075,7 +1076,7 @@ export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
  * return quota requests at either the account level, resource level, or all levels.
  */
 export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperationMethod<
-  ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ListRequestedServiceQuotaChangeHistoryByQuotaRequest & RegionInput,
   ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
   ListRequestedServiceQuotaChangeHistoryByQuotaError,
   Credentials | HttpClient.HttpClient,
@@ -1126,7 +1127,7 @@ export type ListServiceQuotaIncreaseRequestsInTemplateError =
  * Lists the quota increase requests in the specified quota request template.
  */
 export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationMethod<
-  ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ListServiceQuotaIncreaseRequestsInTemplateRequest & RegionInput,
   ListServiceQuotaIncreaseRequestsInTemplateResponse,
   ListServiceQuotaIncreaseRequestsInTemplateError,
   Credentials | HttpClient.HttpClient,
@@ -1172,7 +1173,7 @@ export type ListServiceQuotasError =
  * either the account level, resource level, or all levels.
  */
 export const listServiceQuotas: API.PaginatedOperationMethod<
-  ListServiceQuotasRequest,
+  ListServiceQuotasRequest & RegionInput,
   ListServiceQuotasResponse,
   ListServiceQuotasError,
   Credentials | HttpClient.HttpClient,
@@ -1212,7 +1213,7 @@ export type ListServicesError =
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -1251,7 +1252,7 @@ export type ListTagsForResourceError =
  * Returns a list of the tags assigned to the specified applied quota.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1288,7 +1289,7 @@ export type PutServiceQuotaIncreaseRequestIntoTemplateError =
  * Adds a quota increase request to your quota request template.
  */
 export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
-  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest & RegionInput,
   PutServiceQuotaIncreaseRequestIntoTemplateResponse,
   PutServiceQuotaIncreaseRequestIntoTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1331,7 @@ export type RequestServiceQuotaIncreaseError =
  * level.
  */
 export const requestServiceQuotaIncrease: API.OperationMethod<
-  RequestServiceQuotaIncreaseRequest,
+  RequestServiceQuotaIncreaseRequest & RegionInput,
   RequestServiceQuotaIncreaseResponse,
   RequestServiceQuotaIncreaseError,
   Credentials | HttpClient.HttpClient
@@ -1368,7 +1369,7 @@ export type StartAutoManagementError =
  * run out of your allocated quotas.
  */
 export const startAutoManagement: API.OperationMethod<
-  StartAutoManagementRequest,
+  StartAutoManagementRequest & RegionInput,
   StartAutoManagementResponse,
   StartAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1407,7 +1408,7 @@ export type StartQuotaUtilizationReportError =
  * to check the status and retrieve the results when the report is ready.
  */
 export const startQuotaUtilizationReport: API.OperationMethod<
-  StartQuotaUtilizationReportRequest,
+  StartQuotaUtilizationReportRequest & RegionInput,
   StartQuotaUtilizationReportResponse,
   StartQuotaUtilizationReportError,
   Credentials | HttpClient.HttpClient
@@ -1442,7 +1443,7 @@ export type StopAutoManagementError =
  * run out of your allocated quotas.
  */
 export const stopAutoManagement: API.OperationMethod<
-  StopAutoManagementRequest,
+  StopAutoManagementRequest & RegionInput,
   StopAutoManagementResponse,
   StopAutoManagementError,
   Credentials | HttpClient.HttpClient
@@ -1477,7 +1478,7 @@ export type TagResourceError =
  * the quota.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1512,7 +1513,7 @@ export type UntagResourceError =
  * remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type UpdateAutoManagementError =
  * run out of your allocated quotas.
  */
 export const updateAutoManagement: API.OperationMethod<
-  UpdateAutoManagementRequest,
+  UpdateAutoManagementRequest & RegionInput,
   UpdateAutoManagementResponse,
   UpdateAutoManagementError,
   Credentials | HttpClient.HttpClient

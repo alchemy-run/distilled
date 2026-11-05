@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -848,7 +849,7 @@ export type AssociateServiceRoleToAccountError =
  * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const associateServiceRoleToAccount: API.OperationMethod<
-  AssociateServiceRoleToAccountRequest,
+  AssociateServiceRoleToAccountRequest & RegionInput,
   AssociateServiceRoleToAccountResponse,
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type BatchAssociateClientDeviceWithCoreDeviceError =
  * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
  */
 export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
-  BatchAssociateClientDeviceWithCoreDeviceRequest,
+  BatchAssociateClientDeviceWithCoreDeviceRequest & RegionInput,
   BatchAssociateClientDeviceWithCoreDeviceResponse,
   BatchAssociateClientDeviceWithCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -918,7 +919,7 @@ export type BatchDisassociateClientDeviceFromCoreDeviceError =
  * the core device's connectivity information and certificates.
  */
 export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
-  BatchDisassociateClientDeviceFromCoreDeviceRequest,
+  BatchDisassociateClientDeviceFromCoreDeviceRequest & RegionInput,
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
   BatchDisassociateClientDeviceFromCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type CancelDeploymentError =
  * anything for that device.
  */
 export const cancelDeployment: API.OperationMethod<
-  CancelDeploymentRequest,
+  CancelDeploymentRequest & RegionInput,
   CancelDeploymentResponse,
   CancelDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1021,7 +1022,7 @@ export type CreateComponentVersionError =
  * IoT Greengrass currently supports Lambda functions on only Linux core devices.
  */
 export const createComponentVersion: API.OperationMethod<
-  CreateComponentVersionRequest,
+  CreateComponentVersionRequest & RegionInput,
   CreateComponentVersionResponse,
   CreateComponentVersionError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type CreateDeploymentError =
  * *IoT Greengrass V2 Developer Guide*.
  */
 export const createDeployment: API.OperationMethod<
-  CreateDeploymentRequest,
+  CreateDeploymentRequest & RegionInput,
   CreateDeploymentResponse,
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1110,7 +1111,7 @@ export type DeleteComponentError =
  * to use a valid version.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type DeleteCoreDeviceError =
  * *IoT API Reference*.
  */
 export const deleteCoreDevice: API.OperationMethod<
-  DeleteCoreDeviceRequest,
+  DeleteCoreDeviceRequest & RegionInput,
   DeleteCoreDeviceResponse,
   DeleteCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1186,7 +1187,7 @@ export type DeleteDeploymentError =
  * roll back to a previous deployment that has been deleted.
  */
 export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
+  DeleteDeploymentRequest & RegionInput,
   DeleteDeploymentResponse,
   DeleteDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1219,7 +1220,7 @@ export type DescribeComponentError =
  * Retrieves metadata for a version of a component.
  */
 export const describeComponent: API.OperationMethod<
-  DescribeComponentRequest,
+  DescribeComponentRequest & RegionInput,
   DescribeComponentResponse,
   DescribeComponentError,
   Credentials | HttpClient.HttpClient
@@ -1248,7 +1249,7 @@ export type DisassociateServiceRoleFromAccountError = InternalServerException | 
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const disassociateServiceRoleFromAccount: API.OperationMethod<
-  DisassociateServiceRoleFromAccountRequest,
+  DisassociateServiceRoleFromAccountRequest & RegionInput,
   DisassociateServiceRoleFromAccountResponse,
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1274,7 +1275,7 @@ export type GetComponentError =
  * Gets the recipe for a version of a component.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -1308,7 +1309,7 @@ export type GetComponentVersionArtifactError =
  * install.
  */
 export const getComponentVersionArtifact: API.OperationMethod<
-  GetComponentVersionArtifactRequest,
+  GetComponentVersionArtifactRequest & RegionInput,
   GetComponentVersionArtifactResponse,
   GetComponentVersionArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1341,7 +1342,7 @@ export type GetConnectivityInfoError = InternalServerException | ValidationExcep
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getConnectivityInfo: API.OperationMethod<
-  GetConnectivityInfoRequest,
+  GetConnectivityInfoRequest & RegionInput,
   GetConnectivityInfoResponse,
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
@@ -1386,7 +1387,7 @@ export type GetCoreDeviceError =
  * cloud deployment
  */
 export const getCoreDevice: API.OperationMethod<
-  GetCoreDeviceRequest,
+  GetCoreDeviceRequest & RegionInput,
   GetCoreDeviceResponse,
   GetCoreDeviceError,
   Credentials | HttpClient.HttpClient
@@ -1418,7 +1419,7 @@ export type GetDeploymentError =
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
 export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
+  GetDeploymentRequest & RegionInput,
   GetDeploymentResponse,
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type GetServiceRoleForAccountError = InternalServerException | CommonErro
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const getServiceRoleForAccount: API.OperationMethod<
-  GetServiceRoleForAccountRequest,
+  GetServiceRoleForAccountRequest & RegionInput,
   GetServiceRoleForAccountResponse,
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type ListClientDevicesAssociatedWithCoreDeviceError =
  * device.
  */
 export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMethod<
-  ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ListClientDevicesAssociatedWithCoreDeviceRequest & RegionInput,
   ListClientDevicesAssociatedWithCoreDeviceResponse,
   ListClientDevicesAssociatedWithCoreDeviceError,
   Credentials | HttpClient.HttpClient,
@@ -1514,7 +1515,7 @@ export type ListComponentsError =
  * have permission to view.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1554,7 +1555,7 @@ export type ListComponentVersionsError =
  * first.
  */
 export const listComponentVersions: API.PaginatedOperationMethod<
-  ListComponentVersionsRequest,
+  ListComponentVersionsRequest & RegionInput,
   ListComponentVersionsResponse,
   ListComponentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1616,7 +1617,7 @@ export type ListCoreDevicesError =
  * cloud deployment
  */
 export const listCoreDevices: API.PaginatedOperationMethod<
-  ListCoreDevicesRequest,
+  ListCoreDevicesRequest & RegionInput,
   ListCoreDevicesResponse,
   ListCoreDevicesError,
   Credentials | HttpClient.HttpClient,
@@ -1653,7 +1654,7 @@ export type ListDeploymentsError =
  * Retrieves a paginated list of deployments.
  */
 export const listDeployments: API.PaginatedOperationMethod<
-  ListDeploymentsRequest,
+  ListDeploymentsRequest & RegionInput,
   ListDeploymentsResponse,
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1691,7 +1692,7 @@ export type ListEffectiveDeploymentsError =
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
 export const listEffectiveDeployments: API.PaginatedOperationMethod<
-  ListEffectiveDeploymentsRequest,
+  ListEffectiveDeploymentsRequest & RegionInput,
   ListEffectiveDeploymentsResponse,
   ListEffectiveDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -1752,7 +1753,7 @@ export type ListInstalledComponentsError =
  * cloud deployment
  */
 export const listInstalledComponents: API.PaginatedOperationMethod<
-  ListInstalledComponentsRequest,
+  ListInstalledComponentsRequest & RegionInput,
   ListInstalledComponentsResponse,
   ListInstalledComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -1789,7 +1790,7 @@ export type ListTagsForResourceError =
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1831,7 +1832,7 @@ export type ResolveComponentCandidatesError =
  * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
  */
 export const resolveComponentCandidates: API.OperationMethod<
-  ResolveComponentCandidatesRequest,
+  ResolveComponentCandidatesRequest & RegionInput,
   ResolveComponentCandidatesResponse,
   ResolveComponentCandidatesError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type TagResourceError =
  * updates the tag's value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1887,7 +1888,7 @@ export type UntagResourceError =
  * Removes a tag from an IoT Greengrass resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1917,7 +1918,7 @@ export type UpdateConnectivityInfoError =
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
 export const updateConnectivityInfo: API.OperationMethod<
-  UpdateConnectivityInfoRequest,
+  UpdateConnectivityInfoRequest & RegionInput,
   UpdateConnectivityInfoResponse,
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient

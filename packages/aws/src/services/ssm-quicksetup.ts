@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -335,7 +336,7 @@ export type CreateConfigurationManagerError =
  * summaries describing the deployments of those definitions.
  */
 export const createConfigurationManager: API.OperationMethod<
-  CreateConfigurationManagerInput,
+  CreateConfigurationManagerInput & RegionInput,
   CreateConfigurationManagerOutput,
   CreateConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -368,7 +369,7 @@ export type DeleteConfigurationManagerError =
  * Deletes a configuration manager.
  */
 export const deleteConfigurationManager: API.OperationMethod<
-  DeleteConfigurationManagerInput,
+  DeleteConfigurationManagerInput & RegionInput,
   DeleteConfigurationManagerResponse,
   DeleteConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -402,7 +403,7 @@ export type GetConfigurationError =
  * Returns details about the specified configuration.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationInput,
+  GetConfigurationInput & RegionInput,
   GetConfigurationOutput,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -436,7 +437,7 @@ export type GetConfigurationManagerError =
  * Returns a configuration manager.
  */
 export const getConfigurationManager: API.OperationMethod<
-  GetConfigurationManagerInput,
+  GetConfigurationManagerInput & RegionInput,
   GetConfigurationManagerOutput,
   GetConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -468,7 +469,7 @@ export type GetServiceSettingsError =
  * Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsOutput,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
@@ -494,7 +495,7 @@ export type ListConfigurationManagersError =
  * Returns Quick Setup configuration managers.
  */
 export const listConfigurationManagers: API.PaginatedOperationMethod<
-  ListConfigurationManagersInput,
+  ListConfigurationManagersInput & RegionInput,
   ListConfigurationManagersOutput,
   ListConfigurationManagersError,
   Credentials | HttpClient.HttpClient,
@@ -533,7 +534,7 @@ export type ListConfigurationsError =
  * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
 export const listConfigurations: API.PaginatedOperationMethod<
-  ListConfigurationsInput,
+  ListConfigurationsInput & RegionInput,
   ListConfigurationsOutput,
   ListConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -571,7 +572,7 @@ export type ListQuickSetupTypesError =
  * Returns the available Quick Setup types.
  */
 export const listQuickSetupTypes: API.OperationMethod<
-  ListQuickSetupTypesRequest,
+  ListQuickSetupTypesRequest & RegionInput,
   ListQuickSetupTypesOutput,
   ListQuickSetupTypesError,
   Credentials | HttpClient.HttpClient
@@ -598,7 +599,7 @@ export type ListTagsForResourceError =
  * Returns tags assigned to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -632,7 +633,7 @@ export type TagResourceError =
  * Assigns key-value pairs of metadata to Amazon Web Services resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -666,7 +667,7 @@ export type UntagResourceError =
  * Removes tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -700,7 +701,7 @@ export type UpdateConfigurationDefinitionError =
  * Updates a Quick Setup configuration definition.
  */
 export const updateConfigurationDefinition: API.OperationMethod<
-  UpdateConfigurationDefinitionInput,
+  UpdateConfigurationDefinitionInput & RegionInput,
   UpdateConfigurationDefinitionResponse,
   UpdateConfigurationDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -734,7 +735,7 @@ export type UpdateConfigurationManagerError =
  * Updates a Quick Setup configuration manager.
  */
 export const updateConfigurationManager: API.OperationMethod<
-  UpdateConfigurationManagerInput,
+  UpdateConfigurationManagerInput & RegionInput,
   UpdateConfigurationManagerResponse,
   UpdateConfigurationManagerError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +768,7 @@ export type UpdateServiceSettingsError =
  * Updates settings configured for Quick Setup.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsInput,
+  UpdateServiceSettingsInput & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient

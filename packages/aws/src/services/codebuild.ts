@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1550,7 +1551,7 @@ export type BatchDeleteBuildsError = InvalidInputException | CommonErrors;
  * Deletes one or more builds.
  */
 export const batchDeleteBuilds: API.OperationMethod<
-  BatchDeleteBuildsInput,
+  BatchDeleteBuildsInput & RegionInput,
   BatchDeleteBuildsOutput,
   BatchDeleteBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1570,7 +1571,7 @@ export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves information about one or more batch builds.
  */
 export const batchGetBuildBatches: API.OperationMethod<
-  BatchGetBuildBatchesInput,
+  BatchGetBuildBatchesInput & RegionInput,
   BatchGetBuildBatchesOutput,
   BatchGetBuildBatchesError,
   Credentials | HttpClient.HttpClient
@@ -1590,7 +1591,7 @@ export type BatchGetBuildsError = InvalidInputException | CommonErrors;
  * Gets information about one or more builds.
  */
 export const batchGetBuilds: API.OperationMethod<
-  BatchGetBuildsInput,
+  BatchGetBuildsInput & RegionInput,
   BatchGetBuildsOutput,
   BatchGetBuildsError,
   Credentials | HttpClient.HttpClient
@@ -1610,7 +1611,7 @@ export type BatchGetCommandExecutionsError = InvalidInputException | CommonError
  * Gets information about the command executions.
  */
 export const batchGetCommandExecutions: API.OperationMethod<
-  BatchGetCommandExecutionsInput,
+  BatchGetCommandExecutionsInput & RegionInput,
   BatchGetCommandExecutionsOutput,
   BatchGetCommandExecutionsError,
   Credentials | HttpClient.HttpClient
@@ -1630,7 +1631,7 @@ export type BatchGetFleetsError = InvalidInputException | CommonErrors;
  * Gets information about one or more compute fleets.
  */
 export const batchGetFleets: API.OperationMethod<
-  BatchGetFleetsInput,
+  BatchGetFleetsInput & RegionInput,
   BatchGetFleetsOutput,
   BatchGetFleetsError,
   Credentials | HttpClient.HttpClient
@@ -1650,7 +1651,7 @@ export type BatchGetProjectsError = InvalidInputException | CommonErrors;
  * Gets information about one or more build projects.
  */
 export const batchGetProjects: API.OperationMethod<
-  BatchGetProjectsInput,
+  BatchGetProjectsInput & RegionInput,
   BatchGetProjectsOutput,
   BatchGetProjectsError,
   Credentials | HttpClient.HttpClient
@@ -1670,7 +1671,7 @@ export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
  * Returns an array of report groups.
  */
 export const batchGetReportGroups: API.OperationMethod<
-  BatchGetReportGroupsInput,
+  BatchGetReportGroupsInput & RegionInput,
   BatchGetReportGroupsOutput,
   BatchGetReportGroupsError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type BatchGetReportsError = InvalidInputException | CommonErrors;
  * Returns an array of reports.
  */
 export const batchGetReports: API.OperationMethod<
-  BatchGetReportsInput,
+  BatchGetReportsInput & RegionInput,
   BatchGetReportsOutput,
   BatchGetReportsError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
  * Gets information about the sandbox status.
  */
 export const batchGetSandboxes: API.OperationMethod<
-  BatchGetSandboxesInput,
+  BatchGetSandboxesInput & RegionInput,
   BatchGetSandboxesOutput,
   BatchGetSandboxesError,
   Credentials | HttpClient.HttpClient
@@ -1734,7 +1735,7 @@ export type CreateFleetError =
  * Creates a compute fleet.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type CreateProjectError =
  * Creates a build project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectInput,
+  CreateProjectInput & RegionInput,
   CreateProjectOutput,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -1782,7 +1783,7 @@ export type CreateReportGroupError =
  * Creates a report group. A report group contains a collection of reports.
  */
 export const createReportGroup: API.OperationMethod<
-  CreateReportGroupInput,
+  CreateReportGroupInput & RegionInput,
   CreateReportGroupOutput,
   CreateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1816,7 +1817,7 @@ export type CreateWebhookError =
  * Webhook box. For more information, see step 5 in Change a Build Project's Settings.
  */
 export const createWebhook: API.OperationMethod<
-  CreateWebhookInput,
+  CreateWebhookInput & RegionInput,
   CreateWebhookOutput,
   CreateWebhookError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1842,7 @@ export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
  * Deletes a batch build.
  */
 export const deleteBuildBatch: API.OperationMethod<
-  DeleteBuildBatchInput,
+  DeleteBuildBatchInput & RegionInput,
   DeleteBuildBatchOutput,
   DeleteBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -1861,7 +1862,7 @@ export type DeleteFleetError = InvalidInputException | CommonErrors;
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetOutput,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -1881,7 +1882,7 @@ export type DeleteProjectError = InvalidInputException | CommonErrors;
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectInput,
+  DeleteProjectInput & RegionInput,
   DeleteProjectOutput,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -1901,7 +1902,7 @@ export type DeleteReportError = InvalidInputException | CommonErrors;
  * Deletes a report.
  */
 export const deleteReport: API.OperationMethod<
-  DeleteReportInput,
+  DeleteReportInput & RegionInput,
   DeleteReportOutput,
   DeleteReportError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type DeleteReportGroupError = InvalidInputException | CommonErrors;
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
 export const deleteReportGroup: API.OperationMethod<
-  DeleteReportGroupInput,
+  DeleteReportGroupInput & RegionInput,
   DeleteReportGroupOutput,
   DeleteReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
  * Deletes a resource policy that is identified by its resource ARN.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1964,7 +1965,7 @@ export type DeleteSourceCredentialsError =
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
 export const deleteSourceCredentials: API.OperationMethod<
-  DeleteSourceCredentialsInput,
+  DeleteSourceCredentialsInput & RegionInput,
   DeleteSourceCredentialsOutput,
   DeleteSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1991,7 @@ export type DeleteWebhookError =
  * change is pushed to the repository.
  */
 export const deleteWebhook: API.OperationMethod<
-  DeleteWebhookInput,
+  DeleteWebhookInput & RegionInput,
   DeleteWebhookOutput,
   DeleteWebhookError,
   Credentials | HttpClient.HttpClient
@@ -2010,7 +2011,7 @@ export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
  * Retrieves one or more code coverage reports.
  */
 export const describeCodeCoverages: API.PaginatedOperationMethod<
-  DescribeCodeCoveragesInput,
+  DescribeCodeCoveragesInput & RegionInput,
   DescribeCodeCoveragesOutput,
   DescribeCodeCoveragesError,
   Credentials | HttpClient.HttpClient,
@@ -2040,7 +2041,7 @@ export type DescribeTestCasesError =
  * Returns a list of details about test cases for a report.
  */
 export const describeTestCases: API.PaginatedOperationMethod<
-  DescribeTestCasesInput,
+  DescribeTestCasesInput & RegionInput,
   DescribeTestCasesOutput,
   DescribeTestCasesError,
   Credentials | HttpClient.HttpClient,
@@ -2070,7 +2071,7 @@ export type GetReportGroupTrendError =
  * Analyzes and accumulates test report values for the specified test reports.
  */
 export const getReportGroupTrend: API.OperationMethod<
-  GetReportGroupTrendInput,
+  GetReportGroupTrendInput & RegionInput,
   GetReportGroupTrendOutput,
   GetReportGroupTrendError,
   Credentials | HttpClient.HttpClient
@@ -2093,7 +2094,7 @@ export type GetResourcePolicyError =
  * Gets a resource policy that is identified by its resource ARN.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyInput,
+  GetResourcePolicyInput & RegionInput,
   GetResourcePolicyOutput,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2118,7 +2119,7 @@ export type ImportSourceCredentialsError =
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
 export const importSourceCredentials: API.OperationMethod<
-  ImportSourceCredentialsInput,
+  ImportSourceCredentialsInput & RegionInput,
   ImportSourceCredentialsOutput,
   ImportSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2141,7 +2142,7 @@ export type InvalidateProjectCacheError =
  * Resets the cache for a project.
  */
 export const invalidateProjectCache: API.OperationMethod<
-  InvalidateProjectCacheInput,
+  InvalidateProjectCacheInput & RegionInput,
   InvalidateProjectCacheOutput,
   InvalidateProjectCacheError,
   Credentials | HttpClient.HttpClient
@@ -2161,7 +2162,7 @@ export type ListBuildBatchesError = InvalidInputException | CommonErrors;
  * Retrieves the identifiers of your build batches in the current region.
  */
 export const listBuildBatches: API.PaginatedOperationMethod<
-  ListBuildBatchesInput,
+  ListBuildBatchesInput & RegionInput,
   ListBuildBatchesOutput,
   ListBuildBatchesError,
   Credentials | HttpClient.HttpClient,
@@ -2191,7 +2192,7 @@ export type ListBuildBatchesForProjectError =
  * Retrieves the identifiers of the build batches for a specific project.
  */
 export const listBuildBatchesForProject: API.PaginatedOperationMethod<
-  ListBuildBatchesForProjectInput,
+  ListBuildBatchesForProjectInput & RegionInput,
   ListBuildBatchesForProjectOutput,
   ListBuildBatchesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2218,7 +2219,7 @@ export type ListBuildsError = InvalidInputException | CommonErrors;
  * Gets a list of build IDs, with each build ID representing a single build.
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -2244,7 +2245,7 @@ export type ListBuildsForProjectError =
  * identifier representing a single build.
  */
 export const listBuildsForProject: API.PaginatedOperationMethod<
-  ListBuildsForProjectInput,
+  ListBuildsForProjectInput & RegionInput,
   ListBuildsForProjectOutput,
   ListBuildsForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2269,7 +2270,7 @@ export type ListCommandExecutionsForSandboxError =
  * Gets a list of command executions for a sandbox.
  */
 export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
-  ListCommandExecutionsForSandboxInput,
+  ListCommandExecutionsForSandboxInput & RegionInput,
   ListCommandExecutionsForSandboxOutput,
   ListCommandExecutionsForSandboxError,
   Credentials | HttpClient.HttpClient,
@@ -2296,7 +2297,7 @@ export type ListCuratedEnvironmentImagesError = CommonErrors;
  * Gets information about Docker images that are managed by CodeBuild.
  */
 export const listCuratedEnvironmentImages: API.OperationMethod<
-  ListCuratedEnvironmentImagesInput,
+  ListCuratedEnvironmentImagesInput & RegionInput,
   ListCuratedEnvironmentImagesOutput,
   ListCuratedEnvironmentImagesError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type ListFleetsError = InvalidInputException | CommonErrors;
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -2343,7 +2344,7 @@ export type ListProjectsError = InvalidInputException | CommonErrors;
  * build project.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsInput,
+  ListProjectsInput & RegionInput,
   ListProjectsOutput,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2365,7 +2366,7 @@ export type ListReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
 export const listReportGroups: API.PaginatedOperationMethod<
-  ListReportGroupsInput,
+  ListReportGroupsInput & RegionInput,
   ListReportGroupsOutput,
   ListReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2392,7 +2393,7 @@ export type ListReportsError = InvalidInputException | CommonErrors;
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsInput,
+  ListReportsInput & RegionInput,
   ListReportsOutput,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -2422,7 +2423,7 @@ export type ListReportsForReportGroupError =
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
 export const listReportsForReportGroup: API.PaginatedOperationMethod<
-  ListReportsForReportGroupInput,
+  ListReportsForReportGroupInput & RegionInput,
   ListReportsForReportGroupOutput,
   ListReportsForReportGroupError,
   Credentials | HttpClient.HttpClient,
@@ -2449,7 +2450,7 @@ export type ListSandboxesError = InvalidInputException | CommonErrors;
  * Gets a list of sandboxes.
  */
 export const listSandboxes: API.PaginatedOperationMethod<
-  ListSandboxesInput,
+  ListSandboxesInput & RegionInput,
   ListSandboxesOutput,
   ListSandboxesError,
   Credentials | HttpClient.HttpClient,
@@ -2479,7 +2480,7 @@ export type ListSandboxesForProjectError =
  * Gets a list of sandboxes for a given project.
  */
 export const listSandboxesForProject: API.PaginatedOperationMethod<
-  ListSandboxesForProjectInput,
+  ListSandboxesForProjectInput & RegionInput,
   ListSandboxesForProjectOutput,
   ListSandboxesForProjectError,
   Credentials | HttpClient.HttpClient,
@@ -2506,7 +2507,7 @@ export type ListSharedProjectsError = InvalidInputException | CommonErrors;
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedProjects: API.PaginatedOperationMethod<
-  ListSharedProjectsInput,
+  ListSharedProjectsInput & RegionInput,
   ListSharedProjectsOutput,
   ListSharedProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2533,7 +2534,7 @@ export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
 export const listSharedReportGroups: API.PaginatedOperationMethod<
-  ListSharedReportGroupsInput,
+  ListSharedReportGroupsInput & RegionInput,
   ListSharedReportGroupsOutput,
   ListSharedReportGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2560,7 +2561,7 @@ export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
  * Returns a list of `SourceCredentialsInfo` objects.
  */
 export const listSourceCredentials: API.OperationMethod<
-  ListSourceCredentialsInput,
+  ListSourceCredentialsInput & RegionInput,
   ListSourceCredentialsOutput,
   ListSourceCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2584,7 +2585,7 @@ export type PutResourcePolicyError =
  * `ReportGroup` object.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2608,7 +2609,7 @@ export type RetryBuildError =
  * Restarts a build.
  */
 export const retryBuild: API.OperationMethod<
-  RetryBuildInput,
+  RetryBuildInput & RegionInput,
   RetryBuildOutput,
   RetryBuildError,
   Credentials | HttpClient.HttpClient
@@ -2628,7 +2629,7 @@ export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
 export const retryBuildBatch: API.OperationMethod<
-  RetryBuildBatchInput,
+  RetryBuildBatchInput & RegionInput,
   RetryBuildBatchOutput,
   RetryBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2656,7 +2657,7 @@ export type StartBuildError =
  * specific start build request. The settings in the project are unaltered.
  */
 export const startBuild: API.OperationMethod<
-  StartBuildInput,
+  StartBuildInput & RegionInput,
   StartBuildOutput,
   StartBuildError,
   Credentials | HttpClient.HttpClient
@@ -2676,7 +2677,7 @@ export type StartBuildBatchError = InvalidInputException | ResourceNotFoundExcep
  * Starts a batch build for a project.
  */
 export const startBuildBatch: API.OperationMethod<
-  StartBuildBatchInput,
+  StartBuildBatchInput & RegionInput,
   StartBuildBatchOutput,
   StartBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2699,7 +2700,7 @@ export type StartCommandExecutionError =
  * Starts a command execution.
  */
 export const startCommandExecution: API.OperationMethod<
-  StartCommandExecutionInput,
+  StartCommandExecutionInput & RegionInput,
   StartCommandExecutionOutput,
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2723,7 +2724,7 @@ export type StartSandboxError =
  * Starts a sandbox.
  */
 export const startSandbox: API.OperationMethod<
-  StartSandboxInput,
+  StartSandboxInput & RegionInput,
   StartSandboxOutput,
   StartSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2746,7 +2747,7 @@ export type StartSandboxConnectionError =
  * Starts a sandbox connection.
  */
 export const startSandboxConnection: API.OperationMethod<
-  StartSandboxConnectionInput,
+  StartSandboxConnectionInput & RegionInput,
   StartSandboxConnectionOutput,
   StartSandboxConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2766,7 +2767,7 @@ export type StopBuildError = InvalidInputException | ResourceNotFoundException |
  * Attempts to stop running a build.
  */
 export const stopBuild: API.OperationMethod<
-  StopBuildInput,
+  StopBuildInput & RegionInput,
   StopBuildOutput,
   StopBuildError,
   Credentials | HttpClient.HttpClient
@@ -2786,7 +2787,7 @@ export type StopBuildBatchError = InvalidInputException | ResourceNotFoundExcept
  * Stops a running batch build.
  */
 export const stopBuildBatch: API.OperationMethod<
-  StopBuildBatchInput,
+  StopBuildBatchInput & RegionInput,
   StopBuildBatchOutput,
   StopBuildBatchError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type StopSandboxError = InvalidInputException | ResourceNotFoundException
  * Stops a sandbox.
  */
 export const stopSandbox: API.OperationMethod<
-  StopSandboxInput,
+  StopSandboxInput & RegionInput,
   StopSandboxOutput,
   StopSandboxError,
   Credentials | HttpClient.HttpClient
@@ -2830,7 +2831,7 @@ export type UpdateFleetError =
  * Updates a compute fleet.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetInput,
+  UpdateFleetInput & RegionInput,
   UpdateFleetOutput,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
@@ -2850,7 +2851,7 @@ export type UpdateProjectError = InvalidInputException | ResourceNotFoundExcepti
  * Changes the settings of a build project.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
+  UpdateProjectInput & RegionInput,
   UpdateProjectOutput,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -2899,7 +2900,7 @@ export type UpdateProjectVisibilityError =
  * correct artifacts are being downloaded.
  */
 export const updateProjectVisibility: API.OperationMethod<
-  UpdateProjectVisibilityInput,
+  UpdateProjectVisibilityInput & RegionInput,
   UpdateProjectVisibilityOutput,
   UpdateProjectVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2923,7 @@ export type UpdateReportGroupError =
  * Updates a report group.
  */
 export const updateReportGroup: API.OperationMethod<
-  UpdateReportGroupInput,
+  UpdateReportGroupInput & RegionInput,
   UpdateReportGroupOutput,
   UpdateReportGroupError,
   Credentials | HttpClient.HttpClient
@@ -2948,7 +2949,7 @@ export type UpdateWebhookError =
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
  */
 export const updateWebhook: API.OperationMethod<
-  UpdateWebhookInput,
+  UpdateWebhookInput & RegionInput,
   UpdateWebhookOutput,
   UpdateWebhookError,
   Credentials | HttpClient.HttpClient

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1191,7 +1192,7 @@ export type AddLFTagsToResourceError =
  * Attaches one or more LF-tags to an existing resource.
  */
 export const addLFTagsToResource: API.OperationMethod<
-  AddLFTagsToResourceRequest,
+  AddLFTagsToResourceRequest & RegionInput,
   AddLFTagsToResourceResponse,
   AddLFTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type AssumeDecoratedRoleWithSAMLError =
  * - lakeformation:GetDataAccess
  */
 export const assumeDecoratedRoleWithSAML: API.OperationMethod<
-  AssumeDecoratedRoleWithSAMLRequest,
+  AssumeDecoratedRoleWithSAMLRequest & RegionInput,
   AssumeDecoratedRoleWithSAMLResponse,
   AssumeDecoratedRoleWithSAMLError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type BatchGrantPermissionsError =
  * Batch operation to grant permissions to the principal.
  */
 export const batchGrantPermissions: API.OperationMethod<
-  BatchGrantPermissionsRequest,
+  BatchGrantPermissionsRequest & RegionInput,
   BatchGrantPermissionsResponse,
   BatchGrantPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1291,7 +1292,7 @@ export type BatchRevokePermissionsError =
  * Batch operation to revoke permissions from the principal.
  */
 export const batchRevokePermissions: API.OperationMethod<
-  BatchRevokePermissionsRequest,
+  BatchRevokePermissionsRequest & RegionInput,
   BatchRevokePermissionsResponse,
   BatchRevokePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1319,7 +1320,7 @@ export type CancelTransactionError =
  * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
  */
 export const cancelTransaction: API.OperationMethod<
-  CancelTransactionRequest,
+  CancelTransactionRequest & RegionInput,
   CancelTransactionResponse,
   CancelTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1354,7 +1355,7 @@ export type CommitTransactionError =
  * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
  */
 export const commitTransaction: API.OperationMethod<
-  CommitTransactionRequest,
+  CommitTransactionRequest & RegionInput,
   CommitTransactionResponse,
   CommitTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1389,7 +1390,7 @@ export type CreateDataCellsFilterError =
  * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
  */
 export const createDataCellsFilter: API.OperationMethod<
-  CreateDataCellsFilterRequest,
+  CreateDataCellsFilterRequest & RegionInput,
   CreateDataCellsFilterResponse,
   CreateDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1425,7 @@ export type CreateLakeFormationIdentityCenterConfigurationError =
  * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
  */
 export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  CreateLakeFormationIdentityCenterConfigurationRequest,
+  CreateLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   CreateLakeFormationIdentityCenterConfigurationResponse,
   CreateLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1468,7 +1469,7 @@ export type CreateLakeFormationOptInError =
  * Enforce Lake Formation permissions for the given databases, tables, and principals.
  */
 export const createLakeFormationOptIn: API.OperationMethod<
-  CreateLakeFormationOptInRequest,
+  CreateLakeFormationOptInRequest & RegionInput,
   CreateLakeFormationOptInResponse,
   CreateLakeFormationOptInError,
   Credentials | HttpClient.HttpClient
@@ -1504,7 +1505,7 @@ export type CreateLFTagError =
  * Creates an LF-tag with the specified name and values.
  */
 export const createLFTag: API.OperationMethod<
-  CreateLFTagRequest,
+  CreateLFTagRequest & RegionInput,
   CreateLFTagResponse,
   CreateLFTagError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1547,7 @@ export type CreateLFTagExpressionError =
  * included in the expression.
  */
 export const createLFTagExpression: API.OperationMethod<
-  CreateLFTagExpressionRequest,
+  CreateLFTagExpressionRequest & RegionInput,
   CreateLFTagExpressionResponse,
   CreateLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -1579,7 +1580,7 @@ export type DeleteDataCellsFilterError =
  * Deletes a data cell filter.
  */
 export const deleteDataCellsFilter: API.OperationMethod<
-  DeleteDataCellsFilterRequest,
+  DeleteDataCellsFilterRequest & RegionInput,
   DeleteDataCellsFilterResponse,
   DeleteDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -1612,7 +1613,7 @@ export type DeleteLakeFormationIdentityCenterConfigurationError =
  * Deletes an IAM Identity Center connection with Lake Formation.
  */
 export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  DeleteLakeFormationIdentityCenterConfigurationRequest,
+  DeleteLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   DeleteLakeFormationIdentityCenterConfigurationResponse,
   DeleteLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1655,7 +1656,7 @@ export type DeleteLakeFormationOptInError =
  * Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
  */
 export const deleteLakeFormationOptIn: API.OperationMethod<
-  DeleteLakeFormationOptInRequest,
+  DeleteLakeFormationOptInRequest & RegionInput,
   DeleteLakeFormationOptInResponse,
   DeleteLakeFormationOptInError,
   Credentials | HttpClient.HttpClient
@@ -1695,7 +1696,7 @@ export type DeleteLFTagError =
  * them.
  */
 export const deleteLFTag: API.OperationMethod<
-  DeleteLFTagRequest,
+  DeleteLFTagRequest & RegionInput,
   DeleteLFTagResponse,
   DeleteLFTagError,
   Credentials | HttpClient.HttpClient
@@ -1728,7 +1729,7 @@ export type DeleteLFTagExpressionError =
  * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
  */
 export const deleteLFTagExpression: API.OperationMethod<
-  DeleteLFTagExpressionRequest,
+  DeleteLFTagExpressionRequest & RegionInput,
   DeleteLFTagExpressionResponse,
   DeleteLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -1768,7 +1769,7 @@ export type DeleteObjectsOnCancelError =
  * Rolling Back Amazon S3 Writes.
  */
 export const deleteObjectsOnCancel: API.OperationMethod<
-  DeleteObjectsOnCancelRequest,
+  DeleteObjectsOnCancelRequest & RegionInput,
   DeleteObjectsOnCancelResponse,
   DeleteObjectsOnCancelError,
   Credentials | HttpClient.HttpClient
@@ -1805,7 +1806,7 @@ export type DeregisterResourceError =
  * When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
  */
 export const deregisterResource: API.OperationMethod<
-  DeregisterResourceRequest,
+  DeregisterResourceRequest & RegionInput,
   DeregisterResourceResponse,
   DeregisterResourceError,
   Credentials | HttpClient.HttpClient
@@ -1837,7 +1838,7 @@ export type DescribeLakeFormationIdentityCenterConfigurationError =
  * Retrieves the instance ARN and application ARN for the connection.
  */
 export const describeLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  DescribeLakeFormationIdentityCenterConfigurationRequest,
+  DescribeLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   DescribeLakeFormationIdentityCenterConfigurationResponse,
   DescribeLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1876,7 +1877,7 @@ export type DescribeResourceError =
  * Retrieves the current data access role for the given resource registered in Lake Formation.
  */
 export const describeResource: API.OperationMethod<
-  DescribeResourceRequest,
+  DescribeResourceRequest & RegionInput,
   DescribeResourceResponse,
   DescribeResourceError,
   Credentials | HttpClient.HttpClient
@@ -1906,7 +1907,7 @@ export type DescribeTransactionError =
  * Returns the details of a single transaction.
  */
 export const describeTransaction: API.OperationMethod<
-  DescribeTransactionRequest,
+  DescribeTransactionRequest & RegionInput,
   DescribeTransactionResponse,
   DescribeTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1941,7 +1942,7 @@ export type ExtendTransactionError =
  * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
  */
 export const extendTransaction: API.OperationMethod<
-  ExtendTransactionRequest,
+  ExtendTransactionRequest & RegionInput,
   ExtendTransactionResponse,
   ExtendTransactionError,
   Credentials | HttpClient.HttpClient
@@ -1975,7 +1976,7 @@ export type GetDataCellsFilterError =
  * Returns a data cells filter.
  */
 export const getDataCellsFilter: API.OperationMethod<
-  GetDataCellsFilterRequest,
+  GetDataCellsFilterRequest & RegionInput,
   GetDataCellsFilterResponse,
   GetDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -2005,7 +2006,7 @@ export type GetDataLakePrincipalError =
  * Returns the identity of the invoking principal.
  */
 export const getDataLakePrincipal: API.OperationMethod<
-  GetDataLakePrincipalRequest,
+  GetDataLakePrincipalRequest & RegionInput,
   GetDataLakePrincipalResponse,
   GetDataLakePrincipalError,
   Credentials | HttpClient.HttpClient
@@ -2029,7 +2030,7 @@ export type GetDataLakeSettingsError =
  * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
  */
 export const getDataLakeSettings: API.OperationMethod<
-  GetDataLakeSettingsRequest,
+  GetDataLakeSettingsRequest & RegionInput,
   GetDataLakeSettingsResponse,
   GetDataLakeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2055,7 +2056,7 @@ export type GetEffectivePermissionsForPathError =
  * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
  */
 export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
-  GetEffectivePermissionsForPathRequest,
+  GetEffectivePermissionsForPathRequest & RegionInput,
   GetEffectivePermissionsForPathResponse,
   GetEffectivePermissionsForPathError,
   Credentials | HttpClient.HttpClient,
@@ -2092,7 +2093,7 @@ export type GetLFTagError =
  * Returns an LF-tag definition.
  */
 export const getLFTag: API.OperationMethod<
-  GetLFTagRequest,
+  GetLFTagRequest & RegionInput,
   GetLFTagResponse,
   GetLFTagError,
   Credentials | HttpClient.HttpClient
@@ -2124,7 +2125,7 @@ export type GetLFTagExpressionError =
  * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
  */
 export const getLFTagExpression: API.OperationMethod<
-  GetLFTagExpressionRequest,
+  GetLFTagExpressionRequest & RegionInput,
   GetLFTagExpressionResponse,
   GetLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -2154,7 +2155,7 @@ export type GetQueryStateError =
  * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
  */
 export const getQueryState: API.OperationMethod<
-  GetQueryStateRequest,
+  GetQueryStateRequest & RegionInput,
   GetQueryStateResponse,
   GetQueryStateError,
   Credentials | HttpClient.HttpClient
@@ -2182,7 +2183,7 @@ export type GetQueryStatisticsError =
  * Retrieves statistics on the planning and execution of a query.
  */
 export const getQueryStatistics: API.OperationMethod<
-  GetQueryStatisticsRequest,
+  GetQueryStatisticsRequest & RegionInput,
   GetQueryStatisticsResponse,
   GetQueryStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2217,7 +2218,7 @@ export type GetResourceLFTagsError =
  * Returns the LF-tags applied to a resource.
  */
 export const getResourceLFTags: API.OperationMethod<
-  GetResourceLFTagsRequest,
+  GetResourceLFTagsRequest & RegionInput,
   GetResourceLFTagsResponse,
   GetResourceLFTagsError,
   Credentials | HttpClient.HttpClient
@@ -2252,7 +2253,7 @@ export type GetTableObjectsError =
  * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
  */
 export const getTableObjects: API.PaginatedOperationMethod<
-  GetTableObjectsRequest,
+  GetTableObjectsRequest & RegionInput,
   GetTableObjectsResponse,
   GetTableObjectsError,
   Credentials | HttpClient.HttpClient,
@@ -2313,7 +2314,7 @@ export type GetTemporaryDataLocationCredentialsError =
  * call.
  */
 export const getTemporaryDataLocationCredentials: API.OperationMethod<
-  GetTemporaryDataLocationCredentialsRequest,
+  GetTemporaryDataLocationCredentialsRequest & RegionInput,
   GetTemporaryDataLocationCredentialsResponse,
   GetTemporaryDataLocationCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type GetTemporaryGluePartitionCredentialsError =
  * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
  */
 export const getTemporaryGluePartitionCredentials: API.OperationMethod<
-  GetTemporaryGluePartitionCredentialsRequest,
+  GetTemporaryGluePartitionCredentialsRequest & RegionInput,
   GetTemporaryGluePartitionCredentialsResponse,
   GetTemporaryGluePartitionCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2384,7 +2385,7 @@ export type GetTemporaryGlueTableCredentialsError =
  * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
  */
 export const getTemporaryGlueTableCredentials: API.OperationMethod<
-  GetTemporaryGlueTableCredentialsRequest,
+  GetTemporaryGlueTableCredentialsRequest & RegionInput,
   GetTemporaryGlueTableCredentialsResponse,
   GetTemporaryGlueTableCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -2417,7 +2418,7 @@ export type GetWorkUnitResultsError =
  * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
  */
 export const getWorkUnitResults: API.OperationMethod<
-  GetWorkUnitResultsRequest,
+  GetWorkUnitResultsRequest & RegionInput,
   GetWorkUnitResultsResponse,
   GetWorkUnitResultsError,
   Credentials | HttpClient.HttpClient
@@ -2450,7 +2451,7 @@ export type GetWorkUnitsError =
  * Retrieves the work units generated by the `StartQueryPlanning` operation.
  */
 export const getWorkUnits: API.PaginatedOperationMethod<
-  GetWorkUnitsRequest,
+  GetWorkUnitsRequest & RegionInput,
   GetWorkUnitsResponse,
   GetWorkUnitsError,
   Credentials | HttpClient.HttpClient,
@@ -2491,7 +2492,7 @@ export type GrantPermissionsError =
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
 export const grantPermissions: API.OperationMethod<
-  GrantPermissionsRequest,
+  GrantPermissionsRequest & RegionInput,
   GrantPermissionsResponse,
   GrantPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2521,7 +2522,7 @@ export type ListDataCellsFilterError =
  * Lists all the data cell filters on a table.
  */
 export const listDataCellsFilter: API.PaginatedOperationMethod<
-  ListDataCellsFilterRequest,
+  ListDataCellsFilterRequest & RegionInput,
   ListDataCellsFilterResponse,
   ListDataCellsFilterError,
   Credentials | HttpClient.HttpClient,
@@ -2560,7 +2561,7 @@ export type ListLakeFormationOptInsError =
  * Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
  */
 export const listLakeFormationOptIns: API.PaginatedOperationMethod<
-  ListLakeFormationOptInsRequest,
+  ListLakeFormationOptInsRequest & RegionInput,
   ListLakeFormationOptInsResponse,
   ListLakeFormationOptInsError,
   Credentials | HttpClient.HttpClient,
@@ -2599,7 +2600,7 @@ export type ListLFTagExpressionsError =
  * Returns the LF-Tag expressions in caller's account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
  */
 export const listLFTagExpressions: API.PaginatedOperationMethod<
-  ListLFTagExpressionsRequest,
+  ListLFTagExpressionsRequest & RegionInput,
   ListLFTagExpressionsResponse,
   ListLFTagExpressionsError,
   Credentials | HttpClient.HttpClient,
@@ -2638,7 +2639,7 @@ export type ListLFTagsError =
  * Lists LF-tags that the requester has permission to view.
  */
 export const listLFTags: API.PaginatedOperationMethod<
-  ListLFTagsRequest,
+  ListLFTagsRequest & RegionInput,
   ListLFTagsResponse,
   ListLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -2682,7 +2683,7 @@ export type ListPermissionsError =
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -2717,7 +2718,7 @@ export type ListResourcesError =
  * Lists the resources registered to be managed by the Data Catalog.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2748,7 +2749,7 @@ export type ListTableStorageOptimizersError =
  * Returns the configuration of all storage optimizers associated with a specified table.
  */
 export const listTableStorageOptimizers: API.PaginatedOperationMethod<
-  ListTableStorageOptimizersRequest,
+  ListTableStorageOptimizersRequest & RegionInput,
   ListTableStorageOptimizersResponse,
   ListTableStorageOptimizersError,
   Credentials | HttpClient.HttpClient,
@@ -2785,7 +2786,7 @@ export type ListTransactionsError =
  * This operation can help you identify uncommitted transactions or to get information about transactions.
  */
 export const listTransactions: API.PaginatedOperationMethod<
-  ListTransactionsRequest,
+  ListTransactionsRequest & RegionInput,
   ListTransactionsResponse,
   ListTransactionsError,
   Credentials | HttpClient.HttpClient,
@@ -2817,7 +2818,7 @@ export type PutDataLakeSettingsError =
  * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
  */
 export const putDataLakeSettings: API.OperationMethod<
-  PutDataLakeSettingsRequest,
+  PutDataLakeSettingsRequest & RegionInput,
   PutDataLakeSettingsResponse,
   PutDataLakeSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2856,7 +2857,7 @@ export type RegisterResourceError =
  * `arn:aws:iam::12345:role/my-data-access-role`
  */
 export const registerResource: API.OperationMethod<
-  RegisterResourceRequest,
+  RegisterResourceRequest & RegionInput,
   RegisterResourceResponse,
   RegisterResourceError,
   Credentials | HttpClient.HttpClient
@@ -2892,7 +2893,7 @@ export type RemoveLFTagsFromResourceError =
  * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
  */
 export const removeLFTagsFromResource: API.OperationMethod<
-  RemoveLFTagsFromResourceRequest,
+  RemoveLFTagsFromResourceRequest & RegionInput,
   RemoveLFTagsFromResourceResponse,
   RemoveLFTagsFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2925,7 +2926,7 @@ export type RevokePermissionsError =
  * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  */
 export const revokePermissions: API.OperationMethod<
-  RevokePermissionsRequest,
+  RevokePermissionsRequest & RegionInput,
   RevokePermissionsResponse,
   RevokePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2957,7 +2958,7 @@ export type SearchDatabasesByLFTagsError =
  * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
  */
 export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
-  SearchDatabasesByLFTagsRequest,
+  SearchDatabasesByLFTagsRequest & RegionInput,
   SearchDatabasesByLFTagsResponse,
   SearchDatabasesByLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -2998,7 +2999,7 @@ export type SearchTablesByLFTagsError =
  * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
  */
 export const searchTablesByLFTags: API.PaginatedOperationMethod<
-  SearchTablesByLFTagsRequest,
+  SearchTablesByLFTagsRequest & RegionInput,
   SearchTablesByLFTagsResponse,
   SearchTablesByLFTagsError,
   Credentials | HttpClient.HttpClient,
@@ -3039,7 +3040,7 @@ export type StartQueryPlanningError =
  * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
  */
 export const startQueryPlanning: API.OperationMethod<
-  StartQueryPlanningRequest,
+  StartQueryPlanningRequest & RegionInput,
   StartQueryPlanningResponse,
   StartQueryPlanningError,
   Credentials | HttpClient.HttpClient
@@ -3068,7 +3069,7 @@ export type StartTransactionError =
  * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
  */
 export const startTransaction: API.OperationMethod<
-  StartTransactionRequest,
+  StartTransactionRequest & RegionInput,
   StartTransactionResponse,
   StartTransactionError,
   Credentials | HttpClient.HttpClient
@@ -3095,7 +3096,7 @@ export type UpdateDataCellsFilterError =
  * Updates a data cell filter.
  */
 export const updateDataCellsFilter: API.OperationMethod<
-  UpdateDataCellsFilterRequest,
+  UpdateDataCellsFilterRequest & RegionInput,
   UpdateDataCellsFilterResponse,
   UpdateDataCellsFilterError,
   Credentials | HttpClient.HttpClient
@@ -3129,7 +3130,7 @@ export type UpdateLakeFormationIdentityCenterConfigurationError =
  * Updates the IAM Identity Center connection parameters.
  */
 export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod<
-  UpdateLakeFormationIdentityCenterConfigurationRequest,
+  UpdateLakeFormationIdentityCenterConfigurationRequest & RegionInput,
   UpdateLakeFormationIdentityCenterConfigurationResponse,
   UpdateLakeFormationIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3171,7 +3172,7 @@ export type UpdateLFTagError =
  * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
  */
 export const updateLFTag: API.OperationMethod<
-  UpdateLFTagRequest,
+  UpdateLFTagRequest & RegionInput,
   UpdateLFTagResponse,
   UpdateLFTagError,
   Credentials | HttpClient.HttpClient
@@ -3206,7 +3207,7 @@ export type UpdateLFTagExpressionError =
  * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
  */
 export const updateLFTagExpression: API.OperationMethod<
-  UpdateLFTagExpressionRequest,
+  UpdateLFTagExpressionRequest & RegionInput,
   UpdateLFTagExpressionResponse,
   UpdateLFTagExpressionError,
   Credentials | HttpClient.HttpClient
@@ -3238,7 +3239,7 @@ export type UpdateResourceError =
  * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
  */
 export const updateResource: API.OperationMethod<
-  UpdateResourceRequest,
+  UpdateResourceRequest & RegionInput,
   UpdateResourceResponse,
   UpdateResourceError,
   Credentials | HttpClient.HttpClient
@@ -3273,7 +3274,7 @@ export type UpdateTableObjectsError =
  * Updates the manifest of Amazon S3 objects that make up the specified governed table.
  */
 export const updateTableObjects: API.OperationMethod<
-  UpdateTableObjectsRequest,
+  UpdateTableObjectsRequest & RegionInput,
   UpdateTableObjectsResponse,
   UpdateTableObjectsError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type UpdateTableStorageOptimizerError =
  * Updates the configuration of the storage optimizers for a table.
  */
 export const updateTableStorageOptimizer: API.OperationMethod<
-  UpdateTableStorageOptimizerRequest,
+  UpdateTableStorageOptimizerRequest & RegionInput,
   UpdateTableStorageOptimizerResponse,
   UpdateTableStorageOptimizerError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -621,7 +622,7 @@ export type AssociateEntityToThingError =
  * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
  */
 export const associateEntityToThing: API.OperationMethod<
-  AssociateEntityToThingRequest,
+  AssociateEntityToThingRequest & RegionInput,
   AssociateEntityToThingResponse,
   AssociateEntityToThingError,
   Credentials | HttpClient.HttpClient
@@ -654,7 +655,7 @@ export type CreateFlowTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createFlowTemplate: API.OperationMethod<
-  CreateFlowTemplateRequest,
+  CreateFlowTemplateRequest & RegionInput,
   CreateFlowTemplateResponse,
   CreateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type CreateSystemInstanceError =
  * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
  */
 export const createSystemInstance: API.OperationMethod<
-  CreateSystemInstanceRequest,
+  CreateSystemInstanceRequest & RegionInput,
   CreateSystemInstanceResponse,
   CreateSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type CreateSystemTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createSystemTemplate: API.OperationMethod<
-  CreateSystemTemplateRequest,
+  CreateSystemTemplateRequest & RegionInput,
   CreateSystemTemplateResponse,
   CreateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -761,7 +762,7 @@ export type DeleteFlowTemplateError =
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
  */
 export const deleteFlowTemplate: API.OperationMethod<
-  DeleteFlowTemplateRequest,
+  DeleteFlowTemplateRequest & RegionInput,
   DeleteFlowTemplateResponse,
   DeleteFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type DeleteNamespaceError = InternalFailureException | ThrottlingExceptio
  * request parameters.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DeleteSystemInstanceError =
  * Users can create a new system instance that has the same ID as a deleted system instance.
  */
 export const deleteSystemInstance: API.OperationMethod<
-  DeleteSystemInstanceRequest,
+  DeleteSystemInstanceRequest & RegionInput,
   DeleteSystemInstanceResponse,
   DeleteSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -846,7 +847,7 @@ export type DeleteSystemTemplateError =
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
  */
 export const deleteSystemTemplate: API.OperationMethod<
-  DeleteSystemTemplateRequest,
+  DeleteSystemTemplateRequest & RegionInput,
   DeleteSystemTemplateResponse,
   DeleteSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type DeploySystemInstanceError =
  * For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
  */
 export const deploySystemInstance: API.OperationMethod<
-  DeploySystemInstanceRequest,
+  DeploySystemInstanceRequest & RegionInput,
   DeploySystemInstanceResponse,
   DeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -920,7 +921,7 @@ export type DeprecateFlowTemplateError =
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
 export const deprecateFlowTemplate: API.OperationMethod<
-  DeprecateFlowTemplateRequest,
+  DeprecateFlowTemplateRequest & RegionInput,
   DeprecateFlowTemplateResponse,
   DeprecateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -950,7 +951,7 @@ export type DeprecateSystemTemplateError =
  * Deprecates the specified system.
  */
 export const deprecateSystemTemplate: API.OperationMethod<
-  DeprecateSystemTemplateRequest,
+  DeprecateSystemTemplateRequest & RegionInput,
   DeprecateSystemTemplateResponse,
   DeprecateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -980,7 +981,7 @@ export type DescribeNamespaceError =
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
 export const describeNamespace: API.OperationMethod<
-  DescribeNamespaceRequest,
+  DescribeNamespaceRequest & RegionInput,
   DescribeNamespaceResponse,
   DescribeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type DissociateEntityFromThingError =
  * one entity of a particular type can be associated with a thing.
  */
 export const dissociateEntityFromThing: API.OperationMethod<
-  DissociateEntityFromThingRequest,
+  DissociateEntityFromThingRequest & RegionInput,
   DissociateEntityFromThingResponse,
   DissociateEntityFromThingError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type GetEntitiesError =
  * This action doesn't return definitions for systems, flows, and deployments.
  */
 export const getEntities: API.OperationMethod<
-  GetEntitiesRequest,
+  GetEntitiesRequest & RegionInput,
   GetEntitiesResponse,
   GetEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type GetFlowTemplateError =
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
 export const getFlowTemplate: API.OperationMethod<
-  GetFlowTemplateRequest,
+  GetFlowTemplateRequest & RegionInput,
   GetFlowTemplateResponse,
   GetFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1123,7 +1124,7 @@ export type GetFlowTemplateRevisionsError =
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
  */
 export const getFlowTemplateRevisions: API.PaginatedOperationMethod<
-  GetFlowTemplateRevisionsRequest,
+  GetFlowTemplateRevisionsRequest & RegionInput,
   GetFlowTemplateRevisionsResponse,
   GetFlowTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type GetNamespaceDeletionStatusError =
  * Gets the status of a namespace deletion task.
  */
 export const getNamespaceDeletionStatus: API.OperationMethod<
-  GetNamespaceDeletionStatusRequest,
+  GetNamespaceDeletionStatusRequest & RegionInput,
   GetNamespaceDeletionStatusResponse,
   GetNamespaceDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1184,7 +1185,7 @@ export type GetSystemInstanceError =
  * Gets a system instance.
  */
 export const getSystemInstance: API.OperationMethod<
-  GetSystemInstanceRequest,
+  GetSystemInstanceRequest & RegionInput,
   GetSystemInstanceResponse,
   GetSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1214,7 +1215,7 @@ export type GetSystemTemplateError =
  * Gets a system.
  */
 export const getSystemTemplate: API.OperationMethod<
-  GetSystemTemplateRequest,
+  GetSystemTemplateRequest & RegionInput,
   GetSystemTemplateResponse,
   GetSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1246,7 @@ export type GetSystemTemplateRevisionsError =
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
  */
 export const getSystemTemplateRevisions: API.PaginatedOperationMethod<
-  GetSystemTemplateRevisionsRequest,
+  GetSystemTemplateRevisionsRequest & RegionInput,
   GetSystemTemplateRevisionsResponse,
   GetSystemTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1282,7 +1283,7 @@ export type GetUploadStatusError =
  * Gets the status of the specified upload.
  */
 export const getUploadStatus: API.OperationMethod<
-  GetUploadStatusRequest,
+  GetUploadStatusRequest & RegionInput,
   GetUploadStatusResponse,
   GetUploadStatusError,
   Credentials | HttpClient.HttpClient
@@ -1312,7 +1313,7 @@ export type ListFlowExecutionMessagesError =
  * Returns a list of objects that contain information about events in a flow execution.
  */
 export const listFlowExecutionMessages: API.PaginatedOperationMethod<
-  ListFlowExecutionMessagesRequest,
+  ListFlowExecutionMessagesRequest & RegionInput,
   ListFlowExecutionMessagesResponse,
   ListFlowExecutionMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -1349,7 +1350,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an AWS IoT Things Graph resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1385,7 +1386,7 @@ export type SearchEntitiesError =
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
 export const searchEntities: API.PaginatedOperationMethod<
-  SearchEntitiesRequest,
+  SearchEntitiesRequest & RegionInput,
   SearchEntitiesResponse,
   SearchEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1417,7 +1418,7 @@ export type SearchFlowExecutionsError =
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
 export const searchFlowExecutions: API.PaginatedOperationMethod<
-  SearchFlowExecutionsRequest,
+  SearchFlowExecutionsRequest & RegionInput,
   SearchFlowExecutionsResponse,
   SearchFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1453,7 +1454,7 @@ export type SearchFlowTemplatesError =
  * Searches for summary information about workflows.
  */
 export const searchFlowTemplates: API.PaginatedOperationMethod<
-  SearchFlowTemplatesRequest,
+  SearchFlowTemplatesRequest & RegionInput,
   SearchFlowTemplatesResponse,
   SearchFlowTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1484,7 +1485,7 @@ export type SearchSystemInstancesError =
  * Searches for system instances in the user's account.
  */
 export const searchSystemInstances: API.PaginatedOperationMethod<
-  SearchSystemInstancesRequest,
+  SearchSystemInstancesRequest & RegionInput,
   SearchSystemInstancesResponse,
   SearchSystemInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1515,7 +1516,7 @@ export type SearchSystemTemplatesError =
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
 export const searchSystemTemplates: API.PaginatedOperationMethod<
-  SearchSystemTemplatesRequest,
+  SearchSystemTemplatesRequest & RegionInput,
   SearchSystemTemplatesResponse,
   SearchSystemTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1552,7 +1553,7 @@ export type SearchThingsError =
  * This action searches for exact matches and doesn't perform partial text matching.
  */
 export const searchThings: API.PaginatedOperationMethod<
-  SearchThingsRequest,
+  SearchThingsRequest & RegionInput,
   SearchThingsResponse,
   SearchThingsError,
   Credentials | HttpClient.HttpClient,
@@ -1589,7 +1590,7 @@ export type TagResourceError =
  * Creates a tag for the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type UndeploySystemInstanceError =
  * Removes a system instance from its target (Cloud or Greengrass).
  */
 export const undeploySystemInstance: API.OperationMethod<
-  UndeploySystemInstanceRequest,
+  UndeploySystemInstanceRequest & RegionInput,
   UndeploySystemInstanceResponse,
   UndeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type UntagResourceError =
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type UpdateFlowTemplateError =
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
  */
 export const updateFlowTemplate: API.OperationMethod<
-  UpdateFlowTemplateRequest,
+  UpdateFlowTemplateRequest & RegionInput,
   UpdateFlowTemplateResponse,
   UpdateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1712,7 +1713,7 @@ export type UpdateSystemTemplateError =
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
 export const updateSystemTemplate: API.OperationMethod<
-  UpdateSystemTemplateRequest,
+  UpdateSystemTemplateRequest & RegionInput,
   UpdateSystemTemplateResponse,
   UpdateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type UploadEntityDefinitionsError =
  * `Mapping`, `Enum`.
  */
 export const uploadEntityDefinitions: API.OperationMethod<
-  UploadEntityDefinitionsRequest,
+  UploadEntityDefinitionsRequest & RegionInput,
   UploadEntityDefinitionsResponse,
   UploadEntityDefinitionsError,
   Credentials | HttpClient.HttpClient

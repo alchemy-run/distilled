@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1415,7 +1416,7 @@ export type ActivateEventSourceError =
  * event bus will start receiving events from the event source.
  */
 export const activateEventSource: API.OperationMethod<
-  ActivateEventSourceRequest,
+  ActivateEventSourceRequest & RegionInput,
   ActivateEventSourceResponse,
   ActivateEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1446,7 +1447,7 @@ export type CancelReplayError =
  * Cancels the specified replay.
  */
 export const cancelReplay: API.OperationMethod<
-  CancelReplayRequest,
+  CancelReplayRequest & RegionInput,
   CancelReplayResponse,
   CancelReplayError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type CreateApiDestinationError =
  * *EventBridge User Guide*.
  */
 export const createApiDestination: API.OperationMethod<
-  CreateApiDestinationRequest,
+  CreateApiDestinationRequest & RegionInput,
   CreateApiDestinationResponse,
   CreateApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1524,7 +1525,7 @@ export type CreateArchiveError =
  * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
  */
 export const createArchive: API.OperationMethod<
-  CreateArchiveRequest,
+  CreateArchiveRequest & RegionInput,
   CreateArchiveResponse,
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1561,7 +1562,7 @@ export type CreateConnectionError =
  * For more information, see Connections for endpoint targets in the *Amazon EventBridge User Guide*.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type CreateEndpointError =
  * a "healthy" state.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResponse,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1633,7 +1634,7 @@ export type CreateEventBusError =
  * bus which can be matched to a partner event source.
  */
 export const createEventBus: API.OperationMethod<
-  CreateEventBusRequest,
+  CreateEventBusRequest & RegionInput,
   CreateEventBusResponse,
   CreateEventBusError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CreatePartnerEventSourceError =
  * create an event bus to receive these events.
  */
 export const createPartnerEventSource: API.OperationMethod<
-  CreatePartnerEventSourceRequest,
+  CreatePartnerEventSourceRequest & RegionInput,
   CreatePartnerEventSourceResponse,
   CreatePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1739,7 +1740,7 @@ export type DeactivateEventSourceError =
  * To activate a deactivated partner event source, use ActivateEventSource.
  */
 export const deactivateEventSource: API.OperationMethod<
-  DeactivateEventSourceRequest,
+  DeactivateEventSourceRequest & RegionInput,
   DeactivateEventSourceResponse,
   DeactivateEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1770,7 +1771,7 @@ export type DeauthorizeConnectionError =
  * from the connection so you can reuse it without having to create a new connection.
  */
 export const deauthorizeConnection: API.OperationMethod<
-  DeauthorizeConnectionRequest,
+  DeauthorizeConnectionRequest & RegionInput,
   DeauthorizeConnectionResponse,
   DeauthorizeConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1794,7 +1795,7 @@ export type DeleteApiDestinationError =
  * Deletes the specified API destination.
  */
 export const deleteApiDestination: API.OperationMethod<
-  DeleteApiDestinationRequest,
+  DeleteApiDestinationRequest & RegionInput,
   DeleteApiDestinationResponse,
   DeleteApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1818,7 +1819,7 @@ export type DeleteArchiveError =
  * Deletes the specified archive.
  */
 export const deleteArchive: API.OperationMethod<
-  DeleteArchiveRequest,
+  DeleteArchiveRequest & RegionInput,
   DeleteArchiveResponse,
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
@@ -1842,7 +1843,7 @@ export type DeleteConnectionError =
  * Deletes a connection.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type DeleteEndpointError =
  * .
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -1896,7 +1897,7 @@ export type DeleteEventBusError =
  * this event bus need to be deleted. You can't delete your account's default event bus.
  */
 export const deleteEventBus: API.OperationMethod<
-  DeleteEventBusRequest,
+  DeleteEventBusRequest & RegionInput,
   DeleteEventBusResponse,
   DeleteEventBusError,
   Credentials | HttpClient.HttpClient
@@ -1929,7 +1930,7 @@ export type DeletePartnerEventSourceError =
  * Amazon Web Services customer account becomes DELETED.
  */
 export const deletePartnerEventSource: API.OperationMethod<
-  DeletePartnerEventSourceRequest,
+  DeletePartnerEventSourceRequest & RegionInput,
   DeletePartnerEventSourceResponse,
   DeletePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -1969,7 +1970,7 @@ export type DeleteRuleError =
  * rule.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1997,7 +1998,7 @@ export type DescribeApiDestinationError =
  * Retrieves details about an API destination.
  */
 export const describeApiDestination: API.OperationMethod<
-  DescribeApiDestinationRequest,
+  DescribeApiDestinationRequest & RegionInput,
   DescribeApiDestinationResponse,
   DescribeApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2022,7 @@ export type DescribeArchiveError =
  * Retrieves details about an archive.
  */
 export const describeArchive: API.OperationMethod<
-  DescribeArchiveRequest,
+  DescribeArchiveRequest & RegionInput,
   DescribeArchiveResponse,
   DescribeArchiveError,
   Credentials | HttpClient.HttpClient
@@ -2041,7 +2042,7 @@ export type DescribeConnectionError = InternalException | ResourceNotFoundExcept
  * Retrieves details about a connection.
  */
 export const describeConnection: API.OperationMethod<
-  DescribeConnectionRequest,
+  DescribeConnectionRequest & RegionInput,
   DescribeConnectionResponse,
   DescribeConnectionError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2067,7 @@ export type DescribeEndpointError = InternalException | ResourceNotFoundExceptio
  * .
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointRequest,
+  DescribeEndpointRequest & RegionInput,
   DescribeEndpointResponse,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2093,7 +2094,7 @@ export type DescribeEventBusError = InternalException | ResourceNotFoundExceptio
  * For more information about partner event buses, see CreateEventBus.
  */
 export const describeEventBus: API.OperationMethod<
-  DescribeEventBusRequest,
+  DescribeEventBusRequest & RegionInput,
   DescribeEventBusResponse,
   DescribeEventBusError,
   Credentials | HttpClient.HttpClient
@@ -2118,7 +2119,7 @@ export type DescribeEventSourceError =
  * account.
  */
 export const describeEventSource: API.OperationMethod<
-  DescribeEventSourceRequest,
+  DescribeEventSourceRequest & RegionInput,
   DescribeEventSourceResponse,
   DescribeEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -2144,7 +2145,7 @@ export type DescribePartnerEventSourceError =
  * them.
  */
 export const describePartnerEventSource: API.OperationMethod<
-  DescribePartnerEventSourceRequest,
+  DescribePartnerEventSourceRequest & RegionInput,
   DescribePartnerEventSourceResponse,
   DescribePartnerEventSourceError,
   Credentials | HttpClient.HttpClient
@@ -2172,7 +2173,7 @@ export type DescribeReplayError = InternalException | ResourceNotFoundException 
  * associated with the last event replayed.
  */
 export const describeReplay: API.OperationMethod<
-  DescribeReplayRequest,
+  DescribeReplayRequest & RegionInput,
   DescribeReplayResponse,
   DescribeReplayError,
   Credentials | HttpClient.HttpClient
@@ -2195,7 +2196,7 @@ export type DescribeRuleError = InternalException | ResourceNotFoundException | 
  * rule, use ListTargetsByRule.
  */
 export const describeRule: API.OperationMethod<
-  DescribeRuleRequest,
+  DescribeRuleRequest & RegionInput,
   DescribeRuleResponse,
   DescribeRuleError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type DisableRuleError =
  * Allow a short period of time for changes to take effect.
  */
 export const disableRule: API.OperationMethod<
-  DisableRuleRequest,
+  DisableRuleRequest & RegionInput,
   DisableRuleResponse,
   DisableRuleError,
   Credentials | HttpClient.HttpClient
@@ -2257,7 +2258,7 @@ export type EnableRuleError =
  * enabled rule. Allow a short period of time for changes to take effect.
  */
 export const enableRule: API.OperationMethod<
-  EnableRuleRequest,
+  EnableRuleRequest & RegionInput,
   EnableRuleResponse,
   EnableRuleError,
   Credentials | HttpClient.HttpClient
@@ -2282,7 +2283,7 @@ export type ListApiDestinationsError = InternalException | CommonErrors;
  * Retrieves a list of API destination in the account in the current Region.
  */
 export const listApiDestinations: API.OperationMethod<
-  ListApiDestinationsRequest,
+  ListApiDestinationsRequest & RegionInput,
   ListApiDestinationsResponse,
   ListApiDestinationsError,
   Credentials | HttpClient.HttpClient
@@ -2303,7 +2304,7 @@ export type ListArchivesError = InternalException | ResourceNotFoundException | 
  * match to the archive names. Filter parameters are exclusive.
  */
 export const listArchives: API.OperationMethod<
-  ListArchivesRequest,
+  ListArchivesRequest & RegionInput,
   ListArchivesResponse,
   ListArchivesError,
   Credentials | HttpClient.HttpClient
@@ -2323,7 +2324,7 @@ export type ListConnectionsError = InternalException | CommonErrors;
  * Retrieves a list of connections from the account.
  */
 export const listConnections: API.OperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -2348,7 +2349,7 @@ export type ListEndpointsError = InternalException | CommonErrors;
  * .
  */
 export const listEndpoints: API.OperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResponse,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -2369,7 +2370,7 @@ export type ListEventBusesError = InternalException | CommonErrors;
  * buses, and partner event buses.
  */
 export const listEventBuses: API.OperationMethod<
-  ListEventBusesRequest,
+  ListEventBusesRequest & RegionInput,
   ListEventBusesResponse,
   ListEventBusesError,
   Credentials | HttpClient.HttpClient
@@ -2390,7 +2391,7 @@ export type ListEventSourcesError = InternalException | OperationDisabledExcepti
  * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
  */
 export const listEventSources: API.OperationMethod<
-  ListEventSourcesRequest,
+  ListEventSourcesRequest & RegionInput,
   ListEventSourcesResponse,
   ListEventSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2415,7 +2416,7 @@ export type ListPartnerEventSourceAccountsError =
  * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
  */
 export const listPartnerEventSourceAccounts: API.OperationMethod<
-  ListPartnerEventSourceAccountsRequest,
+  ListPartnerEventSourceAccountsRequest & RegionInput,
   ListPartnerEventSourceAccountsResponse,
   ListPartnerEventSourceAccountsError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type ListPartnerEventSourcesError =
  * they have created. This operation is not used by Amazon Web Services customers.
  */
 export const listPartnerEventSources: API.OperationMethod<
-  ListPartnerEventSourcesRequest,
+  ListPartnerEventSourcesRequest & RegionInput,
   ListPartnerEventSourcesResponse,
   ListPartnerEventSourcesError,
   Credentials | HttpClient.HttpClient
@@ -2460,7 +2461,7 @@ export type ListReplaysError = InternalException | CommonErrors;
  * match to the replay names. Filter parameters are exclusive.
  */
 export const listReplays: API.OperationMethod<
-  ListReplaysRequest,
+  ListReplaysRequest & RegionInput,
   ListReplaysResponse,
   ListReplaysError,
   Credentials | HttpClient.HttpClient
@@ -2486,7 +2487,7 @@ export type ListRuleNamesByTargetError =
  * The maximum number of results per page for requests is 100.
  */
 export const listRuleNamesByTarget: API.OperationMethod<
-  ListRuleNamesByTargetRequest,
+  ListRuleNamesByTargetRequest & RegionInput,
   ListRuleNamesByTargetResponse,
   ListRuleNamesByTargetError,
   Credentials | HttpClient.HttpClient
@@ -2512,7 +2513,7 @@ export type ListRulesError = InternalException | ResourceNotFoundException | Com
  * use ListTargetsByRule.
  */
 export const listRules: API.OperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type ListTagsForResourceError =
  * buses can be tagged.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2559,7 +2560,7 @@ export type ListTargetsByRuleError = InternalException | ResourceNotFoundExcepti
  * The maximum number of results per page for requests is 100.
  */
 export const listTargetsByRule: API.OperationMethod<
-  ListTargetsByRuleRequest,
+  ListTargetsByRuleRequest & RegionInput,
   ListTargetsByRuleResponse,
   ListTargetsByRuleError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type PutEventsError = InternalException | CommonErrors;
  * PutEvents will only process nested JSON up to 1000 levels deep.
  */
 export const putEvents: API.OperationMethod<
-  PutEventsRequest,
+  PutEventsRequest & RegionInput,
   PutEventsResponse,
   PutEventsError,
   Credentials | HttpClient.HttpClient
@@ -2621,7 +2622,7 @@ export type PutPartnerEventsError = InternalException | OperationDisabledExcepti
  * entry size in the *EventBridge User Guide*.
  */
 export const putPartnerEvents: API.OperationMethod<
-  PutPartnerEventsRequest,
+  PutPartnerEventsRequest & RegionInput,
   PutPartnerEventsResponse,
   PutPartnerEventsError,
   Credentials | HttpClient.HttpClient
@@ -2666,7 +2667,7 @@ export type PutPermissionError =
  * The permission policy on the event bus cannot exceed 10 KB in size.
  */
 export const putPermission: API.OperationMethod<
-  PutPermissionRequest,
+  PutPermissionRequest & RegionInput,
   PutPermissionResponse,
   PutPermissionError,
   Credentials | HttpClient.HttpClient
@@ -2751,7 +2752,7 @@ export type PutRuleError =
  * *EventBridge User Guide*.
  */
 export const putRule: API.OperationMethod<
-  PutRuleRequest,
+  PutRuleRequest & RegionInput,
   PutRuleResponse,
   PutRuleError,
   Credentials | HttpClient.HttpClient
@@ -2881,7 +2882,7 @@ export type PutTargetsError =
  * `FailedEntries` provides the ID of the failed target and the error code.
  */
 export const putTargets: API.OperationMethod<
-  PutTargetsRequest,
+  PutTargetsRequest & RegionInput,
   PutTargetsResponse,
   PutTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2915,7 +2916,7 @@ export type RemovePermissionError =
  * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
  */
 export const removePermission: API.OperationMethod<
-  RemovePermissionRequest,
+  RemovePermissionRequest & RegionInput,
   RemovePermissionResponse,
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
@@ -2958,7 +2959,7 @@ export type RemoveTargetsError =
  * The maximum number of entries per request is 10.
  */
 export const removeTargets: API.OperationMethod<
-  RemoveTargetsRequest,
+  RemoveTargetsRequest & RegionInput,
   RemoveTargetsResponse,
   RemoveTargetsError,
   Credentials | HttpClient.HttpClient
@@ -2997,7 +2998,7 @@ export type StartReplayError =
  * replayed.
  */
 export const startReplay: API.OperationMethod<
-  StartReplayRequest,
+  StartReplayRequest & RegionInput,
   StartReplayResponse,
   StartReplayError,
   Credentials | HttpClient.HttpClient
@@ -3042,7 +3043,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3073,7 +3074,7 @@ export type TestEventPatternError = InternalException | InvalidEventPatternExcep
  * syntax in the event you want to match.
  */
 export const testEventPattern: API.OperationMethod<
-  TestEventPatternRequest,
+  TestEventPatternRequest & RegionInput,
   TestEventPatternResponse,
   TestEventPatternError,
   Credentials | HttpClient.HttpClient
@@ -3099,7 +3100,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3130,7 +3131,7 @@ export type UpdateApiDestinationError =
  * Updates an API destination.
  */
 export const updateApiDestination: API.OperationMethod<
-  UpdateApiDestinationRequest,
+  UpdateApiDestinationRequest & RegionInput,
   UpdateApiDestinationResponse,
   UpdateApiDestinationError,
   Credentials | HttpClient.HttpClient
@@ -3161,7 +3162,7 @@ export type UpdateArchiveError =
  * Updates the specified archive.
  */
 export const updateArchive: API.OperationMethod<
-  UpdateArchiveRequest,
+  UpdateArchiveRequest & RegionInput,
   UpdateArchiveResponse,
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
@@ -3194,7 +3195,7 @@ export type UpdateConnectionError =
  * Updates settings for a connection.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -3230,7 +3231,7 @@ export type UpdateEndpointError =
  * .
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -3260,7 +3261,7 @@ export type UpdateEventBusError =
  * Updates the specified event bus.
  */
 export const updateEventBus: API.OperationMethod<
-  UpdateEventBusRequest,
+  UpdateEventBusRequest & RegionInput,
   UpdateEventBusResponse,
   UpdateEventBusError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -341,7 +342,7 @@ export type CreateRuleError =
  * Create Recycle Bin retention rules in the *Amazon EBS User Guide*.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -367,7 +368,7 @@ export type DeleteRuleError =
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -396,7 +397,7 @@ export type GetRuleError =
  * Gets information about a Recycle Bin retention rule.
  */
 export const getRule: API.OperationMethod<
-  GetRuleRequest,
+  GetRuleRequest & RegionInput,
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -416,7 +417,7 @@ export type ListRulesError = InternalServerException | ValidationException | Com
  * Lists the Recycle Bin retention rules in the Region.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -447,7 +448,7 @@ export type ListTagsForResourceError =
  * Lists the tags assigned to a retention rule.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -476,7 +477,7 @@ export type LockRuleError =
  * have exclusion tags.
  */
 export const lockRule: API.OperationMethod<
-  LockRuleRequest,
+  LockRuleRequest & RegionInput,
   LockRuleResponse,
   LockRuleError,
   Credentials | HttpClient.HttpClient
@@ -506,7 +507,7 @@ export type TagResourceError =
  * Assigns tags to the specified retention rule.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -537,7 +538,7 @@ export type UnlockRuleError =
  * only after the unlock delay period expires.
  */
 export const unlockRule: API.OperationMethod<
-  UnlockRuleRequest,
+  UnlockRuleRequest & RegionInput,
   UnlockRuleResponse,
   UnlockRuleError,
   Credentials | HttpClient.HttpClient
@@ -566,7 +567,7 @@ export type UntagResourceError =
  * Unassigns a tag from a retention rule.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -595,7 +596,7 @@ export type UpdateRuleError =
  * Update Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient

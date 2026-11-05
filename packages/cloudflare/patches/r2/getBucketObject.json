@@ -35,6 +35,11 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.r2#GetBucketObject/traits/smithy.api#http/uri",
       "value": "/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_name}"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/cf_r2_jurisdiction",
+      "path": "/shapes/com.cloudflare.r2#GetBucketObjectRequest/members/jurisdiction"
     }
   ]
 }

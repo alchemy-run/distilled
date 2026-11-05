@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1992,7 +1993,7 @@ export type AddInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x.
  */
 export const addInstanceFleet: API.OperationMethod<
-  AddInstanceFleetInput,
+  AddInstanceFleetInput & RegionInput,
   AddInstanceFleetOutput,
   AddInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -2012,7 +2013,7 @@ export type AddInstanceGroupsError = InternalServerError | CommonErrors;
  * Adds one or more instance groups to a running cluster.
  */
 export const addInstanceGroups: API.OperationMethod<
-  AddInstanceGroupsInput,
+  AddInstanceGroupsInput & RegionInput,
   AddInstanceGroupsOutput,
   AddInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -2053,7 +2054,7 @@ export type AddJobFlowStepsError = InternalServerError | CommonErrors;
  * of 10240 characters.
  */
 export const addJobFlowSteps: API.OperationMethod<
-  AddJobFlowStepsInput,
+  AddJobFlowStepsInput & RegionInput,
   AddJobFlowStepsOutput,
   AddJobFlowStepsError,
   Creds | HttpClient.HttpClient
@@ -2077,7 +2078,7 @@ export type AddTagsError = InternalServerException | InvalidRequestException | C
  * Clusters.
  */
 export const addTags: API.OperationMethod<
-  AddTagsInput,
+  AddTagsInput & RegionInput,
   AddTagsOutput,
   AddTagsError,
   Creds | HttpClient.HttpClient
@@ -2101,7 +2102,7 @@ export type CancelStepsError = InternalServerError | InvalidRequestException | C
  * `PENDING` or `RUNNING` state. In earlier versions of Amazon EMR, you can only cancel steps that are in a `PENDING` state.
  */
 export const cancelSteps: API.OperationMethod<
-  CancelStepsInput,
+  CancelStepsInput & RegionInput,
   CancelStepsOutput,
   CancelStepsError,
   Creds | HttpClient.HttpClient
@@ -2124,7 +2125,7 @@ export type CreatePersistentAppUIError =
  * Creates a persistent application user interface.
  */
 export const createPersistentAppUI: API.OperationMethod<
-  CreatePersistentAppUIInput,
+  CreatePersistentAppUIInput & RegionInput,
   CreatePersistentAppUIOutput,
   CreatePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2149,7 +2150,7 @@ export type CreateSecurityConfigurationError =
  * when a cluster is created.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationInput,
+  CreateSecurityConfigurationInput & RegionInput,
   CreateSecurityConfigurationOutput,
   CreateSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2174,7 +2175,7 @@ export type CreateStudioError =
  * Creates a new Amazon EMR Studio.
  */
 export const createStudio: API.OperationMethod<
-  CreateStudioInput,
+  CreateStudioInput & RegionInput,
   CreateStudioOutput,
   CreateStudioError,
   Creds | HttpClient.HttpClient
@@ -2206,7 +2207,7 @@ export type CreateStudioSessionMappingError =
  * Studio when you use IAM authentication, see Assign a user or group to your EMR Studio.
  */
 export const createStudioSessionMapping: API.OperationMethod<
-  CreateStudioSessionMappingInput,
+  CreateStudioSessionMappingInput & RegionInput,
   CreateStudioSessionMappingResponse,
   CreateStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2230,7 +2231,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationInput,
+  DeleteSecurityConfigurationInput & RegionInput,
   DeleteSecurityConfigurationOutput,
   DeleteSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2254,7 +2255,7 @@ export type DeleteStudioError =
  * Removes an Amazon EMR Studio from the Studio metadata store.
  */
 export const deleteStudio: API.OperationMethod<
-  DeleteStudioInput,
+  DeleteStudioInput & RegionInput,
   DeleteStudioResponse,
   DeleteStudioError,
   Creds | HttpClient.HttpClient
@@ -2277,7 +2278,7 @@ export type DeleteStudioSessionMappingError =
  * Removes a user or group from an Amazon EMR Studio.
  */
 export const deleteStudioSessionMapping: API.OperationMethod<
-  DeleteStudioSessionMappingInput,
+  DeleteStudioSessionMappingInput & RegionInput,
   DeleteStudioSessionMappingResponse,
   DeleteStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2302,7 +2303,7 @@ export type DescribeClusterError =
  * VPC settings, and so on.
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterInput,
+  DescribeClusterInput & RegionInput,
   DescribeClusterOutput,
   DescribeClusterError,
   Creds | HttpClient.HttpClient
@@ -2341,7 +2342,7 @@ export type DescribeJobFlowsError = InternalServerError | CommonErrors;
  * Amazon EMR can return a maximum of 512 job flow descriptions.
  */
 export const describeJobFlows: API.OperationMethod<
-  DescribeJobFlowsInput,
+  DescribeJobFlowsInput & RegionInput,
   DescribeJobFlowsOutput,
   DescribeJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type DescribeNotebookExecutionError =
  * Provides details of a notebook execution.
  */
 export const describeNotebookExecution: API.OperationMethod<
-  DescribeNotebookExecutionInput,
+  DescribeNotebookExecutionInput & RegionInput,
   DescribeNotebookExecutionOutput,
   DescribeNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -2387,7 +2388,7 @@ export type DescribePersistentAppUIError =
  * Describes a persistent application user interface.
  */
 export const describePersistentAppUI: API.OperationMethod<
-  DescribePersistentAppUIInput,
+  DescribePersistentAppUIInput & RegionInput,
   DescribePersistentAppUIOutput,
   DescribePersistentAppUIError,
   Creds | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type DescribeReleaseLabelError =
  * specified version of Spark.
  */
 export const describeReleaseLabel: API.OperationMethod<
-  DescribeReleaseLabelInput,
+  DescribeReleaseLabelInput & RegionInput,
   DescribeReleaseLabelOutput,
   DescribeReleaseLabelError,
   Creds | HttpClient.HttpClient
@@ -2437,7 +2438,7 @@ export type DescribeSecurityConfigurationError =
  * JSON.
  */
 export const describeSecurityConfiguration: API.OperationMethod<
-  DescribeSecurityConfigurationInput,
+  DescribeSecurityConfigurationInput & RegionInput,
   DescribeSecurityConfigurationOutput,
   DescribeSecurityConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2457,7 +2458,7 @@ export type DescribeStepError = InternalServerException | InvalidRequestExceptio
  * Provides more detail about the cluster step.
  */
 export const describeStep: API.OperationMethod<
-  DescribeStepInput,
+  DescribeStepInput & RegionInput,
   DescribeStepOutput,
   DescribeStepError,
   Creds | HttpClient.HttpClient
@@ -2482,7 +2483,7 @@ export type DescribeStudioError =
  * Studio access URL, and so on.
  */
 export const describeStudio: API.OperationMethod<
-  DescribeStudioInput,
+  DescribeStudioInput & RegionInput,
   DescribeStudioOutput,
   DescribeStudioError,
   Creds | HttpClient.HttpClient
@@ -2502,7 +2503,7 @@ export type GetAutoTerminationPolicyError = CommonErrors;
  * Returns the auto-termination policy for an Amazon EMR cluster.
  */
 export const getAutoTerminationPolicy: API.OperationMethod<
-  GetAutoTerminationPolicyInput,
+  GetAutoTerminationPolicyInput & RegionInput,
   GetAutoTerminationPolicyOutput,
   GetAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -2527,7 +2528,7 @@ export type GetBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const getBlockPublicAccessConfiguration: API.OperationMethod<
-  GetBlockPublicAccessConfigurationInput,
+  GetBlockPublicAccessConfigurationInput & RegionInput,
   GetBlockPublicAccessConfigurationOutput,
   GetBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -2553,7 +2554,7 @@ export type GetClusterSessionCredentialsError =
  * username and password authentication.
  */
 export const getClusterSessionCredentials: API.OperationMethod<
-  GetClusterSessionCredentialsInput,
+  GetClusterSessionCredentialsInput & RegionInput,
   GetClusterSessionCredentialsOutput,
   GetClusterSessionCredentialsError,
   Creds | HttpClient.HttpClient
@@ -2573,7 +2574,7 @@ export type GetManagedScalingPolicyError = CommonErrors;
  * Fetches the attached managed scaling policy for an Amazon EMR cluster.
  */
 export const getManagedScalingPolicy: API.OperationMethod<
-  GetManagedScalingPolicyInput,
+  GetManagedScalingPolicyInput & RegionInput,
   GetManagedScalingPolicyOutput,
   GetManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -2596,7 +2597,7 @@ export type GetOnClusterAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getOnClusterAppUIPresignedURL: API.OperationMethod<
-  GetOnClusterAppUIPresignedURLInput,
+  GetOnClusterAppUIPresignedURLInput & RegionInput,
   GetOnClusterAppUIPresignedURLOutput,
   GetOnClusterAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2619,7 +2620,7 @@ export type GetPersistentAppUIPresignedURLError =
  * The presigned URL properties for the cluster's application user interface.
  */
 export const getPersistentAppUIPresignedURL: API.OperationMethod<
-  GetPersistentAppUIPresignedURLInput,
+  GetPersistentAppUIPresignedURLInput & RegionInput,
   GetPersistentAppUIPresignedURLOutput,
   GetPersistentAppUIPresignedURLError,
   Creds | HttpClient.HttpClient
@@ -2639,7 +2640,7 @@ export type GetSessionError = InternalServerException | InvalidRequestException 
  * Returns detailed information about a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionInput,
+  GetSessionInput & RegionInput,
   GetSessionOutput,
   GetSessionError,
   Creds | HttpClient.HttpClient
@@ -2662,7 +2663,7 @@ export type GetSessionEndpointError =
  * Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointInput,
+  GetSessionEndpointInput & RegionInput,
   GetSessionEndpointOutput,
   GetSessionEndpointError,
   Creds | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type GetStudioSessionMappingError =
  * or group).
  */
 export const getStudioSessionMapping: API.OperationMethod<
-  GetStudioSessionMappingInput,
+  GetStudioSessionMappingInput & RegionInput,
   GetStudioSessionMappingOutput,
   GetStudioSessionMappingError,
   Creds | HttpClient.HttpClient
@@ -2709,7 +2710,7 @@ export type ListBootstrapActionsError =
  * Provides information about the bootstrap actions associated with a cluster.
  */
 export const listBootstrapActions: API.PaginatedOperationMethod<
-  ListBootstrapActionsInput,
+  ListBootstrapActionsInput & RegionInput,
   ListBootstrapActionsOutput,
   ListBootstrapActionsError,
   Creds | HttpClient.HttpClient,
@@ -2735,7 +2736,7 @@ export type ListClustersError = InternalServerException | InvalidRequestExceptio
  * across multiple ListClusters calls.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Creds | HttpClient.HttpClient,
@@ -2763,7 +2764,7 @@ export type ListInstanceFleetsError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const listInstanceFleets: API.PaginatedOperationMethod<
-  ListInstanceFleetsInput,
+  ListInstanceFleetsInput & RegionInput,
   ListInstanceFleetsOutput,
   ListInstanceFleetsError,
   Creds | HttpClient.HttpClient,
@@ -2788,7 +2789,7 @@ export type ListInstanceGroupsError =
  * Provides all available details about the instance groups in a cluster.
  */
 export const listInstanceGroups: API.PaginatedOperationMethod<
-  ListInstanceGroupsInput,
+  ListInstanceGroupsInput & RegionInput,
   ListInstanceGroupsOutput,
   ListInstanceGroupsError,
   Creds | HttpClient.HttpClient,
@@ -2813,7 +2814,7 @@ export type ListInstancesError = InternalServerException | InvalidRequestExcepti
  * PROVISIONING, BOOTSTRAPPING, RUNNING.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesInput,
+  ListInstancesInput & RegionInput,
   ListInstancesOutput,
   ListInstancesError,
   Creds | HttpClient.HttpClient,
@@ -2841,7 +2842,7 @@ export type ListNotebookExecutionsError =
  * multiple `ListNotebookExecutions` calls.
  */
 export const listNotebookExecutions: API.PaginatedOperationMethod<
-  ListNotebookExecutionsInput,
+  ListNotebookExecutionsInput & RegionInput,
   ListNotebookExecutionsOutput,
   ListNotebookExecutionsError,
   Creds | HttpClient.HttpClient,
@@ -2867,7 +2868,7 @@ export type ListReleaseLabelsError =
  * called.
  */
 export const listReleaseLabels: API.PaginatedOperationMethod<
-  ListReleaseLabelsInput,
+  ListReleaseLabelsInput & RegionInput,
   ListReleaseLabelsOutput,
   ListReleaseLabelsError,
   Creds | HttpClient.HttpClient,
@@ -2899,7 +2900,7 @@ export type ListSecurityConfigurationsError =
  * ListSecurityConfigurations calls.
  */
 export const listSecurityConfigurations: API.PaginatedOperationMethod<
-  ListSecurityConfigurationsInput,
+  ListSecurityConfigurationsInput & RegionInput,
   ListSecurityConfigurationsOutput,
   ListSecurityConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -2925,7 +2926,7 @@ export type ListSessionsError = InternalServerException | InvalidRequestExceptio
  * Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsInput,
+  ListSessionsInput & RegionInput,
   ListSessionsOutput,
   ListSessionsError,
   Creds | HttpClient.HttpClient,
@@ -2952,7 +2953,7 @@ export type ListStepsError = InternalServerException | InvalidRequestException |
  * that indicates the next set of steps to retrieve.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsInput,
+  ListStepsInput & RegionInput,
   ListStepsOutput,
   ListStepsError,
   Creds | HttpClient.HttpClient,
@@ -2975,7 +2976,7 @@ export type ListStudiosError = InternalServerException | InvalidRequestException
  * creation time for each Studio.
  */
 export const listStudios: API.PaginatedOperationMethod<
-  ListStudiosInput,
+  ListStudiosInput & RegionInput,
   ListStudiosOutput,
   ListStudiosError,
   Creds | HttpClient.HttpClient,
@@ -3001,7 +3002,7 @@ export type ListStudioSessionMappingsError =
  * specified by `StudioId`.
  */
 export const listStudioSessionMappings: API.PaginatedOperationMethod<
-  ListStudioSessionMappingsInput,
+  ListStudioSessionMappingsInput & RegionInput,
   ListStudioSessionMappingsOutput,
   ListStudioSessionMappingsError,
   Creds | HttpClient.HttpClient,
@@ -3027,7 +3028,7 @@ export type ListSupportedInstanceTypesError =
  * list by Amazon Web Services Region and Amazon EMR release.
  */
 export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
-  ListSupportedInstanceTypesInput,
+  ListSupportedInstanceTypesInput & RegionInput,
   ListSupportedInstanceTypesOutput,
   ListSupportedInstanceTypesError,
   Creds | HttpClient.HttpClient,
@@ -3050,7 +3051,7 @@ export type ModifyClusterError = InternalServerError | InvalidRequestException |
  * using ClusterID.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterInput,
+  ModifyClusterInput & RegionInput,
   ModifyClusterOutput,
   ModifyClusterError,
   Creds | HttpClient.HttpClient
@@ -3078,7 +3079,7 @@ export type ModifyInstanceFleetError =
  * 4.8.0 and later, excluding 5.0.x versions.
  */
 export const modifyInstanceFleet: API.OperationMethod<
-  ModifyInstanceFleetInput,
+  ModifyInstanceFleetInput & RegionInput,
   ModifyInstanceFleetResponse,
   ModifyInstanceFleetError,
   Creds | HttpClient.HttpClient
@@ -3100,7 +3101,7 @@ export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
  * and the instance group ID. The call will either succeed or fail atomically.
  */
 export const modifyInstanceGroups: API.OperationMethod<
-  ModifyInstanceGroupsInput,
+  ModifyInstanceGroupsInput & RegionInput,
   ModifyInstanceGroupsResponse,
   ModifyInstanceGroupsError,
   Creds | HttpClient.HttpClient
@@ -3123,7 +3124,7 @@ export type PutAutoScalingPolicyError = CommonErrors;
  * to the value of a CloudWatch metric.
  */
 export const putAutoScalingPolicy: API.OperationMethod<
-  PutAutoScalingPolicyInput,
+  PutAutoScalingPolicyInput & RegionInput,
   PutAutoScalingPolicyOutput,
   PutAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3150,7 +3151,7 @@ export type PutAutoTerminationPolicyError = CommonErrors;
  * cluster termination.
  */
 export const putAutoTerminationPolicy: API.OperationMethod<
-  PutAutoTerminationPolicyInput,
+  PutAutoTerminationPolicyInput & RegionInput,
   PutAutoTerminationPolicyOutput,
   PutAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3176,7 +3177,7 @@ export type PutBlockPublicAccessConfigurationError =
  * Management Guide.
  */
 export const putBlockPublicAccessConfiguration: API.OperationMethod<
-  PutBlockPublicAccessConfigurationInput,
+  PutBlockPublicAccessConfigurationInput & RegionInput,
   PutBlockPublicAccessConfigurationOutput,
   PutBlockPublicAccessConfigurationError,
   Creds | HttpClient.HttpClient
@@ -3199,7 +3200,7 @@ export type PutManagedScalingPolicyError = CommonErrors;
  * core and task nodes. The master node cannot be scaled after initial configuration.
  */
 export const putManagedScalingPolicy: API.OperationMethod<
-  PutManagedScalingPolicyInput,
+  PutManagedScalingPolicyInput & RegionInput,
   PutManagedScalingPolicyOutput,
   PutManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3219,7 +3220,7 @@ export type RemoveAutoScalingPolicyError = CommonErrors;
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
 export const removeAutoScalingPolicy: API.OperationMethod<
-  RemoveAutoScalingPolicyInput,
+  RemoveAutoScalingPolicyInput & RegionInput,
   RemoveAutoScalingPolicyOutput,
   RemoveAutoScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3239,7 +3240,7 @@ export type RemoveAutoTerminationPolicyError = CommonErrors;
  * Removes an auto-termination policy from an Amazon EMR cluster.
  */
 export const removeAutoTerminationPolicy: API.OperationMethod<
-  RemoveAutoTerminationPolicyInput,
+  RemoveAutoTerminationPolicyInput & RegionInput,
   RemoveAutoTerminationPolicyOutput,
   RemoveAutoTerminationPolicyError,
   Creds | HttpClient.HttpClient
@@ -3259,7 +3260,7 @@ export type RemoveManagedScalingPolicyError = CommonErrors;
  * Removes a managed scaling policy from a specified Amazon EMR cluster.
  */
 export const removeManagedScalingPolicy: API.OperationMethod<
-  RemoveManagedScalingPolicyInput,
+  RemoveManagedScalingPolicyInput & RegionInput,
   RemoveManagedScalingPolicyOutput,
   RemoveManagedScalingPolicyError,
   Creds | HttpClient.HttpClient
@@ -3284,7 +3285,7 @@ export type RemoveTagsError = InternalServerException | InvalidRequestException 
  * The following example removes the stack tag with value Prod from a cluster:
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsInput,
+  RemoveTagsInput & RegionInput,
   RemoveTagsOutput,
   RemoveTagsError,
   Creds | HttpClient.HttpClient
@@ -3328,7 +3329,7 @@ export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady |
  * InstanceFleets parameters or InstanceGroups parameters, but not both.
  */
 export const runJobFlow: API.OperationMethod<
-  RunJobFlowInput,
+  RunJobFlowInput & RegionInput,
   RunJobFlowOutput,
   RunJobFlowError,
   Creds | HttpClient.HttpClient
@@ -3352,7 +3353,7 @@ export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonEr
  * For more information, see Managing Cluster Termination in the *Amazon EMR Management Guide*.
  */
 export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
-  SetKeepJobFlowAliveWhenNoStepsInput,
+  SetKeepJobFlowAliveWhenNoStepsInput & RegionInput,
   SetKeepJobFlowAliveWhenNoStepsResponse,
   SetKeepJobFlowAliveWhenNoStepsError,
   Creds | HttpClient.HttpClient
@@ -3390,7 +3391,7 @@ export type SetTerminationProtectionError = InternalServerError | JobFlowNotFoun
  * Termination in the *Amazon EMR Management Guide*.
  */
 export const setTerminationProtection: API.OperationMethod<
-  SetTerminationProtectionInput,
+  SetTerminationProtectionInput & RegionInput,
   SetTerminationProtectionResponse,
   SetTerminationProtectionError,
   Creds | HttpClient.HttpClient
@@ -3423,7 +3424,7 @@ export type SetUnhealthyNodeReplacementError = InternalServerError | CommonError
  * node replacement in the *Amazon EMR Management Guide*.
  */
 export const setUnhealthyNodeReplacement: API.OperationMethod<
-  SetUnhealthyNodeReplacementInput,
+  SetUnhealthyNodeReplacementInput & RegionInput,
   SetUnhealthyNodeReplacementResponse,
   SetUnhealthyNodeReplacementError,
   Creds | HttpClient.HttpClient
@@ -3456,7 +3457,7 @@ export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
  * *Amazon EMR Management Guide*.
  */
 export const setVisibleToAllUsers: API.OperationMethod<
-  SetVisibleToAllUsersInput,
+  SetVisibleToAllUsersInput & RegionInput,
   SetVisibleToAllUsersResponse,
   SetVisibleToAllUsersError,
   Creds | HttpClient.HttpClient
@@ -3479,7 +3480,7 @@ export type StartNotebookExecutionError =
  * Starts a notebook execution.
  */
 export const startNotebookExecution: API.OperationMethod<
-  StartNotebookExecutionInput,
+  StartNotebookExecutionInput & RegionInput,
   StartNotebookExecutionOutput,
   StartNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3499,7 +3500,7 @@ export type StartSessionError = InternalServerException | InvalidRequestExceptio
  * Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the `RUNNING` or `WAITING` state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
  */
 export const startSession: API.OperationMethod<
-  StartSessionInput,
+  StartSessionInput & RegionInput,
   StartSessionOutput,
   StartSessionError,
   Creds | HttpClient.HttpClient
@@ -3522,7 +3523,7 @@ export type StopNotebookExecutionError =
  * Stops a notebook execution.
  */
 export const stopNotebookExecution: API.OperationMethod<
-  StopNotebookExecutionInput,
+  StopNotebookExecutionInput & RegionInput,
   StopNotebookExecutionResponse,
   StopNotebookExecutionError,
   Creds | HttpClient.HttpClient
@@ -3549,7 +3550,7 @@ export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | Com
  * Amazon EC2 instances.
  */
 export const terminateJobFlows: API.OperationMethod<
-  TerminateJobFlowsInput,
+  TerminateJobFlowsInput & RegionInput,
   TerminateJobFlowsResponse,
   TerminateJobFlowsError,
   Creds | HttpClient.HttpClient
@@ -3572,7 +3573,7 @@ export type TerminateSessionError =
  * Terminates an active session. After you call this operation, the session enters the `TERMINATING` state and then transitions to `TERMINATED`.
  */
 export const terminateSession: API.OperationMethod<
-  TerminateSessionInput,
+  TerminateSessionInput & RegionInput,
   TerminateSessionOutput,
   TerminateSessionError,
   Creds | HttpClient.HttpClient
@@ -3597,7 +3598,7 @@ export type UpdateStudioError =
  * description, and subnets.
  */
 export const updateStudio: API.OperationMethod<
-  UpdateStudioInput,
+  UpdateStudioInput & RegionInput,
   UpdateStudioResponse,
   UpdateStudioError,
   Creds | HttpClient.HttpClient
@@ -3620,7 +3621,7 @@ export type UpdateStudioSessionMappingError =
  * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
  */
 export const updateStudioSessionMapping: API.OperationMethod<
-  UpdateStudioSessionMappingInput,
+  UpdateStudioSessionMappingInput & RegionInput,
   UpdateStudioSessionMappingResponse,
   UpdateStudioSessionMappingError,
   Creds | HttpClient.HttpClient

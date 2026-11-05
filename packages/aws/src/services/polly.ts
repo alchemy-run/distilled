@@ -9,6 +9,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -691,7 +692,7 @@ export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureExcept
  * For more information, see Managing Lexicons.
  */
 export const deleteLexicon: API.OperationMethod<
-  DeleteLexiconInput,
+  DeleteLexiconInput & RegionInput,
   DeleteLexiconOutput,
   DeleteLexiconError,
   Credentials | HttpClient.HttpClient
@@ -733,7 +734,7 @@ export type DescribeVoicesError =
  * `polly:DescribeVoices` action.
  */
 export const describeVoices: API.OperationMethod<
-  DescribeVoicesInput,
+  DescribeVoicesInput & RegionInput,
   DescribeVoicesOutput,
   DescribeVoicesError,
   Credentials | HttpClient.HttpClient
@@ -754,7 +755,7 @@ export type GetLexiconError = LexiconNotFoundException | ServiceFailureException
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const getLexicon: API.OperationMethod<
-  GetLexiconInput,
+  GetLexiconInput & RegionInput,
   GetLexiconOutput,
   GetLexiconError,
   Credentials | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type GetSpeechSynthesisTaskError =
  * the output of the task.
  */
 export const getSpeechSynthesisTask: API.OperationMethod<
-  GetSpeechSynthesisTaskInput,
+  GetSpeechSynthesisTaskInput & RegionInput,
   GetSpeechSynthesisTaskOutput,
   GetSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
@@ -801,7 +802,7 @@ export type ListLexiconsError = InvalidNextTokenException | ServiceFailureExcept
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
 export const listLexicons: API.OperationMethod<
-  ListLexiconsInput,
+  ListLexiconsInput & RegionInput,
   ListLexiconsOutput,
   ListLexiconsError,
   Credentials | HttpClient.HttpClient
@@ -826,7 +827,7 @@ export type ListSpeechSynthesisTasksError =
  * example, allowing users to list only tasks that are completed.
  */
 export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
-  ListSpeechSynthesisTasksInput,
+  ListSpeechSynthesisTasksInput & RegionInput,
   ListSpeechSynthesisTasksOutput,
   ListSpeechSynthesisTasksError,
   Credentials | HttpClient.HttpClient,
@@ -866,7 +867,7 @@ export type PutLexiconError =
  * For more information, see Managing Lexicons.
  */
 export const putLexicon: API.OperationMethod<
-  PutLexiconInput,
+  PutLexiconInput & RegionInput,
   PutLexiconOutput,
   PutLexiconError,
   Credentials | HttpClient.HttpClient
@@ -905,7 +906,7 @@ export type StartSpeechSynthesisStreamError =
  * - SynthesizeSpeech
  */
 export const startSpeechSynthesisStream: API.OperationMethod<
-  StartSpeechSynthesisStreamInput,
+  StartSpeechSynthesisStreamInput & RegionInput,
   StartSpeechSynthesisStreamOutput,
   StartSpeechSynthesisStreamError,
   Credentials | HttpClient.HttpClient
@@ -952,7 +953,7 @@ export type StartSpeechSynthesisTaskError =
  * starting the asynchronous synthesis task.
  */
 export const startSpeechSynthesisTask: API.OperationMethod<
-  StartSpeechSynthesisTaskInput,
+  StartSpeechSynthesisTaskInput & RegionInput,
   StartSpeechSynthesisTaskOutput,
   StartSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1000,7 @@ export type SynthesizeSpeechError =
  * information, see How it Works.
  */
 export const synthesizeSpeech: API.OperationMethod<
-  SynthesizeSpeechInput,
+  SynthesizeSpeechInput & RegionInput,
   SynthesizeSpeechOutput,
   SynthesizeSpeechError,
   Credentials | HttpClient.HttpClient

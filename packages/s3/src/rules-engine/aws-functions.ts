@@ -6,9 +6,12 @@
  */
 
 import type { ParsedArn, PartitionInfo, RulesValue } from "./expression.ts";
-// NOTE: partitions.json is copied from smithy during client generation (see scripts/generate-clients.ts)
+// partitions.json is copied from the AWS spec mirror by packages/aws/scripts/convert.ts.
 import partitionsData from "./partitions.json" with { type: "json" };
 import { isIpAddress, isValidHostLabel } from "./standard-functions.ts";
+
+/** The partition data the rules read; the generator and its tests list regions from it. */
+export { partitionsData };
 
 interface PartitionOutputs {
   dnsSuffix: string;

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -140,7 +141,7 @@ export type GetRawMessageContentError = ResourceNotFoundException | CommonErrors
  * Retrieves the raw content of an in-transit email message, in MIME format.
  */
 export const getRawMessageContent: API.OperationMethod<
-  GetRawMessageContentRequest,
+  GetRawMessageContentRequest & RegionInput,
   GetRawMessageContentResponse,
   GetRawMessageContentError,
   Credentials | HttpClient.HttpClient
@@ -175,7 +176,7 @@ export type PutRawMessageContentError =
  * message.
  */
 export const putRawMessageContent: API.OperationMethod<
-  PutRawMessageContentRequest,
+  PutRawMessageContentRequest & RegionInput,
   PutRawMessageContentResponse,
   PutRawMessageContentError,
   Credentials | HttpClient.HttpClient

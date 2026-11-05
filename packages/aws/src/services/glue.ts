@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -7932,7 +7933,7 @@ export type AssociateGlossaryTermsError =
  * Associates one or more glossary terms with an asset in Glue Data Catalog.
  */
 export const associateGlossaryTerms: API.OperationMethod<
-  AssociateGlossaryTermsRequest,
+  AssociateGlossaryTermsRequest & RegionInput,
   AssociateGlossaryTermsResponse,
   AssociateGlossaryTermsError,
   Credentials | HttpClient.HttpClient
@@ -7971,7 +7972,7 @@ export type BatchCreatePartitionError =
  * Creates one or more partitions in a batch operation.
  */
 export const batchCreatePartition: API.OperationMethod<
-  BatchCreatePartitionRequest,
+  BatchCreatePartitionRequest & RegionInput,
   BatchCreatePartitionResponse,
   BatchCreatePartitionError,
   Credentials | HttpClient.HttpClient
@@ -8003,7 +8004,7 @@ export type BatchDeleteConnectionError =
  * Deletes a list of connection definitions from the Data Catalog.
  */
 export const batchDeleteConnection: API.OperationMethod<
-  BatchDeleteConnectionRequest,
+  BatchDeleteConnectionRequest & RegionInput,
   BatchDeleteConnectionResponse,
   BatchDeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -8029,7 +8030,7 @@ export type BatchDeletePartitionError =
  * Deletes one or more partitions in a batch operation.
  */
 export const batchDeletePartition: API.OperationMethod<
-  BatchDeletePartitionRequest,
+  BatchDeletePartitionRequest & RegionInput,
   BatchDeletePartitionResponse,
   BatchDeletePartitionError,
   Credentials | HttpClient.HttpClient
@@ -8073,7 +8074,7 @@ export type BatchDeleteTableError =
  * table.
  */
 export const batchDeleteTable: API.OperationMethod<
-  BatchDeleteTableRequest,
+  BatchDeleteTableRequest & RegionInput,
   BatchDeleteTableResponse,
   BatchDeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -8106,7 +8107,7 @@ export type BatchDeleteTableVersionError =
  * Deletes a specified batch of versions of a table.
  */
 export const batchDeleteTableVersion: API.OperationMethod<
-  BatchDeleteTableVersionRequest,
+  BatchDeleteTableVersionRequest & RegionInput,
   BatchDeleteTableVersionResponse,
   BatchDeleteTableVersionError,
   Credentials | HttpClient.HttpClient
@@ -8135,7 +8136,7 @@ export type BatchGetBlueprintsError =
  * Retrieves information about a list of blueprints.
  */
 export const batchGetBlueprints: API.OperationMethod<
-  BatchGetBlueprintsRequest,
+  BatchGetBlueprintsRequest & RegionInput,
   BatchGetBlueprintsResponse,
   BatchGetBlueprintsError,
   Credentials | HttpClient.HttpClient
@@ -8158,7 +8159,7 @@ export type BatchGetCrawlersError =
  * Returns a list of resource metadata for a given list of crawler names. After calling the `ListCrawlers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
 export const batchGetCrawlers: API.OperationMethod<
-  BatchGetCrawlersRequest,
+  BatchGetCrawlersRequest & RegionInput,
   BatchGetCrawlersResponse,
   BatchGetCrawlersError,
   Credentials | HttpClient.HttpClient
@@ -8182,7 +8183,7 @@ export type BatchGetCustomEntityTypesError =
  * Retrieves the details for the custom patterns specified by a list of names.
  */
 export const batchGetCustomEntityTypes: API.OperationMethod<
-  BatchGetCustomEntityTypesRequest,
+  BatchGetCustomEntityTypesRequest & RegionInput,
   BatchGetCustomEntityTypesResponse,
   BatchGetCustomEntityTypesError,
   Credentials | HttpClient.HttpClient
@@ -8206,7 +8207,7 @@ export type BatchGetDataQualityResultError =
  * Retrieves a list of data quality results for the specified result IDs.
  */
 export const batchGetDataQualityResult: API.OperationMethod<
-  BatchGetDataQualityResultRequest,
+  BatchGetDataQualityResultRequest & RegionInput,
   BatchGetDataQualityResultResponse,
   BatchGetDataQualityResultError,
   Credentials | HttpClient.HttpClient
@@ -8230,7 +8231,7 @@ export type BatchGetDataQualityResultV2Error =
  * Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request.
  */
 export const batchGetDataQualityResultV2: API.OperationMethod<
-  BatchGetDataQualityResultV2Request,
+  BatchGetDataQualityResultV2Request & RegionInput,
   BatchGetDataQualityResultV2Response,
   BatchGetDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
@@ -8254,7 +8255,7 @@ export type BatchGetDataQualityRulesetEvaluationRunError =
  * Retrieves the details of multiple evaluation runs in a single request.
  */
 export const batchGetDataQualityRulesetEvaluationRun: API.OperationMethod<
-  BatchGetDataQualityRulesetEvaluationRunRequest,
+  BatchGetDataQualityRulesetEvaluationRunRequest & RegionInput,
   BatchGetDataQualityRulesetEvaluationRunResponse,
   BatchGetDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
@@ -8282,7 +8283,7 @@ export type BatchGetDevEndpointsError =
  * including permission conditions that uses tags.
  */
 export const batchGetDevEndpoints: API.OperationMethod<
-  BatchGetDevEndpointsRequest,
+  BatchGetDevEndpointsRequest & RegionInput,
   BatchGetDevEndpointsResponse,
   BatchGetDevEndpointsError,
   Credentials | HttpClient.HttpClient
@@ -8313,7 +8314,7 @@ export type BatchGetIterableFormsError =
  * Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request.
  */
 export const batchGetIterableForms: API.OperationMethod<
-  BatchGetIterableFormsRequest,
+  BatchGetIterableFormsRequest & RegionInput,
   BatchGetIterableFormsResponse,
   BatchGetIterableFormsError,
   Credentials | HttpClient.HttpClient
@@ -8348,7 +8349,7 @@ export type BatchGetJobsError =
  * Returns a list of resource metadata for a given list of job names. After calling the `ListJobs` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
 export const batchGetJobs: API.OperationMethod<
-  BatchGetJobsRequest,
+  BatchGetJobsRequest & RegionInput,
   BatchGetJobsResponse,
   BatchGetJobsError,
   Credentials | HttpClient.HttpClient
@@ -8377,7 +8378,7 @@ export type BatchGetPartitionError =
  * Retrieves partitions in a batch request.
  */
 export const batchGetPartition: API.OperationMethod<
-  BatchGetPartitionRequest,
+  BatchGetPartitionRequest & RegionInput,
   BatchGetPartitionResponse,
   BatchGetPartitionError,
   Credentials | HttpClient.HttpClient
@@ -8412,7 +8413,7 @@ export type BatchGetTableOptimizerError =
  * Returns the configuration for the specified table optimizers.
  */
 export const batchGetTableOptimizer: API.OperationMethod<
-  BatchGetTableOptimizerRequest,
+  BatchGetTableOptimizerRequest & RegionInput,
   BatchGetTableOptimizerResponse,
   BatchGetTableOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -8442,7 +8443,7 @@ export type BatchGetTriggersError =
  * Returns a list of resource metadata for a given list of trigger names. After calling the `ListTriggers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
 export const batchGetTriggers: API.OperationMethod<
-  BatchGetTriggersRequest,
+  BatchGetTriggersRequest & RegionInput,
   BatchGetTriggersResponse,
   BatchGetTriggersError,
   Credentials | HttpClient.HttpClient
@@ -8466,7 +8467,7 @@ export type BatchGetWorkflowsError =
  * Returns a list of resource metadata for a given list of workflow names. After calling the `ListWorkflows` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
 export const batchGetWorkflows: API.OperationMethod<
-  BatchGetWorkflowsRequest,
+  BatchGetWorkflowsRequest & RegionInput,
   BatchGetWorkflowsResponse,
   BatchGetWorkflowsError,
   Credentials | HttpClient.HttpClient
@@ -8493,7 +8494,7 @@ export type BatchPutDataQualityStatisticAnnotationError =
  * The API only works for a single statisticId across multiple profiles.
  */
 export const batchPutDataQualityStatisticAnnotation: API.OperationMethod<
-  BatchPutDataQualityStatisticAnnotationRequest,
+  BatchPutDataQualityStatisticAnnotationRequest & RegionInput,
   BatchPutDataQualityStatisticAnnotationResponse,
   BatchPutDataQualityStatisticAnnotationError,
   Credentials | HttpClient.HttpClient
@@ -8522,7 +8523,7 @@ export type BatchStopJobRunError =
  * Stops one or more job runs for a specified job definition.
  */
 export const batchStopJobRun: API.OperationMethod<
-  BatchStopJobRunRequest,
+  BatchStopJobRunRequest & RegionInput,
   BatchStopJobRunResponse,
   BatchStopJobRunError,
   Credentials | HttpClient.HttpClient
@@ -8549,7 +8550,7 @@ export type BatchUpdatePartitionError =
  * Updates one or more partitions in a batch operation.
  */
 export const batchUpdatePartition: API.OperationMethod<
-  BatchUpdatePartitionRequest,
+  BatchUpdatePartitionRequest & RegionInput,
   BatchUpdatePartitionResponse,
   BatchUpdatePartitionError,
   Credentials | HttpClient.HttpClient
@@ -8581,7 +8582,7 @@ export type CancelDataQualityRuleRecommendationRunError =
  * Cancels the specified recommendation run that was being used to generate rules.
  */
 export const cancelDataQualityRuleRecommendationRun: API.OperationMethod<
-  CancelDataQualityRuleRecommendationRunRequest,
+  CancelDataQualityRuleRecommendationRunRequest & RegionInput,
   CancelDataQualityRuleRecommendationRunResponse,
   CancelDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
@@ -8611,7 +8612,7 @@ export type CancelDataQualityRulesetEvaluationRunError =
  * Cancels a run where a ruleset is being evaluated against a data source.
  */
 export const cancelDataQualityRulesetEvaluationRun: API.OperationMethod<
-  CancelDataQualityRulesetEvaluationRunRequest,
+  CancelDataQualityRulesetEvaluationRunRequest & RegionInput,
   CancelDataQualityRulesetEvaluationRunResponse,
   CancelDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
@@ -8643,7 +8644,7 @@ export type CancelMLTaskRunError =
  * run's parent transform's `TransformID` and the task run's `TaskRunId`.
  */
 export const cancelMLTaskRun: API.OperationMethod<
-  CancelMLTaskRunRequest,
+  CancelMLTaskRunRequest & RegionInput,
   CancelMLTaskRunResponse,
   CancelMLTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -8675,7 +8676,7 @@ export type CancelStatementError =
  * Cancels the statement.
  */
 export const cancelStatement: API.OperationMethod<
-  CancelStatementRequest,
+  CancelStatementRequest & RegionInput,
   CancelStatementResponse,
   CancelStatementError,
   Credentials | HttpClient.HttpClient
@@ -8706,7 +8707,7 @@ export type CheckSchemaVersionValidityError =
  * Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using `DataFormat` as the format. Since it does not take a schema set name, no compatibility checks are performed.
  */
 export const checkSchemaVersionValidity: API.OperationMethod<
-  CheckSchemaVersionValidityInput,
+  CheckSchemaVersionValidityInput & RegionInput,
   CheckSchemaVersionValidityResponse,
   CheckSchemaVersionValidityError,
   Credentials | HttpClient.HttpClient
@@ -8732,7 +8733,7 @@ export type CreateBlueprintError =
  * Registers a blueprint with Glue.
  */
 export const createBlueprint: API.OperationMethod<
-  CreateBlueprintRequest,
+  CreateBlueprintRequest & RegionInput,
   CreateBlueprintResponse,
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -8770,7 +8771,7 @@ export type CreateCatalogError =
  * Creates a new catalog in the Glue Data Catalog.
  */
 export const createCatalog: API.OperationMethod<
-  CreateCatalogRequest,
+  CreateCatalogRequest & RegionInput,
   CreateCatalogResponse,
   CreateCatalogError,
   Credentials | HttpClient.HttpClient
@@ -8808,7 +8809,7 @@ export type CreateClassifierError =
  * depending on which field of the request is present.
  */
 export const createClassifier: API.OperationMethod<
-  CreateClassifierRequest,
+  CreateClassifierRequest & RegionInput,
   CreateClassifierResponse,
   CreateClassifierError,
   Credentials | HttpClient.HttpClient
@@ -8836,7 +8837,7 @@ export type CreateColumnStatisticsTaskSettingsError =
  * Creates settings for a column statistics task.
  */
 export const createColumnStatisticsTaskSettings: API.OperationMethod<
-  CreateColumnStatisticsTaskSettingsRequest,
+  CreateColumnStatisticsTaskSettingsRequest & RegionInput,
   CreateColumnStatisticsTaskSettingsResponse,
   CreateColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
@@ -8872,7 +8873,7 @@ export type CreateConnectionError =
  * Connections used for creating federated resources require the IAM `glue:PassConnection` permission.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionRequest,
+  CreateConnectionRequest & RegionInput,
   CreateConnectionResponse,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -8907,7 +8908,7 @@ export type CreateCrawlerError =
  * `jdbcTargets` field, or the `DynamoDBTargets` field.
  */
 export const createCrawler: API.OperationMethod<
-  CreateCrawlerRequest,
+  CreateCrawlerRequest & RegionInput,
   CreateCrawlerResponse,
   CreateCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -8944,7 +8945,7 @@ export type CreateCustomEntityTypeError =
  * Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
  */
 export const createCustomEntityType: API.OperationMethod<
-  CreateCustomEntityTypeRequest,
+  CreateCustomEntityTypeRequest & RegionInput,
   CreateCustomEntityTypeResponse,
   CreateCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -8983,7 +8984,7 @@ export type CreateDatabaseError =
  * Creates a new database in a Data Catalog.
  */
 export const createDatabase: API.OperationMethod<
-  CreateDatabaseRequest,
+  CreateDatabaseRequest & RegionInput,
   CreateDatabaseResponse,
   CreateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -9022,7 +9023,7 @@ export type CreateDataQualityRulesetError =
  * You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
  */
 export const createDataQualityRuleset: API.OperationMethod<
-  CreateDataQualityRulesetRequest,
+  CreateDataQualityRulesetRequest & RegionInput,
   CreateDataQualityRulesetResponse,
   CreateDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
@@ -9057,7 +9058,7 @@ export type CreateDevEndpointError =
  * Creates a new development endpoint.
  */
 export const createDevEndpoint: API.OperationMethod<
-  CreateDevEndpointRequest,
+  CreateDevEndpointRequest & RegionInput,
   CreateDevEndpointResponse,
   CreateDevEndpointError,
   Credentials | HttpClient.HttpClient
@@ -9093,7 +9094,7 @@ export type CreateGlossaryError =
  * Creates a business glossary in Glue Data Catalog. A glossary is a container for glossary terms that define business concepts.
  */
 export const createGlossary: API.OperationMethod<
-  CreateGlossaryRequest,
+  CreateGlossaryRequest & RegionInput,
   CreateGlossaryResponse,
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -9128,7 +9129,7 @@ export type CreateGlossaryTermError =
  * Creates a glossary term within a business glossary in Glue Data Catalog.
  */
 export const createGlossaryTerm: API.OperationMethod<
-  CreateGlossaryTermRequest,
+  CreateGlossaryTermRequest & RegionInput,
   CreateGlossaryTermResponse,
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -9164,7 +9165,7 @@ export type CreateGlueIdentityCenterConfigurationError =
  * Identity Center for authentication and authorization.
  */
 export const createGlueIdentityCenterConfiguration: API.OperationMethod<
-  CreateGlueIdentityCenterConfigurationRequest,
+  CreateGlueIdentityCenterConfigurationRequest & RegionInput,
   CreateGlueIdentityCenterConfigurationResponse,
   CreateGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9204,7 +9205,7 @@ export type CreateIntegrationError =
  * Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the `SourceArn` and `TargetArn`.
  */
 export const createIntegration: API.OperationMethod<
-  CreateIntegrationRequest,
+  CreateIntegrationRequest & RegionInput,
   CreateIntegrationResponse,
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -9246,7 +9247,7 @@ export type CreateIntegrationResourcePropertyError =
  * This API can be used for setting up the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as `ResourceArn` with `SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with `TargetProcessingProperties` respectively.
  */
 export const createIntegrationResourceProperty: API.OperationMethod<
-  CreateIntegrationResourcePropertyRequest,
+  CreateIntegrationResourcePropertyRequest & RegionInput,
   CreateIntegrationResourcePropertyResponse,
   CreateIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
@@ -9283,7 +9284,7 @@ export type CreateIntegrationTablePropertiesError =
  * This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
  */
 export const createIntegrationTableProperties: API.OperationMethod<
-  CreateIntegrationTablePropertiesRequest,
+  CreateIntegrationTablePropertiesRequest & RegionInput,
   CreateIntegrationTablePropertiesResponse,
   CreateIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -9320,7 +9321,7 @@ export type CreateJobError =
  * Creates a new job definition.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
@@ -9369,7 +9370,7 @@ export type CreateMLTransformError =
  * information, see Jobs.
  */
 export const createMLTransform: API.OperationMethod<
-  CreateMLTransformRequest,
+  CreateMLTransformRequest & RegionInput,
   CreateMLTransformResponse,
   CreateMLTransformError,
   Credentials | HttpClient.HttpClient
@@ -9405,7 +9406,7 @@ export type CreatePartitionError =
  * Creates a new partition.
  */
 export const createPartition: API.OperationMethod<
-  CreatePartitionRequest,
+  CreatePartitionRequest & RegionInput,
   CreatePartitionResponse,
   CreatePartitionError,
   Credentials | HttpClient.HttpClient
@@ -9441,7 +9442,7 @@ export type CreatePartitionIndexError =
  * Creates a specified partition index in an existing table.
  */
 export const createPartitionIndex: API.OperationMethod<
-  CreatePartitionIndexRequest,
+  CreatePartitionIndexRequest & RegionInput,
   CreatePartitionIndexResponse,
   CreatePartitionIndexError,
   Credentials | HttpClient.HttpClient
@@ -9476,7 +9477,7 @@ export type CreateRegistryError =
  * Creates a new registry which may be used to hold a collection of schemas.
  */
 export const createRegistry: API.OperationMethod<
-  CreateRegistryInput,
+  CreateRegistryInput & RegionInput,
   CreateRegistryResponse,
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -9515,7 +9516,7 @@ export type CreateSchemaError =
  * When this API is called without a `RegistryId`, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaInput,
+  CreateSchemaInput & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -9547,7 +9548,7 @@ export type CreateScriptError =
  * Transforms a directed acyclic graph (DAG) into code.
  */
 export const createScript: API.OperationMethod<
-  CreateScriptRequest,
+  CreateScriptRequest & RegionInput,
   CreateScriptResponse,
   CreateScriptError,
   Credentials | HttpClient.HttpClient
@@ -9573,7 +9574,7 @@ export type CreateSecurityConfigurationError =
  * Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
  */
 export const createSecurityConfiguration: API.OperationMethod<
-  CreateSecurityConfigurationRequest,
+  CreateSecurityConfigurationRequest & RegionInput,
   CreateSecurityConfigurationResponse,
   CreateSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9609,7 +9610,7 @@ export type CreateSessionError =
  * Creates a new session.
  */
 export const createSession: API.OperationMethod<
-  CreateSessionRequest,
+  CreateSessionRequest & RegionInput,
   CreateSessionResponse,
   CreateSessionError,
   Credentials | HttpClient.HttpClient
@@ -9651,7 +9652,7 @@ export type CreateTableError =
  * Creates a new table definition in the Data Catalog.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -9691,7 +9692,7 @@ export type CreateTableOptimizerError =
  * Creates a new table optimizer for a specific function.
  */
 export const createTableOptimizer: API.OperationMethod<
-  CreateTableOptimizerRequest,
+  CreateTableOptimizerRequest & RegionInput,
   CreateTableOptimizerResponse,
   CreateTableOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -9730,7 +9731,7 @@ export type CreateTriggerError =
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
 export const createTrigger: API.OperationMethod<
-  CreateTriggerRequest,
+  CreateTriggerRequest & RegionInput,
   CreateTriggerResponse,
   CreateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -9766,7 +9767,7 @@ export type CreateUsageProfileError =
  * Creates an Glue usage profile.
  */
 export const createUsageProfile: API.OperationMethod<
-  CreateUsageProfileRequest,
+  CreateUsageProfileRequest & RegionInput,
   CreateUsageProfileResponse,
   CreateUsageProfileError,
   Credentials | HttpClient.HttpClient
@@ -9801,7 +9802,7 @@ export type CreateUserDefinedFunctionError =
  * Creates a new function definition in the Data Catalog.
  */
 export const createUserDefinedFunction: API.OperationMethod<
-  CreateUserDefinedFunctionRequest,
+  CreateUserDefinedFunctionRequest & RegionInput,
   CreateUserDefinedFunctionResponse,
   CreateUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
@@ -9836,7 +9837,7 @@ export type CreateWorkflowError =
  * Creates a new workflow.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -9869,7 +9870,7 @@ export type DeleteAssetError =
  * Deletes an asset from Glue Data Catalog.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -9901,7 +9902,7 @@ export type DeleteAssetTypeError =
  * Deletes an asset type from Glue Data Catalog.
  */
 export const deleteAssetType: API.OperationMethod<
-  DeleteAssetTypeRequest,
+  DeleteAssetTypeRequest & RegionInput,
   DeleteAssetTypeResponse,
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -9934,7 +9935,7 @@ export type DeleteAttachmentError =
  * Deletes a form attachment from an asset in Glue Data Catalog.
  */
 export const deleteAttachment: API.OperationMethod<
-  DeleteAttachmentRequest,
+  DeleteAttachmentRequest & RegionInput,
   DeleteAttachmentResponse,
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -9968,7 +9969,7 @@ export type DeleteBlueprintError =
  * Deletes an existing blueprint.
  */
 export const deleteBlueprint: API.OperationMethod<
-  DeleteBlueprintRequest,
+  DeleteBlueprintRequest & RegionInput,
   DeleteBlueprintResponse,
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -10001,7 +10002,7 @@ export type DeleteCatalogError =
  * To ensure the immediate deletion of all related resources before calling the `DeleteCatalog` operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or `BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction` and `DeleteDatabase` to delete any resources that belong to the catalog.
  */
 export const deleteCatalog: API.OperationMethod<
-  DeleteCatalogRequest,
+  DeleteCatalogRequest & RegionInput,
   DeleteCatalogResponse,
   DeleteCatalogError,
   Credentials | HttpClient.HttpClient
@@ -10033,7 +10034,7 @@ export type DeleteClassifierError =
  * Removes a classifier from the Data Catalog.
  */
 export const deleteClassifier: API.OperationMethod<
-  DeleteClassifierRequest,
+  DeleteClassifierRequest & RegionInput,
   DeleteClassifierResponse,
   DeleteClassifierError,
   Credentials | HttpClient.HttpClient
@@ -10061,7 +10062,7 @@ export type DeleteColumnStatisticsForPartitionError =
  * The Identity and Access Management (IAM) permission required for this operation is `DeletePartition`.
  */
 export const deleteColumnStatisticsForPartition: API.OperationMethod<
-  DeleteColumnStatisticsForPartitionRequest,
+  DeleteColumnStatisticsForPartitionRequest & RegionInput,
   DeleteColumnStatisticsForPartitionResponse,
   DeleteColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
@@ -10095,7 +10096,7 @@ export type DeleteColumnStatisticsForTableError =
  * The Identity and Access Management (IAM) permission required for this operation is `DeleteTable`.
  */
 export const deleteColumnStatisticsForTable: API.OperationMethod<
-  DeleteColumnStatisticsForTableRequest,
+  DeleteColumnStatisticsForTableRequest & RegionInput,
   DeleteColumnStatisticsForTableResponse,
   DeleteColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
@@ -10125,7 +10126,7 @@ export type DeleteColumnStatisticsTaskSettingsError =
  * Deletes settings for a column statistics task.
  */
 export const deleteColumnStatisticsTaskSettings: API.OperationMethod<
-  DeleteColumnStatisticsTaskSettingsRequest,
+  DeleteColumnStatisticsTaskSettingsRequest & RegionInput,
   DeleteColumnStatisticsTaskSettingsResponse,
   DeleteColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
@@ -10148,7 +10149,7 @@ export type DeleteConnectionError =
  * Deletes a connection from the Data Catalog.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -10177,7 +10178,7 @@ export type DeleteConnectionTypeError =
  * The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types.
  */
 export const deleteConnectionType: API.OperationMethod<
-  DeleteConnectionTypeRequest,
+  DeleteConnectionTypeRequest & RegionInput,
   DeleteConnectionTypeResponse,
   DeleteConnectionTypeError,
   Credentials | HttpClient.HttpClient
@@ -10210,7 +10211,7 @@ export type DeleteCrawlerError =
  * `RUNNING`.
  */
 export const deleteCrawler: API.OperationMethod<
-  DeleteCrawlerRequest,
+  DeleteCrawlerRequest & RegionInput,
   DeleteCrawlerResponse,
   DeleteCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -10241,7 +10242,7 @@ export type DeleteCustomEntityTypeError =
  * Deletes a custom pattern by specifying its name.
  */
 export const deleteCustomEntityType: API.OperationMethod<
-  DeleteCustomEntityTypeRequest,
+  DeleteCustomEntityTypeRequest & RegionInput,
   DeleteCustomEntityTypeResponse,
   DeleteCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -10288,7 +10289,7 @@ export type DeleteDatabaseError =
  * belong to the database.
  */
 export const deleteDatabase: API.OperationMethod<
-  DeleteDatabaseRequest,
+  DeleteDatabaseRequest & RegionInput,
   DeleteDatabaseResponse,
   DeleteDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -10322,7 +10323,7 @@ export type DeleteDataQualityRulesetError =
  * Deletes a data quality ruleset.
  */
 export const deleteDataQualityRuleset: API.OperationMethod<
-  DeleteDataQualityRulesetRequest,
+  DeleteDataQualityRulesetRequest & RegionInput,
   DeleteDataQualityRulesetResponse,
   DeleteDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
@@ -10352,7 +10353,7 @@ export type DeleteDevEndpointError =
  * Deletes a specified development endpoint.
  */
 export const deleteDevEndpoint: API.OperationMethod<
-  DeleteDevEndpointRequest,
+  DeleteDevEndpointRequest & RegionInput,
   DeleteDevEndpointResponse,
   DeleteDevEndpointError,
   Credentials | HttpClient.HttpClient
@@ -10384,7 +10385,7 @@ export type DeleteFormTypeError =
  * Deletes a form type from Glue Data Catalog. A form type cannot be deleted if it is still referenced by an asset type.
  */
 export const deleteFormType: API.OperationMethod<
-  DeleteFormTypeRequest,
+  DeleteFormTypeRequest & RegionInput,
   DeleteFormTypeResponse,
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -10418,7 +10419,7 @@ export type DeleteGlossaryError =
  * Deletes a business glossary from Glue Data Catalog. A glossary cannot be deleted if it still contains glossary terms.
  */
 export const deleteGlossary: API.OperationMethod<
-  DeleteGlossaryRequest,
+  DeleteGlossaryRequest & RegionInput,
   DeleteGlossaryResponse,
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -10451,7 +10452,7 @@ export type DeleteGlossaryTermError =
  * Deletes a glossary term from Glue Data Catalog.
  */
 export const deleteGlossaryTerm: API.OperationMethod<
-  DeleteGlossaryTermRequest,
+  DeleteGlossaryTermRequest & RegionInput,
   DeleteGlossaryTermResponse,
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -10488,7 +10489,7 @@ export type DeleteGlueIdentityCenterConfigurationError =
  * Amazon Web Services IAM Identity Center.
  */
 export const deleteGlueIdentityCenterConfiguration: API.OperationMethod<
-  DeleteGlueIdentityCenterConfigurationRequest,
+  DeleteGlueIdentityCenterConfigurationRequest & RegionInput,
   DeleteGlueIdentityCenterConfigurationResponse,
   DeleteGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10527,7 +10528,7 @@ export type DeleteIntegrationError =
  * Deletes the specified Zero-ETL integration.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -10567,7 +10568,7 @@ export type DeleteIntegrationResourcePropertyError =
  * This API is used for deleting the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target).
  */
 export const deleteIntegrationResourceProperty: API.OperationMethod<
-  DeleteIntegrationResourcePropertyRequest,
+  DeleteIntegrationResourcePropertyRequest & RegionInput,
   DeleteIntegrationResourcePropertyResponse,
   DeleteIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
@@ -10603,7 +10604,7 @@ export type DeleteIntegrationTablePropertiesError =
  * Deletes the table properties that have been created for the tables that need to be replicated.
  */
 export const deleteIntegrationTableProperties: API.OperationMethod<
-  DeleteIntegrationTablePropertiesRequest,
+  DeleteIntegrationTablePropertiesRequest & RegionInput,
   DeleteIntegrationTablePropertiesResponse,
   DeleteIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -10636,7 +10637,7 @@ export type DeleteJobError =
  * is not found, no exception is thrown.
  */
 export const deleteJob: API.OperationMethod<
-  DeleteJobRequest,
+  DeleteJobRequest & RegionInput,
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
@@ -10666,7 +10667,7 @@ export type DeleteMLTransformError =
  * transform will no longer succeed.
  */
 export const deleteMLTransform: API.OperationMethod<
-  DeleteMLTransformRequest,
+  DeleteMLTransformRequest & RegionInput,
   DeleteMLTransformResponse,
   DeleteMLTransformError,
   Credentials | HttpClient.HttpClient
@@ -10696,7 +10697,7 @@ export type DeletePartitionError =
  * Deletes a specified partition.
  */
 export const deletePartition: API.OperationMethod<
-  DeletePartitionRequest,
+  DeletePartitionRequest & RegionInput,
   DeletePartitionResponse,
   DeletePartitionError,
   Credentials | HttpClient.HttpClient
@@ -10728,7 +10729,7 @@ export type DeletePartitionIndexError =
  * Deletes a specified partition index from an existing table.
  */
 export const deletePartitionIndex: API.OperationMethod<
-  DeletePartitionIndexRequest,
+  DeletePartitionIndexRequest & RegionInput,
   DeletePartitionIndexResponse,
   DeletePartitionIndexError,
   Credentials | HttpClient.HttpClient
@@ -10760,7 +10761,7 @@ export type DeleteRegistryError =
  * Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the `GetRegistry` API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the `UpdateRegistry`, `CreateSchema`, `UpdateSchema`, and `RegisterSchemaVersion` APIs.
  */
 export const deleteRegistry: API.OperationMethod<
-  DeleteRegistryInput,
+  DeleteRegistryInput & RegionInput,
   DeleteRegistryResponse,
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
@@ -10791,7 +10792,7 @@ export type DeleteResourcePolicyError =
  * Deletes a specified policy.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -10822,7 +10823,7 @@ export type DeleteSchemaError =
  * Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call `GetSchema` API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the `GetSchemaByDefinition`, and `RegisterSchemaVersion` APIs.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaInput,
+  DeleteSchemaInput & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -10858,7 +10859,7 @@ export type DeleteSchemaVersionsError =
  * If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
  */
 export const deleteSchemaVersions: API.OperationMethod<
-  DeleteSchemaVersionsInput,
+  DeleteSchemaVersionsInput & RegionInput,
   DeleteSchemaVersionsResponse,
   DeleteSchemaVersionsError,
   Credentials | HttpClient.HttpClient
@@ -10888,7 +10889,7 @@ export type DeleteSecurityConfigurationError =
  * Deletes a specified security configuration.
  */
 export const deleteSecurityConfiguration: API.OperationMethod<
-  DeleteSecurityConfigurationRequest,
+  DeleteSecurityConfigurationRequest & RegionInput,
   DeleteSecurityConfigurationResponse,
   DeleteSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10920,7 +10921,7 @@ export type DeleteSessionError =
  * Deletes the session.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -10966,7 +10967,7 @@ export type DeleteTableError =
  * table.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -11001,7 +11002,7 @@ export type DeleteTableOptimizerError =
  * Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
  */
 export const deleteTableOptimizer: API.OperationMethod<
-  DeleteTableOptimizerRequest,
+  DeleteTableOptimizerRequest & RegionInput,
   DeleteTableOptimizerResponse,
   DeleteTableOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -11032,7 +11033,7 @@ export type DeleteTableVersionError =
  * Deletes a specified version of a table.
  */
 export const deleteTableVersion: API.OperationMethod<
-  DeleteTableVersionRequest,
+  DeleteTableVersionRequest & RegionInput,
   DeleteTableVersionResponse,
   DeleteTableVersionError,
   Credentials | HttpClient.HttpClient
@@ -11063,7 +11064,7 @@ export type DeleteTriggerError =
  * exception is thrown.
  */
 export const deleteTrigger: API.OperationMethod<
-  DeleteTriggerRequest,
+  DeleteTriggerRequest & RegionInput,
   DeleteTriggerResponse,
   DeleteTriggerError,
   Credentials | HttpClient.HttpClient
@@ -11093,7 +11094,7 @@ export type DeleteUsageProfileError =
  * Deletes the Glue specified usage profile.
  */
 export const deleteUsageProfile: API.OperationMethod<
-  DeleteUsageProfileRequest,
+  DeleteUsageProfileRequest & RegionInput,
   DeleteUsageProfileResponse,
   DeleteUsageProfileError,
   Credentials | HttpClient.HttpClient
@@ -11123,7 +11124,7 @@ export type DeleteUserDefinedFunctionError =
  * Deletes an existing function definition from the Data Catalog.
  */
 export const deleteUserDefinedFunction: API.OperationMethod<
-  DeleteUserDefinedFunctionRequest,
+  DeleteUserDefinedFunctionRequest & RegionInput,
   DeleteUserDefinedFunctionResponse,
   DeleteUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
@@ -11153,7 +11154,7 @@ export type DeleteWorkflowError =
  * Deletes a workflow.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -11185,7 +11186,7 @@ export type DescribeConnectionTypeError =
  * See also: `ListConnectionTypes`, `RegisterConnectionType`, `DeleteConnectionType`
  */
 export const describeConnectionType: API.OperationMethod<
-  DescribeConnectionTypeRequest,
+  DescribeConnectionTypeRequest & RegionInput,
   DescribeConnectionTypeResponse,
   DescribeConnectionTypeError,
   Credentials | HttpClient.HttpClient
@@ -11220,7 +11221,7 @@ export type DescribeEntityError =
  * The response includes all the fields which make up the entity.
  */
 export const describeEntity: API.PaginatedOperationMethod<
-  DescribeEntityRequest,
+  DescribeEntityRequest & RegionInput,
   DescribeEntityResponse,
   DescribeEntityError,
   Credentials | HttpClient.HttpClient,
@@ -11260,7 +11261,7 @@ export type DescribeInboundIntegrationsError =
  * Returns a list of inbound integrations for the specified integration.
  */
 export const describeInboundIntegrations: API.OperationMethod<
-  DescribeInboundIntegrationsRequest,
+  DescribeInboundIntegrationsRequest & RegionInput,
   DescribeInboundIntegrationsResponse,
   DescribeInboundIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -11298,7 +11299,7 @@ export type DescribeIntegrationsError =
  * The API is used to retrieve a list of integrations.
  */
 export const describeIntegrations: API.OperationMethod<
-  DescribeIntegrationsRequest,
+  DescribeIntegrationsRequest & RegionInput,
   DescribeIntegrationsResponse,
   DescribeIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -11333,7 +11334,7 @@ export type DisassociateGlossaryTermsError =
  * Removes the association of one or more glossary terms from an asset in Glue Data Catalog.
  */
 export const disassociateGlossaryTerms: API.OperationMethod<
-  DisassociateGlossaryTermsRequest,
+  DisassociateGlossaryTermsRequest & RegionInput,
   DisassociateGlossaryTermsResponse,
   DisassociateGlossaryTermsError,
   Credentials | HttpClient.HttpClient
@@ -11369,7 +11370,7 @@ export type GetAssetError =
  * Retrieves the metadata for an asset in Glue Data Catalog, including its forms, additional attachments, and associated glossary terms.
  */
 export const getAsset: API.OperationMethod<
-  GetAssetInput,
+  GetAssetInput & RegionInput,
   GetAssetOutput,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -11401,7 +11402,7 @@ export type GetAssetTypeError =
  * Retrieves an asset type in Glue Data Catalog by its identifier.
  */
 export const getAssetType: API.OperationMethod<
-  GetAssetTypeRequest,
+  GetAssetTypeRequest & RegionInput,
   GetAssetTypeResponse,
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -11432,7 +11433,7 @@ export type GetBlueprintError =
  * Retrieves the details of a blueprint.
  */
 export const getBlueprint: API.OperationMethod<
-  GetBlueprintRequest,
+  GetBlueprintRequest & RegionInput,
   GetBlueprintResponse,
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -11461,7 +11462,7 @@ export type GetBlueprintRunError =
  * Retrieves the details of a blueprint run.
  */
 export const getBlueprintRun: API.OperationMethod<
-  GetBlueprintRunRequest,
+  GetBlueprintRunRequest & RegionInput,
   GetBlueprintRunResponse,
   GetBlueprintRunError,
   Credentials | HttpClient.HttpClient
@@ -11486,7 +11487,7 @@ export type GetBlueprintRunsError =
  * Retrieves the details of blueprint runs for a specified blueprint.
  */
 export const getBlueprintRuns: API.PaginatedOperationMethod<
-  GetBlueprintRunsRequest,
+  GetBlueprintRunsRequest & RegionInput,
   GetBlueprintRunsResponse,
   GetBlueprintRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11526,7 +11527,7 @@ export type GetCatalogError =
  * The name of the Catalog to retrieve. This should be all lowercase.
  */
 export const getCatalog: API.OperationMethod<
-  GetCatalogRequest,
+  GetCatalogRequest & RegionInput,
   GetCatalogResponse,
   GetCatalogError,
   Credentials | HttpClient.HttpClient
@@ -11558,7 +11559,7 @@ export type GetCatalogImportStatusError =
  * Retrieves the status of a migration operation.
  */
 export const getCatalogImportStatus: API.OperationMethod<
-  GetCatalogImportStatusRequest,
+  GetCatalogImportStatusRequest & RegionInput,
   GetCatalogImportStatusResponse,
   GetCatalogImportStatusError,
   Credentials | HttpClient.HttpClient
@@ -11587,7 +11588,7 @@ export type GetCatalogsError =
  * Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
  */
 export const getCatalogs: API.OperationMethod<
-  GetCatalogsRequest,
+  GetCatalogsRequest & RegionInput,
   GetCatalogsResponse,
   GetCatalogsError,
   Credentials | HttpClient.HttpClient
@@ -11616,7 +11617,7 @@ export type GetClassifierError = EntityNotFoundException | OperationTimeoutExcep
  * Retrieve a classifier by name.
  */
 export const getClassifier: API.OperationMethod<
-  GetClassifierRequest,
+  GetClassifierRequest & RegionInput,
   GetClassifierResponse,
   GetClassifierError,
   Credentials | HttpClient.HttpClient
@@ -11636,7 +11637,7 @@ export type GetClassifiersError = OperationTimeoutException | CommonErrors;
  * Lists all classifier objects in the Data Catalog.
  */
 export const getClassifiers: API.PaginatedOperationMethod<
-  GetClassifiersRequest,
+  GetClassifiersRequest & RegionInput,
   GetClassifiersResponse,
   GetClassifiersError,
   Credentials | HttpClient.HttpClient,
@@ -11670,7 +11671,7 @@ export type GetColumnStatisticsForPartitionError =
  * The Identity and Access Management (IAM) permission required for this operation is `GetPartition`.
  */
 export const getColumnStatisticsForPartition: API.OperationMethod<
-  GetColumnStatisticsForPartitionRequest,
+  GetColumnStatisticsForPartitionRequest & RegionInput,
   GetColumnStatisticsForPartitionResponse,
   GetColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
@@ -11704,7 +11705,7 @@ export type GetColumnStatisticsForTableError =
  * The Identity and Access Management (IAM) permission required for this operation is `GetTable`.
  */
 export const getColumnStatisticsForTable: API.OperationMethod<
-  GetColumnStatisticsForTableRequest,
+  GetColumnStatisticsForTableRequest & RegionInput,
   GetColumnStatisticsForTableResponse,
   GetColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
@@ -11734,7 +11735,7 @@ export type GetColumnStatisticsTaskRunError =
  * Get the associated metadata/information for a task run, given a task run ID.
  */
 export const getColumnStatisticsTaskRun: API.OperationMethod<
-  GetColumnStatisticsTaskRunRequest,
+  GetColumnStatisticsTaskRunRequest & RegionInput,
   GetColumnStatisticsTaskRunResponse,
   GetColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -11754,7 +11755,7 @@ export type GetColumnStatisticsTaskRunsError = OperationTimeoutException | Commo
  * Retrieves information about all runs associated with the specified table.
  */
 export const getColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
-  GetColumnStatisticsTaskRunsRequest,
+  GetColumnStatisticsTaskRunsRequest & RegionInput,
   GetColumnStatisticsTaskRunsResponse,
   GetColumnStatisticsTaskRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11784,7 +11785,7 @@ export type GetColumnStatisticsTaskSettingsError =
  * Gets settings for a column statistics task.
  */
 export const getColumnStatisticsTaskSettings: API.OperationMethod<
-  GetColumnStatisticsTaskSettingsRequest,
+  GetColumnStatisticsTaskSettingsRequest & RegionInput,
   GetColumnStatisticsTaskSettingsResponse,
   GetColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
@@ -11809,7 +11810,7 @@ export type GetConnectionError =
  * Retrieves a connection definition from the Data Catalog.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -11839,7 +11840,7 @@ export type GetConnectionsError =
  * Retrieves a list of connection definitions from the Data Catalog.
  */
 export const getConnections: API.PaginatedOperationMethod<
-  GetConnectionsRequest,
+  GetConnectionsRequest & RegionInput,
   GetConnectionsResponse,
   GetConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -11870,7 +11871,7 @@ export type GetCrawlerError = EntityNotFoundException | OperationTimeoutExceptio
  * Retrieves metadata for a specified crawler.
  */
 export const getCrawler: API.OperationMethod<
-  GetCrawlerRequest,
+  GetCrawlerRequest & RegionInput,
   GetCrawlerResponse,
   GetCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -11890,7 +11891,7 @@ export type GetCrawlerMetricsError = OperationTimeoutException | CommonErrors;
  * Retrieves metrics about specified crawlers.
  */
 export const getCrawlerMetrics: API.PaginatedOperationMethod<
-  GetCrawlerMetricsRequest,
+  GetCrawlerMetricsRequest & RegionInput,
   GetCrawlerMetricsResponse,
   GetCrawlerMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -11917,7 +11918,7 @@ export type GetCrawlersError = OperationTimeoutException | CommonErrors;
  * account.
  */
 export const getCrawlers: API.PaginatedOperationMethod<
-  GetCrawlersRequest,
+  GetCrawlersRequest & RegionInput,
   GetCrawlersResponse,
   GetCrawlersError,
   Credentials | HttpClient.HttpClient,
@@ -11949,7 +11950,7 @@ export type GetCustomEntityTypeError =
  * Retrieves the details of a custom pattern by specifying its name.
  */
 export const getCustomEntityType: API.OperationMethod<
-  GetCustomEntityTypeRequest,
+  GetCustomEntityTypeRequest & RegionInput,
   GetCustomEntityTypeResponse,
   GetCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
@@ -11981,7 +11982,7 @@ export type GetDashboardUrlError =
  * Retrieves the URL for the Spark monitoring dashboard for a Glue resource.
  */
 export const getDashboardUrl: API.OperationMethod<
-  GetDashboardUrlRequest,
+  GetDashboardUrlRequest & RegionInput,
   GetDashboardUrlResponse,
   GetDashboardUrlError,
   Credentials | HttpClient.HttpClient
@@ -12015,7 +12016,7 @@ export type GetDatabaseError =
  * Retrieves the definition of a specified database.
  */
 export const getDatabase: API.OperationMethod<
-  GetDatabaseRequest,
+  GetDatabaseRequest & RegionInput,
   GetDatabaseResponse,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -12051,7 +12052,7 @@ export type GetDatabasesError =
  * Retrieves all databases defined in a given Data Catalog.
  */
 export const getDatabases: API.PaginatedOperationMethod<
-  GetDatabasesRequest,
+  GetDatabasesRequest & RegionInput,
   GetDatabasesResponse,
   GetDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -12089,7 +12090,7 @@ export type GetDataCatalogEncryptionSettingsError =
  * Retrieves the security configuration for a specified catalog.
  */
 export const getDataCatalogEncryptionSettings: API.OperationMethod<
-  GetDataCatalogEncryptionSettingsRequest,
+  GetDataCatalogEncryptionSettingsRequest & RegionInput,
   GetDataCatalogEncryptionSettingsResponse,
   GetDataCatalogEncryptionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -12114,7 +12115,7 @@ export type GetDataCatalogExportConfigurationError =
  * Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables.
  */
 export const getDataCatalogExportConfiguration: API.OperationMethod<
-  GetDataCatalogExportConfigurationInput,
+  GetDataCatalogExportConfigurationInput & RegionInput,
   GetDataCatalogExportConfigurationOutput,
   GetDataCatalogExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12146,7 +12147,7 @@ export type GetDataflowGraphError =
  * Transforms a Python script into a directed acyclic graph (DAG).
  */
 export const getDataflowGraph: API.OperationMethod<
-  GetDataflowGraphRequest,
+  GetDataflowGraphRequest & RegionInput,
   GetDataflowGraphResponse,
   GetDataflowGraphError,
   Credentials | HttpClient.HttpClient
@@ -12171,7 +12172,7 @@ export type GetDataQualityModelError =
  * Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
  */
 export const getDataQualityModel: API.OperationMethod<
-  GetDataQualityModelRequest,
+  GetDataQualityModelRequest & RegionInput,
   GetDataQualityModelResponse,
   GetDataQualityModelError,
   Credentials | HttpClient.HttpClient
@@ -12201,7 +12202,7 @@ export type GetDataQualityModelResultError =
  * Retrieve a statistic's predictions for a given Profile ID.
  */
 export const getDataQualityModelResult: API.OperationMethod<
-  GetDataQualityModelResultRequest,
+  GetDataQualityModelResultRequest & RegionInput,
   GetDataQualityModelResultResponse,
   GetDataQualityModelResultError,
   Credentials | HttpClient.HttpClient
@@ -12231,7 +12232,7 @@ export type GetDataQualityResultError =
  * Retrieves the result of a data quality rule evaluation.
  */
 export const getDataQualityResult: API.OperationMethod<
-  GetDataQualityResultRequest,
+  GetDataQualityResultRequest & RegionInput,
   GetDataQualityResultResponse,
   GetDataQualityResultError,
   Credentials | HttpClient.HttpClient
@@ -12261,7 +12262,7 @@ export type GetDataQualityResultV2Error =
  * Retrieves the result of a data quality rule evaluation published from any supported data platform.
  */
 export const getDataQualityResultV2: API.OperationMethod<
-  GetDataQualityResultV2Request,
+  GetDataQualityResultV2Request & RegionInput,
   GetDataQualityResultV2Response,
   GetDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
@@ -12291,7 +12292,7 @@ export type GetDataQualityRuleRecommendationRunError =
  * Gets the specified recommendation run that was used to generate rules.
  */
 export const getDataQualityRuleRecommendationRun: API.OperationMethod<
-  GetDataQualityRuleRecommendationRunRequest,
+  GetDataQualityRuleRecommendationRunRequest & RegionInput,
   GetDataQualityRuleRecommendationRunResponse,
   GetDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
@@ -12321,7 +12322,7 @@ export type GetDataQualityRulesetError =
  * Returns an existing ruleset by identifier or name.
  */
 export const getDataQualityRuleset: API.OperationMethod<
-  GetDataQualityRulesetRequest,
+  GetDataQualityRulesetRequest & RegionInput,
   GetDataQualityRulesetResponse,
   GetDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
@@ -12351,7 +12352,7 @@ export type GetDataQualityRulesetEvaluationRunError =
  * Retrieves a specific run where a ruleset is evaluated against a data source.
  */
 export const getDataQualityRulesetEvaluationRun: API.OperationMethod<
-  GetDataQualityRulesetEvaluationRunRequest,
+  GetDataQualityRulesetEvaluationRunRequest & RegionInput,
   GetDataQualityRulesetEvaluationRunResponse,
   GetDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
@@ -12385,7 +12386,7 @@ export type GetDevEndpointError =
  * non-VPC development endpoint, Glue returns only a public IP address.
  */
 export const getDevEndpoint: API.OperationMethod<
-  GetDevEndpointRequest,
+  GetDevEndpointRequest & RegionInput,
   GetDevEndpointResponse,
   GetDevEndpointError,
   Credentials | HttpClient.HttpClient
@@ -12419,7 +12420,7 @@ export type GetDevEndpointsError =
  * endpoint, Glue returns only a public IP address.
  */
 export const getDevEndpoints: API.PaginatedOperationMethod<
-  GetDevEndpointsRequest,
+  GetDevEndpointsRequest & RegionInput,
   GetDevEndpointsResponse,
   GetDevEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -12462,7 +12463,7 @@ export type GetEntityRecordsError =
  * Spark connectors generate schemas according to the same data type mapping as in the `DescribeEntity` API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
  */
 export const getEntityRecords: API.OperationMethod<
-  GetEntityRecordsRequest,
+  GetEntityRecordsRequest & RegionInput,
   GetEntityRecordsResponse,
   GetEntityRecordsError,
   Credentials | HttpClient.HttpClient
@@ -12496,7 +12497,7 @@ export type GetFormTypeError =
  * Retrieves a form type in Glue Data Catalog by its identifier.
  */
 export const getFormType: API.OperationMethod<
-  GetFormTypeRequest,
+  GetFormTypeRequest & RegionInput,
   GetFormTypeResponse,
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -12527,7 +12528,7 @@ export type GetGlossaryError =
  * Retrieves a business glossary in Glue Data Catalog by its identifier.
  */
 export const getGlossary: API.OperationMethod<
-  GetGlossaryRequest,
+  GetGlossaryRequest & RegionInput,
   GetGlossaryResponse,
   GetGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -12557,7 +12558,7 @@ export type GetGlossaryTermError =
  * Retrieves a glossary term in Glue Data Catalog by its identifier.
  */
 export const getGlossaryTerm: API.OperationMethod<
-  GetGlossaryTermRequest,
+  GetGlossaryTermRequest & RegionInput,
   GetGlossaryTermResponse,
   GetGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -12590,7 +12591,7 @@ export type GetGlueIdentityCenterConfigurationError =
  * application information.
  */
 export const getGlueIdentityCenterConfiguration: API.OperationMethod<
-  GetGlueIdentityCenterConfigurationRequest,
+  GetGlueIdentityCenterConfigurationRequest & RegionInput,
   GetGlueIdentityCenterConfigurationResponse,
   GetGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12625,7 +12626,7 @@ export type GetIntegrationResourcePropertyError =
  * This API is used for fetching the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target)
  */
 export const getIntegrationResourceProperty: API.OperationMethod<
-  GetIntegrationResourcePropertyRequest,
+  GetIntegrationResourcePropertyRequest & RegionInput,
   GetIntegrationResourcePropertyResponse,
   GetIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
@@ -12661,7 +12662,7 @@ export type GetIntegrationTablePropertiesError =
  * This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
  */
 export const getIntegrationTableProperties: API.OperationMethod<
-  GetIntegrationTablePropertiesRequest,
+  GetIntegrationTablePropertiesRequest & RegionInput,
   GetIntegrationTablePropertiesResponse,
   GetIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -12694,7 +12695,7 @@ export type GetJobError =
  * Retrieves an existing job definition.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -12733,7 +12734,7 @@ export type GetJobBookmarkError =
  * - Job structure
  */
 export const getJobBookmark: API.OperationMethod<
-  GetJobBookmarkRequest,
+  GetJobBookmarkRequest & RegionInput,
   GetJobBookmarkResponse,
   GetJobBookmarkError,
   Credentials | HttpClient.HttpClient
@@ -12764,7 +12765,7 @@ export type GetJobRunError =
  * Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
  */
 export const getJobRun: API.OperationMethod<
-  GetJobRunRequest,
+  GetJobRunRequest & RegionInput,
   GetJobRunResponse,
   GetJobRunError,
   Credentials | HttpClient.HttpClient
@@ -12796,7 +12797,7 @@ export type GetJobRunsError =
  * `GetJobRuns` returns the job runs in chronological order, with the newest jobs returned first.
  */
 export const getJobRuns: API.PaginatedOperationMethod<
-  GetJobRunsRequest,
+  GetJobRunsRequest & RegionInput,
   GetJobRunsResponse,
   GetJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -12833,7 +12834,7 @@ export type GetJobsError =
  * Retrieves all current job definitions.
  */
 export const getJobs: API.PaginatedOperationMethod<
-  GetJobsRequest,
+  GetJobsRequest & RegionInput,
   GetJobsResponse,
   GetJobsError,
   Credentials | HttpClient.HttpClient,
@@ -12870,7 +12871,7 @@ export type GetMappingError =
  * Creates mappings.
  */
 export const getMapping: API.OperationMethod<
-  GetMappingRequest,
+  GetMappingRequest & RegionInput,
   GetMappingResponse,
   GetMappingError,
   Credentials | HttpClient.HttpClient
@@ -12900,7 +12901,7 @@ export type GetMaterializedViewRefreshTaskRunError =
  * Get the associated metadata/information for a task run, given a task run ID.
  */
 export const getMaterializedViewRefreshTaskRun: API.OperationMethod<
-  GetMaterializedViewRefreshTaskRunRequest,
+  GetMaterializedViewRefreshTaskRunRequest & RegionInput,
   GetMaterializedViewRefreshTaskRunResponse,
   GetMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -12934,7 +12935,7 @@ export type GetMLTaskRunError =
  * `TransformID`.
  */
 export const getMLTaskRun: API.OperationMethod<
-  GetMLTaskRunRequest,
+  GetMLTaskRunRequest & RegionInput,
   GetMLTaskRunResponse,
   GetMLTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -12970,7 +12971,7 @@ export type GetMLTaskRunsError =
  * This operation returns a list of historic runs and must be paginated.
  */
 export const getMLTaskRuns: API.PaginatedOperationMethod<
-  GetMLTaskRunsRequest,
+  GetMLTaskRunsRequest & RegionInput,
   GetMLTaskRunsResponse,
   GetMLTaskRunsError,
   Credentials | HttpClient.HttpClient,
@@ -13010,7 +13011,7 @@ export type GetMLTransformError =
  * calling `GetMLTransform`.
  */
 export const getMLTransform: API.OperationMethod<
-  GetMLTransformRequest,
+  GetMLTransformRequest & RegionInput,
   GetMLTransformResponse,
   GetMLTransformError,
   Credentials | HttpClient.HttpClient
@@ -13044,7 +13045,7 @@ export type GetMLTransformsError =
  * calling `GetMLTransforms`.
  */
 export const getMLTransforms: API.PaginatedOperationMethod<
-  GetMLTransformsRequest,
+  GetMLTransformsRequest & RegionInput,
   GetMLTransformsResponse,
   GetMLTransformsError,
   Credentials | HttpClient.HttpClient,
@@ -13083,7 +13084,7 @@ export type GetPartitionError =
  * Retrieves information about a specified partition.
  */
 export const getPartition: API.OperationMethod<
-  GetPartitionRequest,
+  GetPartitionRequest & RegionInput,
   GetPartitionResponse,
   GetPartitionError,
   Credentials | HttpClient.HttpClient
@@ -13117,7 +13118,7 @@ export type GetPartitionIndexesError =
  * Retrieves the partition indexes associated with a table.
  */
 export const getPartitionIndexes: API.PaginatedOperationMethod<
-  GetPartitionIndexesRequest,
+  GetPartitionIndexesRequest & RegionInput,
   GetPartitionIndexesResponse,
   GetPartitionIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -13159,7 +13160,7 @@ export type GetPartitionsError =
  * Retrieves information about the partitions in a table.
  */
 export const getPartitions: API.PaginatedOperationMethod<
-  GetPartitionsRequest,
+  GetPartitionsRequest & RegionInput,
   GetPartitionsResponse,
   GetPartitionsError,
   Credentials | HttpClient.HttpClient,
@@ -13199,7 +13200,7 @@ export type GetPlanError =
  * Gets code to perform a specified mapping.
  */
 export const getPlan: API.OperationMethod<
-  GetPlanRequest,
+  GetPlanRequest & RegionInput,
   GetPlanResponse,
   GetPlanError,
   Credentials | HttpClient.HttpClient
@@ -13224,7 +13225,7 @@ export type GetRegistryError =
  * Describes the specified registry in detail.
  */
 export const getRegistry: API.OperationMethod<
-  GetRegistryInput,
+  GetRegistryInput & RegionInput,
   GetRegistryResponse,
   GetRegistryError,
   Credentials | HttpClient.HttpClient
@@ -13260,7 +13261,7 @@ export type GetResourcePoliciesError =
  * policy.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesRequest,
+  GetResourcePoliciesRequest & RegionInput,
   GetResourcePoliciesResponse,
   GetResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -13297,7 +13298,7 @@ export type GetResourcePolicyError =
  * Retrieves a specified resource policy.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -13327,7 +13328,7 @@ export type GetSchemaError =
  * Describes the specified schema in detail.
  */
 export const getSchema: API.OperationMethod<
-  GetSchemaInput,
+  GetSchemaInput & RegionInput,
   GetSchemaResponse,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
@@ -13357,7 +13358,7 @@ export type GetSchemaByDefinitionError =
  * Retrieves a schema by the `SchemaDefinition`. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the `SchemaName` or ARN (or the default registry, if none is supplied), that schema's metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in `Deleted` statuses will not be included in the results.
  */
 export const getSchemaByDefinition: API.OperationMethod<
-  GetSchemaByDefinitionInput,
+  GetSchemaByDefinitionInput & RegionInput,
   GetSchemaByDefinitionResponse,
   GetSchemaByDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -13387,7 +13388,7 @@ export type GetSchemaVersionError =
  * Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
  */
 export const getSchemaVersion: API.OperationMethod<
-  GetSchemaVersionInput,
+  GetSchemaVersionInput & RegionInput,
   GetSchemaVersionResponse,
   GetSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -13419,7 +13420,7 @@ export type GetSchemaVersionsDiffError =
  * This API allows you to compare two schema versions between two schema definitions under the same schema.
  */
 export const getSchemaVersionsDiff: API.OperationMethod<
-  GetSchemaVersionsDiffInput,
+  GetSchemaVersionsDiffInput & RegionInput,
   GetSchemaVersionsDiffResponse,
   GetSchemaVersionsDiffError,
   Credentials | HttpClient.HttpClient
@@ -13449,7 +13450,7 @@ export type GetSecurityConfigurationError =
  * Retrieves a specified security configuration.
  */
 export const getSecurityConfiguration: API.OperationMethod<
-  GetSecurityConfigurationRequest,
+  GetSecurityConfigurationRequest & RegionInput,
   GetSecurityConfigurationResponse,
   GetSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -13479,7 +13480,7 @@ export type GetSecurityConfigurationsError =
  * Retrieves a list of all security configurations.
  */
 export const getSecurityConfigurations: API.PaginatedOperationMethod<
-  GetSecurityConfigurationsRequest,
+  GetSecurityConfigurationsRequest & RegionInput,
   GetSecurityConfigurationsResponse,
   GetSecurityConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -13517,7 +13518,7 @@ export type GetSessionError =
  * Retrieves the session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -13551,7 +13552,7 @@ export type GetSessionEndpointError =
  * Returns the Spark Connect endpoint URL and authentication token for an interactive session.
  */
 export const getSessionEndpoint: API.OperationMethod<
-  GetSessionEndpointRequest,
+  GetSessionEndpointRequest & RegionInput,
   GetSessionEndpointResponse,
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -13586,7 +13587,7 @@ export type GetStatementError =
  * Retrieves the statement.
  */
 export const getStatement: API.OperationMethod<
-  GetStatementRequest,
+  GetStatementRequest & RegionInput,
   GetStatementResponse,
   GetStatementError,
   Credentials | HttpClient.HttpClient
@@ -13619,7 +13620,7 @@ export type GetSystemLogsForJobRunError =
  * Retrieves the system logs for a job run.
  */
 export const getSystemLogsForJobRun: API.OperationMethod<
-  GetSystemLogsForJobRunRequest,
+  GetSystemLogsForJobRunRequest & RegionInput,
   GetSystemLogsForJobRunResponse,
   GetSystemLogsForJobRunError,
   Credentials | HttpClient.HttpClient
@@ -13650,7 +13651,7 @@ export type GetSystemLogsForSessionError =
  * Retrieves the system logs for an interactive session.
  */
 export const getSystemLogsForSession: API.OperationMethod<
-  GetSystemLogsForSessionRequest,
+  GetSystemLogsForSessionRequest & RegionInput,
   GetSystemLogsForSessionResponse,
   GetSystemLogsForSessionError,
   Credentials | HttpClient.HttpClient
@@ -13685,7 +13686,7 @@ export type GetTableError =
  * a specified table.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -13720,7 +13721,7 @@ export type GetTableOptimizerError =
  * Returns the configuration of all optimizers associated with a specified table.
  */
 export const getTableOptimizer: API.OperationMethod<
-  GetTableOptimizerRequest,
+  GetTableOptimizerRequest & RegionInput,
   GetTableOptimizerResponse,
   GetTableOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -13755,7 +13756,7 @@ export type GetTablesError =
  * `Database`.
  */
 export const getTables: API.PaginatedOperationMethod<
-  GetTablesRequest,
+  GetTablesRequest & RegionInput,
   GetTablesResponse,
   GetTablesError,
   Credentials | HttpClient.HttpClient,
@@ -13795,7 +13796,7 @@ export type GetTableVersionError =
  * Retrieves a specified version of a table.
  */
 export const getTableVersion: API.OperationMethod<
-  GetTableVersionRequest,
+  GetTableVersionRequest & RegionInput,
   GetTableVersionResponse,
   GetTableVersionError,
   Credentials | HttpClient.HttpClient
@@ -13828,7 +13829,7 @@ export type GetTableVersionsError =
  * a specified table.
  */
 export const getTableVersions: API.PaginatedOperationMethod<
-  GetTableVersionsRequest,
+  GetTableVersionsRequest & RegionInput,
   GetTableVersionsResponse,
   GetTableVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -13865,7 +13866,7 @@ export type GetTagsError =
  * Retrieves a list of tags associated with a resource.
  */
 export const getTags: API.OperationMethod<
-  GetTagsRequest,
+  GetTagsRequest & RegionInput,
   GetTagsResponse,
   GetTagsError,
   Credentials | HttpClient.HttpClient
@@ -13895,7 +13896,7 @@ export type GetTriggerError =
  * Retrieves the definition of a trigger.
  */
 export const getTrigger: API.OperationMethod<
-  GetTriggerRequest,
+  GetTriggerRequest & RegionInput,
   GetTriggerResponse,
   GetTriggerError,
   Credentials | HttpClient.HttpClient
@@ -13925,7 +13926,7 @@ export type GetTriggersError =
  * Gets all the triggers associated with a job.
  */
 export const getTriggers: API.PaginatedOperationMethod<
-  GetTriggersRequest,
+  GetTriggersRequest & RegionInput,
   GetTriggersResponse,
   GetTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -13969,7 +13970,7 @@ export type GetUnfilteredPartitionMetadataError =
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartition`.
  */
 export const getUnfilteredPartitionMetadata: API.OperationMethod<
-  GetUnfilteredPartitionMetadataRequest,
+  GetUnfilteredPartitionMetadataRequest & RegionInput,
   GetUnfilteredPartitionMetadataResponse,
   GetUnfilteredPartitionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -14010,7 +14011,7 @@ export type GetUnfilteredPartitionsMetadataError =
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartitions`.
  */
 export const getUnfilteredPartitionsMetadata: API.PaginatedOperationMethod<
-  GetUnfilteredPartitionsMetadataRequest,
+  GetUnfilteredPartitionsMetadataRequest & RegionInput,
   GetUnfilteredPartitionsMetadataResponse,
   GetUnfilteredPartitionsMetadataError,
   Credentials | HttpClient.HttpClient,
@@ -14056,7 +14057,7 @@ export type GetUnfilteredTableMetadataError =
  * For IAM authorization, the public IAM action associated with this API is `glue:GetTable`.
  */
 export const getUnfilteredTableMetadata: API.OperationMethod<
-  GetUnfilteredTableMetadataRequest,
+  GetUnfilteredTableMetadataRequest & RegionInput,
   GetUnfilteredTableMetadataResponse,
   GetUnfilteredTableMetadataError,
   Credentials | HttpClient.HttpClient
@@ -14091,7 +14092,7 @@ export type GetUsageProfileError =
  * Retrieves information about the specified Glue usage profile.
  */
 export const getUsageProfile: API.OperationMethod<
-  GetUsageProfileRequest,
+  GetUsageProfileRequest & RegionInput,
   GetUsageProfileResponse,
   GetUsageProfileError,
   Credentials | HttpClient.HttpClient
@@ -14123,7 +14124,7 @@ export type GetUserDefinedFunctionError =
  * Retrieves a specified function definition from the Data Catalog.
  */
 export const getUserDefinedFunction: API.OperationMethod<
-  GetUserDefinedFunctionRequest,
+  GetUserDefinedFunctionRequest & RegionInput,
   GetUserDefinedFunctionResponse,
   GetUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
@@ -14155,7 +14156,7 @@ export type GetUserDefinedFunctionsError =
  * Retrieves multiple function definitions from the Data Catalog.
  */
 export const getUserDefinedFunctions: API.PaginatedOperationMethod<
-  GetUserDefinedFunctionsRequest,
+  GetUserDefinedFunctionsRequest & RegionInput,
   GetUserDefinedFunctionsResponse,
   GetUserDefinedFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -14192,7 +14193,7 @@ export type GetWorkflowError =
  * Retrieves resource metadata for a workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -14222,7 +14223,7 @@ export type GetWorkflowRunError =
  * Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
  */
 export const getWorkflowRun: API.OperationMethod<
-  GetWorkflowRunRequest,
+  GetWorkflowRunRequest & RegionInput,
   GetWorkflowRunResponse,
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -14252,7 +14253,7 @@ export type GetWorkflowRunPropertiesError =
  * Retrieves the workflow run properties which were set during the run.
  */
 export const getWorkflowRunProperties: API.OperationMethod<
-  GetWorkflowRunPropertiesRequest,
+  GetWorkflowRunPropertiesRequest & RegionInput,
   GetWorkflowRunPropertiesResponse,
   GetWorkflowRunPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -14282,7 +14283,7 @@ export type GetWorkflowRunsError =
  * Retrieves metadata for all runs of a given workflow.
  */
 export const getWorkflowRuns: API.PaginatedOperationMethod<
-  GetWorkflowRunsRequest,
+  GetWorkflowRunsRequest & RegionInput,
   GetWorkflowRunsResponse,
   GetWorkflowRunsError,
   Credentials | HttpClient.HttpClient,
@@ -14317,7 +14318,7 @@ export type ImportCatalogToGlueError =
  * Imports an existing Amazon Athena Data Catalog to Glue.
  */
 export const importCatalogToGlue: API.OperationMethod<
-  ImportCatalogToGlueRequest,
+  ImportCatalogToGlueRequest & RegionInput,
   ImportCatalogToGlueResponse,
   ImportCatalogToGlueError,
   Credentials | HttpClient.HttpClient
@@ -14342,7 +14343,7 @@ export type ListAssetTypesError =
  * Lists the asset types defined in Glue Data Catalog.
  */
 export const listAssetTypes: API.PaginatedOperationMethod<
-  ListAssetTypesRequest,
+  ListAssetTypesRequest & RegionInput,
   ListAssetTypesResponse,
   ListAssetTypesError,
   Credentials | HttpClient.HttpClient,
@@ -14378,7 +14379,7 @@ export type ListBlueprintsError =
  * Lists all the blueprint names in an account.
  */
 export const listBlueprints: API.PaginatedOperationMethod<
-  ListBlueprintsRequest,
+  ListBlueprintsRequest & RegionInput,
   ListBlueprintsResponse,
   ListBlueprintsError,
   Credentials | HttpClient.HttpClient,
@@ -14405,7 +14406,7 @@ export type ListColumnStatisticsTaskRunsError = OperationTimeoutException | Comm
  * List all task runs for a particular account.
  */
 export const listColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
-  ListColumnStatisticsTaskRunsRequest,
+  ListColumnStatisticsTaskRunsRequest & RegionInput,
   ListColumnStatisticsTaskRunsResponse,
   ListColumnStatisticsTaskRunsError,
   Credentials | HttpClient.HttpClient,
@@ -14436,7 +14437,7 @@ export type ListConnectionTypesError =
  * See also: `DescribeConnectionType`, `RegisterConnectionType`, `DeleteConnectionType`
  */
 export const listConnectionTypes: API.PaginatedOperationMethod<
-  ListConnectionTypesRequest,
+  ListConnectionTypesRequest & RegionInput,
   ListConnectionTypesResponse,
   ListConnectionTypesError,
   Credentials | HttpClient.HttpClient,
@@ -14469,7 +14470,7 @@ export type ListCrawlersError = OperationTimeoutException | CommonErrors;
  * filtering, only resources with the tag are retrieved.
  */
 export const listCrawlers: API.PaginatedOperationMethod<
-  ListCrawlersRequest,
+  ListCrawlersRequest & RegionInput,
   ListCrawlersResponse,
   ListCrawlersError,
   Credentials | HttpClient.HttpClient,
@@ -14509,7 +14510,7 @@ export type ListCrawlsError =
  * - Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
  */
 export const listCrawls: API.OperationMethod<
-  ListCrawlsRequest,
+  ListCrawlsRequest & RegionInput,
   ListCrawlsResponse,
   ListCrawlsError,
   Credentials | HttpClient.HttpClient
@@ -14533,7 +14534,7 @@ export type ListCustomEntityTypesError =
  * Lists all the custom patterns that have been created.
  */
 export const listCustomEntityTypes: API.PaginatedOperationMethod<
-  ListCustomEntityTypesRequest,
+  ListCustomEntityTypesRequest & RegionInput,
   ListCustomEntityTypesResponse,
   ListCustomEntityTypesError,
   Credentials | HttpClient.HttpClient,
@@ -14563,7 +14564,7 @@ export type ListDataQualityResultsError =
  * Returns all data quality execution results for your account.
  */
 export const listDataQualityResults: API.PaginatedOperationMethod<
-  ListDataQualityResultsRequest,
+  ListDataQualityResultsRequest & RegionInput,
   ListDataQualityResultsResponse,
   ListDataQualityResultsError,
   Credentials | HttpClient.HttpClient,
@@ -14593,7 +14594,7 @@ export type ListDataQualityResultsV2Error =
  * Returns a paginated list of data quality execution results for your account, filtered by the specified criteria. Use the `NextToken` parameter to retrieve additional results.
  */
 export const listDataQualityResultsV2: API.PaginatedOperationMethod<
-  ListDataQualityResultsV2Request,
+  ListDataQualityResultsV2Request & RegionInput,
   ListDataQualityResultsV2Response,
   ListDataQualityResultsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -14624,7 +14625,7 @@ export type ListDataQualityRuleRecommendationRunsError =
  * Lists the recommendation runs meeting the filter criteria.
  */
 export const listDataQualityRuleRecommendationRuns: API.PaginatedOperationMethod<
-  ListDataQualityRuleRecommendationRunsRequest,
+  ListDataQualityRuleRecommendationRunsRequest & RegionInput,
   ListDataQualityRuleRecommendationRunsResponse,
   ListDataQualityRuleRecommendationRunsError,
   Credentials | HttpClient.HttpClient,
@@ -14654,7 +14655,7 @@ export type ListDataQualityRulesetEvaluationRunsError =
  * Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
  */
 export const listDataQualityRulesetEvaluationRuns: API.PaginatedOperationMethod<
-  ListDataQualityRulesetEvaluationRunsRequest,
+  ListDataQualityRulesetEvaluationRunsRequest & RegionInput,
   ListDataQualityRulesetEvaluationRunsResponse,
   ListDataQualityRulesetEvaluationRunsError,
   Credentials | HttpClient.HttpClient,
@@ -14685,7 +14686,7 @@ export type ListDataQualityRulesetsError =
  * Returns a paginated list of rulesets for the specified list of Glue tables.
  */
 export const listDataQualityRulesets: API.PaginatedOperationMethod<
-  ListDataQualityRulesetsRequest,
+  ListDataQualityRulesetsRequest & RegionInput,
   ListDataQualityRulesetsResponse,
   ListDataQualityRulesetsError,
   Credentials | HttpClient.HttpClient,
@@ -14719,7 +14720,7 @@ export type ListDataQualityStatisticAnnotationsError =
  * Retrieve annotations for a data quality statistic.
  */
 export const listDataQualityStatisticAnnotations: API.OperationMethod<
-  ListDataQualityStatisticAnnotationsRequest,
+  ListDataQualityStatisticAnnotationsRequest & RegionInput,
   ListDataQualityStatisticAnnotationsResponse,
   ListDataQualityStatisticAnnotationsError,
   Credentials | HttpClient.HttpClient
@@ -14743,7 +14744,7 @@ export type ListDataQualityStatisticsError =
  * Retrieves a list of data quality statistics.
  */
 export const listDataQualityStatistics: API.OperationMethod<
-  ListDataQualityStatisticsRequest,
+  ListDataQualityStatisticsRequest & RegionInput,
   ListDataQualityStatisticsResponse,
   ListDataQualityStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -14774,7 +14775,7 @@ export type ListDevEndpointsError =
  * filtering, only resources with the tag are retrieved.
  */
 export const listDevEndpoints: API.PaginatedOperationMethod<
-  ListDevEndpointsRequest,
+  ListDevEndpointsRequest & RegionInput,
   ListDevEndpointsResponse,
   ListDevEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -14813,7 +14814,7 @@ export type ListEntitiesError =
  * Returns the available entities supported by the connection type.
  */
 export const listEntities: API.PaginatedOperationMethod<
-  ListEntitiesRequest,
+  ListEntitiesRequest & RegionInput,
   ListEntitiesResponse,
   ListEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -14848,7 +14849,7 @@ export type ListFormTypesError =
  * Lists the form types defined in Glue Data Catalog.
  */
 export const listFormTypes: API.PaginatedOperationMethod<
-  ListFormTypesRequest,
+  ListFormTypesRequest & RegionInput,
   ListFormTypesResponse,
   ListFormTypesError,
   Credentials | HttpClient.HttpClient,
@@ -14885,7 +14886,7 @@ export type ListGlossariesError =
  * Lists business glossaries in Glue Data Catalog.
  */
 export const listGlossaries: API.PaginatedOperationMethod<
-  ListGlossariesRequest,
+  ListGlossariesRequest & RegionInput,
   ListGlossariesResponse,
   ListGlossariesError,
   Credentials | HttpClient.HttpClient,
@@ -14922,7 +14923,7 @@ export type ListGlossaryTermsError =
  * Lists glossary terms within a business glossary in Glue Data Catalog.
  */
 export const listGlossaryTerms: API.PaginatedOperationMethod<
-  ListGlossaryTermsRequest,
+  ListGlossaryTermsRequest & RegionInput,
   ListGlossaryTermsResponse,
   ListGlossaryTermsError,
   Credentials | HttpClient.HttpClient,
@@ -14962,7 +14963,7 @@ export type ListIntegrationResourcePropertiesError =
  * List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
  */
 export const listIntegrationResourceProperties: API.OperationMethod<
-  ListIntegrationResourcePropertiesRequest,
+  ListIntegrationResourcePropertiesRequest & RegionInput,
   ListIntegrationResourcePropertiesResponse,
   ListIntegrationResourcePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -14998,7 +14999,7 @@ export type ListIntegrationTablePropertiesError =
  * Lists the integration table properties in your account. This operation supports filtering and pagination.
  */
 export const listIntegrationTableProperties: API.OperationMethod<
-  ListIntegrationTablePropertiesRequest,
+  ListIntegrationTablePropertiesRequest & RegionInput,
   ListIntegrationTablePropertiesResponse,
   ListIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -15032,7 +15033,7 @@ export type ListIterableFormsError =
  * Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset.
  */
 export const listIterableForms: API.PaginatedOperationMethod<
-  ListIterableFormsRequest,
+  ListIterableFormsRequest & RegionInput,
   ListIterableFormsResponse,
   ListIterableFormsError,
   Credentials | HttpClient.HttpClient,
@@ -15077,7 +15078,7 @@ export type ListJobsError =
  * filtering, only resources with the tag are retrieved.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -15113,7 +15114,7 @@ export type ListMaterializedViewRefreshTaskRunsError =
  * List all task runs for a particular account.
  */
 export const listMaterializedViewRefreshTaskRuns: API.PaginatedOperationMethod<
-  ListMaterializedViewRefreshTaskRunsRequest,
+  ListMaterializedViewRefreshTaskRunsRequest & RegionInput,
   ListMaterializedViewRefreshTaskRunsResponse,
   ListMaterializedViewRefreshTaskRunsError,
   Credentials | HttpClient.HttpClient,
@@ -15148,7 +15149,7 @@ export type ListMLTransformsError =
  * filtering, only resources with the tags are retrieved.
  */
 export const listMLTransforms: API.PaginatedOperationMethod<
-  ListMLTransformsRequest,
+  ListMLTransformsRequest & RegionInput,
   ListMLTransformsResponse,
   ListMLTransformsError,
   Credentials | HttpClient.HttpClient,
@@ -15183,7 +15184,7 @@ export type ListRegistriesError =
  * Returns a list of registries that you have created, with minimal registry information. Registries in the `Deleting` status will not be included in the results. Empty results will be returned if there are no registries available.
  */
 export const listRegistries: API.PaginatedOperationMethod<
-  ListRegistriesInput,
+  ListRegistriesInput & RegionInput,
   ListRegistriesResponse,
   ListRegistriesError,
   Credentials | HttpClient.HttpClient,
@@ -15217,7 +15218,7 @@ export type ListSchemasError =
  * When the `RegistryId` is not provided, all the schemas across registries will be part of the API response.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasInput,
+  ListSchemasInput & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -15254,7 +15255,7 @@ export type ListSchemaVersionsError =
  * Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
  */
 export const listSchemaVersions: API.PaginatedOperationMethod<
-  ListSchemaVersionsInput,
+  ListSchemaVersionsInput & RegionInput,
   ListSchemaVersionsResponse,
   ListSchemaVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -15291,7 +15292,7 @@ export type ListSessionsError =
  * Retrieve a list of sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -15329,7 +15330,7 @@ export type ListStatementsError =
  * Lists statements for the session.
  */
 export const listStatements: API.OperationMethod<
-  ListStatementsRequest,
+  ListStatementsRequest & RegionInput,
   ListStatementsResponse,
   ListStatementsError,
   Credentials | HttpClient.HttpClient
@@ -15363,7 +15364,7 @@ export type ListTableOptimizerRunsError =
  * Lists the history of previous optimizer runs for a specific table.
  */
 export const listTableOptimizerRuns: API.PaginatedOperationMethod<
-  ListTableOptimizerRunsRequest,
+  ListTableOptimizerRunsRequest & RegionInput,
   ListTableOptimizerRunsResponse,
   ListTableOptimizerRunsError,
   Credentials | HttpClient.HttpClient,
@@ -15406,7 +15407,7 @@ export type ListTriggersError =
  * filtering, only resources with the tag are retrieved.
  */
 export const listTriggers: API.PaginatedOperationMethod<
-  ListTriggersRequest,
+  ListTriggersRequest & RegionInput,
   ListTriggersResponse,
   ListTriggersError,
   Credentials | HttpClient.HttpClient,
@@ -15443,7 +15444,7 @@ export type ListUsageProfilesError =
  * List all the Glue usage profiles.
  */
 export const listUsageProfiles: API.PaginatedOperationMethod<
-  ListUsageProfilesRequest,
+  ListUsageProfilesRequest & RegionInput,
   ListUsageProfilesResponse,
   ListUsageProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -15479,7 +15480,7 @@ export type ListWorkflowsError =
  * Lists names of workflows created in the account.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -15518,7 +15519,7 @@ export type ModifyIntegrationError =
  * Modifies a Zero-ETL integration in the caller's account.
  */
 export const modifyIntegration: API.OperationMethod<
-  ModifyIntegrationRequest,
+  ModifyIntegrationRequest & RegionInput,
   ModifyIntegrationResponse,
   ModifyIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -15558,7 +15559,7 @@ export type PublishDataQualityResultV2Error =
  * AWS Glue Data Quality uses this operation to publish a data quality result.
  */
 export const publishDataQualityResultV2: API.OperationMethod<
-  PublishDataQualityResultV2Request,
+  PublishDataQualityResultV2Request & RegionInput,
   PublishDataQualityResultV2Response,
   PublishDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
@@ -15591,7 +15592,7 @@ export type PutAssetError =
  * Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created.
  */
 export const putAsset: API.OperationMethod<
-  PutAssetRequest,
+  PutAssetRequest & RegionInput,
   PutAssetResponse,
   PutAssetError,
   Credentials | HttpClient.HttpClient
@@ -15625,7 +15626,7 @@ export type PutAssetTypeError =
  * Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated.
  */
 export const putAssetType: API.OperationMethod<
-  PutAssetTypeRequest,
+  PutAssetTypeRequest & RegionInput,
   PutAssetTypeResponse,
   PutAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -15659,7 +15660,7 @@ export type PutAttachmentError =
  * Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten.
  */
 export const putAttachment: API.OperationMethod<
-  PutAttachmentRequest,
+  PutAttachmentRequest & RegionInput,
   PutAttachmentResponse,
   PutAttachmentError,
   Credentials | HttpClient.HttpClient
@@ -15694,7 +15695,7 @@ export type PutDataCatalogEncryptionSettingsError =
  * set, the specified encryption is applied to every catalog write thereafter.
  */
 export const putDataCatalogEncryptionSettings: API.OperationMethod<
-  PutDataCatalogEncryptionSettingsRequest,
+  PutDataCatalogEncryptionSettingsRequest & RegionInput,
   PutDataCatalogEncryptionSettingsResponse,
   PutDataCatalogEncryptionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -15720,7 +15721,7 @@ export type PutDataCatalogExportConfigurationError =
  * Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables.
  */
 export const putDataCatalogExportConfiguration: API.OperationMethod<
-  PutDataCatalogExportConfigurationInput,
+  PutDataCatalogExportConfigurationInput & RegionInput,
   PutDataCatalogExportConfigurationOutput,
   PutDataCatalogExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -15753,7 +15754,7 @@ export type PutDataQualityProfileAnnotationError =
  * Annotate all datapoints for a Profile.
  */
 export const putDataQualityProfileAnnotation: API.OperationMethod<
-  PutDataQualityProfileAnnotationRequest,
+  PutDataQualityProfileAnnotationRequest & RegionInput,
   PutDataQualityProfileAnnotationResponse,
   PutDataQualityProfileAnnotationError,
   Credentials | HttpClient.HttpClient
@@ -15779,7 +15780,7 @@ export type PutFormTypeError =
  * Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets.
  */
 export const putFormType: API.OperationMethod<
-  PutFormTypeRequest,
+  PutFormTypeRequest & RegionInput,
   PutFormTypeResponse,
   PutFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -15811,7 +15812,7 @@ export type PutResourcePolicyError =
  * Sets the Data Catalog resource policy for access control.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -15843,7 +15844,7 @@ export type PutSchemaVersionMetadataError =
  * Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
  */
 export const putSchemaVersionMetadata: API.OperationMethod<
-  PutSchemaVersionMetadataInput,
+  PutSchemaVersionMetadataInput & RegionInput,
   PutSchemaVersionMetadataResponse,
   PutSchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -15877,7 +15878,7 @@ export type PutWorkflowRunPropertiesError =
  * Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
  */
 export const putWorkflowRunProperties: API.OperationMethod<
-  PutWorkflowRunPropertiesRequest,
+  PutWorkflowRunPropertiesRequest & RegionInput,
   PutWorkflowRunPropertiesResponse,
   PutWorkflowRunPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -15909,7 +15910,7 @@ export type QuerySchemaVersionMetadataError =
  * Queries for the schema version metadata information.
  */
 export const querySchemaVersionMetadata: API.OperationMethod<
-  QuerySchemaVersionMetadataInput,
+  QuerySchemaVersionMetadataInput & RegionInput,
   QuerySchemaVersionMetadataResponse,
   QuerySchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -15940,7 +15941,7 @@ export type RegisterConnectionTypeError =
  * Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT Bearer, Authorization Code), and Custom Auth configurations.
  */
 export const registerConnectionType: API.OperationMethod<
-  RegisterConnectionTypeRequest,
+  RegisterConnectionTypeRequest & RegionInput,
   RegisterConnectionTypeResponse,
   RegisterConnectionTypeError,
   Credentials | HttpClient.HttpClient
@@ -15978,7 +15979,7 @@ export type RegisterSchemaVersionError =
  * If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
  */
 export const registerSchemaVersion: API.OperationMethod<
-  RegisterSchemaVersionInput,
+  RegisterSchemaVersionInput & RegionInput,
   RegisterSchemaVersionResponse,
   RegisterSchemaVersionError,
   Credentials | HttpClient.HttpClient
@@ -16009,7 +16010,7 @@ export type RemoveSchemaVersionMetadataError =
  * Removes a key value pair from the schema version metadata for the specified schema version ID.
  */
 export const removeSchemaVersionMetadata: API.OperationMethod<
-  RemoveSchemaVersionMetadataInput,
+  RemoveSchemaVersionMetadataInput & RegionInput,
   RemoveSchemaVersionMetadataResponse,
   RemoveSchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -16042,7 +16043,7 @@ export type ResetJobBookmarkError =
  * - Job structure
  */
 export const resetJobBookmark: API.OperationMethod<
-  ResetJobBookmarkRequest,
+  ResetJobBookmarkRequest & RegionInput,
   ResetJobBookmarkResponse,
   ResetJobBookmarkError,
   Credentials | HttpClient.HttpClient
@@ -16074,7 +16075,7 @@ export type ResumeWorkflowRunError =
  * Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
  */
 export const resumeWorkflowRun: API.OperationMethod<
-  ResumeWorkflowRunRequest,
+  ResumeWorkflowRunRequest & RegionInput,
   ResumeWorkflowRunResponse,
   ResumeWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -16112,7 +16113,7 @@ export type RunStatementError =
  * Executes the statement.
  */
 export const runStatement: API.OperationMethod<
-  RunStatementRequest,
+  RunStatementRequest & RegionInput,
   RunStatementResponse,
   RunStatementError,
   Credentials | HttpClient.HttpClient
@@ -16148,7 +16149,7 @@ export type SearchAssetsError =
  * Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
  */
 export const searchAssets: API.PaginatedOperationMethod<
-  SearchAssetsInput,
+  SearchAssetsInput & RegionInput,
   SearchAssetsOutput,
   SearchAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -16186,7 +16187,7 @@ export type SearchTablesError =
  * You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
  */
 export const searchTables: API.PaginatedOperationMethod<
-  SearchTablesRequest,
+  SearchTablesRequest & RegionInput,
   SearchTablesResponse,
   SearchTablesError,
   Credentials | HttpClient.HttpClient,
@@ -16219,7 +16220,7 @@ export type StartBlueprintRunError =
  * Starts a new run of the specified blueprint.
  */
 export const startBlueprintRun: API.OperationMethod<
-  StartBlueprintRunRequest,
+  StartBlueprintRunRequest & RegionInput,
   StartBlueprintRunResponse,
   StartBlueprintRunError,
   Credentials | HttpClient.HttpClient
@@ -16253,7 +16254,7 @@ export type StartColumnStatisticsTaskRunError =
  * Starts a column statistics task run, for a specified table and columns.
  */
 export const startColumnStatisticsTaskRun: API.OperationMethod<
-  StartColumnStatisticsTaskRunRequest,
+  StartColumnStatisticsTaskRunRequest & RegionInput,
   StartColumnStatisticsTaskRunResponse,
   StartColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16285,7 +16286,7 @@ export type StartColumnStatisticsTaskRunScheduleError =
  * Starts a column statistics task run schedule.
  */
 export const startColumnStatisticsTaskRunSchedule: API.OperationMethod<
-  StartColumnStatisticsTaskRunScheduleRequest,
+  StartColumnStatisticsTaskRunScheduleRequest & RegionInput,
   StartColumnStatisticsTaskRunScheduleResponse,
   StartColumnStatisticsTaskRunScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16316,7 +16317,7 @@ export type StartCrawlerError =
  * CrawlerRunningException.
  */
 export const startCrawler: API.OperationMethod<
-  StartCrawlerRequest,
+  StartCrawlerRequest & RegionInput,
   StartCrawlerResponse,
   StartCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -16344,7 +16345,7 @@ export type StartCrawlerScheduleError =
  * schedule state is already `SCHEDULED`.
  */
 export const startCrawlerSchedule: API.OperationMethod<
-  StartCrawlerScheduleRequest,
+  StartCrawlerScheduleRequest & RegionInput,
   StartCrawlerScheduleResponse,
   StartCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16377,7 +16378,7 @@ export type StartDataQualityRuleRecommendationRunError =
  * Recommendation runs are automatically deleted after 90 days.
  */
 export const startDataQualityRuleRecommendationRun: API.OperationMethod<
-  StartDataQualityRuleRecommendationRunRequest,
+  StartDataQualityRuleRecommendationRunRequest & RegionInput,
   StartDataQualityRuleRecommendationRunResponse,
   StartDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
@@ -16408,7 +16409,7 @@ export type StartDataQualityRulesetEvaluationRunError =
  * Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the `GetDataQualityResult` API.
  */
 export const startDataQualityRulesetEvaluationRun: API.OperationMethod<
-  StartDataQualityRulesetEvaluationRunRequest,
+  StartDataQualityRulesetEvaluationRunRequest & RegionInput,
   StartDataQualityRulesetEvaluationRunResponse,
   StartDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
@@ -16447,7 +16448,7 @@ export type StartExportLabelsTaskRunError =
  * `GetMLTaskRun` API.
  */
 export const startExportLabelsTaskRun: API.OperationMethod<
-  StartExportLabelsTaskRunRequest,
+  StartExportLabelsTaskRunRequest & RegionInput,
   StartExportLabelsTaskRunResponse,
   StartExportLabelsTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16502,7 +16503,7 @@ export type StartImportLabelsTaskRunError =
  * operation.
  */
 export const startImportLabelsTaskRun: API.OperationMethod<
-  StartImportLabelsTaskRunRequest,
+  StartImportLabelsTaskRunRequest & RegionInput,
   StartImportLabelsTaskRunResponse,
   StartImportLabelsTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16536,7 +16537,7 @@ export type StartJobRunError =
  * Starts a job run using a job definition.
  */
 export const startJobRun: API.OperationMethod<
-  StartJobRunRequest,
+  StartJobRunRequest & RegionInput,
   StartJobRunResponse,
   StartJobRunError,
   Credentials | HttpClient.HttpClient
@@ -16571,7 +16572,7 @@ export type StartMaterializedViewRefreshTaskRunError =
  * Starts a materialized view refresh task run for a specified materialized view.
  */
 export const startMaterializedViewRefreshTaskRun: API.OperationMethod<
-  StartMaterializedViewRefreshTaskRunRequest,
+  StartMaterializedViewRefreshTaskRunRequest & RegionInput,
   StartMaterializedViewRefreshTaskRunResponse,
   StartMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16612,7 +16613,7 @@ export type StartMLEvaluationTaskRunError =
  * information about the stats of the `EvaluationTaskRun`.
  */
 export const startMLEvaluationTaskRun: API.OperationMethod<
-  StartMLEvaluationTaskRunRequest,
+  StartMLEvaluationTaskRunRequest & RegionInput,
   StartMLEvaluationTaskRunResponse,
   StartMLEvaluationTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16661,7 +16662,7 @@ export type StartMLLabelingSetGenerationTaskRunError =
  * associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
  */
 export const startMLLabelingSetGenerationTaskRun: API.OperationMethod<
-  StartMLLabelingSetGenerationTaskRunRequest,
+  StartMLLabelingSetGenerationTaskRunRequest & RegionInput,
   StartMLLabelingSetGenerationTaskRunResponse,
   StartMLLabelingSetGenerationTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16696,7 +16697,7 @@ export type StartTriggerError =
  * started.
  */
 export const startTrigger: API.OperationMethod<
-  StartTriggerRequest,
+  StartTriggerRequest & RegionInput,
   StartTriggerResponse,
   StartTriggerError,
   Credentials | HttpClient.HttpClient
@@ -16730,7 +16731,7 @@ export type StartWorkflowRunError =
  * Starts a new run of the specified workflow.
  */
 export const startWorkflowRun: API.OperationMethod<
-  StartWorkflowRunRequest,
+  StartWorkflowRunRequest & RegionInput,
   StartWorkflowRunResponse,
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -16762,7 +16763,7 @@ export type StopColumnStatisticsTaskRunError =
  * Stops a task run for the specified table.
  */
 export const stopColumnStatisticsTaskRun: API.OperationMethod<
-  StopColumnStatisticsTaskRunRequest,
+  StopColumnStatisticsTaskRunRequest & RegionInput,
   StopColumnStatisticsTaskRunResponse,
   StopColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16791,7 +16792,7 @@ export type StopColumnStatisticsTaskRunScheduleError =
  * Stops a column statistics task run schedule.
  */
 export const stopColumnStatisticsTaskRunSchedule: API.OperationMethod<
-  StopColumnStatisticsTaskRunScheduleRequest,
+  StopColumnStatisticsTaskRunScheduleRequest & RegionInput,
   StopColumnStatisticsTaskRunScheduleResponse,
   StopColumnStatisticsTaskRunScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16816,7 +16817,7 @@ export type StopCrawlerError =
  * If the specified crawler is running, stops the crawl.
  */
 export const stopCrawler: API.OperationMethod<
-  StopCrawlerRequest,
+  StopCrawlerRequest & RegionInput,
   StopCrawlerResponse,
   StopCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -16848,7 +16849,7 @@ export type StopCrawlerScheduleError =
  * already running.
  */
 export const stopCrawlerSchedule: API.OperationMethod<
-  StopCrawlerScheduleRequest,
+  StopCrawlerScheduleRequest & RegionInput,
   StopCrawlerScheduleResponse,
   StopCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
@@ -16879,7 +16880,7 @@ export type StopMaterializedViewRefreshTaskRunError =
  * Stops a materialized view refresh task run for a specified materialized view.
  */
 export const stopMaterializedViewRefreshTaskRun: API.OperationMethod<
-  StopMaterializedViewRefreshTaskRunRequest,
+  StopMaterializedViewRefreshTaskRunRequest & RegionInput,
   StopMaterializedViewRefreshTaskRunResponse,
   StopMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
@@ -16912,7 +16913,7 @@ export type StopSessionError =
  * Stops the session.
  */
 export const stopSession: API.OperationMethod<
-  StopSessionRequest,
+  StopSessionRequest & RegionInput,
   StopSessionResponse,
   StopSessionError,
   Credentials | HttpClient.HttpClient
@@ -16945,7 +16946,7 @@ export type StopTriggerError =
  * Stops a specified trigger.
  */
 export const stopTrigger: API.OperationMethod<
-  StopTriggerRequest,
+  StopTriggerRequest & RegionInput,
   StopTriggerResponse,
   StopTriggerError,
   Credentials | HttpClient.HttpClient
@@ -16977,7 +16978,7 @@ export type StopWorkflowRunError =
  * Stops the execution of the specified workflow run.
  */
 export const stopWorkflowRun: API.OperationMethod<
-  StopWorkflowRunRequest,
+  StopWorkflowRunRequest & RegionInput,
   StopWorkflowRunResponse,
   StopWorkflowRunError,
   Credentials | HttpClient.HttpClient
@@ -17010,7 +17011,7 @@ export type TagResourceError =
  * resources you can tag, see Amazon Web Services Tags in Glue.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -17049,7 +17050,7 @@ export type TestConnectionError =
  * If the action is successful, the service sends back an HTTP 200 response.
  */
 export const testConnection: API.OperationMethod<
-  TestConnectionRequest,
+  TestConnectionRequest & RegionInput,
   TestConnectionResponse,
   TestConnectionError,
   Credentials | HttpClient.HttpClient
@@ -17084,7 +17085,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -17116,7 +17117,7 @@ export type UpdateAssetError =
  * Updates the name and description of an existing asset in Glue Data Catalog. Only the fields that you provide are updated.
  */
 export const updateAsset: API.OperationMethod<
-  UpdateAssetRequest,
+  UpdateAssetRequest & RegionInput,
   UpdateAssetResponse,
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
@@ -17150,7 +17151,7 @@ export type UpdateBlueprintError =
  * Updates a registered blueprint.
  */
 export const updateBlueprint: API.OperationMethod<
-  UpdateBlueprintRequest,
+  UpdateBlueprintRequest & RegionInput,
   UpdateBlueprintResponse,
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -17186,7 +17187,7 @@ export type UpdateCatalogError =
  * Updates an existing catalog's properties in the Glue Data Catalog.
  */
 export const updateCatalog: API.OperationMethod<
-  UpdateCatalogRequest,
+  UpdateCatalogRequest & RegionInput,
   UpdateCatalogResponse,
   UpdateCatalogError,
   Credentials | HttpClient.HttpClient
@@ -17222,7 +17223,7 @@ export type UpdateClassifierError =
  * which field is present).
  */
 export const updateClassifier: API.OperationMethod<
-  UpdateClassifierRequest,
+  UpdateClassifierRequest & RegionInput,
   UpdateClassifierResponse,
   UpdateClassifierError,
   Credentials | HttpClient.HttpClient
@@ -17255,7 +17256,7 @@ export type UpdateColumnStatisticsForPartitionError =
  * The Identity and Access Management (IAM) permission required for this operation is `UpdatePartition`.
  */
 export const updateColumnStatisticsForPartition: API.OperationMethod<
-  UpdateColumnStatisticsForPartitionRequest,
+  UpdateColumnStatisticsForPartitionRequest & RegionInput,
   UpdateColumnStatisticsForPartitionResponse,
   UpdateColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
@@ -17289,7 +17290,7 @@ export type UpdateColumnStatisticsForTableError =
  * The Identity and Access Management (IAM) permission required for this operation is `UpdateTable`.
  */
 export const updateColumnStatisticsForTable: API.OperationMethod<
-  UpdateColumnStatisticsForTableRequest,
+  UpdateColumnStatisticsForTableRequest & RegionInput,
   UpdateColumnStatisticsForTableResponse,
   UpdateColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
@@ -17321,7 +17322,7 @@ export type UpdateColumnStatisticsTaskSettingsError =
  * Updates settings for a column statistics task.
  */
 export const updateColumnStatisticsTaskSettings: API.OperationMethod<
-  UpdateColumnStatisticsTaskSettingsRequest,
+  UpdateColumnStatisticsTaskSettingsRequest & RegionInput,
   UpdateColumnStatisticsTaskSettingsResponse,
   UpdateColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
@@ -17352,7 +17353,7 @@ export type UpdateConnectionError =
  * Updates a connection definition in the Data Catalog.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionRequest,
+  UpdateConnectionRequest & RegionInput,
   UpdateConnectionResponse,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -17387,7 +17388,7 @@ export type UpdateCrawlerError =
  * it.
  */
 export const updateCrawler: API.OperationMethod<
-  UpdateCrawlerRequest,
+  UpdateCrawlerRequest & RegionInput,
   UpdateCrawlerResponse,
   UpdateCrawlerError,
   Credentials | HttpClient.HttpClient
@@ -17421,7 +17422,7 @@ export type UpdateCrawlerScheduleError =
  * Updates the schedule of a crawler using a `cron` expression.
  */
 export const updateCrawlerSchedule: API.OperationMethod<
-  UpdateCrawlerScheduleRequest,
+  UpdateCrawlerScheduleRequest & RegionInput,
   UpdateCrawlerScheduleResponse,
   UpdateCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
@@ -17457,7 +17458,7 @@ export type UpdateDatabaseError =
  * Updates an existing database definition in a Data Catalog.
  */
 export const updateDatabase: API.OperationMethod<
-  UpdateDatabaseRequest,
+  UpdateDatabaseRequest & RegionInput,
   UpdateDatabaseResponse,
   UpdateDatabaseError,
   Credentials | HttpClient.HttpClient
@@ -17495,7 +17496,7 @@ export type UpdateDataQualityRulesetError =
  * Updates the specified data quality ruleset.
  */
 export const updateDataQualityRuleset: API.OperationMethod<
-  UpdateDataQualityRulesetRequest,
+  UpdateDataQualityRulesetRequest & RegionInput,
   UpdateDataQualityRulesetResponse,
   UpdateDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
@@ -17529,7 +17530,7 @@ export type UpdateDevEndpointError =
  * Updates a specified development endpoint.
  */
 export const updateDevEndpoint: API.OperationMethod<
-  UpdateDevEndpointRequest,
+  UpdateDevEndpointRequest & RegionInput,
   UpdateDevEndpointResponse,
   UpdateDevEndpointError,
   Credentials | HttpClient.HttpClient
@@ -17563,7 +17564,7 @@ export type UpdateGlossaryError =
  * Updates a business glossary in Glue Data Catalog.
  */
 export const updateGlossary: API.OperationMethod<
-  UpdateGlossaryRequest,
+  UpdateGlossaryRequest & RegionInput,
   UpdateGlossaryResponse,
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -17599,7 +17600,7 @@ export type UpdateGlossaryTermError =
  * Updates a glossary term in Glue Data Catalog.
  */
 export const updateGlossaryTerm: API.OperationMethod<
-  UpdateGlossaryTermRequest,
+  UpdateGlossaryTermRequest & RegionInput,
   UpdateGlossaryTermResponse,
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -17637,7 +17638,7 @@ export type UpdateGlueIdentityCenterConfigurationError =
  * Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
  */
 export const updateGlueIdentityCenterConfiguration: API.OperationMethod<
-  UpdateGlueIdentityCenterConfigurationRequest,
+  UpdateGlueIdentityCenterConfigurationRequest & RegionInput,
   UpdateGlueIdentityCenterConfigurationResponse,
   UpdateGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -17672,7 +17673,7 @@ export type UpdateIntegrationResourcePropertyError =
  * This API can be used for updating the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
  */
 export const updateIntegrationResourceProperty: API.OperationMethod<
-  UpdateIntegrationResourcePropertyRequest,
+  UpdateIntegrationResourcePropertyRequest & RegionInput,
   UpdateIntegrationResourcePropertyResponse,
   UpdateIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
@@ -17710,7 +17711,7 @@ export type UpdateIntegrationTablePropertiesError =
  * The override will be reflected across all the integrations using same `ResourceArn` and source table.
  */
 export const updateIntegrationTableProperties: API.OperationMethod<
-  UpdateIntegrationTablePropertiesRequest,
+  UpdateIntegrationTablePropertiesRequest & RegionInput,
   UpdateIntegrationTablePropertiesResponse,
   UpdateIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
@@ -17745,7 +17746,7 @@ export type UpdateJobError =
  * Updates an existing job definition. The previous job definition is completely overwritten by this information.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
@@ -17782,7 +17783,7 @@ export type UpdateJobFromSourceControlError =
  * This API supports optional parameters which take in the repository information.
  */
 export const updateJobFromSourceControl: API.OperationMethod<
-  UpdateJobFromSourceControlRequest,
+  UpdateJobFromSourceControlRequest & RegionInput,
   UpdateJobFromSourceControlResponse,
   UpdateJobFromSourceControlError,
   Credentials | HttpClient.HttpClient
@@ -17820,7 +17821,7 @@ export type UpdateMLTransformError =
  * quality of your machine learning transform, or making it more cost-effective).
  */
 export const updateMLTransform: API.OperationMethod<
-  UpdateMLTransformRequest,
+  UpdateMLTransformRequest & RegionInput,
   UpdateMLTransformResponse,
   UpdateMLTransformError,
   Credentials | HttpClient.HttpClient
@@ -17852,7 +17853,7 @@ export type UpdatePartitionError =
  * Updates a partition.
  */
 export const updatePartition: API.OperationMethod<
-  UpdatePartitionRequest,
+  UpdatePartitionRequest & RegionInput,
   UpdatePartitionResponse,
   UpdatePartitionError,
   Credentials | HttpClient.HttpClient
@@ -17884,7 +17885,7 @@ export type UpdateRegistryError =
  * Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
  */
 export const updateRegistry: API.OperationMethod<
-  UpdateRegistryInput,
+  UpdateRegistryInput & RegionInput,
   UpdateRegistryResponse,
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
@@ -17922,7 +17923,7 @@ export type UpdateSchemaError =
  * This update will happen only if the schema is in the AVAILABLE state.
  */
 export const updateSchema: API.OperationMethod<
-  UpdateSchemaInput,
+  UpdateSchemaInput & RegionInput,
   UpdateSchemaResponse,
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -17958,7 +17959,7 @@ export type UpdateSourceControlFromJobError =
  * This API supports optional parameters which take in the repository information.
  */
 export const updateSourceControlFromJob: API.OperationMethod<
-  UpdateSourceControlFromJobRequest,
+  UpdateSourceControlFromJobRequest & RegionInput,
   UpdateSourceControlFromJobResponse,
   UpdateSourceControlFromJobError,
   Credentials | HttpClient.HttpClient
@@ -17998,7 +17999,7 @@ export type UpdateTableError =
  * Updates a metadata table in the Data Catalog.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient
@@ -18038,7 +18039,7 @@ export type UpdateTableOptimizerError =
  * Updates the configuration for an existing table optimizer.
  */
 export const updateTableOptimizer: API.OperationMethod<
-  UpdateTableOptimizerRequest,
+  UpdateTableOptimizerRequest & RegionInput,
   UpdateTableOptimizerResponse,
   UpdateTableOptimizerError,
   Credentials | HttpClient.HttpClient
@@ -18074,7 +18075,7 @@ export type UpdateTriggerError =
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
 export const updateTrigger: API.OperationMethod<
-  UpdateTriggerRequest,
+  UpdateTriggerRequest & RegionInput,
   UpdateTriggerResponse,
   UpdateTriggerError,
   Credentials | HttpClient.HttpClient
@@ -18107,7 +18108,7 @@ export type UpdateUsageProfileError =
  * Update an Glue usage profile.
  */
 export const updateUsageProfile: API.OperationMethod<
-  UpdateUsageProfileRequest,
+  UpdateUsageProfileRequest & RegionInput,
   UpdateUsageProfileResponse,
   UpdateUsageProfileError,
   Credentials | HttpClient.HttpClient
@@ -18140,7 +18141,7 @@ export type UpdateUserDefinedFunctionError =
  * Updates an existing function definition in the Data Catalog.
  */
 export const updateUserDefinedFunction: API.OperationMethod<
-  UpdateUserDefinedFunctionRequest,
+  UpdateUserDefinedFunctionRequest & RegionInput,
   UpdateUserDefinedFunctionResponse,
   UpdateUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
@@ -18172,7 +18173,7 @@ export type UpdateWorkflowError =
  * Updates an existing workflow.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateWorkflowRequest,
+  UpdateWorkflowRequest & RegionInput,
   UpdateWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient

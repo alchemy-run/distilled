@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -950,7 +951,7 @@ export type AcceptResourceShareInvitationError =
  * relevant Amazon Web Services Management Consoles and tools.
  */
 export const acceptResourceShareInvitation: API.OperationMethod<
-  AcceptResourceShareInvitationRequest,
+  AcceptResourceShareInvitationRequest & RegionInput,
   AcceptResourceShareInvitationResponse,
   AcceptResourceShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -995,7 +996,7 @@ export type AssociateResourceShareError =
  * Newly added principals immediately receive access to the resources shared in this resource share.
  */
 export const associateResourceShare: API.OperationMethod<
-  AssociateResourceShareRequest,
+  AssociateResourceShareRequest & RegionInput,
   AssociateResourceShareResponse,
   AssociateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type AssociateResourceSharePermissionError =
  * currently in the resource share.
  */
 export const associateResourceSharePermission: API.OperationMethod<
-  AssociateResourceSharePermissionRequest,
+  AssociateResourceSharePermissionRequest & RegionInput,
   AssociateResourceSharePermissionResponse,
   AssociateResourceSharePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1078,7 +1079,7 @@ export type CreatePermissionError =
  * It is created in the Amazon Web Services Region in which you call the operation.
  */
 export const createPermission: API.OperationMethod<
-  CreatePermissionRequest,
+  CreatePermissionRequest & RegionInput,
   CreatePermissionResponse,
   CreatePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1126,7 +1127,7 @@ export type CreatePermissionVersionError =
  * you must delete one of the existing versions before you can create a new one.
  */
 export const createPermissionVersion: API.OperationMethod<
-  CreatePermissionVersionRequest,
+  CreatePermissionVersionRequest & RegionInput,
   CreatePermissionVersionResponse,
   CreatePermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1177,7 +1178,7 @@ export type CreateResourceShareError =
  * quotas that apply to the resource in the account that created it.
  */
 export const createResourceShare: API.OperationMethod<
-  CreateResourceShareRequest,
+  CreateResourceShareRequest & RegionInput,
   CreateResourceShareResponse,
   CreateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1221,7 +1222,7 @@ export type DeletePermissionError =
  * versions associated with the customer managed permission.
  */
 export const deletePermission: API.OperationMethod<
-  DeletePermissionRequest,
+  DeletePermissionRequest & RegionInput,
   DeletePermissionResponse,
   DeletePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1262,7 +1263,7 @@ export type DeletePermissionVersionError =
  * least one version before you can create another.
  */
 export const deletePermissionVersion: API.OperationMethod<
-  DeletePermissionVersionRequest,
+  DeletePermissionVersionRequest & RegionInput,
   DeletePermissionVersionResponse,
   DeletePermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -1305,7 +1306,7 @@ export type DeleteResourceShareError =
  * only stops the sharing of those resources through this resource share.
  */
 export const deleteResourceShare: API.OperationMethod<
-  DeleteResourceShareRequest,
+  DeleteResourceShareRequest & RegionInput,
   DeleteResourceShareResponse,
   DeleteResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1349,7 +1350,7 @@ export type DisassociateResourceShareError =
  * resource share.
  */
 export const disassociateResourceShare: API.OperationMethod<
-  DisassociateResourceShareRequest,
+  DisassociateResourceShareRequest & RegionInput,
   DisassociateResourceShareResponse,
   DisassociateResourceShareError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type DisassociateResourceSharePermissionError =
  * resource type currently attached to the resource share.
  */
 export const disassociateResourceSharePermission: API.OperationMethod<
-  DisassociateResourceSharePermissionRequest,
+  DisassociateResourceSharePermissionRequest & RegionInput,
   DisassociateResourceSharePermissionResponse,
   DisassociateResourceSharePermissionError,
   Credentials | HttpClient.HttpClient
@@ -1435,7 +1436,7 @@ export type EnableSharingWithAwsOrganizationError =
  * management account.
  */
 export const enableSharingWithAwsOrganization: API.OperationMethod<
-  EnableSharingWithAwsOrganizationRequest,
+  EnableSharingWithAwsOrganizationRequest & RegionInput,
   EnableSharingWithAwsOrganizationResponse,
   EnableSharingWithAwsOrganizationError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type GetPermissionError =
  * Retrieves the contents of a managed permission in JSON format.
  */
 export const getPermission: API.OperationMethod<
-  GetPermissionRequest,
+  GetPermissionRequest & RegionInput,
   GetPermissionResponse,
   GetPermissionError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetResourcePoliciesError =
  * when there are no more results to display.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesRequest,
+  GetResourcePoliciesRequest & RegionInput,
   GetResourcePoliciesResponse,
   GetResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1551,7 +1552,7 @@ export type GetResourceShareAssociationsError =
  * when there are no more results to display.
  */
 export const getResourceShareAssociations: API.PaginatedOperationMethod<
-  GetResourceShareAssociationsRequest,
+  GetResourceShareAssociationsRequest & RegionInput,
   GetResourceShareAssociationsResponse,
   GetResourceShareAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1600,7 +1601,7 @@ export type GetResourceShareInvitationsError =
  * when there are no more results to display.
  */
 export const getResourceShareInvitations: API.PaginatedOperationMethod<
-  GetResourceShareInvitationsRequest,
+  GetResourceShareInvitationsRequest & RegionInput,
   GetResourceShareInvitationsResponse,
   GetResourceShareInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1648,7 +1649,7 @@ export type GetResourceSharesError =
  * when there are no more results to display.
  */
 export const getResourceShares: API.PaginatedOperationMethod<
-  GetResourceSharesRequest,
+  GetResourceSharesRequest & RegionInput,
   GetResourceSharesResponse,
   GetResourceSharesError,
   Credentials | HttpClient.HttpClient,
@@ -1699,7 +1700,7 @@ export type ListPendingInvitationResourcesError =
  * when there are no more results to display.
  */
 export const listPendingInvitationResources: API.PaginatedOperationMethod<
-  ListPendingInvitationResourcesRequest,
+  ListPendingInvitationResourcesRequest & RegionInput,
   ListPendingInvitationResourcesResponse,
   ListPendingInvitationResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -1749,7 +1750,7 @@ export type ListPermissionAssociationsError =
  * when there are no more results to display.
  */
 export const listPermissionAssociations: API.PaginatedOperationMethod<
-  ListPermissionAssociationsRequest,
+  ListPermissionAssociationsRequest & RegionInput,
   ListPermissionAssociationsResponse,
   ListPermissionAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1794,7 +1795,7 @@ export type ListPermissionsError =
  * when there are no more results to display.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1840,7 +1841,7 @@ export type ListPermissionVersionsError =
  * when there are no more results to display.
  */
 export const listPermissionVersions: API.PaginatedOperationMethod<
-  ListPermissionVersionsRequest,
+  ListPermissionVersionsRequest & RegionInput,
   ListPermissionVersionsResponse,
   ListPermissionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1888,7 +1889,7 @@ export type ListPrincipalsError =
  * when there are no more results to display.
  */
 export const listPrincipals: API.PaginatedOperationMethod<
-  ListPrincipalsRequest,
+  ListPrincipalsRequest & RegionInput,
   ListPrincipalsResponse,
   ListPrincipalsError,
   Credentials | HttpClient.HttpClient,
@@ -1933,7 +1934,7 @@ export type ListReplacePermissionAssociationsWorkError =
  * when there are no more results to display.
  */
 export const listReplacePermissionAssociationsWork: API.PaginatedOperationMethod<
-  ListReplacePermissionAssociationsWorkRequest,
+  ListReplacePermissionAssociationsWorkRequest & RegionInput,
   ListReplacePermissionAssociationsWorkResponse,
   ListReplacePermissionAssociationsWorkError,
   Credentials | HttpClient.HttpClient,
@@ -1979,7 +1980,7 @@ export type ListResourcesError =
  * when there are no more results to display.
  */
 export const listResources: API.PaginatedOperationMethod<
-  ListResourcesRequest,
+  ListResourcesRequest & RegionInput,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2027,7 +2028,7 @@ export type ListResourceSharePermissionsError =
  * when there are no more results to display.
  */
 export const listResourceSharePermissions: API.PaginatedOperationMethod<
-  ListResourceSharePermissionsRequest,
+  ListResourceSharePermissionsRequest & RegionInput,
   ListResourceSharePermissionsResponse,
   ListResourceSharePermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -2066,7 +2067,7 @@ export type ListResourceTypesError =
  * Lists the resource types that can be shared by RAM.
  */
 export const listResourceTypes: API.PaginatedOperationMethod<
-  ListResourceTypesRequest,
+  ListResourceTypesRequest & RegionInput,
   ListResourceTypesResponse,
   ListResourceTypesError,
   Credentials | HttpClient.HttpClient,
@@ -2106,7 +2107,7 @@ export type ListSourceAssociationsError =
  * You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const listSourceAssociations: API.PaginatedOperationMethod<
-  ListSourceAssociationsRequest,
+  ListSourceAssociationsRequest & RegionInput,
   ListSourceAssociationsResponse,
   ListSourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2175,7 +2176,7 @@ export type PromotePermissionCreatedFromPolicyError =
  * it.
  */
 export const promotePermissionCreatedFromPolicy: API.OperationMethod<
-  PromotePermissionCreatedFromPolicyRequest,
+  PromotePermissionCreatedFromPolicyRequest & RegionInput,
   PromotePermissionCreatedFromPolicyResponse,
   PromotePermissionCreatedFromPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2228,7 +2229,7 @@ export type PromoteResourceShareCreatedFromPolicyError =
  * `CREATED_FROM_POLICY` permission, then this operation fails.
  */
 export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
-  PromoteResourceShareCreatedFromPolicyRequest,
+  PromoteResourceShareCreatedFromPolicyRequest & RegionInput,
   PromoteResourceShareCreatedFromPolicyResponse,
   PromoteResourceShareCreatedFromPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2271,7 @@ export type RejectResourceShareInvitationError =
  * Rejects an invitation to a resource share from another Amazon Web Services account.
  */
 export const rejectResourceShareInvitation: API.OperationMethod<
-  RejectResourceShareInvitationRequest,
+  RejectResourceShareInvitationRequest & RegionInput,
   RejectResourceShareInvitationResponse,
   RejectResourceShareInvitationError,
   Credentials | HttpClient.HttpClient
@@ -2325,7 +2326,7 @@ export type ReplacePermissionAssociationsError =
  * resource-based policy on all affected resource types.
  */
 export const replacePermissionAssociations: API.OperationMethod<
-  ReplacePermissionAssociationsRequest,
+  ReplacePermissionAssociationsRequest & RegionInput,
   ReplacePermissionAssociationsResponse,
   ReplacePermissionAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type SetDefaultPermissionVersionError =
  * resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them.
  */
 export const setDefaultPermissionVersion: API.OperationMethod<
-  SetDefaultPermissionVersionRequest,
+  SetDefaultPermissionVersionRequest & RegionInput,
   SetDefaultPermissionVersionResponse,
   SetDefaultPermissionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2404,7 +2405,7 @@ export type TagResourceError =
  * The tags on a managed permission are the same for all versions of the managed permission.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type UntagResourceError =
  * Removes the specified tag key and value pairs from the specified resource share or managed permission.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2475,7 +2476,7 @@ export type UpdateResourceShareError =
  * Modifies some of the properties of the specified resource share.
  */
 export const updateResourceShare: API.OperationMethod<
-  UpdateResourceShareRequest,
+  UpdateResourceShareRequest & RegionInput,
   UpdateResourceShareResponse,
   UpdateResourceShareError,
   Credentials | HttpClient.HttpClient

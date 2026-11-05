@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -734,7 +735,7 @@ export type CreateTemplateError =
  * Creates a migration workflow template.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -765,7 +766,7 @@ export type CreateWorkflowError =
  * Create a workflow to orchestrate your migrations.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateMigrationWorkflowRequest,
+  CreateMigrationWorkflowRequest & RegionInput,
   CreateMigrationWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -795,7 +796,7 @@ export type CreateWorkflowStepError =
  * Create a step in the migration workflow.
  */
 export const createWorkflowStep: API.OperationMethod<
-  CreateWorkflowStepRequest,
+  CreateWorkflowStepRequest & RegionInput,
   CreateWorkflowStepResponse,
   CreateWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -825,7 +826,7 @@ export type CreateWorkflowStepGroupError =
  * Create a step group in a migration workflow.
  */
 export const createWorkflowStepGroup: API.OperationMethod<
-  CreateWorkflowStepGroupRequest,
+  CreateWorkflowStepGroupRequest & RegionInput,
   CreateWorkflowStepGroupResponse,
   CreateWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -856,7 +857,7 @@ export type DeleteTemplateError =
  * Deletes a migration workflow template.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type DeleteWorkflowError =
  * delete it.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteMigrationWorkflowRequest,
+  DeleteMigrationWorkflowRequest & RegionInput,
   DeleteMigrationWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -922,7 +923,7 @@ export type DeleteWorkflowStepError =
  * step.
  */
 export const deleteWorkflowStep: API.OperationMethod<
-  DeleteWorkflowStepRequest,
+  DeleteWorkflowStepRequest & RegionInput,
   DeleteWorkflowStepResponse,
   DeleteWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -954,7 +955,7 @@ export type DeleteWorkflowStepGroupError =
  * Delete a step group in a migration workflow.
  */
 export const deleteWorkflowStepGroup: API.OperationMethod<
-  DeleteWorkflowStepGroupRequest,
+  DeleteWorkflowStepGroupRequest & RegionInput,
   DeleteWorkflowStepGroupResponse,
   DeleteWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type GetTemplateError =
  * Get the template you want to use for creating a migration workflow.
  */
 export const getTemplate: API.OperationMethod<
-  GetMigrationWorkflowTemplateRequest,
+  GetMigrationWorkflowTemplateRequest & RegionInput,
   GetMigrationWorkflowTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1016,7 +1017,7 @@ export type GetTemplateStepError =
  * Get a specific step in a template.
  */
 export const getTemplateStep: API.OperationMethod<
-  GetTemplateStepRequest,
+  GetTemplateStepRequest & RegionInput,
   GetTemplateStepResponse,
   GetTemplateStepError,
   Credentials | HttpClient.HttpClient
@@ -1048,7 +1049,7 @@ export type GetTemplateStepGroupError =
  * Get a step group in a template.
  */
 export const getTemplateStepGroup: API.OperationMethod<
-  GetTemplateStepGroupRequest,
+  GetTemplateStepGroupRequest & RegionInput,
   GetTemplateStepGroupResponse,
   GetTemplateStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1081,7 @@ export type GetWorkflowError =
  * Get migration workflow.
  */
 export const getWorkflow: API.OperationMethod<
-  GetMigrationWorkflowRequest,
+  GetMigrationWorkflowRequest & RegionInput,
   GetMigrationWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1111,7 +1112,7 @@ export type GetWorkflowStepError =
  * Get a step in the migration workflow.
  */
 export const getWorkflowStep: API.OperationMethod<
-  GetWorkflowStepRequest,
+  GetWorkflowStepRequest & RegionInput,
   GetWorkflowStepResponse,
   GetWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1142,7 +1143,7 @@ export type GetWorkflowStepGroupError =
  * Get the step group of a migration workflow.
  */
 export const getWorkflowStepGroup: API.OperationMethod<
-  GetWorkflowStepGroupRequest,
+  GetWorkflowStepGroupRequest & RegionInput,
   GetWorkflowStepGroupResponse,
   GetWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient
@@ -1172,7 +1173,7 @@ export type ListPluginsError =
  * List AWS Migration Hub Orchestrator plugins.
  */
 export const listPlugins: API.PaginatedOperationMethod<
-  ListPluginsRequest,
+  ListPluginsRequest & RegionInput,
   ListPluginsResponse,
   ListPluginsError,
   Credentials | HttpClient.HttpClient,
@@ -1202,7 +1203,7 @@ export type ListTagsForResourceError =
  * List the tags added to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type ListTemplatesError =
  * List the templates available in Migration Hub Orchestrator to create a migration workflow.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListMigrationWorkflowTemplatesRequest,
+  ListMigrationWorkflowTemplatesRequest & RegionInput,
   ListMigrationWorkflowTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1258,7 +1259,7 @@ export type ListTemplateStepGroupsError =
  * List the step groups in a template.
  */
 export const listTemplateStepGroups: API.PaginatedOperationMethod<
-  ListTemplateStepGroupsRequest,
+  ListTemplateStepGroupsRequest & RegionInput,
   ListTemplateStepGroupsResponse,
   ListTemplateStepGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1296,7 +1297,7 @@ export type ListTemplateStepsError =
  * List the steps in a template.
  */
 export const listTemplateSteps: API.PaginatedOperationMethod<
-  ListTemplateStepsRequest,
+  ListTemplateStepsRequest & RegionInput,
   ListTemplateStepsResponse,
   ListTemplateStepsError,
   Credentials | HttpClient.HttpClient,
@@ -1335,7 +1336,7 @@ export type ListWorkflowsError =
  * List the migration workflows.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListMigrationWorkflowsRequest,
+  ListMigrationWorkflowsRequest & RegionInput,
   ListMigrationWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -1374,7 +1375,7 @@ export type ListWorkflowStepGroupsError =
  * List the step groups in a migration workflow.
  */
 export const listWorkflowStepGroups: API.PaginatedOperationMethod<
-  ListWorkflowStepGroupsRequest,
+  ListWorkflowStepGroupsRequest & RegionInput,
   ListWorkflowStepGroupsResponse,
   ListWorkflowStepGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1412,7 +1413,7 @@ export type ListWorkflowStepsError =
  * List the steps in a workflow.
  */
 export const listWorkflowSteps: API.PaginatedOperationMethod<
-  ListWorkflowStepsRequest,
+  ListWorkflowStepsRequest & RegionInput,
   ListWorkflowStepsResponse,
   ListWorkflowStepsError,
   Credentials | HttpClient.HttpClient,
@@ -1449,7 +1450,7 @@ export type RetryWorkflowStepError =
  * Retry a failed step in a migration workflow.
  */
 export const retryWorkflowStep: API.OperationMethod<
-  RetryWorkflowStepRequest,
+  RetryWorkflowStepRequest & RegionInput,
   RetryWorkflowStepResponse,
   RetryWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type StartWorkflowError =
  * Start a migration workflow.
  */
 export const startWorkflow: API.OperationMethod<
-  StartMigrationWorkflowRequest,
+  StartMigrationWorkflowRequest & RegionInput,
   StartMigrationWorkflowResponse,
   StartWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1512,7 +1513,7 @@ export type StopWorkflowError =
  * Stop an ongoing migration workflow.
  */
 export const stopWorkflow: API.OperationMethod<
-  StopMigrationWorkflowRequest,
+  StopMigrationWorkflowRequest & RegionInput,
   StopMigrationWorkflowResponse,
   StopWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1539,7 @@ export type TagResourceError = ResourceNotFoundException | ValidationException |
  * Tag a resource by specifying its Amazon Resource Name (ARN).
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1558,7 +1559,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Deletes the tags for a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1585,7 @@ export type UpdateTemplateError =
  * Updates a migration workflow template.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1616,7 +1617,7 @@ export type UpdateWorkflowError =
  * Update a migration workflow.
  */
 export const updateWorkflow: API.OperationMethod<
-  UpdateMigrationWorkflowRequest,
+  UpdateMigrationWorkflowRequest & RegionInput,
   UpdateMigrationWorkflowResponse,
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1648,7 @@ export type UpdateWorkflowStepError =
  * Update a step in a migration workflow.
  */
 export const updateWorkflowStep: API.OperationMethod<
-  UpdateWorkflowStepRequest,
+  UpdateWorkflowStepRequest & RegionInput,
   UpdateWorkflowStepResponse,
   UpdateWorkflowStepError,
   Credentials | HttpClient.HttpClient
@@ -1678,7 +1679,7 @@ export type UpdateWorkflowStepGroupError =
  * Update the step group in a migration workflow.
  */
 export const updateWorkflowStepGroup: API.OperationMethod<
-  UpdateWorkflowStepGroupRequest,
+  UpdateWorkflowStepGroupRequest & RegionInput,
   UpdateWorkflowStepGroupResponse,
   UpdateWorkflowStepGroupError,
   Credentials | HttpClient.HttpClient

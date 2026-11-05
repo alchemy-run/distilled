@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -7059,7 +7060,7 @@ export type AcceptPredictionsError =
  * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
  */
 export const acceptPredictions: API.OperationMethod<
-  AcceptPredictionsInput,
+  AcceptPredictionsInput & RegionInput,
   AcceptPredictionsOutput,
   AcceptPredictionsError,
   Credentials | HttpClient.HttpClient
@@ -7094,7 +7095,7 @@ export type AcceptSubscriptionRequestError =
  * Accepts a subscription request to a specific asset.
  */
 export const acceptSubscriptionRequest: API.OperationMethod<
-  AcceptSubscriptionRequestInput,
+  AcceptSubscriptionRequestInput & RegionInput,
   AcceptSubscriptionRequestOutput,
   AcceptSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
@@ -7130,7 +7131,7 @@ export type AddEntityOwnerError =
  * Adds the owner of an entity (a domain unit).
  */
 export const addEntityOwner: API.OperationMethod<
-  AddEntityOwnerInput,
+  AddEntityOwnerInput & RegionInput,
   AddEntityOwnerOutput,
   AddEntityOwnerError,
   Credentials | HttpClient.HttpClient
@@ -7165,7 +7166,7 @@ export type AddPolicyGrantError =
  * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
  */
 export const addPolicyGrant: API.OperationMethod<
-  AddPolicyGrantInput,
+  AddPolicyGrantInput & RegionInput,
   AddPolicyGrantOutput,
   AddPolicyGrantError,
   Credentials | HttpClient.HttpClient
@@ -7199,7 +7200,7 @@ export type AssociateEnvironmentRoleError =
  * Associates the environment role in Amazon DataZone.
  */
 export const associateEnvironmentRole: API.OperationMethod<
-  AssociateEnvironmentRoleInput,
+  AssociateEnvironmentRoleInput & RegionInput,
   AssociateEnvironmentRoleOutput,
   AssociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
@@ -7233,7 +7234,7 @@ export type AssociateGovernedTermsError =
  * Associates governed terms with an asset.
  */
 export const associateGovernedTerms: API.OperationMethod<
-  AssociateGovernedTermsInput,
+  AssociateGovernedTermsInput & RegionInput,
   AssociateGovernedTermsOutput,
   AssociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
@@ -7266,7 +7267,7 @@ export type BatchGetAttributesMetadataError =
  * Gets the attribute metadata.
  */
 export const batchGetAttributesMetadata: API.OperationMethod<
-  BatchGetAttributesMetadataInput,
+  BatchGetAttributesMetadataInput & RegionInput,
   BatchGetAttributesMetadataOutput,
   BatchGetAttributesMetadataError,
   Credentials | HttpClient.HttpClient
@@ -7299,7 +7300,7 @@ export type BatchPutAttributesMetadataError =
  * Writes the attribute metadata.
  */
 export const batchPutAttributesMetadata: API.OperationMethod<
-  BatchPutAttributesMetadataInput,
+  BatchPutAttributesMetadataInput & RegionInput,
   BatchPutAttributesMetadataOutput,
   BatchPutAttributesMetadataError,
   Credentials | HttpClient.HttpClient
@@ -7341,7 +7342,7 @@ export type CancelMetadataGenerationRunError =
  * - User must have access to the run and cancel permissions.
  */
 export const cancelMetadataGenerationRun: API.OperationMethod<
-  CancelMetadataGenerationRunInput,
+  CancelMetadataGenerationRunInput & RegionInput,
   CancelMetadataGenerationRunOutput,
   CancelMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
@@ -7375,7 +7376,7 @@ export type CancelSubscriptionError =
  * Cancels the subscription to the specified asset.
  */
 export const cancelSubscription: API.OperationMethod<
-  CancelSubscriptionInput,
+  CancelSubscriptionInput & RegionInput,
   CancelSubscriptionOutput,
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -7410,7 +7411,7 @@ export type CreateAccountPoolError =
  * Creates an account pool.
  */
 export const createAccountPool: API.OperationMethod<
-  CreateAccountPoolInput,
+  CreateAccountPoolInput & RegionInput,
   CreateAccountPoolOutput,
   CreateAccountPoolError,
   Credentials | HttpClient.HttpClient
@@ -7466,7 +7467,7 @@ export type CreateAssetError =
  * - CreateAssetType
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetInput,
+  CreateAssetInput & RegionInput,
   CreateAssetOutput,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -7514,7 +7515,7 @@ export type CreateAssetFilterError =
  * - You cannot specify both (`columnConfiguration`, `rowConfiguration`)at the same time.
  */
 export const createAssetFilter: API.OperationMethod<
-  CreateAssetFilterInput,
+  CreateAssetFilterInput & RegionInput,
   CreateAssetFilterOutput,
   CreateAssetFilterError,
   Credentials | HttpClient.HttpClient
@@ -7563,7 +7564,7 @@ export type CreateAssetRevisionError =
  * - User must have write access to the project and domain.
  */
 export const createAssetRevision: API.OperationMethod<
-  CreateAssetRevisionInput,
+  CreateAssetRevisionInput & RegionInput,
   CreateAssetRevisionOutput,
   CreateAssetRevisionError,
   Credentials | HttpClient.HttpClient
@@ -7609,7 +7610,7 @@ export type CreateAssetTypeError =
  * - JSON input must be valid -- incorrect formatting causes Invalid JSON errors.
  */
 export const createAssetType: API.OperationMethod<
-  CreateAssetTypeInput,
+  CreateAssetTypeInput & RegionInput,
   CreateAssetTypeOutput,
   CreateAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -7644,7 +7645,7 @@ export type CreateConnectionError =
  * Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const createConnection: API.OperationMethod<
-  CreateConnectionInput,
+  CreateConnectionInput & RegionInput,
   CreateConnectionOutput,
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -7692,7 +7693,7 @@ export type CreateDataProductError =
  * - User must have create permissions for data products in the project.
  */
 export const createDataProduct: API.OperationMethod<
-  CreateDataProductInput,
+  CreateDataProductInput & RegionInput,
   CreateDataProductOutput,
   CreateDataProductError,
   Credentials | HttpClient.HttpClient
@@ -7737,7 +7738,7 @@ export type CreateDataProductRevisionError =
  * - The new revision name must comply with naming constraints (if required).
  */
 export const createDataProductRevision: API.OperationMethod<
-  CreateDataProductRevisionInput,
+  CreateDataProductRevisionInput & RegionInput,
   CreateDataProductRevisionOutput,
   CreateDataProductRevisionError,
   Credentials | HttpClient.HttpClient
@@ -7772,7 +7773,7 @@ export type CreateDataSourceError =
  * Creates an Amazon DataZone data source.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceInput,
+  CreateDataSourceInput & RegionInput,
   CreateDataSourceOutput,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -7808,7 +7809,7 @@ export type CreateDomainError =
  * Creates an Amazon DataZone domain.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainInput,
+  CreateDomainInput & RegionInput,
   CreateDomainOutput,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
@@ -7843,7 +7844,7 @@ export type CreateDomainUnitError =
  * Creates a domain unit in Amazon DataZone.
  */
 export const createDomainUnit: API.OperationMethod<
-  CreateDomainUnitInput,
+  CreateDomainUnitInput & RegionInput,
   CreateDomainUnitOutput,
   CreateDomainUnitError,
   Credentials | HttpClient.HttpClient
@@ -7877,7 +7878,7 @@ export type CreateEnvironmentError =
  * Create an Amazon DataZone environment.
  */
 export const createEnvironment: API.OperationMethod<
-  CreateEnvironmentInput,
+  CreateEnvironmentInput & RegionInput,
   CreateEnvironmentOutput,
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -7911,7 +7912,7 @@ export type CreateEnvironmentActionError =
  * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
  */
 export const createEnvironmentAction: API.OperationMethod<
-  CreateEnvironmentActionInput,
+  CreateEnvironmentActionInput & RegionInput,
   CreateEnvironmentActionOutput,
   CreateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
@@ -7946,7 +7947,7 @@ export type CreateEnvironmentBlueprintError =
  * Creates a Amazon DataZone blueprint.
  */
 export const createEnvironmentBlueprint: API.OperationMethod<
-  CreateEnvironmentBlueprintInput,
+  CreateEnvironmentBlueprintInput & RegionInput,
   CreateEnvironmentBlueprintOutput,
   CreateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -7982,7 +7983,7 @@ export type CreateEnvironmentProfileError =
  * Creates an Amazon DataZone environment profile.
  */
 export const createEnvironmentProfile: API.OperationMethod<
-  CreateEnvironmentProfileInput,
+  CreateEnvironmentProfileInput & RegionInput,
   CreateEnvironmentProfileOutput,
   CreateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
@@ -8029,7 +8030,7 @@ export type CreateFormTypeError =
  * To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with `@amazon.datazone#glossaryterm("${GLOSSARY_ID}")`, where `${GLOSSARY_ID}` is the id of the glossary that the glossary terms stored in the field belong to.
  */
 export const createFormType: API.OperationMethod<
-  CreateFormTypeInput,
+  CreateFormTypeInput & RegionInput,
   CreateFormTypeOutput,
   CreateFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -8075,7 +8076,7 @@ export type CreateGlossaryError =
  * - The glossary name must be unique within the domain.
  */
 export const createGlossary: API.OperationMethod<
-  CreateGlossaryInput,
+  CreateGlossaryInput & RegionInput,
   CreateGlossaryOutput,
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -8122,7 +8123,7 @@ export type CreateGlossaryTermError =
  * - Ensure term does not conflict with existing terms in hierarchy.
  */
 export const createGlossaryTerm: API.OperationMethod<
-  CreateGlossaryTermInput,
+  CreateGlossaryTermInput & RegionInput,
   CreateGlossaryTermOutput,
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -8155,7 +8156,7 @@ export type CreateGroupProfileError =
  * Creates a group profile in Amazon DataZone.
  */
 export const createGroupProfile: API.OperationMethod<
-  CreateGroupProfileInput,
+  CreateGroupProfileInput & RegionInput,
   CreateGroupProfileOutput,
   CreateGroupProfileError,
   Credentials | HttpClient.HttpClient
@@ -8188,7 +8189,7 @@ export type CreateListingChangeSetError =
  * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
  */
 export const createListingChangeSet: API.OperationMethod<
-  CreateListingChangeSetInput,
+  CreateListingChangeSetInput & RegionInput,
   CreateListingChangeSetOutput,
   CreateListingChangeSetError,
   Credentials | HttpClient.HttpClient
@@ -8224,7 +8225,7 @@ export type CreateNotebookError =
  * Creates a notebook in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing.
  */
 export const createNotebook: API.OperationMethod<
-  CreateNotebookInput,
+  CreateNotebookInput & RegionInput,
   CreateNotebookOutput,
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -8260,7 +8261,7 @@ export type CreateProjectError =
  * Creates an Amazon DataZone project.
  */
 export const createProject: API.OperationMethod<
-  CreateProjectInput,
+  CreateProjectInput & RegionInput,
   CreateProjectOutput,
   CreateProjectError,
   Credentials | HttpClient.HttpClient
@@ -8293,7 +8294,7 @@ export type CreateProjectMembershipError =
  * Creates a project membership in Amazon DataZone.
  */
 export const createProjectMembership: API.OperationMethod<
-  CreateProjectMembershipInput,
+  CreateProjectMembershipInput & RegionInput,
   CreateProjectMembershipOutput,
   CreateProjectMembershipError,
   Credentials | HttpClient.HttpClient
@@ -8326,7 +8327,7 @@ export type CreateProjectProfileError =
  * Creates a project profile.
  */
 export const createProjectProfile: API.OperationMethod<
-  CreateProjectProfileInput,
+  CreateProjectProfileInput & RegionInput,
   CreateProjectProfileOutput,
   CreateProjectProfileError,
   Credentials | HttpClient.HttpClient
@@ -8362,7 +8363,7 @@ export type CreateRuleError =
  * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleInput,
+  CreateRuleInput & RegionInput,
   CreateRuleOutput,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
@@ -8397,7 +8398,7 @@ export type CreateSubscriptionGrantError =
  * Creates a subsscription grant in Amazon DataZone.
  */
 export const createSubscriptionGrant: API.OperationMethod<
-  CreateSubscriptionGrantInput,
+  CreateSubscriptionGrantInput & RegionInput,
   CreateSubscriptionGrantOutput,
   CreateSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
@@ -8432,7 +8433,7 @@ export type CreateSubscriptionRequestError =
  * Creates a subscription request in Amazon DataZone.
  */
 export const createSubscriptionRequest: API.OperationMethod<
-  CreateSubscriptionRequestInput,
+  CreateSubscriptionRequestInput & RegionInput,
   CreateSubscriptionRequestOutput,
   CreateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
@@ -8467,7 +8468,7 @@ export type CreateSubscriptionTargetError =
  * Creates a subscription target in Amazon DataZone.
  */
 export const createSubscriptionTarget: API.OperationMethod<
-  CreateSubscriptionTargetInput,
+  CreateSubscriptionTargetInput & RegionInput,
   CreateSubscriptionTargetOutput,
   CreateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
@@ -8499,7 +8500,7 @@ export type CreateUserProfileError =
  * Creates a user profile in Amazon DataZone.
  */
 export const createUserProfile: API.OperationMethod<
-  CreateUserProfileInput,
+  CreateUserProfileInput & RegionInput,
   CreateUserProfileOutput,
   CreateUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -8530,7 +8531,7 @@ export type DeleteAccountPoolError =
  * Deletes an account pool.
  */
 export const deleteAccountPool: API.OperationMethod<
-  DeleteAccountPoolInput,
+  DeleteAccountPoolInput & RegionInput,
   DeleteAccountPoolOutput,
   DeleteAccountPoolError,
   Credentials | HttpClient.HttpClient
@@ -8573,7 +8574,7 @@ export type DeleteAssetError =
  * - User must have delete permissions for the domain and project.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetInput,
+  DeleteAssetInput & RegionInput,
   DeleteAssetOutput,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -8615,7 +8616,7 @@ export type DeleteAssetFilterError =
  * - Ensure the --identifier refers to a valid filter ID.
  */
 export const deleteAssetFilter: API.OperationMethod<
-  DeleteAssetFilterInput,
+  DeleteAssetFilterInput & RegionInput,
   DeleteAssetFilterResponse,
   DeleteAssetFilterError,
   Credentials | HttpClient.HttpClient
@@ -8659,7 +8660,7 @@ export type DeleteAssetTypeError =
  * - You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
  */
 export const deleteAssetType: API.OperationMethod<
-  DeleteAssetTypeInput,
+  DeleteAssetTypeInput & RegionInput,
   DeleteAssetTypeOutput,
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -8692,7 +8693,7 @@ export type DeleteConnectionError =
  * Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionInput,
+  DeleteConnectionInput & RegionInput,
   DeleteConnectionOutput,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -8729,7 +8730,7 @@ export type DeleteDataExportConfigurationError =
  * To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the `--no-enable-export` flag instead. This allows you to re-enable export for the same domain using the `--enable-export` flag without deleting S3 table.
  */
 export const deleteDataExportConfiguration: API.OperationMethod<
-  DeleteDataExportConfigurationInput,
+  DeleteDataExportConfigurationInput & RegionInput,
   DeleteDataExportConfigurationOutput,
   DeleteDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -8771,7 +8772,7 @@ export type DeleteDataProductError =
  * - Domain and project must be active.
  */
 export const deleteDataProduct: API.OperationMethod<
-  DeleteDataProductInput,
+  DeleteDataProductInput & RegionInput,
   DeleteDataProductOutput,
   DeleteDataProductError,
   Credentials | HttpClient.HttpClient
@@ -8806,7 +8807,7 @@ export type DeleteDataSourceError =
  * Deletes a data source in Amazon DataZone.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceInput,
+  DeleteDataSourceInput & RegionInput,
   DeleteDataSourceOutput,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -8841,7 +8842,7 @@ export type DeleteDomainError =
  * Deletes a Amazon DataZone domain.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainInput,
+  DeleteDomainInput & RegionInput,
   DeleteDomainOutput,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -8875,7 +8876,7 @@ export type DeleteDomainUnitError =
  * Deletes a domain unit.
  */
 export const deleteDomainUnit: API.OperationMethod<
-  DeleteDomainUnitInput,
+  DeleteDomainUnitInput & RegionInput,
   DeleteDomainUnitOutput,
   DeleteDomainUnitError,
   Credentials | HttpClient.HttpClient
@@ -8908,7 +8909,7 @@ export type DeleteEnvironmentError =
  * Deletes an environment in Amazon DataZone.
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentInput,
+  DeleteEnvironmentInput & RegionInput,
   DeleteEnvironmentResponse,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -8941,7 +8942,7 @@ export type DeleteEnvironmentActionError =
  * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
  */
 export const deleteEnvironmentAction: API.OperationMethod<
-  DeleteEnvironmentActionInput,
+  DeleteEnvironmentActionInput & RegionInput,
   DeleteEnvironmentActionResponse,
   DeleteEnvironmentActionError,
   Credentials | HttpClient.HttpClient
@@ -8975,7 +8976,7 @@ export type DeleteEnvironmentBlueprintError =
  * Deletes a blueprint in Amazon DataZone.
  */
 export const deleteEnvironmentBlueprint: API.OperationMethod<
-  DeleteEnvironmentBlueprintInput,
+  DeleteEnvironmentBlueprintInput & RegionInput,
   DeleteEnvironmentBlueprintResponse,
   DeleteEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -9008,7 +9009,7 @@ export type DeleteEnvironmentBlueprintConfigurationError =
  * Deletes the blueprint configuration in Amazon DataZone.
  */
 export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
-  DeleteEnvironmentBlueprintConfigurationInput,
+  DeleteEnvironmentBlueprintConfigurationInput & RegionInput,
   DeleteEnvironmentBlueprintConfigurationOutput,
   DeleteEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9040,7 +9041,7 @@ export type DeleteEnvironmentProfileError =
  * Deletes an environment profile in Amazon DataZone.
  */
 export const deleteEnvironmentProfile: API.OperationMethod<
-  DeleteEnvironmentProfileInput,
+  DeleteEnvironmentProfileInput & RegionInput,
   DeleteEnvironmentProfileResponse,
   DeleteEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
@@ -9085,7 +9086,7 @@ export type DeleteFormTypeError =
  * - Any dependencies (such as linked asset types) must be removed first.
  */
 export const deleteFormType: API.OperationMethod<
-  DeleteFormTypeInput,
+  DeleteFormTypeInput & RegionInput,
   DeleteFormTypeOutput,
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -9131,7 +9132,7 @@ export type DeleteGlossaryError =
  * - Glossary should not be linked to any active metadata forms.
  */
 export const deleteGlossary: API.OperationMethod<
-  DeleteGlossaryInput,
+  DeleteGlossaryInput & RegionInput,
   DeleteGlossaryOutput,
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -9175,7 +9176,7 @@ export type DeleteGlossaryTermError =
  * - Ensure all associations (such as to assets or parent terms) are removed before deletion.
  */
 export const deleteGlossaryTerm: API.OperationMethod<
-  DeleteGlossaryTermInput,
+  DeleteGlossaryTermInput & RegionInput,
   DeleteGlossaryTermOutput,
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -9208,7 +9209,7 @@ export type DeleteLineageEventError =
  * Deletes the specified lineage event.
  */
 export const deleteLineageEvent: API.OperationMethod<
-  DeleteLineageEventInput,
+  DeleteLineageEventInput & RegionInput,
   DeleteLineageEventOutput,
   DeleteLineageEventError,
   Credentials | HttpClient.HttpClient
@@ -9241,7 +9242,7 @@ export type DeleteListingError =
  * Deletes a listing (a record of an asset at a given time).
  */
 export const deleteListing: API.OperationMethod<
-  DeleteListingInput,
+  DeleteListingInput & RegionInput,
   DeleteListingOutput,
   DeleteListingError,
   Credentials | HttpClient.HttpClient
@@ -9274,7 +9275,7 @@ export type DeleteNotebookError =
  * Deletes a notebook in Amazon SageMaker Unified Studio.
  */
 export const deleteNotebook: API.OperationMethod<
-  DeleteNotebookInput,
+  DeleteNotebookInput & RegionInput,
   DeleteNotebookOutput,
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
@@ -9306,7 +9307,7 @@ export type DeleteProjectError =
  * Deletes a project in Amazon DataZone.
  */
 export const deleteProject: API.OperationMethod<
-  DeleteProjectInput,
+  DeleteProjectInput & RegionInput,
   DeleteProjectOutput,
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
@@ -9339,7 +9340,7 @@ export type DeleteProjectMembershipError =
  * Deletes project membership in Amazon DataZone.
  */
 export const deleteProjectMembership: API.OperationMethod<
-  DeleteProjectMembershipInput,
+  DeleteProjectMembershipInput & RegionInput,
   DeleteProjectMembershipOutput,
   DeleteProjectMembershipError,
   Credentials | HttpClient.HttpClient
@@ -9372,7 +9373,7 @@ export type DeleteProjectProfileError =
  * Deletes a project profile.
  */
 export const deleteProjectProfile: API.OperationMethod<
-  DeleteProjectProfileInput,
+  DeleteProjectProfileInput & RegionInput,
   DeleteProjectProfileOutput,
   DeleteProjectProfileError,
   Credentials | HttpClient.HttpClient
@@ -9405,7 +9406,7 @@ export type DeleteRuleError =
  * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleInput,
+  DeleteRuleInput & RegionInput,
   DeleteRuleOutput,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
@@ -9439,7 +9440,7 @@ export type DeleteSubscriptionGrantError =
  * Deletes and subscription grant in Amazon DataZone.
  */
 export const deleteSubscriptionGrant: API.OperationMethod<
-  DeleteSubscriptionGrantInput,
+  DeleteSubscriptionGrantInput & RegionInput,
   DeleteSubscriptionGrantOutput,
   DeleteSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
@@ -9473,7 +9474,7 @@ export type DeleteSubscriptionRequestError =
  * Deletes a subscription request in Amazon DataZone.
  */
 export const deleteSubscriptionRequest: API.OperationMethod<
-  DeleteSubscriptionRequestInput,
+  DeleteSubscriptionRequestInput & RegionInput,
   DeleteSubscriptionRequestResponse,
   DeleteSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
@@ -9507,7 +9508,7 @@ export type DeleteSubscriptionTargetError =
  * Deletes a subscription target in Amazon DataZone.
  */
 export const deleteSubscriptionTarget: API.OperationMethod<
-  DeleteSubscriptionTargetInput,
+  DeleteSubscriptionTargetInput & RegionInput,
   DeleteSubscriptionTargetResponse,
   DeleteSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
@@ -9540,7 +9541,7 @@ export type DeleteTimeSeriesDataPointsError =
  * Deletes the specified time series form for the specified asset.
  */
 export const deleteTimeSeriesDataPoints: API.OperationMethod<
-  DeleteTimeSeriesDataPointsInput,
+  DeleteTimeSeriesDataPointsInput & RegionInput,
   DeleteTimeSeriesDataPointsOutput,
   DeleteTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
@@ -9573,7 +9574,7 @@ export type DisassociateEnvironmentRoleError =
  * Disassociates the environment role in Amazon DataZone.
  */
 export const disassociateEnvironmentRole: API.OperationMethod<
-  DisassociateEnvironmentRoleInput,
+  DisassociateEnvironmentRoleInput & RegionInput,
   DisassociateEnvironmentRoleOutput,
   DisassociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
@@ -9607,7 +9608,7 @@ export type DisassociateGovernedTermsError =
  * Disassociates restricted terms from an asset.
  */
 export const disassociateGovernedTerms: API.OperationMethod<
-  DisassociateGovernedTermsInput,
+  DisassociateGovernedTermsInput & RegionInput,
   DisassociateGovernedTermsOutput,
   DisassociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
@@ -9640,7 +9641,7 @@ export type GetAccountPoolError =
  * Gets the details of the account pool.
  */
 export const getAccountPool: API.OperationMethod<
-  GetAccountPoolInput,
+  GetAccountPoolInput & RegionInput,
   GetAccountPoolOutput,
   GetAccountPoolError,
   Credentials | HttpClient.HttpClient
@@ -9682,7 +9683,7 @@ export type GetAssetError =
  * - User must have the required permissions to perform the action
  */
 export const getAsset: API.OperationMethod<
-  GetAssetInput,
+  GetAssetInput & RegionInput,
   GetAssetOutput,
   GetAssetError,
   Credentials | HttpClient.HttpClient
@@ -9722,7 +9723,7 @@ export type GetAssetFilterError =
  * - The asset must still exist (since the filter is linked to it).
  */
 export const getAssetFilter: API.OperationMethod<
-  GetAssetFilterInput,
+  GetAssetFilterInput & RegionInput,
   GetAssetFilterOutput,
   GetAssetFilterError,
   Credentials | HttpClient.HttpClient
@@ -9764,7 +9765,7 @@ export type GetAssetTypeError =
  * - Ensure the domain-identifier value is correct and accessible.
  */
 export const getAssetType: API.OperationMethod<
-  GetAssetTypeInput,
+  GetAssetTypeInput & RegionInput,
   GetAssetTypeOutput,
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
@@ -9796,7 +9797,7 @@ export type GetConnectionError =
  * Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionInput,
+  GetConnectionInput & RegionInput,
   GetConnectionOutput,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -9828,7 +9829,7 @@ export type GetDataExportConfigurationError =
  * Gets data export configuration details.
  */
 export const getDataExportConfiguration: API.OperationMethod<
-  GetDataExportConfigurationInput,
+  GetDataExportConfigurationInput & RegionInput,
   GetDataExportConfigurationOutput,
   GetDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -9868,7 +9869,7 @@ export type GetDataProductError =
  * - User must have read or discovery permissions for the data product.
  */
 export const getDataProduct: API.OperationMethod<
-  GetDataProductInput,
+  GetDataProductInput & RegionInput,
   GetDataProductOutput,
   GetDataProductError,
   Credentials | HttpClient.HttpClient
@@ -9902,7 +9903,7 @@ export type GetDataSourceError =
  * Gets an Amazon DataZone data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceInput,
+  GetDataSourceInput & RegionInput,
   GetDataSourceOutput,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -9938,7 +9939,7 @@ export type GetDataSourceRunError =
  * Gets an Amazon DataZone data source run.
  */
 export const getDataSourceRun: API.OperationMethod<
-  GetDataSourceRunInput,
+  GetDataSourceRunInput & RegionInput,
   GetDataSourceRunOutput,
   GetDataSourceRunError,
   Credentials | HttpClient.HttpClient
@@ -9973,7 +9974,7 @@ export type GetDomainError =
  * Gets an Amazon DataZone domain.
  */
 export const getDomain: API.OperationMethod<
-  GetDomainInput,
+  GetDomainInput & RegionInput,
   GetDomainOutput,
   GetDomainError,
   Credentials | HttpClient.HttpClient
@@ -10006,7 +10007,7 @@ export type GetDomainUnitError =
  * Gets the details of the specified domain unit.
  */
 export const getDomainUnit: API.OperationMethod<
-  GetDomainUnitInput,
+  GetDomainUnitInput & RegionInput,
   GetDomainUnitOutput,
   GetDomainUnitError,
   Credentials | HttpClient.HttpClient
@@ -10038,7 +10039,7 @@ export type GetEnvironmentError =
  * Gets an Amazon DataZone environment.
  */
 export const getEnvironment: API.OperationMethod<
-  GetEnvironmentInput,
+  GetEnvironmentInput & RegionInput,
   GetEnvironmentOutput,
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -10070,7 +10071,7 @@ export type GetEnvironmentActionError =
  * Gets the specified environment action.
  */
 export const getEnvironmentAction: API.OperationMethod<
-  GetEnvironmentActionInput,
+  GetEnvironmentActionInput & RegionInput,
   GetEnvironmentActionOutput,
   GetEnvironmentActionError,
   Credentials | HttpClient.HttpClient
@@ -10102,7 +10103,7 @@ export type GetEnvironmentBlueprintError =
  * Gets an Amazon DataZone blueprint.
  */
 export const getEnvironmentBlueprint: API.OperationMethod<
-  GetEnvironmentBlueprintInput,
+  GetEnvironmentBlueprintInput & RegionInput,
   GetEnvironmentBlueprintOutput,
   GetEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -10133,7 +10134,7 @@ export type GetEnvironmentBlueprintConfigurationError =
  * Gets the blueprint configuration in Amazon DataZone.
  */
 export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
-  GetEnvironmentBlueprintConfigurationInput,
+  GetEnvironmentBlueprintConfigurationInput & RegionInput,
   GetEnvironmentBlueprintConfigurationOutput,
   GetEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10164,7 +10165,7 @@ export type GetEnvironmentCredentialsError =
  * Gets the credentials of an environment in Amazon DataZone.
  */
 export const getEnvironmentCredentials: API.OperationMethod<
-  GetEnvironmentCredentialsInput,
+  GetEnvironmentCredentialsInput & RegionInput,
   GetEnvironmentCredentialsOutput,
   GetEnvironmentCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -10196,7 +10197,7 @@ export type GetEnvironmentProfileError =
  * Gets an evinronment profile in Amazon DataZone.
  */
 export const getEnvironmentProfile: API.OperationMethod<
-  GetEnvironmentProfileInput,
+  GetEnvironmentProfileInput & RegionInput,
   GetEnvironmentProfileOutput,
   GetEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
@@ -10244,7 +10245,7 @@ export type GetFormTypeError =
  * A field storing glossary term IDs (which is filterable) will be annotated with `@amazon.datazone#glossaryterm("${glossaryId}")`.
  */
 export const getFormType: API.OperationMethod<
-  GetFormTypeInput,
+  GetFormTypeInput & RegionInput,
   GetFormTypeOutput,
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
@@ -10282,7 +10283,7 @@ export type GetGlossaryError =
  * - The caller must have the `datazone:GetGlossary` permission on the domain.
  */
 export const getGlossary: API.OperationMethod<
-  GetGlossaryInput,
+  GetGlossaryInput & RegionInput,
   GetGlossaryOutput,
   GetGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -10322,7 +10323,7 @@ export type GetGlossaryTermError =
  * - Domain must be accessible and active.
  */
 export const getGlossaryTerm: API.OperationMethod<
-  GetGlossaryTermInput,
+  GetGlossaryTermInput & RegionInput,
   GetGlossaryTermOutput,
   GetGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -10353,7 +10354,7 @@ export type GetGroupProfileError =
  * Gets a group profile in Amazon DataZone.
  */
 export const getGroupProfile: API.OperationMethod<
-  GetGroupProfileInput,
+  GetGroupProfileInput & RegionInput,
   GetGroupProfileOutput,
   GetGroupProfileError,
   Credentials | HttpClient.HttpClient
@@ -10385,7 +10386,7 @@ export type GetIamPortalLoginUrlError =
  * Gets the data portal URL for the specified Amazon DataZone domain.
  */
 export const getIamPortalLoginUrl: API.OperationMethod<
-  GetIamPortalLoginUrlInput,
+  GetIamPortalLoginUrlInput & RegionInput,
   GetIamPortalLoginUrlOutput,
   GetIamPortalLoginUrlError,
   Credentials | HttpClient.HttpClient
@@ -10418,7 +10419,7 @@ export type GetJobRunError =
  * The details of the job run.
  */
 export const getJobRun: API.OperationMethod<
-  GetJobRunInput,
+  GetJobRunInput & RegionInput,
   GetJobRunOutput,
   GetJobRunError,
   Credentials | HttpClient.HttpClient
@@ -10450,7 +10451,7 @@ export type GetLineageEventError =
  * Describes the lineage event.
  */
 export const getLineageEvent: API.OperationMethod<
-  GetLineageEventInput,
+  GetLineageEventInput & RegionInput,
   GetLineageEventOutput,
   GetLineageEventError,
   Credentials | HttpClient.HttpClient
@@ -10482,7 +10483,7 @@ export type GetLineageNodeError =
  * Gets the data lineage node.
  */
 export const getLineageNode: API.OperationMethod<
-  GetLineageNodeInput,
+  GetLineageNodeInput & RegionInput,
   GetLineageNodeOutput,
   GetLineageNodeError,
   Credentials | HttpClient.HttpClient
@@ -10514,7 +10515,7 @@ export type GetListingError =
  * Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
  */
 export const getListing: API.OperationMethod<
-  GetListingInput,
+  GetListingInput & RegionInput,
   GetListingOutput,
   GetListingError,
   Credentials | HttpClient.HttpClient
@@ -10554,7 +10555,7 @@ export type GetMetadataGenerationRunError =
  * - User must have read access to the metadata run.
  */
 export const getMetadataGenerationRun: API.OperationMethod<
-  GetMetadataGenerationRunInput,
+  GetMetadataGenerationRunInput & RegionInput,
   GetMetadataGenerationRunOutput,
   GetMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
@@ -10586,7 +10587,7 @@ export type GetNotebookError =
  * Gets the details of a notebook in Amazon SageMaker Unified Studio.
  */
 export const getNotebook: API.OperationMethod<
-  GetNotebookInput,
+  GetNotebookInput & RegionInput,
   GetNotebookOutput,
   GetNotebookError,
   Credentials | HttpClient.HttpClient
@@ -10618,7 +10619,7 @@ export type GetNotebookExportError =
  * Gets the details of a notebook export in Amazon SageMaker Unified Studio.
  */
 export const getNotebookExport: API.OperationMethod<
-  GetNotebookExportInput,
+  GetNotebookExportInput & RegionInput,
   GetNotebookExportOutput,
   GetNotebookExportError,
   Credentials | HttpClient.HttpClient
@@ -10650,7 +10651,7 @@ export type GetNotebookRunError =
  * Gets the details of a notebook run in Amazon SageMaker Unified Studio.
  */
 export const getNotebookRun: API.OperationMethod<
-  GetNotebookRunInput,
+  GetNotebookRunInput & RegionInput,
   GetNotebookRunOutput,
   GetNotebookRunError,
   Credentials | HttpClient.HttpClient
@@ -10682,7 +10683,7 @@ export type GetProjectError =
  * Gets a project in Amazon DataZone.
  */
 export const getProject: API.OperationMethod<
-  GetProjectInput,
+  GetProjectInput & RegionInput,
   GetProjectOutput,
   GetProjectError,
   Credentials | HttpClient.HttpClient
@@ -10714,7 +10715,7 @@ export type GetProjectProfileError =
  * The details of the project profile.
  */
 export const getProjectProfile: API.OperationMethod<
-  GetProjectProfileInput,
+  GetProjectProfileInput & RegionInput,
   GetProjectProfileOutput,
   GetProjectProfileError,
   Credentials | HttpClient.HttpClient
@@ -10746,7 +10747,7 @@ export type GetRuleError =
  * Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const getRule: API.OperationMethod<
-  GetRuleInput,
+  GetRuleInput & RegionInput,
   GetRuleOutput,
   GetRuleError,
   Credentials | HttpClient.HttpClient
@@ -10778,7 +10779,7 @@ export type GetSubscriptionError =
  * Gets a subscription in Amazon DataZone.
  */
 export const getSubscription: API.OperationMethod<
-  GetSubscriptionInput,
+  GetSubscriptionInput & RegionInput,
   GetSubscriptionOutput,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -10810,7 +10811,7 @@ export type GetSubscriptionGrantError =
  * Gets the subscription grant in Amazon DataZone.
  */
 export const getSubscriptionGrant: API.OperationMethod<
-  GetSubscriptionGrantInput,
+  GetSubscriptionGrantInput & RegionInput,
   GetSubscriptionGrantOutput,
   GetSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
@@ -10842,7 +10843,7 @@ export type GetSubscriptionRequestDetailsError =
  * Gets the details of the specified subscription request.
  */
 export const getSubscriptionRequestDetails: API.OperationMethod<
-  GetSubscriptionRequestDetailsInput,
+  GetSubscriptionRequestDetailsInput & RegionInput,
   GetSubscriptionRequestDetailsOutput,
   GetSubscriptionRequestDetailsError,
   Credentials | HttpClient.HttpClient
@@ -10874,7 +10875,7 @@ export type GetSubscriptionTargetError =
  * Gets the subscription target in Amazon DataZone.
  */
 export const getSubscriptionTarget: API.OperationMethod<
-  GetSubscriptionTargetInput,
+  GetSubscriptionTargetInput & RegionInput,
   GetSubscriptionTargetOutput,
   GetSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
@@ -10906,7 +10907,7 @@ export type GetTimeSeriesDataPointError =
  * Gets the existing data point for the asset.
  */
 export const getTimeSeriesDataPoint: API.OperationMethod<
-  GetTimeSeriesDataPointInput,
+  GetTimeSeriesDataPointInput & RegionInput,
   GetTimeSeriesDataPointOutput,
   GetTimeSeriesDataPointError,
   Credentials | HttpClient.HttpClient
@@ -10937,7 +10938,7 @@ export type GetUserProfileError =
  * Gets a user profile in Amazon DataZone.
  */
 export const getUserProfile: API.OperationMethod<
-  GetUserProfileInput,
+  GetUserProfileInput & RegionInput,
   GetUserProfileOutput,
   GetUserProfileError,
   Credentials | HttpClient.HttpClient
@@ -10967,7 +10968,7 @@ export type ListAccountPoolsError =
  * Lists existing account pools.
  */
 export const listAccountPools: API.PaginatedOperationMethod<
-  ListAccountPoolsInput,
+  ListAccountPoolsInput & RegionInput,
   ListAccountPoolsOutput,
   ListAccountPoolsError,
   Credentials | HttpClient.HttpClient,
@@ -11005,7 +11006,7 @@ export type ListAccountsInAccountPoolError =
  * Lists the accounts in the specified account pool.
  */
 export const listAccountsInAccountPool: API.PaginatedOperationMethod<
-  ListAccountsInAccountPoolInput,
+  ListAccountsInAccountPoolInput & RegionInput,
   ListAccountsInAccountPoolOutput,
   ListAccountsInAccountPoolError,
   Credentials | HttpClient.HttpClient,
@@ -11050,7 +11051,7 @@ export type ListAssetFiltersError =
  * - The asset must have at least one filter created to return results.
  */
 export const listAssetFilters: API.PaginatedOperationMethod<
-  ListAssetFiltersInput,
+  ListAssetFiltersInput & RegionInput,
   ListAssetFiltersOutput,
   ListAssetFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -11099,7 +11100,7 @@ export type ListAssetRevisionsError =
  * - User must have permissions on the asset and domain.
  */
 export const listAssetRevisions: API.PaginatedOperationMethod<
-  ListAssetRevisionsInput,
+  ListAssetRevisionsInput & RegionInput,
   ListAssetRevisionsOutput,
   ListAssetRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -11137,7 +11138,7 @@ export type ListConnectionsError =
  * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsInput,
+  ListConnectionsInput & RegionInput,
   ListConnectionsOutput,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -11183,7 +11184,7 @@ export type ListDataProductRevisionsError =
  * - The domain must be in a valid and accessible state.
  */
 export const listDataProductRevisions: API.PaginatedOperationMethod<
-  ListDataProductRevisionsInput,
+  ListDataProductRevisionsInput & RegionInput,
   ListDataProductRevisionsOutput,
   ListDataProductRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -11224,7 +11225,7 @@ export type ListDataSourceRunActivitiesError =
  * Lists data source run activities.
  */
 export const listDataSourceRunActivities: API.PaginatedOperationMethod<
-  ListDataSourceRunActivitiesInput,
+  ListDataSourceRunActivitiesInput & RegionInput,
   ListDataSourceRunActivitiesOutput,
   ListDataSourceRunActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -11267,7 +11268,7 @@ export type ListDataSourceRunsError =
  * Lists data source runs in Amazon DataZone.
  */
 export const listDataSourceRuns: API.PaginatedOperationMethod<
-  ListDataSourceRunsInput,
+  ListDataSourceRunsInput & RegionInput,
   ListDataSourceRunsOutput,
   ListDataSourceRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11310,7 +11311,7 @@ export type ListDataSourcesError =
  * Lists data sources in Amazon DataZone.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesInput,
+  ListDataSourcesInput & RegionInput,
   ListDataSourcesOutput,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -11353,7 +11354,7 @@ export type ListDomainsError =
  * Lists Amazon DataZone domains.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsInput,
+  ListDomainsInput & RegionInput,
   ListDomainsOutput,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -11393,7 +11394,7 @@ export type ListDomainUnitsForParentError =
  * Lists child domain units for the specified parent domain unit.
  */
 export const listDomainUnitsForParent: API.PaginatedOperationMethod<
-  ListDomainUnitsForParentInput,
+  ListDomainUnitsForParentInput & RegionInput,
   ListDomainUnitsForParentOutput,
   ListDomainUnitsForParentError,
   Credentials | HttpClient.HttpClient,
@@ -11430,7 +11431,7 @@ export type ListEntityOwnersError =
  * Lists the entity (domain units) owners.
  */
 export const listEntityOwners: API.PaginatedOperationMethod<
-  ListEntityOwnersInput,
+  ListEntityOwnersInput & RegionInput,
   ListEntityOwnersOutput,
   ListEntityOwnersError,
   Credentials | HttpClient.HttpClient,
@@ -11467,7 +11468,7 @@ export type ListEnvironmentActionsError =
  * Lists existing environment actions.
  */
 export const listEnvironmentActions: API.PaginatedOperationMethod<
-  ListEnvironmentActionsInput,
+  ListEnvironmentActionsInput & RegionInput,
   ListEnvironmentActionsOutput,
   ListEnvironmentActionsError,
   Credentials | HttpClient.HttpClient,
@@ -11504,7 +11505,7 @@ export type ListEnvironmentBlueprintConfigurationsError =
  * Lists blueprint configurations for a Amazon DataZone environment.
  */
 export const listEnvironmentBlueprintConfigurations: API.PaginatedOperationMethod<
-  ListEnvironmentBlueprintConfigurationsInput,
+  ListEnvironmentBlueprintConfigurationsInput & RegionInput,
   ListEnvironmentBlueprintConfigurationsOutput,
   ListEnvironmentBlueprintConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -11542,7 +11543,7 @@ export type ListEnvironmentBlueprintsError =
  * Lists blueprints in an Amazon DataZone environment.
  */
 export const listEnvironmentBlueprints: API.PaginatedOperationMethod<
-  ListEnvironmentBlueprintsInput,
+  ListEnvironmentBlueprintsInput & RegionInput,
   ListEnvironmentBlueprintsOutput,
   ListEnvironmentBlueprintsError,
   Credentials | HttpClient.HttpClient,
@@ -11580,7 +11581,7 @@ export type ListEnvironmentProfilesError =
  * Lists Amazon DataZone environment profiles.
  */
 export const listEnvironmentProfiles: API.PaginatedOperationMethod<
-  ListEnvironmentProfilesInput,
+  ListEnvironmentProfilesInput & RegionInput,
   ListEnvironmentProfilesOutput,
   ListEnvironmentProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -11618,7 +11619,7 @@ export type ListEnvironmentsError =
  * Lists Amazon DataZone environments.
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsInput,
+  ListEnvironmentsInput & RegionInput,
   ListEnvironmentsOutput,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -11657,7 +11658,7 @@ export type ListJobRunsError =
  * Lists job runs.
  */
 export const listJobRuns: API.PaginatedOperationMethod<
-  ListJobRunsInput,
+  ListJobRunsInput & RegionInput,
   ListJobRunsOutput,
   ListJobRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11695,7 +11696,7 @@ export type ListLineageEventsError =
  * Lists lineage events.
  */
 export const listLineageEvents: API.PaginatedOperationMethod<
-  ListLineageEventsInput,
+  ListLineageEventsInput & RegionInput,
   ListLineageEventsOutput,
   ListLineageEventsError,
   Credentials | HttpClient.HttpClient,
@@ -11733,7 +11734,7 @@ export type ListLineageNodeHistoryError =
  * Lists the history of the specified data lineage node.
  */
 export const listLineageNodeHistory: API.PaginatedOperationMethod<
-  ListLineageNodeHistoryInput,
+  ListLineageNodeHistoryInput & RegionInput,
   ListLineageNodeHistoryOutput,
   ListLineageNodeHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -11780,7 +11781,7 @@ export type ListMetadataGenerationRunsError =
  * - User must have access to metadata generation runs in the domain.
  */
 export const listMetadataGenerationRuns: API.PaginatedOperationMethod<
-  ListMetadataGenerationRunsInput,
+  ListMetadataGenerationRunsInput & RegionInput,
   ListMetadataGenerationRunsOutput,
   ListMetadataGenerationRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11818,7 +11819,7 @@ export type ListNotebookRunsError =
  * Lists notebook runs in Amazon SageMaker Unified Studio.
  */
 export const listNotebookRuns: API.PaginatedOperationMethod<
-  ListNotebookRunsInput,
+  ListNotebookRunsInput & RegionInput,
   ListNotebookRunsOutput,
   ListNotebookRunsError,
   Credentials | HttpClient.HttpClient,
@@ -11855,7 +11856,7 @@ export type ListNotebooksError =
  * Lists notebooks in Amazon SageMaker Unified Studio.
  */
 export const listNotebooks: API.PaginatedOperationMethod<
-  ListNotebooksInput,
+  ListNotebooksInput & RegionInput,
   ListNotebooksOutput,
   ListNotebooksError,
   Credentials | HttpClient.HttpClient,
@@ -11892,7 +11893,7 @@ export type ListNotificationsError =
  * Lists all Amazon DataZone notifications.
  */
 export const listNotifications: API.PaginatedOperationMethod<
-  ListNotificationsInput,
+  ListNotificationsInput & RegionInput,
   ListNotificationsOutput,
   ListNotificationsError,
   Credentials | HttpClient.HttpClient,
@@ -11929,7 +11930,7 @@ export type ListPolicyGrantsError =
  * Lists policy grants.
  */
 export const listPolicyGrants: API.PaginatedOperationMethod<
-  ListPolicyGrantsInput,
+  ListPolicyGrantsInput & RegionInput,
   ListPolicyGrantsOutput,
   ListPolicyGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -11967,7 +11968,7 @@ export type ListProjectMembershipsError =
  * Lists all members of the specified project.
  */
 export const listProjectMemberships: API.PaginatedOperationMethod<
-  ListProjectMembershipsInput,
+  ListProjectMembershipsInput & RegionInput,
   ListProjectMembershipsOutput,
   ListProjectMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -12005,7 +12006,7 @@ export type ListProjectProfilesError =
  * Lists project profiles.
  */
 export const listProjectProfiles: API.PaginatedOperationMethod<
-  ListProjectProfilesInput,
+  ListProjectProfilesInput & RegionInput,
   ListProjectProfilesOutput,
   ListProjectProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -12043,7 +12044,7 @@ export type ListProjectsError =
  * Lists Amazon DataZone projects.
  */
 export const listProjects: API.PaginatedOperationMethod<
-  ListProjectsInput,
+  ListProjectsInput & RegionInput,
   ListProjectsOutput,
   ListProjectsError,
   Credentials | HttpClient.HttpClient,
@@ -12082,7 +12083,7 @@ export type ListRulesError =
  * Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesInput,
+  ListRulesInput & RegionInput,
   ListRulesOutput,
   ListRulesError,
   Credentials | HttpClient.HttpClient,
@@ -12121,7 +12122,7 @@ export type ListSubscriptionGrantsError =
  * Lists subscription grants.
  */
 export const listSubscriptionGrants: API.PaginatedOperationMethod<
-  ListSubscriptionGrantsInput,
+  ListSubscriptionGrantsInput & RegionInput,
   ListSubscriptionGrantsOutput,
   ListSubscriptionGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -12160,7 +12161,7 @@ export type ListSubscriptionRequestsError =
  * Lists Amazon DataZone subscription requests.
  */
 export const listSubscriptionRequests: API.PaginatedOperationMethod<
-  ListSubscriptionRequestsInput,
+  ListSubscriptionRequestsInput & RegionInput,
   ListSubscriptionRequestsOutput,
   ListSubscriptionRequestsError,
   Credentials | HttpClient.HttpClient,
@@ -12199,7 +12200,7 @@ export type ListSubscriptionsError =
  * Lists subscriptions in Amazon DataZone.
  */
 export const listSubscriptions: API.PaginatedOperationMethod<
-  ListSubscriptionsInput,
+  ListSubscriptionsInput & RegionInput,
   ListSubscriptionsOutput,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient,
@@ -12238,7 +12239,7 @@ export type ListSubscriptionTargetsError =
  * Lists subscription targets in Amazon DataZone.
  */
 export const listSubscriptionTargets: API.PaginatedOperationMethod<
-  ListSubscriptionTargetsInput,
+  ListSubscriptionTargetsInput & RegionInput,
   ListSubscriptionTargetsOutput,
   ListSubscriptionTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -12275,7 +12276,7 @@ export type ListTagsForResourceError =
  * Lists tags for the specified resource in Amazon DataZone.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -12301,7 +12302,7 @@ export type ListTimeSeriesDataPointsError =
  * Lists time series data points.
  */
 export const listTimeSeriesDataPoints: API.PaginatedOperationMethod<
-  ListTimeSeriesDataPointsInput,
+  ListTimeSeriesDataPointsInput & RegionInput,
   ListTimeSeriesDataPointsOutput,
   ListTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient,
@@ -12342,7 +12343,7 @@ export type PostLineageEventError =
  * Posts a data lineage event.
  */
 export const postLineageEvent: API.OperationMethod<
-  PostLineageEventInput,
+  PostLineageEventInput & RegionInput,
   PostLineageEventOutput,
   PostLineageEventError,
   Credentials | HttpClient.HttpClient
@@ -12378,7 +12379,7 @@ export type PostTimeSeriesDataPointsError =
  * Posts time series data points to Amazon DataZone for the specified asset.
  */
 export const postTimeSeriesDataPoints: API.OperationMethod<
-  PostTimeSeriesDataPointsInput,
+  PostTimeSeriesDataPointsInput & RegionInput,
   PostTimeSeriesDataPointsOutput,
   PostTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
@@ -12424,7 +12425,7 @@ export type PutDataExportConfigurationError =
  * - Call the PutDataExportConfiguration API to enable export for the new domain.
  */
 export const putDataExportConfiguration: API.OperationMethod<
-  PutDataExportConfigurationInput,
+  PutDataExportConfigurationInput & RegionInput,
   PutDataExportConfigurationOutput,
   PutDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12458,7 +12459,7 @@ export type PutEnvironmentBlueprintConfigurationError =
  * Writes the configuration for the specified environment blueprint in Amazon DataZone.
  */
 export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
-  PutEnvironmentBlueprintConfigurationInput,
+  PutEnvironmentBlueprintConfigurationInput & RegionInput,
   PutEnvironmentBlueprintConfigurationOutput,
   PutEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -12489,7 +12490,7 @@ export type QueryGraphError =
  * Queries entities in the graph store.
  */
 export const queryGraph: API.PaginatedOperationMethod<
-  QueryGraphInput,
+  QueryGraphInput & RegionInput,
   QueryGraphOutput,
   QueryGraphError,
   Credentials | HttpClient.HttpClient,
@@ -12528,7 +12529,7 @@ export type RejectPredictionsError =
  * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
  */
 export const rejectPredictions: API.OperationMethod<
-  RejectPredictionsInput,
+  RejectPredictionsInput & RegionInput,
   RejectPredictionsOutput,
   RejectPredictionsError,
   Credentials | HttpClient.HttpClient
@@ -12562,7 +12563,7 @@ export type RejectSubscriptionRequestError =
  * Rejects the specified subscription request.
  */
 export const rejectSubscriptionRequest: API.OperationMethod<
-  RejectSubscriptionRequestInput,
+  RejectSubscriptionRequestInput & RegionInput,
   RejectSubscriptionRequestOutput,
   RejectSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
@@ -12595,7 +12596,7 @@ export type RemoveEntityOwnerError =
  * Removes an owner from an entity.
  */
 export const removeEntityOwner: API.OperationMethod<
-  RemoveEntityOwnerInput,
+  RemoveEntityOwnerInput & RegionInput,
   RemoveEntityOwnerOutput,
   RemoveEntityOwnerError,
   Credentials | HttpClient.HttpClient
@@ -12626,7 +12627,7 @@ export type RemovePolicyGrantError =
  * Removes a policy grant.
  */
 export const removePolicyGrant: API.OperationMethod<
-  RemovePolicyGrantInput,
+  RemovePolicyGrantInput & RegionInput,
   RemovePolicyGrantOutput,
   RemovePolicyGrantError,
   Credentials | HttpClient.HttpClient
@@ -12658,7 +12659,7 @@ export type RevokeSubscriptionError =
  * Revokes a specified subscription in Amazon DataZone.
  */
 export const revokeSubscription: API.OperationMethod<
-  RevokeSubscriptionInput,
+  RevokeSubscriptionInput & RegionInput,
   RevokeSubscriptionOutput,
   RevokeSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -12712,7 +12713,7 @@ export type SearchError =
  * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */
 export const search: API.PaginatedOperationMethod<
-  SearchInput,
+  SearchInput & RegionInput,
   SearchOutput,
   SearchError,
   Credentials | HttpClient.HttpClient,
@@ -12749,7 +12750,7 @@ export type SearchGroupProfilesError =
  * Searches group profiles in Amazon DataZone.
  */
 export const searchGroupProfiles: API.PaginatedOperationMethod<
-  SearchGroupProfilesInput,
+  SearchGroupProfilesInput & RegionInput,
   SearchGroupProfilesOutput,
   SearchGroupProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -12798,7 +12799,7 @@ export type SearchListingsError =
  * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */
 export const searchListings: API.PaginatedOperationMethod<
-  SearchListingsInput,
+  SearchListingsInput & RegionInput,
   SearchListingsOutput,
   SearchListingsError,
   Credentials | HttpClient.HttpClient,
@@ -12849,7 +12850,7 @@ export type SearchTypesError =
  * - Filters contain correct structure (attribute, value, operator).
  */
 export const searchTypes: API.PaginatedOperationMethod<
-  SearchTypesInput,
+  SearchTypesInput & RegionInput,
   SearchTypesOutput,
   SearchTypesError,
   Credentials | HttpClient.HttpClient,
@@ -12886,7 +12887,7 @@ export type SearchUserProfilesError =
  * Searches user profiles in Amazon DataZone.
  */
 export const searchUserProfiles: API.PaginatedOperationMethod<
-  SearchUserProfilesInput,
+  SearchUserProfilesInput & RegionInput,
   SearchUserProfilesOutput,
   SearchUserProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -12926,7 +12927,7 @@ export type StartDataSourceRunError =
  * Start the run of the specified data source in Amazon DataZone.
  */
 export const startDataSourceRun: API.OperationMethod<
-  StartDataSourceRunInput,
+  StartDataSourceRunInput & RegionInput,
   StartDataSourceRunOutput,
   StartDataSourceRunError,
   Credentials | HttpClient.HttpClient
@@ -12974,7 +12975,7 @@ export type StartMetadataGenerationRunError =
  * - The user must have permission to run metadata generation in the domain/project.
  */
 export const startMetadataGenerationRun: API.OperationMethod<
-  StartMetadataGenerationRunInput,
+  StartMetadataGenerationRunInput & RegionInput,
   StartMetadataGenerationRunOutput,
   StartMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
@@ -13010,7 +13011,7 @@ export type StartNotebookExportError =
  * Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service.
  */
 export const startNotebookExport: API.OperationMethod<
-  StartNotebookExportInput,
+  StartNotebookExportInput & RegionInput,
   StartNotebookExportOutput,
   StartNotebookExportError,
   Credentials | HttpClient.HttpClient
@@ -13046,7 +13047,7 @@ export type StartNotebookImportError =
  * Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project.
  */
 export const startNotebookImport: API.OperationMethod<
-  StartNotebookImportInput,
+  StartNotebookImportInput & RegionInput,
   StartNotebookImportOutput,
   StartNotebookImportError,
   Credentials | HttpClient.HttpClient
@@ -13082,7 +13083,7 @@ export type StartNotebookRunError =
  * Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run.
  */
 export const startNotebookRun: API.OperationMethod<
-  StartNotebookRunInput,
+  StartNotebookRunInput & RegionInput,
   StartNotebookRunOutput,
   StartNotebookRunError,
   Credentials | HttpClient.HttpClient
@@ -13118,7 +13119,7 @@ export type StartNotebookSyncError =
  * Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.
  */
 export const startNotebookSync: API.OperationMethod<
-  StartNotebookSyncInput,
+  StartNotebookSyncInput & RegionInput,
   StartNotebookSyncOutput,
   StartNotebookSyncError,
   Credentials | HttpClient.HttpClient
@@ -13153,7 +13154,7 @@ export type StopNotebookRunError =
  * Stops a running notebook run in Amazon SageMaker Unified Studio.
  */
 export const stopNotebookRun: API.OperationMethod<
-  StopNotebookRunInput,
+  StopNotebookRunInput & RegionInput,
   StopNotebookRunOutput,
   StopNotebookRunError,
   Credentials | HttpClient.HttpClient
@@ -13184,7 +13185,7 @@ export type TagResourceError =
  * Tags a resource in Amazon DataZone.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -13204,7 +13205,7 @@ export type UntagResourceError = InternalServerException | ResourceNotFoundExcep
  * Untags a resource in Amazon DataZone.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -13232,7 +13233,7 @@ export type UpdateAccountPoolError =
  * Updates the account pool.
  */
 export const updateAccountPool: API.OperationMethod<
-  UpdateAccountPoolInput,
+  UpdateAccountPoolInput & RegionInput,
   UpdateAccountPoolOutput,
   UpdateAccountPoolError,
   Credentials | HttpClient.HttpClient
@@ -13275,7 +13276,7 @@ export type UpdateAssetFilterError =
  * - If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
  */
 export const updateAssetFilter: API.OperationMethod<
-  UpdateAssetFilterInput,
+  UpdateAssetFilterInput & RegionInput,
   UpdateAssetFilterOutput,
   UpdateAssetFilterError,
   Credentials | HttpClient.HttpClient
@@ -13310,7 +13311,7 @@ export type UpdateConnectionError =
  * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
 export const updateConnection: API.OperationMethod<
-  UpdateConnectionInput,
+  UpdateConnectionInput & RegionInput,
   UpdateConnectionOutput,
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
@@ -13346,7 +13347,7 @@ export type UpdateDataSourceError =
  * Updates the specified data source in Amazon DataZone.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceInput,
+  UpdateDataSourceInput & RegionInput,
   UpdateDataSourceOutput,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -13382,7 +13383,7 @@ export type UpdateDomainError =
  * Updates a Amazon DataZone domain.
  */
 export const updateDomain: API.OperationMethod<
-  UpdateDomainInput,
+  UpdateDomainInput & RegionInput,
   UpdateDomainOutput,
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
@@ -13417,7 +13418,7 @@ export type UpdateDomainUnitError =
  * Updates the domain unit.
  */
 export const updateDomainUnit: API.OperationMethod<
-  UpdateDomainUnitInput,
+  UpdateDomainUnitInput & RegionInput,
   UpdateDomainUnitOutput,
   UpdateDomainUnitError,
   Credentials | HttpClient.HttpClient
@@ -13451,7 +13452,7 @@ export type UpdateEnvironmentError =
  * Updates the specified environment in Amazon DataZone.
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentInput,
+  UpdateEnvironmentInput & RegionInput,
   UpdateEnvironmentOutput,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -13485,7 +13486,7 @@ export type UpdateEnvironmentActionError =
  * Updates an environment action.
  */
 export const updateEnvironmentAction: API.OperationMethod<
-  UpdateEnvironmentActionInput,
+  UpdateEnvironmentActionInput & RegionInput,
   UpdateEnvironmentActionOutput,
   UpdateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
@@ -13520,7 +13521,7 @@ export type UpdateEnvironmentBlueprintError =
  * Updates an environment blueprint in Amazon DataZone.
  */
 export const updateEnvironmentBlueprint: API.OperationMethod<
-  UpdateEnvironmentBlueprintInput,
+  UpdateEnvironmentBlueprintInput & RegionInput,
   UpdateEnvironmentBlueprintOutput,
   UpdateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
@@ -13556,7 +13557,7 @@ export type UpdateEnvironmentProfileError =
  * Updates the specified environment profile in Amazon DataZone.
  */
 export const updateEnvironmentProfile: API.OperationMethod<
-  UpdateEnvironmentProfileInput,
+  UpdateEnvironmentProfileInput & RegionInput,
   UpdateEnvironmentProfileOutput,
   UpdateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
@@ -13601,7 +13602,7 @@ export type UpdateGlossaryError =
  * - The glossary must not be deleted or in a terminal state.
  */
 export const updateGlossary: API.OperationMethod<
-  UpdateGlossaryInput,
+  UpdateGlossaryInput & RegionInput,
   UpdateGlossaryOutput,
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
@@ -13645,7 +13646,7 @@ export type UpdateGlossaryTermError =
  * - The term must not be in DELETED status.
  */
 export const updateGlossaryTerm: API.OperationMethod<
-  UpdateGlossaryTermInput,
+  UpdateGlossaryTermInput & RegionInput,
   UpdateGlossaryTermOutput,
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
@@ -13677,7 +13678,7 @@ export type UpdateGroupProfileError =
  * Updates the specified group profile in Amazon DataZone.
  */
 export const updateGroupProfile: API.OperationMethod<
-  UpdateGroupProfileInput,
+  UpdateGroupProfileInput & RegionInput,
   UpdateGroupProfileOutput,
   UpdateGroupProfileError,
   Credentials | HttpClient.HttpClient
@@ -13709,7 +13710,7 @@ export type UpdateNotebookError =
  * Updates a notebook in Amazon SageMaker Unified Studio.
  */
 export const updateNotebook: API.OperationMethod<
-  UpdateNotebookInput,
+  UpdateNotebookInput & RegionInput,
   UpdateNotebookOutput,
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
@@ -13744,7 +13745,7 @@ export type UpdateProjectError =
  * Updates the specified project in Amazon DataZone.
  */
 export const updateProject: API.OperationMethod<
-  UpdateProjectInput,
+  UpdateProjectInput & RegionInput,
   UpdateProjectOutput,
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
@@ -13780,7 +13781,7 @@ export type UpdateProjectProfileError =
  * Updates a project profile.
  */
 export const updateProjectProfile: API.OperationMethod<
-  UpdateProjectProfileInput,
+  UpdateProjectProfileInput & RegionInput,
   UpdateProjectProfileOutput,
   UpdateProjectProfileError,
   Credentials | HttpClient.HttpClient
@@ -13815,7 +13816,7 @@ export type UpdateRootDomainUnitOwnerError =
  * Updates the owner of the root domain unit.
  */
 export const updateRootDomainUnitOwner: API.OperationMethod<
-  UpdateRootDomainUnitOwnerInput,
+  UpdateRootDomainUnitOwnerInput & RegionInput,
   UpdateRootDomainUnitOwnerOutput,
   UpdateRootDomainUnitOwnerError,
   Credentials | HttpClient.HttpClient
@@ -13850,7 +13851,7 @@ export type UpdateRuleError =
  * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleInput,
+  UpdateRuleInput & RegionInput,
   UpdateRuleOutput,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
@@ -13885,7 +13886,7 @@ export type UpdateSubscriptionGrantStatusError =
  * Updates the status of the specified subscription grant status in Amazon DataZone.
  */
 export const updateSubscriptionGrantStatus: API.OperationMethod<
-  UpdateSubscriptionGrantStatusInput,
+  UpdateSubscriptionGrantStatusInput & RegionInput,
   UpdateSubscriptionGrantStatusOutput,
   UpdateSubscriptionGrantStatusError,
   Credentials | HttpClient.HttpClient
@@ -13919,7 +13920,7 @@ export type UpdateSubscriptionRequestError =
  * Updates a specified subscription request in Amazon DataZone.
  */
 export const updateSubscriptionRequest: API.OperationMethod<
-  UpdateSubscriptionRequestInput,
+  UpdateSubscriptionRequestInput & RegionInput,
   UpdateSubscriptionRequestOutput,
   UpdateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
@@ -13953,7 +13954,7 @@ export type UpdateSubscriptionTargetError =
  * Updates the specified subscription target in Amazon DataZone.
  */
 export const updateSubscriptionTarget: API.OperationMethod<
-  UpdateSubscriptionTargetInput,
+  UpdateSubscriptionTargetInput & RegionInput,
   UpdateSubscriptionTargetOutput,
   UpdateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
@@ -13985,7 +13986,7 @@ export type UpdateUserProfileError =
  * Updates the specified user profile in Amazon DataZone.
  */
 export const updateUserProfile: API.OperationMethod<
-  UpdateUserProfileInput,
+  UpdateUserProfileInput & RegionInput,
   UpdateUserProfileOutput,
   UpdateUserProfileError,
   Credentials | HttpClient.HttpClient

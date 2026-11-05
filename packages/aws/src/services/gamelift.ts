@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3362,7 +3363,7 @@ export type AcceptMatchError =
  * FlexMatch events (reference)
  */
 export const acceptMatch: API.OperationMethod<
-  AcceptMatchInput,
+  AcceptMatchInput & RegionInput,
   AcceptMatchOutput,
   AcceptMatchError,
   Credentials | HttpClient.HttpClient
@@ -3431,7 +3432,7 @@ export type ClaimGameServerError =
  * Guide
  */
 export const claimGameServer: API.OperationMethod<
-  ClaimGameServerInput,
+  ClaimGameServerInput & RegionInput,
   ClaimGameServerOutput,
   ClaimGameServerError,
   Credentials | HttpClient.HttpClient
@@ -3486,7 +3487,7 @@ export type CreateAliasError =
  * All APIs by task
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasInput,
+  CreateAliasInput & RegionInput,
   CreateAliasOutput,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
@@ -3556,7 +3557,7 @@ export type CreateBuildError =
  * All APIs by task
  */
 export const createBuild: API.OperationMethod<
-  CreateBuildInput,
+  CreateBuildInput & RegionInput,
   CreateBuildOutput,
   CreateBuildError,
   Credentials | HttpClient.HttpClient
@@ -3664,7 +3665,7 @@ export type CreateContainerFleetError =
  * Security best practices for Amazon GameLift Servers.
  */
 export const createContainerFleet: API.OperationMethod<
-  CreateContainerFleetInput,
+  CreateContainerFleetInput & RegionInput,
   CreateContainerFleetOutput,
   CreateContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -3792,7 +3793,7 @@ export type CreateContainerGroupDefinitionError =
  * calling UpdateContainerGroupDefinition, and optionally save the update as a new version.
  */
 export const createContainerGroupDefinition: API.OperationMethod<
-  CreateContainerGroupDefinitionInput,
+  CreateContainerGroupDefinitionInput & RegionInput,
   CreateContainerGroupDefinitionOutput,
   CreateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3903,7 +3904,7 @@ export type CreateFleetError =
  * Multi-location fleets
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
@@ -3968,7 +3969,7 @@ export type CreateFleetLocationsError =
  * Amazon GameLift Servers service locations for managed hosting.
  */
 export const createFleetLocations: API.OperationMethod<
-  CreateFleetLocationsInput,
+  CreateFleetLocationsInput & RegionInput,
   CreateFleetLocationsOutput,
   CreateFleetLocationsError,
   Credentials | HttpClient.HttpClient
@@ -4041,7 +4042,7 @@ export type CreateGameServerGroupError =
  * Guide
  */
 export const createGameServerGroup: API.OperationMethod<
-  CreateGameServerGroupInput,
+  CreateGameServerGroupInput & RegionInput,
   CreateGameServerGroupOutput,
   CreateGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -4119,7 +4120,7 @@ export type CreateGameSessionError =
  * All APIs by task
  */
 export const createGameSession: API.OperationMethod<
-  CreateGameSessionInput,
+  CreateGameSessionInput & RegionInput,
   CreateGameSessionOutput,
   CreateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -4232,7 +4233,7 @@ export type CreateGameSessionQueueError =
  * All APIs by task
  */
 export const createGameSessionQueue: API.OperationMethod<
-  CreateGameSessionQueueInput,
+  CreateGameSessionQueueInput & RegionInput,
   CreateGameSessionQueueOutput,
   CreateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -4269,7 +4270,7 @@ export type CreateLocationError =
  * Creates a custom location for use in an Anywhere fleet.
  */
 export const createLocation: API.OperationMethod<
-  CreateLocationInput,
+  CreateLocationInput & RegionInput,
   CreateLocationOutput,
   CreateLocationError,
   Credentials | HttpClient.HttpClient
@@ -4330,7 +4331,7 @@ export type CreateMatchmakingConfigurationError =
  * notification
  */
 export const createMatchmakingConfiguration: API.OperationMethod<
-  CreateMatchmakingConfigurationInput,
+  CreateMatchmakingConfigurationInput & RegionInput,
   CreateMatchmakingConfigurationOutput,
   CreateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4385,7 +4386,7 @@ export type CreateMatchmakingRuleSetError =
  * FlexMatch
  */
 export const createMatchmakingRuleSet: API.OperationMethod<
-  CreateMatchmakingRuleSetInput,
+  CreateMatchmakingRuleSetInput & RegionInput,
   CreateMatchmakingRuleSetOutput,
   CreateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -4439,7 +4440,7 @@ export type CreatePlayerSessionError =
  * All APIs by task
  */
 export const createPlayerSession: API.OperationMethod<
-  CreatePlayerSessionInput,
+  CreatePlayerSessionInput & RegionInput,
   CreatePlayerSessionOutput,
   CreatePlayerSessionError,
   Credentials | HttpClient.HttpClient
@@ -4495,7 +4496,7 @@ export type CreatePlayerSessionsError =
  * All APIs by task
  */
 export const createPlayerSessions: API.OperationMethod<
-  CreatePlayerSessionsInput,
+  CreatePlayerSessionsInput & RegionInput,
   CreatePlayerSessionsOutput,
   CreatePlayerSessionsError,
   Credentials | HttpClient.HttpClient
@@ -4562,7 +4563,7 @@ export type CreateScriptError =
  * All APIs by task
  */
 export const createScript: API.OperationMethod<
-  CreateScriptInput,
+  CreateScriptInput & RegionInput,
   CreateScriptOutput,
   CreateScriptError,
   Credentials | HttpClient.HttpClient
@@ -4638,7 +4639,7 @@ export type CreateVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const createVpcPeeringAuthorization: API.OperationMethod<
-  CreateVpcPeeringAuthorizationInput,
+  CreateVpcPeeringAuthorizationInput & RegionInput,
   CreateVpcPeeringAuthorizationOutput,
   CreateVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -4708,7 +4709,7 @@ export type CreateVpcPeeringConnectionError =
  * All APIs by task
  */
 export const createVpcPeeringConnection: API.OperationMethod<
-  CreateVpcPeeringConnectionInput,
+  CreateVpcPeeringConnectionInput & RegionInput,
   CreateVpcPeeringConnectionOutput,
   CreateVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -4747,7 +4748,7 @@ export type DeleteAliasError =
  * All APIs by task
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasInput,
+  DeleteAliasInput & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
@@ -4792,7 +4793,7 @@ export type DeleteBuildError =
  * All APIs by task
  */
 export const deleteBuild: API.OperationMethod<
-  DeleteBuildInput,
+  DeleteBuildInput & RegionInput,
   DeleteBuildResponse,
   DeleteBuildError,
   Credentials | HttpClient.HttpClient
@@ -4837,7 +4838,7 @@ export type DeleteContainerFleetError =
  * Fleets
  */
 export const deleteContainerFleet: API.OperationMethod<
-  DeleteContainerFleetInput,
+  DeleteContainerFleetInput & RegionInput,
   DeleteContainerFleetOutput,
   DeleteContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -4901,7 +4902,7 @@ export type DeleteContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const deleteContainerGroupDefinition: API.OperationMethod<
-  DeleteContainerGroupDefinitionInput,
+  DeleteContainerGroupDefinitionInput & RegionInput,
   DeleteContainerGroupDefinitionOutput,
   DeleteContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4952,7 +4953,7 @@ export type DeleteFleetError =
  * Fleets
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
@@ -5000,7 +5001,7 @@ export type DeleteFleetLocationsError =
  * fleets
  */
 export const deleteFleetLocations: API.OperationMethod<
-  DeleteFleetLocationsInput,
+  DeleteFleetLocationsInput & RegionInput,
   DeleteFleetLocationsOutput,
   DeleteFleetLocationsError,
   Credentials | HttpClient.HttpClient
@@ -5060,7 +5061,7 @@ export type DeleteGameServerGroupError =
  * Guide
  */
 export const deleteGameServerGroup: API.OperationMethod<
-  DeleteGameServerGroupInput,
+  DeleteGameServerGroupInput & RegionInput,
   DeleteGameServerGroupOutput,
   DeleteGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -5094,7 +5095,7 @@ export type DeleteGameSessionQueueError =
  * delete a queue, specify the queue name.
  */
 export const deleteGameSessionQueue: API.OperationMethod<
-  DeleteGameSessionQueueInput,
+  DeleteGameSessionQueueInput & RegionInput,
   DeleteGameSessionQueueOutput,
   DeleteGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -5131,7 +5132,7 @@ export type DeleteLocationError =
  * location and deregister the location if it is in use. For more information, see DeregisterCompute.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationInput,
+  DeleteLocationInput & RegionInput,
   DeleteLocationOutput,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
@@ -5167,7 +5168,7 @@ export type DeleteMatchmakingConfigurationError =
  * any active matchmaking tickets.
  */
 export const deleteMatchmakingConfiguration: API.OperationMethod<
-  DeleteMatchmakingConfigurationInput,
+  DeleteMatchmakingConfigurationInput & RegionInput,
   DeleteMatchmakingConfigurationOutput,
   DeleteMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5208,7 +5209,7 @@ export type DeleteMatchmakingRuleSetError =
  * set
  */
 export const deleteMatchmakingRuleSet: API.OperationMethod<
-  DeleteMatchmakingRuleSetInput,
+  DeleteMatchmakingRuleSetInput & RegionInput,
   DeleteMatchmakingRuleSetOutput,
   DeleteMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
@@ -5247,7 +5248,7 @@ export type DeleteScalingPolicyError =
  * fleet.
  */
 export const deleteScalingPolicy: API.OperationMethod<
-  DeleteScalingPolicyInput,
+  DeleteScalingPolicyInput & RegionInput,
   DeleteScalingPolicyResponse,
   DeleteScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5296,7 +5297,7 @@ export type DeleteScriptError =
  * All APIs by task
  */
 export const deleteScript: API.OperationMethod<
-  DeleteScriptInput,
+  DeleteScriptInput & RegionInput,
   DeleteScriptResponse,
   DeleteScriptError,
   Credentials | HttpClient.HttpClient
@@ -5334,7 +5335,7 @@ export type DeleteVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const deleteVpcPeeringAuthorization: API.OperationMethod<
-  DeleteVpcPeeringAuthorizationInput,
+  DeleteVpcPeeringAuthorizationInput & RegionInput,
   DeleteVpcPeeringAuthorizationOutput,
   DeleteVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -5375,7 +5376,7 @@ export type DeleteVpcPeeringConnectionError =
  * All APIs by task
  */
 export const deleteVpcPeeringConnection: API.OperationMethod<
-  DeleteVpcPeeringConnectionInput,
+  DeleteVpcPeeringConnectionInput & RegionInput,
   DeleteVpcPeeringConnectionOutput,
   DeleteVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
@@ -5414,7 +5415,7 @@ export type DeregisterComputeError =
  * deregistered and specify the compute name and the fleet ID.
  */
 export const deregisterCompute: API.OperationMethod<
-  DeregisterComputeInput,
+  DeregisterComputeInput & RegionInput,
   DeregisterComputeOutput,
   DeregisterComputeError,
   Credentials | HttpClient.HttpClient
@@ -5458,7 +5459,7 @@ export type DeregisterGameServerError =
  * Guide
  */
 export const deregisterGameServer: API.OperationMethod<
-  DeregisterGameServerInput,
+  DeregisterGameServerInput & RegionInput,
   DeregisterGameServerResponse,
   DeregisterGameServerError,
   Credentials | HttpClient.HttpClient
@@ -5498,7 +5499,7 @@ export type DescribeAliasError =
  * All APIs by task
  */
 export const describeAlias: API.OperationMethod<
-  DescribeAliasInput,
+  DescribeAliasInput & RegionInput,
   DescribeAliasOutput,
   DescribeAliasError,
   Credentials | HttpClient.HttpClient
@@ -5538,7 +5539,7 @@ export type DescribeBuildError =
  * All APIs by task
  */
 export const describeBuild: API.OperationMethod<
-  DescribeBuildInput,
+  DescribeBuildInput & RegionInput,
   DescribeBuildOutput,
   DescribeBuildError,
   Credentials | HttpClient.HttpClient
@@ -5599,7 +5600,7 @@ export type DescribeComputeError =
  * compute.
  */
 export const describeCompute: API.OperationMethod<
-  DescribeComputeInput,
+  DescribeComputeInput & RegionInput,
   DescribeComputeOutput,
   DescribeComputeError,
   Credentials | HttpClient.HttpClient
@@ -5648,7 +5649,7 @@ export type DescribeContainerFleetError =
  * maximum allowed number.
  */
 export const describeContainerFleet: API.OperationMethod<
-  DescribeContainerFleetInput,
+  DescribeContainerFleetInput & RegionInput,
   DescribeContainerFleetOutput,
   DescribeContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -5700,7 +5701,7 @@ export type DescribeContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const describeContainerGroupDefinition: API.OperationMethod<
-  DescribeContainerGroupDefinitionInput,
+  DescribeContainerGroupDefinitionInput & RegionInput,
   DescribeContainerGroupDefinitionOutput,
   DescribeContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -5767,7 +5768,7 @@ export type DescribeContainerGroupPortMappingsError =
  * container group definition
  */
 export const describeContainerGroupPortMappings: API.OperationMethod<
-  DescribeContainerGroupPortMappingsInput,
+  DescribeContainerGroupPortMappingsInput & RegionInput,
   DescribeContainerGroupPortMappingsOutput,
   DescribeContainerGroupPortMappingsError,
   Credentials | HttpClient.HttpClient
@@ -5850,7 +5851,7 @@ export type DescribeEC2InstanceLimitsError =
  * Setting up Amazon GameLift Servers fleets
  */
 export const describeEC2InstanceLimits: API.OperationMethod<
-  DescribeEC2InstanceLimitsInput,
+  DescribeEC2InstanceLimitsInput & RegionInput,
   DescribeEC2InstanceLimitsOutput,
   DescribeEC2InstanceLimitsError,
   Credentials | HttpClient.HttpClient
@@ -5904,7 +5905,7 @@ export type DescribeFleetAttributesError =
  * fleets
  */
 export const describeFleetAttributes: API.PaginatedOperationMethod<
-  DescribeFleetAttributesInput,
+  DescribeFleetAttributesInput & RegionInput,
   DescribeFleetAttributesOutput,
   DescribeFleetAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -5975,7 +5976,7 @@ export type DescribeFleetCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetCapacity: API.PaginatedOperationMethod<
-  DescribeFleetCapacityInput,
+  DescribeFleetCapacityInput & RegionInput,
   DescribeFleetCapacityOutput,
   DescribeFleetCapacityError,
   Credentials | HttpClient.HttpClient,
@@ -6028,7 +6029,7 @@ export type DescribeFleetDeploymentError =
  * If successful, a `FleetDeployment` object is returned.
  */
 export const describeFleetDeployment: API.OperationMethod<
-  DescribeFleetDeploymentInput,
+  DescribeFleetDeploymentInput & RegionInput,
   DescribeFleetDeploymentOutput,
   DescribeFleetDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -6075,7 +6076,7 @@ export type DescribeFleetEventsError =
  * fleets
  */
 export const describeFleetEvents: API.PaginatedOperationMethod<
-  DescribeFleetEventsInput,
+  DescribeFleetEventsInput & RegionInput,
   DescribeFleetEventsOutput,
   DescribeFleetEventsError,
   Credentials | HttpClient.HttpClient,
@@ -6138,7 +6139,7 @@ export type DescribeFleetLocationAttributesError =
  * Amazon GameLift Servers service locations for managed hosting
  */
 export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
-  DescribeFleetLocationAttributesInput,
+  DescribeFleetLocationAttributesInput & RegionInput,
   DescribeFleetLocationAttributesOutput,
   DescribeFleetLocationAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -6195,7 +6196,7 @@ export type DescribeFleetLocationCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationCapacity: API.OperationMethod<
-  DescribeFleetLocationCapacityInput,
+  DescribeFleetLocationCapacityInput & RegionInput,
   DescribeFleetLocationCapacityOutput,
   DescribeFleetLocationCapacityError,
   Credentials | HttpClient.HttpClient
@@ -6247,7 +6248,7 @@ export type DescribeFleetLocationUtilizationError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationUtilization: API.OperationMethod<
-  DescribeFleetLocationUtilizationInput,
+  DescribeFleetLocationUtilizationInput & RegionInput,
   DescribeFleetLocationUtilizationOutput,
   DescribeFleetLocationUtilizationError,
   Credentials | HttpClient.HttpClient
@@ -6302,7 +6303,7 @@ export type DescribeFleetPortSettingsError =
  * fleets
  */
 export const describeFleetPortSettings: API.OperationMethod<
-  DescribeFleetPortSettingsInput,
+  DescribeFleetPortSettingsInput & RegionInput,
   DescribeFleetPortSettingsOutput,
   DescribeFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6364,7 +6365,7 @@ export type DescribeFleetUtilizationError =
  * GameLift Metrics for Fleets
  */
 export const describeFleetUtilization: API.PaginatedOperationMethod<
-  DescribeFleetUtilizationInput,
+  DescribeFleetUtilizationInput & RegionInput,
   DescribeFleetUtilizationOutput,
   DescribeFleetUtilizationError,
   Credentials | HttpClient.HttpClient,
@@ -6413,7 +6414,7 @@ export type DescribeGameServerError =
  * Guide
  */
 export const describeGameServer: API.OperationMethod<
-  DescribeGameServerInput,
+  DescribeGameServerInput & RegionInput,
   DescribeGameServerOutput,
   DescribeGameServerError,
   Credentials | HttpClient.HttpClient
@@ -6457,7 +6458,7 @@ export type DescribeGameServerGroupError =
  * Guide
  */
 export const describeGameServerGroup: API.OperationMethod<
-  DescribeGameServerGroupInput,
+  DescribeGameServerGroupInput & RegionInput,
   DescribeGameServerGroupOutput,
   DescribeGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -6508,7 +6509,7 @@ export type DescribeGameServerInstancesError =
  * Guide
  */
 export const describeGameServerInstances: API.PaginatedOperationMethod<
-  DescribeGameServerInstancesInput,
+  DescribeGameServerInstancesInput & RegionInput,
   DescribeGameServerInstancesOutput,
   DescribeGameServerInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -6578,7 +6579,7 @@ export type DescribeGameSessionDetailsError =
  * All APIs by task
  */
 export const describeGameSessionDetails: API.PaginatedOperationMethod<
-  DescribeGameSessionDetailsInput,
+  DescribeGameSessionDetailsInput & RegionInput,
   DescribeGameSessionDetailsOutput,
   DescribeGameSessionDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -6630,7 +6631,7 @@ export type DescribeGameSessionPlacementError =
  * Event-based game session placement guidance in the Amazon GameLift Toolkit.
  */
 export const describeGameSessionPlacement: API.OperationMethod<
-  DescribeGameSessionPlacementInput,
+  DescribeGameSessionPlacementInput & RegionInput,
   DescribeGameSessionPlacementOutput,
   DescribeGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -6669,7 +6670,7 @@ export type DescribeGameSessionQueuesError =
  * View Your Queues
  */
 export const describeGameSessionQueues: API.PaginatedOperationMethod<
-  DescribeGameSessionQueuesInput,
+  DescribeGameSessionQueuesInput & RegionInput,
   DescribeGameSessionQueuesOutput,
   DescribeGameSessionQueuesError,
   Credentials | HttpClient.HttpClient,
@@ -6746,7 +6747,7 @@ export type DescribeGameSessionsError =
  * All APIs by task
  */
 export const describeGameSessions: API.PaginatedOperationMethod<
-  DescribeGameSessionsInput,
+  DescribeGameSessionsInput & RegionInput,
   DescribeGameSessionsOutput,
   DescribeGameSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -6821,7 +6822,7 @@ export type DescribeInstancesError =
  * All APIs by task
  */
 export const describeInstances: API.PaginatedOperationMethod<
-  DescribeInstancesInput,
+  DescribeInstancesInput & RegionInput,
   DescribeInstancesOutput,
   DescribeInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -6878,7 +6879,7 @@ export type DescribeMatchmakingError =
  * notification
  */
 export const describeMatchmaking: API.OperationMethod<
-  DescribeMatchmakingInput,
+  DescribeMatchmakingInput & RegionInput,
   DescribeMatchmakingOutput,
   DescribeMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -6916,7 +6917,7 @@ export type DescribeMatchmakingConfigurationsError =
  * Setting up FlexMatch matchmakers
  */
 export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
-  DescribeMatchmakingConfigurationsInput,
+  DescribeMatchmakingConfigurationsInput & RegionInput,
   DescribeMatchmakingConfigurationsOutput,
   DescribeMatchmakingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6958,7 +6959,7 @@ export type DescribeMatchmakingRuleSetsError =
  * set
  */
 export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
-  DescribeMatchmakingRuleSetsInput,
+  DescribeMatchmakingRuleSetsInput & RegionInput,
   DescribeMatchmakingRuleSetsOutput,
   DescribeMatchmakingRuleSetsError,
   Credentials | HttpClient.HttpClient,
@@ -7020,7 +7021,7 @@ export type DescribePlayerSessionsError =
  * All APIs by task
  */
 export const describePlayerSessions: API.PaginatedOperationMethod<
-  DescribePlayerSessionsInput,
+  DescribePlayerSessionsInput & RegionInput,
   DescribePlayerSessionsOutput,
   DescribePlayerSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -7077,7 +7078,7 @@ export type DescribeRuntimeConfigurationError =
  * processes on a fleet
  */
 export const describeRuntimeConfiguration: API.OperationMethod<
-  DescribeRuntimeConfigurationInput,
+  DescribeRuntimeConfigurationInput & RegionInput,
   DescribeRuntimeConfigurationOutput,
   DescribeRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7118,7 +7119,7 @@ export type DescribeScalingPoliciesError =
  * the status of the scaling policies, which remains ACTIVE.
  */
 export const describeScalingPolicies: API.PaginatedOperationMethod<
-  DescribeScalingPoliciesInput,
+  DescribeScalingPoliciesInput & RegionInput,
   DescribeScalingPoliciesOutput,
   DescribeScalingPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -7169,7 +7170,7 @@ export type DescribeScriptError =
  * All APIs by task
  */
 export const describeScript: API.OperationMethod<
-  DescribeScriptInput,
+  DescribeScriptInput & RegionInput,
   DescribeScriptOutput,
   DescribeScriptError,
   Credentials | HttpClient.HttpClient
@@ -7206,7 +7207,7 @@ export type DescribeVpcPeeringAuthorizationsError =
  * All APIs by task
  */
 export const describeVpcPeeringAuthorizations: API.OperationMethod<
-  DescribeVpcPeeringAuthorizationsInput,
+  DescribeVpcPeeringAuthorizationsInput & RegionInput,
   DescribeVpcPeeringAuthorizationsOutput,
   DescribeVpcPeeringAuthorizationsError,
   Credentials | HttpClient.HttpClient
@@ -7244,7 +7245,7 @@ export type DescribeVpcPeeringConnectionsError =
  * All APIs by task
  */
 export const describeVpcPeeringConnections: API.OperationMethod<
-  DescribeVpcPeeringConnectionsInput,
+  DescribeVpcPeeringConnectionsInput & RegionInput,
   DescribeVpcPeeringConnectionsOutput,
   DescribeVpcPeeringConnectionsError,
   Credentials | HttpClient.HttpClient
@@ -7300,7 +7301,7 @@ export type GetComputeAccessError =
  * Guide.
  */
 export const getComputeAccess: API.OperationMethod<
-  GetComputeAccessInput,
+  GetComputeAccessInput & RegionInput,
   GetComputeAccessOutput,
   GetComputeAccessError,
   Credentials | HttpClient.HttpClient
@@ -7361,7 +7362,7 @@ export type GetComputeAuthTokenError =
  * reference guides (for version 5.x)
  */
 export const getComputeAuthToken: API.OperationMethod<
-  GetComputeAuthTokenInput,
+  GetComputeAuthTokenInput & RegionInput,
   GetComputeAuthTokenOutput,
   GetComputeAuthTokenError,
   Credentials | HttpClient.HttpClient
@@ -7402,7 +7403,7 @@ export type GetGameSessionLogUrlError =
  * All APIs by task
  */
 export const getGameSessionLogUrl: API.OperationMethod<
-  GetGameSessionLogUrlInput,
+  GetGameSessionLogUrlInput & RegionInput,
   GetGameSessionLogUrlOutput,
   GetGameSessionLogUrlError,
   Credentials | HttpClient.HttpClient
@@ -7463,7 +7464,7 @@ export type GetInstanceAccessError =
  * All APIs by task
  */
 export const getInstanceAccess: API.OperationMethod<
-  GetInstanceAccessInput,
+  GetInstanceAccessInput & RegionInput,
   GetInstanceAccessOutput,
   GetInstanceAccessError,
   Credentials | HttpClient.HttpClient
@@ -7508,7 +7509,7 @@ export type GetPlayerConnectionDetailsError =
  * When player gateway is disabled or in locations where player gateway is not supported, this operation returns game server connection information without player gateway tokens, so that your game clients directly connect to the game server endpoint.
  */
 export const getPlayerConnectionDetails: API.OperationMethod<
-  GetPlayerConnectionDetailsInput,
+  GetPlayerConnectionDetailsInput & RegionInput,
   GetPlayerConnectionDetailsOutput,
   GetPlayerConnectionDetailsError,
   Credentials | HttpClient.HttpClient
@@ -7550,7 +7551,7 @@ export type ListAliasesError =
  * All APIs by task
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesInput,
+  ListAliasesInput & RegionInput,
   ListAliasesOutput,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -7594,7 +7595,7 @@ export type ListBuildsError =
  * All APIs by task
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
@@ -7651,7 +7652,7 @@ export type ListComputeError =
  * `GameLiftAgentEndpoint`.
  */
 export const listCompute: API.PaginatedOperationMethod<
-  ListComputeInput,
+  ListComputeInput & RegionInput,
   ListComputeOutput,
   ListComputeError,
   Credentials | HttpClient.HttpClient,
@@ -7711,7 +7712,7 @@ export type ListContainerFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listContainerFleets: API.PaginatedOperationMethod<
-  ListContainerFleetsInput,
+  ListContainerFleetsInput & RegionInput,
   ListContainerFleetsOutput,
   ListContainerFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -7768,7 +7769,7 @@ export type ListContainerGroupDefinitionsError =
  * This operation returns the list of container group definitions in no particular order.
  */
 export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionsInput,
+  ListContainerGroupDefinitionsInput & RegionInput,
   ListContainerGroupDefinitionsOutput,
   ListContainerGroupDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -7827,7 +7828,7 @@ export type ListContainerGroupDefinitionVersionsError =
  * - Manage a container group definition
  */
 export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionVersionsInput,
+  ListContainerGroupDefinitionVersionsInput & RegionInput,
   ListContainerGroupDefinitionVersionsOutput,
   ListContainerGroupDefinitionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -7883,7 +7884,7 @@ export type ListFleetDeploymentsError =
  * Deployments are returned starting with the latest.
  */
 export const listFleetDeployments: API.PaginatedOperationMethod<
-  ListFleetDeploymentsInput,
+  ListFleetDeploymentsInput & RegionInput,
   ListFleetDeploymentsOutput,
   ListFleetDeploymentsError,
   Credentials | HttpClient.HttpClient,
@@ -7945,7 +7946,7 @@ export type ListFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
@@ -7983,7 +7984,7 @@ export type ListGameServerGroupsError =
  * Lists a game server groups.
  */
 export const listGameServerGroups: API.PaginatedOperationMethod<
-  ListGameServerGroupsInput,
+  ListGameServerGroupsInput & RegionInput,
   ListGameServerGroupsOutput,
   ListGameServerGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -8024,7 +8025,7 @@ export type ListGameServersError =
  * Guide
  */
 export const listGameServers: API.PaginatedOperationMethod<
-  ListGameServersInput,
+  ListGameServersInput & RegionInput,
   ListGameServersOutput,
   ListGameServersError,
   Credentials | HttpClient.HttpClient,
@@ -8064,7 +8065,7 @@ export type ListLocationsError =
  * Service locations
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsInput,
+  ListLocationsInput & RegionInput,
   ListLocationsOutput,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
@@ -8106,7 +8107,7 @@ export type ListScriptsError =
  * All APIs by task
  */
 export const listScripts: API.PaginatedOperationMethod<
-  ListScriptsInput,
+  ListScriptsInput & RegionInput,
   ListScriptsOutput,
   ListScriptsError,
   Credentials | HttpClient.HttpClient,
@@ -8156,7 +8157,7 @@ export type ListTagsForResourceError =
  * All APIs by task
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -8257,7 +8258,7 @@ export type PutScalingPolicyError =
  * fleet actions are restarted.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyInput,
+  PutScalingPolicyInput & RegionInput,
   PutScalingPolicyOutput,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
@@ -8320,7 +8321,7 @@ export type RegisterComputeError =
  * reference guides (for version 5.x)
  */
 export const registerCompute: API.OperationMethod<
-  RegisterComputeInput,
+  RegisterComputeInput & RegionInput,
   RegisterComputeOutput,
   RegisterComputeError,
   Credentials | HttpClient.HttpClient
@@ -8375,7 +8376,7 @@ export type RegisterGameServerError =
  * Guide
  */
 export const registerGameServer: API.OperationMethod<
-  RegisterGameServerInput,
+  RegisterGameServerInput & RegionInput,
   RegisterGameServerOutput,
   RegisterGameServerError,
   Credentials | HttpClient.HttpClient
@@ -8420,7 +8421,7 @@ export type RequestUploadCredentialsError =
  * All APIs by task
  */
 export const requestUploadCredentials: API.OperationMethod<
-  RequestUploadCredentialsInput,
+  RequestUploadCredentialsInput & RegionInput,
   RequestUploadCredentialsOutput,
   RequestUploadCredentialsError,
   Credentials | HttpClient.HttpClient
@@ -8462,7 +8463,7 @@ export type ResolveAliasError =
  * All APIs by task
  */
 export const resolveAlias: API.OperationMethod<
-  ResolveAliasInput,
+  ResolveAliasInput & RegionInput,
   ResolveAliasOutput,
   ResolveAliasError,
   Credentials | HttpClient.HttpClient
@@ -8510,7 +8511,7 @@ export type ResumeGameServerGroupError =
  * Guide
  */
 export const resumeGameServerGroup: API.OperationMethod<
-  ResumeGameServerGroupInput,
+  ResumeGameServerGroupInput & RegionInput,
   ResumeGameServerGroupOutput,
   ResumeGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -8612,7 +8613,7 @@ export type SearchGameSessionsError =
  * All APIs by task
  */
 export const searchGameSessions: API.PaginatedOperationMethod<
-  SearchGameSessionsInput,
+  SearchGameSessionsInput & RegionInput,
   SearchGameSessionsOutput,
   SearchGameSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -8673,7 +8674,7 @@ export type StartFleetActionsError =
  * fleets
  */
 export const startFleetActions: API.OperationMethod<
-  StartFleetActionsInput,
+  StartFleetActionsInput & RegionInput,
   StartFleetActionsOutput,
   StartFleetActionsError,
   Credentials | HttpClient.HttpClient
@@ -8782,7 +8783,7 @@ export type StartGameSessionPlacementError =
  * different queue.
  */
 export const startGameSessionPlacement: API.OperationMethod<
-  StartGameSessionPlacementInput,
+  StartGameSessionPlacementInput & RegionInput,
   StartGameSessionPlacementOutput,
   StartGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -8850,7 +8851,7 @@ export type StartMatchBackfillError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchBackfill: API.OperationMethod<
-  StartMatchBackfillInput,
+  StartMatchBackfillInput & RegionInput,
   StartMatchBackfillOutput,
   StartMatchBackfillError,
   Credentials | HttpClient.HttpClient
@@ -8907,7 +8908,7 @@ export type StartMatchmakingError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchmaking: API.OperationMethod<
-  StartMatchmakingInput,
+  StartMatchmakingInput & RegionInput,
   StartMatchmakingOutput,
   StartMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -8964,7 +8965,7 @@ export type StopFleetActionsError =
  * Fleets
  */
 export const stopFleetActions: API.OperationMethod<
-  StopFleetActionsInput,
+  StopFleetActionsInput & RegionInput,
   StopFleetActionsOutput,
   StopFleetActionsError,
   Credentials | HttpClient.HttpClient
@@ -9007,7 +9008,7 @@ export type StopGameSessionPlacementError =
  * game session by calling TerminateGameSession.
  */
 export const stopGameSessionPlacement: API.OperationMethod<
-  StopGameSessionPlacementInput,
+  StopGameSessionPlacementInput & RegionInput,
   StopGameSessionPlacementOutput,
   StopGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
@@ -9054,7 +9055,7 @@ export type StopMatchmakingError =
  * Add FlexMatch to a game client
  */
 export const stopMatchmaking: API.OperationMethod<
-  StopMatchmakingInput,
+  StopMatchmakingInput & RegionInput,
   StopMatchmakingOutput,
   StopMatchmakingError,
   Credentials | HttpClient.HttpClient
@@ -9107,7 +9108,7 @@ export type SuspendGameServerGroupError =
  * Guide
  */
 export const suspendGameServerGroup: API.OperationMethod<
-  SuspendGameServerGroupInput,
+  SuspendGameServerGroupInput & RegionInput,
   SuspendGameServerGroupOutput,
   SuspendGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -9158,7 +9159,7 @@ export type TagResourceError =
  * All APIs by task
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -9235,7 +9236,7 @@ export type TerminateGameSessionError =
  * (Go)
  */
 export const terminateGameSession: API.OperationMethod<
-  TerminateGameSessionInput,
+  TerminateGameSessionInput & RegionInput,
   TerminateGameSessionOutput,
   TerminateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -9287,7 +9288,7 @@ export type UntagResourceError =
  * All APIs by task
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -9328,7 +9329,7 @@ export type UpdateAliasError =
  * All APIs by task
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasInput,
+  UpdateAliasInput & RegionInput,
   UpdateAliasOutput,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
@@ -9369,7 +9370,7 @@ export type UpdateBuildError =
  * All APIs by task
  */
 export const updateBuild: API.OperationMethod<
-  UpdateBuildInput,
+  UpdateBuildInput & RegionInput,
   UpdateBuildOutput,
   UpdateBuildError,
   Credentials | HttpClient.HttpClient
@@ -9451,7 +9452,7 @@ export type UpdateContainerFleetError =
  * deployment is cancelled.
  */
 export const updateContainerFleet: API.OperationMethod<
-  UpdateContainerFleetInput,
+  UpdateContainerFleetInput & RegionInput,
   UpdateContainerFleetOutput,
   UpdateContainerFleetError,
   Credentials | HttpClient.HttpClient
@@ -9523,7 +9524,7 @@ export type UpdateContainerGroupDefinitionError =
  * deployments using ListFleetDeployments.
  */
 export const updateContainerGroupDefinition: API.OperationMethod<
-  UpdateContainerGroupDefinitionInput,
+  UpdateContainerGroupDefinitionInput & RegionInput,
   UpdateContainerGroupDefinitionOutput,
   UpdateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -9576,7 +9577,7 @@ export type UpdateFleetAttributesError =
  * fleets
  */
 export const updateFleetAttributes: API.OperationMethod<
-  UpdateFleetAttributesInput,
+  UpdateFleetAttributesInput & RegionInput,
   UpdateFleetAttributesOutput,
   UpdateFleetAttributesError,
   Credentials | HttpClient.HttpClient
@@ -9663,7 +9664,7 @@ export type UpdateFleetCapacityError =
  * capacity
  */
 export const updateFleetCapacity: API.OperationMethod<
-  UpdateFleetCapacityInput,
+  UpdateFleetCapacityInput & RegionInput,
   UpdateFleetCapacityOutput,
   UpdateFleetCapacityError,
   Credentials | HttpClient.HttpClient
@@ -9719,7 +9720,7 @@ export type UpdateFleetPortSettingsError =
  * fleets
  */
 export const updateFleetPortSettings: API.OperationMethod<
-  UpdateFleetPortSettingsInput,
+  UpdateFleetPortSettingsInput & RegionInput,
   UpdateFleetPortSettingsOutput,
   UpdateFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
@@ -9782,7 +9783,7 @@ export type UpdateGameServerError =
  * Guide
  */
 export const updateGameServer: API.OperationMethod<
-  UpdateGameServerInput,
+  UpdateGameServerInput & RegionInput,
   UpdateGameServerOutput,
   UpdateGameServerError,
   Credentials | HttpClient.HttpClient
@@ -9833,7 +9834,7 @@ export type UpdateGameServerGroupError =
  * Guide
  */
 export const updateGameServerGroup: API.OperationMethod<
-  UpdateGameServerGroupInput,
+  UpdateGameServerGroupInput & RegionInput,
   UpdateGameServerGroupOutput,
   UpdateGameServerGroupError,
   Credentials | HttpClient.HttpClient
@@ -9875,7 +9876,7 @@ export type UpdateGameSessionError =
  * All APIs by task
  */
 export const updateGameSession: API.OperationMethod<
-  UpdateGameSessionInput,
+  UpdateGameSessionInput & RegionInput,
   UpdateGameSessionOutput,
   UpdateGameSessionError,
   Credentials | HttpClient.HttpClient
@@ -9917,7 +9918,7 @@ export type UpdateGameSessionQueueError =
  * Using Multi-Region Queues
  */
 export const updateGameSessionQueue: API.OperationMethod<
-  UpdateGameSessionQueueInput,
+  UpdateGameSessionQueueInput & RegionInput,
   UpdateGameSessionQueueOutput,
   UpdateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
@@ -9956,7 +9957,7 @@ export type UpdateMatchmakingConfigurationError =
  * matchmaker
  */
 export const updateMatchmakingConfiguration: API.OperationMethod<
-  UpdateMatchmakingConfigurationInput,
+  UpdateMatchmakingConfigurationInput & RegionInput,
   UpdateMatchmakingConfigurationOutput,
   UpdateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10009,7 +10010,7 @@ export type UpdateRuntimeConfigurationError =
  * fleets
  */
 export const updateRuntimeConfiguration: API.OperationMethod<
-  UpdateRuntimeConfigurationInput,
+  UpdateRuntimeConfigurationInput & RegionInput,
   UpdateRuntimeConfigurationOutput,
   UpdateRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -10063,7 +10064,7 @@ export type UpdateScriptError =
  * All APIs by task
  */
 export const updateScript: API.OperationMethod<
-  UpdateScriptInput,
+  UpdateScriptInput & RegionInput,
   UpdateScriptOutput,
   UpdateScriptError,
   Credentials | HttpClient.HttpClient
@@ -10101,7 +10102,7 @@ export type ValidateMatchmakingRuleSetError =
  * set
  */
 export const validateMatchmakingRuleSet: API.OperationMethod<
-  ValidateMatchmakingRuleSetInput,
+  ValidateMatchmakingRuleSetInput & RegionInput,
   ValidateMatchmakingRuleSetOutput,
   ValidateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient

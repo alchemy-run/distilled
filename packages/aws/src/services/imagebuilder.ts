@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -2169,7 +2170,7 @@ export type CancelImageCreationError =
  * created, such as AMIs and snapshots, aren't removed.
  */
 export const cancelImageCreation: API.OperationMethod<
-  CancelImageCreationRequest,
+  CancelImageCreationRequest & RegionInput,
   CancelImageCreationResponse,
   CancelImageCreationError,
   Credentials | HttpClient.HttpClient
@@ -2212,7 +2213,7 @@ export type CancelLifecycleExecutionError =
  * completed lifecycle actions.
  */
 export const cancelLifecycleExecution: API.OperationMethod<
-  CancelLifecycleExecutionRequest,
+  CancelLifecycleExecutionRequest & RegionInput,
   CancelLifecycleExecutionResponse,
   CancelLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2265,7 +2266,7 @@ export type CreateComponentError =
  * `TEST`. Otherwise, the component type is `BUILD`.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -2312,7 +2313,7 @@ export type CreateContainerRecipeError =
  * tested, and assessed.
  */
 export const createContainerRecipe: API.OperationMethod<
-  CreateContainerRecipeRequest,
+  CreateContainerRecipeRequest & RegionInput,
   CreateContainerRecipeResponse,
   CreateContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2360,7 +2361,7 @@ export type CreateDistributionConfigurationError =
  * accounts, and settings for each Region.
  */
 export const createDistributionConfiguration: API.OperationMethod<
-  CreateDistributionConfigurationRequest,
+  CreateDistributionConfigurationRequest & RegionInput,
   CreateDistributionConfigurationResponse,
   CreateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2410,7 @@ export type CreateImageError =
  * GetImage and check the image status.
  */
 export const createImage: API.OperationMethod<
-  CreateImageRequest,
+  CreateImageRequest & RegionInput,
   CreateImageResponse,
   CreateImageError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2455,7 @@ export type CreateImagePipelineError =
  * `imageRecipeArn`.
  */
 export const createImagePipeline: API.OperationMethod<
-  CreateImagePipelineRequest,
+  CreateImagePipelineRequest & RegionInput,
   CreateImagePipelineResponse,
   CreateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2500,7 +2501,7 @@ export type CreateImageRecipeError =
  * and assessed.
  */
 export const createImageRecipe: API.OperationMethod<
-  CreateImageRecipeRequest,
+  CreateImageRecipeRequest & RegionInput,
   CreateImageRecipeResponse,
   CreateImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2547,7 +2548,7 @@ export type CreateInfrastructureConfigurationError =
  * the environment in which your image will be built and tested.
  */
 export const createInfrastructureConfiguration: API.OperationMethod<
-  CreateInfrastructureConfigurationRequest,
+  CreateInfrastructureConfigurationRequest & RegionInput,
   CreateInfrastructureConfigurationResponse,
   CreateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecycle policy resource.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2641,7 +2642,7 @@ export type CreateWorkflowError =
  * fails because that workflow configuration already exists.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type DeleteComponentError =
  * build version is shared with other accounts.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2726,7 @@ export type DeleteContainerRecipeError =
  * accounts, or if an image pipeline references it.
  */
 export const deleteContainerRecipe: API.OperationMethod<
-  DeleteContainerRecipeRequest,
+  DeleteContainerRecipeRequest & RegionInput,
   DeleteContainerRecipeResponse,
   DeleteContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2765,7 +2766,7 @@ export type DeleteDistributionConfigurationError =
  * pipelines first.
  */
 export const deleteDistributionConfiguration: API.OperationMethod<
-  DeleteDistributionConfigurationRequest,
+  DeleteDistributionConfigurationRequest & RegionInput,
   DeleteDistributionConfigurationResponse,
   DeleteDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2825,7 @@ export type DeleteImageError =
  * an image in the *Amazon ECR User Guide*.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResponse,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -2865,7 +2866,7 @@ export type DeleteImagePipelineError =
  * build continues independently.
  */
 export const deleteImagePipeline: API.OperationMethod<
-  DeleteImagePipelineRequest,
+  DeleteImagePipelineRequest & RegionInput,
   DeleteImagePipelineResponse,
   DeleteImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2903,7 +2904,7 @@ export type DeleteImageRecipeError =
  * Deletes an image recipe.
  */
 export const deleteImageRecipe: API.OperationMethod<
-  DeleteImageRecipeRequest,
+  DeleteImageRecipeRequest & RegionInput,
   DeleteImageRecipeResponse,
   DeleteImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2944,7 +2945,7 @@ export type DeleteInfrastructureConfigurationError =
  * pipelines first.
  */
 export const deleteInfrastructureConfiguration: API.OperationMethod<
-  DeleteInfrastructureConfigurationRequest,
+  DeleteInfrastructureConfigurationRequest & RegionInput,
   DeleteInfrastructureConfigurationResponse,
   DeleteInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2985,7 +2986,7 @@ export type DeleteLifecyclePolicyError =
  * resources.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3023,7 +3024,7 @@ export type DeleteWorkflowError =
  * `ResourceDependencyException`.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3066,7 +3067,7 @@ export type DistributeImageError =
  * phase on an image that has already been built.
  */
 export const distributeImage: API.OperationMethod<
-  DistributeImageRequest,
+  DistributeImageRequest & RegionInput,
   DistributeImageResponse,
   DistributeImageError,
   Credentials | HttpClient.HttpClient
@@ -3107,7 +3108,7 @@ export type GetComponentError =
  * Retrieves a component object.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3143,7 @@ export type GetComponentPolicyError =
  * Retrieves a component policy.
  */
 export const getComponentPolicy: API.OperationMethod<
-  GetComponentPolicyRequest,
+  GetComponentPolicyRequest & RegionInput,
   GetComponentPolicyResponse,
   GetComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3176,7 +3177,7 @@ export type GetContainerRecipeError =
  * Retrieves a container recipe.
  */
 export const getContainerRecipe: API.OperationMethod<
-  GetContainerRecipeRequest,
+  GetContainerRecipeRequest & RegionInput,
   GetContainerRecipeResponse,
   GetContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3211,7 @@ export type GetContainerRecipePolicyError =
  * Retrieves the policy for a container recipe.
  */
 export const getContainerRecipePolicy: API.OperationMethod<
-  GetContainerRecipePolicyRequest,
+  GetContainerRecipePolicyRequest & RegionInput,
   GetContainerRecipePolicyResponse,
   GetContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3245,7 +3246,7 @@ export type GetDistributionConfigurationError =
  * Retrieves a distribution configuration.
  */
 export const getDistributionConfiguration: API.OperationMethod<
-  GetDistributionConfigurationRequest,
+  GetDistributionConfigurationRequest & RegionInput,
   GetDistributionConfigurationResponse,
   GetDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3282,7 @@ export type GetImageError =
  * Retrieves an image.
  */
 export const getImage: API.OperationMethod<
-  GetImageRequest,
+  GetImageRequest & RegionInput,
   GetImageResponse,
   GetImageError,
   Credentials | HttpClient.HttpClient
@@ -3317,7 +3318,7 @@ export type GetImagePipelineError =
  * Retrieves an image pipeline.
  */
 export const getImagePipeline: API.OperationMethod<
-  GetImagePipelineRequest,
+  GetImagePipelineRequest & RegionInput,
   GetImagePipelineResponse,
   GetImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -3352,7 +3353,7 @@ export type GetImagePolicyError =
  * Retrieves an image policy.
  */
 export const getImagePolicy: API.OperationMethod<
-  GetImagePolicyRequest,
+  GetImagePolicyRequest & RegionInput,
   GetImagePolicyResponse,
   GetImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3387,7 +3388,7 @@ export type GetImageRecipeError =
  * Retrieves an image recipe.
  */
 export const getImageRecipe: API.OperationMethod<
-  GetImageRecipeRequest,
+  GetImageRecipeRequest & RegionInput,
   GetImageRecipeResponse,
   GetImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3422,7 +3423,7 @@ export type GetImageRecipePolicyError =
  * Retrieves an image recipe policy.
  */
 export const getImageRecipePolicy: API.OperationMethod<
-  GetImageRecipePolicyRequest,
+  GetImageRecipePolicyRequest & RegionInput,
   GetImageRecipePolicyResponse,
   GetImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3457,7 +3458,7 @@ export type GetInfrastructureConfigurationError =
  * Retrieves an infrastructure configuration.
  */
 export const getInfrastructureConfiguration: API.OperationMethod<
-  GetInfrastructureConfigurationRequest,
+  GetInfrastructureConfigurationRequest & RegionInput,
   GetInfrastructureConfigurationResponse,
   GetInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3494,7 +3495,7 @@ export type GetLifecycleExecutionError =
  * StartResourceStateUpdate request started.
  */
 export const getLifecycleExecution: API.OperationMethod<
-  GetLifecycleExecutionRequest,
+  GetLifecycleExecutionRequest & RegionInput,
   GetLifecycleExecutionResponse,
   GetLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3528,7 +3529,7 @@ export type GetLifecyclePolicyError =
  * Retrieves details for the specified image lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3565,7 +3566,7 @@ export type GetMarketplaceResourceError =
  * and their artifacts.
  */
 export const getMarketplaceResource: API.OperationMethod<
-  GetMarketplaceResourceRequest,
+  GetMarketplaceResourceRequest & RegionInput,
   GetMarketplaceResourceResponse,
   GetMarketplaceResourceError,
   Credentials | HttpClient.HttpClient
@@ -3599,7 +3600,7 @@ export type GetWorkflowError =
  * Retrieves a workflow resource object.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3634,7 +3635,7 @@ export type GetWorkflowExecutionError =
  * of the workflow.
  */
 export const getWorkflowExecution: API.OperationMethod<
-  GetWorkflowExecutionRequest,
+  GetWorkflowExecutionRequest & RegionInput,
   GetWorkflowExecutionResponse,
   GetWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3669,7 +3670,7 @@ export type GetWorkflowStepExecutionError =
  * the workflow step.
  */
 export const getWorkflowStepExecution: API.OperationMethod<
-  GetWorkflowStepExecutionRequest,
+  GetWorkflowStepExecutionRequest & RegionInput,
   GetWorkflowStepExecutionResponse,
   GetWorkflowStepExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3709,7 +3710,7 @@ export type ImportComponentError =
  * document with a single step that runs the script.
  */
 export const importComponent: API.OperationMethod<
-  ImportComponentRequest,
+  ImportComponentRequest & RegionInput,
   ImportComponentResponse,
   ImportComponentError,
   Credentials | HttpClient.HttpClient
@@ -3754,7 +3755,7 @@ export type ImportDiskImageError =
  * infrastructure configuration.
  */
 export const importDiskImage: API.OperationMethod<
-  ImportDiskImageRequest,
+  ImportDiskImageRequest & RegionInput,
   ImportDiskImageResponse,
   ImportDiskImageError,
   Credentials | HttpClient.HttpClient
@@ -3794,7 +3795,7 @@ export type ImportVmImageError =
  * CLI command.
  */
 export const importVmImage: API.OperationMethod<
-  ImportVmImageRequest,
+  ImportVmImageRequest & RegionInput,
   ImportVmImageResponse,
   ImportVmImageError,
   Credentials | HttpClient.HttpClient
@@ -3826,7 +3827,7 @@ export type ListComponentBuildVersionsError =
  * results.
  */
 export const listComponentBuildVersions: API.PaginatedOperationMethod<
-  ListComponentBuildVersionsRequest,
+  ListComponentBuildVersionsRequest & RegionInput,
   ListComponentBuildVersionsResponse,
   ListComponentBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3880,7 +3881,7 @@ export type ListComponentsError =
  * to the right of the first wildcard must also be wildcards.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3923,7 +3924,7 @@ export type ListContainerRecipesError =
  * Returns a list of container recipes.
  */
 export const listContainerRecipes: API.PaginatedOperationMethod<
-  ListContainerRecipesRequest,
+  ListContainerRecipesRequest & RegionInput,
   ListContainerRecipesResponse,
   ListContainerRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -3966,7 +3967,7 @@ export type ListDistributionConfigurationsError =
  * Returns a list of distribution configurations.
  */
 export const listDistributionConfigurations: API.PaginatedOperationMethod<
-  ListDistributionConfigurationsRequest,
+  ListDistributionConfigurationsRequest & RegionInput,
   ListDistributionConfigurationsResponse,
   ListDistributionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4009,7 +4010,7 @@ export type ListImageBuildVersionsError =
  * Returns a list of image build versions.
  */
 export const listImageBuildVersions: API.PaginatedOperationMethod<
-  ListImageBuildVersionsRequest,
+  ListImageBuildVersionsRequest & RegionInput,
   ListImageBuildVersionsResponse,
   ListImageBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4054,7 +4055,7 @@ export type ListImagePackagesError =
  * Amazon Web Services Systems Manager Inventory at build time.
  */
 export const listImagePackages: API.PaginatedOperationMethod<
-  ListImagePackagesRequest,
+  ListImagePackagesRequest & RegionInput,
   ListImagePackagesResponse,
   ListImagePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -4099,7 +4100,7 @@ export type ListImagePipelineImagesError =
  * Returns a list of images created by the specified pipeline.
  */
 export const listImagePipelineImages: API.PaginatedOperationMethod<
-  ListImagePipelineImagesRequest,
+  ListImagePipelineImagesRequest & RegionInput,
   ListImagePipelineImagesResponse,
   ListImagePipelineImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4143,7 +4144,7 @@ export type ListImagePipelinesError =
  * Returns a list of image pipelines.
  */
 export const listImagePipelines: API.PaginatedOperationMethod<
-  ListImagePipelinesRequest,
+  ListImagePipelinesRequest & RegionInput,
   ListImagePipelinesResponse,
   ListImagePipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -4186,7 +4187,7 @@ export type ListImageRecipesError =
  * Returns a list of image recipes.
  */
 export const listImageRecipes: API.PaginatedOperationMethod<
-  ListImageRecipesRequest,
+  ListImageRecipesRequest & RegionInput,
   ListImageRecipesResponse,
   ListImageRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -4229,7 +4230,7 @@ export type ListImagesError =
  * Returns the list of images that you have access to.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4284,7 +4285,7 @@ export type ListImageScanFindingAggregationsError =
  * - `vulnerabilityId`
  */
 export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
-  ListImageScanFindingAggregationsRequest,
+  ListImageScanFindingAggregationsRequest & RegionInput,
   ListImageScanFindingAggregationsResponse,
   ListImageScanFindingAggregationsError,
   Credentials | HttpClient.HttpClient,
@@ -4323,7 +4324,7 @@ export type ListImageScanFindingsError =
  * findings when it scans images that have scanning enabled.
  */
 export const listImageScanFindings: API.PaginatedOperationMethod<
-  ListImageScanFindingsRequest,
+  ListImageScanFindingsRequest & RegionInput,
   ListImageScanFindingsResponse,
   ListImageScanFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -4366,7 +4367,7 @@ export type ListInfrastructureConfigurationsError =
  * Returns a list of infrastructure configurations.
  */
 export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
-  ListInfrastructureConfigurationsRequest,
+  ListInfrastructureConfigurationsRequest & RegionInput,
   ListInfrastructureConfigurationsResponse,
   ListInfrastructureConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4409,7 +4410,7 @@ export type ListLifecycleExecutionResourcesError =
  * Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
 export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
-  ListLifecycleExecutionResourcesRequest,
+  ListLifecycleExecutionResourcesRequest & RegionInput,
   ListLifecycleExecutionResourcesResponse,
   ListLifecycleExecutionResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4452,7 +4453,7 @@ export type ListLifecycleExecutionsError =
  * Retrieves the lifecycle runtime history for the specified resource.
  */
 export const listLifecycleExecutions: API.PaginatedOperationMethod<
-  ListLifecycleExecutionsRequest,
+  ListLifecycleExecutionsRequest & RegionInput,
   ListLifecycleExecutionsResponse,
   ListLifecycleExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4495,7 +4496,7 @@ export type ListLifecyclePoliciesError =
  * Retrieves a list of lifecycle policies in your Amazon Web Services account.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4534,7 +4535,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4564,7 +4565,7 @@ export type ListWaitingWorkflowStepsError =
  * a response, call SendWorkflowStepAction.
  */
 export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
-  ListWaitingWorkflowStepsRequest,
+  ListWaitingWorkflowStepsRequest & RegionInput,
   ListWaitingWorkflowStepsResponse,
   ListWaitingWorkflowStepsError,
   Credentials | HttpClient.HttpClient,
@@ -4607,7 +4608,7 @@ export type ListWorkflowBuildVersionsError =
  * Returns a list of build versions for a specific workflow resource.
  */
 export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
-  ListWorkflowBuildVersionsRequest,
+  ListWorkflowBuildVersionsRequest & RegionInput,
   ListWorkflowBuildVersionsResponse,
   ListWorkflowBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4651,7 +4652,7 @@ export type ListWorkflowExecutionsError =
  * version.
  */
 export const listWorkflowExecutions: API.PaginatedOperationMethod<
-  ListWorkflowExecutionsRequest,
+  ListWorkflowExecutionsRequest & RegionInput,
   ListWorkflowExecutionsResponse,
   ListWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4696,7 +4697,7 @@ export type ListWorkflowsError =
  * ListWorkflowBuildVersions.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -4740,7 +4741,7 @@ export type ListWorkflowStepExecutionsError =
  * that you specify in the request.
  */
 export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
-  ListWorkflowStepExecutionsRequest,
+  ListWorkflowStepExecutionsRequest & RegionInput,
   ListWorkflowStepExecutionsResponse,
   ListWorkflowStepExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4787,7 +4788,7 @@ export type PutComponentPolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putComponentPolicy: API.OperationMethod<
-  PutComponentPolicyRequest,
+  PutComponentPolicyRequest & RegionInput,
   PutComponentPolicyResponse,
   PutComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4828,7 +4829,7 @@ export type PutContainerRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putContainerRecipePolicy: API.OperationMethod<
-  PutContainerRecipePolicyRequest,
+  PutContainerRecipePolicyRequest & RegionInput,
   PutContainerRecipePolicyResponse,
   PutContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4869,7 +4870,7 @@ export type PutImagePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImagePolicy: API.OperationMethod<
-  PutImagePolicyRequest,
+  PutImagePolicyRequest & RegionInput,
   PutImagePolicyResponse,
   PutImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4910,7 +4911,7 @@ export type PutImageRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImageRecipePolicy: API.OperationMethod<
-  PutImageRecipePolicyRequest,
+  PutImageRecipePolicyRequest & RegionInput,
   PutImageRecipePolicyResponse,
   PutImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4952,7 +4953,7 @@ export type RetryImageError =
  * supported for AMI-based images.
  */
 export const retryImage: API.OperationMethod<
-  RetryImageRequest,
+  RetryImageRequest & RegionInput,
   RetryImageResponse,
   RetryImageError,
   Credentials | HttpClient.HttpClient
@@ -4995,7 +4996,7 @@ export type SendWorkflowStepActionError =
  * ListWaitingWorkflowSteps.
  */
 export const sendWorkflowStepAction: API.OperationMethod<
-  SendWorkflowStepActionRequest,
+  SendWorkflowStepActionRequest & RegionInput,
   SendWorkflowStepActionResponse,
   SendWorkflowStepActionError,
   Credentials | HttpClient.HttpClient
@@ -5040,7 +5041,7 @@ export type StartImagePipelineExecutionError =
  * GetImage to track build progress.
  */
 export const startImagePipelineExecution: API.OperationMethod<
-  StartImagePipelineExecutionRequest,
+  StartImagePipelineExecutionRequest & RegionInput,
   StartImagePipelineExecutionResponse,
   StartImagePipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5088,7 +5089,7 @@ export type StartResourceStateUpdateError =
  * progress, Image Builder rejects it.
  */
 export const startResourceStateUpdate: API.OperationMethod<
-  StartResourceStateUpdateRequest,
+  StartResourceStateUpdateRequest & RegionInput,
   StartResourceStateUpdateResponse,
   StartResourceStateUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5122,7 +5123,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5146,7 +5147,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5183,7 +5184,7 @@ export type UpdateDistributionConfigurationError =
  * want to keep.
  */
 export const updateDistributionConfiguration: API.OperationMethod<
-  UpdateDistributionConfigurationRequest,
+  UpdateDistributionConfigurationRequest & RegionInput,
   UpdateDistributionConfigurationResponse,
   UpdateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5233,7 +5234,7 @@ export type UpdateImagePipelineError =
  * or reset to its default.
  */
 export const updateImagePipeline: API.OperationMethod<
-  UpdateImagePipelineRequest,
+  UpdateImagePipelineRequest & RegionInput,
   UpdateImagePipelineResponse,
   UpdateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -5279,7 +5280,7 @@ export type UpdateInfrastructureConfigurationError =
  * you want to keep. Omitted optional properties are cleared.
  */
 export const updateInfrastructureConfiguration: API.OperationMethod<
-  UpdateInfrastructureConfigurationRequest,
+  UpdateInfrastructureConfigurationRequest & RegionInput,
   UpdateInfrastructureConfigurationResponse,
   UpdateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5323,7 +5324,7 @@ export type UpdateLifecyclePolicyError =
  * policy's value.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient

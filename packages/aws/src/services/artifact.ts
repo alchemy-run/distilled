@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -518,7 +519,7 @@ export type CreateComplianceInquiryError =
  * Create a new compliance inquiry.
  */
 export const createComplianceInquiry: API.OperationMethod<
-  CreateComplianceInquiryRequest,
+  CreateComplianceInquiryRequest & RegionInput,
   CreateComplianceInquiryResponse,
   CreateComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -550,7 +551,7 @@ export type ExportComplianceInquiryError =
  * Export a compliance inquiry report.
  */
 export const exportComplianceInquiry: API.OperationMethod<
-  ExportComplianceInquiryRequest,
+  ExportComplianceInquiryRequest & RegionInput,
   ExportComplianceInquiryResponse,
   ExportComplianceInquiryError,
   Credentials | HttpClient.HttpClient
@@ -584,7 +585,7 @@ export type GetAccountSettingsError =
  * Get the account settings for Artifact.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type GetComplianceInquiryMetadataError =
  * Get the metadata for a single compliance inquiry.
  */
 export const getComplianceInquiryMetadata: API.OperationMethod<
-  GetComplianceInquiryMetadataRequest,
+  GetComplianceInquiryMetadataRequest & RegionInput,
   GetComplianceInquiryMetadataResponse,
   GetComplianceInquiryMetadataError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type GetReportError =
  * Get the content for a single report.
  */
 export const getReport: API.OperationMethod<
-  GetReportRequest,
+  GetReportRequest & RegionInput,
   GetReportResponse,
   GetReportError,
   Credentials | HttpClient.HttpClient
@@ -687,7 +688,7 @@ export type GetReportMetadataError =
  * Get the metadata for a single report.
  */
 export const getReportMetadata: API.OperationMethod<
-  GetReportMetadataRequest,
+  GetReportMetadataRequest & RegionInput,
   GetReportMetadataResponse,
   GetReportMetadataError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type GetTermForReportError =
  * Get the Term content associated with a single report.
  */
 export const getTermForReport: API.OperationMethod<
-  GetTermForReportRequest,
+  GetTermForReportRequest & RegionInput,
   GetTermForReportResponse,
   GetTermForReportError,
   Credentials | HttpClient.HttpClient
@@ -756,7 +757,7 @@ export type ListComplianceInquiriesError =
  * List available compliance inquiries.
  */
 export const listComplianceInquiries: API.PaginatedOperationMethod<
-  ListComplianceInquiriesRequest,
+  ListComplianceInquiriesRequest & RegionInput,
   ListComplianceInquiriesResponse,
   ListComplianceInquiriesError,
   Credentials | HttpClient.HttpClient,
@@ -795,7 +796,7 @@ export type ListComplianceInquiryQueriesError =
  * List queries within a compliance inquiry.
  */
 export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
-  ListComplianceInquiryQueriesRequest,
+  ListComplianceInquiryQueriesRequest & RegionInput,
   ListComplianceInquiryQueriesResponse,
   ListComplianceInquiryQueriesError,
   Credentials | HttpClient.HttpClient,
@@ -833,7 +834,7 @@ export type ListCustomerAgreementsError =
  * List active customer-agreements applicable to calling identity.
  */
 export const listCustomerAgreements: API.PaginatedOperationMethod<
-  ListCustomerAgreementsRequest,
+  ListCustomerAgreementsRequest & RegionInput,
   ListCustomerAgreementsResponse,
   ListCustomerAgreementsError,
   Credentials | HttpClient.HttpClient,
@@ -872,7 +873,7 @@ export type ListReportsError =
  * List available reports.
  */
 export const listReports: API.PaginatedOperationMethod<
-  ListReportsRequest,
+  ListReportsRequest & RegionInput,
   ListReportsResponse,
   ListReportsError,
   Credentials | HttpClient.HttpClient,
@@ -913,7 +914,7 @@ export type ListReportVersionsError =
  * List available report versions for a given report.
  */
 export const listReportVersions: API.PaginatedOperationMethod<
-  ListReportVersionsRequest,
+  ListReportVersionsRequest & RegionInput,
   ListReportVersionsResponse,
   ListReportVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -953,7 +954,7 @@ export type ListTagsForResourceError =
  * List tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -987,7 +988,7 @@ export type PutAccountSettingsError =
  * Put the account settings for Artifact.
  */
 export const putAccountSettings: API.OperationMethod<
-  PutAccountSettingsRequest,
+  PutAccountSettingsRequest & RegionInput,
   PutAccountSettingsResponse,
   PutAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1022,7 +1023,7 @@ export type PutComplianceInquiryFeedbackError =
  * Submits feedback on a compliance inquiry response.
  */
 export const putComplianceInquiryFeedback: API.OperationMethod<
-  PutComplianceInquiryFeedbackRequest,
+  PutComplianceInquiryFeedbackRequest & RegionInput,
   PutComplianceInquiryFeedbackResponse,
   PutComplianceInquiryFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -1055,7 +1056,7 @@ export type TagResourceError =
  * Add tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1087,7 +1088,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

@@ -49,6 +49,11 @@
           "target": "com.cloudflare.r2#NoSuchBucket"
         }
       ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.r2#UploadBucketObjectRequest/members/cf_r2_jurisdiction",
+      "path": "/shapes/com.cloudflare.r2#UploadBucketObjectRequest/members/jurisdiction"
     }
   ]
 }

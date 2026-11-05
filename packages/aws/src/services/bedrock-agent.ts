@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -4142,7 +4143,7 @@ export type AssociateAgentCollaboratorError =
  * Makes an agent a collaborator for another agent.
  */
 export const associateAgentCollaborator: API.OperationMethod<
-  AssociateAgentCollaboratorRequest,
+  AssociateAgentCollaboratorRequest & RegionInput,
   AssociateAgentCollaboratorResponse,
   AssociateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
@@ -4178,7 +4179,7 @@ export type AssociateAgentKnowledgeBaseError =
  * Associates a knowledge base with an agent. If a knowledge base is associated and its `indexState` is set to `Enabled`, the agent queries the knowledge base for information to augment its response to the user.
  */
 export const associateAgentKnowledgeBase: API.OperationMethod<
-  AssociateAgentKnowledgeBaseRequest,
+  AssociateAgentKnowledgeBaseRequest & RegionInput,
   AssociateAgentKnowledgeBaseResponse,
   AssociateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4231,7 +4232,7 @@ export type CreateAgentError =
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
@@ -4272,7 +4273,7 @@ export type CreateAgentActionGroupError =
  * You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
  */
 export const createAgentActionGroup: API.OperationMethod<
-  CreateAgentActionGroupRequest,
+  CreateAgentActionGroupRequest & RegionInput,
   CreateAgentActionGroupResponse,
   CreateAgentActionGroupError,
   Credentials | HttpClient.HttpClient
@@ -4308,7 +4309,7 @@ export type CreateAgentAliasError =
  * Creates an alias of an agent that can be used to deploy the agent.
  */
 export const createAgentAlias: API.OperationMethod<
-  CreateAgentAliasRequest,
+  CreateAgentAliasRequest & RegionInput,
   CreateAgentAliasResponse,
   CreateAgentAliasError,
   Credentials | HttpClient.HttpClient
@@ -4346,7 +4347,7 @@ export type CreateDataSourceError =
  * You can't change the `chunkingConfiguration` after you create the data source connector.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4382,7 @@ export type CreateFlowError =
  * Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -4416,7 +4417,7 @@ export type CreateFlowAliasError =
  * Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlowAlias: API.OperationMethod<
-  CreateFlowAliasRequest,
+  CreateFlowAliasRequest & RegionInput,
   CreateFlowAliasResponse,
   CreateFlowAliasError,
   Credentials | HttpClient.HttpClient
@@ -4452,7 +4453,7 @@ export type CreateFlowVersionError =
  * Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlowVersion: API.OperationMethod<
-  CreateFlowVersionRequest,
+  CreateFlowVersionRequest & RegionInput,
   CreateFlowVersionResponse,
   CreateFlowVersionError,
   Credentials | HttpClient.HttpClient
@@ -4507,7 +4508,7 @@ export type CreateKnowledgeBaseError =
  * - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration` object. For more information, see Create a vector store in Redis Enterprise Cloud.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4541,7 +4542,7 @@ export type CreatePromptError =
  * Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createPrompt: API.OperationMethod<
-  CreatePromptRequest,
+  CreatePromptRequest & RegionInput,
   CreatePromptResponse,
   CreatePromptError,
   Credentials | HttpClient.HttpClient
@@ -4576,7 +4577,7 @@ export type CreatePromptVersionError =
  * Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
  */
 export const createPromptVersion: API.OperationMethod<
-  CreatePromptVersionRequest,
+  CreatePromptVersionRequest & RegionInput,
   CreatePromptVersionResponse,
   CreatePromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -4612,7 +4613,7 @@ export type CreateVpcConfigurationError =
  * Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a `vpcConfigurationId` with status `CREATING`. Poll `GetVpcConfiguration` until the status becomes `CREATED` or `CREATE_FAILED`.
  */
 export const createVpcConfiguration: API.OperationMethod<
-  CreateVpcConfigurationRequest,
+  CreateVpcConfigurationRequest & RegionInput,
   CreateVpcConfigurationResponse,
   CreateVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4647,7 +4648,7 @@ export type DeleteAgentError =
  * Deletes an agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
@@ -4681,7 +4682,7 @@ export type DeleteAgentActionGroupError =
  * Deletes an action group in an agent.
  */
 export const deleteAgentActionGroup: API.OperationMethod<
-  DeleteAgentActionGroupRequest,
+  DeleteAgentActionGroupRequest & RegionInput,
   DeleteAgentActionGroupResponse,
   DeleteAgentActionGroupError,
   Credentials | HttpClient.HttpClient
@@ -4714,7 +4715,7 @@ export type DeleteAgentAliasError =
  * Deletes an alias of an agent.
  */
 export const deleteAgentAlias: API.OperationMethod<
-  DeleteAgentAliasRequest,
+  DeleteAgentAliasRequest & RegionInput,
   DeleteAgentAliasResponse,
   DeleteAgentAliasError,
   Credentials | HttpClient.HttpClient
@@ -4747,7 +4748,7 @@ export type DeleteAgentVersionError =
  * Deletes a version of an agent.
  */
 export const deleteAgentVersion: API.OperationMethod<
-  DeleteAgentVersionRequest,
+  DeleteAgentVersionRequest & RegionInput,
   DeleteAgentVersionResponse,
   DeleteAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -4781,7 +4782,7 @@ export type DeleteDataSourceError =
  * Deletes a data source from a knowledge base.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4815,7 +4816,7 @@ export type DeleteFlowError =
  * Deletes a flow.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
@@ -4849,7 +4850,7 @@ export type DeleteFlowAliasError =
  * Deletes an alias of a flow.
  */
 export const deleteFlowAlias: API.OperationMethod<
-  DeleteFlowAliasRequest,
+  DeleteFlowAliasRequest & RegionInput,
   DeleteFlowAliasResponse,
   DeleteFlowAliasError,
   Credentials | HttpClient.HttpClient
@@ -4883,7 +4884,7 @@ export type DeleteFlowVersionError =
  * Deletes a version of a flow.
  */
 export const deleteFlowVersion: API.OperationMethod<
-  DeleteFlowVersionRequest,
+  DeleteFlowVersionRequest & RegionInput,
   DeleteFlowVersionResponse,
   DeleteFlowVersionError,
   Credentials | HttpClient.HttpClient
@@ -4917,7 +4918,7 @@ export type DeleteKnowledgeBaseError =
  * Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -4951,7 +4952,7 @@ export type DeleteKnowledgeBaseDocumentsError =
  * Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const deleteKnowledgeBaseDocuments: API.OperationMethod<
-  DeleteKnowledgeBaseDocumentsRequest,
+  DeleteKnowledgeBaseDocumentsRequest & RegionInput,
   DeleteKnowledgeBaseDocumentsResponse,
   DeleteKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -4985,7 +4986,7 @@ export type DeletePromptError =
  * Deletes a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
  */
 export const deletePrompt: API.OperationMethod<
-  DeletePromptRequest,
+  DeletePromptRequest & RegionInput,
   DeletePromptResponse,
   DeletePromptError,
   Credentials | HttpClient.HttpClient
@@ -5019,7 +5020,7 @@ export type DeleteResourcePolicyError =
  * Removes the resource policy associated with a knowledge base. After deletion, other AWS accounts can no longer access the knowledge base using cross-account permissions.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5053,7 +5054,7 @@ export type DeleteVpcConfigurationError =
  * Deletes a VPC configuration. This operation is asynchronous: it returns status `DELETING`. Poll `GetVpcConfiguration` until it returns a `ResourceNotFoundException`, indicating the configuration is deleted. Delete requests are idempotent and safe to retry.
  */
 export const deleteVpcConfiguration: API.OperationMethod<
-  DeleteVpcConfigurationRequest,
+  DeleteVpcConfigurationRequest & RegionInput,
   DeleteVpcConfigurationResponse,
   DeleteVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5087,7 +5088,7 @@ export type DisassociateAgentCollaboratorError =
  * Disassociates an agent collaborator.
  */
 export const disassociateAgentCollaborator: API.OperationMethod<
-  DisassociateAgentCollaboratorRequest,
+  DisassociateAgentCollaboratorRequest & RegionInput,
   DisassociateAgentCollaboratorResponse,
   DisassociateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
@@ -5121,7 +5122,7 @@ export type DisassociateAgentKnowledgeBaseError =
  * Disassociates a knowledge base from an agent.
  */
 export const disassociateAgentKnowledgeBase: API.OperationMethod<
-  DisassociateAgentKnowledgeBaseRequest,
+  DisassociateAgentKnowledgeBaseRequest & RegionInput,
   DisassociateAgentKnowledgeBaseResponse,
   DisassociateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -5154,7 +5155,7 @@ export type GetAgentError =
  * Gets information about an agent.
  */
 export const getAgent: API.OperationMethod<
-  GetAgentRequest,
+  GetAgentRequest & RegionInput,
   GetAgentResponse,
   GetAgentError,
   Credentials | HttpClient.HttpClient
@@ -5186,7 +5187,7 @@ export type GetAgentActionGroupError =
  * Gets information about an action group for an agent.
  */
 export const getAgentActionGroup: API.OperationMethod<
-  GetAgentActionGroupRequest,
+  GetAgentActionGroupRequest & RegionInput,
   GetAgentActionGroupResponse,
   GetAgentActionGroupError,
   Credentials | HttpClient.HttpClient
@@ -5218,7 +5219,7 @@ export type GetAgentAliasError =
  * Gets information about an alias of an agent.
  */
 export const getAgentAlias: API.OperationMethod<
-  GetAgentAliasRequest,
+  GetAgentAliasRequest & RegionInput,
   GetAgentAliasResponse,
   GetAgentAliasError,
   Credentials | HttpClient.HttpClient
@@ -5250,7 +5251,7 @@ export type GetAgentCollaboratorError =
  * Retrieves information about an agent's collaborator.
  */
 export const getAgentCollaborator: API.OperationMethod<
-  GetAgentCollaboratorRequest,
+  GetAgentCollaboratorRequest & RegionInput,
   GetAgentCollaboratorResponse,
   GetAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
@@ -5282,7 +5283,7 @@ export type GetAgentKnowledgeBaseError =
  * Gets information about a knowledge base associated with an agent.
  */
 export const getAgentKnowledgeBase: API.OperationMethod<
-  GetAgentKnowledgeBaseRequest,
+  GetAgentKnowledgeBaseRequest & RegionInput,
   GetAgentKnowledgeBaseResponse,
   GetAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -5314,7 +5315,7 @@ export type GetAgentVersionError =
  * Gets details about a version of an agent.
  */
 export const getAgentVersion: API.OperationMethod<
-  GetAgentVersionRequest,
+  GetAgentVersionRequest & RegionInput,
   GetAgentVersionResponse,
   GetAgentVersionError,
   Credentials | HttpClient.HttpClient
@@ -5346,7 +5347,7 @@ export type GetDataSourceError =
  * Gets information about a data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -5378,7 +5379,7 @@ export type GetFlowError =
  * Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlow: API.OperationMethod<
-  GetFlowRequest,
+  GetFlowRequest & RegionInput,
   GetFlowResponse,
   GetFlowError,
   Credentials | HttpClient.HttpClient
@@ -5410,7 +5411,7 @@ export type GetFlowAliasError =
  * Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowAlias: API.OperationMethod<
-  GetFlowAliasRequest,
+  GetFlowAliasRequest & RegionInput,
   GetFlowAliasResponse,
   GetFlowAliasError,
   Credentials | HttpClient.HttpClient
@@ -5442,7 +5443,7 @@ export type GetFlowVersionError =
  * Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowVersion: API.OperationMethod<
-  GetFlowVersionRequest,
+  GetFlowVersionRequest & RegionInput,
   GetFlowVersionResponse,
   GetFlowVersionError,
   Credentials | HttpClient.HttpClient
@@ -5474,7 +5475,7 @@ export type GetIngestionJobError =
  * Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
 export const getIngestionJob: API.OperationMethod<
-  GetIngestionJobRequest,
+  GetIngestionJobRequest & RegionInput,
   GetIngestionJobResponse,
   GetIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -5506,7 +5507,7 @@ export type GetKnowledgeBaseError =
  * Gets information about a knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -5539,7 +5540,7 @@ export type GetKnowledgeBaseDocumentsError =
  * Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const getKnowledgeBaseDocuments: API.OperationMethod<
-  GetKnowledgeBaseDocumentsRequest,
+  GetKnowledgeBaseDocumentsRequest & RegionInput,
   GetKnowledgeBaseDocumentsResponse,
   GetKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -5572,7 +5573,7 @@ export type GetPromptError =
  * Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
  */
 export const getPrompt: API.OperationMethod<
-  GetPromptRequest,
+  GetPromptRequest & RegionInput,
   GetPromptResponse,
   GetPromptError,
   Credentials | HttpClient.HttpClient
@@ -5604,7 +5605,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource policy associated with a knowledge base.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5636,7 +5637,7 @@ export type GetVpcConfigurationError =
  * Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
  */
 export const getVpcConfiguration: API.OperationMethod<
-  GetVpcConfigurationRequest,
+  GetVpcConfigurationRequest & RegionInput,
   GetVpcConfigurationResponse,
   GetVpcConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5669,7 +5670,7 @@ export type IngestKnowledgeBaseDocumentsError =
  * Ingests documents directly into the knowledge base that is connected to the data source. The `dataSourceType` specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const ingestKnowledgeBaseDocuments: API.OperationMethod<
-  IngestKnowledgeBaseDocumentsRequest,
+  IngestKnowledgeBaseDocumentsRequest & RegionInput,
   IngestKnowledgeBaseDocumentsResponse,
   IngestKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
@@ -5702,7 +5703,7 @@ export type ListAgentActionGroupsError =
  * Lists the action groups for an agent and information about each one.
  */
 export const listAgentActionGroups: API.PaginatedOperationMethod<
-  ListAgentActionGroupsRequest,
+  ListAgentActionGroupsRequest & RegionInput,
   ListAgentActionGroupsResponse,
   ListAgentActionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -5741,7 +5742,7 @@ export type ListAgentAliasesError =
  * Lists the aliases of an agent and information about each one.
  */
 export const listAgentAliases: API.PaginatedOperationMethod<
-  ListAgentAliasesRequest,
+  ListAgentAliasesRequest & RegionInput,
   ListAgentAliasesResponse,
   ListAgentAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -5780,7 +5781,7 @@ export type ListAgentCollaboratorsError =
  * Retrieve a list of an agent's collaborators.
  */
 export const listAgentCollaborators: API.PaginatedOperationMethod<
-  ListAgentCollaboratorsRequest,
+  ListAgentCollaboratorsRequest & RegionInput,
   ListAgentCollaboratorsResponse,
   ListAgentCollaboratorsError,
   Credentials | HttpClient.HttpClient,
@@ -5819,7 +5820,7 @@ export type ListAgentKnowledgeBasesError =
  * Lists knowledge bases associated with an agent and information about each one.
  */
 export const listAgentKnowledgeBases: API.PaginatedOperationMethod<
-  ListAgentKnowledgeBasesRequest,
+  ListAgentKnowledgeBasesRequest & RegionInput,
   ListAgentKnowledgeBasesResponse,
   ListAgentKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -5857,7 +5858,7 @@ export type ListAgentsError =
  * Lists the agents belonging to an account and information about each agent.
  */
 export const listAgents: API.PaginatedOperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient,
@@ -5895,7 +5896,7 @@ export type ListAgentVersionsError =
  * Lists the versions of an agent and information about each version.
  */
 export const listAgentVersions: API.PaginatedOperationMethod<
-  ListAgentVersionsRequest,
+  ListAgentVersionsRequest & RegionInput,
   ListAgentVersionsResponse,
   ListAgentVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -5934,7 +5935,7 @@ export type ListDataSourcesError =
  * Lists the data sources in a knowledge base and information about each one.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -5973,7 +5974,7 @@ export type ListFlowAliasesError =
  * Returns a list of aliases for a flow.
  */
 export const listFlowAliases: API.PaginatedOperationMethod<
-  ListFlowAliasesRequest,
+  ListFlowAliasesRequest & RegionInput,
   ListFlowAliasesResponse,
   ListFlowAliasesError,
   Credentials | HttpClient.HttpClient,
@@ -6011,7 +6012,7 @@ export type ListFlowsError =
  * Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsRequest,
+  ListFlowsRequest & RegionInput,
   ListFlowsResponse,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -6049,7 +6050,7 @@ export type ListFlowVersionsError =
  * Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlowVersions: API.PaginatedOperationMethod<
-  ListFlowVersionsRequest,
+  ListFlowVersionsRequest & RegionInput,
   ListFlowVersionsResponse,
   ListFlowVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -6088,7 +6089,7 @@ export type ListIngestionJobsError =
  * Lists the data ingestion jobs for a data source. The list also includes information about each job.
  */
 export const listIngestionJobs: API.PaginatedOperationMethod<
-  ListIngestionJobsRequest,
+  ListIngestionJobsRequest & RegionInput,
   ListIngestionJobsResponse,
   ListIngestionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -6128,7 +6129,7 @@ export type ListKnowledgeBaseDocumentsError =
  * Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const listKnowledgeBaseDocuments: API.PaginatedOperationMethod<
-  ListKnowledgeBaseDocumentsRequest,
+  ListKnowledgeBaseDocumentsRequest & RegionInput,
   ListKnowledgeBaseDocumentsResponse,
   ListKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient,
@@ -6167,7 +6168,7 @@ export type ListKnowledgeBasesError =
  * Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
@@ -6205,7 +6206,7 @@ export type ListPromptsError =
  * Returns either information about the working draft (`DRAFT` version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the `promptIdentifier` field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
  */
 export const listPrompts: API.PaginatedOperationMethod<
-  ListPromptsRequest,
+  ListPromptsRequest & RegionInput,
   ListPromptsResponse,
   ListPromptsError,
   Credentials | HttpClient.HttpClient,
@@ -6244,7 +6245,7 @@ export type ListTagsForResourceError =
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -6276,7 +6277,7 @@ export type ListVpcConfigurationsError =
  * Returns a paginated list of the VPC configurations for a knowledge base. You can optionally filter by status. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listVpcConfigurations: API.PaginatedOperationMethod<
-  ListVpcConfigurationsRequest,
+  ListVpcConfigurationsRequest & RegionInput,
   ListVpcConfigurationsResponse,
   ListVpcConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -6317,7 +6318,7 @@ export type PrepareAgentError =
  * Creates a `DRAFT` version of the agent that can be used for internal testing.
  */
 export const prepareAgent: API.OperationMethod<
-  PrepareAgentRequest,
+  PrepareAgentRequest & RegionInput,
   PrepareAgentResponse,
   PrepareAgentError,
   Credentials | HttpClient.HttpClient
@@ -6353,7 +6354,7 @@ export type PrepareFlowError =
  * Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const prepareFlow: API.OperationMethod<
-  PrepareFlowRequest,
+  PrepareFlowRequest & RegionInput,
   PrepareFlowResponse,
   PrepareFlowError,
   Credentials | HttpClient.HttpClient
@@ -6388,7 +6389,7 @@ export type PutResourcePolicyError =
  * Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6423,7 +6424,7 @@ export type StartIngestionJobError =
  * Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
 export const startIngestionJob: API.OperationMethod<
-  StartIngestionJobRequest,
+  StartIngestionJobRequest & RegionInput,
   StartIngestionJobResponse,
   StartIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -6458,7 +6459,7 @@ export type StopIngestionJobError =
  * Stops a currently running data ingestion job. You can send a `StartIngestionJob` request again to ingest the rest of your data when you are ready.
  */
 export const stopIngestionJob: API.OperationMethod<
-  StopIngestionJobRequest,
+  StopIngestionJobRequest & RegionInput,
   StopIngestionJobResponse,
   StopIngestionJobError,
   Credentials | HttpClient.HttpClient
@@ -6492,7 +6493,7 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6525,7 +6526,7 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -6559,7 +6560,7 @@ export type UpdateAgentError =
  * Updates the configuration of an agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
@@ -6595,7 +6596,7 @@ export type UpdateAgentActionGroupError =
  * Updates the configuration for an action group for an agent.
  */
 export const updateAgentActionGroup: API.OperationMethod<
-  UpdateAgentActionGroupRequest,
+  UpdateAgentActionGroupRequest & RegionInput,
   UpdateAgentActionGroupResponse,
   UpdateAgentActionGroupError,
   Credentials | HttpClient.HttpClient
@@ -6631,7 +6632,7 @@ export type UpdateAgentAliasError =
  * Updates configurations for an alias of an agent.
  */
 export const updateAgentAlias: API.OperationMethod<
-  UpdateAgentAliasRequest,
+  UpdateAgentAliasRequest & RegionInput,
   UpdateAgentAliasResponse,
   UpdateAgentAliasError,
   Credentials | HttpClient.HttpClient
@@ -6667,7 +6668,7 @@ export type UpdateAgentCollaboratorError =
  * Updates an agent's collaborator.
  */
 export const updateAgentCollaborator: API.OperationMethod<
-  UpdateAgentCollaboratorRequest,
+  UpdateAgentCollaboratorRequest & RegionInput,
   UpdateAgentCollaboratorResponse,
   UpdateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
@@ -6702,7 +6703,7 @@ export type UpdateAgentKnowledgeBaseError =
  * Updates the configuration for a knowledge base that has been associated with an agent.
  */
 export const updateAgentKnowledgeBase: API.OperationMethod<
-  UpdateAgentKnowledgeBaseRequest,
+  UpdateAgentKnowledgeBaseRequest & RegionInput,
   UpdateAgentKnowledgeBaseResponse,
   UpdateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -6738,7 +6739,7 @@ export type UpdateDataSourceError =
  * You can't change the `chunkingConfiguration` after you create the data source connector. Specify the existing `chunkingConfiguration`.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -6773,7 +6774,7 @@ export type UpdateFlowError =
  * Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
@@ -6809,7 +6810,7 @@ export type UpdateFlowAliasError =
  * Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const updateFlowAlias: API.OperationMethod<
-  UpdateFlowAliasRequest,
+  UpdateFlowAliasRequest & RegionInput,
   UpdateFlowAliasResponse,
   UpdateFlowAliasError,
   Credentials | HttpClient.HttpClient
@@ -6854,7 +6855,7 @@ export type UpdateKnowledgeBaseError =
  * You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations.
  */
 export const updateKnowledgeBase: API.OperationMethod<
-  UpdateKnowledgeBaseRequest,
+  UpdateKnowledgeBaseRequest & RegionInput,
   UpdateKnowledgeBaseResponse,
   UpdateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
@@ -6889,7 +6890,7 @@ export type UpdatePromptError =
  * Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
  */
 export const updatePrompt: API.OperationMethod<
-  UpdatePromptRequest,
+  UpdatePromptRequest & RegionInput,
   UpdatePromptResponse,
   UpdatePromptError,
   Credentials | HttpClient.HttpClient
@@ -6922,7 +6923,7 @@ export type ValidateFlowDefinitionError =
  * Validates the definition of a flow.
  */
 export const validateFlowDefinition: API.OperationMethod<
-  ValidateFlowDefinitionRequest,
+  ValidateFlowDefinitionRequest & RegionInput,
   ValidateFlowDefinitionResponse,
   ValidateFlowDefinitionError,
   Credentials | HttpClient.HttpClient

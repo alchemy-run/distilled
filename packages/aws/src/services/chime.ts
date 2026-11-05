@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -987,7 +988,7 @@ export type AssociatePhoneNumberWithUserError =
  * Associates a phone number with the specified Amazon Chime user.
  */
 export const associatePhoneNumberWithUser: API.OperationMethod<
-  AssociatePhoneNumberWithUserRequest,
+  AssociatePhoneNumberWithUserRequest & RegionInput,
   AssociatePhoneNumberWithUserResponse,
   AssociatePhoneNumberWithUserError,
   Credentials | HttpClient.HttpClient
@@ -1024,7 +1025,7 @@ export type AssociateSigninDelegateGroupsWithAccountError =
  * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
  */
 export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
-  AssociateSigninDelegateGroupsWithAccountRequest,
+  AssociateSigninDelegateGroupsWithAccountRequest & RegionInput,
   AssociateSigninDelegateGroupsWithAccountResponse,
   AssociateSigninDelegateGroupsWithAccountError,
   Credentials | HttpClient.HttpClient
@@ -1061,7 +1062,7 @@ export type BatchCreateRoomMembershipError =
  * chat room administrator or a general chat room member.
  */
 export const batchCreateRoomMembership: API.OperationMethod<
-  BatchCreateRoomMembershipRequest,
+  BatchCreateRoomMembershipRequest & RegionInput,
   BatchCreateRoomMembershipResponse,
   BatchCreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1101,7 +1102,7 @@ export type BatchDeletePhoneNumberError =
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
 export const batchDeletePhoneNumber: API.OperationMethod<
-  BatchDeletePhoneNumberRequest,
+  BatchDeletePhoneNumberRequest & RegionInput,
   BatchDeletePhoneNumberResponse,
   BatchDeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1151,7 +1152,7 @@ export type BatchSuspendUserError =
  * LogoutUser action.
  */
 export const batchSuspendUser: API.OperationMethod<
-  BatchSuspendUserRequest,
+  BatchSuspendUserRequest & RegionInput,
   BatchSuspendUserResponse,
   BatchSuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1196,7 +1197,7 @@ export type BatchUnsuspendUserError =
  * status. Users who are not previously suspended are ignored.
  */
 export const batchUnsuspendUser: API.OperationMethod<
-  BatchUnsuspendUserRequest,
+  BatchUnsuspendUserRequest & RegionInput,
   BatchUnsuspendUserResponse,
   BatchUnsuspendUserError,
   Credentials | HttpClient.HttpClient
@@ -1236,7 +1237,7 @@ export type BatchUpdatePhoneNumberError =
  * Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const batchUpdatePhoneNumber: API.OperationMethod<
-  BatchUpdatePhoneNumberRequest,
+  BatchUpdatePhoneNumberRequest & RegionInput,
   BatchUpdatePhoneNumberResponse,
   BatchUpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1272,7 +1273,7 @@ export type BatchUpdateUserError =
  * Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this action.
  */
 export const batchUpdateUser: API.OperationMethod<
-  BatchUpdateUserRequest,
+  BatchUpdateUserRequest & RegionInput,
   BatchUpdateUserResponse,
   BatchUpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -1311,7 +1312,7 @@ export type CreateAccountError =
  * Administration Guide.
  */
 export const createAccount: API.OperationMethod<
-  CreateAccountRequest,
+  CreateAccountRequest & RegionInput,
   CreateAccountResponse,
   CreateAccountError,
   Credentials | HttpClient.HttpClient
@@ -1348,7 +1349,7 @@ export type CreateBotError =
  * Creates a bot for an Amazon Chime Enterprise account.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1393,7 @@ export type CreateMeetingDialOutError =
  * **This API is not available in a dedicated namespace.**
  */
 export const createMeetingDialOut: API.OperationMethod<
-  CreateMeetingDialOutRequest,
+  CreateMeetingDialOutRequest & RegionInput,
   CreateMeetingDialOutResponse,
   CreateMeetingDialOutError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type CreatePhoneNumberOrderError =
  * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
 export const createPhoneNumberOrder: API.OperationMethod<
-  CreatePhoneNumberOrderRequest,
+  CreatePhoneNumberOrderRequest & RegionInput,
   CreatePhoneNumberOrderResponse,
   CreatePhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -1469,7 +1470,7 @@ export type CreateRoomError =
  * Creates a chat room for the specified Amazon Chime Enterprise account.
  */
 export const createRoom: API.OperationMethod<
-  CreateRoomRequest,
+  CreateRoomRequest & RegionInput,
   CreateRoomResponse,
   CreateRoomError,
   Credentials | HttpClient.HttpClient
@@ -1508,7 +1509,7 @@ export type CreateRoomMembershipError =
  * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
  */
 export const createRoomMembership: API.OperationMethod<
-  CreateRoomMembershipRequest,
+  CreateRoomMembershipRequest & RegionInput,
   CreateRoomMembershipResponse,
   CreateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1547,7 +1548,7 @@ export type CreateUserError =
  * Creates a user under the specified Amazon Chime account.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -1598,7 +1599,7 @@ export type DeleteAccountError =
  * `Disabled` accounts list.
  */
 export const deleteAccount: API.OperationMethod<
-  DeleteAccountRequest,
+  DeleteAccountRequest & RegionInput,
   DeleteAccountResponse,
   DeleteAccountError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1635,7 @@ export type DeleteEventsConfigurationError =
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
 export const deleteEventsConfiguration: API.OperationMethod<
-  DeleteEventsConfigurationRequest,
+  DeleteEventsConfigurationRequest & RegionInput,
   DeleteEventsConfigurationResponse,
   DeleteEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1675,7 +1676,7 @@ export type DeletePhoneNumberError =
  * for 7 days before they are deleted permanently.
  */
 export const deletePhoneNumber: API.OperationMethod<
-  DeletePhoneNumberRequest,
+  DeletePhoneNumberRequest & RegionInput,
   DeletePhoneNumberResponse,
   DeletePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -1711,7 +1712,7 @@ export type DeleteRoomError =
  * Deletes a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoom: API.OperationMethod<
-  DeleteRoomRequest,
+  DeleteRoomRequest & RegionInput,
   DeleteRoomResponse,
   DeleteRoomError,
   Credentials | HttpClient.HttpClient
@@ -1747,7 +1748,7 @@ export type DeleteRoomMembershipError =
  * Removes a member from a chat room in an Amazon Chime Enterprise account.
  */
 export const deleteRoomMembership: API.OperationMethod<
-  DeleteRoomMembershipRequest,
+  DeleteRoomMembershipRequest & RegionInput,
   DeleteRoomMembershipResponse,
   DeleteRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -1783,7 +1784,7 @@ export type DisassociatePhoneNumberFromUserError =
  * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
  */
 export const disassociatePhoneNumberFromUser: API.OperationMethod<
-  DisassociatePhoneNumberFromUserRequest,
+  DisassociatePhoneNumberFromUserRequest & RegionInput,
   DisassociatePhoneNumberFromUserResponse,
   DisassociatePhoneNumberFromUserError,
   Credentials | HttpClient.HttpClient
@@ -1819,7 +1820,7 @@ export type DisassociateSigninDelegateGroupsFromAccountError =
  * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
  */
 export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
-  DisassociateSigninDelegateGroupsFromAccountRequest,
+  DisassociateSigninDelegateGroupsFromAccountRequest & RegionInput,
   DisassociateSigninDelegateGroupsFromAccountResponse,
   DisassociateSigninDelegateGroupsFromAccountError,
   Credentials | HttpClient.HttpClient
@@ -1856,7 +1857,7 @@ export type GetAccountError =
  * licenses.
  */
 export const getAccount: API.OperationMethod<
-  GetAccountRequest,
+  GetAccountRequest & RegionInput,
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1895,7 @@ export type GetAccountSettingsError =
  * Use the Policies Page in the *Amazon Chime Administration Guide*.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1930,7 +1931,7 @@ export type GetBotError =
  * Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1966,7 +1967,7 @@ export type GetEventsConfigurationError =
  * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
 export const getEventsConfiguration: API.OperationMethod<
-  GetEventsConfigurationRequest,
+  GetEventsConfigurationRequest & RegionInput,
   GetEventsConfigurationResponse,
   GetEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2002,7 +2003,7 @@ export type GetGlobalSettingsError =
  * Calling and Amazon Chime Voice Connector settings.
  */
 export const getGlobalSettings: API.OperationMethod<
-  GetGlobalSettingsRequest,
+  GetGlobalSettingsRequest & RegionInput,
   GetGlobalSettingsResponse,
   GetGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2037,7 +2038,7 @@ export type GetPhoneNumberError =
  * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
  */
 export const getPhoneNumber: API.OperationMethod<
-  GetPhoneNumberRequest,
+  GetPhoneNumberRequest & RegionInput,
   GetPhoneNumberResponse,
   GetPhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type GetPhoneNumberOrderError =
  * numbers in E.164 format, product type, and order status.
  */
 export const getPhoneNumberOrder: API.OperationMethod<
-  GetPhoneNumberOrderRequest,
+  GetPhoneNumberOrderRequest & RegionInput,
   GetPhoneNumberOrderResponse,
   GetPhoneNumberOrderError,
   Credentials | HttpClient.HttpClient
@@ -2109,7 +2110,7 @@ export type GetPhoneNumberSettingsError =
  * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
  */
 export const getPhoneNumberSettings: API.OperationMethod<
-  GetPhoneNumberSettingsRequest,
+  GetPhoneNumberSettingsRequest & RegionInput,
   GetPhoneNumberSettingsResponse,
   GetPhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2146,7 @@ export type GetRetentionSettingsError =
  * Managing Chat Retention Policies in the *Amazon Chime Administration Guide*.
  */
 export const getRetentionSettings: API.OperationMethod<
-  GetRetentionSettingsRequest,
+  GetRetentionSettingsRequest & RegionInput,
   GetRetentionSettingsResponse,
   GetRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2181,7 +2182,7 @@ export type GetRoomError =
  * Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const getRoom: API.OperationMethod<
-  GetRoomRequest,
+  GetRoomRequest & RegionInput,
   GetRoomResponse,
   GetRoomError,
   Credentials | HttpClient.HttpClient
@@ -2220,7 +2221,7 @@ export type GetUserError =
  * ListUsers action, and then filter by email address.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -2256,7 +2257,7 @@ export type GetUserSettingsError =
  * Retrieves settings for the specified user ID, such as any associated phone number settings.
  */
 export const getUserSettings: API.OperationMethod<
-  GetUserSettingsRequest,
+  GetUserSettingsRequest & RegionInput,
   GetUserSettingsResponse,
   GetUserSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2294,7 +2295,7 @@ export type InviteUsersError =
  * supported for this action.
  */
 export const inviteUsers: API.OperationMethod<
-  InviteUsersRequest,
+  InviteUsersRequest & RegionInput,
   InviteUsersResponse,
   InviteUsersError,
   Credentials | HttpClient.HttpClient
@@ -2332,7 +2333,7 @@ export type ListAccountsError =
  * filter by the user's email address, which returns one account result.
  */
 export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
+  ListAccountsRequest & RegionInput,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -2374,7 +2375,7 @@ export type ListBotsError =
  * Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -2415,7 +2416,7 @@ export type ListPhoneNumberOrdersError =
  * Lists the phone number orders for the administrator's Amazon Chime account.
  */
 export const listPhoneNumberOrders: API.PaginatedOperationMethod<
-  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersRequest & RegionInput,
   ListPhoneNumberOrdersResponse,
   ListPhoneNumberOrdersError,
   Credentials | HttpClient.HttpClient,
@@ -2456,7 +2457,7 @@ export type ListPhoneNumbersError =
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -2499,7 +2500,7 @@ export type ListRoomMembershipsError =
  * such as the members' IDs, email addresses, and names.
  */
 export const listRoomMemberships: API.PaginatedOperationMethod<
-  ListRoomMembershipsRequest,
+  ListRoomMembershipsRequest & RegionInput,
   ListRoomMembershipsResponse,
   ListRoomMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -2541,7 +2542,7 @@ export type ListRoomsError =
  * Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
  */
 export const listRooms: API.PaginatedOperationMethod<
-  ListRoomsRequest,
+  ListRoomsRequest & RegionInput,
   ListRoomsResponse,
   ListRoomsError,
   Credentials | HttpClient.HttpClient,
@@ -2583,7 +2584,7 @@ export type ListSupportedPhoneNumberCountriesError =
  * Lists supported phone number countries.
  */
 export const listSupportedPhoneNumberCountries: API.OperationMethod<
-  ListSupportedPhoneNumberCountriesRequest,
+  ListSupportedPhoneNumberCountriesRequest & RegionInput,
   ListSupportedPhoneNumberCountriesResponse,
   ListSupportedPhoneNumberCountriesError,
   Credentials | HttpClient.HttpClient
@@ -2620,7 +2621,7 @@ export type ListUsersError =
  * address to list only the user that the email address belongs to.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2662,7 +2663,7 @@ export type LogoutUserError =
  * Logs out the specified user from all of the devices they are currently logged into.
  */
 export const logoutUser: API.OperationMethod<
-  LogoutUserRequest,
+  LogoutUserRequest & RegionInput,
   LogoutUserResponse,
   LogoutUserError,
   Credentials | HttpClient.HttpClient
@@ -2700,7 +2701,7 @@ export type PutEventsConfigurationError =
  * see Bot.
  */
 export const putEventsConfiguration: API.OperationMethod<
-  PutEventsConfigurationRequest,
+  PutEventsConfigurationRequest & RegionInput,
   PutEventsConfigurationResponse,
   PutEventsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2748,7 @@ export type PutRetentionSettingsError =
  * in the *Amazon Chime Administration Guide*.
  */
 export const putRetentionSettings: API.OperationMethod<
-  PutRetentionSettingsRequest,
+  PutRetentionSettingsRequest & RegionInput,
   PutRetentionSettingsResponse,
   PutRetentionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2784,7 +2785,7 @@ export type RedactConversationMessageError =
  * Redacts the specified message from the specified Amazon Chime conversation.
  */
 export const redactConversationMessage: API.OperationMethod<
-  RedactConversationMessageRequest,
+  RedactConversationMessageRequest & RegionInput,
   RedactConversationMessageResponse,
   RedactConversationMessageError,
   Credentials | HttpClient.HttpClient
@@ -2820,7 +2821,7 @@ export type RedactRoomMessageError =
  * Redacts the specified message from the specified Amazon Chime channel.
  */
 export const redactRoomMessage: API.OperationMethod<
-  RedactRoomMessageRequest,
+  RedactRoomMessageRequest & RegionInput,
   RedactRoomMessageResponse,
   RedactRoomMessageError,
   Credentials | HttpClient.HttpClient
@@ -2856,7 +2857,7 @@ export type RegenerateSecurityTokenError =
  * Regenerates the security token for a bot.
  */
 export const regenerateSecurityToken: API.OperationMethod<
-  RegenerateSecurityTokenRequest,
+  RegenerateSecurityTokenRequest & RegionInput,
   RegenerateSecurityTokenResponse,
   RegenerateSecurityTokenError,
   Credentials | HttpClient.HttpClient
@@ -2893,7 +2894,7 @@ export type ResetPersonalPINError =
  * the User object with the updated personal meeting PIN.
  */
 export const resetPersonalPIN: API.OperationMethod<
-  ResetPersonalPINRequest,
+  ResetPersonalPINRequest & RegionInput,
   ResetPersonalPINResponse,
   ResetPersonalPINError,
   Credentials | HttpClient.HttpClient
@@ -2931,7 +2932,7 @@ export type RestorePhoneNumberError =
  * phone number **Inventory**.
  */
 export const restorePhoneNumber: API.OperationMethod<
-  RestorePhoneNumberRequest,
+  RestorePhoneNumberRequest & RegionInput,
   RestorePhoneNumberResponse,
   RestorePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -2972,7 +2973,7 @@ export type SearchAvailablePhoneNumbersError =
  * support the `PhoneNumberType` filter, which you must use.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Credentials | HttpClient.HttpClient,
@@ -3014,7 +3015,7 @@ export type UpdateAccountError =
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
 export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
+  UpdateAccountRequest & RegionInput,
   UpdateAccountResponse,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
@@ -3055,7 +3056,7 @@ export type UpdateAccountSettingsError =
  * Guide.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3092,7 +3093,7 @@ export type UpdateBotError =
  * Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -3127,7 +3128,7 @@ export type UpdateGlobalSettingsError =
  * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsRequest,
+  UpdateGlobalSettingsRequest & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3167,7 +3168,7 @@ export type UpdatePhoneNumberError =
  * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Credentials | HttpClient.HttpClient
@@ -3205,7 +3206,7 @@ export type UpdatePhoneNumberSettingsError =
  * days. Outbound calling names can take up to 72 hours to update.
  */
 export const updatePhoneNumberSettings: API.OperationMethod<
-  UpdatePhoneNumberSettingsRequest,
+  UpdatePhoneNumberSettingsRequest & RegionInput,
   UpdatePhoneNumberSettingsResponse,
   UpdatePhoneNumberSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3240,7 +3241,7 @@ export type UpdateRoomError =
  * Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
 export const updateRoom: API.OperationMethod<
-  UpdateRoomRequest,
+  UpdateRoomRequest & RegionInput,
   UpdateRoomResponse,
   UpdateRoomError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3280,7 @@ export type UpdateRoomMembershipError =
  * user IDs.
  */
 export const updateRoomMembership: API.OperationMethod<
-  UpdateRoomMembershipRequest,
+  UpdateRoomMembershipRequest & RegionInput,
   UpdateRoomMembershipResponse,
   UpdateRoomMembershipError,
   Credentials | HttpClient.HttpClient
@@ -3315,7 +3316,7 @@ export type UpdateUserError =
  * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
@@ -3351,7 +3352,7 @@ export type UpdateUserSettingsError =
  * Updates the settings for the specified user, such as phone number settings.
  */
 export const updateUserSettings: API.OperationMethod<
-  UpdateUserSettingsRequest,
+  UpdateUserSettingsRequest & RegionInput,
   UpdateUserSettingsResponse,
   UpdateUserSettingsError,
   Credentials | HttpClient.HttpClient

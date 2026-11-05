@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -351,7 +352,7 @@ export type GetClipError =
  * Pricing. Charges for outgoing Amazon Web Services data apply.
  */
 export const getClip: API.OperationMethod<
-  GetClipInput,
+  GetClipInput & RegionInput,
   GetClipOutput,
   GetClipError,
   Credentials | HttpClient.HttpClient
@@ -512,7 +513,7 @@ export type GetDASHStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getDASHStreamingSessionURL: API.OperationMethod<
-  GetDASHStreamingSessionURLInput,
+  GetDASHStreamingSessionURLInput & RegionInput,
   GetDASHStreamingSessionURLOutput,
   GetDASHStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type GetHLSStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getHLSStreamingSessionURL: API.OperationMethod<
-  GetHLSStreamingSessionURLInput,
+  GetHLSStreamingSessionURLInput & RegionInput,
   GetHLSStreamingSessionURLOutput,
   GetHLSStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -748,7 +749,7 @@ export type GetImagesError =
  * sampling interval, and image format configuration.
  */
 export const getImages: API.PaginatedOperationMethod<
-  GetImagesInput,
+  GetImagesInput & RegionInput,
   GetImagesOutput,
   GetImagesError,
   Credentials | HttpClient.HttpClient,
@@ -813,7 +814,7 @@ export type GetMediaForFragmentListError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getMediaForFragmentList: API.OperationMethod<
-  GetMediaForFragmentListInput,
+  GetMediaForFragmentListInput & RegionInput,
   GetMediaForFragmentListOutput,
   GetMediaForFragmentListError,
   Credentials | HttpClient.HttpClient
@@ -872,7 +873,7 @@ export type ListFragmentsError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const listFragments: API.PaginatedOperationMethod<
-  ListFragmentsInput,
+  ListFragmentsInput & RegionInput,
   ListFragmentsOutput,
   ListFragmentsError,
   Credentials | HttpClient.HttpClient,

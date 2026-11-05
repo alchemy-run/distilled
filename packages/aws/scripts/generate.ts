@@ -64,6 +64,11 @@ runGeneratorCli({
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(""),
 
+  // S3 ships on its own as @distilled.cloud/s3, the package the rest of the
+  // AWS runtime builds on; src/services/s3.ts re-exports it.
+  relocate: (resource) =>
+    resource === "s3" ? { dir: "../s3/src/services", reexport: "@distilled.cloud/s3" } : undefined,
+
   // One malformed model shouldn't stop the other 429 from regenerating —
   // but the run reports them together and exits non-zero.
   continueOnModelError: true,

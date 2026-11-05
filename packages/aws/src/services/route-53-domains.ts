@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -982,7 +983,7 @@ export type AcceptDomainTransferFromAnotherAwsAccountError =
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
 export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
-  AcceptDomainTransferFromAnotherAwsAccountRequest,
+  AcceptDomainTransferFromAnotherAwsAccountRequest & RegionInput,
   AcceptDomainTransferFromAnotherAwsAccountResponse,
   AcceptDomainTransferFromAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
@@ -1017,7 +1018,7 @@ export type AssociateDelegationSignerToDomainError =
  * guide.
  */
 export const associateDelegationSignerToDomain: API.OperationMethod<
-  AssociateDelegationSignerToDomainRequest,
+  AssociateDelegationSignerToDomainRequest & RegionInput,
   AssociateDelegationSignerToDomainResponse,
   AssociateDelegationSignerToDomainError,
   Credentials | HttpClient.HttpClient
@@ -1055,7 +1056,7 @@ export type CancelDomainTransferToAnotherAwsAccountError =
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
 export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
-  CancelDomainTransferToAnotherAwsAccountRequest,
+  CancelDomainTransferToAnotherAwsAccountRequest & RegionInput,
   CancelDomainTransferToAnotherAwsAccountResponse,
   CancelDomainTransferToAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
@@ -1081,7 +1082,7 @@ export type CheckDomainAvailabilityError =
  * the availability of the domain name.
  */
 export const checkDomainAvailability: API.OperationMethod<
-  CheckDomainAvailabilityRequest,
+  CheckDomainAvailabilityRequest & RegionInput,
   CheckDomainAvailabilityResponse,
   CheckDomainAvailabilityError,
   Credentials | HttpClient.HttpClient
@@ -1105,7 +1106,7 @@ export type CheckDomainTransferabilityError =
  * Checks whether a domain name can be transferred to Amazon Route 53.
  */
 export const checkDomainTransferability: API.OperationMethod<
-  CheckDomainTransferabilityRequest,
+  CheckDomainTransferabilityRequest & RegionInput,
   CheckDomainTransferabilityResponse,
   CheckDomainTransferabilityError,
   Credentials | HttpClient.HttpClient
@@ -1147,7 +1148,7 @@ export type DeleteDomainError =
  * `noreply@registrar.amazon`.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
@@ -1174,7 +1175,7 @@ export type DeleteTagsForDomainError =
  * immediately represent all issued operations.
  */
 export const deleteTagsForDomain: API.OperationMethod<
-  DeleteTagsForDomainRequest,
+  DeleteTagsForDomainRequest & RegionInput,
   DeleteTagsForDomainResponse,
   DeleteTagsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -1195,7 +1196,7 @@ export type DisableDomainAutoRenewError = InvalidInput | UnsupportedTLD | Common
  * domain.
  */
 export const disableDomainAutoRenew: API.OperationMethod<
-  DisableDomainAutoRenewRequest,
+  DisableDomainAutoRenewRequest & RegionInput,
   DisableDomainAutoRenewResponse,
   DisableDomainAutoRenewError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type DisableDomainTransferLockError =
  * completed successfully, the domain registrant will be notified by email.
  */
 export const disableDomainTransferLock: API.OperationMethod<
-  DisableDomainTransferLockRequest,
+  DisableDomainTransferLockRequest & RegionInput,
   DisableDomainTransferLockResponse,
   DisableDomainTransferLockError,
   Credentials | HttpClient.HttpClient
@@ -1259,7 +1260,7 @@ export type DisassociateDelegationSignerFromDomainError =
  * name.
  */
 export const disassociateDelegationSignerFromDomain: API.OperationMethod<
-  DisassociateDelegationSignerFromDomainRequest,
+  DisassociateDelegationSignerFromDomainRequest & RegionInput,
   DisassociateDelegationSignerFromDomainResponse,
   DisassociateDelegationSignerFromDomainError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1298,7 @@ export type EnableDomainAutoRenewError =
  * period so we can complete processing before the deadline.
  */
 export const enableDomainAutoRenew: API.OperationMethod<
-  EnableDomainAutoRenewRequest,
+  EnableDomainAutoRenewRequest & RegionInput,
   EnableDomainAutoRenewResponse,
   EnableDomainAutoRenewError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type EnableDomainTransferLockError =
  * registrant will be notified by email.
  */
 export const enableDomainTransferLock: API.OperationMethod<
-  EnableDomainTransferLockRequest,
+  EnableDomainTransferLockRequest & RegionInput,
   EnableDomainTransferLockResponse,
   EnableDomainTransferLockError,
   Credentials | HttpClient.HttpClient
@@ -1362,7 +1363,7 @@ export type GetContactReachabilityStatusError =
  * `ResendContactReachabilityEmail` operation.
  */
 export const getContactReachabilityStatus: API.OperationMethod<
-  GetContactReachabilityStatusRequest,
+  GetContactReachabilityStatusRequest & RegionInput,
   GetContactReachabilityStatusResponse,
   GetContactReachabilityStatusError,
   Credentials | HttpClient.HttpClient
@@ -1384,7 +1385,7 @@ export type GetDomainDetailError = InvalidInput | UnsupportedTLD | DomainNotFoun
  * domain is also returned as part of the output.
  */
 export const getDomainDetail: API.OperationMethod<
-  GetDomainDetailRequest,
+  GetDomainDetailRequest & RegionInput,
   GetDomainDetailResponse,
   GetDomainDetailError,
   Credentials | HttpClient.HttpClient
@@ -1408,7 +1409,7 @@ export type GetDomainSuggestionsError =
  * The GetDomainSuggestions operation returns a list of suggested domain names.
  */
 export const getDomainSuggestions: API.OperationMethod<
-  GetDomainSuggestionsRequest,
+  GetDomainSuggestionsRequest & RegionInput,
   GetDomainSuggestionsResponse,
   GetDomainSuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -1429,7 +1430,7 @@ export type GetOperationDetailError = InvalidInput | CommonErrors;
  * completed.
  */
 export const getOperationDetail: API.OperationMethod<
-  GetOperationDetailRequest,
+  GetOperationDetailRequest & RegionInput,
   GetOperationDetailResponse,
   GetOperationDetailError,
   Credentials | HttpClient.HttpClient
@@ -1450,7 +1451,7 @@ export type ListDomainsError = InvalidInput | CommonErrors;
  * current Amazon Web Services account if no filtering conditions are used.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -1480,7 +1481,7 @@ export type ListOperationsError = InvalidInput | CommonErrors;
  * This command runs only in the us-east-1 Region.
  */
 export const listOperations: API.PaginatedOperationMethod<
-  ListOperationsRequest,
+  ListOperationsRequest & RegionInput,
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient,
@@ -1518,7 +1519,7 @@ export type ListPricesError = InvalidInput | UnsupportedTLD | CommonErrors;
  * - Domain restoration
  */
 export const listPrices: API.PaginatedOperationMethod<
-  ListPricesRequest,
+  ListPricesRequest & RegionInput,
   ListPricesResponse,
   ListPricesError,
   Credentials | HttpClient.HttpClient,
@@ -1553,7 +1554,7 @@ export type ListTagsForDomainError =
  * immediately represent all issued operations.
  */
 export const listTagsForDomain: API.OperationMethod<
-  ListTagsForDomainRequest,
+  ListTagsForDomainRequest & RegionInput,
   ListTagsForDomainResponse,
   ListTagsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -1583,7 +1584,7 @@ export type PushDomainError =
  * that the domain is ready to be transferred to another registrar.
  */
 export const pushDomain: API.OperationMethod<
-  PushDomainRequest,
+  PushDomainRequest & RegionInput,
   PushDomainResponse,
   PushDomainError,
   Credentials | HttpClient.HttpClient
@@ -1637,7 +1638,7 @@ export type RegisterDomainError =
  * domain. For more information, see Amazon Route 53 Pricing.
  */
 export const registerDomain: API.OperationMethod<
-  RegisterDomainRequest,
+  RegisterDomainRequest & RegionInput,
   RegisterDomainResponse,
   RegisterDomainError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type RejectDomainTransferFromAnotherAwsAccountError =
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
 export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
-  RejectDomainTransferFromAnotherAwsAccountRequest,
+  RejectDomainTransferFromAnotherAwsAccountRequest & RegionInput,
   RejectDomainTransferFromAnotherAwsAccountResponse,
   RejectDomainTransferFromAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
@@ -1706,7 +1707,7 @@ export type RenewDomainError =
  * Guide.
  */
 export const renewDomain: API.OperationMethod<
-  RenewDomainRequest,
+  RenewDomainRequest & RegionInput,
   RenewDomainResponse,
   RenewDomainError,
   Credentials | HttpClient.HttpClient
@@ -1740,7 +1741,7 @@ export type ResendContactReachabilityEmailError =
  * confirmation email to the current email address for the registrant contact.
  */
 export const resendContactReachabilityEmail: API.OperationMethod<
-  ResendContactReachabilityEmailRequest,
+  ResendContactReachabilityEmailRequest & RegionInput,
   ResendContactReachabilityEmailResponse,
   ResendContactReachabilityEmailError,
   Credentials | HttpClient.HttpClient
@@ -1760,7 +1761,7 @@ export type ResendOperationAuthorizationError = InvalidInput | TLDInMaintenance 
  * Resend the form of authorization email for this operation.
  */
 export const resendOperationAuthorization: API.OperationMethod<
-  ResendOperationAuthorizationRequest,
+  ResendOperationAuthorizationRequest & RegionInput,
   ResendOperationAuthorizationResponse,
   ResendOperationAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -1786,7 +1787,7 @@ export type RetrieveDomainAuthCodeError =
  * another registrar, you provide this value to the new registrar.
  */
 export const retrieveDomainAuthCode: API.OperationMethod<
-  RetrieveDomainAuthCodeRequest,
+  RetrieveDomainAuthCodeRequest & RegionInput,
   RetrieveDomainAuthCodeResponse,
   RetrieveDomainAuthCodeError,
   Credentials | HttpClient.HttpClient
@@ -1846,7 +1847,7 @@ export type TransferDomainError =
  * successfully, the domain registrant will be notified by email.
  */
 export const transferDomain: API.OperationMethod<
-  TransferDomainRequest,
+  TransferDomainRequest & RegionInput,
   TransferDomainResponse,
   TransferDomainError,
   Credentials | HttpClient.HttpClient
@@ -1897,7 +1898,7 @@ export type TransferDomainToAnotherAwsAccountError =
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
 export const transferDomainToAnotherAwsAccount: API.OperationMethod<
-  TransferDomainToAnotherAwsAccountRequest,
+  TransferDomainToAnotherAwsAccountRequest & RegionInput,
   TransferDomainToAnotherAwsAccountResponse,
   TransferDomainToAnotherAwsAccountError,
   Credentials | HttpClient.HttpClient
@@ -1929,7 +1930,7 @@ export type UpdateDomainContactError =
  * successfully, the domain registrant will be notified by email.
  */
 export const updateDomainContact: API.OperationMethod<
-  UpdateDomainContactRequest,
+  UpdateDomainContactRequest & RegionInput,
   UpdateDomainContactResponse,
   UpdateDomainContactError,
   Credentials | HttpClient.HttpClient
@@ -1981,7 +1982,7 @@ export type UpdateDomainContactPrivacyError =
  * see https://aws.amazon.com/privacy/.
  */
 export const updateDomainContactPrivacy: API.OperationMethod<
-  UpdateDomainContactPrivacyRequest,
+  UpdateDomainContactPrivacyRequest & RegionInput,
   UpdateDomainContactPrivacyResponse,
   UpdateDomainContactPrivacyError,
   Credentials | HttpClient.HttpClient
@@ -2020,7 +2021,7 @@ export type UpdateDomainNameserversError =
  * domain registrant will be notified by email.
  */
 export const updateDomainNameservers: API.OperationMethod<
-  UpdateDomainNameserversRequest,
+  UpdateDomainNameserversRequest & RegionInput,
   UpdateDomainNameserversResponse,
   UpdateDomainNameserversError,
   Credentials | HttpClient.HttpClient
@@ -2054,7 +2055,7 @@ export type UpdateTagsForDomainError =
  * immediately represent all issued operations.
  */
 export const updateTagsForDomain: API.OperationMethod<
-  UpdateTagsForDomainRequest,
+  UpdateTagsForDomainRequest & RegionInput,
   UpdateTagsForDomainResponse,
   UpdateTagsForDomainError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type ViewBillingError = InvalidInput | CommonErrors;
  * Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
  */
 export const viewBilling: API.PaginatedOperationMethod<
-  ViewBillingRequest,
+  ViewBillingRequest & RegionInput,
   ViewBillingResponse,
   ViewBillingError,
   Credentials | HttpClient.HttpClient,

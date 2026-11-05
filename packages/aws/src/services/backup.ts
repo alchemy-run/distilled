@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2285,7 +2286,7 @@ export type AssociateBackupVaultMpaApprovalTeamError =
  * Associates an MPA approval team with a backup vault.
  */
 export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
-  AssociateBackupVaultMpaApprovalTeamInput,
+  AssociateBackupVaultMpaApprovalTeamInput & RegionInput,
   AssociateBackupVaultMpaApprovalTeamResponse,
   AssociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -2318,7 +2319,7 @@ export type CancelLegalHoldError =
  * by a user with sufficient permissions.
  */
 export const cancelLegalHold: API.OperationMethod<
-  CancelLegalHoldInput,
+  CancelLegalHoldInput & RegionInput,
   CancelLegalHoldOutput,
   CancelLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -2358,7 +2359,7 @@ export type CreateBackupAccessPointError =
  * and blocks deletion of that recovery point.
  */
 export const createBackupAccessPoint: API.OperationMethod<
-  CreateBackupAccessPointRequest,
+  CreateBackupAccessPointRequest & RegionInput,
   CreateBackupAccessPointResponse,
   CreateBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -2398,7 +2399,7 @@ export type CreateBackupPlanError =
  * an `AlreadyExistsException` exception.
  */
 export const createBackupPlan: API.OperationMethod<
-  CreateBackupPlanInput,
+  CreateBackupPlanInput & RegionInput,
   CreateBackupPlanOutput,
   CreateBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -2431,7 +2432,7 @@ export type CreateBackupSelectionError =
  * For examples, see Assigning resources programmatically.
  */
 export const createBackupSelection: API.OperationMethod<
-  CreateBackupSelectionInput,
+  CreateBackupSelectionInput & RegionInput,
   CreateBackupSelectionOutput,
   CreateBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2468,7 +2469,7 @@ export type CreateBackupVaultError =
  * vault.
  */
 export const createBackupVault: API.OperationMethod<
-  CreateBackupVaultInput,
+  CreateBackupVaultInput & RegionInput,
   CreateBackupVaultOutput,
   CreateBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2503,7 +2504,7 @@ export type CreateFrameworkError =
  * with your policies and which resources are not yet in compliance.
  */
 export const createFramework: API.OperationMethod<
-  CreateFrameworkInput,
+  CreateFrameworkInput & RegionInput,
   CreateFrameworkOutput,
   CreateFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -2537,7 +2538,7 @@ export type CreateLegalHoldError =
  * legal holds are on the recovery point.
  */
 export const createLegalHold: API.OperationMethod<
-  CreateLegalHoldInput,
+  CreateLegalHoldInput & RegionInput,
   CreateLegalHoldOutput,
   CreateLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type CreateLogicallyAirGappedBackupVaultError =
  * vault.
  */
 export const createLogicallyAirGappedBackupVault: API.OperationMethod<
-  CreateLogicallyAirGappedBackupVaultInput,
+  CreateLogicallyAirGappedBackupVaultInput & RegionInput,
   CreateLogicallyAirGappedBackupVaultOutput,
   CreateLogicallyAirGappedBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2613,7 +2614,7 @@ export type CreateReportPlanError =
  * an `AlreadyExistsException` exception.
  */
 export const createReportPlan: API.OperationMethod<
-  CreateReportPlanInput,
+  CreateReportPlanInput & RegionInput,
   CreateReportPlanOutput,
   CreateReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -2647,7 +2648,7 @@ export type CreateRestoreAccessBackupVaultError =
  * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
  */
 export const createRestoreAccessBackupVault: API.OperationMethod<
-  CreateRestoreAccessBackupVaultInput,
+  CreateRestoreAccessBackupVaultInput & RegionInput,
   CreateRestoreAccessBackupVaultOutput,
   CreateRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2687,7 @@ export type CreateRestoreTestingPlanError =
  * CreateRestoreTestingSelection.
  */
 export const createRestoreTestingPlan: API.OperationMethod<
-  CreateRestoreTestingPlanInput,
+  CreateRestoreTestingPlanInput & RegionInput,
   CreateRestoreTestingPlanOutput,
   CreateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -2739,7 +2740,7 @@ export type CreateRestoreTestingSelectionError =
  * Request will fail if both are included.
  */
 export const createRestoreTestingSelection: API.OperationMethod<
-  CreateRestoreTestingSelectionInput,
+  CreateRestoreTestingSelectionInput & RegionInput,
   CreateRestoreTestingSelectionOutput,
   CreateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2777,7 +2778,7 @@ export type CreateTieringConfigurationError =
  * Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
  */
 export const createTieringConfiguration: API.OperationMethod<
-  CreateTieringConfigurationInput,
+  CreateTieringConfigurationInput & RegionInput,
   CreateTieringConfigurationOutput,
   CreateTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2814,7 +2815,7 @@ export type DeleteBackupAccessPointError =
  * access point directly.
  */
 export const deleteBackupAccessPoint: API.OperationMethod<
-  DeleteBackupAccessPointInput,
+  DeleteBackupAccessPointInput & RegionInput,
   DeleteBackupAccessPointResponse,
   DeleteBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -2848,7 +2849,7 @@ export type DeleteBackupPlanError =
  * backup plan. Previous versions, if any, will still exist.
  */
 export const deleteBackupPlan: API.OperationMethod<
-  DeleteBackupPlanInput,
+  DeleteBackupPlanInput & RegionInput,
   DeleteBackupPlanOutput,
   DeleteBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -2880,7 +2881,7 @@ export type DeleteBackupSelectionError =
  * `SelectionId`.
  */
 export const deleteBackupSelection: API.OperationMethod<
-  DeleteBackupSelectionInput,
+  DeleteBackupSelectionInput & RegionInput,
   DeleteBackupSelectionResponse,
   DeleteBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -2912,7 +2913,7 @@ export type DeleteBackupVaultError =
  * empty.
  */
 export const deleteBackupVault: API.OperationMethod<
-  DeleteBackupVaultInput,
+  DeleteBackupVaultInput & RegionInput,
   DeleteBackupVaultResponse,
   DeleteBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -2943,7 +2944,7 @@ export type DeleteBackupVaultAccessPolicyError =
  * Deletes the policy document that manages permissions on a backup vault.
  */
 export const deleteBackupVaultAccessPolicy: API.OperationMethod<
-  DeleteBackupVaultAccessPolicyInput,
+  DeleteBackupVaultAccessPolicyInput & RegionInput,
   DeleteBackupVaultAccessPolicyResponse,
   DeleteBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2980,7 +2981,7 @@ export type DeleteBackupVaultLockConfigurationError =
  * *Backup Developer Guide*.
  */
 export const deleteBackupVaultLockConfiguration: API.OperationMethod<
-  DeleteBackupVaultLockConfigurationInput,
+  DeleteBackupVaultLockConfigurationInput & RegionInput,
   DeleteBackupVaultLockConfigurationResponse,
   DeleteBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3011,7 +3012,7 @@ export type DeleteBackupVaultNotificationsError =
  * Deletes event notifications for the specified backup vault.
  */
 export const deleteBackupVaultNotifications: API.OperationMethod<
-  DeleteBackupVaultNotificationsInput,
+  DeleteBackupVaultNotificationsInput & RegionInput,
   DeleteBackupVaultNotificationsResponse,
   DeleteBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -3042,7 +3043,7 @@ export type DeleteFrameworkError =
  * Deletes the framework specified by a framework name.
  */
 export const deleteFramework: API.OperationMethod<
-  DeleteFrameworkInput,
+  DeleteFrameworkInput & RegionInput,
   DeleteFrameworkResponse,
   DeleteFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3090,7 +3091,7 @@ export type DeleteRecoveryPointError =
  * the deletion will not be successful and will enter an `EXPIRED` state.
  */
 export const deleteRecoveryPoint: API.OperationMethod<
-  DeleteRecoveryPointInput,
+  DeleteRecoveryPointInput & RegionInput,
   DeleteRecoveryPointResponse,
   DeleteRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3123,7 +3124,7 @@ export type DeleteReportPlanError =
  * Deletes the report plan specified by a report plan name.
  */
 export const deleteReportPlan: API.OperationMethod<
-  DeleteReportPlanInput,
+  DeleteReportPlanInput & RegionInput,
   DeleteReportPlanResponse,
   DeleteReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -3155,7 +3156,7 @@ export type DeleteRestoreTestingPlanError =
  * restore testing selections are deleted first.
  */
 export const deleteRestoreTestingPlan: API.OperationMethod<
-  DeleteRestoreTestingPlanInput,
+  DeleteRestoreTestingPlanInput & RegionInput,
   DeleteRestoreTestingPlanResponse,
   DeleteRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -3182,7 +3183,7 @@ export type DeleteRestoreTestingSelectionError =
  * be deleted before the restore testing plan can be deleted.
  */
 export const deleteRestoreTestingSelection: API.OperationMethod<
-  DeleteRestoreTestingSelectionInput,
+  DeleteRestoreTestingSelectionInput & RegionInput,
   DeleteRestoreTestingSelectionResponse,
   DeleteRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -3207,7 +3208,7 @@ export type DeleteTieringConfigurationError =
  * Deletes the tiering configuration specified by a tiering configuration name.
  */
 export const deleteTieringConfiguration: API.OperationMethod<
-  DeleteTieringConfigurationInput,
+  DeleteTieringConfigurationInput & RegionInput,
   DeleteTieringConfigurationOutput,
   DeleteTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3242,7 +3243,7 @@ export type DescribeBackupAccessPointError =
  * Amazon S3 access point ARN and alias that you need to read the backup data.
  */
 export const describeBackupAccessPoint: API.OperationMethod<
-  DescribeBackupAccessPointInput,
+  DescribeBackupAccessPointInput & RegionInput,
   DescribeBackupAccessPointResponse,
   DescribeBackupAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -3274,7 +3275,7 @@ export type DescribeBackupJobError =
  * Returns backup job details for the specified `BackupJobId`.
  */
 export const describeBackupJob: API.OperationMethod<
-  DescribeBackupJobInput,
+  DescribeBackupJobInput & RegionInput,
   DescribeBackupJobOutput,
   DescribeBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -3305,7 +3306,7 @@ export type DescribeBackupVaultError =
  * Returns metadata about a backup vault specified by its name.
  */
 export const describeBackupVault: API.OperationMethod<
-  DescribeBackupVaultInput,
+  DescribeBackupVaultInput & RegionInput,
   DescribeBackupVaultOutput,
   DescribeBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type DescribeCopyJobError =
  * Returns metadata associated with creating a copy of a resource.
  */
 export const describeCopyJob: API.OperationMethod<
-  DescribeCopyJobInput,
+  DescribeCopyJobInput & RegionInput,
   DescribeCopyJobOutput,
   DescribeCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -3365,7 +3366,7 @@ export type DescribeFrameworkError =
  * Returns the framework details for the specified `FrameworkName`.
  */
 export const describeFramework: API.OperationMethod<
-  DescribeFrameworkInput,
+  DescribeFrameworkInput & RegionInput,
   DescribeFrameworkOutput,
   DescribeFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -3393,7 +3394,7 @@ export type DescribeGlobalSettingsError =
  * Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: `describe-global-settings --region us-west-2`
  */
 export const describeGlobalSettings: API.OperationMethod<
-  DescribeGlobalSettingsInput,
+  DescribeGlobalSettingsInput & RegionInput,
   DescribeGlobalSettingsOutput,
   DescribeGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3420,7 +3421,7 @@ export type DescribeProtectedResourceError =
  * resource.
  */
 export const describeProtectedResource: API.OperationMethod<
-  DescribeProtectedResourceInput,
+  DescribeProtectedResourceInput & RegionInput,
   DescribeProtectedResourceOutput,
   DescribeProtectedResourceError,
   Credentials | HttpClient.HttpClient
@@ -3451,7 +3452,7 @@ export type DescribeRecoveryPointError =
  * lifecycle.
  */
 export const describeRecoveryPoint: API.OperationMethod<
-  DescribeRecoveryPointInput,
+  DescribeRecoveryPointInput & RegionInput,
   DescribeRecoveryPointOutput,
   DescribeRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3480,7 +3481,7 @@ export type DescribeRegionSettingsError = ServiceUnavailableException | CommonEr
  * Region.
  */
 export const describeRegionSettings: API.OperationMethod<
-  DescribeRegionSettingsInput,
+  DescribeRegionSettingsInput & RegionInput,
   DescribeRegionSettingsOutput,
   DescribeRegionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -3505,7 +3506,7 @@ export type DescribeReportJobError =
  * `ReportJobId`.
  */
 export const describeReportJob: API.OperationMethod<
-  DescribeReportJobInput,
+  DescribeReportJobInput & RegionInput,
   DescribeReportJobOutput,
   DescribeReportJobError,
   Credentials | HttpClient.HttpClient
@@ -3530,7 +3531,7 @@ export type DescribeReportPlanError =
  * Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
  */
 export const describeReportPlan: API.OperationMethod<
-  DescribeReportPlanInput,
+  DescribeReportPlanInput & RegionInput,
   DescribeReportPlanOutput,
   DescribeReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -3561,7 +3562,7 @@ export type DescribeRestoreJobError =
  * Returns metadata associated with a restore job that is specified by a job ID.
  */
 export const describeRestoreJob: API.OperationMethod<
-  DescribeRestoreJobInput,
+  DescribeRestoreJobInput & RegionInput,
   DescribeRestoreJobOutput,
   DescribeRestoreJobError,
   Credentials | HttpClient.HttpClient
@@ -3592,7 +3593,7 @@ export type DescribeScanJobError =
  * Returns scan job details for the specified ScanJobID.
  */
 export const describeScanJob: API.OperationMethod<
-  DescribeScanJobInput,
+  DescribeScanJobInput & RegionInput,
   DescribeScanJobOutput,
   DescribeScanJobError,
   Credentials | HttpClient.HttpClient
@@ -3623,7 +3624,7 @@ export type DisassociateBackupVaultMpaApprovalTeamError =
  * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
  */
 export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
-  DisassociateBackupVaultMpaApprovalTeamInput,
+  DisassociateBackupVaultMpaApprovalTeamInput & RegionInput,
   DisassociateBackupVaultMpaApprovalTeamResponse,
   DisassociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
@@ -3660,7 +3661,7 @@ export type DisassociateRecoveryPointError =
  * Does not support snapshot backup recovery points.
  */
 export const disassociateRecoveryPoint: API.OperationMethod<
-  DisassociateRecoveryPointInput,
+  DisassociateRecoveryPointInput & RegionInput,
   DisassociateRecoveryPointResponse,
   DisassociateRecoveryPointError,
   Credentials | HttpClient.HttpClient
@@ -3694,7 +3695,7 @@ export type DisassociateRecoveryPointFromParentError =
  * between the specified recovery point and its parent (composite) recovery point.
  */
 export const disassociateRecoveryPointFromParent: API.OperationMethod<
-  DisassociateRecoveryPointFromParentInput,
+  DisassociateRecoveryPointFromParentInput & RegionInput,
   DisassociateRecoveryPointFromParentResponse,
   DisassociateRecoveryPointFromParentError,
   Credentials | HttpClient.HttpClient
@@ -3725,7 +3726,7 @@ export type ExportBackupPlanTemplateError =
  * Returns the backup plan that is specified by the plan ID as a backup template.
  */
 export const exportBackupPlanTemplate: API.OperationMethod<
-  ExportBackupPlanTemplateInput,
+  ExportBackupPlanTemplateInput & RegionInput,
   ExportBackupPlanTemplateOutput,
   ExportBackupPlanTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3756,7 +3757,7 @@ export type GetBackupPlanError =
  * details are the body of a backup plan in JSON format, in addition to plan metadata.
  */
 export const getBackupPlan: API.OperationMethod<
-  GetBackupPlanInput,
+  GetBackupPlanInput & RegionInput,
   GetBackupPlanOutput,
   GetBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -3787,7 +3788,7 @@ export type GetBackupPlanFromJSONError =
  * Returns a valid JSON document specifying a backup plan or an error.
  */
 export const getBackupPlanFromJSON: API.OperationMethod<
-  GetBackupPlanFromJSONInput,
+  GetBackupPlanFromJSONInput & RegionInput,
   GetBackupPlanFromJSONOutput,
   GetBackupPlanFromJSONError,
   Credentials | HttpClient.HttpClient
@@ -3818,7 +3819,7 @@ export type GetBackupPlanFromTemplateError =
  * Returns the template specified by its `templateId` as a backup plan.
  */
 export const getBackupPlanFromTemplate: API.OperationMethod<
-  GetBackupPlanFromTemplateInput,
+  GetBackupPlanFromTemplateInput & RegionInput,
   GetBackupPlanFromTemplateOutput,
   GetBackupPlanFromTemplateError,
   Credentials | HttpClient.HttpClient
@@ -3849,7 +3850,7 @@ export type GetBackupSelectionError =
  * resources that are associated with a backup plan.
  */
 export const getBackupSelection: API.OperationMethod<
-  GetBackupSelectionInput,
+  GetBackupSelectionInput & RegionInput,
   GetBackupSelectionOutput,
   GetBackupSelectionError,
   Credentials | HttpClient.HttpClient
@@ -3880,7 +3881,7 @@ export type GetBackupVaultAccessPolicyError =
  * vault.
  */
 export const getBackupVaultAccessPolicy: API.OperationMethod<
-  GetBackupVaultAccessPolicyInput,
+  GetBackupVaultAccessPolicyInput & RegionInput,
   GetBackupVaultAccessPolicyOutput,
   GetBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3910,7 +3911,7 @@ export type GetBackupVaultNotificationsError =
  * Returns event notifications for the specified backup vault.
  */
 export const getBackupVaultNotifications: API.OperationMethod<
-  GetBackupVaultNotificationsInput,
+  GetBackupVaultNotificationsInput & RegionInput,
   GetBackupVaultNotificationsOutput,
   GetBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -3941,7 +3942,7 @@ export type GetLegalHoldError =
  * body of a legal hold in JSON format, in addition to metadata.
  */
 export const getLegalHold: API.OperationMethod<
-  GetLegalHoldInput,
+  GetLegalHoldInput & RegionInput,
   GetLegalHoldOutput,
   GetLegalHoldError,
   Credentials | HttpClient.HttpClient
@@ -3971,7 +3972,7 @@ export type GetPITRMalwareScanResultsError =
  * Returns the malware scan results for a specified point in time within a continuous (point-in-time recovery) backup.
  */
 export const getPITRMalwareScanResults: API.OperationMethod<
-  GetPITRMalwareScanResultsInput,
+  GetPITRMalwareScanResultsInput & RegionInput,
   GetPITRMalwareScanResultsOutput,
   GetPITRMalwareScanResultsError,
   Credentials | HttpClient.HttpClient
@@ -4002,7 +4003,7 @@ export type GetRecoveryPointIndexDetailsError =
  * the backup index associated with the specified recovery point.
  */
 export const getRecoveryPointIndexDetails: API.OperationMethod<
-  GetRecoveryPointIndexDetailsInput,
+  GetRecoveryPointIndexDetailsInput & RegionInput,
   GetRecoveryPointIndexDetailsOutput,
   GetRecoveryPointIndexDetailsError,
   Credentials | HttpClient.HttpClient
@@ -4032,7 +4033,7 @@ export type GetRecoveryPointRestoreMetadataError =
  * Returns a set of metadata key-value pairs that were used to create the backup.
  */
 export const getRecoveryPointRestoreMetadata: API.OperationMethod<
-  GetRecoveryPointRestoreMetadataInput,
+  GetRecoveryPointRestoreMetadataInput & RegionInput,
   GetRecoveryPointRestoreMetadataOutput,
   GetRecoveryPointRestoreMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4062,7 +4063,7 @@ export type GetRestoreJobMetadataError =
  * This request returns the metadata for the specified restore job.
  */
 export const getRestoreJobMetadata: API.OperationMethod<
-  GetRestoreJobMetadataInput,
+  GetRestoreJobMetadataInput & RegionInput,
   GetRestoreJobMetadataOutput,
   GetRestoreJobMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4095,7 +4096,7 @@ export type GetRestoreTestingInferredMetadataError =
  * `BackupVaultAccountId` is an optional parameter.
  */
 export const getRestoreTestingInferredMetadata: API.OperationMethod<
-  GetRestoreTestingInferredMetadataInput,
+  GetRestoreTestingInferredMetadataInput & RegionInput,
   GetRestoreTestingInferredMetadataOutput,
   GetRestoreTestingInferredMetadataError,
   Credentials | HttpClient.HttpClient
@@ -4125,7 +4126,7 @@ export type GetRestoreTestingPlanError =
  * in JSON format, in addition to plan metadata.
  */
 export const getRestoreTestingPlan: API.OperationMethod<
-  GetRestoreTestingPlanInput,
+  GetRestoreTestingPlanInput & RegionInput,
   GetRestoreTestingPlanOutput,
   GetRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -4149,7 +4150,7 @@ export type GetRestoreTestingSelectionError =
  * and elements of the restore testing plan.
  */
 export const getRestoreTestingSelection: API.OperationMethod<
-  GetRestoreTestingSelectionInput,
+  GetRestoreTestingSelectionInput & RegionInput,
   GetRestoreTestingSelectionOutput,
   GetRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -4169,7 +4170,7 @@ export type GetSupportedResourceTypesError = ServiceUnavailableException | Commo
  * Returns the Amazon Web Services resource types supported by Backup.
  */
 export const getSupportedResourceTypes: API.OperationMethod<
-  GetSupportedResourceTypesRequest,
+  GetSupportedResourceTypesRequest & RegionInput,
   GetSupportedResourceTypesOutput,
   GetSupportedResourceTypesError,
   Credentials | HttpClient.HttpClient
@@ -4196,7 +4197,7 @@ export type GetTieringConfigurationError =
  * in JSON format, in addition to configuration metadata.
  */
 export const getTieringConfiguration: API.OperationMethod<
-  GetTieringConfigurationInput,
+  GetTieringConfigurationInput & RegionInput,
   GetTieringConfigurationOutput,
   GetTieringConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4224,7 +4225,7 @@ export type ListBackupAccessPointsError =
  * Returns a list of the backup access points in your account and Region.
  */
 export const listBackupAccessPoints: API.PaginatedOperationMethod<
-  ListBackupAccessPointsRequest,
+  ListBackupAccessPointsRequest & RegionInput,
   ListBackupAccessPointsResponse,
   ListBackupAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -4257,7 +4258,7 @@ export type ListBackupAccessPointsByRecoveryPointError =
  * points created by those accounts.
  */
 export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod<
-  ListBackupAccessPointsByRecoveryPointRequest,
+  ListBackupAccessPointsByRecoveryPointRequest & RegionInput,
   ListBackupAccessPointsByRecoveryPointResponse,
   ListBackupAccessPointsByRecoveryPointError,
   Credentials | HttpClient.HttpClient,
@@ -4288,7 +4289,7 @@ export type ListBackupAccessPointsByResourceError =
  * bucket.
  */
 export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
-  ListBackupAccessPointsByResourceRequest,
+  ListBackupAccessPointsByResourceRequest & RegionInput,
   ListBackupAccessPointsByResourceResponse,
   ListBackupAccessPointsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4319,7 +4320,7 @@ export type ListBackupJobsError =
  * days. For a longer period of time, consider using these monitoring tools.
  */
 export const listBackupJobs: API.PaginatedOperationMethod<
-  ListBackupJobsInput,
+  ListBackupJobsInput & RegionInput,
   ListBackupJobsOutput,
   ListBackupJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4357,7 +4358,7 @@ export type ListBackupJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listBackupJobSummaries: API.PaginatedOperationMethod<
-  ListBackupJobSummariesInput,
+  ListBackupJobSummariesInput & RegionInput,
   ListBackupJobSummariesOutput,
   ListBackupJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4388,7 +4389,7 @@ export type ListBackupPlansError =
  * Lists the active backup plans for the account.
  */
 export const listBackupPlans: API.PaginatedOperationMethod<
-  ListBackupPlansInput,
+  ListBackupPlansInput & RegionInput,
   ListBackupPlansOutput,
   ListBackupPlansError,
   Credentials | HttpClient.HttpClient,
@@ -4425,7 +4426,7 @@ export type ListBackupPlanTemplatesError =
  * Lists the backup plan templates.
  */
 export const listBackupPlanTemplates: API.PaginatedOperationMethod<
-  ListBackupPlanTemplatesInput,
+  ListBackupPlanTemplatesInput & RegionInput,
   ListBackupPlanTemplatesOutput,
   ListBackupPlanTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -4463,7 +4464,7 @@ export type ListBackupPlanVersionsError =
  * backup plan IDs, creation and deletion dates, plan names, and version IDs.
  */
 export const listBackupPlanVersions: API.PaginatedOperationMethod<
-  ListBackupPlanVersionsInput,
+  ListBackupPlanVersionsInput & RegionInput,
   ListBackupPlanVersionsOutput,
   ListBackupPlanVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4501,7 +4502,7 @@ export type ListBackupSelectionsError =
  * plan.
  */
 export const listBackupSelections: API.PaginatedOperationMethod<
-  ListBackupSelectionsInput,
+  ListBackupSelectionsInput & RegionInput,
   ListBackupSelectionsOutput,
   ListBackupSelectionsError,
   Credentials | HttpClient.HttpClient,
@@ -4539,7 +4540,7 @@ export type ListBackupVaultsError =
  * them.
  */
 export const listBackupVaults: API.PaginatedOperationMethod<
-  ListBackupVaultsInput,
+  ListBackupVaultsInput & RegionInput,
   ListBackupVaultsOutput,
   ListBackupVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -4574,7 +4575,7 @@ export type ListCopyJobsError =
  * Returns metadata about your copy jobs.
  */
 export const listCopyJobs: API.PaginatedOperationMethod<
-  ListCopyJobsInput,
+  ListCopyJobsInput & RegionInput,
   ListCopyJobsOutput,
   ListCopyJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4612,7 +4613,7 @@ export type ListCopyJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listCopyJobSummaries: API.PaginatedOperationMethod<
-  ListCopyJobSummariesInput,
+  ListCopyJobSummariesInput & RegionInput,
   ListCopyJobSummariesOutput,
   ListCopyJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -4641,7 +4642,7 @@ export type ListFrameworksError =
  * Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
  */
 export const listFrameworks: API.PaginatedOperationMethod<
-  ListFrameworksInput,
+  ListFrameworksInput & RegionInput,
   ListFrameworksOutput,
   ListFrameworksError,
   Credentials | HttpClient.HttpClient,
@@ -4676,7 +4677,7 @@ export type ListIndexedRecoveryPointsError =
  * and ResourceType.
  */
 export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
-  ListIndexedRecoveryPointsInput,
+  ListIndexedRecoveryPointsInput & RegionInput,
   ListIndexedRecoveryPointsOutput,
   ListIndexedRecoveryPointsError,
   Credentials | HttpClient.HttpClient,
@@ -4706,7 +4707,7 @@ export type ListLegalHoldsError =
  * This action returns metadata about active and previous legal holds.
  */
 export const listLegalHolds: API.PaginatedOperationMethod<
-  ListLegalHoldsInput,
+  ListLegalHoldsInput & RegionInput,
   ListLegalHoldsOutput,
   ListLegalHoldsError,
   Credentials | HttpClient.HttpClient,
@@ -4739,7 +4740,7 @@ export type ListProtectedResourcesError =
  * and a resource type.
  */
 export const listProtectedResources: API.PaginatedOperationMethod<
-  ListProtectedResourcesInput,
+  ListProtectedResourcesInput & RegionInput,
   ListProtectedResourcesOutput,
   ListProtectedResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4770,7 +4771,7 @@ export type ListProtectedResourcesByBackupVaultError =
  * This request lists the protected resources corresponding to each backup vault.
  */
 export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
-  ListProtectedResourcesByBackupVaultInput,
+  ListProtectedResourcesByBackupVaultInput & RegionInput,
   ListProtectedResourcesByBackupVaultOutput,
   ListProtectedResourcesByBackupVaultError,
   Credentials | HttpClient.HttpClient,
@@ -4802,7 +4803,7 @@ export type ListRecoveryPointsByBackupVaultError =
  * Returns detailed information about the recovery points stored in a backup vault.
  */
 export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
-  ListRecoveryPointsByBackupVaultInput,
+  ListRecoveryPointsByBackupVaultInput & RegionInput,
   ListRecoveryPointsByBackupVaultOutput,
   ListRecoveryPointsByBackupVaultError,
   Credentials | HttpClient.HttpClient,
@@ -4839,7 +4840,7 @@ export type ListRecoveryPointsByLegalHoldError =
  * specified legal hold.
  */
 export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
-  ListRecoveryPointsByLegalHoldInput,
+  ListRecoveryPointsByLegalHoldInput & RegionInput,
   ListRecoveryPointsByLegalHoldOutput,
   ListRecoveryPointsByLegalHoldError,
   Credentials | HttpClient.HttpClient,
@@ -4879,7 +4880,7 @@ export type ListRecoveryPointsByResourceError =
  * created by Backup.
  */
 export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
-  ListRecoveryPointsByResourceInput,
+  ListRecoveryPointsByResourceInput & RegionInput,
   ListRecoveryPointsByResourceOutput,
   ListRecoveryPointsByResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4915,7 +4916,7 @@ export type ListReportJobsError =
  * Returns details about your report jobs.
  */
 export const listReportJobs: API.PaginatedOperationMethod<
-  ListReportJobsInput,
+  ListReportJobsInput & RegionInput,
   ListReportJobsOutput,
   ListReportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4945,7 +4946,7 @@ export type ListReportPlansError =
  * plan, use `DescribeReportPlan`.
  */
 export const listReportPlans: API.PaginatedOperationMethod<
-  ListReportPlansInput,
+  ListReportPlansInput & RegionInput,
   ListReportPlansOutput,
   ListReportPlansError,
   Credentials | HttpClient.HttpClient,
@@ -4976,7 +4977,7 @@ export type ListRestoreAccessBackupVaultsError =
  * Returns a list of restore access backup vaults associated with a specified backup vault.
  */
 export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
-  ListRestoreAccessBackupVaultsInput,
+  ListRestoreAccessBackupVaultsInput & RegionInput,
   ListRestoreAccessBackupVaultsOutput,
   ListRestoreAccessBackupVaultsError,
   Credentials | HttpClient.HttpClient,
@@ -5014,7 +5015,7 @@ export type ListRestoreJobsError =
  * including details about the recovery process.
  */
 export const listRestoreJobs: API.PaginatedOperationMethod<
-  ListRestoreJobsInput,
+  ListRestoreJobsInput & RegionInput,
   ListRestoreJobsOutput,
   ListRestoreJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5056,7 +5057,7 @@ export type ListRestoreJobsByProtectedResourceError =
  * `ByRecoveryPointCreationDateBefore`.
  */
 export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
-  ListRestoreJobsByProtectedResourceInput,
+  ListRestoreJobsByProtectedResourceInput & RegionInput,
   ListRestoreJobsByProtectedResourceOutput,
   ListRestoreJobsByProtectedResourceError,
   Credentials | HttpClient.HttpClient,
@@ -5099,7 +5100,7 @@ export type ListRestoreJobSummariesError =
  * StartTime, EndTime, and Count of included jobs.
  */
 export const listRestoreJobSummaries: API.PaginatedOperationMethod<
-  ListRestoreJobSummariesInput,
+  ListRestoreJobSummariesInput & RegionInput,
   ListRestoreJobSummariesOutput,
   ListRestoreJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -5128,7 +5129,7 @@ export type ListRestoreTestingPlansError =
  * Returns a list of restore testing plans.
  */
 export const listRestoreTestingPlans: API.PaginatedOperationMethod<
-  ListRestoreTestingPlansInput,
+  ListRestoreTestingPlansInput & RegionInput,
   ListRestoreTestingPlansOutput,
   ListRestoreTestingPlansError,
   Credentials | HttpClient.HttpClient,
@@ -5160,7 +5161,7 @@ export type ListRestoreTestingSelectionsError =
  * by `MaxResults` and `RestoreTestingPlanName`.
  */
 export const listRestoreTestingSelections: API.PaginatedOperationMethod<
-  ListRestoreTestingSelectionsInput,
+  ListRestoreTestingSelectionsInput & RegionInput,
   ListRestoreTestingSelectionsOutput,
   ListRestoreTestingSelectionsError,
   Credentials | HttpClient.HttpClient,
@@ -5190,7 +5191,7 @@ export type ListScanJobsError =
  * Returns a list of existing scan jobs for an authenticated account for the last 30 days.
  */
 export const listScanJobs: API.PaginatedOperationMethod<
-  ListScanJobsInput,
+  ListScanJobsInput & RegionInput,
   ListScanJobsOutput,
   ListScanJobsError,
   Credentials | HttpClient.HttpClient,
@@ -5220,7 +5221,7 @@ export type ListScanJobSummariesError =
  * This is a request for a summary of scan jobs created or running within the most recent 14 days.
  */
 export const listScanJobSummaries: API.PaginatedOperationMethod<
-  ListScanJobSummariesInput,
+  ListScanJobSummariesInput & RegionInput,
   ListScanJobSummariesOutput,
   ListScanJobSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -5266,7 +5267,7 @@ export type ListTagsError =
  * `arn:aws:backup` and they are noted in the Feature availability by resource table.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsInput,
+  ListTagsInput & RegionInput,
   ListTagsOutput,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -5300,7 +5301,7 @@ export type ListTieringConfigurationsError =
  * Returns a list of tiering configurations.
  */
 export const listTieringConfigurations: API.PaginatedOperationMethod<
-  ListTieringConfigurationsInput,
+  ListTieringConfigurationsInput & RegionInput,
   ListTieringConfigurationsOutput,
   ListTieringConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -5334,7 +5335,7 @@ export type PutBackupVaultAccessPolicyError =
  * format.
  */
 export const putBackupVaultAccessPolicy: API.OperationMethod<
-  PutBackupVaultAccessPolicyInput,
+  PutBackupVaultAccessPolicyInput & RegionInput,
   PutBackupVaultAccessPolicyResponse,
   PutBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
@@ -5377,7 +5378,7 @@ export type PutBackupVaultLockConfigurationError =
  * For more information, see Backup Vault Lock.
  */
 export const putBackupVaultLockConfiguration: API.OperationMethod<
-  PutBackupVaultLockConfigurationInput,
+  PutBackupVaultLockConfigurationInput & RegionInput,
   PutBackupVaultLockConfigurationResponse,
   PutBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5408,7 +5409,7 @@ export type PutBackupVaultNotificationsError =
  * Turns on notifications on a backup vault for the specified topic and events.
  */
 export const putBackupVaultNotifications: API.OperationMethod<
-  PutBackupVaultNotificationsInput,
+  PutBackupVaultNotificationsInput & RegionInput,
   PutBackupVaultNotificationsResponse,
   PutBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
@@ -5443,7 +5444,7 @@ export type PutRestoreValidationResultError =
  * `ValidationStatusMessage`.
  */
 export const putRestoreValidationResult: API.OperationMethod<
-  PutRestoreValidationResultInput,
+  PutRestoreValidationResultInput & RegionInput,
   PutRestoreValidationResultResponse,
   PutRestoreValidationResultError,
   Credentials | HttpClient.HttpClient
@@ -5475,7 +5476,7 @@ export type RevokeRestoreAccessBackupVaultError =
  * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
  */
 export const revokeRestoreAccessBackupVault: API.OperationMethod<
-  RevokeRestoreAccessBackupVaultInput,
+  RevokeRestoreAccessBackupVaultInput & RegionInput,
   RevokeRestoreAccessBackupVaultResponse,
   RevokeRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
@@ -5508,7 +5509,7 @@ export type StartBackupJobError =
  * Starts an on-demand backup job for the specified resource.
  */
 export const startBackupJob: API.OperationMethod<
-  StartBackupJobInput,
+  StartBackupJobInput & RegionInput,
   StartBackupJobOutput,
   StartBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -5548,7 +5549,7 @@ export type StartCopyJobError =
  * operations.
  */
 export const startCopyJob: API.OperationMethod<
-  StartCopyJobInput,
+  StartCopyJobInput & RegionInput,
   StartCopyJobOutput,
   StartCopyJobError,
   Credentials | HttpClient.HttpClient
@@ -5580,7 +5581,7 @@ export type StartReportJobError =
  * Starts an on-demand report job for the specified report plan.
  */
 export const startReportJob: API.OperationMethod<
-  StartReportJobInput,
+  StartReportJobInput & RegionInput,
   StartReportJobOutput,
   StartReportJobError,
   Credentials | HttpClient.HttpClient
@@ -5611,7 +5612,7 @@ export type StartRestoreJobError =
  * Recovers the saved resource identified by an Amazon Resource Name (ARN).
  */
 export const startRestoreJob: API.OperationMethod<
-  StartRestoreJobInput,
+  StartRestoreJobInput & RegionInput,
   StartRestoreJobOutput,
   StartRestoreJobError,
   Credentials | HttpClient.HttpClient
@@ -5644,7 +5645,7 @@ export type StartScanJobError =
  * Starts scanning jobs for specific resources.
  */
 export const startScanJob: API.OperationMethod<
-  StartScanJobInput,
+  StartScanJobInput & RegionInput,
   StartScanJobOutput,
   StartScanJobError,
   Credentials | HttpClient.HttpClient
@@ -5697,7 +5698,7 @@ export type StopBackupJobError =
  * - Amazon RDS
  */
 export const stopBackupJob: API.OperationMethod<
-  StopBackupJobInput,
+  StopBackupJobInput & RegionInput,
   StopBackupJobResponse,
   StopBackupJobError,
   Credentials | HttpClient.HttpClient
@@ -5729,7 +5730,7 @@ export type TagResourceError =
  * Assigns a set of key-value pairs to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5765,7 +5766,7 @@ export type UntagResourceError =
  * Amazon FSx, Neptune, and Amazon RDS.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5795,7 +5796,7 @@ export type UpdateBackupPlanError =
  * Updates the specified backup plan. The new version is uniquely identified by its ID.
  */
 export const updateBackupPlan: API.OperationMethod<
-  UpdateBackupPlanInput,
+  UpdateBackupPlanInput & RegionInput,
   UpdateBackupPlanOutput,
   UpdateBackupPlanError,
   Credentials | HttpClient.HttpClient
@@ -5828,7 +5829,7 @@ export type UpdateFrameworkError =
  * Updates the specified framework.
  */
 export const updateFramework: API.OperationMethod<
-  UpdateFrameworkInput,
+  UpdateFrameworkInput & RegionInput,
   UpdateFrameworkOutput,
   UpdateFrameworkError,
   Credentials | HttpClient.HttpClient
@@ -5861,7 +5862,7 @@ export type UpdateGlobalSettingsError =
  * Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the `DescribeGlobalSettings` API to determine the current settings.
  */
 export const updateGlobalSettings: API.OperationMethod<
-  UpdateGlobalSettingsInput,
+  UpdateGlobalSettingsInput & RegionInput,
   UpdateGlobalSettingsResponse,
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5894,7 +5895,7 @@ export type UpdateRecoveryPointIndexSettingsError =
  * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
  */
 export const updateRecoveryPointIndexSettings: API.OperationMethod<
-  UpdateRecoveryPointIndexSettingsInput,
+  UpdateRecoveryPointIndexSettingsInput & RegionInput,
   UpdateRecoveryPointIndexSettingsOutput,
   UpdateRecoveryPointIndexSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5944,7 +5945,7 @@ export type UpdateRecoveryPointLifecycleError =
  * This operation does not support continuous backups.
  */
 export const updateRecoveryPointLifecycle: API.OperationMethod<
-  UpdateRecoveryPointLifecycleInput,
+  UpdateRecoveryPointLifecycleInput & RegionInput,
   UpdateRecoveryPointLifecycleOutput,
   UpdateRecoveryPointLifecycleError,
   Credentials | HttpClient.HttpClient
@@ -5978,7 +5979,7 @@ export type UpdateRegionSettingsError =
  * supported.
  */
 export const updateRegionSettings: API.OperationMethod<
-  UpdateRegionSettingsInput,
+  UpdateRegionSettingsInput & RegionInput,
   UpdateRegionSettingsResponse,
   UpdateRegionSettingsError,
   Credentials | HttpClient.HttpClient
@@ -6008,7 +6009,7 @@ export type UpdateReportPlanError =
  * Updates the specified report plan.
  */
 export const updateReportPlan: API.OperationMethod<
-  UpdateReportPlanInput,
+  UpdateReportPlanInput & RegionInput,
   UpdateReportPlanOutput,
   UpdateReportPlanError,
   Credentials | HttpClient.HttpClient
@@ -6054,7 +6055,7 @@ export type UpdateRestoreTestingPlanError =
  * - `SelectionWindowDays`
  */
 export const updateRestoreTestingPlan: API.OperationMethod<
-  UpdateRestoreTestingPlanInput,
+  UpdateRestoreTestingPlanInput & RegionInput,
   UpdateRestoreTestingPlanOutput,
   UpdateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
@@ -6091,7 +6092,7 @@ export type UpdateRestoreTestingSelectionError =
  * You can use either protected resource ARNs or conditions, but not both.
  */
 export const updateRestoreTestingSelection: API.OperationMethod<
-  UpdateRestoreTestingSelectionInput,
+  UpdateRestoreTestingSelectionInput & RegionInput,
   UpdateRestoreTestingSelectionOutput,
   UpdateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
@@ -6135,7 +6136,7 @@ export type UpdateTieringConfigurationError =
  * - `ResourceType`
  */
 export const updateTieringConfiguration: API.OperationMethod<
-  UpdateTieringConfigurationInput,
+  UpdateTieringConfigurationInput & RegionInput,
   UpdateTieringConfigurationOutput,
   UpdateTieringConfigurationError,
   Credentials | HttpClient.HttpClient

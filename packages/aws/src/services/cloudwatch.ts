@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -1568,7 +1569,7 @@ export type AssociateDatasetKmsKeyError =
  * Guide.
  */
 export const associateDatasetKmsKey: API.OperationMethod<
-  AssociateDatasetKmsKeyInput,
+  AssociateDatasetKmsKeyInput & RegionInput,
   AssociateDatasetKmsKeyOutput,
   AssociateDatasetKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -1613,7 +1614,7 @@ export type CreateResourceMetricsConfigurationError =
  * *Amazon CloudWatch User Guide*.
  */
 export const createResourceMetricsConfiguration: API.OperationMethod<
-  CreateResourceMetricsConfigurationInput,
+  CreateResourceMetricsConfigurationInput & RegionInput,
   CreateResourceMetricsConfigurationOutput,
   CreateResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1645,7 +1646,7 @@ export type DeleteAlarmMuteRuleError = CommonErrors;
  * permission on the alarm mute rule resource.
  */
 export const deleteAlarmMuteRule: API.OperationMethod<
-  DeleteAlarmMuteRuleInput,
+  DeleteAlarmMuteRuleInput & RegionInput,
   DeleteAlarmMuteRuleResponse,
   DeleteAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -1686,7 +1687,7 @@ export type DeleteAlarmsError = ResourceConflict | ResourceNotFound | CommonErro
  * detects a cycle in the evaluation path.
  */
 export const deleteAlarms: API.OperationMethod<
-  DeleteAlarmsInput,
+  DeleteAlarmsInput & RegionInput,
   DeleteAlarmsResponse,
   DeleteAlarmsError,
   Credentials | HttpClient.HttpClient
@@ -1714,7 +1715,7 @@ export type DeleteAnomalyDetectorError =
  * Guide.
  */
 export const deleteAnomalyDetector: API.OperationMethod<
-  DeleteAnomalyDetectorInput,
+  DeleteAnomalyDetectorInput & RegionInput,
   DeleteAnomalyDetectorOutput,
   DeleteAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1746,7 +1747,7 @@ export type DeleteDashboardsError =
  * dashboards as possible.
  */
 export const deleteDashboards: API.OperationMethod<
-  DeleteDashboardsInput,
+  DeleteDashboardsInput & RegionInput,
   DeleteDashboardsOutput,
   DeleteDashboardsError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type DeleteInsightRulesError =
  * data from the first time the rule was created might not be available.
  */
 export const deleteInsightRules: API.OperationMethod<
-  DeleteInsightRulesInput,
+  DeleteInsightRulesInput & RegionInput,
   DeleteInsightRulesOutput,
   DeleteInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -1796,7 +1797,7 @@ export type DeleteMetricStreamError =
  * Permanently deletes the metric stream that you specify.
  */
 export const deleteMetricStream: API.OperationMethod<
-  DeleteMetricStreamInput,
+  DeleteMetricStreamInput & RegionInput,
   DeleteMetricStreamOutput,
   DeleteMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -1828,7 +1829,7 @@ export type DeleteResourceMetricsConfigurationError = ResourceNotFoundException 
  * *Amazon CloudWatch User Guide*.
  */
 export const deleteResourceMetricsConfiguration: API.OperationMethod<
-  DeleteResourceMetricsConfigurationInput,
+  DeleteResourceMetricsConfigurationInput & RegionInput,
   DeleteResourceMetricsConfigurationOutput,
   DeleteResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1854,7 +1855,7 @@ export type DescribeAlarmContributorsError =
  * series that contribute to the alarm's state.
  */
 export const describeAlarmContributors: API.OperationMethod<
-  DescribeAlarmContributorsInput,
+  DescribeAlarmContributorsInput & RegionInput,
   DescribeAlarmContributorsOutput,
   DescribeAlarmContributorsError,
   Credentials | HttpClient.HttpClient
@@ -1883,7 +1884,7 @@ export type DescribeAlarmHistoryError = InvalidNextToken | CommonErrors;
  * `cloudwatch:DescribeAlarmHistory` permission has a narrower scope.
  */
 export const describeAlarmHistory: API.PaginatedOperationMethod<
-  DescribeAlarmHistoryInput,
+  DescribeAlarmHistoryInput & RegionInput,
   DescribeAlarmHistoryOutput,
   DescribeAlarmHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1916,7 +1917,7 @@ export type DescribeAlarmsError = InvalidNextToken | CommonErrors;
  * `cloudwatch:DescribeAlarms` permission has a narrower scope.
  */
 export const describeAlarms: API.PaginatedOperationMethod<
-  DescribeAlarmsInput,
+  DescribeAlarmsInput & RegionInput,
   DescribeAlarmsOutput,
   DescribeAlarmsError,
   Credentials | HttpClient.HttpClient,
@@ -1947,7 +1948,7 @@ export type DescribeAlarmsForMetricError = CommonErrors;
  * metric, or composite alarms that use the specified metric.
  */
 export const describeAlarmsForMetric: API.OperationMethod<
-  DescribeAlarmsForMetricInput,
+  DescribeAlarmsForMetricInput & RegionInput,
   DescribeAlarmsForMetricOutput,
   DescribeAlarmsForMetricError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type DescribeAnomalyDetectorsError =
  * return all metric math anomaly detectors in your account.
  */
 export const describeAnomalyDetectors: API.PaginatedOperationMethod<
-  DescribeAnomalyDetectorsInput,
+  DescribeAnomalyDetectorsInput & RegionInput,
   DescribeAnomalyDetectorsOutput,
   DescribeAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -2012,7 +2013,7 @@ export type DescribeInsightRulesError = InvalidNextToken | UnsupportedOperation 
  * Insights to Analyze High-Cardinality Data.
  */
 export const describeInsightRules: API.PaginatedOperationMethod<
-  DescribeInsightRulesInput,
+  DescribeInsightRulesInput & RegionInput,
   DescribeInsightRulesOutput,
   DescribeInsightRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2039,7 +2040,7 @@ export type DisableAlarmActionsError = CommonErrors;
  * disabled, the alarm actions do not execute when the alarm state changes.
  */
 export const disableAlarmActions: API.OperationMethod<
-  DisableAlarmActionsInput,
+  DisableAlarmActionsInput & RegionInput,
   DisableAlarmActionsResponse,
   DisableAlarmActionsError,
   Credentials | HttpClient.HttpClient
@@ -2063,7 +2064,7 @@ export type DisableInsightRulesError =
  * not analyze log groups and do not incur costs.
  */
 export const disableInsightRules: API.OperationMethod<
-  DisableInsightRulesInput,
+  DisableInsightRulesInput & RegionInput,
   DisableInsightRulesOutput,
   DisableInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -2119,7 +2120,7 @@ export type DisassociateDatasetKmsKeyError =
  * Guide.
  */
 export const disassociateDatasetKmsKey: API.OperationMethod<
-  DisassociateDatasetKmsKeyInput,
+  DisassociateDatasetKmsKeyInput & RegionInput,
   DisassociateDatasetKmsKeyOutput,
   DisassociateDatasetKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -2139,7 +2140,7 @@ export type EnableAlarmActionsError = CommonErrors;
  * Enables the actions for the specified alarms.
  */
 export const enableAlarmActions: API.OperationMethod<
-  EnableAlarmActionsInput,
+  EnableAlarmActionsInput & RegionInput,
   EnableAlarmActionsResponse,
   EnableAlarmActionsError,
   Credentials | HttpClient.HttpClient
@@ -2164,7 +2165,7 @@ export type EnableInsightRulesError =
  * immediately begin analyzing log data.
  */
 export const enableInsightRules: API.OperationMethod<
-  EnableInsightRulesInput,
+  EnableInsightRulesInput & RegionInput,
   EnableInsightRulesOutput,
   EnableInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -2208,7 +2209,7 @@ export type GetAlarmMuteRuleError = ResourceNotFoundException | CommonErrors;
  * resource.
  */
 export const getAlarmMuteRule: API.OperationMethod<
-  GetAlarmMuteRuleInput,
+  GetAlarmMuteRuleInput & RegionInput,
   GetAlarmMuteRuleOutput,
   GetAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2244,7 +2245,7 @@ export type GetDashboardError =
  * completes.
  */
 export const getDashboard: API.OperationMethod<
-  GetDashboardInput,
+  GetDashboardInput & RegionInput,
   GetDashboardOutput,
   GetDashboardError,
   Credentials | HttpClient.HttpClient
@@ -2276,7 +2277,7 @@ export type GetDatasetError = ResourceNotFoundException | CommonErrors;
  * To associate a customer managed KMS key with a dataset, use AssociateDatasetKmsKey. To remove the association, use DisassociateDatasetKmsKey.
  */
 export const getDataset: API.OperationMethod<
-  GetDatasetInput,
+  GetDatasetInput & RegionInput,
   GetDatasetOutput,
   GetDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2331,7 +2332,7 @@ export type GetInsightRuleReportError =
  * time period represented by that data point.
  */
 export const getInsightRuleReport: API.OperationMethod<
-  GetInsightRuleReportInput,
+  GetInsightRuleReportInput & RegionInput,
   GetInsightRuleReportOutput,
   GetInsightRuleReportError,
   Credentials | HttpClient.HttpClient
@@ -2420,7 +2421,7 @@ export type GetMetricDataError = InvalidNextToken | CommonErrors;
  * time series.
  */
 export const getMetricData: API.PaginatedOperationMethod<
-  GetMetricDataInput,
+  GetMetricDataInput & RegionInput,
   GetMetricDataOutput,
   GetMetricDataError,
   Credentials | HttpClient.HttpClient,
@@ -2505,7 +2506,7 @@ export type GetMetricStatisticsError =
  * Guide.
  */
 export const getMetricStatistics: API.OperationMethod<
-  GetMetricStatisticsInput,
+  GetMetricStatisticsInput & RegionInput,
   GetMetricStatisticsOutput,
   GetMetricStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -2536,7 +2537,7 @@ export type GetMetricStreamError =
  * Returns information about the metric stream that you specify.
  */
 export const getMetricStream: API.OperationMethod<
-  GetMetricStreamInput,
+  GetMetricStreamInput & RegionInput,
   GetMetricStreamOutput,
   GetMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -2576,7 +2577,7 @@ export type GetMetricWidgetImageError = CommonErrors;
  * - Up to 100 KB uncompressed payload.
  */
 export const getMetricWidgetImage: API.OperationMethod<
-  GetMetricWidgetImageInput,
+  GetMetricWidgetImageInput & RegionInput,
   GetMetricWidgetImageOutput,
   GetMetricWidgetImageError,
   Credentials | HttpClient.HttpClient
@@ -2598,7 +2599,7 @@ export type GetOTelEnrichmentError = CommonErrors;
  * and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
  */
 export const getOTelEnrichment: API.OperationMethod<
-  GetOTelEnrichmentInput,
+  GetOTelEnrichmentInput & RegionInput,
   GetOTelEnrichmentOutput,
   GetOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -2628,7 +2629,7 @@ export type GetResourceMetricsConfigurationError = ResourceNotFoundException | C
  * *Amazon CloudWatch User Guide*.
  */
 export const getResourceMetricsConfiguration: API.OperationMethod<
-  GetResourceMetricsConfigurationInput,
+  GetResourceMetricsConfigurationInput & RegionInput,
   GetResourceMetricsConfigurationOutput,
   GetResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2660,7 +2661,7 @@ export type ListAlarmMuteRulesError = InvalidNextToken | ResourceNotFoundExcepti
  * permission.
  */
 export const listAlarmMuteRules: API.PaginatedOperationMethod<
-  ListAlarmMuteRulesInput,
+  ListAlarmMuteRulesInput & RegionInput,
   ListAlarmMuteRulesOutput,
   ListAlarmMuteRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2705,7 +2706,7 @@ export type ListDashboardsError =
  * completes.
  */
 export const listDashboards: API.PaginatedOperationMethod<
-  ListDashboardsInput,
+  ListDashboardsInput & RegionInput,
   ListDashboardsOutput,
   ListDashboardsError,
   Credentials | HttpClient.HttpClient,
@@ -2736,7 +2737,7 @@ export type ListManagedInsightRulesError =
  * account.
  */
 export const listManagedInsightRules: API.PaginatedOperationMethod<
-  ListManagedInsightRulesInput,
+  ListManagedInsightRulesInput & RegionInput,
   ListManagedInsightRulesOutput,
   ListManagedInsightRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2775,7 +2776,7 @@ export type ListMetricsError = InternalServiceFault | InvalidParameterValueExcep
  * haven't reported data in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
  */
 export const listMetrics: API.PaginatedOperationMethod<
-  ListMetricsInput,
+  ListMetricsInput & RegionInput,
   ListMetricsOutput,
   ListMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -2802,7 +2803,7 @@ export type ListMetricStreamsError =
  * Returns a list of metric streams in this account.
  */
 export const listMetricStreams: API.PaginatedOperationMethod<
-  ListMetricStreamsInput,
+  ListMetricStreamsInput & RegionInput,
   ListMetricStreamsOutput,
   ListMetricStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -2838,7 +2839,7 @@ export type ListTagsForResourceError =
  * dashboards, metric streams and Contributor Insights rules support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2890,7 +2891,7 @@ export type PutAlarmMuteRuleError = LimitExceededFault | CommonErrors;
  * alarms that have a specific tag key-value pair, such as `Team=TeamA`.
  */
 export const putAlarmMuteRule: API.OperationMethod<
-  PutAlarmMuteRuleInput,
+  PutAlarmMuteRuleInput & RegionInput,
   PutAlarmMuteRuleResponse,
   PutAlarmMuteRuleError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type PutAnomalyDetectorError =
  * For more information, see CloudWatch Anomaly Detection.
  */
 export const putAnomalyDetector: API.OperationMethod<
-  PutAnomalyDetectorInput,
+  PutAnomalyDetectorInput & RegionInput,
   PutAnomalyDetectorOutput,
   PutAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -3005,7 +3006,7 @@ export type PutCompositeAlarmError = LimitExceededFault | CommonErrors;
  * Systems Manager OpsItem actions.
  */
 export const putCompositeAlarm: API.OperationMethod<
-  PutCompositeAlarmInput,
+  PutCompositeAlarmInput & RegionInput,
   PutCompositeAlarmResponse,
   PutCompositeAlarmError,
   Credentials | HttpClient.HttpClient
@@ -3047,7 +3048,7 @@ export type PutDashboardError =
  * CloudFormation template used to create the dashboard.
  */
 export const putDashboard: API.OperationMethod<
-  PutDashboardInput,
+  PutDashboardInput & RegionInput,
   PutDashboardOutput,
   PutDashboardError,
   Credentials | HttpClient.HttpClient
@@ -3077,7 +3078,7 @@ export type PutInsightRuleError =
  * data from the first time the rule was created might not be available.
  */
 export const putInsightRule: API.OperationMethod<
-  PutInsightRuleInput,
+  PutInsightRuleInput & RegionInput,
   PutInsightRuleOutput,
   PutInsightRuleError,
   Credentials | HttpClient.HttpClient
@@ -3111,7 +3112,7 @@ export type PutLogAlarmError = LimitExceededFault | ResourceConflict | CommonErr
  * To create or update a log alarm, you must have the `cloudwatch:PutLogAlarm` permission. The IAM role specified in `ScheduledQueryRoleARN` must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set `ActionLogLineCount`, the role specified in `ActionLogLineRoleArn` must grant permission to retrieve log events for inclusion in alarm notifications.
  */
 export const putLogAlarm: API.OperationMethod<
-  PutLogAlarmInput,
+  PutLogAlarmInput & RegionInput,
   PutLogAlarmResponse,
   PutLogAlarmError,
   Credentials | HttpClient.HttpClient
@@ -3141,7 +3142,7 @@ export type PutManagedInsightRulesError =
  * `ListManagedInsightRules` to describe all available rules.
  */
 export const putManagedInsightRules: API.OperationMethod<
-  PutManagedInsightRulesInput,
+  PutManagedInsightRulesInput & RegionInput,
   PutManagedInsightRulesOutput,
   PutManagedInsightRulesError,
   Credentials | HttpClient.HttpClient
@@ -3209,7 +3210,7 @@ export type PutMetricAlarmError = LimitExceededFault | CommonErrors;
  * does not, you must create it following the directions in **Set up a monitoring account** in Cross-account cross-Region CloudWatch console.
  */
 export const putMetricAlarm: API.OperationMethod<
-  PutMetricAlarmInput,
+  PutMetricAlarmInput & RegionInput,
   PutMetricAlarmResponse,
   PutMetricAlarmError,
   Credentials | HttpClient.HttpClient
@@ -3286,7 +3287,7 @@ export type PutMetricDataError =
  * is equal to `Min` multiplied by `SampleCount`.
  */
 export const putMetricData: API.OperationMethod<
-  PutMetricDataInput,
+  PutMetricDataInput & RegionInput,
   PutMetricDataResponse,
   PutMetricDataError,
   Credentials | HttpClient.HttpClient
@@ -3351,7 +3352,7 @@ export type PutMetricStreamError =
  * accounts in the stream. For more information, see CloudWatch cross-account observability.
  */
 export const putMetricStream: API.OperationMethod<
-  PutMetricStreamInput,
+  PutMetricStreamInput & RegionInput,
   PutMetricStreamOutput,
   PutMetricStreamError,
   Credentials | HttpClient.HttpClient
@@ -3395,7 +3396,7 @@ export type SetAlarmStateError = InvalidFormatFault | ResourceNotFound | CommonE
  * enable the policy to take the correct action.
  */
 export const setAlarmState: API.OperationMethod<
-  SetAlarmStateInput,
+  SetAlarmStateInput & RegionInput,
   SetAlarmStateResponse,
   SetAlarmStateError,
   Credentials | HttpClient.HttpClient
@@ -3419,7 +3420,7 @@ export type StartMetricStreamsError =
  * Starts the streaming of metrics for one or more of your metric streams.
  */
 export const startMetricStreams: API.OperationMethod<
-  StartMetricStreamsInput,
+  StartMetricStreamsInput & RegionInput,
   StartMetricStreamsOutput,
   StartMetricStreamsError,
   Credentials | HttpClient.HttpClient
@@ -3452,7 +3453,7 @@ export type StartOTelEnrichmentError = ValidationException | CommonErrors;
  * are applied. To change them, use UpdateOTelEnrichment.
  */
 export const startOTelEnrichment: API.OperationMethod<
-  StartOTelEnrichmentInput,
+  StartOTelEnrichmentInput & RegionInput,
   StartOTelEnrichmentOutput,
   StartOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3476,7 +3477,7 @@ export type StopMetricStreamsError =
  * Stops the streaming of metrics for one or more of your metric streams.
  */
 export const stopMetricStreams: API.OperationMethod<
-  StopMetricStreamsInput,
+  StopMetricStreamsInput & RegionInput,
   StopMetricStreamsOutput,
   StopMetricStreamsError,
   Credentials | HttpClient.HttpClient
@@ -3498,7 +3499,7 @@ export type StopOTelEnrichmentError = CommonErrors;
  * cannot be queried using PromQL.
  */
 export const stopOTelEnrichment: API.OperationMethod<
-  StopOTelEnrichmentInput,
+  StopOTelEnrichmentInput & RegionInput,
   StopOTelEnrichmentOutput,
   StopOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3541,7 +3542,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3574,7 +3575,7 @@ export type UntagResourceError =
  * metric streams and Contributor Insights rules support tagging.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3612,7 +3613,7 @@ export type UpdateOTelEnrichmentError =
  * clears both.
  */
 export const updateOTelEnrichment: API.OperationMethod<
-  UpdateOTelEnrichmentInput,
+  UpdateOTelEnrichmentInput & RegionInput,
   UpdateOTelEnrichmentOutput,
   UpdateOTelEnrichmentError,
   Credentials | HttpClient.HttpClient
@@ -3647,7 +3648,7 @@ export type UpdateResourceMetricsConfigurationError = ResourceNotFoundException 
  * *Amazon CloudWatch User Guide*.
  */
 export const updateResourceMetricsConfiguration: API.OperationMethod<
-  UpdateResourceMetricsConfigurationInput,
+  UpdateResourceMetricsConfigurationInput & RegionInput,
   UpdateResourceMetricsConfigurationOutput,
   UpdateResourceMetricsConfigurationError,
   Credentials | HttpClient.HttpClient

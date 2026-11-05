@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -337,7 +338,7 @@ export type CreateEnvironmentEC2Error =
  * Learn more"
  */
 export const createEnvironmentEC2: API.OperationMethod<
-  CreateEnvironmentEC2Request,
+  CreateEnvironmentEC2Request & RegionInput,
   CreateEnvironmentEC2Result,
   CreateEnvironmentEC2Error,
   Credentials | HttpClient.HttpClient
@@ -377,7 +378,7 @@ export type CreateEnvironmentMembershipError =
  * Learn more"
  */
 export const createEnvironmentMembership: API.OperationMethod<
-  CreateEnvironmentMembershipRequest,
+  CreateEnvironmentMembershipRequest & RegionInput,
   CreateEnvironmentMembershipResult,
   CreateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -418,7 +419,7 @@ export type DeleteEnvironmentError =
  * Learn more"
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResult,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -458,7 +459,7 @@ export type DeleteEnvironmentMembershipError =
  * Learn more"
  */
 export const deleteEnvironmentMembership: API.OperationMethod<
-  DeleteEnvironmentMembershipRequest,
+  DeleteEnvironmentMembershipRequest & RegionInput,
   DeleteEnvironmentMembershipResult,
   DeleteEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type DescribeEnvironmentMembershipsError =
  * Learn more"
  */
 export const describeEnvironmentMemberships: API.PaginatedOperationMethod<
-  DescribeEnvironmentMembershipsRequest,
+  DescribeEnvironmentMembershipsRequest & RegionInput,
   DescribeEnvironmentMembershipsResult,
   DescribeEnvironmentMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -544,7 +545,7 @@ export type DescribeEnvironmentsError =
  * Learn more"
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsRequest,
+  DescribeEnvironmentsRequest & RegionInput,
   DescribeEnvironmentsResult,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -584,7 +585,7 @@ export type DescribeEnvironmentStatusError =
  * Learn more"
  */
 export const describeEnvironmentStatus: API.OperationMethod<
-  DescribeEnvironmentStatusRequest,
+  DescribeEnvironmentStatusRequest & RegionInput,
   DescribeEnvironmentStatusResult,
   DescribeEnvironmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -628,7 +629,7 @@ export type ListEnvironmentsError =
  * Learn more"
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResult,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -670,7 +671,7 @@ export type ListTagsForResourceError =
  * Learn more"
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -702,7 +703,7 @@ export type TagResourceError =
  * automatically propagated to underlying resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type UntagResourceError =
  * Learn more"
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type UpdateEnvironmentError =
  * Learn more"
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResult,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type UpdateEnvironmentMembershipError =
  * Learn more"
  */
 export const updateEnvironmentMembership: API.OperationMethod<
-  UpdateEnvironmentMembershipRequest,
+  UpdateEnvironmentMembershipRequest & RegionInput,
   UpdateEnvironmentMembershipResult,
   UpdateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient

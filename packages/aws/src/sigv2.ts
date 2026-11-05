@@ -1,3 +1,5 @@
+import type { Request } from "@distilled.cloud/s3/client/request";
+import { toBase64 } from "@distilled.cloud/s3/util/base64";
 /**
  * Legacy Signature Version 2 request signing, used by SimpleDB only. It is
  * reached through the `AwsAuthSigv2` trait, so programs that do not use
@@ -8,9 +10,7 @@ import { pipe } from "effect/Function";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import type { Request } from "./client/request.ts";
 import type { ResolvedCredentials } from "./credentials-service.ts";
-import { toBase64 } from "./util/base64.ts";
 
 /**
  * Legacy Signature Version 2 (SimpleDB is the sole remaining SigV2-only

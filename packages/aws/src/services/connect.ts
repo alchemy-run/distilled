@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -9491,7 +9492,7 @@ export type ActivateEvaluationFormError =
  * activated, it is available to start new evaluations based on the form.
  */
 export const activateEvaluationForm: API.OperationMethod<
-  ActivateEvaluationFormRequest,
+  ActivateEvaluationFormRequest & RegionInput,
   ActivateEvaluationFormResponse,
   ActivateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -9524,7 +9525,7 @@ export type AssociateAnalyticsDataSetError =
  * only one dataset in a single call.
  */
 export const associateAnalyticsDataSet: API.OperationMethod<
-  AssociateAnalyticsDataSetRequest,
+  AssociateAnalyticsDataSetRequest & RegionInput,
   AssociateAnalyticsDataSetResponse,
   AssociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -9560,7 +9561,7 @@ export type AssociateApprovedOriginError =
  * Associates an approved origin to an Connect Customer instance.
  */
 export const associateApprovedOrigin: API.OperationMethod<
-  AssociateApprovedOriginRequest,
+  AssociateApprovedOriginRequest & RegionInput,
   AssociateApprovedOriginResponse,
   AssociateApprovedOriginError,
   Creds | HttpClient.HttpClient
@@ -9599,7 +9600,7 @@ export type AssociateBotError =
  * bot.
  */
 export const associateBot: API.OperationMethod<
-  AssociateBotRequest,
+  AssociateBotRequest & RegionInput,
   AssociateBotResponse,
   AssociateBotError,
   Creds | HttpClient.HttpClient
@@ -9666,7 +9667,7 @@ export type AssociateContactWithUserError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const associateContactWithUser: API.OperationMethod<
-  AssociateContactWithUserRequest,
+  AssociateContactWithUserRequest & RegionInput,
   AssociateContactWithUserResponse,
   AssociateContactWithUserError,
   Creds | HttpClient.HttpClient
@@ -9700,7 +9701,7 @@ export type AssociateDefaultVocabularyError =
  * analysis sessions for the given language.
  */
 export const associateDefaultVocabulary: API.OperationMethod<
-  AssociateDefaultVocabularyRequest,
+  AssociateDefaultVocabularyRequest & RegionInput,
   AssociateDefaultVocabularyResponse,
   AssociateDefaultVocabularyError,
   Creds | HttpClient.HttpClient
@@ -9786,7 +9787,7 @@ export type AssociateEmailAddressAliasError =
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
 export const associateEmailAddressAlias: API.OperationMethod<
-  AssociateEmailAddressAliasRequest,
+  AssociateEmailAddressAliasRequest & RegionInput,
   AssociateEmailAddressAliasResponse,
   AssociateEmailAddressAliasError,
   Creds | HttpClient.HttpClient
@@ -9822,7 +9823,7 @@ export type AssociateFlowError =
  * Associates a connect resource to a flow.
  */
 export const associateFlow: API.OperationMethod<
-  AssociateFlowRequest,
+  AssociateFlowRequest & RegionInput,
   AssociateFlowResponse,
   AssociateFlowError,
   Creds | HttpClient.HttpClient
@@ -9857,7 +9858,7 @@ export type AssociateHoursOfOperationsError =
  * Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
  */
 export const associateHoursOfOperations: API.OperationMethod<
-  AssociateHoursOfOperationsRequest,
+  AssociateHoursOfOperationsRequest & RegionInput,
   AssociateHoursOfOperationsResponse,
   AssociateHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -9900,7 +9901,7 @@ export type AssociateInstanceStorageConfigError =
  * association.
  */
 export const associateInstanceStorageConfig: API.OperationMethod<
-  AssociateInstanceStorageConfigRequest,
+  AssociateInstanceStorageConfigRequest & RegionInput,
   AssociateInstanceStorageConfigResponse,
   AssociateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -9937,7 +9938,7 @@ export type AssociateLambdaFunctionError =
  * Allows the specified Connect Customer instance to access the specified Lambda function.
  */
 export const associateLambdaFunction: API.OperationMethod<
-  AssociateLambdaFunctionRequest,
+  AssociateLambdaFunctionRequest & RegionInput,
   AssociateLambdaFunctionResponse,
   AssociateLambdaFunctionError,
   Creds | HttpClient.HttpClient
@@ -9976,7 +9977,7 @@ export type AssociateLexBotError =
  * only supports the association of Amazon Lex V1 bots.
  */
 export const associateLexBot: API.OperationMethod<
-  AssociateLexBotRequest,
+  AssociateLexBotRequest & RegionInput,
   AssociateLexBotResponse,
   AssociateLexBotError,
   Creds | HttpClient.HttpClient
@@ -10017,7 +10018,7 @@ export type AssociatePhoneNumberContactFlowError =
  * this scenario, you will receive a `ResourceNotFoundException`.
  */
 export const associatePhoneNumberContactFlow: API.OperationMethod<
-  AssociatePhoneNumberContactFlowRequest,
+  AssociatePhoneNumberContactFlowRequest & RegionInput,
   AssociatePhoneNumberContactFlowResponse,
   AssociatePhoneNumberContactFlowError,
   Creds | HttpClient.HttpClient
@@ -10063,7 +10064,7 @@ export type AssociateQueueEmailAddressesError =
  * - For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
  */
 export const associateQueueEmailAddresses: API.OperationMethod<
-  AssociateQueueEmailAddressesRequest,
+  AssociateQueueEmailAddressesRequest & RegionInput,
   AssociateQueueEmailAddressesResponse,
   AssociateQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -10098,7 +10099,7 @@ export type AssociateQueueQuickConnectsError =
  * Associates a set of quick connects with a queue.
  */
 export const associateQueueQuickConnects: API.OperationMethod<
-  AssociateQueueQuickConnectsRequest,
+  AssociateQueueQuickConnectsRequest & RegionInput,
   AssociateQueueQuickConnectsResponse,
   AssociateQueueQuickConnectsError,
   Creds | HttpClient.HttpClient
@@ -10131,7 +10132,7 @@ export type AssociateRoutingProfileQueuesError =
  * Associates a set of queues with a routing profile.
  */
 export const associateRoutingProfileQueues: API.OperationMethod<
-  AssociateRoutingProfileQueuesRequest,
+  AssociateRoutingProfileQueuesRequest & RegionInput,
   AssociateRoutingProfileQueuesResponse,
   AssociateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -10167,7 +10168,7 @@ export type AssociateSecurityKeyError =
  * Associates a security key to the instance.
  */
 export const associateSecurityKey: API.OperationMethod<
-  AssociateSecurityKeyRequest,
+  AssociateSecurityKeyRequest & RegionInput,
   AssociateSecurityKeyResponse,
   AssociateSecurityKeyError,
   Creds | HttpClient.HttpClient
@@ -10203,7 +10204,7 @@ export type AssociateSecurityProfilesError =
  * Associate security profiles with an Entity in an Amazon Connect instance.
  */
 export const associateSecurityProfiles: API.OperationMethod<
-  AssociateSecurityProfilesRequest,
+  AssociateSecurityProfilesRequest & RegionInput,
   AssociateSecurityProfilesResponse,
   AssociateSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -10239,7 +10240,7 @@ export type AssociateTrafficDistributionGroupUserError =
  * is created.
  */
 export const associateTrafficDistributionGroupUser: API.OperationMethod<
-  AssociateTrafficDistributionGroupUserRequest,
+  AssociateTrafficDistributionGroupUserRequest & RegionInput,
   AssociateTrafficDistributionGroupUserResponse,
   AssociateTrafficDistributionGroupUserError,
   Creds | HttpClient.HttpClient
@@ -10272,7 +10273,7 @@ export type AssociateUserProficienciesError =
  * Associates a set of proficiencies with a user.
  */
 export const associateUserProficiencies: API.OperationMethod<
-  AssociateUserProficienciesRequest,
+  AssociateUserProficienciesRequest & RegionInput,
   AssociateUserProficienciesResponse,
   AssociateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -10307,7 +10308,7 @@ export type AssociateWorkspaceError =
  * configured views and pages.
  */
 export const associateWorkspace: API.OperationMethod<
-  AssociateWorkspaceRequest,
+  AssociateWorkspaceRequest & RegionInput,
   AssociateWorkspaceResponse,
   AssociateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -10342,7 +10343,7 @@ export type BatchAssociateAnalyticsDataSetError =
  * associate multiple datasets in a single call.
  */
 export const batchAssociateAnalyticsDataSet: API.OperationMethod<
-  BatchAssociateAnalyticsDataSetRequest,
+  BatchAssociateAnalyticsDataSetRequest & RegionInput,
   BatchAssociateAnalyticsDataSetResponse,
   BatchAssociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -10383,7 +10384,7 @@ export type BatchCreateDataTableValueError =
  * item request.
  */
 export const batchCreateDataTableValue: API.OperationMethod<
-  BatchCreateDataTableValueRequest,
+  BatchCreateDataTableValueRequest & RegionInput,
   BatchCreateDataTableValueResponse,
   BatchCreateDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10423,7 +10424,7 @@ export type BatchDeleteDataTableValueError =
  * were accessed. System managed values are not deletable by customers.
  */
 export const batchDeleteDataTableValue: API.OperationMethod<
-  BatchDeleteDataTableValueRequest,
+  BatchDeleteDataTableValueRequest & RegionInput,
   BatchDeleteDataTableValueResponse,
   BatchDeleteDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10460,7 +10461,7 @@ export type BatchDescribeDataTableValueError =
  * maintain consistency with existing operations.
  */
 export const batchDescribeDataTableValue: API.OperationMethod<
-  BatchDescribeDataTableValueRequest,
+  BatchDescribeDataTableValueRequest & RegionInput,
   BatchDescribeDataTableValueResponse,
   BatchDescribeDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10494,7 +10495,7 @@ export type BatchDisassociateAnalyticsDataSetError =
  * multiple datasets in a single call.
  */
 export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
-  BatchDisassociateAnalyticsDataSetRequest,
+  BatchDisassociateAnalyticsDataSetRequest & RegionInput,
   BatchDisassociateAnalyticsDataSetResponse,
   BatchDisassociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -10527,7 +10528,7 @@ export type BatchGetAttachedFileMetadataError =
  * provided in the input list must be associated with the input AssociatedResourceArn.
  */
 export const batchGetAttachedFileMetadata: API.OperationMethod<
-  BatchGetAttachedFileMetadataRequest,
+  BatchGetAttachedFileMetadataRequest & RegionInput,
   BatchGetAttachedFileMetadataResponse,
   BatchGetAttachedFileMetadataError,
   Creds | HttpClient.HttpClient
@@ -10560,7 +10561,7 @@ export type BatchGetFlowAssociationError =
  * Retrieve the flow associations for the given resources.
  */
 export const batchGetFlowAssociation: API.OperationMethod<
-  BatchGetFlowAssociationRequest,
+  BatchGetFlowAssociationRequest & RegionInput,
   BatchGetFlowAssociationResponse,
   BatchGetFlowAssociationError,
   Creds | HttpClient.HttpClient
@@ -10600,7 +10601,7 @@ export type BatchPutContactError =
  * voice call uses the same contactId that was created by BatchPutContact.
  */
 export const batchPutContact: API.OperationMethod<
-  BatchPutContactRequest,
+  BatchPutContactRequest & RegionInput,
   BatchPutContactResponse,
   BatchPutContactError,
   Creds | HttpClient.HttpClient
@@ -10637,7 +10638,7 @@ export type BatchUpdateDataTableValueError =
  * conflicts.
  */
 export const batchUpdateDataTableValue: API.OperationMethod<
-  BatchUpdateDataTableValueRequest,
+  BatchUpdateDataTableValueRequest & RegionInput,
   BatchUpdateDataTableValueResponse,
   BatchUpdateDataTableValueError,
   Creds | HttpClient.HttpClient
@@ -10698,7 +10699,7 @@ export type ClaimPhoneNumberError =
  * open an Amazon Web Services support ticket.
  */
 export const claimPhoneNumber: API.OperationMethod<
-  ClaimPhoneNumberRequest,
+  ClaimPhoneNumberRequest & RegionInput,
   ClaimPhoneNumberResponse,
   ClaimPhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -10732,7 +10733,7 @@ export type CompleteAttachedFileUploadError =
  * StartAttachedFileUpload API.
  */
 export const completeAttachedFileUpload: API.OperationMethod<
-  CompleteAttachedFileUploadRequest,
+  CompleteAttachedFileUploadRequest & RegionInput,
   CompleteAttachedFileUploadResponse,
   CompleteAttachedFileUploadError,
   Creds | HttpClient.HttpClient
@@ -10766,7 +10767,7 @@ export type CreateAgentStatusError =
  * Creates an agent status for the specified Connect Customer instance.
  */
 export const createAgentStatus: API.OperationMethod<
-  CreateAgentStatusRequest,
+  CreateAgentStatusRequest & RegionInput,
   CreateAgentStatusResponse,
   CreateAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -10810,7 +10811,7 @@ export type CreateAttachedFileError =
  * run post-call analytics.
  */
 export const createAttachedFile: API.OperationMethod<
-  CreateAttachedFileRequest,
+  CreateAttachedFileRequest & RegionInput,
   CreateAttachedFileResponse,
   CreateAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -10845,7 +10846,7 @@ export type CreateAuthCodeError =
  * to establish a session with scoped permissions defined by the specified scope parameters.
  */
 export const createAuthCode: API.OperationMethod<
-  CreateAuthCodeRequest,
+  CreateAuthCodeRequest & RegionInput,
   CreateAuthCodeResponse,
   CreateAuthCodeError,
   Creds | HttpClient.HttpClient
@@ -10897,7 +10898,7 @@ export type CreateContactError =
  * fail if your CreateContact limits aren't high enough.
  */
 export const createContact: API.OperationMethod<
-  CreateContactRequest,
+  CreateContactRequest & RegionInput,
   CreateContactResponse,
   CreateContactError,
   Creds | HttpClient.HttpClient
@@ -10939,7 +10940,7 @@ export type CreateContactFlowError =
  * Flow language.
  */
 export const createContactFlow: API.OperationMethod<
-  CreateContactFlowRequest,
+  CreateContactFlowRequest & RegionInput,
   CreateContactFlowResponse,
   CreateContactFlowError,
   Creds | HttpClient.HttpClient
@@ -10979,7 +10980,7 @@ export type CreateContactFlowModuleError =
  * Creates a flow module for the specified Connect Customer instance.
  */
 export const createContactFlowModule: API.OperationMethod<
-  CreateContactFlowModuleRequest,
+  CreateContactFlowModuleRequest & RegionInput,
   CreateContactFlowModuleResponse,
   CreateContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -11019,7 +11020,7 @@ export type CreateContactFlowModuleAliasError =
  * Creates a named alias that points to a specific version of a contact flow module.
  */
 export const createContactFlowModuleAlias: API.OperationMethod<
-  CreateContactFlowModuleAliasRequest,
+  CreateContactFlowModuleAliasRequest & RegionInput,
   CreateContactFlowModuleAliasResponse,
   CreateContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -11057,7 +11058,7 @@ export type CreateContactFlowModuleVersionError =
  * in time for version control and rollback capabilities.
  */
 export const createContactFlowModuleVersion: API.OperationMethod<
-  CreateContactFlowModuleVersionRequest,
+  CreateContactFlowModuleVersionRequest & RegionInput,
   CreateContactFlowModuleVersionResponse,
   CreateContactFlowModuleVersionError,
   Creds | HttpClient.HttpClient
@@ -11096,7 +11097,7 @@ export type CreateContactFlowVersionError =
  * flows of type `Campaign`.
  */
 export const createContactFlowVersion: API.OperationMethod<
-  CreateContactFlowVersionRequest,
+  CreateContactFlowVersionRequest & RegionInput,
   CreateContactFlowVersionResponse,
   CreateContactFlowVersionError,
   Creds | HttpClient.HttpClient
@@ -11136,7 +11137,7 @@ export type CreateDataTableError =
  * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
  */
 export const createDataTable: API.OperationMethod<
-  CreateDataTableRequest,
+  CreateDataTableRequest & RegionInput,
   CreateDataTableResponse,
   CreateDataTableError,
   Creds | HttpClient.HttpClient
@@ -11179,7 +11180,7 @@ export type CreateDataTableAttributeError =
  * may not allow customers to create new attributes.
  */
 export const createDataTableAttribute: API.OperationMethod<
-  CreateDataTableAttributeRequest,
+  CreateDataTableAttributeRequest & RegionInput,
   CreateDataTableAttributeResponse,
   CreateDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -11222,7 +11223,7 @@ export type CreateEmailAddressError =
  * addresses in the Connect Customer Administrator Guide.
  */
 export const createEmailAddress: API.OperationMethod<
-  CreateEmailAddressRequest,
+  CreateEmailAddressRequest & RegionInput,
   CreateEmailAddressResponse,
   CreateEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -11262,7 +11263,7 @@ export type CreateEvaluationFormError =
  * identifiers cannot be duplicated within the same evaluation form.
  */
 export const createEvaluationForm: API.OperationMethod<
-  CreateEvaluationFormRequest,
+  CreateEvaluationFormRequest & RegionInput,
   CreateEvaluationFormResponse,
   CreateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -11300,7 +11301,7 @@ export type CreateExtractionDefinitionError =
  * found.
  */
 export const createExtractionDefinition: API.OperationMethod<
-  CreateExtractionDefinitionRequest,
+  CreateExtractionDefinitionRequest & RegionInput,
   CreateExtractionDefinitionResponse,
   CreateExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -11337,7 +11338,7 @@ export type CreateHoursOfOperationError =
  * Creates hours of operation.
  */
 export const createHoursOfOperation: API.OperationMethod<
-  CreateHoursOfOperationRequest,
+  CreateHoursOfOperationRequest & RegionInput,
   CreateHoursOfOperationResponse,
   CreateHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -11374,7 +11375,7 @@ export type CreateHoursOfOperationOverrideError =
  * Creates an hours of operation override in an Connect Customer hours of operation resource.
  */
 export const createHoursOfOperationOverride: API.OperationMethod<
-  CreateHoursOfOperationOverrideRequest,
+  CreateHoursOfOperationOverrideRequest & RegionInput,
   CreateHoursOfOperationOverrideResponse,
   CreateHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -11419,7 +11420,7 @@ export type CreateInstanceError =
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Creds | HttpClient.HttpClient
@@ -11451,7 +11452,7 @@ export type CreateIntegrationAssociationError =
  * Creates an Amazon Web Services resource association with an Connect Customer instance.
  */
 export const createIntegrationAssociation: API.OperationMethod<
-  CreateIntegrationAssociationRequest,
+  CreateIntegrationAssociationRequest & RegionInput,
   CreateIntegrationAssociationResponse,
   CreateIntegrationAssociationError,
   Creds | HttpClient.HttpClient
@@ -11487,7 +11488,7 @@ export type CreateMetricError =
  * that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied.
  */
 export const createMetric: API.OperationMethod<
-  CreateMetricRequest,
+  CreateMetricRequest & RegionInput,
   CreateMetricResponse,
   CreateMetricError,
   Creds | HttpClient.HttpClient
@@ -11524,7 +11525,7 @@ export type CreateNotificationError =
  * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
  */
 export const createNotification: API.OperationMethod<
-  CreateNotificationRequest,
+  CreateNotificationRequest & RegionInput,
   CreateNotificationResponse,
   CreateNotificationError,
   Creds | HttpClient.HttpClient
@@ -11561,7 +11562,7 @@ export type CreateParticipantError =
  * calling.
  */
 export const createParticipant: API.OperationMethod<
-  CreateParticipantRequest,
+  CreateParticipantRequest & RegionInput,
   CreateParticipantResponse,
   CreateParticipantError,
   Creds | HttpClient.HttpClient
@@ -11597,7 +11598,7 @@ export type CreatePersistentContactAssociationError =
  * the *Connect Customer Administrator Guide*.
  */
 export const createPersistentContactAssociation: API.OperationMethod<
-  CreatePersistentContactAssociationRequest,
+  CreatePersistentContactAssociationRequest & RegionInput,
   CreatePersistentContactAssociationResponse,
   CreatePersistentContactAssociationError,
   Creds | HttpClient.HttpClient
@@ -11650,7 +11651,7 @@ export type CreatePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const createPredefinedAttribute: API.OperationMethod<
-  CreatePredefinedAttributeRequest,
+  CreatePredefinedAttributeRequest & RegionInput,
   CreatePredefinedAttributeResponse,
   CreatePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -11687,7 +11688,7 @@ export type CreatePromptError =
  * *Connect Customer Administrator Guide*.
  */
 export const createPrompt: API.OperationMethod<
-  CreatePromptRequest,
+  CreatePromptRequest & RegionInput,
   CreatePromptResponse,
   CreatePromptError,
   Creds | HttpClient.HttpClient
@@ -11722,7 +11723,7 @@ export type CreatePushNotificationRegistrationError =
  * information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the *Connect Customer Administrator Guide*.
  */
 export const createPushNotificationRegistration: API.OperationMethod<
-  CreatePushNotificationRegistrationRequest,
+  CreatePushNotificationRegistrationRequest & RegionInput,
   CreatePushNotificationRegistrationResponse,
   CreatePushNotificationRegistrationError,
   Creds | HttpClient.HttpClient
@@ -11771,7 +11772,7 @@ export type CreateQueueError =
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Creds | HttpClient.HttpClient
@@ -11807,7 +11808,7 @@ export type CreateQuickConnectError =
  * Creates a quick connect for the specified Connect Customer instance.
  */
 export const createQuickConnect: API.OperationMethod<
-  CreateQuickConnectRequest,
+  CreateQuickConnectRequest & RegionInput,
   CreateQuickConnectResponse,
   CreateQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -11843,7 +11844,7 @@ export type CreateRoutingProfileError =
  * Creates a new routing profile.
  */
 export const createRoutingProfile: API.OperationMethod<
-  CreateRoutingProfileRequest,
+  CreateRoutingProfileRequest & RegionInput,
   CreateRoutingProfileResponse,
   CreateRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -11882,7 +11883,7 @@ export type CreateRuleError =
  * language to code conditions for the rule.
  */
 export const createRule: API.OperationMethod<
-  CreateRuleRequest,
+  CreateRuleRequest & RegionInput,
   CreateRuleResponse,
   CreateRuleError,
   Creds | HttpClient.HttpClient
@@ -11922,7 +11923,7 @@ export type CreateSecurityProfileError =
  * of security profile permissions.
  */
 export const createSecurityProfile: API.OperationMethod<
-  CreateSecurityProfileRequest,
+  CreateSecurityProfileRequest & RegionInput,
   CreateSecurityProfileResponse,
   CreateSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -11957,7 +11958,7 @@ export type CreateTaskTemplateError =
  * Creates a new task template in the specified Connect Customer instance.
  */
 export const createTaskTemplate: API.OperationMethod<
-  CreateTaskTemplateRequest,
+  CreateTaskTemplateRequest & RegionInput,
   CreateTaskTemplateResponse,
   CreateTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -11996,7 +11997,7 @@ export type CreateTestCaseError =
  * Creates a test case with its content and metadata for the specified Amazon Connect instance.
  */
 export const createTestCase: API.OperationMethod<
-  CreateTestCaseRequest,
+  CreateTestCaseRequest & RegionInput,
   CreateTestCaseResponse,
   CreateTestCaseError,
   Creds | HttpClient.HttpClient
@@ -12047,7 +12048,7 @@ export type CreateTrafficDistributionGroupError =
  * *Connect Customer Administrator Guide*.
  */
 export const createTrafficDistributionGroup: API.OperationMethod<
-  CreateTrafficDistributionGroupRequest,
+  CreateTrafficDistributionGroupRequest & RegionInput,
   CreateTrafficDistributionGroupResponse,
   CreateTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -12082,7 +12083,7 @@ export type CreateUseCaseError =
  * Creates a use case for an integration association.
  */
 export const createUseCase: API.OperationMethod<
-  CreateUseCaseRequest,
+  CreateUseCaseRequest & RegionInput,
   CreateUseCaseResponse,
   CreateUseCaseError,
   Creds | HttpClient.HttpClient
@@ -12135,7 +12136,7 @@ export type CreateUserError =
  * Administrator Guide.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Creds | HttpClient.HttpClient
@@ -12171,7 +12172,7 @@ export type CreateUserHierarchyGroupError =
  * Creates a new user hierarchy group.
  */
 export const createUserHierarchyGroup: API.OperationMethod<
-  CreateUserHierarchyGroupRequest,
+  CreateUserHierarchyGroupRequest & RegionInput,
   CreateUserHierarchyGroupResponse,
   CreateUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -12216,7 +12217,7 @@ export type CreateViewError =
  * provided view content based on the status. The view is idempotent if ClientToken is provided.
  */
 export const createView: API.OperationMethod<
-  CreateViewRequest,
+  CreateViewRequest & RegionInput,
   CreateViewResponse,
   CreateViewError,
   Creds | HttpClient.HttpClient
@@ -12260,7 +12261,7 @@ export type CreateViewVersionError =
  * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
  */
 export const createViewVersion: API.OperationMethod<
-  CreateViewVersionRequest,
+  CreateViewVersionRequest & RegionInput,
   CreateViewVersionResponse,
   CreateViewVersionError,
   Creds | HttpClient.HttpClient
@@ -12299,7 +12300,7 @@ export type CreateVocabularyError =
  * contact analysis sessions for that language.
  */
 export const createVocabulary: API.OperationMethod<
-  CreateVocabularyRequest,
+  CreateVocabularyRequest & RegionInput,
   CreateVocabularyResponse,
   CreateVocabularyError,
   Creds | HttpClient.HttpClient
@@ -12338,7 +12339,7 @@ export type CreateWorkspaceError =
  * users or routing profiles.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -12379,7 +12380,7 @@ export type CreateWorkspacePageError =
  * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
  */
 export const createWorkspacePage: API.OperationMethod<
-  CreateWorkspacePageRequest,
+  CreateWorkspacePageRequest & RegionInput,
   CreateWorkspacePageResponse,
   CreateWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -12417,7 +12418,7 @@ export type DeactivateEvaluationFormError =
  * available for users to start new evaluations based on the form.
  */
 export const deactivateEvaluationForm: API.OperationMethod<
-  DeactivateEvaluationFormRequest,
+  DeactivateEvaluationFormRequest & RegionInput,
   DeactivateEvaluationFormResponse,
   DeactivateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -12452,7 +12453,7 @@ export type DeleteAttachedFileError =
  * enabled.
  */
 export const deleteAttachedFile: API.OperationMethod<
-  DeleteAttachedFileRequest,
+  DeleteAttachedFileRequest & RegionInput,
   DeleteAttachedFileResponse,
   DeleteAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -12494,7 +12495,7 @@ export type DeleteContactDataError =
  * outside the scope of this operation remains your responsibility to remove.
  */
 export const deleteContactData: API.OperationMethod<
-  DeleteContactDataRequest,
+  DeleteContactDataRequest & RegionInput,
   DeleteContactDataResponse,
   DeleteContactDataError,
   Creds | HttpClient.HttpClient
@@ -12527,7 +12528,7 @@ export type DeleteContactEvaluationError =
  * Deletes a contact evaluation in the specified Connect Customer instance.
  */
 export const deleteContactEvaluation: API.OperationMethod<
-  DeleteContactEvaluationRequest,
+  DeleteContactEvaluationRequest & RegionInput,
   DeleteContactEvaluationResponse,
   DeleteContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -12560,7 +12561,7 @@ export type DeleteContactFlowError =
  * Deletes a flow for the specified Connect Customer instance.
  */
 export const deleteContactFlow: API.OperationMethod<
-  DeleteContactFlowRequest,
+  DeleteContactFlowRequest & RegionInput,
   DeleteContactFlowResponse,
   DeleteContactFlowError,
   Creds | HttpClient.HttpClient
@@ -12594,7 +12595,7 @@ export type DeleteContactFlowModuleError =
  * Deletes the specified flow module.
  */
 export const deleteContactFlowModule: API.OperationMethod<
-  DeleteContactFlowModuleRequest,
+  DeleteContactFlowModuleRequest & RegionInput,
   DeleteContactFlowModuleResponse,
   DeleteContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -12629,7 +12630,7 @@ export type DeleteContactFlowModuleAliasError =
  * version itself.
  */
 export const deleteContactFlowModuleAlias: API.OperationMethod<
-  DeleteContactFlowModuleAliasRequest,
+  DeleteContactFlowModuleAliasRequest & RegionInput,
   DeleteContactFlowModuleAliasResponse,
   DeleteContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -12663,7 +12664,7 @@ export type DeleteContactFlowModuleVersionError =
  * Removes a specific version of a contact flow module.
  */
 export const deleteContactFlowModuleVersion: API.OperationMethod<
-  DeleteContactFlowModuleVersionRequest,
+  DeleteContactFlowModuleVersionRequest & RegionInput,
   DeleteContactFlowModuleVersionResponse,
   DeleteContactFlowModuleVersionError,
   Creds | HttpClient.HttpClient
@@ -12697,7 +12698,7 @@ export type DeleteContactFlowVersionError =
  * Deletes the particular version specified in flow version identifier.
  */
 export const deleteContactFlowVersion: API.OperationMethod<
-  DeleteContactFlowVersionRequest,
+  DeleteContactFlowVersionRequest & RegionInput,
   DeleteContactFlowVersionResponse,
   DeleteContactFlowVersionError,
   Creds | HttpClient.HttpClient
@@ -12736,7 +12737,7 @@ export type DeleteDataTableError =
  * values were accessed.
  */
 export const deleteDataTable: API.OperationMethod<
-  DeleteDataTableRequest,
+  DeleteDataTableRequest & RegionInput,
   DeleteDataTableResponse,
   DeleteDataTableError,
   Creds | HttpClient.HttpClient
@@ -12772,7 +12773,7 @@ export type DeleteDataTableAttributeError =
  * Deletes an attribute and all its values from a data table.
  */
 export const deleteDataTableAttribute: API.OperationMethod<
-  DeleteDataTableAttributeRequest,
+  DeleteDataTableAttributeRequest & RegionInput,
   DeleteDataTableAttributeResponse,
   DeleteDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -12808,7 +12809,7 @@ export type DeleteEmailAddressError =
  * Deletes email address from the specified Connect Customer instance.
  */
 export const deleteEmailAddress: API.OperationMethod<
-  DeleteEmailAddressRequest,
+  DeleteEmailAddressRequest & RegionInput,
   DeleteEmailAddressResponse,
   DeleteEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -12846,7 +12847,7 @@ export type DeleteEvaluationFormError =
  * - If no version is provided, then the full form (all versions) is deleted.
  */
 export const deleteEvaluationForm: API.OperationMethod<
-  DeleteEvaluationFormRequest,
+  DeleteEvaluationFormRequest & RegionInput,
   DeleteEvaluationFormResponse,
   DeleteEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -12878,7 +12879,7 @@ export type DeleteExtractionDefinitionError =
  * Deletes an extraction definition from the specified Connect Customer instance.
  */
 export const deleteExtractionDefinition: API.OperationMethod<
-  DeleteExtractionDefinitionRequest,
+  DeleteExtractionDefinitionRequest & RegionInput,
   DeleteExtractionDefinitionResponse,
   DeleteExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -12910,7 +12911,7 @@ export type DeleteHoursOfOperationError =
  * Deletes an hours of operation.
  */
 export const deleteHoursOfOperation: API.OperationMethod<
-  DeleteHoursOfOperationRequest,
+  DeleteHoursOfOperationRequest & RegionInput,
   DeleteHoursOfOperationResponse,
   DeleteHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -12942,7 +12943,7 @@ export type DeleteHoursOfOperationOverrideError =
  * Deletes an hours of operation override in an Connect Customer hours of operation resource.
  */
 export const deleteHoursOfOperationOverride: API.OperationMethod<
-  DeleteHoursOfOperationOverrideRequest,
+  DeleteHoursOfOperationOverrideRequest & RegionInput,
   DeleteHoursOfOperationOverrideResponse,
   DeleteHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -12979,7 +12980,7 @@ export type DeleteInstanceError =
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Creds | HttpClient.HttpClient
@@ -13005,7 +13006,7 @@ export type DeleteIntegrationAssociationError =
  * have any use cases associated with it.
  */
 export const deleteIntegrationAssociation: API.OperationMethod<
-  DeleteIntegrationAssociationRequest,
+  DeleteIntegrationAssociationRequest & RegionInput,
   DeleteIntegrationAssociationResponse,
   DeleteIntegrationAssociationError,
   Creds | HttpClient.HttpClient
@@ -13038,7 +13039,7 @@ export type DeleteMetricError =
  * Deletes an existing metric from the specified Connect Customer instance. This operation fails with `ResourceConflictException` if the metric is currently in use in a dashboard.
  */
 export const deleteMetric: API.OperationMethod<
-  DeleteMetricRequest,
+  DeleteMetricRequest & RegionInput,
   DeleteMetricResponse,
   DeleteMetricError,
   Creds | HttpClient.HttpClient
@@ -13073,7 +13074,7 @@ export type DeleteNotificationError =
  * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
  */
 export const deleteNotification: API.OperationMethod<
-  DeleteNotificationRequest,
+  DeleteNotificationRequest & RegionInput,
   DeleteNotificationResponse,
   DeleteNotificationError,
   Creds | HttpClient.HttpClient
@@ -13107,7 +13108,7 @@ export type DeletePredefinedAttributeError =
  * Deletes a predefined attribute from the specified Connect Customer instance.
  */
 export const deletePredefinedAttribute: API.OperationMethod<
-  DeletePredefinedAttributeRequest,
+  DeletePredefinedAttributeRequest & RegionInput,
   DeletePredefinedAttributeResponse,
   DeletePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -13140,7 +13141,7 @@ export type DeletePromptError =
  * Deletes a prompt.
  */
 export const deletePrompt: API.OperationMethod<
-  DeletePromptRequest,
+  DeletePromptRequest & RegionInput,
   DeletePromptResponse,
   DeletePromptError,
   Creds | HttpClient.HttpClient
@@ -13172,7 +13173,7 @@ export type DeletePushNotificationRegistrationError =
  * Deletes registration for a device token and a chat contact.
  */
 export const deletePushNotificationRegistration: API.OperationMethod<
-  DeletePushNotificationRegistrationRequest,
+  DeletePushNotificationRegistrationRequest & RegionInput,
   DeletePushNotificationRegistrationResponse,
   DeletePushNotificationRegistrationError,
   Creds | HttpClient.HttpClient
@@ -13205,7 +13206,7 @@ export type DeleteQueueError =
  * Deletes a queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Creds | HttpClient.HttpClient
@@ -13248,7 +13249,7 @@ export type DeleteQuickConnectError =
  * you're using Connect Customer Global Resiliency.
  */
 export const deleteQuickConnect: API.OperationMethod<
-  DeleteQuickConnectRequest,
+  DeleteQuickConnectRequest & RegionInput,
   DeleteQuickConnectResponse,
   DeleteQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -13281,7 +13282,7 @@ export type DeleteRoutingProfileError =
  * Deletes a routing profile.
  */
 export const deleteRoutingProfile: API.OperationMethod<
-  DeleteRoutingProfileRequest,
+  DeleteRoutingProfileRequest & RegionInput,
   DeleteRoutingProfileResponse,
   DeleteRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -13314,7 +13315,7 @@ export type DeleteRuleError =
  * Deletes a rule for the specified Connect Customer instance.
  */
 export const deleteRule: API.OperationMethod<
-  DeleteRuleRequest,
+  DeleteRuleRequest & RegionInput,
   DeleteRuleResponse,
   DeleteRuleError,
   Creds | HttpClient.HttpClient
@@ -13348,7 +13349,7 @@ export type DeleteSecurityProfileError =
  * Deletes a security profile.
  */
 export const deleteSecurityProfile: API.OperationMethod<
-  DeleteSecurityProfileRequest,
+  DeleteSecurityProfileRequest & RegionInput,
   DeleteSecurityProfileResponse,
   DeleteSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -13383,7 +13384,7 @@ export type DeleteSessionError =
  * Deletes a session for the specified Connect Customer instance.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Creds | HttpClient.HttpClient
@@ -13416,7 +13417,7 @@ export type DeleteTaskTemplateError =
  * Deletes the task template.
  */
 export const deleteTaskTemplate: API.OperationMethod<
-  DeleteTaskTemplateRequest,
+  DeleteTaskTemplateRequest & RegionInput,
   DeleteTaskTemplateResponse,
   DeleteTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -13449,7 +13450,7 @@ export type DeleteTestCaseError =
  * Deletes the test case that has already been created for the specified Amazon Connect instance.
  */
 export const deleteTestCase: API.OperationMethod<
-  DeleteTestCaseRequest,
+  DeleteTestCaseRequest & RegionInput,
   DeleteTestCaseResponse,
   DeleteTestCaseError,
   Creds | HttpClient.HttpClient
@@ -13485,7 +13486,7 @@ export type DeleteTrafficDistributionGroupError =
  * *Connect Customer Administrator Guide*.
  */
 export const deleteTrafficDistributionGroup: API.OperationMethod<
-  DeleteTrafficDistributionGroupRequest,
+  DeleteTrafficDistributionGroupRequest & RegionInput,
   DeleteTrafficDistributionGroupResponse,
   DeleteTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -13516,7 +13517,7 @@ export type DeleteUseCaseError =
  * Deletes a use case from an integration association.
  */
 export const deleteUseCase: API.OperationMethod<
-  DeleteUseCaseRequest,
+  DeleteUseCaseRequest & RegionInput,
   DeleteUseCaseResponse,
   DeleteUseCaseError,
   Creds | HttpClient.HttpClient
@@ -13560,7 +13561,7 @@ export type DeleteUserError =
  * you're using Connect Customer Global Resiliency.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Creds | HttpClient.HttpClient
@@ -13594,7 +13595,7 @@ export type DeleteUserHierarchyGroupError =
  * groups.
  */
 export const deleteUserHierarchyGroup: API.OperationMethod<
-  DeleteUserHierarchyGroupRequest,
+  DeleteUserHierarchyGroupRequest & RegionInput,
   DeleteUserHierarchyGroupResponse,
   DeleteUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -13629,7 +13630,7 @@ export type DeleteViewError =
  * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
  */
 export const deleteView: API.OperationMethod<
-  DeleteViewRequest,
+  DeleteViewRequest & RegionInput,
   DeleteViewResponse,
   DeleteViewError,
   Creds | HttpClient.HttpClient
@@ -13665,7 +13666,7 @@ export type DeleteViewVersionError =
  * Deletes the particular version specified in `ViewVersion` identifier.
  */
 export const deleteViewVersion: API.OperationMethod<
-  DeleteViewVersionRequest,
+  DeleteViewVersionRequest & RegionInput,
   DeleteViewVersionResponse,
   DeleteViewVersionError,
   Creds | HttpClient.HttpClient
@@ -13700,7 +13701,7 @@ export type DeleteVocabularyError =
  * Deletes the vocabulary that has the given identifier.
  */
 export const deleteVocabulary: API.OperationMethod<
-  DeleteVocabularyRequest,
+  DeleteVocabularyRequest & RegionInput,
   DeleteVocabularyResponse,
   DeleteVocabularyError,
   Creds | HttpClient.HttpClient
@@ -13734,7 +13735,7 @@ export type DeleteWorkspaceError =
  * Deletes a workspace and removes all associated view and resource assignments.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -13767,7 +13768,7 @@ export type DeleteWorkspaceMediaError =
  * Deletes a media asset (such as a logo) from a workspace.
  */
 export const deleteWorkspaceMedia: API.OperationMethod<
-  DeleteWorkspaceMediaRequest,
+  DeleteWorkspaceMediaRequest & RegionInput,
   DeleteWorkspaceMediaResponse,
   DeleteWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -13802,7 +13803,7 @@ export type DeleteWorkspacePageError =
  * deletion.
  */
 export const deleteWorkspacePage: API.OperationMethod<
-  DeleteWorkspacePageRequest,
+  DeleteWorkspacePageRequest & RegionInput,
   DeleteWorkspacePageResponse,
   DeleteWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -13836,7 +13837,7 @@ export type DescribeAgentStatusError =
  * Describes an agent status.
  */
 export const describeAgentStatus: API.OperationMethod<
-  DescribeAgentStatusRequest,
+  DescribeAgentStatusRequest & RegionInput,
   DescribeAgentStatusResponse,
   DescribeAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -13870,7 +13871,7 @@ export type DescribeAttachedFilesConfigurationError =
  * If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned.
  */
 export const describeAttachedFilesConfiguration: API.OperationMethod<
-  DescribeAttachedFilesConfigurationRequest,
+  DescribeAttachedFilesConfigurationRequest & RegionInput,
   DescribeAttachedFilesConfigurationResponse,
   DescribeAttachedFilesConfigurationError,
   Creds | HttpClient.HttpClient
@@ -13905,7 +13906,7 @@ export type DescribeAuthenticationProfileError =
  * Describes the target authentication profile.
  */
 export const describeAuthenticationProfile: API.OperationMethod<
-  DescribeAuthenticationProfileRequest,
+  DescribeAuthenticationProfileRequest & RegionInput,
   DescribeAuthenticationProfileResponse,
   DescribeAuthenticationProfileError,
   Creds | HttpClient.HttpClient
@@ -13964,7 +13965,7 @@ export type DescribeContactError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const describeContact: API.OperationMethod<
-  DescribeContactRequest,
+  DescribeContactRequest & RegionInput,
   DescribeContactResponse,
   DescribeContactError,
   Creds | HttpClient.HttpClient
@@ -13995,7 +13996,7 @@ export type DescribeContactEvaluationError =
  * Describes a contact evaluation in the specified Connect Customer instance.
  */
 export const describeContactEvaluation: API.OperationMethod<
-  DescribeContactEvaluationRequest,
+  DescribeContactEvaluationRequest & RegionInput,
   DescribeContactEvaluationResponse,
   DescribeContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -14041,7 +14042,7 @@ export type DescribeContactFlowError =
  * `SAVED` does not initiate validation of the content. `SAVED` | `PUBLISHED`
  */
 export const describeContactFlow: API.OperationMethod<
-  DescribeContactFlowRequest,
+  DescribeContactFlowRequest & RegionInput,
   DescribeContactFlowResponse,
   DescribeContactFlowError,
   Creds | HttpClient.HttpClient
@@ -14079,7 +14080,7 @@ export type DescribeContactFlowModuleError =
  * be supplied to view saved content that has not been published.
  */
 export const describeContactFlowModule: API.OperationMethod<
-  DescribeContactFlowModuleRequest,
+  DescribeContactFlowModuleRequest & RegionInput,
   DescribeContactFlowModuleResponse,
   DescribeContactFlowModuleError,
   Creds | HttpClient.HttpClient
@@ -14114,7 +14115,7 @@ export type DescribeContactFlowModuleAliasError =
  * metadata.
  */
 export const describeContactFlowModuleAlias: API.OperationMethod<
-  DescribeContactFlowModuleAliasRequest,
+  DescribeContactFlowModuleAliasRequest & RegionInput,
   DescribeContactFlowModuleAliasResponse,
   DescribeContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -14150,7 +14151,7 @@ export type DescribeDataTableError =
  * term but is allowed to maintain consistency with existing operations.
  */
 export const describeDataTable: API.OperationMethod<
-  DescribeDataTableRequest,
+  DescribeDataTableRequest & RegionInput,
   DescribeDataTableResponse,
   DescribeDataTableError,
   Creds | HttpClient.HttpClient
@@ -14185,7 +14186,7 @@ export type DescribeDataTableAttributeError =
  * and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
  */
 export const describeDataTableAttribute: API.OperationMethod<
-  DescribeDataTableAttributeRequest,
+  DescribeDataTableAttributeRequest & RegionInput,
   DescribeDataTableAttributeResponse,
   DescribeDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -14219,7 +14220,7 @@ export type DescribeEmailAddressError =
  * Describe email address form the specified Connect Customer instance.
  */
 export const describeEmailAddress: API.OperationMethod<
-  DescribeEmailAddressRequest,
+  DescribeEmailAddressRequest & RegionInput,
   DescribeEmailAddressResponse,
   DescribeEmailAddressError,
   Creds | HttpClient.HttpClient
@@ -14252,7 +14253,7 @@ export type DescribeEvaluationFormError =
  * provided, the latest version of the evaluation form is described.
  */
 export const describeEvaluationForm: API.OperationMethod<
-  DescribeEvaluationFormRequest,
+  DescribeEvaluationFormRequest & RegionInput,
   DescribeEvaluationFormResponse,
   DescribeEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -14283,7 +14284,7 @@ export type DescribeExtractionDefinitionError =
  * Describes an extraction definition in the specified Connect Customer instance.
  */
 export const describeExtractionDefinition: API.OperationMethod<
-  DescribeExtractionDefinitionRequest,
+  DescribeExtractionDefinitionRequest & RegionInput,
   DescribeExtractionDefinitionResponse,
   DescribeExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -14315,7 +14316,7 @@ export type DescribeHoursOfOperationError =
  * Describes the hours of operation.
  */
 export const describeHoursOfOperation: API.OperationMethod<
-  DescribeHoursOfOperationRequest,
+  DescribeHoursOfOperationRequest & RegionInput,
   DescribeHoursOfOperationResponse,
   DescribeHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -14347,7 +14348,7 @@ export type DescribeHoursOfOperationOverrideError =
  * Describes the hours of operation override.
  */
 export const describeHoursOfOperationOverride: API.OperationMethod<
-  DescribeHoursOfOperationOverrideRequest,
+  DescribeHoursOfOperationOverrideRequest & RegionInput,
   DescribeHoursOfOperationOverrideResponse,
   DescribeHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -14383,7 +14384,7 @@ export type DescribeInstanceError =
  * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
  */
 export const describeInstance: API.OperationMethod<
-  DescribeInstanceRequest,
+  DescribeInstanceRequest & RegionInput,
   DescribeInstanceResponse,
   DescribeInstanceError,
   Creds | HttpClient.HttpClient
@@ -14411,7 +14412,7 @@ export type DescribeInstanceAttributeError =
  * Describes the specified instance attribute.
  */
 export const describeInstanceAttribute: API.OperationMethod<
-  DescribeInstanceAttributeRequest,
+  DescribeInstanceAttributeRequest & RegionInput,
   DescribeInstanceAttributeResponse,
   DescribeInstanceAttributeError,
   Creds | HttpClient.HttpClient
@@ -14446,7 +14447,7 @@ export type DescribeInstanceStorageConfigError =
  * ID.
  */
 export const describeInstanceStorageConfig: API.OperationMethod<
-  DescribeInstanceStorageConfigRequest,
+  DescribeInstanceStorageConfigRequest & RegionInput,
   DescribeInstanceStorageConfigResponse,
   DescribeInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -14479,7 +14480,7 @@ export type DescribeMetricError =
  * Retrieves the full definition of an existing metric from the specified Connect Customer instance.
  */
 export const describeMetric: API.OperationMethod<
-  DescribeMetricRequest,
+  DescribeMetricRequest & RegionInput,
   DescribeMetricResponse,
   DescribeMetricError,
   Creds | HttpClient.HttpClient
@@ -14513,7 +14514,7 @@ export type DescribeNotificationError =
  * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
  */
 export const describeNotification: API.OperationMethod<
-  DescribeNotificationRequest,
+  DescribeNotificationRequest & RegionInput,
   DescribeNotificationResponse,
   DescribeNotificationError,
   Creds | HttpClient.HttpClient
@@ -14552,7 +14553,7 @@ export type DescribePhoneNumberError =
  * this scenario, you receive a `ResourceNotFoundException`.
  */
 export const describePhoneNumber: API.OperationMethod<
-  DescribePhoneNumberRequest,
+  DescribePhoneNumberRequest & RegionInput,
   DescribePhoneNumberResponse,
   DescribePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -14597,7 +14598,7 @@ export type DescribePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const describePredefinedAttribute: API.OperationMethod<
-  DescribePredefinedAttributeRequest,
+  DescribePredefinedAttributeRequest & RegionInput,
   DescribePredefinedAttributeResponse,
   DescribePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -14629,7 +14630,7 @@ export type DescribePromptError =
  * Describes the prompt.
  */
 export const describePrompt: API.OperationMethod<
-  DescribePromptRequest,
+  DescribePromptRequest & RegionInput,
   DescribePromptResponse,
   DescribePromptError,
   Creds | HttpClient.HttpClient
@@ -14661,7 +14662,7 @@ export type DescribeQueueError =
  * Describes the specified queue.
  */
 export const describeQueue: API.OperationMethod<
-  DescribeQueueRequest,
+  DescribeQueueRequest & RegionInput,
   DescribeQueueResponse,
   DescribeQueueError,
   Creds | HttpClient.HttpClient
@@ -14693,7 +14694,7 @@ export type DescribeQuickConnectError =
  * Describes the quick connect.
  */
 export const describeQuickConnect: API.OperationMethod<
-  DescribeQuickConnectRequest,
+  DescribeQuickConnectRequest & RegionInput,
   DescribeQuickConnectResponse,
   DescribeQuickConnectError,
   Creds | HttpClient.HttpClient
@@ -14729,7 +14730,7 @@ export type DescribeRoutingProfileError =
  * AssociatedQueueIds.
  */
 export const describeRoutingProfile: API.OperationMethod<
-  DescribeRoutingProfileRequest,
+  DescribeRoutingProfileRequest & RegionInput,
   DescribeRoutingProfileResponse,
   DescribeRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -14761,7 +14762,7 @@ export type DescribeRuleError =
  * Describes a rule for the specified Connect Customer instance.
  */
 export const describeRule: API.OperationMethod<
-  DescribeRuleRequest,
+  DescribeRuleRequest & RegionInput,
   DescribeRuleResponse,
   DescribeRuleError,
   Creds | HttpClient.HttpClient
@@ -14797,7 +14798,7 @@ export type DescribeSecurityProfileError =
  * of security profile permissions.
  */
 export const describeSecurityProfile: API.OperationMethod<
-  DescribeSecurityProfileRequest,
+  DescribeSecurityProfileRequest & RegionInput,
   DescribeSecurityProfileResponse,
   DescribeSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -14830,7 +14831,7 @@ export type DescribeTestCaseError =
  * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
  */
 export const describeTestCase: API.OperationMethod<
-  DescribeTestCaseRequest,
+  DescribeTestCaseRequest & RegionInput,
   DescribeTestCaseResponse,
   DescribeTestCaseError,
   Creds | HttpClient.HttpClient
@@ -14863,7 +14864,7 @@ export type DescribeTrafficDistributionGroupError =
  * Gets details and status of a traffic distribution group.
  */
 export const describeTrafficDistributionGroup: API.OperationMethod<
-  DescribeTrafficDistributionGroupRequest,
+  DescribeTrafficDistributionGroupRequest & RegionInput,
   DescribeTrafficDistributionGroupResponse,
   DescribeTrafficDistributionGroupError,
   Creds | HttpClient.HttpClient
@@ -14897,7 +14898,7 @@ export type DescribeUserError =
  * and note the IDs provided in the output.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Creds | HttpClient.HttpClient
@@ -14929,7 +14930,7 @@ export type DescribeUserHierarchyGroupError =
  * Describes the specified hierarchy group.
  */
 export const describeUserHierarchyGroup: API.OperationMethod<
-  DescribeUserHierarchyGroupRequest,
+  DescribeUserHierarchyGroupRequest & RegionInput,
   DescribeUserHierarchyGroupResponse,
   DescribeUserHierarchyGroupError,
   Creds | HttpClient.HttpClient
@@ -14961,7 +14962,7 @@ export type DescribeUserHierarchyStructureError =
  * Describes the hierarchy structure of the specified Connect Customer instance.
  */
 export const describeUserHierarchyStructure: API.OperationMethod<
-  DescribeUserHierarchyStructureRequest,
+  DescribeUserHierarchyStructureRequest & RegionInput,
   DescribeUserHierarchyStructureResponse,
   DescribeUserHierarchyStructureError,
   Creds | HttpClient.HttpClient
@@ -15003,7 +15004,7 @@ export type DescribeViewError =
  * published content available. Version 1 is assumed for Amazon Web Services managed views.
  */
 export const describeView: API.OperationMethod<
-  DescribeViewRequest,
+  DescribeViewRequest & RegionInput,
   DescribeViewResponse,
   DescribeViewError,
   Creds | HttpClient.HttpClient
@@ -15036,7 +15037,7 @@ export type DescribeVocabularyError =
  * Describes the specified vocabulary.
  */
 export const describeVocabulary: API.OperationMethod<
-  DescribeVocabularyRequest,
+  DescribeVocabularyRequest & RegionInput,
   DescribeVocabularyResponse,
   DescribeVocabularyError,
   Creds | HttpClient.HttpClient
@@ -15069,7 +15070,7 @@ export type DescribeWorkspaceError =
  * Retrieves details about a workspace, including its configuration and metadata.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -15102,7 +15103,7 @@ export type DisassociateAnalyticsDataSetError =
  * Removes the dataset ID associated with a given Connect Customer instance.
  */
 export const disassociateAnalyticsDataSet: API.OperationMethod<
-  DisassociateAnalyticsDataSetRequest,
+  DisassociateAnalyticsDataSetRequest & RegionInput,
   DisassociateAnalyticsDataSetResponse,
   DisassociateAnalyticsDataSetError,
   Creds | HttpClient.HttpClient
@@ -15136,7 +15137,7 @@ export type DisassociateApprovedOriginError =
  * Revokes access to integrated applications from Connect Customer.
  */
 export const disassociateApprovedOrigin: API.OperationMethod<
-  DisassociateApprovedOriginRequest,
+  DisassociateApprovedOriginRequest & RegionInput,
   DisassociateApprovedOriginResponse,
   DisassociateApprovedOriginError,
   Creds | HttpClient.HttpClient
@@ -15169,7 +15170,7 @@ export type DisassociateBotError =
  * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
  */
 export const disassociateBot: API.OperationMethod<
-  DisassociateBotRequest,
+  DisassociateBotRequest & RegionInput,
   DisassociateBotResponse,
   DisassociateBotError,
   Creds | HttpClient.HttpClient
@@ -15255,7 +15256,7 @@ export type DisassociateEmailAddressAliasError =
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
 export const disassociateEmailAddressAlias: API.OperationMethod<
-  DisassociateEmailAddressAliasRequest,
+  DisassociateEmailAddressAliasRequest & RegionInput,
   DisassociateEmailAddressAliasResponse,
   DisassociateEmailAddressAliasError,
   Creds | HttpClient.HttpClient
@@ -15290,7 +15291,7 @@ export type DisassociateFlowError =
  * Disassociates a connect resource from a flow.
  */
 export const disassociateFlow: API.OperationMethod<
-  DisassociateFlowRequest,
+  DisassociateFlowRequest & RegionInput,
   DisassociateFlowResponse,
   DisassociateFlowError,
   Creds | HttpClient.HttpClient
@@ -15324,7 +15325,7 @@ export type DisassociateHoursOfOperationsError =
  * Disassociates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
  */
 export const disassociateHoursOfOperations: API.OperationMethod<
-  DisassociateHoursOfOperationsRequest,
+  DisassociateHoursOfOperationsRequest & RegionInput,
   DisassociateHoursOfOperationsResponse,
   DisassociateHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -15359,7 +15360,7 @@ export type DisassociateInstanceStorageConfigError =
  * Removes the storage type configurations for the specified resource type and association ID.
  */
 export const disassociateInstanceStorageConfig: API.OperationMethod<
-  DisassociateInstanceStorageConfigRequest,
+  DisassociateInstanceStorageConfigRequest & RegionInput,
   DisassociateInstanceStorageConfigResponse,
   DisassociateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -15393,7 +15394,7 @@ export type DisassociateLambdaFunctionError =
  * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
  */
 export const disassociateLambdaFunction: API.OperationMethod<
-  DisassociateLambdaFunctionRequest,
+  DisassociateLambdaFunctionRequest & RegionInput,
   DisassociateLambdaFunctionResponse,
   DisassociateLambdaFunctionError,
   Creds | HttpClient.HttpClient
@@ -15427,7 +15428,7 @@ export type DisassociateLexBotError =
  * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
  */
 export const disassociateLexBot: API.OperationMethod<
-  DisassociateLexBotRequest,
+  DisassociateLexBotRequest & RegionInput,
   DisassociateLexBotResponse,
   DisassociateLexBotError,
   Creds | HttpClient.HttpClient
@@ -15465,7 +15466,7 @@ export type DisassociatePhoneNumberContactFlowError =
  * `ResourceNotFoundException`.
  */
 export const disassociatePhoneNumberContactFlow: API.OperationMethod<
-  DisassociatePhoneNumberContactFlowRequest,
+  DisassociatePhoneNumberContactFlowRequest & RegionInput,
   DisassociatePhoneNumberContactFlowResponse,
   DisassociatePhoneNumberContactFlowError,
   Creds | HttpClient.HttpClient
@@ -15506,7 +15507,7 @@ export type DisassociateQueueEmailAddressesError =
  * - Changes take effect immediately and will affect the agent experience in the Contact Control Panel (CCP).
  */
 export const disassociateQueueEmailAddresses: API.OperationMethod<
-  DisassociateQueueEmailAddressesRequest,
+  DisassociateQueueEmailAddressesRequest & RegionInput,
   DisassociateQueueEmailAddressesResponse,
   DisassociateQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -15539,7 +15540,7 @@ export type DisassociateQueueQuickConnectsError =
  * Disassociates a set of quick connects from a queue.
  */
 export const disassociateQueueQuickConnects: API.OperationMethod<
-  DisassociateQueueQuickConnectsRequest,
+  DisassociateQueueQuickConnectsRequest & RegionInput,
   DisassociateQueueQuickConnectsResponse,
   DisassociateQueueQuickConnectsError,
   Creds | HttpClient.HttpClient
@@ -15574,7 +15575,7 @@ export type DisassociateRoutingProfileQueuesError =
  * single call results in an InvalidParameterException.
  */
 export const disassociateRoutingProfileQueues: API.OperationMethod<
-  DisassociateRoutingProfileQueuesRequest,
+  DisassociateRoutingProfileQueuesRequest & RegionInput,
   DisassociateRoutingProfileQueuesResponse,
   DisassociateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -15608,7 +15609,7 @@ export type DisassociateSecurityKeyError =
  * Deletes the specified security key.
  */
 export const disassociateSecurityKey: API.OperationMethod<
-  DisassociateSecurityKeyRequest,
+  DisassociateSecurityKeyRequest & RegionInput,
   DisassociateSecurityKeyResponse,
   DisassociateSecurityKeyError,
   Creds | HttpClient.HttpClient
@@ -15642,7 +15643,7 @@ export type DisassociateSecurityProfilesError =
  * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
  */
 export const disassociateSecurityProfiles: API.OperationMethod<
-  DisassociateSecurityProfilesRequest,
+  DisassociateSecurityProfilesRequest & RegionInput,
   DisassociateSecurityProfilesResponse,
   DisassociateSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -15678,7 +15679,7 @@ export type DisassociateTrafficDistributionGroupUserError =
  * traffic distribution group is created.
  */
 export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
-  DisassociateTrafficDistributionGroupUserRequest,
+  DisassociateTrafficDistributionGroupUserRequest & RegionInput,
   DisassociateTrafficDistributionGroupUserResponse,
   DisassociateTrafficDistributionGroupUserError,
   Creds | HttpClient.HttpClient
@@ -15711,7 +15712,7 @@ export type DisassociateUserProficienciesError =
  * Disassociates a set of proficiencies from a user.
  */
 export const disassociateUserProficiencies: API.OperationMethod<
-  DisassociateUserProficienciesRequest,
+  DisassociateUserProficienciesRequest & RegionInput,
   DisassociateUserProficienciesResponse,
   DisassociateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -15744,7 +15745,7 @@ export type DisassociateWorkspaceError =
  * Removes the association between a workspace and one or more users or routing profiles.
  */
 export const disassociateWorkspace: API.OperationMethod<
-  DisassociateWorkspaceRequest,
+  DisassociateWorkspaceRequest & RegionInput,
   DisassociateWorkspaceResponse,
   DisassociateWorkspaceError,
   Creds | HttpClient.HttpClient
@@ -15780,7 +15781,7 @@ export type DismissUserContactError =
  * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
  */
 export const dismissUserContact: API.OperationMethod<
-  DismissUserContactRequest,
+  DismissUserContactRequest & RegionInput,
   DismissUserContactResponse,
   DismissUserContactError,
   Creds | HttpClient.HttpClient
@@ -15818,7 +15819,7 @@ export type EvaluateDataTableValuesError =
  * Batch Operations: Amazon Web Services API Standards.
  */
 export const evaluateDataTableValues: API.PaginatedOperationMethod<
-  EvaluateDataTableValuesRequest,
+  EvaluateDataTableValuesRequest & RegionInput,
   EvaluateDataTableValuesResponse,
   EvaluateDataTableValuesError,
   Creds | HttpClient.HttpClient,
@@ -15858,7 +15859,7 @@ export type GetAttachedFileError =
  * attached file. It will only return a downloadURL if the status of the attached file is `APPROVED`.
  */
 export const getAttachedFile: API.OperationMethod<
-  GetAttachedFileRequest,
+  GetAttachedFileRequest & RegionInput,
   GetAttachedFileResponse,
   GetAttachedFileError,
   Creds | HttpClient.HttpClient
@@ -15888,7 +15889,7 @@ export type GetContactAttributesError =
  * Retrieves the contact attributes for the specified contact.
  */
 export const getContactAttributes: API.OperationMethod<
-  GetContactAttributesRequest,
+  GetContactAttributesRequest & RegionInput,
   GetContactAttributesResponse,
   GetContactAttributesError,
   Creds | HttpClient.HttpClient
@@ -15935,7 +15936,7 @@ export type GetContactMetricsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const getContactMetrics: API.OperationMethod<
-  GetContactMetricsRequest,
+  GetContactMetricsRequest & RegionInput,
   GetContactMetricsResponse,
   GetContactMetricsError,
   Creds | HttpClient.HttpClient
@@ -15972,7 +15973,7 @@ export type GetCrossRegionRoutingError =
  * This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing.
  */
 export const getCrossRegionRouting: API.OperationMethod<
-  GetCrossRegionRoutingRequest,
+  GetCrossRegionRoutingRequest & RegionInput,
   GetCrossRegionRoutingResponse,
   GetCrossRegionRoutingError,
   Creds | HttpClient.HttpClient
@@ -16027,7 +16028,7 @@ export type GetCurrentMetricDataError =
  * - Add filters to reduce the amount of data returned
  */
 export const getCurrentMetricData: API.PaginatedOperationMethod<
-  GetCurrentMetricDataRequest,
+  GetCurrentMetricDataRequest & RegionInput,
   GetCurrentMetricDataResponse,
   GetCurrentMetricDataError,
   Creds | HttpClient.HttpClient,
@@ -16065,7 +16066,7 @@ export type GetCurrentUserDataError =
  * Gets the real-time active user data from the specified Connect Customer instance.
  */
 export const getCurrentUserData: API.PaginatedOperationMethod<
-  GetCurrentUserDataRequest,
+  GetCurrentUserDataRequest & RegionInput,
   GetCurrentUserDataResponse,
   GetCurrentUserDataError,
   Creds | HttpClient.HttpClient,
@@ -16103,7 +16104,7 @@ export type GetEffectiveHoursOfOperationsError =
  * Get the hours of operations with the effective override applied.
  */
 export const getEffectiveHoursOfOperations: API.OperationMethod<
-  GetEffectiveHoursOfOperationsRequest,
+  GetEffectiveHoursOfOperationsRequest & RegionInput,
   GetEffectiveHoursOfOperationsResponse,
   GetEffectiveHoursOfOperationsError,
   Creds | HttpClient.HttpClient
@@ -16138,7 +16139,7 @@ export type GetEvaluationFormValidationError =
  * indicating the cause of the failure.
  */
 export const getEvaluationFormValidation: API.OperationMethod<
-  GetEvaluationFormValidationRequest,
+  GetEvaluationFormValidationRequest & RegionInput,
   GetEvaluationFormValidationResponse,
   GetEvaluationFormValidationError,
   Creds | HttpClient.HttpClient
@@ -16179,7 +16180,7 @@ export type GetFederationTokenError =
  * `Provided identity: Principal: .... User: .... cannot be used for federation with Connect Customer`
  */
 export const getFederationToken: API.OperationMethod<
-  GetFederationTokenRequest,
+  GetFederationTokenRequest & RegionInput,
   GetFederationTokenResponse,
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
@@ -16214,7 +16215,7 @@ export type GetFlowAssociationError =
  * Retrieves the flow associated for a given resource.
  */
 export const getFlowAssociation: API.OperationMethod<
-  GetFlowAssociationRequest,
+  GetFlowAssociationRequest & RegionInput,
   GetFlowAssociationResponse,
   GetFlowAssociationError,
   Creds | HttpClient.HttpClient
@@ -16255,7 +16256,7 @@ export type GetMetricDataError =
  * contact volume changed per day of the week.
  */
 export const getMetricData: API.PaginatedOperationMethod<
-  GetMetricDataRequest,
+  GetMetricDataRequest & RegionInput,
   GetMetricDataResponse,
   GetMetricDataError,
   Creds | HttpClient.HttpClient,
@@ -16324,7 +16325,7 @@ export type GetMetricDataV2Error =
  * - Add filters to reduce the amount of data returned
  */
 export const getMetricDataV2: API.PaginatedOperationMethod<
-  GetMetricDataV2Request,
+  GetMetricDataV2Request & RegionInput,
   GetMetricDataV2Response,
   GetMetricDataV2Error,
   Creds | HttpClient.HttpClient,
@@ -16362,7 +16363,7 @@ export type GetPromptFileError =
  * Gets the prompt file.
  */
 export const getPromptFile: API.OperationMethod<
-  GetPromptFileRequest,
+  GetPromptFileRequest & RegionInput,
   GetPromptFileResponse,
   GetPromptFileError,
   Creds | HttpClient.HttpClient
@@ -16394,7 +16395,7 @@ export type GetTaskTemplateError =
  * Gets details about a specific task template in the specified Connect Customer instance.
  */
 export const getTaskTemplate: API.OperationMethod<
-  GetTaskTemplateRequest,
+  GetTaskTemplateRequest & RegionInput,
   GetTaskTemplateResponse,
   GetTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -16427,7 +16428,7 @@ export type GetTestCaseExecutionSummaryError =
  * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
  */
 export const getTestCaseExecutionSummary: API.OperationMethod<
-  GetTestCaseExecutionSummaryRequest,
+  GetTestCaseExecutionSummaryRequest & RegionInput,
   GetTestCaseExecutionSummaryResponse,
   GetTestCaseExecutionSummaryError,
   Creds | HttpClient.HttpClient
@@ -16460,7 +16461,7 @@ export type GetTrafficDistributionError =
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
 export const getTrafficDistribution: API.OperationMethod<
-  GetTrafficDistributionRequest,
+  GetTrafficDistributionRequest & RegionInput,
   GetTrafficDistributionResponse,
   GetTrafficDistributionError,
   Creds | HttpClient.HttpClient
@@ -16509,7 +16510,7 @@ export type ImportPhoneNumberError =
  * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
  */
 export const importPhoneNumber: API.OperationMethod<
-  ImportPhoneNumberRequest,
+  ImportPhoneNumberRequest & RegionInput,
   ImportPhoneNumberResponse,
   ImportPhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -16542,7 +16543,7 @@ export type ImportWorkspaceMediaError =
  * Imports a media asset (such as a logo) for use in a workspace.
  */
 export const importWorkspaceMedia: API.OperationMethod<
-  ImportWorkspaceMediaRequest,
+  ImportWorkspaceMediaRequest & RegionInput,
   ImportWorkspaceMediaResponse,
   ImportWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -16574,7 +16575,7 @@ export type ListAgentStatusesError =
  * Lists agent statuses.
  */
 export const listAgentStatuses: API.PaginatedOperationMethod<
-  ListAgentStatusRequest,
+  ListAgentStatusRequest & RegionInput,
   ListAgentStatusResponse,
   ListAgentStatusesError,
   Creds | HttpClient.HttpClient,
@@ -16613,7 +16614,7 @@ export type ListAnalyticsDataAssociationsError =
  * Lists the association status of requested dataset ID for a given Connect Customer instance.
  */
 export const listAnalyticsDataAssociations: API.OperationMethod<
-  ListAnalyticsDataAssociationsRequest,
+  ListAnalyticsDataAssociationsRequest & RegionInput,
   ListAnalyticsDataAssociationsResponse,
   ListAnalyticsDataAssociationsError,
   Creds | HttpClient.HttpClient
@@ -16645,7 +16646,7 @@ export type ListAnalyticsDataLakeDataSetsError =
  * Lists the data lake datasets available to associate with for a given Connect Customer instance.
  */
 export const listAnalyticsDataLakeDataSets: API.OperationMethod<
-  ListAnalyticsDataLakeDataSetsRequest,
+  ListAnalyticsDataLakeDataSetsRequest & RegionInput,
   ListAnalyticsDataLakeDataSetsResponse,
   ListAnalyticsDataLakeDataSetsError,
   Creds | HttpClient.HttpClient
@@ -16679,7 +16680,7 @@ export type ListApprovedOriginsError =
  * Returns a paginated list of all approved origins associated with the instance.
  */
 export const listApprovedOrigins: API.PaginatedOperationMethod<
-  ListApprovedOriginsRequest,
+  ListApprovedOriginsRequest & RegionInput,
   ListApprovedOriginsResponse,
   ListApprovedOriginsError,
   Creds | HttpClient.HttpClient,
@@ -16718,7 +16719,7 @@ export type ListAssociatedContactsError =
  * Provides information about contact tree, a list of associated contacts with a unique identifier.
  */
 export const listAssociatedContacts: API.OperationMethod<
-  ListAssociatedContactsRequest,
+  ListAssociatedContactsRequest & RegionInput,
   ListAssociatedContactsResponse,
   ListAssociatedContactsError,
   Creds | HttpClient.HttpClient
@@ -16752,7 +16753,7 @@ export type ListAttachedFilesConfigurationsError =
  * This API returns effective configurations (custom overrides or defaults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned.
  */
 export const listAttachedFilesConfigurations: API.PaginatedOperationMethod<
-  ListAttachedFilesConfigurationsRequest,
+  ListAttachedFilesConfigurationsRequest & RegionInput,
   ListAttachedFilesConfigurationsResponse,
   ListAttachedFilesConfigurationsError,
   Creds | HttpClient.HttpClient,
@@ -16795,7 +16796,7 @@ export type ListAuthenticationProfilesError =
  * instance.
  */
 export const listAuthenticationProfiles: API.PaginatedOperationMethod<
-  ListAuthenticationProfilesRequest,
+  ListAuthenticationProfilesRequest & RegionInput,
   ListAuthenticationProfilesResponse,
   ListAuthenticationProfilesError,
   Creds | HttpClient.HttpClient,
@@ -16837,7 +16838,7 @@ export type ListBotsError =
  * bots.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Creds | HttpClient.HttpClient,
@@ -16878,7 +16879,7 @@ export type ListChildHoursOfOperationsError =
  * * Administrator Guide*.
  */
 export const listChildHoursOfOperations: API.PaginatedOperationMethod<
-  ListChildHoursOfOperationsRequest,
+  ListChildHoursOfOperationsRequest & RegionInput,
   ListChildHoursOfOperationsResponse,
   ListChildHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -16916,7 +16917,7 @@ export type ListContactEvaluationsError =
  * Lists contact evaluations in the specified Connect Customer instance.
  */
 export const listContactEvaluations: API.PaginatedOperationMethod<
-  ListContactEvaluationsRequest,
+  ListContactEvaluationsRequest & RegionInput,
   ListContactEvaluationsResponse,
   ListContactEvaluationsError,
   Creds | HttpClient.HttpClient,
@@ -16955,7 +16956,7 @@ export type ListContactFlowModuleAliasesError =
  * metadata.
  */
 export const listContactFlowModuleAliases: API.PaginatedOperationMethod<
-  ListContactFlowModuleAliasesRequest,
+  ListContactFlowModuleAliasesRequest & RegionInput,
   ListContactFlowModuleAliasesResponse,
   ListContactFlowModuleAliasesError,
   Creds | HttpClient.HttpClient,
@@ -16996,7 +16997,7 @@ export type ListContactFlowModulesError =
  * Provides information about the flow modules for the specified Connect Customer instance.
  */
 export const listContactFlowModules: API.PaginatedOperationMethod<
-  ListContactFlowModulesRequest,
+  ListContactFlowModulesRequest & RegionInput,
   ListContactFlowModulesResponse,
   ListContactFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -17037,7 +17038,7 @@ export type ListContactFlowModuleVersionsError =
  * Retrieves a paginated list of all versions for a specific contact flow module.
  */
 export const listContactFlowModuleVersions: API.PaginatedOperationMethod<
-  ListContactFlowModuleVersionsRequest,
+  ListContactFlowModuleVersionsRequest & RegionInput,
   ListContactFlowModuleVersionsResponse,
   ListContactFlowModuleVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17083,7 +17084,7 @@ export type ListContactFlowsError =
  * Administrator Guide.
  */
 export const listContactFlows: API.PaginatedOperationMethod<
-  ListContactFlowsRequest,
+  ListContactFlowsRequest & RegionInput,
   ListContactFlowsResponse,
   ListContactFlowsError,
   Creds | HttpClient.HttpClient,
@@ -17123,7 +17124,7 @@ export type ListContactFlowVersionsError =
  * Returns all the available versions for the specified Connect Customer instance and flow identifier.
  */
 export const listContactFlowVersions: API.PaginatedOperationMethod<
-  ListContactFlowVersionsRequest,
+  ListContactFlowVersionsRequest & RegionInput,
   ListContactFlowVersionsResponse,
   ListContactFlowVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17167,7 +17168,7 @@ export type ListContactReferencesError =
  * or URLs.
  */
 export const listContactReferences: API.PaginatedOperationMethod<
-  ListContactReferencesRequest,
+  ListContactReferencesRequest & RegionInput,
   ListContactReferencesResponse,
   ListContactReferencesError,
   Creds | HttpClient.HttpClient,
@@ -17208,7 +17209,7 @@ export type ListDataTableAttributesError =
  * for CloudFormation integration.
  */
 export const listDataTableAttributes: API.PaginatedOperationMethod<
-  ListDataTableAttributesRequest,
+  ListDataTableAttributesRequest & RegionInput,
   ListDataTableAttributesResponse,
   ListDataTableAttributesError,
   Creds | HttpClient.HttpClient,
@@ -17250,7 +17251,7 @@ export type ListDataTablePrimaryValuesError =
  * attribute values that identify records in the table. Up to 100 records are returned per request.
  */
 export const listDataTablePrimaryValues: API.PaginatedOperationMethod<
-  ListDataTablePrimaryValuesRequest,
+  ListDataTablePrimaryValuesRequest & RegionInput,
   ListDataTablePrimaryValuesResponse,
   ListDataTablePrimaryValuesError,
   Creds | HttpClient.HttpClient,
@@ -17292,7 +17293,7 @@ export type ListDataTablesError =
  * including basic metadata and modification details.
  */
 export const listDataTables: API.PaginatedOperationMethod<
-  ListDataTablesRequest,
+  ListDataTablesRequest & RegionInput,
   ListDataTablesResponse,
   ListDataTablesError,
   Creds | HttpClient.HttpClient,
@@ -17334,7 +17335,7 @@ export type ListDataTableValuesError =
  * the raw stored values along with metadata such as lock versions and modification timestamps.
  */
 export const listDataTableValues: API.PaginatedOperationMethod<
-  ListDataTableValuesRequest,
+  ListDataTableValuesRequest & RegionInput,
   ListDataTableValuesResponse,
   ListDataTableValuesError,
   Creds | HttpClient.HttpClient,
@@ -17373,7 +17374,7 @@ export type ListDefaultVocabulariesError =
  * Lists the default vocabularies for the specified Connect Customer instance.
  */
 export const listDefaultVocabularies: API.PaginatedOperationMethod<
-  ListDefaultVocabulariesRequest,
+  ListDefaultVocabulariesRequest & RegionInput,
   ListDefaultVocabulariesResponse,
   ListDefaultVocabulariesError,
   Creds | HttpClient.HttpClient,
@@ -17411,7 +17412,7 @@ export type ListEntitySecurityProfilesError =
  * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
  */
 export const listEntitySecurityProfiles: API.PaginatedOperationMethod<
-  ListEntitySecurityProfilesRequest,
+  ListEntitySecurityProfilesRequest & RegionInput,
   ListEntitySecurityProfilesResponse,
   ListEntitySecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -17449,7 +17450,7 @@ export type ListEvaluationFormAIVersionsError =
  * Lists the available AI versions for evaluation forms in the specified Connect Customer instance.
  */
 export const listEvaluationFormAIVersions: API.PaginatedOperationMethod<
-  ListEvaluationFormAIVersionsRequest,
+  ListEvaluationFormAIVersionsRequest & RegionInput,
   ListEvaluationFormAIVersionsResponse,
   ListEvaluationFormAIVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17486,7 +17487,7 @@ export type ListEvaluationFormsError =
  * Lists evaluation forms in the specified Connect Customer instance.
  */
 export const listEvaluationForms: API.PaginatedOperationMethod<
-  ListEvaluationFormsRequest,
+  ListEvaluationFormsRequest & RegionInput,
   ListEvaluationFormsResponse,
   ListEvaluationFormsError,
   Creds | HttpClient.HttpClient,
@@ -17523,7 +17524,7 @@ export type ListEvaluationFormVersionsError =
  * Lists versions of an evaluation form in the specified Connect Customer instance.
  */
 export const listEvaluationFormVersions: API.PaginatedOperationMethod<
-  ListEvaluationFormVersionsRequest,
+  ListEvaluationFormVersionsRequest & RegionInput,
   ListEvaluationFormVersionsResponse,
   ListEvaluationFormVersionsError,
   Creds | HttpClient.HttpClient,
@@ -17561,7 +17562,7 @@ export type ListExtractionDefinitionsError =
  * Lists extraction definitions in the specified Connect Customer instance.
  */
 export const listExtractionDefinitions: API.PaginatedOperationMethod<
-  ListExtractionDefinitionsRequest,
+  ListExtractionDefinitionsRequest & RegionInput,
   ListExtractionDefinitionsResponse,
   ListExtractionDefinitionsError,
   Creds | HttpClient.HttpClient,
@@ -17601,7 +17602,7 @@ export type ListFlowAssociationsError =
  * List the flow association based on the filters.
  */
 export const listFlowAssociations: API.PaginatedOperationMethod<
-  ListFlowAssociationsRequest,
+  ListFlowAssociationsRequest & RegionInput,
   ListFlowAssociationsResponse,
   ListFlowAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -17641,7 +17642,7 @@ export type ListHoursOfOperationOverridesError =
  * List the hours of operation overrides.
  */
 export const listHoursOfOperationOverrides: API.PaginatedOperationMethod<
-  ListHoursOfOperationOverridesRequest,
+  ListHoursOfOperationOverridesRequest & RegionInput,
   ListHoursOfOperationOverridesResponse,
   ListHoursOfOperationOverridesError,
   Creds | HttpClient.HttpClient,
@@ -17683,7 +17684,7 @@ export type ListHoursOfOperationsError =
  * *Connect Customer Administrator Guide*.
  */
 export const listHoursOfOperations: API.PaginatedOperationMethod<
-  ListHoursOfOperationsRequest,
+  ListHoursOfOperationsRequest & RegionInput,
   ListHoursOfOperationsResponse,
   ListHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -17724,7 +17725,7 @@ export type ListInstanceAttributesError =
  * Returns a paginated list of all attribute types for the given instance.
  */
 export const listInstanceAttributes: API.PaginatedOperationMethod<
-  ListInstanceAttributesRequest,
+  ListInstanceAttributesRequest & RegionInput,
   ListInstanceAttributesResponse,
   ListInstanceAttributesError,
   Creds | HttpClient.HttpClient,
@@ -17761,7 +17762,7 @@ export type ListInstancesError = InternalServiceException | InvalidRequestExcept
  * API was invoked.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Creds | HttpClient.HttpClient,
@@ -17796,7 +17797,7 @@ export type ListInstanceStorageConfigsError =
  * Returns a paginated list of storage configs for the identified instance and resource type.
  */
 export const listInstanceStorageConfigs: API.PaginatedOperationMethod<
-  ListInstanceStorageConfigsRequest,
+  ListInstanceStorageConfigsRequest & RegionInput,
   ListInstanceStorageConfigsResponse,
   ListInstanceStorageConfigsError,
   Creds | HttpClient.HttpClient,
@@ -17834,7 +17835,7 @@ export type ListIntegrationAssociationsError =
  * Provides summary information about the Amazon Web Services resource associations for the specified Connect Customer instance.
  */
 export const listIntegrationAssociations: API.PaginatedOperationMethod<
-  ListIntegrationAssociationsRequest,
+  ListIntegrationAssociationsRequest & RegionInput,
   ListIntegrationAssociationsResponse,
   ListIntegrationAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -17875,7 +17876,7 @@ export type ListLambdaFunctionsError =
  * blocks.
  */
 export const listLambdaFunctions: API.PaginatedOperationMethod<
-  ListLambdaFunctionsRequest,
+  ListLambdaFunctionsRequest & RegionInput,
   ListLambdaFunctionsResponse,
   ListLambdaFunctionsError,
   Creds | HttpClient.HttpClient,
@@ -17917,7 +17918,7 @@ export type ListLexBotsError =
  * both Amazon Lex V1 and V2 bots, use the ListBots API.
  */
 export const listLexBots: API.PaginatedOperationMethod<
-  ListLexBotsRequest,
+  ListLexBotsRequest & RegionInput,
   ListLexBotsResponse,
   ListLexBotsError,
   Creds | HttpClient.HttpClient,
@@ -17957,7 +17958,7 @@ export type ListMetricsError =
  * Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMetrics: API.PaginatedOperationMethod<
-  ListMetricsRequest,
+  ListMetricsRequest & RegionInput,
   ListMetricsResponse,
   ListMetricsError,
   Creds | HttpClient.HttpClient,
@@ -17998,7 +17999,7 @@ export type ListNotificationsError =
  * Retrieves a paginated list of all notifications in the Amazon Connect instance.
  */
 export const listNotifications: API.OperationMethod<
-  ListNotificationsRequest,
+  ListNotificationsRequest & RegionInput,
   ListNotificationsResponse,
   ListNotificationsError,
   Creds | HttpClient.HttpClient
@@ -18042,7 +18043,7 @@ export type ListPhoneNumbersError =
  * phone number ARN that can be used to tag phone number resources.
  */
 export const listPhoneNumbers: API.PaginatedOperationMethod<
-  ListPhoneNumbersRequest,
+  ListPhoneNumbersRequest & RegionInput,
   ListPhoneNumbersResponse,
   ListPhoneNumbersError,
   Creds | HttpClient.HttpClient,
@@ -18091,7 +18092,7 @@ export type ListPhoneNumbersV2Error =
  * traffic distribution group.
  */
 export const listPhoneNumbersV2: API.PaginatedOperationMethod<
-  ListPhoneNumbersV2Request,
+  ListPhoneNumbersV2Request & RegionInput,
   ListPhoneNumbersV2Response,
   ListPhoneNumbersV2Error,
   Creds | HttpClient.HttpClient,
@@ -18143,7 +18144,7 @@ export type ListPredefinedAttributesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const listPredefinedAttributes: API.PaginatedOperationMethod<
-  ListPredefinedAttributesRequest,
+  ListPredefinedAttributesRequest & RegionInput,
   ListPredefinedAttributesResponse,
   ListPredefinedAttributesError,
   Creds | HttpClient.HttpClient,
@@ -18182,7 +18183,7 @@ export type ListPromptsError =
  * Provides information about the prompts for the specified Connect Customer instance.
  */
 export const listPrompts: API.PaginatedOperationMethod<
-  ListPromptsRequest,
+  ListPromptsRequest & RegionInput,
   ListPromptsResponse,
   ListPromptsError,
   Creds | HttpClient.HttpClient,
@@ -18232,7 +18233,7 @@ export type ListQueueEmailAddressesError =
  * - Results are paginated to handle queues with many associated email addresses (up to 50 per queue).
  */
 export const listQueueEmailAddresses: API.OperationMethod<
-  ListQueueEmailAddressesRequest,
+  ListQueueEmailAddressesRequest & RegionInput,
   ListQueueEmailAddressesResponse,
   ListQueueEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -18265,7 +18266,7 @@ export type ListQueueQuickConnectsError =
  * Lists the quick connects associated with a queue.
  */
 export const listQueueQuickConnects: API.PaginatedOperationMethod<
-  ListQueueQuickConnectsRequest,
+  ListQueueQuickConnectsRequest & RegionInput,
   ListQueueQuickConnectsResponse,
   ListQueueQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -18311,7 +18312,7 @@ export type ListQueuesError =
  * *Connect Customer Administrator Guide*.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Creds | HttpClient.HttpClient,
@@ -18350,7 +18351,7 @@ export type ListQuickConnectsError =
  * Provides information about the quick connects for the specified Connect Customer instance.
  */
 export const listQuickConnects: API.PaginatedOperationMethod<
-  ListQuickConnectsRequest,
+  ListQuickConnectsRequest & RegionInput,
   ListQuickConnectsResponse,
   ListQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -18394,7 +18395,7 @@ export type ListRealtimeContactAnalysisSegmentsV2Error =
  * occurs.
  */
 export const listRealtimeContactAnalysisSegmentsV2: API.PaginatedOperationMethod<
-  ListRealtimeContactAnalysisSegmentsV2Request,
+  ListRealtimeContactAnalysisSegmentsV2Request & RegionInput,
   ListRealtimeContactAnalysisSegmentsV2Response,
   ListRealtimeContactAnalysisSegmentsV2Error,
   Creds | HttpClient.HttpClient,
@@ -18450,7 +18451,7 @@ export type ListRoutingProfileManualAssignmentQueuesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const listRoutingProfileManualAssignmentQueues: API.PaginatedOperationMethod<
-  ListRoutingProfileManualAssignmentQueuesRequest,
+  ListRoutingProfileManualAssignmentQueuesRequest & RegionInput,
   ListRoutingProfileManualAssignmentQueuesResponse,
   ListRoutingProfileManualAssignmentQueuesError,
   Creds | HttpClient.HttpClient,
@@ -18489,7 +18490,7 @@ export type ListRoutingProfileQueuesError =
  * Lists the queues associated with a routing profile.
  */
 export const listRoutingProfileQueues: API.PaginatedOperationMethod<
-  ListRoutingProfileQueuesRequest,
+  ListRoutingProfileQueuesRequest & RegionInput,
   ListRoutingProfileQueuesResponse,
   ListRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient,
@@ -18530,7 +18531,7 @@ export type ListRoutingProfilesError =
  * For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the *Connect Customer Administrator Guide*.
  */
 export const listRoutingProfiles: API.PaginatedOperationMethod<
-  ListRoutingProfilesRequest,
+  ListRoutingProfilesRequest & RegionInput,
   ListRoutingProfilesResponse,
   ListRoutingProfilesError,
   Creds | HttpClient.HttpClient,
@@ -18569,7 +18570,7 @@ export type ListRulesError =
  * List all rules for the specified Connect Customer instance.
  */
 export const listRules: API.PaginatedOperationMethod<
-  ListRulesRequest,
+  ListRulesRequest & RegionInput,
   ListRulesResponse,
   ListRulesError,
   Creds | HttpClient.HttpClient,
@@ -18610,7 +18611,7 @@ export type ListSecurityKeysError =
  * Returns a paginated list of all security keys associated with the instance.
  */
 export const listSecurityKeys: API.PaginatedOperationMethod<
-  ListSecurityKeysRequest,
+  ListSecurityKeysRequest & RegionInput,
   ListSecurityKeysResponse,
   ListSecurityKeysError,
   Creds | HttpClient.HttpClient,
@@ -18649,7 +18650,7 @@ export type ListSecurityProfileAIAgentsError =
  * Returns a list of the allowed AI agents in a specific security profile.
  */
 export const listSecurityProfileAIAgents: API.PaginatedOperationMethod<
-  ListSecurityProfileAIAgentsRequest,
+  ListSecurityProfileAIAgentsRequest & RegionInput,
   ListSecurityProfileAIAgentsResponse,
   ListSecurityProfileAIAgentsError,
   Creds | HttpClient.HttpClient,
@@ -18688,7 +18689,7 @@ export type ListSecurityProfileApplicationsError =
  * Returns a list of third-party applications or MCP Servers in a specific security profile.
  */
 export const listSecurityProfileApplications: API.PaginatedOperationMethod<
-  ListSecurityProfileApplicationsRequest,
+  ListSecurityProfileApplicationsRequest & RegionInput,
   ListSecurityProfileApplicationsResponse,
   ListSecurityProfileApplicationsError,
   Creds | HttpClient.HttpClient,
@@ -18727,7 +18728,7 @@ export type ListSecurityProfileFlowModulesError =
  * A list of Flow Modules an AI Agent can invoke as a tool
  */
 export const listSecurityProfileFlowModules: API.PaginatedOperationMethod<
-  ListSecurityProfileFlowModulesRequest,
+  ListSecurityProfileFlowModulesRequest & RegionInput,
   ListSecurityProfileFlowModulesResponse,
   ListSecurityProfileFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -18770,7 +18771,7 @@ export type ListSecurityProfilePermissionsError =
  * of security profile permissions.
  */
 export const listSecurityProfilePermissions: API.PaginatedOperationMethod<
-  ListSecurityProfilePermissionsRequest,
+  ListSecurityProfilePermissionsRequest & RegionInput,
   ListSecurityProfilePermissionsResponse,
   ListSecurityProfilePermissionsError,
   Creds | HttpClient.HttpClient,
@@ -18813,7 +18814,7 @@ export type ListSecurityProfilesError =
  * of security profile permissions.
  */
 export const listSecurityProfiles: API.PaginatedOperationMethod<
-  ListSecurityProfilesRequest,
+  ListSecurityProfilesRequest & RegionInput,
   ListSecurityProfilesResponse,
   ListSecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -18855,7 +18856,7 @@ export type ListTagsForResourceError =
  * Examples in the *Connect Customer Administrator Guide*.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
@@ -18887,7 +18888,7 @@ export type ListTaskTemplatesError =
  * Lists task templates for the specified Connect Customer instance.
  */
 export const listTaskTemplates: API.PaginatedOperationMethod<
-  ListTaskTemplatesRequest,
+  ListTaskTemplatesRequest & RegionInput,
   ListTaskTemplatesResponse,
   ListTaskTemplatesError,
   Creds | HttpClient.HttpClient,
@@ -18927,7 +18928,7 @@ export type ListTestCaseExecutionRecordsError =
  * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
  */
 export const listTestCaseExecutionRecords: API.OperationMethod<
-  ListTestCaseExecutionRecordsRequest,
+  ListTestCaseExecutionRecordsRequest & RegionInput,
   ListTestCaseExecutionRecordsResponse,
   ListTestCaseExecutionRecordsError,
   Creds | HttpClient.HttpClient
@@ -18961,7 +18962,7 @@ export type ListTestCaseExecutionsError =
  * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
  */
 export const listTestCaseExecutions: API.OperationMethod<
-  ListTestCaseExecutionsRequest,
+  ListTestCaseExecutionsRequest & RegionInput,
   ListTestCaseExecutionsResponse,
   ListTestCaseExecutionsError,
   Creds | HttpClient.HttpClient
@@ -18995,7 +18996,7 @@ export type ListTestCasesError =
  * Lists the test cases present in the specific Amazon Connect instance.
  */
 export const listTestCases: API.PaginatedOperationMethod<
-  ListTestCasesRequest,
+  ListTestCasesRequest & RegionInput,
   ListTestCasesResponse,
   ListTestCasesError,
   Creds | HttpClient.HttpClient,
@@ -19034,7 +19035,7 @@ export type ListTrafficDistributionGroupsError =
  * Lists traffic distribution groups.
  */
 export const listTrafficDistributionGroups: API.PaginatedOperationMethod<
-  ListTrafficDistributionGroupsRequest,
+  ListTrafficDistributionGroupsRequest & RegionInput,
   ListTrafficDistributionGroupsResponse,
   ListTrafficDistributionGroupsError,
   Creds | HttpClient.HttpClient,
@@ -19072,7 +19073,7 @@ export type ListTrafficDistributionGroupUsersError =
  * Lists traffic distribution group users.
  */
 export const listTrafficDistributionGroupUsers: API.PaginatedOperationMethod<
-  ListTrafficDistributionGroupUsersRequest,
+  ListTrafficDistributionGroupUsersRequest & RegionInput,
   ListTrafficDistributionGroupUsersResponse,
   ListTrafficDistributionGroupUsersError,
   Creds | HttpClient.HttpClient,
@@ -19110,7 +19111,7 @@ export type ListUseCasesError =
  * Lists the use cases for the integration association.
  */
 export const listUseCases: API.PaginatedOperationMethod<
-  ListUseCasesRequest,
+  ListUseCasesRequest & RegionInput,
   ListUseCasesResponse,
   ListUseCasesError,
   Creds | HttpClient.HttpClient,
@@ -19150,7 +19151,7 @@ export type ListUserHierarchyGroupsError =
  * For more information about agent hierarchies, see Set Up Agent Hierarchies in the *Connect Customer Administrator Guide*.
  */
 export const listUserHierarchyGroups: API.PaginatedOperationMethod<
-  ListUserHierarchyGroupsRequest,
+  ListUserHierarchyGroupsRequest & RegionInput,
   ListUserHierarchyGroupsResponse,
   ListUserHierarchyGroupsError,
   Creds | HttpClient.HttpClient,
@@ -19190,7 +19191,7 @@ export type ListUserNotificationsError =
  * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
  */
 export const listUserNotifications: API.OperationMethod<
-  ListUserNotificationsRequest,
+  ListUserNotificationsRequest & RegionInput,
   ListUserNotificationsResponse,
   ListUserNotificationsError,
   Creds | HttpClient.HttpClient
@@ -19223,7 +19224,7 @@ export type ListUserProficienciesError =
  * Lists proficiencies associated with a user.
  */
 export const listUserProficiencies: API.PaginatedOperationMethod<
-  ListUserProficienciesRequest,
+  ListUserProficienciesRequest & RegionInput,
   ListUserProficienciesResponse,
   ListUserProficienciesError,
   Creds | HttpClient.HttpClient,
@@ -19262,7 +19263,7 @@ export type ListUsersError =
  * Provides summary information about the users for the specified Connect Customer instance.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Creds | HttpClient.HttpClient,
@@ -19304,7 +19305,7 @@ export type ListViewsError =
  * Results are sorted primarily by type, and secondarily by name.
  */
 export const listViews: API.PaginatedOperationMethod<
-  ListViewsRequest,
+  ListViewsRequest & RegionInput,
   ListViewsResponse,
   ListViewsError,
   Creds | HttpClient.HttpClient,
@@ -19347,7 +19348,7 @@ export type ListViewVersionsError =
  * Results will be sorted from highest to lowest.
  */
 export const listViewVersions: API.PaginatedOperationMethod<
-  ListViewVersionsRequest,
+  ListViewVersionsRequest & RegionInput,
   ListViewVersionsResponse,
   ListViewVersionsError,
   Creds | HttpClient.HttpClient,
@@ -19388,7 +19389,7 @@ export type ListWorkspaceMediaError =
  * Lists media assets (such as logos) associated with a workspace.
  */
 export const listWorkspaceMedia: API.OperationMethod<
-  ListWorkspaceMediaRequest,
+  ListWorkspaceMediaRequest & RegionInput,
   ListWorkspaceMediaResponse,
   ListWorkspaceMediaError,
   Creds | HttpClient.HttpClient
@@ -19422,7 +19423,7 @@ export type ListWorkspacePagesError =
  * Lists the page configurations in a workspace, including the views assigned to each page.
  */
 export const listWorkspacePages: API.PaginatedOperationMethod<
-  ListWorkspacePagesRequest,
+  ListWorkspacePagesRequest & RegionInput,
   ListWorkspacePagesResponse,
   ListWorkspacePagesError,
   Creds | HttpClient.HttpClient,
@@ -19463,7 +19464,7 @@ export type ListWorkspacesError =
  * Lists the workspaces in an Amazon Connect instance.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Creds | HttpClient.HttpClient,
@@ -19506,7 +19507,7 @@ export type MonitorContactError =
  * *userId* will be set to silent monitoring mode on the contact.
  */
 export const monitorContact: API.OperationMethod<
-  MonitorContactRequest,
+  MonitorContactRequest & RegionInput,
   MonitorContactResponse,
   MonitorContactError,
   Creds | HttpClient.HttpClient
@@ -19543,7 +19544,7 @@ export type PauseContactError =
  * Allows pausing an ongoing task contact.
  */
 export const pauseContact: API.OperationMethod<
-  PauseContactRequest,
+  PauseContactRequest & RegionInput,
   PauseContactResponse,
   PauseContactError,
   Creds | HttpClient.HttpClient
@@ -19583,7 +19584,7 @@ export type PutUserStatusError =
  * next status in the *Connect Customer Administrator Guide*.
  */
 export const putUserStatus: API.OperationMethod<
-  PutUserStatusRequest,
+  PutUserStatusRequest & RegionInput,
   PutUserStatusResponse,
   PutUserStatusError,
   Creds | HttpClient.HttpClient
@@ -19641,7 +19642,7 @@ export type ReleasePhoneNumberError =
  * open an Amazon Web Services support ticket.
  */
 export const releasePhoneNumber: API.OperationMethod<
-  ReleasePhoneNumberRequest,
+  ReleasePhoneNumberRequest & RegionInput,
   ReleasePhoneNumberResponse,
   ReleasePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -19682,7 +19683,7 @@ export type ReplicateInstanceError =
  * instance in the *Connect Customer Administrator Guide*.
  */
 export const replicateInstance: API.OperationMethod<
-  ReplicateInstanceRequest,
+  ReplicateInstanceRequest & RegionInput,
   ReplicateInstanceResponse,
   ReplicateInstanceError,
   Creds | HttpClient.HttpClient
@@ -19719,7 +19720,7 @@ export type ResumeContactError =
  * Allows resuming a task contact in a paused state.
  */
 export const resumeContact: API.OperationMethod<
-  ResumeContactRequest,
+  ResumeContactRequest & RegionInput,
   ResumeContactResponse,
   ResumeContactError,
   Creds | HttpClient.HttpClient
@@ -19756,7 +19757,7 @@ export type ResumeContactRecordingError =
  * Voice and screen recordings are supported.
  */
 export const resumeContactRecording: API.OperationMethod<
-  ResumeContactRecordingRequest,
+  ResumeContactRecordingRequest & RegionInput,
   ResumeContactRecordingResponse,
   ResumeContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -19787,7 +19788,7 @@ export type SearchAgentStatusesError =
  * Searches AgentStatuses in an Connect Customer instance, with optional filtering.
  */
 export const searchAgentStatuses: API.PaginatedOperationMethod<
-  SearchAgentStatusesRequest,
+  SearchAgentStatusesRequest & RegionInput,
   SearchAgentStatusesResponse,
   SearchAgentStatusesError,
   Creds | HttpClient.HttpClient,
@@ -19827,7 +19828,7 @@ export type SearchAvailablePhoneNumbersError =
  * the traffic distribution group.
  */
 export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
-  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersRequest & RegionInput,
   SearchAvailablePhoneNumbersResponse,
   SearchAvailablePhoneNumbersError,
   Creds | HttpClient.HttpClient,
@@ -19881,7 +19882,7 @@ export type SearchContactEvaluationsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchContactEvaluations: API.OperationMethod<
-  SearchContactEvaluationsRequest,
+  SearchContactEvaluationsRequest & RegionInput,
   SearchContactEvaluationsResponse,
   SearchContactEvaluationsError,
   Creds | HttpClient.HttpClient
@@ -19913,7 +19914,7 @@ export type SearchContactFlowModulesError =
  * Searches the flow modules in an Connect Customer instance, with optional filtering.
  */
 export const searchContactFlowModules: API.PaginatedOperationMethod<
-  SearchContactFlowModulesRequest,
+  SearchContactFlowModulesRequest & RegionInput,
   SearchContactFlowModulesResponse,
   SearchContactFlowModulesError,
   Creds | HttpClient.HttpClient,
@@ -19952,7 +19953,7 @@ export type SearchContactFlowsError =
  * Searches the flows in an Connect Customer instance, with optional filtering.
  */
 export const searchContactFlows: API.PaginatedOperationMethod<
-  SearchContactFlowsRequest,
+  SearchContactFlowsRequest & RegionInput,
   SearchContactFlowsResponse,
   SearchContactFlowsError,
   Creds | HttpClient.HttpClient,
@@ -19991,7 +19992,7 @@ export type SearchContactsError =
  * Searches contacts in an Connect Customer instance.
  */
 export const searchContacts: API.PaginatedOperationMethod<
-  SearchContactsRequest,
+  SearchContactsRequest & RegionInput,
   SearchContactsResponse,
   SearchContactsError,
   Creds | HttpClient.HttpClient,
@@ -20032,7 +20033,7 @@ export type SearchDataTablesError =
  * supports both search criteria and filters.
  */
 export const searchDataTables: API.PaginatedOperationMethod<
-  SearchDataTablesRequest,
+  SearchDataTablesRequest & RegionInput,
   SearchDataTablesResponse,
   SearchDataTablesError,
   Creds | HttpClient.HttpClient,
@@ -20072,7 +20073,7 @@ export type SearchEmailAddressesError =
  * Searches email address in an instance, with optional filtering.
  */
 export const searchEmailAddresses: API.OperationMethod<
-  SearchEmailAddressesRequest,
+  SearchEmailAddressesRequest & RegionInput,
   SearchEmailAddressesResponse,
   SearchEmailAddressesError,
   Creds | HttpClient.HttpClient
@@ -20123,7 +20124,7 @@ export type SearchEvaluationFormsError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchEvaluationForms: API.OperationMethod<
-  SearchEvaluationFormsRequest,
+  SearchEvaluationFormsRequest & RegionInput,
   SearchEvaluationFormsResponse,
   SearchEvaluationFormsError,
   Creds | HttpClient.HttpClient
@@ -20155,7 +20156,7 @@ export type SearchHoursOfOperationOverridesError =
  * Searches the hours of operation overrides.
  */
 export const searchHoursOfOperationOverrides: API.PaginatedOperationMethod<
-  SearchHoursOfOperationOverridesRequest,
+  SearchHoursOfOperationOverridesRequest & RegionInput,
   SearchHoursOfOperationOverridesResponse,
   SearchHoursOfOperationOverridesError,
   Creds | HttpClient.HttpClient,
@@ -20194,7 +20195,7 @@ export type SearchHoursOfOperationsError =
  * Searches the hours of operation in an Connect Customer instance, with optional filtering.
  */
 export const searchHoursOfOperations: API.PaginatedOperationMethod<
-  SearchHoursOfOperationsRequest,
+  SearchHoursOfOperationsRequest & RegionInput,
   SearchHoursOfOperationsResponse,
   SearchHoursOfOperationsError,
   Creds | HttpClient.HttpClient,
@@ -20234,7 +20235,7 @@ export type SearchMetricsError =
  * Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const searchMetrics: API.PaginatedOperationMethod<
-  SearchMetricsRequest,
+  SearchMetricsRequest & RegionInput,
   SearchMetricsResponse,
   SearchMetricsError,
   Creds | HttpClient.HttpClient,
@@ -20275,7 +20276,7 @@ export type SearchNotificationsError =
  * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
  */
 export const searchNotifications: API.OperationMethod<
-  SearchNotificationsRequest,
+  SearchNotificationsRequest & RegionInput,
   SearchNotificationsResponse,
   SearchNotificationsError,
   Creds | HttpClient.HttpClient
@@ -20321,7 +20322,7 @@ export type SearchPredefinedAttributesError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const searchPredefinedAttributes: API.PaginatedOperationMethod<
-  SearchPredefinedAttributesRequest,
+  SearchPredefinedAttributesRequest & RegionInput,
   SearchPredefinedAttributesResponse,
   SearchPredefinedAttributesError,
   Creds | HttpClient.HttpClient,
@@ -20360,7 +20361,7 @@ export type SearchPromptsError =
  * Searches prompts in an Connect Customer instance, with optional filtering.
  */
 export const searchPrompts: API.PaginatedOperationMethod<
-  SearchPromptsRequest,
+  SearchPromptsRequest & RegionInput,
   SearchPromptsResponse,
   SearchPromptsError,
   Creds | HttpClient.HttpClient,
@@ -20399,7 +20400,7 @@ export type SearchQueuesError =
  * Searches queues in an Connect Customer instance, with optional filtering.
  */
 export const searchQueues: API.PaginatedOperationMethod<
-  SearchQueuesRequest,
+  SearchQueuesRequest & RegionInput,
   SearchQueuesResponse,
   SearchQueuesError,
   Creds | HttpClient.HttpClient,
@@ -20438,7 +20439,7 @@ export type SearchQuickConnectsError =
  * Searches quick connects in an Connect Customer instance, with optional filtering.
  */
 export const searchQuickConnects: API.PaginatedOperationMethod<
-  SearchQuickConnectsRequest,
+  SearchQuickConnectsRequest & RegionInput,
   SearchQuickConnectsResponse,
   SearchQuickConnectsError,
   Creds | HttpClient.HttpClient,
@@ -20478,7 +20479,7 @@ export type SearchResourceTagsError =
  * Searches tags used in an Connect Customer instance using optional search criteria.
  */
 export const searchResourceTags: API.PaginatedOperationMethod<
-  SearchResourceTagsRequest,
+  SearchResourceTagsRequest & RegionInput,
   SearchResourceTagsResponse,
   SearchResourceTagsError,
   Creds | HttpClient.HttpClient,
@@ -20521,7 +20522,7 @@ export type SearchRoutingProfilesError =
  * MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
  */
 export const searchRoutingProfiles: API.PaginatedOperationMethod<
-  SearchRoutingProfilesRequest,
+  SearchRoutingProfilesRequest & RegionInput,
   SearchRoutingProfilesResponse,
   SearchRoutingProfilesError,
   Creds | HttpClient.HttpClient,
@@ -20561,7 +20562,7 @@ export type SearchRulesError =
  * Searches rules in an Connect Customer instance, with optional filtering.
  */
 export const searchRules: API.PaginatedOperationMethod<
-  SearchRulesRequest,
+  SearchRulesRequest & RegionInput,
   SearchRulesResponse,
   SearchRulesError,
   Creds | HttpClient.HttpClient,
@@ -20605,7 +20606,7 @@ export type SearchSecurityProfilesError =
  * of security profile permissions.
  */
 export const searchSecurityProfiles: API.PaginatedOperationMethod<
-  SearchSecurityProfilesRequest,
+  SearchSecurityProfilesRequest & RegionInput,
   SearchSecurityProfilesResponse,
   SearchSecurityProfilesError,
   Creds | HttpClient.HttpClient,
@@ -20645,7 +20646,7 @@ export type SearchTestCasesError =
  * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
  */
 export const searchTestCases: API.PaginatedOperationMethod<
-  SearchTestCasesRequest,
+  SearchTestCasesRequest & RegionInput,
   SearchTestCasesResponse,
   SearchTestCasesError,
   Creds | HttpClient.HttpClient,
@@ -20688,7 +20689,7 @@ export type SearchUserHierarchyGroupsError =
  * instance. It is not user-definable, nor is it visible in the UI.
  */
 export const searchUserHierarchyGroups: API.PaginatedOperationMethod<
-  SearchUserHierarchyGroupsRequest,
+  SearchUserHierarchyGroupsRequest & RegionInput,
   SearchUserHierarchyGroupsResponse,
   SearchUserHierarchyGroupsError,
   Creds | HttpClient.HttpClient,
@@ -20729,7 +20730,7 @@ export type SearchUsersError =
  * `AfterContactWorkTimeLimit` is returned in milliseconds.
  */
 export const searchUsers: API.PaginatedOperationMethod<
-  SearchUsersRequest,
+  SearchUsersRequest & RegionInput,
   SearchUsersResponse,
   SearchUsersError,
   Creds | HttpClient.HttpClient,
@@ -20769,7 +20770,7 @@ export type SearchViewsError =
  * Searches views based on name, description, or tags.
  */
 export const searchViews: API.PaginatedOperationMethod<
-  SearchViewsRequest,
+  SearchViewsRequest & RegionInput,
   SearchViewsResponse,
   SearchViewsError,
   Creds | HttpClient.HttpClient,
@@ -20809,7 +20810,7 @@ export type SearchVocabulariesError =
  * `NameStartsWith`, and `LanguageCode`.
  */
 export const searchVocabularies: API.PaginatedOperationMethod<
-  SearchVocabulariesRequest,
+  SearchVocabulariesRequest & RegionInput,
   SearchVocabulariesResponse,
   SearchVocabulariesError,
   Creds | HttpClient.HttpClient,
@@ -20848,7 +20849,7 @@ export type SearchWorkspaceAssociationsError =
  * Searches for workspace associations with users or routing profiles based on various criteria.
  */
 export const searchWorkspaceAssociations: API.PaginatedOperationMethod<
-  SearchWorkspaceAssociationsRequest,
+  SearchWorkspaceAssociationsRequest & RegionInput,
   SearchWorkspaceAssociationsResponse,
   SearchWorkspaceAssociationsError,
   Creds | HttpClient.HttpClient,
@@ -20889,7 +20890,7 @@ export type SearchWorkspacesError =
  * Searches workspaces based on name, description, visibility, or tags.
  */
 export const searchWorkspaces: API.PaginatedOperationMethod<
-  SearchWorkspacesRequest,
+  SearchWorkspacesRequest & RegionInput,
   SearchWorkspacesResponse,
   SearchWorkspacesError,
   Creds | HttpClient.HttpClient,
@@ -20941,7 +20942,7 @@ export type SendChatIntegrationEventError =
  * integration.
  */
 export const sendChatIntegrationEvent: API.OperationMethod<
-  SendChatIntegrationEventRequest,
+  SendChatIntegrationEventRequest & RegionInput,
   SendChatIntegrationEventResponse,
   SendChatIntegrationEventError,
   Creds | HttpClient.HttpClient
@@ -20979,7 +20980,7 @@ export type SendOutboundEmailError =
  * and call this API.
  */
 export const sendOutboundEmail: API.OperationMethod<
-  SendOutboundEmailRequest,
+  SendOutboundEmailRequest & RegionInput,
   SendOutboundEmailResponse,
   SendOutboundEmailError,
   Creds | HttpClient.HttpClient
@@ -21018,7 +21019,7 @@ export type SendOutboundWebNotificationError =
  * and call this API.
  */
 export const sendOutboundWebNotification: API.OperationMethod<
-  SendOutboundWebNotificationRequest,
+  SendOutboundWebNotificationRequest & RegionInput,
   SendOutboundWebNotificationResponse,
   SendOutboundWebNotificationError,
   Creds | HttpClient.HttpClient
@@ -21061,7 +21062,7 @@ export type StartAssistantContactError =
  * - Connect Customer Chat security best practices
  */
 export const startAssistantContact: API.OperationMethod<
-  StartAssistantContactRequest,
+  StartAssistantContactRequest & RegionInput,
   StartAssistantContactResponse,
   StartAssistantContactError,
   Creds | HttpClient.HttpClient
@@ -21099,7 +21100,7 @@ export type StartAttachedFileUploadError =
  * Connect Customer Task.
  */
 export const startAttachedFileUpload: API.OperationMethod<
-  StartAttachedFileUploadRequest,
+  StartAttachedFileUploadRequest & RegionInput,
   StartAttachedFileUploadResponse,
   StartAttachedFileUploadError,
   Creds | HttpClient.HttpClient
@@ -21158,7 +21159,7 @@ export type StartChatContactError =
  * - Connect Customer Chat security best practices
  */
 export const startChatContact: API.OperationMethod<
-  StartChatContactRequest,
+  StartChatContactRequest & RegionInput,
   StartChatContactResponse,
   StartChatContactError,
   Creds | HttpClient.HttpClient
@@ -21200,7 +21201,7 @@ export type StartContactConversationalAnalyticsJobError =
  * run post-call analytics.
  */
 export const startContactConversationalAnalyticsJob: API.OperationMethod<
-  StartContactConversationalAnalyticsJobRequest,
+  StartContactConversationalAnalyticsJobRequest & RegionInput,
   StartContactConversationalAnalyticsJobResponse,
   StartContactConversationalAnalyticsJobError,
   Creds | HttpClient.HttpClient
@@ -21236,7 +21237,7 @@ export type StartContactEvaluationError =
  * activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.
  */
 export const startContactEvaluation: API.OperationMethod<
-  StartContactEvaluationRequest,
+  StartContactEvaluationRequest & RegionInput,
   StartContactEvaluationResponse,
   StartContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -21272,7 +21273,7 @@ export type StartContactMediaProcessingError =
  * rest of the chat, even if an individual contact segment ends.
  */
 export const startContactMediaProcessing: API.OperationMethod<
-  StartContactMediaProcessingRequest,
+  StartContactMediaProcessingRequest & RegionInput,
   StartContactMediaProcessingResponse,
   StartContactMediaProcessingError,
   Creds | HttpClient.HttpClient
@@ -21321,7 +21322,7 @@ export type StartContactRecordingError =
  * Only voice recordings are supported at this time.
  */
 export const startContactRecording: API.OperationMethod<
-  StartContactRecordingRequest,
+  StartContactRecordingRequest & RegionInput,
   StartContactRecordingResponse,
   StartContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -21363,7 +21364,7 @@ export type StartContactStreamingError =
  * - Connect Customer Chat security best practices
  */
 export const startContactStreaming: API.OperationMethod<
-  StartContactStreamingRequest,
+  StartContactStreamingRequest & RegionInput,
   StartContactStreamingResponse,
   StartContactStreamingError,
   Creds | HttpClient.HttpClient
@@ -21398,7 +21399,7 @@ export type StartEmailContactError =
  * this API provides the ContactId of the email contact created.
  */
 export const startEmailContact: API.OperationMethod<
-  StartEmailContactRequest,
+  StartEmailContactRequest & RegionInput,
   StartEmailContactResponse,
   StartEmailContactError,
   Creds | HttpClient.HttpClient
@@ -21437,7 +21438,7 @@ export type StartEvaluationFormValidationError =
  * retrieve the status and results once the validation completes.
  */
 export const startEvaluationFormValidation: API.OperationMethod<
-  StartEvaluationFormValidationRequest,
+  StartEvaluationFormValidationRequest & RegionInput,
   StartEvaluationFormValidationResponse,
   StartEvaluationFormValidationError,
   Creds | HttpClient.HttpClient
@@ -21494,7 +21495,7 @@ export type StartOutboundChatContactError =
  * Business messaging
  */
 export const startOutboundChatContact: API.OperationMethod<
-  StartOutboundChatContactRequest,
+  StartOutboundChatContactRequest & RegionInput,
   StartOutboundChatContactResponse,
   StartOutboundChatContactError,
   Creds | HttpClient.HttpClient
@@ -21531,7 +21532,7 @@ export type StartOutboundEmailContactError =
  * customer.
  */
 export const startOutboundEmailContact: API.OperationMethod<
-  StartOutboundEmailContactRequest,
+  StartOutboundEmailContactRequest & RegionInput,
   StartOutboundEmailContactResponse,
   StartOutboundEmailContactError,
   Creds | HttpClient.HttpClient
@@ -21586,7 +21587,7 @@ export type StartOutboundVoiceContactError =
  * role in your account and call this API with OutboundStrategy.
  */
 export const startOutboundVoiceContact: API.OperationMethod<
-  StartOutboundVoiceContactRequest,
+  StartOutboundVoiceContactRequest & RegionInput,
   StartOutboundVoiceContactResponse,
   StartOutboundVoiceContactError,
   Creds | HttpClient.HttpClient
@@ -21622,7 +21623,7 @@ export type StartScreenSharingError =
  * capabilities in the *Connect Customer Administrator Guide*.
  */
 export const startScreenSharing: API.OperationMethod<
-  StartScreenSharingRequest,
+  StartScreenSharingRequest & RegionInput,
   StartScreenSharingResponse,
   StartScreenSharingError,
   Creds | HttpClient.HttpClient
@@ -21688,7 +21689,7 @@ export type StartTaskContactError =
  * *Connect Customer Administrator Guide*.
  */
 export const startTaskContact: API.OperationMethod<
-  StartTaskContactRequest,
+  StartTaskContactRequest & RegionInput,
   StartTaskContactResponse,
   StartTaskContactError,
   Creds | HttpClient.HttpClient
@@ -21723,7 +21724,7 @@ export type StartTestCaseExecutionError =
  * Starts executing a published test case.
  */
 export const startTestCaseExecution: API.OperationMethod<
-  StartTestCaseExecutionRequest,
+  StartTestCaseExecutionRequest & RegionInput,
   StartTestCaseExecutionResponse,
   StartTestCaseExecutionError,
   Creds | HttpClient.HttpClient
@@ -21760,7 +21761,7 @@ export type StartWebRTCContactError =
  * InstanceId).
  */
 export const startWebRTCContact: API.OperationMethod<
-  StartWebRTCContactRequest,
+  StartWebRTCContactRequest & RegionInput,
   StartWebRTCContactResponse,
   StartWebRTCContactError,
   Creds | HttpClient.HttpClient
@@ -21807,7 +21808,7 @@ export type StopContactError =
  * Chat and task contacts can be terminated in any state, regardless of initiation method.
  */
 export const stopContact: API.OperationMethod<
-  StopContactRequest,
+  StopContactRequest & RegionInput,
   StopContactResponse,
   StopContactError,
   Creds | HttpClient.HttpClient
@@ -21841,7 +21842,7 @@ export type StopContactMediaProcessingError =
  * Stops in-flight message processing for an ongoing chat session.
  */
 export const stopContactMediaProcessing: API.OperationMethod<
-  StopContactMediaProcessingRequest,
+  StopContactMediaProcessingRequest & RegionInput,
   StopContactMediaProcessingResponse,
   StopContactMediaProcessingError,
   Creds | HttpClient.HttpClient
@@ -21878,7 +21879,7 @@ export type StopContactRecordingError =
  * Only voice recordings are supported at this time.
  */
 export const stopContactRecording: API.OperationMethod<
-  StopContactRecordingRequest,
+  StopContactRecordingRequest & RegionInput,
   StopContactRecordingResponse,
   StopContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -21909,7 +21910,7 @@ export type StopContactStreamingError =
  * API.
  */
 export const stopContactStreaming: API.OperationMethod<
-  StopContactStreamingRequest,
+  StopContactStreamingRequest & RegionInput,
   StopContactStreamingResponse,
   StopContactStreamingError,
   Creds | HttpClient.HttpClient
@@ -21941,7 +21942,7 @@ export type StopTestCaseExecutionError =
  * Stops a running test execution.
  */
 export const stopTestCaseExecution: API.OperationMethod<
-  StopTestCaseExecutionRequest,
+  StopTestCaseExecutionRequest & RegionInput,
   StopTestCaseExecutionResponse,
   StopTestCaseExecutionError,
   Creds | HttpClient.HttpClient
@@ -21979,7 +21980,7 @@ export type SubmitContactEvaluationError =
  * If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
  */
 export const submitContactEvaluation: API.OperationMethod<
-  SubmitContactEvaluationRequest,
+  SubmitContactEvaluationRequest & RegionInput,
   SubmitContactEvaluationResponse,
   SubmitContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -22018,7 +22019,7 @@ export type SuspendContactRecordingError =
  * Voice (IVR, agent) and screen recordings are supported.
  */
 export const suspendContactRecording: API.OperationMethod<
-  SuspendContactRecordingRequest,
+  SuspendContactRecordingRequest & RegionInput,
   SuspendContactRecordingResponse,
   SuspendContactRecordingError,
   Creds | HttpClient.HttpClient
@@ -22051,7 +22052,7 @@ export type TagContactError =
  * view of your Connect Customer usage.
  */
 export const tagContact: API.OperationMethod<
-  TagContactRequest,
+  TagContactRequest & RegionInput,
   TagContactResponse,
   TagContactError,
   Creds | HttpClient.HttpClient
@@ -22090,7 +22091,7 @@ export type TagResourceError =
  * Examples in the *Connect Customer Administrator Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Creds | HttpClient.HttpClient
@@ -22141,7 +22142,7 @@ export type TransferContactError =
  * - A contact cannot be transferred more than 11 times.
  */
 export const transferContact: API.OperationMethod<
-  TransferContactRequest,
+  TransferContactRequest & RegionInput,
   TransferContactResponse,
   TransferContactError,
   Creds | HttpClient.HttpClient
@@ -22177,7 +22178,7 @@ export type UntagContactError =
  * view of your Connect Customer usage.
  */
 export const untagContact: API.OperationMethod<
-  UntagContactRequest,
+  UntagContactRequest & RegionInput,
   UntagContactResponse,
   UntagContactError,
   Creds | HttpClient.HttpClient
@@ -22210,7 +22211,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Creds | HttpClient.HttpClient
@@ -22244,7 +22245,7 @@ export type UpdateAgentStatusError =
  * Updates agent status.
  */
 export const updateAgentStatus: API.OperationMethod<
-  UpdateAgentStatusRequest,
+  UpdateAgentStatusRequest & RegionInput,
   UpdateAgentStatusResponse,
   UpdateAgentStatusError,
   Creds | HttpClient.HttpClient
@@ -22280,7 +22281,7 @@ export type UpdateAttachedFilesConfigurationError =
  * If no instance-specific configuration exists, this operation creates one. Partial updates are supported--only specified fields are updated, while unspecified fields retain their current values.
  */
 export const updateAttachedFilesConfiguration: API.OperationMethod<
-  UpdateAttachedFilesConfigurationRequest,
+  UpdateAttachedFilesConfigurationRequest & RegionInput,
   UpdateAttachedFilesConfigurationResponse,
   UpdateAttachedFilesConfigurationError,
   Creds | HttpClient.HttpClient
@@ -22315,7 +22316,7 @@ export type UpdateAuthenticationProfileError =
  * Updates the selected authentication profile.
  */
 export const updateAuthenticationProfile: API.OperationMethod<
-  UpdateAuthenticationProfileRequest,
+  UpdateAuthenticationProfileRequest & RegionInput,
   UpdateAuthenticationProfileResponse,
   UpdateAuthenticationProfileError,
   Creds | HttpClient.HttpClient
@@ -22355,7 +22356,7 @@ export type UpdateContactError =
  * You can add or update user-defined contact information for both ongoing and completed contacts.
  */
 export const updateContact: API.OperationMethod<
-  UpdateContactRequest,
+  UpdateContactRequest & RegionInput,
   UpdateContactResponse,
   UpdateContactError,
   Creds | HttpClient.HttpClient
@@ -22400,7 +22401,7 @@ export type UpdateContactAttributesError =
  * specifications in the *Connect Customer Administrator Guide*.
  */
 export const updateContactAttributes: API.OperationMethod<
-  UpdateContactAttributesRequest,
+  UpdateContactAttributesRequest & RegionInput,
   UpdateContactAttributesResponse,
   UpdateContactAttributesError,
   Creds | HttpClient.HttpClient
@@ -22434,7 +22435,7 @@ export type UpdateContactEvaluationError =
  * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
  */
 export const updateContactEvaluation: API.OperationMethod<
-  UpdateContactEvaluationRequest,
+  UpdateContactEvaluationRequest & RegionInput,
   UpdateContactEvaluationResponse,
   UpdateContactEvaluationError,
   Creds | HttpClient.HttpClient
@@ -22474,7 +22475,7 @@ export type UpdateContactFlowContentError =
  * be supplied to view saved content that has not been published.
  */
 export const updateContactFlowContent: API.OperationMethod<
-  UpdateContactFlowContentRequest,
+  UpdateContactFlowContentRequest & RegionInput,
   UpdateContactFlowContentResponse,
   UpdateContactFlowContentError,
   Creds | HttpClient.HttpClient
@@ -22508,7 +22509,7 @@ export type UpdateContactFlowMetadataError =
  * Updates metadata about specified flow.
  */
 export const updateContactFlowMetadata: API.OperationMethod<
-  UpdateContactFlowMetadataRequest,
+  UpdateContactFlowMetadataRequest & RegionInput,
   UpdateContactFlowMetadataResponse,
   UpdateContactFlowMetadataError,
   Creds | HttpClient.HttpClient
@@ -22544,7 +22545,7 @@ export type UpdateContactFlowModuleAliasError =
  * Updates a specific Aliases metadata, including the version it's tied to, it's name, and description.
  */
 export const updateContactFlowModuleAlias: API.OperationMethod<
-  UpdateContactFlowModuleAliasRequest,
+  UpdateContactFlowModuleAliasRequest & RegionInput,
   UpdateContactFlowModuleAliasResponse,
   UpdateContactFlowModuleAliasError,
   Creds | HttpClient.HttpClient
@@ -22584,7 +22585,7 @@ export type UpdateContactFlowModuleContentError =
  * be supplied to view saved content that has not been published.
  */
 export const updateContactFlowModuleContent: API.OperationMethod<
-  UpdateContactFlowModuleContentRequest,
+  UpdateContactFlowModuleContentRequest & RegionInput,
   UpdateContactFlowModuleContentResponse,
   UpdateContactFlowModuleContentError,
   Creds | HttpClient.HttpClient
@@ -22619,7 +22620,7 @@ export type UpdateContactFlowModuleMetadataError =
  * Updates metadata about specified flow module.
  */
 export const updateContactFlowModuleMetadata: API.OperationMethod<
-  UpdateContactFlowModuleMetadataRequest,
+  UpdateContactFlowModuleMetadataRequest & RegionInput,
   UpdateContactFlowModuleMetadataResponse,
   UpdateContactFlowModuleMetadataError,
   Creds | HttpClient.HttpClient
@@ -22657,7 +22658,7 @@ export type UpdateContactFlowNameError =
  * Flow language.
  */
 export const updateContactFlowName: API.OperationMethod<
-  UpdateContactFlowNameRequest,
+  UpdateContactFlowNameRequest & RegionInput,
   UpdateContactFlowNameResponse,
   UpdateContactFlowNameError,
   Creds | HttpClient.HttpClient
@@ -22700,7 +22701,7 @@ export type UpdateContactRoutingDataError =
  * Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within the request body, but not both.
  */
 export const updateContactRoutingData: API.OperationMethod<
-  UpdateContactRoutingDataRequest,
+  UpdateContactRoutingDataRequest & RegionInput,
   UpdateContactRoutingDataResponse,
   UpdateContactRoutingDataError,
   Creds | HttpClient.HttpClient
@@ -22735,7 +22736,7 @@ export type UpdateContactScheduleError =
  * Updates the scheduled time of a task contact that is already scheduled.
  */
 export const updateContactSchedule: API.OperationMethod<
-  UpdateContactScheduleRequest,
+  UpdateContactScheduleRequest & RegionInput,
   UpdateContactScheduleResponse,
   UpdateContactScheduleError,
   Creds | HttpClient.HttpClient
@@ -22801,7 +22802,7 @@ export type UpdateContactTaskTemplateError =
  * task has a reference that matches a required field's name but not its datatype.
  */
 export const updateContactTaskTemplate: API.OperationMethod<
-  UpdateContactTaskTemplateRequest,
+  UpdateContactTaskTemplateRequest & RegionInput,
   UpdateContactTaskTemplateResponse,
   UpdateContactTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -22842,7 +22843,7 @@ export type UpdateCrossRegionRoutingError =
  * search continue to operate globally after you use this operation.
  */
 export const updateCrossRegionRouting: API.OperationMethod<
-  UpdateCrossRegionRoutingRequest,
+  UpdateCrossRegionRoutingRequest & RegionInput,
   UpdateCrossRegionRoutingResponse,
   UpdateCrossRegionRoutingError,
   Creds | HttpClient.HttpClient
@@ -22882,7 +22883,7 @@ export type UpdateDataTableAttributeError =
  * validation only runs when values are created or updated.
  */
 export const updateDataTableAttribute: API.OperationMethod<
-  UpdateDataTableAttributeRequest,
+  UpdateDataTableAttributeRequest & RegionInput,
   UpdateDataTableAttributeResponse,
   UpdateDataTableAttributeError,
   Creds | HttpClient.HttpClient
@@ -22923,7 +22924,7 @@ export type UpdateDataTableMetadataError =
  * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
  */
 export const updateDataTableMetadata: API.OperationMethod<
-  UpdateDataTableMetadataRequest,
+  UpdateDataTableMetadataRequest & RegionInput,
   UpdateDataTableMetadataResponse,
   UpdateDataTableMetadataError,
   Creds | HttpClient.HttpClient
@@ -22962,7 +22963,7 @@ export type UpdateDataTablePrimaryValuesError =
  * not authorized to use this endpoint. The combination of new primary values must be unique within the table.
  */
 export const updateDataTablePrimaryValues: API.OperationMethod<
-  UpdateDataTablePrimaryValuesRequest,
+  UpdateDataTablePrimaryValuesRequest & RegionInput,
   UpdateDataTablePrimaryValuesResponse,
   UpdateDataTablePrimaryValuesError,
   Creds | HttpClient.HttpClient
@@ -22999,7 +23000,7 @@ export type UpdateEmailAddressMetadataError =
  * Administrator Guide.
  */
 export const updateEmailAddressMetadata: API.OperationMethod<
-  UpdateEmailAddressMetadataRequest,
+  UpdateEmailAddressMetadataRequest & RegionInput,
   UpdateEmailAddressMetadataResponse,
   UpdateEmailAddressMetadataError,
   Creds | HttpClient.HttpClient
@@ -23038,7 +23039,7 @@ export type UpdateEvaluationFormError =
  * content.
  */
 export const updateEvaluationForm: API.OperationMethod<
-  UpdateEvaluationFormRequest,
+  UpdateEvaluationFormRequest & RegionInput,
   UpdateEvaluationFormResponse,
   UpdateEvaluationFormError,
   Creds | HttpClient.HttpClient
@@ -23072,7 +23073,7 @@ export type UpdateExtractionDefinitionError =
  * Updates an extraction definition in the specified Connect Customer instance.
  */
 export const updateExtractionDefinition: API.OperationMethod<
-  UpdateExtractionDefinitionRequest,
+  UpdateExtractionDefinitionRequest & RegionInput,
   UpdateExtractionDefinitionResponse,
   UpdateExtractionDefinitionError,
   Creds | HttpClient.HttpClient
@@ -23106,7 +23107,7 @@ export type UpdateHoursOfOperationError =
  * Updates the hours of operation.
  */
 export const updateHoursOfOperation: API.OperationMethod<
-  UpdateHoursOfOperationRequest,
+  UpdateHoursOfOperationRequest & RegionInput,
   UpdateHoursOfOperationResponse,
   UpdateHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -23141,7 +23142,7 @@ export type UpdateHoursOfOperationOverrideError =
  * Update the hours of operation override.
  */
 export const updateHoursOfOperationOverride: API.OperationMethod<
-  UpdateHoursOfOperationOverrideRequest,
+  UpdateHoursOfOperationOverrideRequest & RegionInput,
   UpdateHoursOfOperationOverrideResponse,
   UpdateHoursOfOperationOverrideError,
   Creds | HttpClient.HttpClient
@@ -23177,7 +23178,7 @@ export type UpdateInstanceAttributeError =
  * Updates the value for the specified attribute type.
  */
 export const updateInstanceAttribute: API.OperationMethod<
-  UpdateInstanceAttributeRequest,
+  UpdateInstanceAttributeRequest & RegionInput,
   UpdateInstanceAttributeResponse,
   UpdateInstanceAttributeError,
   Creds | HttpClient.HttpClient
@@ -23211,7 +23212,7 @@ export type UpdateInstanceStorageConfigError =
  * Updates an existing configuration for a resource type. This API is idempotent.
  */
 export const updateInstanceStorageConfig: API.OperationMethod<
-  UpdateInstanceStorageConfigRequest,
+  UpdateInstanceStorageConfigRequest & RegionInput,
   UpdateInstanceStorageConfigResponse,
   UpdateInstanceStorageConfigError,
   Creds | HttpClient.HttpClient
@@ -23244,7 +23245,7 @@ export type UpdateMetricContentError =
  * Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance.
  */
 export const updateMetricContent: API.OperationMethod<
-  UpdateMetricContentRequest,
+  UpdateMetricContentRequest & RegionInput,
   UpdateMetricContentResponse,
   UpdateMetricContentError,
   Creds | HttpClient.HttpClient
@@ -23279,7 +23280,7 @@ export type UpdateMetricMetadataError =
  * Updates the name and/or description of an existing metric in the specified Connect Customer instance.
  */
 export const updateMetricMetadata: API.OperationMethod<
-  UpdateMetricMetadataRequest,
+  UpdateMetricMetadataRequest & RegionInput,
   UpdateMetricMetadataResponse,
   UpdateMetricMetadataError,
   Creds | HttpClient.HttpClient
@@ -23314,7 +23315,7 @@ export type UpdateNotificationContentError =
  * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
  */
 export const updateNotificationContent: API.OperationMethod<
-  UpdateNotificationContentRequest,
+  UpdateNotificationContentRequest & RegionInput,
   UpdateNotificationContentResponse,
   UpdateNotificationContentError,
   Creds | HttpClient.HttpClient
@@ -23358,7 +23359,7 @@ export type UpdateParticipantAuthenticationError =
  * identity information occur asynchronously after the response is returned.
  */
 export const updateParticipantAuthentication: API.OperationMethod<
-  UpdateParticipantAuthenticationRequest,
+  UpdateParticipantAuthenticationRequest & RegionInput,
   UpdateParticipantAuthenticationResponse,
   UpdateParticipantAuthenticationError,
   Creds | HttpClient.HttpClient
@@ -23404,7 +23405,7 @@ export type UpdateParticipantRoleConfigError =
  * Set up chat timeouts for human participants.
  */
 export const updateParticipantRoleConfig: API.OperationMethod<
-  UpdateParticipantRoleConfigRequest,
+  UpdateParticipantRoleConfigRequest & RegionInput,
   UpdateParticipantRoleConfigResponse,
   UpdateParticipantRoleConfigError,
   Creds | HttpClient.HttpClient
@@ -23445,7 +23446,7 @@ export type UpdatePhoneNumberError =
  * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
  */
 export const updatePhoneNumber: API.OperationMethod<
-  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberRequest & RegionInput,
   UpdatePhoneNumberResponse,
   UpdatePhoneNumberError,
   Creds | HttpClient.HttpClient
@@ -23484,7 +23485,7 @@ export type UpdatePhoneNumberMetadataError =
  * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
  */
 export const updatePhoneNumberMetadata: API.OperationMethod<
-  UpdatePhoneNumberMetadataRequest,
+  UpdatePhoneNumberMetadataRequest & RegionInput,
   UpdatePhoneNumberMetadataResponse,
   UpdatePhoneNumberMetadataError,
   Creds | HttpClient.HttpClient
@@ -23537,7 +23538,7 @@ export type UpdatePredefinedAttributeError =
  * **Endpoints**: See Connect Customer endpoints and quotas.
  */
 export const updatePredefinedAttribute: API.OperationMethod<
-  UpdatePredefinedAttributeRequest,
+  UpdatePredefinedAttributeRequest & RegionInput,
   UpdatePredefinedAttributeResponse,
   UpdatePredefinedAttributeError,
   Creds | HttpClient.HttpClient
@@ -23569,7 +23570,7 @@ export type UpdatePromptError =
  * Updates a prompt.
  */
 export const updatePrompt: API.OperationMethod<
-  UpdatePromptRequest,
+  UpdatePromptRequest & RegionInput,
   UpdatePromptResponse,
   UpdatePromptError,
   Creds | HttpClient.HttpClient
@@ -23601,7 +23602,7 @@ export type UpdateQueueHoursOfOperationError =
  * Updates the hours of operation for the specified queue.
  */
 export const updateQueueHoursOfOperation: API.OperationMethod<
-  UpdateQueueHoursOfOperationRequest,
+  UpdateQueueHoursOfOperationRequest & RegionInput,
   UpdateQueueHoursOfOperationResponse,
   UpdateQueueHoursOfOperationError,
   Creds | HttpClient.HttpClient
@@ -23633,7 +23634,7 @@ export type UpdateQueueMaxContactsError =
  * Updates the maximum number of contacts allowed in a queue before it is considered full.
  */
 export const updateQueueMaxContacts: API.OperationMethod<
-  UpdateQueueMaxContactsRequest,
+  UpdateQueueMaxContactsRequest & RegionInput,
   UpdateQueueMaxContactsResponse,
   UpdateQueueMaxContactsError,
   Creds | HttpClient.HttpClient
@@ -23666,7 +23667,7 @@ export type UpdateQueueNameError =
  * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
  */
 export const updateQueueName: API.OperationMethod<
-  UpdateQueueNameRequest,
+  UpdateQueueNameRequest & RegionInput,
   UpdateQueueNameResponse,
   UpdateQueueNameError,
   Creds | HttpClient.HttpClient
@@ -23713,7 +23714,7 @@ export type UpdateQueueOutboundCallerConfigError =
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
 export const updateQueueOutboundCallerConfig: API.OperationMethod<
-  UpdateQueueOutboundCallerConfigRequest,
+  UpdateQueueOutboundCallerConfigRequest & RegionInput,
   UpdateQueueOutboundCallerConfigResponse,
   UpdateQueueOutboundCallerConfigError,
   Creds | HttpClient.HttpClient
@@ -23747,7 +23748,7 @@ export type UpdateQueueOutboundEmailConfigError =
  * Updates the outbound email address Id for a specified queue.
  */
 export const updateQueueOutboundEmailConfig: API.OperationMethod<
-  UpdateQueueOutboundEmailConfigRequest,
+  UpdateQueueOutboundEmailConfigRequest & RegionInput,
   UpdateQueueOutboundEmailConfigResponse,
   UpdateQueueOutboundEmailConfigError,
   Creds | HttpClient.HttpClient
@@ -23781,7 +23782,7 @@ export type UpdateQueueStatusError =
  * Updates the status of the queue.
  */
 export const updateQueueStatus: API.OperationMethod<
-  UpdateQueueStatusRequest,
+  UpdateQueueStatusRequest & RegionInput,
   UpdateQueueStatusResponse,
   UpdateQueueStatusError,
   Creds | HttpClient.HttpClient
@@ -23813,7 +23814,7 @@ export type UpdateQuickConnectConfigError =
  * Updates the configuration settings for the specified quick connect.
  */
 export const updateQuickConnectConfig: API.OperationMethod<
-  UpdateQuickConnectConfigRequest,
+  UpdateQuickConnectConfigRequest & RegionInput,
   UpdateQuickConnectConfigResponse,
   UpdateQuickConnectConfigError,
   Creds | HttpClient.HttpClient
@@ -23845,7 +23846,7 @@ export type UpdateQuickConnectNameError =
  * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
 export const updateQuickConnectName: API.OperationMethod<
-  UpdateQuickConnectNameRequest,
+  UpdateQuickConnectNameRequest & RegionInput,
   UpdateQuickConnectNameResponse,
   UpdateQuickConnectNameError,
   Creds | HttpClient.HttpClient
@@ -23878,7 +23879,7 @@ export type UpdateRoutingProfileAgentAvailabilityTimerError =
  * their last inbound contact or *longest idle time*.
  */
 export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
-  UpdateRoutingProfileAgentAvailabilityTimerRequest,
+  UpdateRoutingProfileAgentAvailabilityTimerRequest & RegionInput,
   UpdateRoutingProfileAgentAvailabilityTimerResponse,
   UpdateRoutingProfileAgentAvailabilityTimerError,
   Creds | HttpClient.HttpClient
@@ -23918,7 +23919,7 @@ export type UpdateRoutingProfileConcurrencyError =
  * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
  */
 export const updateRoutingProfileConcurrency: API.OperationMethod<
-  UpdateRoutingProfileConcurrencyRequest,
+  UpdateRoutingProfileConcurrencyRequest & RegionInput,
   UpdateRoutingProfileConcurrencyResponse,
   UpdateRoutingProfileConcurrencyError,
   Creds | HttpClient.HttpClient
@@ -23950,7 +23951,7 @@ export type UpdateRoutingProfileDefaultOutboundQueueError =
  * Updates the default outbound queue of a routing profile.
  */
 export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
-  UpdateRoutingProfileDefaultOutboundQueueRequest,
+  UpdateRoutingProfileDefaultOutboundQueueRequest & RegionInput,
   UpdateRoutingProfileDefaultOutboundQueueResponse,
   UpdateRoutingProfileDefaultOutboundQueueError,
   Creds | HttpClient.HttpClient
@@ -23983,7 +23984,7 @@ export type UpdateRoutingProfileNameError =
  * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
 export const updateRoutingProfileName: API.OperationMethod<
-  UpdateRoutingProfileNameRequest,
+  UpdateRoutingProfileNameRequest & RegionInput,
   UpdateRoutingProfileNameResponse,
   UpdateRoutingProfileNameError,
   Creds | HttpClient.HttpClient
@@ -24016,7 +24017,7 @@ export type UpdateRoutingProfileQueuesError =
  * Updates the properties associated with a set of queues for a routing profile.
  */
 export const updateRoutingProfileQueues: API.OperationMethod<
-  UpdateRoutingProfileQueuesRequest,
+  UpdateRoutingProfileQueuesRequest & RegionInput,
   UpdateRoutingProfileQueuesResponse,
   UpdateRoutingProfileQueuesError,
   Creds | HttpClient.HttpClient
@@ -24052,7 +24053,7 @@ export type UpdateRuleError =
  * language to code conditions for the rule.
  */
 export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
+  UpdateRuleRequest & RegionInput,
   UpdateRuleResponse,
   UpdateRuleError,
   Creds | HttpClient.HttpClient
@@ -24089,7 +24090,7 @@ export type UpdateSecurityProfileError =
  * of security profile permissions.
  */
 export const updateSecurityProfile: API.OperationMethod<
-  UpdateSecurityProfileRequest,
+  UpdateSecurityProfileRequest & RegionInput,
   UpdateSecurityProfileResponse,
   UpdateSecurityProfileError,
   Creds | HttpClient.HttpClient
@@ -24123,7 +24124,7 @@ export type UpdateTaskTemplateError =
  * not support partial updates. Instead it does a full update of template content.
  */
 export const updateTaskTemplate: API.OperationMethod<
-  UpdateTaskTemplateRequest,
+  UpdateTaskTemplateRequest & RegionInput,
   UpdateTaskTemplateResponse,
   UpdateTaskTemplateError,
   Creds | HttpClient.HttpClient
@@ -24159,7 +24160,7 @@ export type UpdateTestCaseError =
  * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
  */
 export const updateTestCase: API.OperationMethod<
-  UpdateTestCaseRequest,
+  UpdateTestCaseRequest & RegionInput,
   UpdateTestCaseResponse,
   UpdateTestCaseError,
   Creds | HttpClient.HttpClient
@@ -24214,7 +24215,7 @@ export type UpdateTrafficDistributionError =
  * - Invoke the UpdateTrafficDistribution API in the region that should handle traffic.
  */
 export const updateTrafficDistribution: API.OperationMethod<
-  UpdateTrafficDistributionRequest,
+  UpdateTrafficDistributionRequest & RegionInput,
   UpdateTrafficDistributionResponse,
   UpdateTrafficDistributionError,
   Creds | HttpClient.HttpClient
@@ -24250,7 +24251,7 @@ export type UpdateUserConfigError =
  * This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
  */
 export const updateUserConfig: API.OperationMethod<
-  UpdateUserConfigRequest,
+  UpdateUserConfigRequest & RegionInput,
   UpdateUserConfigResponse,
   UpdateUserConfigError,
   Creds | HttpClient.HttpClient
@@ -24283,7 +24284,7 @@ export type UpdateUserHierarchyError =
  * Assigns the specified hierarchy group to the specified user.
  */
 export const updateUserHierarchy: API.OperationMethod<
-  UpdateUserHierarchyRequest,
+  UpdateUserHierarchyRequest & RegionInput,
   UpdateUserHierarchyResponse,
   UpdateUserHierarchyError,
   Creds | HttpClient.HttpClient
@@ -24316,7 +24317,7 @@ export type UpdateUserHierarchyGroupNameError =
  * Updates the name of the user hierarchy group.
  */
 export const updateUserHierarchyGroupName: API.OperationMethod<
-  UpdateUserHierarchyGroupNameRequest,
+  UpdateUserHierarchyGroupNameRequest & RegionInput,
   UpdateUserHierarchyGroupNameResponse,
   UpdateUserHierarchyGroupNameError,
   Creds | HttpClient.HttpClient
@@ -24350,7 +24351,7 @@ export type UpdateUserHierarchyStructureError =
  * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
  */
 export const updateUserHierarchyStructure: API.OperationMethod<
-  UpdateUserHierarchyStructureRequest,
+  UpdateUserHierarchyStructureRequest & RegionInput,
   UpdateUserHierarchyStructureResponse,
   UpdateUserHierarchyStructureError,
   Creds | HttpClient.HttpClient
@@ -24389,7 +24390,7 @@ export type UpdateUserIdentityInfoError =
  * in the *Connect Customer Administrator Guide*.
  */
 export const updateUserIdentityInfo: API.OperationMethod<
-  UpdateUserIdentityInfoRequest,
+  UpdateUserIdentityInfoRequest & RegionInput,
   UpdateUserIdentityInfoResponse,
   UpdateUserIdentityInfoError,
   Creds | HttpClient.HttpClient
@@ -24422,7 +24423,7 @@ export type UpdateUserNotificationStatusError =
  * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
  */
 export const updateUserNotificationStatus: API.OperationMethod<
-  UpdateUserNotificationStatusRequest,
+  UpdateUserNotificationStatusRequest & RegionInput,
   UpdateUserNotificationStatusResponse,
   UpdateUserNotificationStatusError,
   Creds | HttpClient.HttpClient
@@ -24457,7 +24458,7 @@ export type UpdateUserPhoneConfigError =
  * We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
  */
 export const updateUserPhoneConfig: API.OperationMethod<
-  UpdateUserPhoneConfigRequest,
+  UpdateUserPhoneConfigRequest & RegionInput,
   UpdateUserPhoneConfigResponse,
   UpdateUserPhoneConfigError,
   Creds | HttpClient.HttpClient
@@ -24489,7 +24490,7 @@ export type UpdateUserProficienciesError =
  * Updates the properties associated with the proficiencies of a user.
  */
 export const updateUserProficiencies: API.OperationMethod<
-  UpdateUserProficienciesRequest,
+  UpdateUserProficienciesRequest & RegionInput,
   UpdateUserProficienciesResponse,
   UpdateUserProficienciesError,
   Creds | HttpClient.HttpClient
@@ -24521,7 +24522,7 @@ export type UpdateUserRoutingProfileError =
  * Assigns the specified routing profile to the specified user.
  */
 export const updateUserRoutingProfile: API.OperationMethod<
-  UpdateUserRoutingProfileRequest,
+  UpdateUserRoutingProfileRequest & RegionInput,
   UpdateUserRoutingProfileResponse,
   UpdateUserRoutingProfileError,
   Creds | HttpClient.HttpClient
@@ -24553,7 +24554,7 @@ export type UpdateUserSecurityProfilesError =
  * Assigns the specified security profiles to the specified user.
  */
 export const updateUserSecurityProfiles: API.OperationMethod<
-  UpdateUserSecurityProfilesRequest,
+  UpdateUserSecurityProfilesRequest & RegionInput,
   UpdateUserSecurityProfilesResponse,
   UpdateUserSecurityProfilesError,
   Creds | HttpClient.HttpClient
@@ -24592,7 +24593,7 @@ export type UpdateViewContentError =
  * `PUBLISHED`.
  */
 export const updateViewContent: API.OperationMethod<
-  UpdateViewContentRequest,
+  UpdateViewContentRequest & RegionInput,
   UpdateViewContentResponse,
   UpdateViewContentError,
   Creds | HttpClient.HttpClient
@@ -24630,7 +24631,7 @@ export type UpdateViewMetadataError =
  * provided.
  */
 export const updateViewMetadata: API.OperationMethod<
-  UpdateViewMetadataRequest,
+  UpdateViewMetadataRequest & RegionInput,
   UpdateViewMetadataResponse,
   UpdateViewMetadataError,
   Creds | HttpClient.HttpClient
@@ -24667,7 +24668,7 @@ export type UpdateWorkspaceMetadataError =
  * Updates the metadata of a workspace, such as its name and description.
  */
 export const updateWorkspaceMetadata: API.OperationMethod<
-  UpdateWorkspaceMetadataRequest,
+  UpdateWorkspaceMetadataRequest & RegionInput,
   UpdateWorkspaceMetadataResponse,
   UpdateWorkspaceMetadataError,
   Creds | HttpClient.HttpClient
@@ -24704,7 +24705,7 @@ export type UpdateWorkspacePageError =
  * Updates the configuration of a page in a workspace, including the associated view and input data.
  */
 export const updateWorkspacePage: API.OperationMethod<
-  UpdateWorkspacePageRequest,
+  UpdateWorkspacePageRequest & RegionInput,
   UpdateWorkspacePageResponse,
   UpdateWorkspacePageError,
   Creds | HttpClient.HttpClient
@@ -24740,7 +24741,7 @@ export type UpdateWorkspaceThemeError =
  * Updates the theme configuration for a workspace, including colors and styling.
  */
 export const updateWorkspaceTheme: API.OperationMethod<
-  UpdateWorkspaceThemeRequest,
+  UpdateWorkspaceThemeRequest & RegionInput,
   UpdateWorkspaceThemeResponse,
   UpdateWorkspaceThemeError,
   Creds | HttpClient.HttpClient
@@ -24775,7 +24776,7 @@ export type UpdateWorkspaceVisibilityError =
  * only, or none.
  */
 export const updateWorkspaceVisibility: API.OperationMethod<
-  UpdateWorkspaceVisibilityRequest,
+  UpdateWorkspaceVisibilityRequest & RegionInput,
   UpdateWorkspaceVisibilityResponse,
   UpdateWorkspaceVisibilityError,
   Creds | HttpClient.HttpClient

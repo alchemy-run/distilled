@@ -26,6 +26,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The project has no remaining Primary IP quota for the Server's public IPs (Hetzner `resource_limit_exceeded`, HTTP 403). Servers and Load Balancers share it; it frees up as they are deleted. */
+export class PrimaryIpLimitExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PrimaryIpLimitExceeded>()("PrimaryIpLimitExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 403, message: { includes: "IP limit" } }],
+  ) {}
+
 /** The project has no remaining Server quota (Hetzner `resource_limit_exceeded`, HTTP 403). Often a race after a delete -- retry. */
 export class ServerLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1581,7 +1591,11 @@ export interface UpdateServerResponseServer {
 export interface UpdateServerResponse {
   server?: UpdateServerResponseServer;
 }
-export type CreateServerError = ServerLimitExceeded | ServerPlacementError | HetznerOpError;
+export type CreateServerError =
+  | ServerLimitExceeded
+  | ServerPlacementError
+  | PrimaryIpLimitExceeded
+  | HetznerOpError;
 /** Create a Server Creates a new Server. Returns preliminary information about the Server as well as an Action that covers progress of creation. #### Operation specific errors */
 export const createServer: API.OperationMethod<
   CreateServerRequest,
@@ -1591,7 +1605,7 @@ export const createServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c0, 4) as any as S.Schema<CreateServerRequest>,
   output: __S(6, __c0, 6) as any as S.Schema<CreateServerResponse>,
-  errors: [ServerLimitExceeded, ServerPlacementError, UnknownHetznerError],
+  errors: [ServerLimitExceeded, ServerPlacementError, PrimaryIpLimitExceeded, UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

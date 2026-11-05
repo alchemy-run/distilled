@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -146,7 +147,7 @@ export type DeleteConnectionError =
  * Delete the connection with the provided id.
  */
 export const deleteConnection: API.OperationMethod<
-  DeleteConnectionRequest,
+  DeleteConnectionRequest & RegionInput,
   DeleteConnectionResponse,
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
@@ -170,7 +171,7 @@ export type GetConnectionError =
  * Get information about the connection with the provided id.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -195,7 +196,7 @@ export type PostToConnectionError =
  * Sends the provided data to the specified connection.
  */
 export const postToConnection: API.OperationMethod<
-  PostToConnectionRequest,
+  PostToConnectionRequest & RegionInput,
   PostToConnectionResponse,
   PostToConnectionError,
   Credentials | HttpClient.HttpClient

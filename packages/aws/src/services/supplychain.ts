@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -702,7 +703,7 @@ export type CreateBillOfMaterialsImportJobError =
  * The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
  */
 export const createBillOfMaterialsImportJob: API.OperationMethod<
-  CreateBillOfMaterialsImportJobRequest,
+  CreateBillOfMaterialsImportJobRequest & RegionInput,
   CreateBillOfMaterialsImportJobResponse,
   CreateBillOfMaterialsImportJobError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type CreateDataIntegrationFlowError =
  * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
 export const createDataIntegrationFlow: API.OperationMethod<
-  CreateDataIntegrationFlowRequest,
+  CreateDataIntegrationFlowRequest & RegionInput,
   CreateDataIntegrationFlowResponse,
   CreateDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type CreateDataLakeDatasetError =
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
  */
 export const createDataLakeDataset: API.OperationMethod<
-  CreateDataLakeDatasetRequest,
+  CreateDataLakeDatasetRequest & RegionInput,
   CreateDataLakeDatasetResponse,
   CreateDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +807,7 @@ export type CreateDataLakeNamespaceError =
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
  */
 export const createDataLakeNamespace: API.OperationMethod<
-  CreateDataLakeNamespaceRequest,
+  CreateDataLakeNamespaceRequest & RegionInput,
   CreateDataLakeNamespaceResponse,
   CreateDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -842,7 +843,7 @@ export type CreateInstanceError =
  * This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -874,7 +875,7 @@ export type DeleteDataIntegrationFlowError =
  * Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const deleteDataIntegrationFlow: API.OperationMethod<
-  DeleteDataIntegrationFlowRequest,
+  DeleteDataIntegrationFlowRequest & RegionInput,
   DeleteDataIntegrationFlowResponse,
   DeleteDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -905,7 +906,7 @@ export type DeleteDataLakeDatasetError =
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
  */
 export const deleteDataLakeDataset: API.OperationMethod<
-  DeleteDataLakeDatasetRequest,
+  DeleteDataLakeDatasetRequest & RegionInput,
   DeleteDataLakeDatasetResponse,
   DeleteDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteDataLakeNamespaceError =
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
  */
 export const deleteDataLakeNamespace: API.OperationMethod<
-  DeleteDataLakeNamespaceRequest,
+  DeleteDataLakeNamespaceRequest & RegionInput,
   DeleteDataLakeNamespaceResponse,
   DeleteDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type DeleteInstanceError =
  * This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1003,7 +1004,7 @@ export type GetBillOfMaterialsImportJobError =
  * Get status and details of a BillOfMaterialsImportJob.
  */
 export const getBillOfMaterialsImportJob: API.OperationMethod<
-  GetBillOfMaterialsImportJobRequest,
+  GetBillOfMaterialsImportJobRequest & RegionInput,
   GetBillOfMaterialsImportJobResponse,
   GetBillOfMaterialsImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type GetDataIntegrationEventError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
  */
 export const getDataIntegrationEvent: API.OperationMethod<
-  GetDataIntegrationEventRequest,
+  GetDataIntegrationEventRequest & RegionInput,
   GetDataIntegrationEventResponse,
   GetDataIntegrationEventError,
   Credentials | HttpClient.HttpClient
@@ -1067,7 +1068,7 @@ export type GetDataIntegrationFlowError =
  * Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const getDataIntegrationFlow: API.OperationMethod<
-  GetDataIntegrationFlowRequest,
+  GetDataIntegrationFlowRequest & RegionInput,
   GetDataIntegrationFlowResponse,
   GetDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type GetDataIntegrationFlowExecutionError =
  * Get the flow execution.
  */
 export const getDataIntegrationFlowExecution: API.OperationMethod<
-  GetDataIntegrationFlowExecutionRequest,
+  GetDataIntegrationFlowExecutionRequest & RegionInput,
   GetDataIntegrationFlowExecutionResponse,
   GetDataIntegrationFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1131,7 +1132,7 @@ export type GetDataLakeDatasetError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
  */
 export const getDataLakeDataset: API.OperationMethod<
-  GetDataLakeDatasetRequest,
+  GetDataLakeDatasetRequest & RegionInput,
   GetDataLakeDatasetResponse,
   GetDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type GetDataLakeNamespaceError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
  */
 export const getDataLakeNamespace: API.OperationMethod<
-  GetDataLakeNamespaceRequest,
+  GetDataLakeNamespaceRequest & RegionInput,
   GetDataLakeNamespaceResponse,
   GetDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1195,7 +1196,7 @@ export type GetInstanceError =
  * Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
  */
 export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
+  GetInstanceRequest & RegionInput,
   GetInstanceResponse,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type ListDataIntegrationEventsError =
  * Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationEvents: API.PaginatedOperationMethod<
-  ListDataIntegrationEventsRequest,
+  ListDataIntegrationEventsRequest & RegionInput,
   ListDataIntegrationEventsResponse,
   ListDataIntegrationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1264,7 +1265,7 @@ export type ListDataIntegrationFlowExecutionsError =
  * List flow executions.
  */
 export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
-  ListDataIntegrationFlowExecutionsRequest,
+  ListDataIntegrationFlowExecutionsRequest & RegionInput,
   ListDataIntegrationFlowExecutionsResponse,
   ListDataIntegrationFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1302,7 +1303,7 @@ export type ListDataIntegrationFlowsError =
  * Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationFlows: API.PaginatedOperationMethod<
-  ListDataIntegrationFlowsRequest,
+  ListDataIntegrationFlowsRequest & RegionInput,
   ListDataIntegrationFlowsResponse,
   ListDataIntegrationFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -1340,7 +1341,7 @@ export type ListDataLakeDatasetsError =
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
  */
 export const listDataLakeDatasets: API.PaginatedOperationMethod<
-  ListDataLakeDatasetsRequest,
+  ListDataLakeDatasetsRequest & RegionInput,
   ListDataLakeDatasetsResponse,
   ListDataLakeDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -1378,7 +1379,7 @@ export type ListDataLakeNamespacesError =
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
  */
 export const listDataLakeNamespaces: API.PaginatedOperationMethod<
-  ListDataLakeNamespacesRequest,
+  ListDataLakeNamespacesRequest & RegionInput,
   ListDataLakeNamespacesResponse,
   ListDataLakeNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1415,7 +1416,7 @@ export type ListInstancesError =
  * List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1453,7 +1454,7 @@ export type ListTagsForResourceError =
  * List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1488,7 @@ export type SendDataIntegrationEventError =
  * Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
  */
 export const sendDataIntegrationEvent: API.OperationMethod<
-  SendDataIntegrationEventRequest,
+  SendDataIntegrationEventRequest & RegionInput,
   SendDataIntegrationEventResponse,
   SendDataIntegrationEventError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type TagResourceError =
  * You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type UntagResourceError =
  * You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1586,7 @@ export type UpdateDataIntegrationFlowError =
  * Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
 export const updateDataIntegrationFlow: API.OperationMethod<
-  UpdateDataIntegrationFlowRequest,
+  UpdateDataIntegrationFlowRequest & RegionInput,
   UpdateDataIntegrationFlowResponse,
   UpdateDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type UpdateDataLakeDatasetError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
  */
 export const updateDataLakeDataset: API.OperationMethod<
-  UpdateDataLakeDatasetRequest,
+  UpdateDataLakeDatasetRequest & RegionInput,
   UpdateDataLakeDatasetResponse,
   UpdateDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1649,7 +1650,7 @@ export type UpdateDataLakeNamespaceError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
  */
 export const updateDataLakeNamespace: API.OperationMethod<
-  UpdateDataLakeNamespaceRequest,
+  UpdateDataLakeNamespaceRequest & RegionInput,
   UpdateDataLakeNamespaceResponse,
   UpdateDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1682,7 @@ export type UpdateInstanceError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
  */
 export const updateInstance: API.OperationMethod<
-  UpdateInstanceRequest,
+  UpdateInstanceRequest & RegionInput,
   UpdateInstanceResponse,
   UpdateInstanceError,
   Credentials | HttpClient.HttpClient

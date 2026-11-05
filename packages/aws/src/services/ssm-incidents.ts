@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -687,7 +688,7 @@ export type BatchGetIncidentFindingsError =
  * potential cause of the incident.
  */
 export const batchGetIncidentFindings: API.OperationMethod<
-  BatchGetIncidentFindingsInput,
+  BatchGetIncidentFindingsInput & RegionInput,
   BatchGetIncidentFindingsOutput,
   BatchGetIncidentFindingsError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type CreateReplicationSetError =
  * provided KMS key.
  */
 export const createReplicationSet: API.OperationMethod<
-  CreateReplicationSetInput,
+  CreateReplicationSetInput & RegionInput,
   CreateReplicationSetOutput,
   CreateReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +760,7 @@ export type CreateResponsePlanError =
  * of an incident.
  */
 export const createResponsePlan: API.OperationMethod<
-  CreateResponsePlanInput,
+  CreateResponsePlanInput & RegionInput,
   CreateResponsePlanOutput,
   CreateResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -796,7 +797,7 @@ export type CreateTimelineEventError =
  * automatically.
  */
 export const createTimelineEvent: API.OperationMethod<
-  CreateTimelineEventInput,
+  CreateTimelineEventInput & RegionInput,
   CreateTimelineEventOutput,
   CreateTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -828,7 +829,7 @@ export type DeleteIncidentRecordError =
  * Delete an incident record from Incident Manager.
  */
 export const deleteIncidentRecord: API.OperationMethod<
-  DeleteIncidentRecordInput,
+  DeleteIncidentRecordInput & RegionInput,
   DeleteIncidentRecordOutput,
   DeleteIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -860,7 +861,7 @@ export type DeleteReplicationSetError =
  * Incident Manager data.
  */
 export const deleteReplicationSet: API.OperationMethod<
-  DeleteReplicationSetInput,
+  DeleteReplicationSetInput & RegionInput,
   DeleteReplicationSetOutput,
   DeleteReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -893,7 +894,7 @@ export type DeleteResourcePolicyError =
  * resource.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyInput,
+  DeleteResourcePolicyInput & RegionInput,
   DeleteResourcePolicyOutput,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -925,7 +926,7 @@ export type DeleteResponsePlanError =
  * plan.
  */
 export const deleteResponsePlan: API.OperationMethod<
-  DeleteResponsePlanInput,
+  DeleteResponsePlanInput & RegionInput,
   DeleteResponsePlanOutput,
   DeleteResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -955,7 +956,7 @@ export type DeleteTimelineEventError =
  * Deletes a timeline event from an incident.
  */
 export const deleteTimelineEvent: API.OperationMethod<
-  DeleteTimelineEventInput,
+  DeleteTimelineEventInput & RegionInput,
   DeleteTimelineEventOutput,
   DeleteTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -986,7 +987,7 @@ export type GetIncidentRecordError =
  * Returns the details for the specified incident record.
  */
 export const getIncidentRecord: API.OperationMethod<
-  GetIncidentRecordInput,
+  GetIncidentRecordInput & RegionInput,
   GetIncidentRecordOutput,
   GetIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -1018,7 +1019,7 @@ export type GetReplicationSetError =
  * Retrieve your Incident Manager replication set.
  */
 export const getReplicationSet: API.OperationMethod<
-  GetReplicationSetInput,
+  GetReplicationSetInput & RegionInput,
   GetReplicationSetOutput,
   GetReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -1050,7 +1051,7 @@ export type GetResourcePoliciesError =
  * Retrieves the resource policies attached to the specified response plan.
  */
 export const getResourcePolicies: API.PaginatedOperationMethod<
-  GetResourcePoliciesInput,
+  GetResourcePoliciesInput & RegionInput,
   GetResourcePoliciesOutput,
   GetResourcePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -1089,7 +1090,7 @@ export type GetResponsePlanError =
  * Retrieves the details of the specified response plan.
  */
 export const getResponsePlan: API.OperationMethod<
-  GetResponsePlanInput,
+  GetResponsePlanInput & RegionInput,
   GetResponsePlanOutput,
   GetResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -1121,7 +1122,7 @@ export type GetTimelineEventError =
  * Retrieves a timeline event based on its ID and incident record.
  */
 export const getTimelineEvent: API.OperationMethod<
-  GetTimelineEventInput,
+  GetTimelineEventInput & RegionInput,
   GetTimelineEventOutput,
   GetTimelineEventError,
   Credentials | HttpClient.HttpClient
@@ -1156,7 +1157,7 @@ export type ListIncidentFindingsError =
  * deployment that can be investigated as a potential cause of the incident.
  */
 export const listIncidentFindings: API.PaginatedOperationMethod<
-  ListIncidentFindingsInput,
+  ListIncidentFindingsInput & RegionInput,
   ListIncidentFindingsOutput,
   ListIncidentFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -1195,7 +1196,7 @@ export type ListIncidentRecordsError =
  * Resource Name (ARN) of the incident record you want to update.
  */
 export const listIncidentRecords: API.PaginatedOperationMethod<
-  ListIncidentRecordsInput,
+  ListIncidentRecordsInput & RegionInput,
   ListIncidentRecordsOutput,
   ListIncidentRecordsError,
   Credentials | HttpClient.HttpClient,
@@ -1232,7 +1233,7 @@ export type ListRelatedItemsError =
  * List all related items for an incident record.
  */
 export const listRelatedItems: API.PaginatedOperationMethod<
-  ListRelatedItemsInput,
+  ListRelatedItemsInput & RegionInput,
   ListRelatedItemsOutput,
   ListRelatedItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1269,7 +1270,7 @@ export type ListReplicationSetsError =
  * Lists details about the replication set configured in your account.
  */
 export const listReplicationSets: API.PaginatedOperationMethod<
-  ListReplicationSetsInput,
+  ListReplicationSetsInput & RegionInput,
   ListReplicationSetsOutput,
   ListReplicationSetsError,
   Credentials | HttpClient.HttpClient,
@@ -1306,7 +1307,7 @@ export type ListResponsePlansError =
  * Lists all response plans in your account.
  */
 export const listResponsePlans: API.PaginatedOperationMethod<
-  ListResponsePlansInput,
+  ListResponsePlansInput & RegionInput,
   ListResponsePlansOutput,
   ListResponsePlansError,
   Credentials | HttpClient.HttpClient,
@@ -1344,7 +1345,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to the specified response plan or incident.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1375,7 +1376,7 @@ export type ListTimelineEventsError =
  * Lists timeline events for the specified incident record.
  */
 export const listTimelineEvents: API.PaginatedOperationMethod<
-  ListTimelineEventsInput,
+  ListTimelineEventsInput & RegionInput,
   ListTimelineEventsOutput,
   ListTimelineEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1415,7 +1416,7 @@ export type PutResourcePolicyError =
  * information about cross-account sharing, see Cross-Region and cross-account incident management.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyInput,
+  PutResourcePolicyInput & RegionInput,
   PutResourcePolicyOutput,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1449,7 +1450,7 @@ export type StartIncidentError =
  * manually.
  */
 export const startIncident: API.OperationMethod<
-  StartIncidentInput,
+  StartIncidentInput & RegionInput,
   StartIncidentOutput,
   StartIncidentError,
   Credentials | HttpClient.HttpClient
@@ -1484,7 +1485,7 @@ export type TagResourceError =
  * Adds a tag to a response plan.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1519,7 +1520,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type UpdateDeletionProtectionError =
  * replication set.
  */
 export const updateDeletionProtection: API.OperationMethod<
-  UpdateDeletionProtectionInput,
+  UpdateDeletionProtectionInput & RegionInput,
   UpdateDeletionProtectionOutput,
   UpdateDeletionProtectionError,
   Credentials | HttpClient.HttpClient
@@ -1588,7 +1589,7 @@ export type UpdateIncidentRecordError =
  * channels, see Interacting through chat.
  */
 export const updateIncidentRecord: API.OperationMethod<
-  UpdateIncidentRecordInput,
+  UpdateIncidentRecordInput & RegionInput,
   UpdateIncidentRecordOutput,
   UpdateIncidentRecordError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type UpdateRelatedItemsError =
  * Add or remove related items from the related items tab of an incident record.
  */
 export const updateRelatedItems: API.OperationMethod<
-  UpdateRelatedItemsInput,
+  UpdateRelatedItemsInput & RegionInput,
   UpdateRelatedItemsOutput,
   UpdateRelatedItemsError,
   Credentials | HttpClient.HttpClient
@@ -1656,7 +1657,7 @@ export type UpdateReplicationSetError =
  * Add or delete Regions from your replication set.
  */
 export const updateReplicationSet: API.OperationMethod<
-  UpdateReplicationSetInput,
+  UpdateReplicationSetInput & RegionInput,
   UpdateReplicationSetOutput,
   UpdateReplicationSetError,
   Credentials | HttpClient.HttpClient
@@ -1690,7 +1691,7 @@ export type UpdateResponsePlanError =
  * Updates the specified response plan.
  */
 export const updateResponsePlan: API.OperationMethod<
-  UpdateResponsePlanInput,
+  UpdateResponsePlanInput & RegionInput,
   UpdateResponsePlanOutput,
   UpdateResponsePlanError,
   Credentials | HttpClient.HttpClient
@@ -1724,7 +1725,7 @@ export type UpdateTimelineEventError =
  * Updates a timeline event. You can update events of type `Custom Event`.
  */
 export const updateTimelineEvent: API.OperationMethod<
-  UpdateTimelineEventInput,
+  UpdateTimelineEventInput & RegionInput,
   UpdateTimelineEventOutput,
   UpdateTimelineEventError,
   Credentials | HttpClient.HttpClient

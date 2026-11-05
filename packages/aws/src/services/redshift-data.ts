@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -533,7 +534,7 @@ export type BatchExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementInput,
+  BatchExecuteStatementInput & RegionInput,
   BatchExecuteStatementOutput,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +569,7 @@ export type CancelStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const cancelStatement: API.OperationMethod<
-  CancelStatementRequest,
+  CancelStatementRequest & RegionInput,
   CancelStatementResponse,
   CancelStatementError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +602,7 @@ export type DescribeStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeStatement: API.OperationMethod<
-  DescribeStatementRequest,
+  DescribeStatementRequest & RegionInput,
   DescribeStatementResponse,
   DescribeStatementError,
   Credentials | HttpClient.HttpClient
@@ -644,7 +645,7 @@ export type DescribeTableError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeTable: API.PaginatedOperationMethod<
-  DescribeTableRequest,
+  DescribeTableRequest & RegionInput,
   DescribeTableResponse,
   DescribeTableError,
   Credentials | HttpClient.HttpClient,
@@ -696,7 +697,7 @@ export type ExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementInput,
+  ExecuteStatementInput & RegionInput,
   ExecuteStatementOutput,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type GetStatementResultError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResult: API.PaginatedOperationMethod<
-  GetStatementResultRequest,
+  GetStatementResultRequest & RegionInput,
   GetStatementResultResponse,
   GetStatementResultError,
   Credentials | HttpClient.HttpClient,
@@ -764,7 +765,7 @@ export type GetStatementResultV2Error =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResultV2: API.PaginatedOperationMethod<
-  GetStatementResultV2Request,
+  GetStatementResultV2Request & RegionInput,
   GetStatementResultV2Response,
   GetStatementResultV2Error,
   Credentials | HttpClient.HttpClient,
@@ -809,7 +810,7 @@ export type ListDatabasesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesRequest,
+  ListDatabasesRequest & RegionInput,
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -860,7 +861,7 @@ export type ListSchemasError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -899,7 +900,7 @@ export type ListSessionsError =
  * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -934,7 +935,7 @@ export type ListStatementsError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listStatements: API.PaginatedOperationMethod<
-  ListStatementsRequest,
+  ListStatementsRequest & RegionInput,
   ListStatementsResponse,
   ListStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -979,7 +980,7 @@ export type ListTablesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,

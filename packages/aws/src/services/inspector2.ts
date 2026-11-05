@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -3286,7 +3287,7 @@ export type AssociateMemberError =
  * accounts or GetMembers for a single account.
  */
 export const associateMember: API.OperationMethod<
-  AssociateMemberRequest,
+  AssociateMemberRequest & RegionInput,
   AssociateMemberResponse,
   AssociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -3320,7 +3321,7 @@ export type BatchAssociateCodeSecurityScanConfigurationError =
  * configuration.
  */
 export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
-  BatchAssociateCodeSecurityScanConfigurationRequest,
+  BatchAssociateCodeSecurityScanConfigurationRequest & RegionInput,
   BatchAssociateCodeSecurityScanConfigurationResponse,
   BatchAssociateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3363,7 +3364,7 @@ export type BatchDisassociateCodeSecurityScanConfigurationError =
  * configuration.
  */
 export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod<
-  BatchDisassociateCodeSecurityScanConfigurationRequest,
+  BatchDisassociateCodeSecurityScanConfigurationRequest & RegionInput,
   BatchDisassociateCodeSecurityScanConfigurationResponse,
   BatchDisassociateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3400,7 +3401,7 @@ export type BatchGetAccountStatusError =
  * Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
  */
 export const batchGetAccountStatus: API.OperationMethod<
-  BatchGetAccountStatusRequest,
+  BatchGetAccountStatusRequest & RegionInput,
   BatchGetAccountStatusResponse,
   BatchGetAccountStatusError,
   Credentials | HttpClient.HttpClient
@@ -3432,7 +3433,7 @@ export type BatchGetCodeSnippetError =
  * in.
  */
 export const batchGetCodeSnippet: API.OperationMethod<
-  BatchGetCodeSnippetRequest,
+  BatchGetCodeSnippetRequest & RegionInput,
   BatchGetCodeSnippetResponse,
   BatchGetCodeSnippetError,
   Credentials | HttpClient.HttpClient
@@ -3462,7 +3463,7 @@ export type BatchGetFindingDetailsError =
  * Gets vulnerability details for findings.
  */
 export const batchGetFindingDetails: API.OperationMethod<
-  BatchGetFindingDetailsRequest,
+  BatchGetFindingDetailsRequest & RegionInput,
   BatchGetFindingDetailsResponse,
   BatchGetFindingDetailsError,
   Credentials | HttpClient.HttpClient
@@ -3492,7 +3493,7 @@ export type BatchGetFreeTrialInfoError =
  * Gets free trial status for multiple Amazon Web Services accounts.
  */
 export const batchGetFreeTrialInfo: API.OperationMethod<
-  BatchGetFreeTrialInfoRequest,
+  BatchGetFreeTrialInfoRequest & RegionInput,
   BatchGetFreeTrialInfoResponse,
   BatchGetFreeTrialInfoError,
   Credentials | HttpClient.HttpClient
@@ -3524,7 +3525,7 @@ export type BatchGetMemberEc2DeepInspectionStatusError =
  * use this API.
  */
 export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
-  BatchGetMemberEc2DeepInspectionStatusRequest,
+  BatchGetMemberEc2DeepInspectionStatusRequest & RegionInput,
   BatchGetMemberEc2DeepInspectionStatusResponse,
   BatchGetMemberEc2DeepInspectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3556,7 +3557,7 @@ export type BatchUpdateMemberEc2DeepInspectionStatusError =
  * this API.
  */
 export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
-  BatchUpdateMemberEc2DeepInspectionStatusRequest,
+  BatchUpdateMemberEc2DeepInspectionStatusRequest & RegionInput,
   BatchUpdateMemberEc2DeepInspectionStatusResponse,
   BatchUpdateMemberEc2DeepInspectionStatusError,
   Credentials | HttpClient.HttpClient
@@ -3587,7 +3588,7 @@ export type CancelFindingsReportError =
  * Cancels the given findings report.
  */
 export const cancelFindingsReport: API.OperationMethod<
-  CancelFindingsReportRequest,
+  CancelFindingsReportRequest & RegionInput,
   CancelFindingsReportResponse,
   CancelFindingsReportError,
   Credentials | HttpClient.HttpClient
@@ -3619,7 +3620,7 @@ export type CancelSbomExportError =
  * Cancels a software bill of materials (SBOM) report.
  */
 export const cancelSbomExport: API.OperationMethod<
-  CancelSbomExportRequest,
+  CancelSbomExportRequest & RegionInput,
   CancelSbomExportResponse,
   CancelSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -3650,7 +3651,7 @@ export type CreateCisScanConfigurationError =
  * Creates a CIS scan configuration.
  */
 export const createCisScanConfiguration: API.OperationMethod<
-  CreateCisScanConfigurationRequest,
+  CreateCisScanConfigurationRequest & RegionInput,
   CreateCisScanConfigurationResponse,
   CreateCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3687,7 +3688,7 @@ export type CreateCodeSecurityIntegrationError =
  * to complete the integration setup
  */
 export const createCodeSecurityIntegration: API.OperationMethod<
-  CreateCodeSecurityIntegrationRequest,
+  CreateCodeSecurityIntegrationRequest & RegionInput,
   CreateCodeSecurityIntegrationResponse,
   CreateCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3721,7 +3722,7 @@ export type CreateCodeSecurityScanConfigurationError =
  * Creates a scan configuration for code security scanning.
  */
 export const createCodeSecurityScanConfiguration: API.OperationMethod<
-  CreateCodeSecurityScanConfigurationRequest,
+  CreateCodeSecurityScanConfigurationRequest & RegionInput,
   CreateCodeSecurityScanConfigurationResponse,
   CreateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3756,7 @@ export type CreateConnectorError =
  * Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -3790,7 +3791,7 @@ export type CreateFilterError =
  * to `SUPPRESS` this action creates a suppression rule.
  */
 export const createFilter: API.OperationMethod<
-  CreateFilterRequest,
+  CreateFilterRequest & RegionInput,
   CreateFilterResponse,
   CreateFilterError,
   Credentials | HttpClient.HttpClient
@@ -3825,7 +3826,7 @@ export type CreateFindingsReportError =
  * a value for the `findingStatus` filter criteria.
  */
 export const createFindingsReport: API.OperationMethod<
-  CreateFindingsReportRequest,
+  CreateFindingsReportRequest & RegionInput,
   CreateFindingsReportResponse,
   CreateFindingsReportError,
   Credentials | HttpClient.HttpClient
@@ -3857,7 +3858,7 @@ export type CreateSbomExportError =
  * Creates a software bill of materials (SBOM) report.
  */
 export const createSbomExport: API.OperationMethod<
-  CreateSbomExportRequest,
+  CreateSbomExportRequest & RegionInput,
   CreateSbomExportResponse,
   CreateSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -3889,7 +3890,7 @@ export type DeleteCisScanConfigurationError =
  * Deletes a CIS scan configuration.
  */
 export const deleteCisScanConfiguration: API.OperationMethod<
-  DeleteCisScanConfigurationRequest,
+  DeleteCisScanConfigurationRequest & RegionInput,
   DeleteCisScanConfigurationResponse,
   DeleteCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3921,7 +3922,7 @@ export type DeleteCodeSecurityIntegrationError =
  * Deletes a code security integration.
  */
 export const deleteCodeSecurityIntegration: API.OperationMethod<
-  DeleteCodeSecurityIntegrationRequest,
+  DeleteCodeSecurityIntegrationRequest & RegionInput,
   DeleteCodeSecurityIntegrationResponse,
   DeleteCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -3953,7 +3954,7 @@ export type DeleteCodeSecurityScanConfigurationError =
  * Deletes a code security scan configuration.
  */
 export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
-  DeleteCodeSecurityScanConfigurationRequest,
+  DeleteCodeSecurityScanConfigurationRequest & RegionInput,
   DeleteCodeSecurityScanConfigurationResponse,
   DeleteCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3986,7 +3987,7 @@ export type DeleteConnectorError =
  * Deletes a connector from your account.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -4019,7 +4020,7 @@ export type DeleteFilterError =
  * Deletes a filter resource.
  */
 export const deleteFilter: API.OperationMethod<
-  DeleteFilterRequest,
+  DeleteFilterRequest & RegionInput,
   DeleteFilterResponse,
   DeleteFilterError,
   Credentials | HttpClient.HttpClient
@@ -4050,7 +4051,7 @@ export type DescribeOrganizationConfigurationError =
  * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
-  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationRequest & RegionInput,
   DescribeOrganizationConfigurationResponse,
   DescribeOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4082,7 +4083,7 @@ export type DisableError =
  * account disables the Amazon Inspector service.
  */
 export const disable: API.OperationMethod<
-  DisableRequest,
+  DisableRequest & RegionInput,
   DisableResponse,
   DisableError,
   Credentials | HttpClient.HttpClient
@@ -4115,7 +4116,7 @@ export type DisableDelegatedAdminAccountError =
  * Disables the Amazon Inspector delegated administrator for your organization.
  */
 export const disableDelegatedAdminAccount: API.OperationMethod<
-  DisableDelegatedAdminAccountRequest,
+  DisableDelegatedAdminAccountRequest & RegionInput,
   DisableDelegatedAdminAccountResponse,
   DisableDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4147,7 +4148,7 @@ export type DisassociateMemberError =
  * Disassociates a member account from an Amazon Inspector delegated administrator.
  */
 export const disassociateMember: API.OperationMethod<
-  DisassociateMemberRequest,
+  DisassociateMemberRequest & RegionInput,
   DisassociateMemberResponse,
   DisassociateMemberError,
   Credentials | HttpClient.HttpClient
@@ -4178,7 +4179,7 @@ export type EnableError =
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
 export const enable: API.OperationMethod<
-  EnableRequest,
+  EnableRequest & RegionInput,
   EnableResponse,
   EnableError,
   Credentials | HttpClient.HttpClient
@@ -4211,7 +4212,7 @@ export type EnableDelegatedAdminAccountError =
  * Enables the Amazon Inspector delegated administrator for your Organizations organization.
  */
 export const enableDelegatedAdminAccount: API.OperationMethod<
-  EnableDelegatedAdminAccountRequest,
+  EnableDelegatedAdminAccountRequest & RegionInput,
   EnableDelegatedAdminAccountResponse,
   EnableDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4244,7 +4245,7 @@ export type GetCisScanReportError =
  * Retrieves a CIS scan report.
  */
 export const getCisScanReport: API.OperationMethod<
-  GetCisScanReportRequest,
+  GetCisScanReportRequest & RegionInput,
   GetCisScanReportResponse,
   GetCisScanReportError,
   Credentials | HttpClient.HttpClient
@@ -4275,7 +4276,7 @@ export type GetCisScanResultDetailsError =
  * Retrieves CIS scan result details.
  */
 export const getCisScanResultDetails: API.PaginatedOperationMethod<
-  GetCisScanResultDetailsRequest,
+  GetCisScanResultDetailsRequest & RegionInput,
   GetCisScanResultDetailsResponse,
   GetCisScanResultDetailsError,
   Credentials | HttpClient.HttpClient,
@@ -4312,7 +4313,7 @@ export type GetClustersForImageError =
  * Returns a list of clusters and metadata associated with an image.
  */
 export const getClustersForImage: API.PaginatedOperationMethod<
-  GetClustersForImageRequest,
+  GetClustersForImageRequest & RegionInput,
   GetClustersForImageResponse,
   GetClustersForImageError,
   Credentials | HttpClient.HttpClient,
@@ -4350,7 +4351,7 @@ export type GetCodeSecurityIntegrationError =
  * Retrieves information about a code security integration.
  */
 export const getCodeSecurityIntegration: API.OperationMethod<
-  GetCodeSecurityIntegrationRequest,
+  GetCodeSecurityIntegrationRequest & RegionInput,
   GetCodeSecurityIntegrationResponse,
   GetCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -4383,7 +4384,7 @@ export type GetCodeSecurityScanError =
  * Retrieves information about a specific code security scan.
  */
 export const getCodeSecurityScan: API.OperationMethod<
-  GetCodeSecurityScanRequest,
+  GetCodeSecurityScanRequest & RegionInput,
   GetCodeSecurityScanResponse,
   GetCodeSecurityScanError,
   Credentials | HttpClient.HttpClient
@@ -4416,7 +4417,7 @@ export type GetCodeSecurityScanConfigurationError =
  * Retrieves information about a code security scan configuration.
  */
 export const getCodeSecurityScanConfiguration: API.OperationMethod<
-  GetCodeSecurityScanConfigurationRequest,
+  GetCodeSecurityScanConfigurationRequest & RegionInput,
   GetCodeSecurityScanConfigurationResponse,
   GetCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4452,7 +4453,7 @@ export type GetConfigurationError =
  * scan configuration.
  */
 export const getConfiguration: API.OperationMethod<
-  GetConfigurationRequest,
+  GetConfigurationRequest & RegionInput,
   GetConfigurationResponse,
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4485,7 +4486,7 @@ export type GetDelegatedAdminAccountError =
  * organization.
  */
 export const getDelegatedAdminAccount: API.OperationMethod<
-  GetDelegatedAdminAccountRequest,
+  GetDelegatedAdminAccountRequest & RegionInput,
   GetDelegatedAdminAccountResponse,
   GetDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
@@ -4517,7 +4518,7 @@ export type GetEc2DeepInspectionConfigurationError =
  * with your account.
  */
 export const getEc2DeepInspectionConfiguration: API.OperationMethod<
-  GetEc2DeepInspectionConfigurationRequest,
+  GetEc2DeepInspectionConfigurationRequest & RegionInput,
   GetEc2DeepInspectionConfigurationResponse,
   GetEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4548,7 +4549,7 @@ export type GetEncryptionKeyError =
  * Gets an encryption key.
  */
 export const getEncryptionKey: API.OperationMethod<
-  GetEncryptionKeyRequest,
+  GetEncryptionKeyRequest & RegionInput,
   GetEncryptionKeyResponse,
   GetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -4580,7 +4581,7 @@ export type GetFindingsReportStatusError =
  * Gets the status of a findings report.
  */
 export const getFindingsReportStatus: API.OperationMethod<
-  GetFindingsReportStatusRequest,
+  GetFindingsReportStatusRequest & RegionInput,
   GetFindingsReportStatusResponse,
   GetFindingsReportStatusError,
   Credentials | HttpClient.HttpClient
@@ -4612,7 +4613,7 @@ export type GetMemberError =
  * Gets member information for your organization.
  */
 export const getMember: API.OperationMethod<
-  GetMemberRequest,
+  GetMemberRequest & RegionInput,
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
@@ -4644,7 +4645,7 @@ export type GetSbomExportError =
  * Gets details of a software bill of materials (SBOM) report.
  */
 export const getSbomExport: API.OperationMethod<
-  GetSbomExportRequest,
+  GetSbomExportRequest & RegionInput,
   GetSbomExportResponse,
   GetSbomExportError,
   Credentials | HttpClient.HttpClient
@@ -4676,7 +4677,7 @@ export type ListAccountPermissionsError =
  * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
  */
 export const listAccountPermissions: API.PaginatedOperationMethod<
-  ListAccountPermissionsRequest,
+  ListAccountPermissionsRequest & RegionInput,
   ListAccountPermissionsResponse,
   ListAccountPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -4713,7 +4714,7 @@ export type ListCisScanConfigurationsError =
  * Lists CIS scan configurations.
  */
 export const listCisScanConfigurations: API.PaginatedOperationMethod<
-  ListCisScanConfigurationsRequest,
+  ListCisScanConfigurationsRequest & RegionInput,
   ListCisScanConfigurationsResponse,
   ListCisScanConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4750,7 +4751,7 @@ export type ListCisScanResultsAggregatedByChecksError =
  * Lists scan results aggregated by checks.
  */
 export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
-  ListCisScanResultsAggregatedByChecksRequest,
+  ListCisScanResultsAggregatedByChecksRequest & RegionInput,
   ListCisScanResultsAggregatedByChecksResponse,
   ListCisScanResultsAggregatedByChecksError,
   Credentials | HttpClient.HttpClient,
@@ -4787,7 +4788,7 @@ export type ListCisScanResultsAggregatedByTargetResourceError =
  * Lists scan results aggregated by a target resource.
  */
 export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperationMethod<
-  ListCisScanResultsAggregatedByTargetResourceRequest,
+  ListCisScanResultsAggregatedByTargetResourceRequest & RegionInput,
   ListCisScanResultsAggregatedByTargetResourceResponse,
   ListCisScanResultsAggregatedByTargetResourceError,
   Credentials | HttpClient.HttpClient,
@@ -4832,7 +4833,7 @@ export type ListCisScansError =
  * Returns a CIS scan list.
  */
 export const listCisScans: API.PaginatedOperationMethod<
-  ListCisScansRequest,
+  ListCisScansRequest & RegionInput,
   ListCisScansResponse,
   ListCisScansError,
   Credentials | HttpClient.HttpClient,
@@ -4869,7 +4870,7 @@ export type ListCodeSecurityIntegrationsError =
  * Lists all code security integrations in your account.
  */
 export const listCodeSecurityIntegrations: API.OperationMethod<
-  ListCodeSecurityIntegrationsRequest,
+  ListCodeSecurityIntegrationsRequest & RegionInput,
   ListCodeSecurityIntegrationsResponse,
   ListCodeSecurityIntegrationsError,
   Credentials | HttpClient.HttpClient
@@ -4901,7 +4902,7 @@ export type ListCodeSecurityScanConfigurationAssociationsError =
  * configurations.
  */
 export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
-  ListCodeSecurityScanConfigurationAssociationsRequest,
+  ListCodeSecurityScanConfigurationAssociationsRequest & RegionInput,
   ListCodeSecurityScanConfigurationAssociationsResponse,
   ListCodeSecurityScanConfigurationAssociationsError,
   Credentials | HttpClient.HttpClient
@@ -4941,7 +4942,7 @@ export type ListCodeSecurityScanConfigurationsError =
  * Lists all code security scan configurations in your account.
  */
 export const listCodeSecurityScanConfigurations: API.OperationMethod<
-  ListCodeSecurityScanConfigurationsRequest,
+  ListCodeSecurityScanConfigurationsRequest & RegionInput,
   ListCodeSecurityScanConfigurationsResponse,
   ListCodeSecurityScanConfigurationsError,
   Credentials | HttpClient.HttpClient
@@ -4972,7 +4973,7 @@ export type ListConnectorsError =
  * Lists connectors in your account. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -5009,7 +5010,7 @@ export type ListConnectorScanConfigurationsError =
  * Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
  */
 export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
-  ListConnectorScanConfigurationsRequest,
+  ListConnectorScanConfigurationsRequest & RegionInput,
   ListConnectorScanConfigurationsResponse,
   ListConnectorScanConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -5045,7 +5046,7 @@ export type ListCoverageError =
  * Lists coverage details for your environment.
  */
 export const listCoverage: API.PaginatedOperationMethod<
-  ListCoverageRequest,
+  ListCoverageRequest & RegionInput,
   ListCoverageResponse,
   ListCoverageError,
   Credentials | HttpClient.HttpClient,
@@ -5076,7 +5077,7 @@ export type ListCoverageStatisticsError =
  * Lists Amazon Inspector coverage statistics for your environment.
  */
 export const listCoverageStatistics: API.PaginatedOperationMethod<
-  ListCoverageStatisticsRequest,
+  ListCoverageStatisticsRequest & RegionInput,
   ListCoverageStatisticsResponse,
   ListCoverageStatisticsError,
   Credentials | HttpClient.HttpClient,
@@ -5107,7 +5108,7 @@ export type ListDelegatedAdminAccountsError =
  * Lists information about the Amazon Inspector delegated administrator of your organization.
  */
 export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
-  ListDelegatedAdminAccountsRequest,
+  ListDelegatedAdminAccountsRequest & RegionInput,
   ListDelegatedAdminAccountsResponse,
   ListDelegatedAdminAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -5144,7 +5145,7 @@ export type ListFiltersError =
  * Lists the filters associated with your account.
  */
 export const listFilters: API.PaginatedOperationMethod<
-  ListFiltersRequest,
+  ListFiltersRequest & RegionInput,
   ListFiltersResponse,
   ListFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -5180,7 +5181,7 @@ export type ListFindingAggregationsError =
  * Lists aggregated finding data for your environment based on specific criteria.
  */
 export const listFindingAggregations: API.PaginatedOperationMethod<
-  ListFindingAggregationsRequest,
+  ListFindingAggregationsRequest & RegionInput,
   ListFindingAggregationsResponse,
   ListFindingAggregationsError,
   Credentials | HttpClient.HttpClient,
@@ -5211,7 +5212,7 @@ export type ListFindingsError =
  * Lists findings for your environment.
  */
 export const listFindings: API.PaginatedOperationMethod<
-  ListFindingsRequest,
+  ListFindingsRequest & RegionInput,
   ListFindingsResponse,
   ListFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -5244,7 +5245,7 @@ export type ListMembersError =
  * organization.
  */
 export const listMembers: API.PaginatedOperationMethod<
-  ListMembersRequest,
+  ListMembersRequest & RegionInput,
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient,
@@ -5281,7 +5282,7 @@ export type ListTagsForResourceError =
  * Lists all tags attached to a given resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5311,7 +5312,7 @@ export type ListUsageTotalsError =
  * Lists the Amazon Inspector usage totals over the last 30 days.
  */
 export const listUsageTotals: API.PaginatedOperationMethod<
-  ListUsageTotalsRequest,
+  ListUsageTotalsRequest & RegionInput,
   ListUsageTotalsResponse,
   ListUsageTotalsError,
   Credentials | HttpClient.HttpClient,
@@ -5350,7 +5351,7 @@ export type ResetEncryptionKeyError =
  * Amazon Web Services owned key.
  */
 export const resetEncryptionKey: API.OperationMethod<
-  ResetEncryptionKeyRequest,
+  ResetEncryptionKeyRequest & RegionInput,
   ResetEncryptionKeyResponse,
   ResetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -5381,7 +5382,7 @@ export type SearchVulnerabilitiesError =
  * Lists Amazon Inspector coverage details for a specific vulnerability.
  */
 export const searchVulnerabilities: API.PaginatedOperationMethod<
-  SearchVulnerabilitiesRequest,
+  SearchVulnerabilitiesRequest & RegionInput,
   SearchVulnerabilitiesResponse,
   SearchVulnerabilitiesError,
   Credentials | HttpClient.HttpClient,
@@ -5420,7 +5421,7 @@ export type SendCisSessionHealthError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionHealth: API.OperationMethod<
-  SendCisSessionHealthRequest,
+  SendCisSessionHealthRequest & RegionInput,
   SendCisSessionHealthResponse,
   SendCisSessionHealthError,
   Credentials | HttpClient.HttpClient
@@ -5454,7 +5455,7 @@ export type SendCisSessionTelemetryError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionTelemetry: API.OperationMethod<
-  SendCisSessionTelemetryRequest,
+  SendCisSessionTelemetryRequest & RegionInput,
   SendCisSessionTelemetryResponse,
   SendCisSessionTelemetryError,
   Credentials | HttpClient.HttpClient
@@ -5488,7 +5489,7 @@ export type StartCisSessionError =
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const startCisSession: API.OperationMethod<
-  StartCisSessionRequest,
+  StartCisSessionRequest & RegionInput,
   StartCisSessionResponse,
   StartCisSessionError,
   Credentials | HttpClient.HttpClient
@@ -5521,7 +5522,7 @@ export type StartCodeSecurityScanError =
  * Initiates a code security scan on a specified repository.
  */
 export const startCodeSecurityScan: API.OperationMethod<
-  StartCodeSecurityScanRequest,
+  StartCodeSecurityScanRequest & RegionInput,
   StartCodeSecurityScanResponse,
   StartCodeSecurityScanError,
   Credentials | HttpClient.HttpClient
@@ -5556,7 +5557,7 @@ export type StopCisSessionError =
  * this API to stop a CIS scan session for the scan ID supplied by the service.
  */
 export const stopCisSession: API.OperationMethod<
-  StopCisSessionRequest,
+  StopCisSessionRequest & RegionInput,
   StopCisSessionResponse,
   StopCisSessionError,
   Credentials | HttpClient.HttpClient
@@ -5588,7 +5589,7 @@ export type TagResourceError =
  * Adds tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5619,7 +5620,7 @@ export type UntagResourceError =
  * Removes tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5650,7 +5651,7 @@ export type UpdateCisScanConfigurationError =
  * Updates a CIS scan configuration.
  */
 export const updateCisScanConfiguration: API.OperationMethod<
-  UpdateCisScanConfigurationRequest,
+  UpdateCisScanConfigurationRequest & RegionInput,
   UpdateCisScanConfigurationResponse,
   UpdateCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5688,7 +5689,7 @@ export type UpdateCodeSecurityIntegrationError =
  * to complete the integration setup
  */
 export const updateCodeSecurityIntegration: API.OperationMethod<
-  UpdateCodeSecurityIntegrationRequest,
+  UpdateCodeSecurityIntegrationRequest & RegionInput,
   UpdateCodeSecurityIntegrationResponse,
   UpdateCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -5722,7 +5723,7 @@ export type UpdateCodeSecurityScanConfigurationError =
  * Updates an existing code security scan configuration.
  */
 export const updateCodeSecurityScanConfiguration: API.OperationMethod<
-  UpdateCodeSecurityScanConfigurationRequest,
+  UpdateCodeSecurityScanConfigurationRequest & RegionInput,
   UpdateCodeSecurityScanConfigurationResponse,
   UpdateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5759,7 +5760,7 @@ export type UpdateConfigurationError =
  * member accounts cannot call this operation.
  */
 export const updateConfiguration: API.OperationMethod<
-  UpdateConfigurationRequest,
+  UpdateConfigurationRequest & RegionInput,
   UpdateConfigurationResponse,
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5791,7 +5792,7 @@ export type UpdateConnectorError =
  * Updates the description or provider-specific configuration details of an existing connector.
  */
 export const updateConnector: API.OperationMethod<
-  UpdateConnectorRequest,
+  UpdateConnectorRequest & RegionInput,
   UpdateConnectorResponse,
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -5825,7 +5826,7 @@ export type UpdateConnectorScanConfigurationError =
  * Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
  */
 export const updateConnectorScanConfiguration: API.OperationMethod<
-  UpdateConnectorScanConfigurationRequest,
+  UpdateConnectorScanConfigurationRequest & RegionInput,
   UpdateConnectorScanConfigurationResponse,
   UpdateConnectorScanConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5857,7 +5858,7 @@ export type UpdateEc2DeepInspectionConfigurationError =
  * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
  */
 export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
-  UpdateEc2DeepInspectionConfigurationRequest,
+  UpdateEc2DeepInspectionConfigurationRequest & RegionInput,
   UpdateEc2DeepInspectionConfigurationResponse,
   UpdateEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5889,7 +5890,7 @@ export type UpdateEncryptionKeyError =
  * Amazon Web Services owned key is being used for encryption.
  */
 export const updateEncryptionKey: API.OperationMethod<
-  UpdateEncryptionKeyRequest,
+  UpdateEncryptionKeyRequest & RegionInput,
   UpdateEncryptionKeyResponse,
   UpdateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
@@ -5921,7 +5922,7 @@ export type UpdateFilterError =
  * Specifies the action that is to be applied to the findings that match the filter.
  */
 export const updateFilter: API.OperationMethod<
-  UpdateFilterRequest,
+  UpdateFilterRequest & RegionInput,
   UpdateFilterResponse,
   UpdateFilterError,
   Credentials | HttpClient.HttpClient
@@ -5952,7 +5953,7 @@ export type UpdateOrganizationConfigurationError =
  * Updates the configurations for your Amazon Inspector organization.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
-  UpdateOrganizationConfigurationRequest,
+  UpdateOrganizationConfigurationRequest & RegionInput,
   UpdateOrganizationConfigurationResponse,
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5983,7 +5984,7 @@ export type UpdateOrgEc2DeepInspectionConfigurationError =
  * Amazon Inspector delegated administrator to use this API.
  */
 export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
-  UpdateOrgEc2DeepInspectionConfigurationRequest,
+  UpdateOrgEc2DeepInspectionConfigurationRequest & RegionInput,
   UpdateOrgEc2DeepInspectionConfigurationResponse,
   UpdateOrgEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient

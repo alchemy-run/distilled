@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1359,7 +1360,7 @@ export type CreateBatchInferenceJobError =
  * You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
  */
 export const createBatchInferenceJob: API.OperationMethod<
-  CreateBatchInferenceJobRequest,
+  CreateBatchInferenceJobRequest & RegionInput,
   CreateBatchInferenceJobResponse,
   CreateBatchInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type CreateBatchSegmentJobError =
  * Getting batch recommendations and user segments.
  */
 export const createBatchSegmentJob: API.OperationMethod<
-  CreateBatchSegmentJobRequest,
+  CreateBatchSegmentJobRequest & RegionInput,
   CreateBatchSegmentJobResponse,
   CreateBatchSegmentJobError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1484,7 @@ export type CreateCampaignError =
  * - DeleteCampaign
  */
 export const createCampaign: API.OperationMethod<
-  CreateCampaignRequest,
+  CreateCampaignRequest & RegionInput,
   CreateCampaignResponse,
   CreateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -1551,7 +1552,7 @@ export type CreateDataDeletionJobError =
  * - DescribeDataDeletionJob
  */
 export const createDataDeletionJob: API.OperationMethod<
-  CreateDataDeletionJobRequest,
+  CreateDataDeletionJobRequest & RegionInput,
   CreateDataDeletionJobResponse,
   CreateDataDeletionJobError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type CreateDatasetError =
  * - DeleteDataset
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1673,7 @@ export type CreateDatasetExportJobError =
  * failed.
  */
 export const createDatasetExportJob: API.OperationMethod<
-  CreateDatasetExportJobRequest,
+  CreateDatasetExportJobRequest & RegionInput,
   CreateDatasetExportJobResponse,
   CreateDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1759,7 @@ export type CreateDatasetGroupError =
  * - DeleteDatasetGroup
  */
 export const createDatasetGroup: API.OperationMethod<
-  CreateDatasetGroupRequest,
+  CreateDatasetGroupRequest & RegionInput,
   CreateDatasetGroupResponse,
   CreateDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type CreateDatasetImportJobError =
  * - DescribeDatasetImportJob
  */
 export const createDatasetImportJob: API.OperationMethod<
-  CreateDatasetImportJobRequest,
+  CreateDatasetImportJobRequest & RegionInput,
   CreateDatasetImportJobResponse,
   CreateDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1890,7 +1891,7 @@ export type CreateEventTrackerError =
  * - DeleteEventTracker
  */
 export const createEventTracker: API.OperationMethod<
-  CreateEventTrackerRequest,
+  CreateEventTrackerRequest & RegionInput,
   CreateEventTrackerResponse,
   CreateEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -1923,7 +1924,7 @@ export type CreateFilterError =
  * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
  */
 export const createFilter: API.OperationMethod<
-  CreateFilterRequest,
+  CreateFilterRequest & RegionInput,
   CreateFilterResponse,
   CreateFilterError,
   Credentials | HttpClient.HttpClient
@@ -1957,7 +1958,7 @@ export type CreateMetricAttributionError =
  * For more information, see Measuring impact of recommendations.
  */
 export const createMetricAttribution: API.OperationMethod<
-  CreateMetricAttributionRequest,
+  CreateMetricAttributionRequest & RegionInput,
   CreateMetricAttributionResponse,
   CreateMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -2043,7 +2044,7 @@ export type CreateRecommenderError =
  * - DeleteRecommender
  */
 export const createRecommender: API.OperationMethod<
-  CreateRecommenderRequest,
+  CreateRecommenderRequest & RegionInput,
   CreateRecommenderResponse,
   CreateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2088,7 +2089,7 @@ export type CreateSchemaError =
  * - DeleteSchema
  */
 export const createSchema: API.OperationMethod<
-  CreateSchemaRequest,
+  CreateSchemaRequest & RegionInput,
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2171,7 +2172,7 @@ export type CreateSolutionError =
  * - DescribeSolutionVersion
  */
 export const createSolution: API.OperationMethod<
-  CreateSolutionRequest,
+  CreateSolutionRequest & RegionInput,
   CreateSolutionResponse,
   CreateSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2244,7 +2245,7 @@ export type CreateSolutionVersionError =
  * - DeleteSolution
  */
 export const createSolutionVersion: API.OperationMethod<
-  CreateSolutionVersionRequest,
+  CreateSolutionVersionRequest & RegionInput,
   CreateSolutionVersionResponse,
   CreateSolutionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2280,7 +2281,7 @@ export type DeleteCampaignError =
  * For information on creating campaigns, see CreateCampaign.
  */
 export const deleteCampaign: API.OperationMethod<
-  DeleteCampaignRequest,
+  DeleteCampaignRequest & RegionInput,
   DeleteCampaignResponse,
   DeleteCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2307,7 +2308,7 @@ export type DeleteDatasetError =
  * see Deleting a dataset.
  */
 export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
+  DeleteDatasetRequest & RegionInput,
   DeleteDatasetResponse,
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2338,7 +2339,7 @@ export type DeleteDatasetGroupError =
  * - All datasets in the dataset group.
  */
 export const deleteDatasetGroup: API.OperationMethod<
-  DeleteDatasetGroupRequest,
+  DeleteDatasetGroupRequest & RegionInput,
   DeleteDatasetGroupResponse,
   DeleteDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2364,7 +2365,7 @@ export type DeleteEventTrackerError =
  * information on event trackers, see CreateEventTracker.
  */
 export const deleteEventTracker: API.OperationMethod<
-  DeleteEventTrackerRequest,
+  DeleteEventTrackerRequest & RegionInput,
   DeleteEventTrackerResponse,
   DeleteEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2388,7 +2389,7 @@ export type DeleteFilterError =
  * Deletes a filter.
  */
 export const deleteFilter: API.OperationMethod<
-  DeleteFilterRequest,
+  DeleteFilterRequest & RegionInput,
   DeleteFilterResponse,
   DeleteFilterError,
   Credentials | HttpClient.HttpClient
@@ -2412,7 +2413,7 @@ export type DeleteMetricAttributionError =
  * Deletes a metric attribution.
  */
 export const deleteMetricAttribution: API.OperationMethod<
-  DeleteMetricAttributionRequest,
+  DeleteMetricAttributionRequest & RegionInput,
   DeleteMetricAttributionResponse,
   DeleteMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -2437,7 +2438,7 @@ export type DeleteRecommenderError =
  * request.
  */
 export const deleteRecommender: API.OperationMethod<
-  DeleteRecommenderRequest,
+  DeleteRecommenderRequest & RegionInput,
   DeleteRecommenderResponse,
   DeleteRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2463,7 +2464,7 @@ export type DeleteSchemaError =
  * CreateSchema.
  */
 export const deleteSchema: API.OperationMethod<
-  DeleteSchemaRequest,
+  DeleteSchemaRequest & RegionInput,
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2493,7 +2494,7 @@ export type DeleteSolutionError =
  * For more information on solutions, see CreateSolution.
  */
 export const deleteSolution: API.OperationMethod<
-  DeleteSolutionRequest,
+  DeleteSolutionRequest & RegionInput,
   DeleteSolutionResponse,
   DeleteSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2516,7 +2517,7 @@ export type DescribeAlgorithmError =
  * Describes the given algorithm.
  */
 export const describeAlgorithm: API.OperationMethod<
-  DescribeAlgorithmRequest,
+  DescribeAlgorithmRequest & RegionInput,
   DescribeAlgorithmResponse,
   DescribeAlgorithmError,
   Credentials | HttpClient.HttpClient
@@ -2541,7 +2542,7 @@ export type DescribeBatchInferenceJobError =
  * the recommendations.
  */
 export const describeBatchInferenceJob: API.OperationMethod<
-  DescribeBatchInferenceJobRequest,
+  DescribeBatchInferenceJobRequest & RegionInput,
   DescribeBatchInferenceJobResponse,
   DescribeBatchInferenceJobError,
   Credentials | HttpClient.HttpClient
@@ -2566,7 +2567,7 @@ export type DescribeBatchSegmentJobError =
  * segments.
  */
 export const describeBatchSegmentJob: API.OperationMethod<
-  DescribeBatchSegmentJobRequest,
+  DescribeBatchSegmentJobRequest & RegionInput,
   DescribeBatchSegmentJobResponse,
   DescribeBatchSegmentJobError,
   Credentials | HttpClient.HttpClient
@@ -2600,7 +2601,7 @@ export type DescribeCampaignError =
  * For more information on campaigns, see CreateCampaign.
  */
 export const describeCampaign: API.OperationMethod<
-  DescribeCampaignRequest,
+  DescribeCampaignRequest & RegionInput,
   DescribeCampaignResponse,
   DescribeCampaignError,
   Credentials | HttpClient.HttpClient
@@ -2623,7 +2624,7 @@ export type DescribeDataDeletionJobError =
  * Describes the data deletion job created by CreateDataDeletionJob, including the job status.
  */
 export const describeDataDeletionJob: API.OperationMethod<
-  DescribeDataDeletionJobRequest,
+  DescribeDataDeletionJobRequest & RegionInput,
   DescribeDataDeletionJobResponse,
   DescribeDataDeletionJobError,
   Credentials | HttpClient.HttpClient
@@ -2644,7 +2645,7 @@ export type DescribeDatasetError = InvalidInputException | ResourceNotFoundExcep
  * CreateDataset.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2667,7 +2668,7 @@ export type DescribeDatasetExportJobError =
  * Describes the dataset export job created by CreateDatasetExportJob, including the export job status.
  */
 export const describeDatasetExportJob: API.OperationMethod<
-  DescribeDatasetExportJobRequest,
+  DescribeDatasetExportJobRequest & RegionInput,
   DescribeDatasetExportJobResponse,
   DescribeDatasetExportJobError,
   Credentials | HttpClient.HttpClient
@@ -2691,7 +2692,7 @@ export type DescribeDatasetGroupError =
  * groups, see CreateDatasetGroup.
  */
 export const describeDatasetGroup: API.OperationMethod<
-  DescribeDatasetGroupRequest,
+  DescribeDatasetGroupRequest & RegionInput,
   DescribeDatasetGroupResponse,
   DescribeDatasetGroupError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2715,7 @@ export type DescribeDatasetImportJobError =
  * Describes the dataset import job created by CreateDatasetImportJob, including the import job status.
  */
 export const describeDatasetImportJob: API.OperationMethod<
-  DescribeDatasetImportJobRequest,
+  DescribeDatasetImportJobRequest & RegionInput,
   DescribeDatasetImportJobResponse,
   DescribeDatasetImportJobError,
   Credentials | HttpClient.HttpClient
@@ -2739,7 +2740,7 @@ export type DescribeEventTrackerError =
  * For more information on event trackers, see CreateEventTracker.
  */
 export const describeEventTracker: API.OperationMethod<
-  DescribeEventTrackerRequest,
+  DescribeEventTrackerRequest & RegionInput,
   DescribeEventTrackerResponse,
   DescribeEventTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2762,7 +2763,7 @@ export type DescribeFeatureTransformationError =
  * Describes the given feature transformation.
  */
 export const describeFeatureTransformation: API.OperationMethod<
-  DescribeFeatureTransformationRequest,
+  DescribeFeatureTransformationRequest & RegionInput,
   DescribeFeatureTransformationResponse,
   DescribeFeatureTransformationError,
   Credentials | HttpClient.HttpClient
@@ -2782,7 +2783,7 @@ export type DescribeFilterError = InvalidInputException | ResourceNotFoundExcept
  * Describes a filter's properties.
  */
 export const describeFilter: API.OperationMethod<
-  DescribeFilterRequest,
+  DescribeFilterRequest & RegionInput,
   DescribeFilterResponse,
   DescribeFilterError,
   Credentials | HttpClient.HttpClient
@@ -2805,7 +2806,7 @@ export type DescribeMetricAttributionError =
  * Describes a metric attribution.
  */
 export const describeMetricAttribution: API.OperationMethod<
-  DescribeMetricAttributionRequest,
+  DescribeMetricAttributionRequest & RegionInput,
   DescribeMetricAttributionResponse,
   DescribeMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -2840,7 +2841,7 @@ export type DescribeRecipeError = InvalidInputException | ResourceNotFoundExcept
  * GetRecommendations API.
  */
 export const describeRecipe: API.OperationMethod<
-  DescribeRecipeRequest,
+  DescribeRecipeRequest & RegionInput,
   DescribeRecipeResponse,
   DescribeRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2879,7 +2880,7 @@ export type DescribeRecommenderError =
  * For more information on recommenders, see CreateRecommender.
  */
 export const describeRecommender: API.OperationMethod<
-  DescribeRecommenderRequest,
+  DescribeRecommenderRequest & RegionInput,
   DescribeRecommenderResponse,
   DescribeRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -2900,7 +2901,7 @@ export type DescribeSchemaError = InvalidInputException | ResourceNotFoundExcept
  * CreateSchema.
  */
 export const describeSchema: API.OperationMethod<
-  DescribeSchemaRequest,
+  DescribeSchemaRequest & RegionInput,
   DescribeSchemaResponse,
   DescribeSchemaError,
   Credentials | HttpClient.HttpClient
@@ -2924,7 +2925,7 @@ export type DescribeSolutionError =
  * For more information on solutions, see CreateSolution.
  */
 export const describeSolution: API.OperationMethod<
-  DescribeSolutionRequest,
+  DescribeSolutionRequest & RegionInput,
   DescribeSolutionResponse,
   DescribeSolutionError,
   Credentials | HttpClient.HttpClient
@@ -2947,7 +2948,7 @@ export type DescribeSolutionVersionError =
  * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
 export const describeSolutionVersion: API.OperationMethod<
-  DescribeSolutionVersionRequest,
+  DescribeSolutionVersionRequest & RegionInput,
   DescribeSolutionVersionResponse,
   DescribeSolutionVersionError,
   Credentials | HttpClient.HttpClient
@@ -2971,7 +2972,7 @@ export type GetSolutionMetricsError =
  * Gets the metrics for the specified solution version.
  */
 export const getSolutionMetrics: API.OperationMethod<
-  GetSolutionMetricsRequest,
+  GetSolutionMetricsRequest & RegionInput,
   GetSolutionMetricsResponse,
   GetSolutionMetricsError,
   Credentials | HttpClient.HttpClient
@@ -2995,7 +2996,7 @@ export type ListBatchInferenceJobsError =
  * version.
  */
 export const listBatchInferenceJobs: API.PaginatedOperationMethod<
-  ListBatchInferenceJobsRequest,
+  ListBatchInferenceJobsRequest & RegionInput,
   ListBatchInferenceJobsResponse,
   ListBatchInferenceJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3026,7 +3027,7 @@ export type ListBatchSegmentJobsError =
  * version that you specify.
  */
 export const listBatchSegmentJobs: API.PaginatedOperationMethod<
-  ListBatchSegmentJobsRequest,
+  ListBatchSegmentJobsRequest & RegionInput,
   ListBatchSegmentJobsResponse,
   ListBatchSegmentJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3056,7 +3057,7 @@ export type ListCampaignsError = InvalidInputException | InvalidNextTokenExcepti
  * For more information on campaigns, see CreateCampaign.
  */
 export const listCampaigns: API.PaginatedOperationMethod<
-  ListCampaignsRequest,
+  ListCampaignsRequest & RegionInput,
   ListCampaignsResponse,
   ListCampaignsError,
   Credentials | HttpClient.HttpClient,
@@ -3092,7 +3093,7 @@ export type ListDataDeletionJobsError =
  * information on data deletion jobs, see Deleting users.
  */
 export const listDataDeletionJobs: API.OperationMethod<
-  ListDataDeletionJobsRequest,
+  ListDataDeletionJobsRequest & RegionInput,
   ListDataDeletionJobsResponse,
   ListDataDeletionJobsError,
   Credentials | HttpClient.HttpClient
@@ -3120,7 +3121,7 @@ export type ListDatasetExportJobsError =
  * CreateDataset.
  */
 export const listDatasetExportJobs: API.PaginatedOperationMethod<
-  ListDatasetExportJobsRequest,
+  ListDatasetExportJobsRequest & RegionInput,
   ListDatasetExportJobsResponse,
   ListDatasetExportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3149,7 +3150,7 @@ export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
  * information on dataset groups, see CreateDatasetGroup.
  */
 export const listDatasetGroups: API.PaginatedOperationMethod<
-  ListDatasetGroupsRequest,
+  ListDatasetGroupsRequest & RegionInput,
   ListDatasetGroupsResponse,
   ListDatasetGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -3184,7 +3185,7 @@ export type ListDatasetImportJobsError =
  * CreateDataset.
  */
 export const listDatasetImportJobs: API.PaginatedOperationMethod<
-  ListDatasetImportJobsRequest,
+  ListDatasetImportJobsRequest & RegionInput,
   ListDatasetImportJobsResponse,
   ListDatasetImportJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3213,7 +3214,7 @@ export type ListDatasetsError = InvalidInputException | InvalidNextTokenExceptio
  * Resource Name (ARN). For more information on datasets, see CreateDataset.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3246,7 +3247,7 @@ export type ListEventTrackersError =
  * information on event trackers, see CreateEventTracker.
  */
 export const listEventTrackers: API.PaginatedOperationMethod<
-  ListEventTrackersRequest,
+  ListEventTrackersRequest & RegionInput,
   ListEventTrackersResponse,
   ListEventTrackersError,
   Credentials | HttpClient.HttpClient,
@@ -3273,7 +3274,7 @@ export type ListFiltersError = InvalidInputException | InvalidNextTokenException
  * Lists all filters that belong to a given dataset group.
  */
 export const listFilters: API.PaginatedOperationMethod<
-  ListFiltersRequest,
+  ListFiltersRequest & RegionInput,
   ListFiltersResponse,
   ListFiltersError,
   Credentials | HttpClient.HttpClient,
@@ -3303,7 +3304,7 @@ export type ListMetricAttributionMetricsError =
  * Lists the metrics for the metric attribution.
  */
 export const listMetricAttributionMetrics: API.PaginatedOperationMethod<
-  ListMetricAttributionMetricsRequest,
+  ListMetricAttributionMetricsRequest & RegionInput,
   ListMetricAttributionMetricsResponse,
   ListMetricAttributionMetricsError,
   Credentials | HttpClient.HttpClient,
@@ -3333,7 +3334,7 @@ export type ListMetricAttributionsError =
  * Lists metric attributions.
  */
 export const listMetricAttributions: API.PaginatedOperationMethod<
-  ListMetricAttributionsRequest,
+  ListMetricAttributionsRequest & RegionInput,
   ListMetricAttributionsResponse,
   ListMetricAttributionsError,
   Credentials | HttpClient.HttpClient,
@@ -3361,7 +3362,7 @@ export type ListRecipesError = InvalidInputException | InvalidNextTokenException
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
  */
 export const listRecipes: API.PaginatedOperationMethod<
-  ListRecipesRequest,
+  ListRecipesRequest & RegionInput,
   ListRecipesResponse,
   ListRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -3394,7 +3395,7 @@ export type ListRecommendersError =
  * For more information on recommenders, see CreateRecommender.
  */
 export const listRecommenders: API.PaginatedOperationMethod<
-  ListRecommendersRequest,
+  ListRecommendersRequest & RegionInput,
   ListRecommendersResponse,
   ListRecommendersError,
   Credentials | HttpClient.HttpClient,
@@ -3423,7 +3424,7 @@ export type ListSchemasError = InvalidNextTokenException | CommonErrors;
  * For more information on schemas, see CreateSchema.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -3453,7 +3454,7 @@ export type ListSolutionsError = InvalidInputException | InvalidNextTokenExcepti
  * For more information on solutions, see CreateSolution.
  */
 export const listSolutions: API.PaginatedOperationMethod<
-  ListSolutionsRequest,
+  ListSolutionsRequest & RegionInput,
   ListSolutionsResponse,
   ListSolutionsError,
   Credentials | HttpClient.HttpClient,
@@ -3486,7 +3487,7 @@ export type ListSolutionVersionsError =
  * provides the properties for each solution version, including the Amazon Resource Name (ARN).
  */
 export const listSolutionVersions: API.PaginatedOperationMethod<
-  ListSolutionVersionsRequest,
+  ListSolutionVersionsRequest & RegionInput,
   ListSolutionVersionsResponse,
   ListSolutionVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3517,7 +3518,7 @@ export type ListTagsForResourceError =
  * Get a list of tags attached to a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3542,7 +3543,7 @@ export type StartRecommenderError =
  * create any new models, but resumes billing and automatic retraining for the recommender.
  */
 export const startRecommender: API.OperationMethod<
-  StartRecommenderRequest,
+  StartRecommenderRequest & RegionInput,
   StartRecommenderResponse,
   StartRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3566,7 +3567,7 @@ export type StopRecommenderError =
  * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
  */
 export const stopRecommender: API.OperationMethod<
-  StopRecommenderRequest,
+  StopRecommenderRequest & RegionInput,
   StopRecommenderResponse,
   StopRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3601,7 +3602,7 @@ export type StopSolutionVersionCreationError =
  * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
  */
 export const stopSolutionVersionCreation: API.OperationMethod<
-  StopSolutionVersionCreationRequest,
+  StopSolutionVersionCreationRequest & RegionInput,
   StopSolutionVersionCreationResponse,
   StopSolutionVersionCreationError,
   Credentials | HttpClient.HttpClient
@@ -3627,7 +3628,7 @@ export type TagResourceError =
  * Add a list of tags to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3658,7 +3659,7 @@ export type UntagResourceError =
  * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3704,7 +3705,7 @@ export type UpdateCampaignError =
  * For more information about campaigns, see Creating a campaign.
  */
 export const updateCampaign: API.OperationMethod<
-  UpdateCampaignRequest,
+  UpdateCampaignRequest & RegionInput,
   UpdateCampaignResponse,
   UpdateCampaignError,
   Credentials | HttpClient.HttpClient
@@ -3728,7 +3729,7 @@ export type UpdateDatasetError =
  * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
  */
 export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
+  UpdateDatasetRequest & RegionInput,
   UpdateDatasetResponse,
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -3753,7 +3754,7 @@ export type UpdateMetricAttributionError =
  * Updates a metric attribution.
  */
 export const updateMetricAttribution: API.OperationMethod<
-  UpdateMetricAttributionRequest,
+  UpdateMetricAttributionRequest & RegionInput,
   UpdateMetricAttributionResponse,
   UpdateMetricAttributionError,
   Credentials | HttpClient.HttpClient
@@ -3788,7 +3789,7 @@ export type UpdateRecommenderError =
  * operation.
  */
 export const updateRecommender: API.OperationMethod<
-  UpdateRecommenderRequest,
+  UpdateRecommenderRequest & RegionInput,
   UpdateRecommenderResponse,
   UpdateRecommenderError,
   Credentials | HttpClient.HttpClient
@@ -3825,7 +3826,7 @@ export type UpdateSolutionError =
  * in the `latestSolutionUpdate`.
  */
 export const updateSolution: API.OperationMethod<
-  UpdateSolutionRequest,
+  UpdateSolutionRequest & RegionInput,
   UpdateSolutionResponse,
   UpdateSolutionError,
   Credentials | HttpClient.HttpClient

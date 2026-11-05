@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2324,7 +2325,7 @@ export type AssociateEntitiesToExperienceError =
  * a search experience with no code.
  */
 export const associateEntitiesToExperience: API.OperationMethod<
-  AssociateEntitiesToExperienceRequest,
+  AssociateEntitiesToExperienceRequest & RegionInput,
   AssociateEntitiesToExperienceResponse,
   AssociateEntitiesToExperienceError,
   Credentials | HttpClient.HttpClient
@@ -2362,7 +2363,7 @@ export type AssociatePersonasToEntitiesError =
  * a search experience with no code.
  */
 export const associatePersonasToEntities: API.OperationMethod<
-  AssociatePersonasToEntitiesRequest,
+  AssociatePersonasToEntitiesRequest & RegionInput,
   AssociatePersonasToEntitiesResponse,
   AssociatePersonasToEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2407,7 +2408,7 @@ export type BatchDeleteDocumentError =
  * to an hour or more, depending on the number of documents you want to delete.
  */
 export const batchDeleteDocument: API.OperationMethod<
-  BatchDeleteDocumentRequest,
+  BatchDeleteDocumentRequest & RegionInput,
   BatchDeleteDocumentResponse,
   BatchDeleteDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2442,7 +2443,7 @@ export type BatchDeleteFeaturedResultsSetError =
  * query, then one or more specific documents are featured in the search results.
  */
 export const batchDeleteFeaturedResultsSet: API.OperationMethod<
-  BatchDeleteFeaturedResultsSetRequest,
+  BatchDeleteFeaturedResultsSetRequest & RegionInput,
   BatchDeleteFeaturedResultsSetResponse,
   BatchDeleteFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -2485,7 +2486,7 @@ export type BatchGetDocumentStatusError =
  * BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns `NOT_FOUND` as the status.
  */
 export const batchGetDocumentStatus: API.OperationMethod<
-  BatchGetDocumentStatusRequest,
+  BatchGetDocumentStatusRequest & RegionInput,
   BatchGetDocumentStatusResponse,
   BatchGetDocumentStatusError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2536,7 @@ export type BatchPutDocumentError =
  * directly to an index.
  */
 export const batchPutDocument: API.OperationMethod<
-  BatchPutDocumentRequest,
+  BatchPutDocumentRequest & RegionInput,
   BatchPutDocumentResponse,
   BatchPutDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2580,7 +2581,7 @@ export type ClearQuerySuggestionsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const clearQuerySuggestions: API.OperationMethod<
-  ClearQuerySuggestionsRequest,
+  ClearQuerySuggestionsRequest & RegionInput,
   ClearQuerySuggestionsResponse,
   ClearQuerySuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -2640,7 +2641,7 @@ export type CreateAccessControlConfigurationError =
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
 export const createAccessControlConfiguration: API.OperationMethod<
-  CreateAccessControlConfigurationRequest,
+  CreateAccessControlConfigurationRequest & RegionInput,
   CreateAccessControlConfigurationResponse,
   CreateAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2689,7 +2690,7 @@ export type CreateDataSourceError =
  * SDK.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -2729,7 +2730,7 @@ export type CreateExperienceError =
  * search experience with no code.
  */
 export const createExperience: API.OperationMethod<
-  CreateExperienceRequest,
+  CreateExperienceRequest & RegionInput,
   CreateExperienceResponse,
   CreateExperienceError,
   Credentials | HttpClient.HttpClient
@@ -2770,7 +2771,7 @@ export type CreateFaqError =
  * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
  */
 export const createFaq: API.OperationMethod<
-  CreateFaqRequest,
+  CreateFaqRequest & RegionInput,
   CreateFaqResponse,
   CreateFaqError,
   Credentials | HttpClient.HttpClient
@@ -2813,7 +2814,7 @@ export type CreateFeaturedResultsSetError =
  * increase this limit by contacting Support.
  */
 export const createFeaturedResultsSet: API.OperationMethod<
-  CreateFeaturedResultsSetRequest,
+  CreateFeaturedResultsSetRequest & RegionInput,
   CreateFeaturedResultsSetResponse,
   CreateFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -2862,7 +2863,7 @@ export type CreateIndexError =
  * SDK.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
@@ -2918,7 +2919,7 @@ export type CreateQuerySuggestionsBlockListError =
  * suggestions block list.
  */
 export const createQuerySuggestionsBlockList: API.OperationMethod<
-  CreateQuerySuggestionsBlockListRequest,
+  CreateQuerySuggestionsBlockListRequest & RegionInput,
   CreateQuerySuggestionsBlockListResponse,
   CreateQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -2959,7 +2960,7 @@ export type CreateThesaurusError =
  * custom synonyms to an index.
  */
 export const createThesaurus: API.OperationMethod<
-  CreateThesaurusRequest,
+  CreateThesaurusRequest & RegionInput,
   CreateThesaurusResponse,
   CreateThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -2997,7 +2998,7 @@ export type DeleteAccessControlConfigurationError =
  * or their group access to documents.
  */
 export const deleteAccessControlConfiguration: API.OperationMethod<
-  DeleteAccessControlConfigurationRequest,
+  DeleteAccessControlConfigurationRequest & RegionInput,
   DeleteAccessControlConfigurationResponse,
   DeleteAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3038,7 +3039,7 @@ export type DeleteDataSourceError =
  * want to delete.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3074,7 +3075,7 @@ export type DeleteExperienceError =
  * experience with no code.
  */
 export const deleteExperience: API.OperationMethod<
-  DeleteExperienceRequest,
+  DeleteExperienceRequest & RegionInput,
   DeleteExperienceResponse,
   DeleteExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3108,7 +3109,7 @@ export type DeleteFaqError =
  * Removes a FAQ from an index.
  */
 export const deleteFaq: API.OperationMethod<
-  DeleteFaqRequest,
+  DeleteFaqRequest & RegionInput,
   DeleteFaqResponse,
   DeleteFaqError,
   Credentials | HttpClient.HttpClient
@@ -3144,7 +3145,7 @@ export type DeleteIndexError =
  * call to the `DescribeIndex` API is set to `DELETING`.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
@@ -3192,7 +3193,7 @@ export type DeletePrincipalMappingError =
  * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const deletePrincipalMapping: API.OperationMethod<
-  DeletePrincipalMappingRequest,
+  DeletePrincipalMappingRequest & RegionInput,
   DeletePrincipalMappingResponse,
   DeletePrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -3233,7 +3234,7 @@ export type DeleteQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const deleteQuerySuggestionsBlockList: API.OperationMethod<
-  DeleteQuerySuggestionsBlockListRequest,
+  DeleteQuerySuggestionsBlockListRequest & RegionInput,
   DeleteQuerySuggestionsBlockListResponse,
   DeleteQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -3267,7 +3268,7 @@ export type DeleteThesaurusError =
  * Deletes an Amazon Kendra thesaurus.
  */
 export const deleteThesaurus: API.OperationMethod<
-  DeleteThesaurusRequest,
+  DeleteThesaurusRequest & RegionInput,
   DeleteThesaurusResponse,
   DeleteThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -3303,7 +3304,7 @@ export type DescribeAccessControlConfigurationError =
  * based on the user or their group access to documents.
  */
 export const describeAccessControlConfiguration: API.OperationMethod<
-  DescribeAccessControlConfigurationRequest,
+  DescribeAccessControlConfigurationRequest & RegionInput,
   DescribeAccessControlConfigurationResponse,
   DescribeAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type DescribeDataSourceError =
  * Gets information about an Amazon Kendra data source connector.
  */
 export const describeDataSource: API.OperationMethod<
-  DescribeDataSourceRequest,
+  DescribeDataSourceRequest & RegionInput,
   DescribeDataSourceResponse,
   DescribeDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -3370,7 +3371,7 @@ export type DescribeExperienceError =
  * a search experience with no code.
  */
 export const describeExperience: API.OperationMethod<
-  DescribeExperienceRequest,
+  DescribeExperienceRequest & RegionInput,
   DescribeExperienceResponse,
   DescribeExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3402,7 +3403,7 @@ export type DescribeFaqError =
  * Gets information about a FAQ.
  */
 export const describeFaq: API.OperationMethod<
-  DescribeFaqRequest,
+  DescribeFaqRequest & RegionInput,
   DescribeFaqResponse,
   DescribeFaqError,
   Credentials | HttpClient.HttpClient
@@ -3436,7 +3437,7 @@ export type DescribeFeaturedResultsSetError =
  * then one or more specific documents are featured in the search results.
  */
 export const describeFeaturedResultsSet: API.OperationMethod<
-  DescribeFeaturedResultsSetRequest,
+  DescribeFeaturedResultsSetRequest & RegionInput,
   DescribeFeaturedResultsSetResponse,
   DescribeFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -3468,7 +3469,7 @@ export type DescribeIndexError =
  * Gets information about an Amazon Kendra index.
  */
 export const describeIndex: API.OperationMethod<
-  DescribeIndexRequest,
+  DescribeIndexRequest & RegionInput,
   DescribeIndexResponse,
   DescribeIndexError,
   Credentials | HttpClient.HttpClient
@@ -3507,7 +3508,7 @@ export type DescribePrincipalMappingError =
  * `DescribePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const describePrincipalMapping: API.OperationMethod<
-  DescribePrincipalMappingRequest,
+  DescribePrincipalMappingRequest & RegionInput,
   DescribePrincipalMappingResponse,
   DescribePrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -3546,7 +3547,7 @@ export type DescribeQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const describeQuerySuggestionsBlockList: API.OperationMethod<
-  DescribeQuerySuggestionsBlockListRequest,
+  DescribeQuerySuggestionsBlockListRequest & RegionInput,
   DescribeQuerySuggestionsBlockListResponse,
   DescribeQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -3584,7 +3585,7 @@ export type DescribeQuerySuggestionsConfigError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const describeQuerySuggestionsConfig: API.OperationMethod<
-  DescribeQuerySuggestionsConfigRequest,
+  DescribeQuerySuggestionsConfigRequest & RegionInput,
   DescribeQuerySuggestionsConfigResponse,
   DescribeQuerySuggestionsConfigError,
   Credentials | HttpClient.HttpClient
@@ -3616,7 +3617,7 @@ export type DescribeThesaurusError =
  * Gets information about an Amazon Kendra thesaurus.
  */
 export const describeThesaurus: API.OperationMethod<
-  DescribeThesaurusRequest,
+  DescribeThesaurusRequest & RegionInput,
   DescribeThesaurusResponse,
   DescribeThesaurusError,
   Credentials | HttpClient.HttpClient
@@ -3652,7 +3653,7 @@ export type DisassociateEntitiesFromExperienceError =
  * a search experience with no code.
  */
 export const disassociateEntitiesFromExperience: API.OperationMethod<
-  DisassociateEntitiesFromExperienceRequest,
+  DisassociateEntitiesFromExperienceRequest & RegionInput,
   DisassociateEntitiesFromExperienceResponse,
   DisassociateEntitiesFromExperienceError,
   Credentials | HttpClient.HttpClient
@@ -3688,7 +3689,7 @@ export type DisassociatePersonasFromEntitiesError =
  * search experience with no code.
  */
 export const disassociatePersonasFromEntities: API.OperationMethod<
-  DisassociatePersonasFromEntitiesRequest,
+  DisassociatePersonasFromEntitiesRequest & RegionInput,
   DisassociatePersonasFromEntitiesResponse,
   DisassociatePersonasFromEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3725,7 +3726,7 @@ export type GetQuerySuggestionsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const getQuerySuggestions: API.OperationMethod<
-  GetQuerySuggestionsRequest,
+  GetQuerySuggestionsRequest & RegionInput,
   GetQuerySuggestionsResponse,
   GetQuerySuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -3759,7 +3760,7 @@ export type GetSnapshotsError =
  * with your search application and how effective the application is.
  */
 export const getSnapshots: API.PaginatedOperationMethod<
-  GetSnapshotsRequest,
+  GetSnapshotsRequest & RegionInput,
   GetSnapshotsResponse,
   GetSnapshotsError,
   Credentials | HttpClient.HttpClient,
@@ -3799,7 +3800,7 @@ export type ListAccessControlConfigurationsError =
  * documents.
  */
 export const listAccessControlConfigurations: API.PaginatedOperationMethod<
-  ListAccessControlConfigurationsRequest,
+  ListAccessControlConfigurationsRequest & RegionInput,
   ListAccessControlConfigurationsResponse,
   ListAccessControlConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -3837,7 +3838,7 @@ export type ListDataSourcesError =
  * Lists the data source connectors that you have created.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -3876,7 +3877,7 @@ export type ListDataSourceSyncJobsError =
  * Gets statistics about synchronizing a data source connector.
  */
 export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
-  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsRequest & RegionInput,
   ListDataSourceSyncJobsResponse,
   ListDataSourceSyncJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3916,7 +3917,7 @@ export type ListEntityPersonasError =
  * Amazon Kendra experience.
  */
 export const listEntityPersonas: API.PaginatedOperationMethod<
-  ListEntityPersonasRequest,
+  ListEntityPersonasRequest & RegionInput,
   ListEntityPersonasResponse,
   ListEntityPersonasError,
   Credentials | HttpClient.HttpClient,
@@ -3958,7 +3959,7 @@ export type ListExperienceEntitiesError =
  * a search experience with no code.
  */
 export const listExperienceEntities: API.PaginatedOperationMethod<
-  ListExperienceEntitiesRequest,
+  ListExperienceEntitiesRequest & RegionInput,
   ListExperienceEntitiesResponse,
   ListExperienceEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -3995,7 +3996,7 @@ export type ListExperiencesError =
  * search experience with no code.
  */
 export const listExperiences: API.PaginatedOperationMethod<
-  ListExperiencesRequest,
+  ListExperiencesRequest & RegionInput,
   ListExperiencesResponse,
   ListExperiencesError,
   Credentials | HttpClient.HttpClient,
@@ -4033,7 +4034,7 @@ export type ListFaqsError =
  * Gets a list of FAQs associated with an index.
  */
 export const listFaqs: API.PaginatedOperationMethod<
-  ListFaqsRequest,
+  ListFaqsRequest & RegionInput,
   ListFaqsResponse,
   ListFaqsError,
   Credentials | HttpClient.HttpClient,
@@ -4073,7 +4074,7 @@ export type ListFeaturedResultsSetsError =
  * of a query, then one or more specific documents are featured in the search results.
  */
 export const listFeaturedResultsSets: API.OperationMethod<
-  ListFeaturedResultsSetsRequest,
+  ListFeaturedResultsSetsRequest & RegionInput,
   ListFeaturedResultsSetsResponse,
   ListFeaturedResultsSetsError,
   Credentials | HttpClient.HttpClient
@@ -4109,7 +4110,7 @@ export type ListGroupsOlderThanOrderingIdError =
  * `ListGroupsOlderThanOrderingId` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
 export const listGroupsOlderThanOrderingId: API.PaginatedOperationMethod<
-  ListGroupsOlderThanOrderingIdRequest,
+  ListGroupsOlderThanOrderingIdRequest & RegionInput,
   ListGroupsOlderThanOrderingIdResponse,
   ListGroupsOlderThanOrderingIdError,
   Credentials | HttpClient.HttpClient,
@@ -4147,7 +4148,7 @@ export type ListIndicesError =
  * Lists the Amazon Kendra indexes that you created.
  */
 export const listIndices: API.PaginatedOperationMethod<
-  ListIndicesRequest,
+  ListIndicesRequest & RegionInput,
   ListIndicesResponse,
   ListIndicesError,
   Credentials | HttpClient.HttpClient,
@@ -4191,7 +4192,7 @@ export type ListQuerySuggestionsBlockListsError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const listQuerySuggestionsBlockLists: API.PaginatedOperationMethod<
-  ListQuerySuggestionsBlockListsRequest,
+  ListQuerySuggestionsBlockListsRequest & RegionInput,
   ListQuerySuggestionsBlockListsResponse,
   ListQuerySuggestionsBlockListsError,
   Credentials | HttpClient.HttpClient,
@@ -4231,7 +4232,7 @@ export type ListTagsForResourceError =
  * other resources can have tags associated with them.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4264,7 +4265,7 @@ export type ListThesauriError =
  * Lists the thesauri for an index.
  */
 export const listThesauri: API.PaginatedOperationMethod<
-  ListThesauriRequest,
+  ListThesauriRequest & RegionInput,
   ListThesauriResponse,
   ListThesauriError,
   Credentials | HttpClient.HttpClient,
@@ -4318,7 +4319,7 @@ export type PutPrincipalMappingError =
  * validation exception is thrown.
  */
 export const putPrincipalMapping: API.OperationMethod<
-  PutPrincipalMappingRequest,
+  PutPrincipalMappingRequest & RegionInput,
   PutPrincipalMappingResponse,
   PutPrincipalMappingError,
   Credentials | HttpClient.HttpClient
@@ -4386,7 +4387,7 @@ export type QueryError =
  * `ValidationException` error.
  */
 export const query: API.OperationMethod<
-  QueryRequest,
+  QueryRequest & RegionInput,
   QueryResult,
   QueryError,
   Credentials | HttpClient.HttpClient
@@ -4460,7 +4461,7 @@ export type RetrieveError =
  * `ValidationException` error.
  */
 export const retrieve: API.OperationMethod<
-  RetrieveRequest,
+  RetrieveRequest & RegionInput,
   RetrieveResult,
   RetrieveError,
   Credentials | HttpClient.HttpClient
@@ -4502,7 +4503,7 @@ export type StartDataSourceSyncJobError =
  * the number of documents to sync.
  */
 export const startDataSourceSyncJob: API.OperationMethod<
-  StartDataSourceSyncJobRequest,
+  StartDataSourceSyncJobRequest & RegionInput,
   StartDataSourceSyncJobResponse,
   StartDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4537,7 +4538,7 @@ export type StopDataSourceSyncJobError =
  * synchronization job.
  */
 export const stopDataSourceSyncJob: API.OperationMethod<
-  StopDataSourceSyncJobRequest,
+  StopDataSourceSyncJobRequest & RegionInput,
   StopDataSourceSyncJobResponse,
   StopDataSourceSyncJobError,
   Credentials | HttpClient.HttpClient
@@ -4574,7 +4575,7 @@ export type SubmitFeedbackError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const submitFeedback: API.OperationMethod<
-  SubmitFeedbackRequest,
+  SubmitFeedbackRequest & RegionInput,
   SubmitFeedbackResponse,
   SubmitFeedbackError,
   Credentials | HttpClient.HttpClient
@@ -4608,7 +4609,7 @@ export type TagResourceError =
  * the tag already exists, the existing value is replaced with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4640,7 +4641,7 @@ export type UntagResourceError =
  * Removes a tag from an index, FAQ, data source, or other resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4699,7 +4700,7 @@ export type UpdateAccessControlConfigurationError =
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
 export const updateAccessControlConfiguration: API.OperationMethod<
-  UpdateAccessControlConfigurationRequest,
+  UpdateAccessControlConfigurationRequest & RegionInput,
   UpdateAccessControlConfigurationResponse,
   UpdateAccessControlConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4734,7 +4735,7 @@ export type UpdateDataSourceError =
  * Updates an Amazon Kendra data source connector.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4770,7 +4771,7 @@ export type UpdateExperienceError =
  * search experience with no code.
  */
 export const updateExperience: API.OperationMethod<
-  UpdateExperienceRequest,
+  UpdateExperienceRequest & RegionInput,
   UpdateExperienceResponse,
   UpdateExperienceError,
   Credentials | HttpClient.HttpClient
@@ -4808,7 +4809,7 @@ export type UpdateFeaturedResultsSetError =
  * or more specific documents are featured in the search results.
  */
 export const updateFeaturedResultsSet: API.OperationMethod<
-  UpdateFeaturedResultsSetRequest,
+  UpdateFeaturedResultsSetRequest & RegionInput,
   UpdateFeaturedResultsSetResponse,
   UpdateFeaturedResultsSetError,
   Credentials | HttpClient.HttpClient
@@ -4843,7 +4844,7 @@ export type UpdateIndexError =
  * Updates an Amazon Kendra index.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
@@ -4891,7 +4892,7 @@ export type UpdateQuerySuggestionsBlockListError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const updateQuerySuggestionsBlockList: API.OperationMethod<
-  UpdateQuerySuggestionsBlockListRequest,
+  UpdateQuerySuggestionsBlockListRequest & RegionInput,
   UpdateQuerySuggestionsBlockListResponse,
   UpdateQuerySuggestionsBlockListError,
   Credentials | HttpClient.HttpClient
@@ -4940,7 +4941,7 @@ export type UpdateQuerySuggestionsConfigError =
  * Amazon Web Services GovCloud (US-West) region.
  */
 export const updateQuerySuggestionsConfig: API.OperationMethod<
-  UpdateQuerySuggestionsConfigRequest,
+  UpdateQuerySuggestionsConfigRequest & RegionInput,
   UpdateQuerySuggestionsConfigResponse,
   UpdateQuerySuggestionsConfigError,
   Credentials | HttpClient.HttpClient
@@ -4974,7 +4975,7 @@ export type UpdateThesaurusError =
  * Updates a thesaurus for an index.
  */
 export const updateThesaurus: API.OperationMethod<
-  UpdateThesaurusRequest,
+  UpdateThesaurusRequest & RegionInput,
   UpdateThesaurusResponse,
   UpdateThesaurusError,
   Credentials | HttpClient.HttpClient

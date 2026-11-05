@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -582,7 +583,7 @@ export type CreateWebFunctionError =
  * To use this operation, you must have the `CreateWebFunction` permission on the web function. You don't need separate permissions for the initial revision or endpoint.
  */
 export const createWebFunction: API.OperationMethod<
-  CreateWebFunctionRequest,
+  CreateWebFunctionRequest & RegionInput,
   CreateWebFunctionResponse,
   CreateWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -621,7 +622,7 @@ export type CreateWebFunctionEndpointError =
  * To use this operation, you must have the `CreateWebFunctionEndpoint` permission on the web function, not on the endpoint being created.
  */
 export const createWebFunctionEndpoint: API.OperationMethod<
-  CreateWebFunctionEndpointRequest,
+  CreateWebFunctionEndpointRequest & RegionInput,
   CreateWebFunctionEndpointResponse,
   CreateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -660,7 +661,7 @@ export type CreateWebFunctionRevisionError =
  * To use this operation, you must have the `CreateWebFunctionRevision` permission on the web function, not on the revision being created.
  */
 export const createWebFunctionRevision: API.OperationMethod<
-  CreateWebFunctionRevisionRequest,
+  CreateWebFunctionRevisionRequest & RegionInput,
   CreateWebFunctionRevisionResponse,
   CreateWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -696,7 +697,7 @@ export type DeleteResourcePolicyError =
  * Removes the resource-based policy from a web function.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -732,7 +733,7 @@ export type DeleteWebFunctionError =
  * To use this operation, you must have the `DeleteWebFunction` permission on the web function. You don't need the `DeleteWebFunctionRevision` or `DeleteWebFunctionEndpoint` permission.
  */
 export const deleteWebFunction: API.OperationMethod<
-  DeleteWebFunctionRequest,
+  DeleteWebFunctionRequest & RegionInput,
   DeleteWebFunctionResponse,
   DeleteWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -766,7 +767,7 @@ export type DeleteWebFunctionEndpointError =
  * Deletes a web function endpoint.
  */
 export const deleteWebFunctionEndpoint: API.OperationMethod<
-  DeleteWebFunctionEndpointRequest,
+  DeleteWebFunctionEndpointRequest & RegionInput,
   DeleteWebFunctionEndpointResponse,
   DeleteWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -800,7 +801,7 @@ export type DeleteWebFunctionRevisionError =
  * Deletes a web function revision. You cannot delete a revision that is currently serving traffic on an endpoint.
  */
 export const deleteWebFunctionRevision: API.OperationMethod<
-  DeleteWebFunctionRevisionRequest,
+  DeleteWebFunctionRevisionRequest & RegionInput,
   DeleteWebFunctionRevisionResponse,
   DeleteWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -833,7 +834,7 @@ export type GetResourcePolicyError =
  * Retrieves the resource-based policy attached to a web function.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -863,7 +864,7 @@ export type GetWebAccountSettingsError =
  * Retrieves details about your AWS Lambda Web Functions account settings for the current AWS Region, including the quotas that apply to web functions and your current usage.
  */
 export const getWebAccountSettings: API.OperationMethod<
-  GetWebAccountSettingsRequest,
+  GetWebAccountSettingsRequest & RegionInput,
   GetWebAccountSettingsResponse,
   GetWebAccountSettingsError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type GetWebFunctionError =
  * Retrieves details about a web function, including its current state and configuration.
  */
 export const getWebFunction: API.OperationMethod<
-  GetWebFunctionRequest,
+  GetWebFunctionRequest & RegionInput,
   GetWebFunctionResponse,
   GetWebFunctionError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type GetWebFunctionEndpointError =
  * Retrieves details about a web function endpoint, including its current state, configuration, and domain name.
  */
 export const getWebFunctionEndpoint: API.OperationMethod<
-  GetWebFunctionEndpointRequest,
+  GetWebFunctionEndpointRequest & RegionInput,
   GetWebFunctionEndpointResponse,
   GetWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type GetWebFunctionRevisionError =
  * Retrieves details about a web function revision, including its state and configuration.
  */
 export const getWebFunctionRevision: API.OperationMethod<
-  GetWebFunctionRevisionRequest,
+  GetWebFunctionRevisionRequest & RegionInput,
   GetWebFunctionRevisionResponse,
   GetWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type ListTagsError =
  * Returns a list of tags applied to a web function.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
@@ -1017,7 +1018,7 @@ export type ListWebFunctionEndpointsError =
  * Lists endpoints for a web function. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
-  ListWebFunctionEndpointsRequest,
+  ListWebFunctionEndpointsRequest & RegionInput,
   ListWebFunctionEndpointsResponse,
   ListWebFunctionEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -1056,7 +1057,7 @@ export type ListWebFunctionRevisionsError =
  * Lists revisions for a web function. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctionRevisions: API.PaginatedOperationMethod<
-  ListWebFunctionRevisionsRequest,
+  ListWebFunctionRevisionsRequest & RegionInput,
   ListWebFunctionRevisionsResponse,
   ListWebFunctionRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1094,7 +1095,7 @@ export type ListWebFunctionsError =
  * Lists web functions in your account. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listWebFunctions: API.PaginatedOperationMethod<
-  ListWebFunctionsRequest,
+  ListWebFunctionsRequest & RegionInput,
   ListWebFunctionsResponse,
   ListWebFunctionsError,
   Credentials | HttpClient.HttpClient,
@@ -1134,7 +1135,7 @@ export type PutResourcePolicyError =
  * Adds or updates a resource-based policy on a web function. A resource-based policy grants permissions to other AWS accounts or services to perform actions on the web function.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1170,7 +1171,7 @@ export type TagResourceError =
  * Adds tags to a web function. If a tag key already exists, the existing value is overwritten with the new value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1205,7 +1206,7 @@ export type UntagResourceError =
  * Removes tags from a web function.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1240,7 +1241,7 @@ export type UpdateWebFunctionEndpointError =
  * Updates the configuration of a web function endpoint. You can modify the authorization type, auto-deployment mode, revision weights, scaling, and throttling settings.
  */
 export const updateWebFunctionEndpoint: API.OperationMethod<
-  UpdateWebFunctionEndpointRequest,
+  UpdateWebFunctionEndpointRequest & RegionInput,
   UpdateWebFunctionEndpointResponse,
   UpdateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient

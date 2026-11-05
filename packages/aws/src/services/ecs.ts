@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -2938,7 +2939,7 @@ export type ContinueServiceDeploymentError =
  * For more information, see Continuing Amazon ECS service deployments in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const continueServiceDeployment: API.OperationMethod<
-  ContinueServiceDeploymentRequest,
+  ContinueServiceDeploymentRequest & RegionInput,
   ContinueServiceDeploymentResponse,
   ContinueServiceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -2974,7 +2975,7 @@ export type CreateCapacityProviderError =
  * Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined `FARGATE` and `FARGATE_SPOT` capacity providers.
  */
 export const createCapacityProvider: API.OperationMethod<
-  CreateCapacityProviderRequest,
+  CreateCapacityProviderRequest & RegionInput,
   CreateCapacityProviderResponse,
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3011,7 +3012,7 @@ export type CreateClusterError =
  * When you call the CreateCluster API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see Using service-linked roles for Amazon ECS in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -3051,7 +3052,7 @@ export type CreateDaemonError =
  * ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
  */
 export const createDaemon: API.OperationMethod<
-  CreateDaemonRequest,
+  CreateDaemonRequest & RegionInput,
   CreateDaemonResponse,
   CreateDaemonError,
   Credentials | HttpClient.HttpClient
@@ -3092,7 +3093,7 @@ export type CreateExpressGatewayServiceError =
  * Provide an execution role for task operations and an infrastructure role for managing Amazon Web Services resources on your behalf.
  */
 export const createExpressGatewayService: API.OperationMethod<
-  CreateExpressGatewayServiceRequest,
+  CreateExpressGatewayServiceRequest & RegionInput,
   CreateExpressGatewayServiceResponse,
   CreateExpressGatewayServiceError,
   Credentials | HttpClient.HttpClient
@@ -3223,7 +3224,7 @@ export type CreateServiceError =
  * When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see Amazon ECS task placement in the *Amazon Elastic Container Service Developer Guide*
  */
 export const createService: API.OperationMethod<
-  CreateServiceRequest,
+  CreateServiceRequest & RegionInput,
   CreateServiceResponse,
   CreateServiceError,
   Credentials | HttpClient.HttpClient
@@ -3270,7 +3271,7 @@ export type CreateTaskSetError =
  * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const createTaskSet: API.OperationMethod<
-  CreateTaskSetRequest,
+  CreateTaskSetRequest & RegionInput,
   CreateTaskSetResponse,
   CreateTaskSetError,
   Credentials | HttpClient.HttpClient
@@ -3308,7 +3309,7 @@ export type DeleteAccountSettingError =
  * Disables an account setting for a specified user, role, or the root user for an account.
  */
 export const deleteAccountSetting: API.OperationMethod<
-  DeleteAccountSettingRequest,
+  DeleteAccountSettingRequest & RegionInput,
   DeleteAccountSettingResponse,
   DeleteAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -3335,7 +3336,7 @@ export type DeleteAttributesError =
  * Deletes one or more custom attributes from an Amazon ECS resource.
  */
 export const deleteAttributes: API.OperationMethod<
-  DeleteAttributesRequest,
+  DeleteAttributesRequest & RegionInput,
   DeleteAttributesResponse,
   DeleteAttributesError,
   Credentials | HttpClient.HttpClient
@@ -3374,7 +3375,7 @@ export type DeleteCapacityProviderError =
  * Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The UpdateService API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the `forceNewDeployment` option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
  */
 export const deleteCapacityProvider: API.OperationMethod<
-  DeleteCapacityProviderRequest,
+  DeleteCapacityProviderRequest & RegionInput,
   DeleteCapacityProviderResponse,
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -3415,7 +3416,7 @@ export type DeleteClusterError =
  * You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -3457,7 +3458,7 @@ export type DeleteDaemonError =
  * ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
  */
 export const deleteDaemon: API.OperationMethod<
-  DeleteDaemonRequest,
+  DeleteDaemonRequest & RegionInput,
   DeleteDaemonResponse,
   DeleteDaemonError,
   Credentials | HttpClient.HttpClient
@@ -3493,7 +3494,7 @@ export type DeleteDaemonTaskDefinitionError =
  * A daemon task definition must be in an `ACTIVE` state to be deleted.
  */
 export const deleteDaemonTaskDefinition: API.OperationMethod<
-  DeleteDaemonTaskDefinitionRequest,
+  DeleteDaemonTaskDefinitionRequest & RegionInput,
   DeleteDaemonTaskDefinitionResponse,
   DeleteDaemonTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3526,7 +3527,7 @@ export type DeleteExpressGatewayServiceError =
  * This operation cannot be reversed. Back up important data and verify the service is no longer needed before deletion.
  */
 export const deleteExpressGatewayService: API.OperationMethod<
-  DeleteExpressGatewayServiceRequest,
+  DeleteExpressGatewayServiceRequest & RegionInput,
   DeleteExpressGatewayServiceResponse,
   DeleteExpressGatewayServiceError,
   Credentials | HttpClient.HttpClient
@@ -3566,7 +3567,7 @@ export type DeleteServiceError =
  * If you attempt to create a new service with the same name as an existing service in either `ACTIVE` or `DRAINING` status, you receive an error.
  */
 export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
+  DeleteServiceRequest & RegionInput,
   DeleteServiceResponse,
   DeleteServiceError,
   Credentials | HttpClient.HttpClient
@@ -3608,7 +3609,7 @@ export type DeleteTaskDefinitionsError =
  * When you delete all `INACTIVE` task definition revisions, the task definition name is not displayed in the console and not returned in the API. If a task definition revisions are in the `DELETE_IN_PROGRESS` state, the task definition name is displayed in the console and returned in the API. The task definition name is retained by Amazon ECS and the revision is incremented the next time you create a task definition with that name.
  */
 export const deleteTaskDefinitions: API.OperationMethod<
-  DeleteTaskDefinitionsRequest,
+  DeleteTaskDefinitionsRequest & RegionInput,
   DeleteTaskDefinitionsResponse,
   DeleteTaskDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -3639,7 +3640,7 @@ export type DeleteTaskSetError =
  * Deletes a specified task set within a service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const deleteTaskSet: API.OperationMethod<
-  DeleteTaskSetRequest,
+  DeleteTaskSetRequest & RegionInput,
   DeleteTaskSetResponse,
   DeleteTaskSetError,
   Credentials | HttpClient.HttpClient
@@ -3682,7 +3683,7 @@ export type DeregisterContainerInstanceError =
  * If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
  */
 export const deregisterContainerInstance: API.OperationMethod<
-  DeregisterContainerInstanceRequest,
+  DeregisterContainerInstanceRequest & RegionInput,
   DeregisterContainerInstanceResponse,
   DeregisterContainerInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3719,7 +3720,7 @@ export type DeregisterTaskDefinitionError =
  * You must deregister a task definition revision before you delete it. For more information, see DeleteTaskDefinitions.
  */
 export const deregisterTaskDefinition: API.OperationMethod<
-  DeregisterTaskDefinitionRequest,
+  DeregisterTaskDefinitionRequest & RegionInput,
   DeregisterTaskDefinitionResponse,
   DeregisterTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3746,7 +3747,7 @@ export type DescribeCapacityProvidersError =
  * Describes one or more of your capacity providers.
  */
 export const describeCapacityProviders: API.OperationMethod<
-  DescribeCapacityProvidersRequest,
+  DescribeCapacityProvidersRequest & RegionInput,
   DescribeCapacityProvidersResponse,
   DescribeCapacityProvidersError,
   Credentials | HttpClient.HttpClient
@@ -3780,7 +3781,7 @@ export type DescribeClustersError =
  * For CLI examples, see describe-clusters.rst on GitHub.
  */
 export const describeClusters: API.OperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient
@@ -3806,7 +3807,7 @@ export type DescribeContainerInstancesError =
  * Describes one or more container instances. Returns metadata about each container instance requested.
  */
 export const describeContainerInstances: API.OperationMethod<
-  DescribeContainerInstancesRequest,
+  DescribeContainerInstancesRequest & RegionInput,
   DescribeContainerInstancesResponse,
   DescribeContainerInstancesError,
   Credentials | HttpClient.HttpClient
@@ -3840,7 +3841,7 @@ export type DescribeDaemonError =
  * Describes the specified daemon.
  */
 export const describeDaemon: API.OperationMethod<
-  DescribeDaemonRequest,
+  DescribeDaemonRequest & RegionInput,
   DescribeDaemonResponse,
   DescribeDaemonError,
   Credentials | HttpClient.HttpClient
@@ -3877,7 +3878,7 @@ export type DescribeDaemonDeploymentsError =
  * A daemon deployment orchestrates the progressive rollout of daemon task updates across container instances managed by the daemon's capacity providers. Each deployment includes circuit breaker and alarm-based rollback capabilities.
  */
 export const describeDaemonDeployments: API.OperationMethod<
-  DescribeDaemonDeploymentsRequest,
+  DescribeDaemonDeploymentsRequest & RegionInput,
   DescribeDaemonDeploymentsResponse,
   DescribeDaemonDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3914,7 @@ export type DescribeDaemonRevisionsError =
  * A daemon revision is a snapshot of a daemon's configuration at the time a deployment was initiated. It captures the daemon task definition, container images, tag propagation, and execute command settings. Daemon revisions are immutable.
  */
 export const describeDaemonRevisions: API.OperationMethod<
-  DescribeDaemonRevisionsRequest,
+  DescribeDaemonRevisionsRequest & RegionInput,
   DescribeDaemonRevisionsResponse,
   DescribeDaemonRevisionsError,
   Credentials | HttpClient.HttpClient
@@ -3945,7 +3946,7 @@ export type DescribeDaemonTaskDefinitionError =
  * Describes a daemon task definition. You can specify a `family` and `revision` to find information about a specific daemon task definition, or you can simply specify the family to find the latest `ACTIVE` revision in that family.
  */
 export const describeDaemonTaskDefinition: API.OperationMethod<
-  DescribeDaemonTaskDefinitionRequest,
+  DescribeDaemonTaskDefinitionRequest & RegionInput,
   DescribeDaemonTaskDefinitionResponse,
   DescribeDaemonTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3977,7 +3978,7 @@ export type DescribeExpressGatewayServiceError =
  * Use the `include` parameter to retrieve additional information such as resource tags.
  */
 export const describeExpressGatewayService: API.OperationMethod<
-  DescribeExpressGatewayServiceRequest,
+  DescribeExpressGatewayServiceRequest & RegionInput,
   DescribeExpressGatewayServiceResponse,
   DescribeExpressGatewayServiceError,
   Credentials | HttpClient.HttpClient
@@ -4015,7 +4016,7 @@ export type DescribeServiceDeploymentsError =
  * A service deployment happens when you release a software update for the service. For more information, see View service history using Amazon ECS service deployments.
  */
 export const describeServiceDeployments: API.OperationMethod<
-  DescribeServiceDeploymentsRequest,
+  DescribeServiceDeploymentsRequest & RegionInput,
   DescribeServiceDeploymentsResponse,
   DescribeServiceDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -4055,7 +4056,7 @@ export type DescribeServiceRevisionsError =
  * You can't describe a service revision that was created before October 25, 2024.
  */
 export const describeServiceRevisions: API.OperationMethod<
-  DescribeServiceRevisionsRequest,
+  DescribeServiceRevisionsRequest & RegionInput,
   DescribeServiceRevisionsResponse,
   DescribeServiceRevisionsError,
   Credentials | HttpClient.HttpClient
@@ -4089,7 +4090,7 @@ export type DescribeServicesError =
  * Describes the specified services running in your cluster.
  */
 export const describeServices: API.OperationMethod<
-  DescribeServicesRequest,
+  DescribeServicesRequest & RegionInput,
   DescribeServicesResponse,
   DescribeServicesError,
   Credentials | HttpClient.HttpClient
@@ -4122,7 +4123,7 @@ export type DescribeTaskDefinitionError =
  * You can only describe `INACTIVE` task definitions while an active task or service references them.
  */
 export const describeTaskDefinition: API.OperationMethod<
-  DescribeTaskDefinitionRequest,
+  DescribeTaskDefinitionRequest & RegionInput,
   DescribeTaskDefinitionResponse,
   DescribeTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -4152,7 +4153,7 @@ export type DescribeTasksError =
  * If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
  */
 export const describeTasks: API.OperationMethod<
-  DescribeTasksRequest,
+  DescribeTasksRequest & RegionInput,
   DescribeTasksResponse,
   DescribeTasksError,
   Credentials | HttpClient.HttpClient
@@ -4187,7 +4188,7 @@ export type DescribeTaskSetsError =
  * Describes the task sets in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const describeTaskSets: API.OperationMethod<
-  DescribeTaskSetsRequest,
+  DescribeTaskSetsRequest & RegionInput,
   DescribeTaskSetsResponse,
   DescribeTaskSetsError,
   Credentials | HttpClient.HttpClient
@@ -4223,7 +4224,7 @@ export type DiscoverPollEndpointError =
  * Returns an endpoint for the Amazon ECS agent to poll for updates.
  */
 export const discoverPollEndpoint: API.OperationMethod<
-  DiscoverPollEndpointRequest,
+  DiscoverPollEndpointRequest & RegionInput,
   DiscoverPollEndpointResponse,
   DiscoverPollEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4254,7 +4255,7 @@ export type ExecuteCommandError =
  * For information about required permissions and considerations, see Using Amazon ECS Exec for debugging in the *Amazon ECS Developer Guide*.
  */
 export const executeCommand: API.OperationMethod<
-  ExecuteCommandRequest,
+  ExecuteCommandRequest & RegionInput,
   ExecuteCommandResponse,
   ExecuteCommandError,
   Credentials | HttpClient.HttpClient
@@ -4289,7 +4290,7 @@ export type GetTaskProtectionError =
  * Retrieves the protection status of tasks in an Amazon ECS service.
  */
 export const getTaskProtection: API.OperationMethod<
-  GetTaskProtectionRequest,
+  GetTaskProtectionRequest & RegionInput,
   GetTaskProtectionResponse,
   GetTaskProtectionError,
   Credentials | HttpClient.HttpClient
@@ -4322,7 +4323,7 @@ export type ListAccountSettingsError =
  * Lists the account settings for a specified principal.
  */
 export const listAccountSettings: API.PaginatedOperationMethod<
-  ListAccountSettingsRequest,
+  ListAccountSettingsRequest & RegionInput,
   ListAccountSettingsResponse,
   ListAccountSettingsError,
   Credentials | HttpClient.HttpClient,
@@ -4355,7 +4356,7 @@ export type ListAttributesError =
  * Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, `ListAttributes` returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (`ecs.os-type=linux`).
  */
 export const listAttributes: API.PaginatedOperationMethod<
-  ListAttributesRequest,
+  ListAttributesRequest & RegionInput,
   ListAttributesResponse,
   ListAttributesError,
   Credentials | HttpClient.HttpClient,
@@ -4393,7 +4394,7 @@ export type ListClustersError =
  * Returns a list of existing clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -4426,7 +4427,7 @@ export type ListContainerInstancesError =
  * Returns a list of container instances in a specified cluster. You can filter the results of a `ListContainerInstances` operation with cluster query language statements inside the `filter` parameter. For more information, see Cluster Query Language in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const listContainerInstances: API.PaginatedOperationMethod<
-  ListContainerInstancesRequest,
+  ListContainerInstancesRequest & RegionInput,
   ListContainerInstancesResponse,
   ListContainerInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -4466,7 +4467,7 @@ export type ListDaemonDeploymentsError =
  * Returns a list of daemon deployments for a specified daemon. You can filter the results by status or creation time.
  */
 export const listDaemonDeployments: API.OperationMethod<
-  ListDaemonDeploymentsRequest,
+  ListDaemonDeploymentsRequest & RegionInput,
   ListDaemonDeploymentsResponse,
   ListDaemonDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -4500,7 +4501,7 @@ export type ListDaemonsError =
  * Returns a list of daemons. You can filter the results by cluster or capacity provider.
  */
 export const listDaemons: API.OperationMethod<
-  ListDaemonsRequest,
+  ListDaemonsRequest & RegionInput,
   ListDaemonsResponse,
   ListDaemonsError,
   Credentials | HttpClient.HttpClient
@@ -4532,7 +4533,7 @@ export type ListDaemonTaskDefinitionsError =
  * Returns a list of daemon task definitions that are registered to your account. You can filter the results by family name, status, or both to find daemon task definitions that match your criteria.
  */
 export const listDaemonTaskDefinitions: API.OperationMethod<
-  ListDaemonTaskDefinitionsRequest,
+  ListDaemonTaskDefinitionsRequest & RegionInput,
   ListDaemonTaskDefinitionsResponse,
   ListDaemonTaskDefinitionsError,
   Credentials | HttpClient.HttpClient
@@ -4564,7 +4565,7 @@ export type ListServiceDeploymentsError =
  * This API returns the values that you use for the request parameters in DescribeServiceRevisions.
  */
 export const listServiceDeployments: API.OperationMethod<
-  ListServiceDeploymentsRequest,
+  ListServiceDeploymentsRequest & RegionInput,
   ListServiceDeploymentsResponse,
   ListServiceDeploymentsError,
   Credentials | HttpClient.HttpClient
@@ -4598,7 +4599,7 @@ export type ListServicesError =
  * Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
  */
 export const listServices: API.PaginatedOperationMethod<
-  ListServicesRequest,
+  ListServicesRequest & RegionInput,
   ListServicesResponse,
   ListServicesError,
   Credentials | HttpClient.HttpClient,
@@ -4637,7 +4638,7 @@ export type ListServicesByNamespaceError =
  * This operation lists all of the services that are associated with a Cloud Map namespace. This list might include services in different clusters. In contrast, `ListServices` can only list services in one cluster at a time. If you need to filter the list of services in a single cluster by various parameters, use `ListServices`. For more information, see Service Connect in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const listServicesByNamespace: API.PaginatedOperationMethod<
-  ListServicesByNamespaceRequest,
+  ListServicesByNamespaceRequest & RegionInput,
   ListServicesByNamespaceResponse,
   ListServicesByNamespaceError,
   Credentials | HttpClient.HttpClient,
@@ -4676,7 +4677,7 @@ export type ListTagsForResourceError =
  * List the tags for an Amazon ECS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4709,7 +4710,7 @@ export type ListTaskDefinitionFamiliesError =
  * You can filter out task definition families that don't contain any `ACTIVE` task definition revisions by setting the `status` parameter to `ACTIVE`. You can also filter the results with the `familyPrefix` parameter.
  */
 export const listTaskDefinitionFamilies: API.PaginatedOperationMethod<
-  ListTaskDefinitionFamiliesRequest,
+  ListTaskDefinitionFamiliesRequest & RegionInput,
   ListTaskDefinitionFamiliesResponse,
   ListTaskDefinitionFamiliesError,
   Credentials | HttpClient.HttpClient,
@@ -4741,7 +4742,7 @@ export type ListTaskDefinitionsError =
  * Returns a list of task definitions that are registered to your account. You can filter the results by family name with the `familyPrefix` parameter or by status with the `status` parameter.
  */
 export const listTaskDefinitions: API.PaginatedOperationMethod<
-  ListTaskDefinitionsRequest,
+  ListTaskDefinitionsRequest & RegionInput,
   ListTaskDefinitionsResponse,
   ListTaskDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -4777,7 +4778,7 @@ export type ListTasksError =
  * Recently stopped tasks might appear in the returned results.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
@@ -4818,7 +4819,7 @@ export type PutAccountSettingError =
  * If you change the root user account setting, the default settings are reset for users and roles that do not have specified individual account settings. For more information, see Account Settings in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const putAccountSetting: API.OperationMethod<
-  PutAccountSettingRequest,
+  PutAccountSettingRequest & RegionInput,
   PutAccountSettingResponse,
   PutAccountSettingError,
   Credentials | HttpClient.HttpClient
@@ -4843,7 +4844,7 @@ export type PutAccountSettingDefaultError =
  * Modifies an account setting for all users on an account for whom no individual account setting has been specified. Account settings are set on a per-Region basis.
  */
 export const putAccountSettingDefault: API.OperationMethod<
-  PutAccountSettingDefaultRequest,
+  PutAccountSettingDefaultRequest & RegionInput,
   PutAccountSettingDefaultResponse,
   PutAccountSettingDefaultError,
   Credentials | HttpClient.HttpClient
@@ -4871,7 +4872,7 @@ export type PutAttributesError =
  * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const putAttributes: API.OperationMethod<
-  PutAttributesRequest,
+  PutAttributesRequest & RegionInput,
   PutAttributesResponse,
   PutAttributesError,
   Credentials | HttpClient.HttpClient
@@ -4914,7 +4915,7 @@ export type PutClusterCapacityProvidersError =
  * Amazon ECS Managed Instances doesn't support this, because when you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
  */
 export const putClusterCapacityProviders: API.OperationMethod<
-  PutClusterCapacityProvidersRequest,
+  PutClusterCapacityProvidersRequest & RegionInput,
   PutClusterCapacityProvidersResponse,
   PutClusterCapacityProvidersError,
   Credentials | HttpClient.HttpClient
@@ -4951,7 +4952,7 @@ export type RegisterContainerInstanceError =
  * Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
  */
 export const registerContainerInstance: API.OperationMethod<
-  RegisterContainerInstanceRequest,
+  RegisterContainerInstanceRequest & RegionInput,
   RegisterContainerInstanceResponse,
   RegisterContainerInstanceError,
   Credentials | HttpClient.HttpClient
@@ -4987,7 +4988,7 @@ export type RegisterDaemonTaskDefinitionError =
  * Each time you call `RegisterDaemonTaskDefinition`, a new revision of the daemon task definition is created. You can't modify a revision after you register it.
  */
 export const registerDaemonTaskDefinition: API.OperationMethod<
-  RegisterDaemonTaskDefinitionRequest,
+  RegisterDaemonTaskDefinitionRequest & RegionInput,
   RegisterDaemonTaskDefinitionResponse,
   RegisterDaemonTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -5023,7 +5024,7 @@ export type RegisterTaskDefinitionError =
  * You can specify a Docker networking mode for the containers in your task definition with the `networkMode` parameter. If you specify the `awsvpc` network mode, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration when you create a service or run a task with the task definition. For more information, see Task Networking in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const registerTaskDefinition: API.OperationMethod<
-  RegisterTaskDefinitionRequest,
+  RegisterTaskDefinitionRequest & RegionInput,
   RegisterTaskDefinitionResponse,
   RegisterTaskDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -5088,7 +5089,7 @@ export type RunTaskError =
  * If you get a `ClientException`error, the `RunTask` could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the `PROVISIONING` per cluster has been reached. For information about the service quotas, see Amazon ECS service quotas.
  */
 export const runTask: API.OperationMethod<
-  RunTaskRequest,
+  RunTaskRequest & RegionInput,
   RunTaskResponse,
   RunTaskError,
   Credentials | HttpClient.HttpClient
@@ -5135,7 +5136,7 @@ export type StartTaskError =
  * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more information, see Amazon EBS volumes in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const startTask: API.OperationMethod<
-  StartTaskRequest,
+  StartTaskRequest & RegionInput,
   StartTaskResponse,
   StartTaskError,
   Credentials | HttpClient.HttpClient
@@ -5179,7 +5180,7 @@ export type StopServiceDeploymentError =
  * For more information, see Stopping Amazon ECS service deployments in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const stopServiceDeployment: API.OperationMethod<
-  StopServiceDeploymentRequest,
+  StopServiceDeploymentRequest & RegionInput,
   StopServiceDeploymentResponse,
   StopServiceDeploymentError,
   Credentials | HttpClient.HttpClient
@@ -5219,7 +5220,7 @@ export type StopTaskError =
  * The default 30-second timeout can be configured on the Amazon ECS container agent with the `ECS_CONTAINER_STOP_TIMEOUT` variable. For more information, see Amazon ECS Container Agent Configuration in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const stopTask: API.OperationMethod<
-  StopTaskRequest,
+  StopTaskRequest & RegionInput,
   StopTaskResponse,
   StopTaskError,
   Credentials | HttpClient.HttpClient
@@ -5253,7 +5254,7 @@ export type SubmitAttachmentStateChangesError =
  * Sent to acknowledge that an attachment changed states.
  */
 export const submitAttachmentStateChanges: API.OperationMethod<
-  SubmitAttachmentStateChangesRequest,
+  SubmitAttachmentStateChangesRequest & RegionInput,
   SubmitAttachmentStateChangesResponse,
   SubmitAttachmentStateChangesError,
   Credentials | HttpClient.HttpClient
@@ -5287,7 +5288,7 @@ export type SubmitContainerStateChangeError =
  * Sent to acknowledge that a container changed states.
  */
 export const submitContainerStateChange: API.OperationMethod<
-  SubmitContainerStateChangeRequest,
+  SubmitContainerStateChangeRequest & RegionInput,
   SubmitContainerStateChangeResponse,
   SubmitContainerStateChangeError,
   Credentials | HttpClient.HttpClient
@@ -5321,7 +5322,7 @@ export type SubmitTaskStateChangeError =
  * Sent to acknowledge that a task changed states.
  */
 export const submitTaskStateChange: API.OperationMethod<
-  SubmitTaskStateChangeRequest,
+  SubmitTaskStateChangeRequest & RegionInput,
   SubmitTaskStateChangeResponse,
   SubmitTaskStateChangeError,
   Credentials | HttpClient.HttpClient
@@ -5355,7 +5356,7 @@ export type TagResourceError =
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5390,7 +5391,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5426,7 +5427,7 @@ export type UpdateCapacityProviderError =
  * These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not existing ones.
  */
 export const updateCapacityProvider: API.OperationMethod<
-  UpdateCapacityProviderRequest,
+  UpdateCapacityProviderRequest & RegionInput,
   UpdateCapacityProviderResponse,
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
@@ -5460,7 +5461,7 @@ export type UpdateClusterError =
  * Updates the cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -5494,7 +5495,7 @@ export type UpdateClusterSettingsError =
  * Modifies the settings to use for a cluster.
  */
 export const updateClusterSettings: API.OperationMethod<
-  UpdateClusterSettingsRequest,
+  UpdateClusterSettingsRequest & RegionInput,
   UpdateClusterSettingsResponse,
   UpdateClusterSettingsError,
   Credentials | HttpClient.HttpClient
@@ -5536,7 +5537,7 @@ export type UpdateContainerAgentError =
  * The `UpdateContainerAgent` API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the `ecs-init` service installed and running. For help updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const updateContainerAgent: API.OperationMethod<
-  UpdateContainerAgentRequest,
+  UpdateContainerAgentRequest & RegionInput,
   UpdateContainerAgentResponse,
   UpdateContainerAgentError,
   Credentials | HttpClient.HttpClient
@@ -5589,7 +5590,7 @@ export type UpdateContainerInstancesStateError =
  * When a container instance has been drained, you can set a container instance to `ACTIVE` status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
  */
 export const updateContainerInstancesState: API.OperationMethod<
-  UpdateContainerInstancesStateRequest,
+  UpdateContainerInstancesStateRequest & RegionInput,
   UpdateContainerInstancesStateResponse,
   UpdateContainerInstancesStateError,
   Credentials | HttpClient.HttpClient
@@ -5631,7 +5632,7 @@ export type UpdateDaemonError =
  * ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
  */
 export const updateDaemon: API.OperationMethod<
-  UpdateDaemonRequest,
+  UpdateDaemonRequest & RegionInput,
   UpdateDaemonResponse,
   UpdateDaemonError,
   Credentials | HttpClient.HttpClient
@@ -5674,7 +5675,7 @@ export type UpdateExpressGatewayServiceError =
  * Some parameters like the infrastructure role cannot be modified after service creation and require creating a new service.
  */
 export const updateExpressGatewayService: API.OperationMethod<
-  UpdateExpressGatewayServiceRequest,
+  UpdateExpressGatewayServiceRequest & RegionInput,
   UpdateExpressGatewayServiceResponse,
   UpdateExpressGatewayServiceError,
   Credentials | HttpClient.HttpClient
@@ -5757,7 +5758,7 @@ export type UpdateServiceError =
  * - Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
  */
 export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
+  UpdateServiceRequest & RegionInput,
   UpdateServiceResponse,
   UpdateServiceError,
   Credentials | HttpClient.HttpClient
@@ -5799,7 +5800,7 @@ export type UpdateServicePrimaryTaskSetError =
  * Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const updateServicePrimaryTaskSet: API.OperationMethod<
-  UpdateServicePrimaryTaskSetRequest,
+  UpdateServicePrimaryTaskSetRequest & RegionInput,
   UpdateServicePrimaryTaskSetResponse,
   UpdateServicePrimaryTaskSetError,
   Credentials | HttpClient.HttpClient
@@ -5847,7 +5848,7 @@ export type UpdateTaskProtectionError =
  * If you prefer to set task protection from within the container, we recommend using the Task scale-in protection endpoint.
  */
 export const updateTaskProtection: API.OperationMethod<
-  UpdateTaskProtectionRequest,
+  UpdateTaskProtectionRequest & RegionInput,
   UpdateTaskProtectionResponse,
   UpdateTaskProtectionError,
   Credentials | HttpClient.HttpClient
@@ -5886,7 +5887,7 @@ export type UpdateTaskSetError =
  * Modifies a task set. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
 export const updateTaskSet: API.OperationMethod<
-  UpdateTaskSetRequest,
+  UpdateTaskSetRequest & RegionInput,
   UpdateTaskSetResponse,
   UpdateTaskSetError,
   Credentials | HttpClient.HttpClient

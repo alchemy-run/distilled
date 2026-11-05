@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -1971,7 +1972,7 @@ export type BatchDetectDominantLanguageError =
  * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
 export const batchDetectDominantLanguage: API.OperationMethod<
-  BatchDetectDominantLanguageRequest,
+  BatchDetectDominantLanguageRequest & RegionInput,
   BatchDetectDominantLanguageResponse,
   BatchDetectDominantLanguageError,
   Credentials | HttpClient.HttpClient
@@ -2004,7 +2005,7 @@ export type BatchDetectEntitiesError =
  * Entities in the Comprehend Developer Guide.
  */
 export const batchDetectEntities: API.OperationMethod<
-  BatchDetectEntitiesRequest,
+  BatchDetectEntitiesRequest & RegionInput,
   BatchDetectEntitiesResponse,
   BatchDetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2036,7 +2037,7 @@ export type BatchDetectKeyPhrasesError =
  * Detects the key noun phrases found in a batch of documents.
  */
 export const batchDetectKeyPhrases: API.OperationMethod<
-  BatchDetectKeyPhrasesRequest,
+  BatchDetectKeyPhrasesRequest & RegionInput,
   BatchDetectKeyPhrasesResponse,
   BatchDetectKeyPhrasesError,
   Credentials | HttpClient.HttpClient
@@ -2070,7 +2071,7 @@ export type BatchDetectSentimentError =
  * in each one.
  */
 export const batchDetectSentiment: API.OperationMethod<
-  BatchDetectSentimentRequest,
+  BatchDetectSentimentRequest & RegionInput,
   BatchDetectSentimentResponse,
   BatchDetectSentimentError,
   Credentials | HttpClient.HttpClient
@@ -2104,7 +2105,7 @@ export type BatchDetectSyntaxError =
  * Syntax in the Comprehend Developer Guide.
  */
 export const batchDetectSyntax: API.OperationMethod<
-  BatchDetectSyntaxRequest,
+  BatchDetectSyntaxRequest & RegionInput,
   BatchDetectSyntaxResponse,
   BatchDetectSyntaxError,
   Credentials | HttpClient.HttpClient
@@ -2139,7 +2140,7 @@ export type BatchDetectTargetedSentimentError =
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
 export const batchDetectTargetedSentiment: API.OperationMethod<
-  BatchDetectTargetedSentimentRequest,
+  BatchDetectTargetedSentimentRequest & RegionInput,
   BatchDetectTargetedSentimentResponse,
   BatchDetectTargetedSentimentError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2192,7 @@ export type ClassifyDocumentError =
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
 export const classifyDocument: API.OperationMethod<
-  ClassifyDocumentRequest,
+  ClassifyDocumentRequest & RegionInput,
   ClassifyDocumentResponse,
   ClassifyDocumentError,
   Credentials | HttpClient.HttpClient
@@ -2224,7 +2225,7 @@ export type ContainsPiiEntitiesError =
  * or phone number.
  */
 export const containsPiiEntities: API.OperationMethod<
-  ContainsPiiEntitiesRequest,
+  ContainsPiiEntitiesRequest & RegionInput,
   ContainsPiiEntitiesResponse,
   ContainsPiiEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -2259,7 +2260,7 @@ export type CreateDatasetError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
+  CreateDatasetRequest & RegionInput,
   CreateDatasetResponse,
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2301,7 @@ export type CreateDocumentClassifierError =
  * in the Comprehend Developer Guide.
  */
 export const createDocumentClassifier: API.OperationMethod<
-  CreateDocumentClassifierRequest,
+  CreateDocumentClassifierRequest & RegionInput,
   CreateDocumentClassifierResponse,
   CreateDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2340,7 +2341,7 @@ export type CreateEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResponse,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2380,7 +2381,7 @@ export type CreateEntityRecognizerError =
  * `DescribeEntityRecognizer` API.
  */
 export const createEntityRecognizer: API.OperationMethod<
-  CreateEntityRecognizerRequest,
+  CreateEntityRecognizerRequest & RegionInput,
   CreateEntityRecognizerResponse,
   CreateEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2434,7 +2435,7 @@ export type CreateFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const createFlywheel: API.OperationMethod<
-  CreateFlywheelRequest,
+  CreateFlywheelRequest & RegionInput,
   CreateFlywheelResponse,
   CreateFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2480,7 +2481,7 @@ export type DeleteDocumentClassifierError =
  * and is no longer available for use.
  */
 export const deleteDocumentClassifier: API.OperationMethod<
-  DeleteDocumentClassifierRequest,
+  DeleteDocumentClassifierRequest & RegionInput,
   DeleteDocumentClassifierResponse,
   DeleteDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type DeleteEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2556,7 +2557,7 @@ export type DeleteEntityRecognizerError =
  * and is no longer available for use.
  */
 export const deleteEntityRecognizer: API.OperationMethod<
-  DeleteEntityRecognizerRequest,
+  DeleteEntityRecognizerRequest & RegionInput,
   DeleteEntityRecognizerResponse,
   DeleteEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2594,7 +2595,7 @@ export type DeleteFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const deleteFlywheel: API.OperationMethod<
-  DeleteFlywheelRequest,
+  DeleteFlywheelRequest & RegionInput,
   DeleteFlywheelResponse,
   DeleteFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2626,7 @@ export type DeleteResourcePolicyError =
  * Deletes a resource-based policy that is attached to a custom model.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2652,7 +2653,7 @@ export type DescribeDatasetError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeDataset: API.OperationMethod<
-  DescribeDatasetRequest,
+  DescribeDatasetRequest & RegionInput,
   DescribeDatasetResponse,
   DescribeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -2683,7 +2684,7 @@ export type DescribeDocumentClassificationJobError =
  * get the status of a classification job.
  */
 export const describeDocumentClassificationJob: API.OperationMethod<
-  DescribeDocumentClassificationJobRequest,
+  DescribeDocumentClassificationJobRequest & RegionInput,
   DescribeDocumentClassificationJobResponse,
   DescribeDocumentClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -2713,7 +2714,7 @@ export type DescribeDocumentClassifierError =
  * Gets the properties associated with a document classifier.
  */
 export const describeDocumentClassifier: API.OperationMethod<
-  DescribeDocumentClassifierRequest,
+  DescribeDocumentClassifierRequest & RegionInput,
   DescribeDocumentClassifierResponse,
   DescribeDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -2744,7 +2745,7 @@ export type DescribeDominantLanguageDetectionJobError =
  * to get the status of a detection job.
  */
 export const describeDominantLanguageDetectionJob: API.OperationMethod<
-  DescribeDominantLanguageDetectionJobRequest,
+  DescribeDominantLanguageDetectionJobRequest & RegionInput,
   DescribeDominantLanguageDetectionJobResponse,
   DescribeDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2776,7 +2777,7 @@ export type DescribeEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const describeEndpoint: API.OperationMethod<
-  DescribeEndpointRequest,
+  DescribeEndpointRequest & RegionInput,
   DescribeEndpointResponse,
   DescribeEndpointError,
   Credentials | HttpClient.HttpClient
@@ -2807,7 +2808,7 @@ export type DescribeEntitiesDetectionJobError =
  * the status of a detection job.
  */
 export const describeEntitiesDetectionJob: API.OperationMethod<
-  DescribeEntitiesDetectionJobRequest,
+  DescribeEntitiesDetectionJobRequest & RegionInput,
   DescribeEntitiesDetectionJobResponse,
   DescribeEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2838,7 +2839,7 @@ export type DescribeEntityRecognizerError =
  * training data, recognizer metadata, metrics, and so on.
  */
 export const describeEntityRecognizer: API.OperationMethod<
-  DescribeEntityRecognizerRequest,
+  DescribeEntityRecognizerRequest & RegionInput,
   DescribeEntityRecognizerResponse,
   DescribeEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -2869,7 +2870,7 @@ export type DescribeEventsDetectionJobError =
  * Gets the status and details of an events detection job.
  */
 export const describeEventsDetectionJob: API.OperationMethod<
-  DescribeEventsDetectionJobRequest,
+  DescribeEventsDetectionJobRequest & RegionInput,
   DescribeEventsDetectionJobResponse,
   DescribeEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2901,7 +2902,7 @@ export type DescribeFlywheelError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeFlywheel: API.OperationMethod<
-  DescribeFlywheelRequest,
+  DescribeFlywheelRequest & RegionInput,
   DescribeFlywheelResponse,
   DescribeFlywheelError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2934,7 @@ export type DescribeFlywheelIterationError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const describeFlywheelIteration: API.OperationMethod<
-  DescribeFlywheelIterationRequest,
+  DescribeFlywheelIterationRequest & RegionInput,
   DescribeFlywheelIterationResponse,
   DescribeFlywheelIterationError,
   Credentials | HttpClient.HttpClient
@@ -2964,7 +2965,7 @@ export type DescribeKeyPhrasesDetectionJobError =
  * the status of a detection job.
  */
 export const describeKeyPhrasesDetectionJob: API.OperationMethod<
-  DescribeKeyPhrasesDetectionJobRequest,
+  DescribeKeyPhrasesDetectionJobRequest & RegionInput,
   DescribeKeyPhrasesDetectionJobResponse,
   DescribeKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -2995,7 +2996,7 @@ export type DescribePiiEntitiesDetectionJobError =
  * this operation to get the job status.
  */
 export const describePiiEntitiesDetectionJob: API.OperationMethod<
-  DescribePiiEntitiesDetectionJobRequest,
+  DescribePiiEntitiesDetectionJobRequest & RegionInput,
   DescribePiiEntitiesDetectionJobResponse,
   DescribePiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3025,7 +3026,7 @@ export type DescribeResourcePolicyError =
  * the JSON body of the policy.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3051,7 +3052,7 @@ export type DescribeSentimentDetectionJobError =
  * the status of a detection job.
  */
 export const describeSentimentDetectionJob: API.OperationMethod<
-  DescribeSentimentDetectionJobRequest,
+  DescribeSentimentDetectionJobRequest & RegionInput,
   DescribeSentimentDetectionJobResponse,
   DescribeSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3082,7 +3083,7 @@ export type DescribeTargetedSentimentDetectionJobError =
  * to get the status of the job.
  */
 export const describeTargetedSentimentDetectionJob: API.OperationMethod<
-  DescribeTargetedSentimentDetectionJobRequest,
+  DescribeTargetedSentimentDetectionJobRequest & RegionInput,
   DescribeTargetedSentimentDetectionJobResponse,
   DescribeTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3113,7 +3114,7 @@ export type DescribeTopicsDetectionJobError =
  * the status of a detection job.
  */
 export const describeTopicsDetectionJob: API.OperationMethod<
-  DescribeTopicsDetectionJobRequest,
+  DescribeTopicsDetectionJobRequest & RegionInput,
   DescribeTopicsDetectionJobResponse,
   DescribeTopicsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -3143,7 +3144,7 @@ export type DetectDominantLanguageError =
  * Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
 export const detectDominantLanguage: API.OperationMethod<
-  DetectDominantLanguageRequest,
+  DetectDominantLanguageRequest & RegionInput,
   DetectDominantLanguageResponse,
   DetectDominantLanguageError,
   Credentials | HttpClient.HttpClient
@@ -3186,7 +3187,7 @@ export type DetectEntitiesError =
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
 export const detectEntities: API.OperationMethod<
-  DetectEntitiesRequest,
+  DetectEntitiesRequest & RegionInput,
   DetectEntitiesResponse,
   DetectEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3217,7 +3218,7 @@ export type DetectKeyPhrasesError =
  * Detects the key noun phrases found in the text.
  */
 export const detectKeyPhrases: API.OperationMethod<
-  DetectKeyPhrasesRequest,
+  DetectKeyPhrasesRequest & RegionInput,
   DetectKeyPhrasesResponse,
   DetectKeyPhrasesError,
   Credentials | HttpClient.HttpClient
@@ -3248,7 +3249,7 @@ export type DetectPiiEntitiesError =
  * (PII) and returns information about them.
  */
 export const detectPiiEntities: API.OperationMethod<
-  DetectPiiEntitiesRequest,
+  DetectPiiEntitiesRequest & RegionInput,
   DetectPiiEntitiesResponse,
   DetectPiiEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -3279,7 +3280,7 @@ export type DetectSentimentError =
  * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
  */
 export const detectSentiment: API.OperationMethod<
-  DetectSentimentRequest,
+  DetectSentimentRequest & RegionInput,
   DetectSentimentResponse,
   DetectSentimentError,
   Credentials | HttpClient.HttpClient
@@ -3311,7 +3312,7 @@ export type DetectSyntaxError =
  * Syntax in the Comprehend Developer Guide.
  */
 export const detectSyntax: API.OperationMethod<
-  DetectSyntaxRequest,
+  DetectSyntaxRequest & RegionInput,
   DetectSyntaxResponse,
   DetectSyntaxError,
   Credentials | HttpClient.HttpClient
@@ -3343,7 +3344,7 @@ export type DetectTargetedSentimentError =
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
 export const detectTargetedSentiment: API.OperationMethod<
-  DetectTargetedSentimentRequest,
+  DetectTargetedSentimentRequest & RegionInput,
   DetectTargetedSentimentResponse,
   DetectTargetedSentimentError,
   Credentials | HttpClient.HttpClient
@@ -3375,7 +3376,7 @@ export type DetectToxicContentError =
  * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
  */
 export const detectToxicContent: API.OperationMethod<
-  DetectToxicContentRequest,
+  DetectToxicContentRequest & RegionInput,
   DetectToxicContentResponse,
   DetectToxicContentError,
   Credentials | HttpClient.HttpClient
@@ -3417,7 +3418,7 @@ export type ImportModelError =
  * can't import a model that's in a different Region.
  */
 export const importModel: API.OperationMethod<
-  ImportModelRequest,
+  ImportModelRequest & RegionInput,
   ImportModelResponse,
   ImportModelError,
   Credentials | HttpClient.HttpClient
@@ -3454,7 +3455,7 @@ export type ListDatasetsError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const listDatasets: API.PaginatedOperationMethod<
-  ListDatasetsRequest,
+  ListDatasetsRequest & RegionInput,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -3491,7 +3492,7 @@ export type ListDocumentClassificationJobsError =
  * Gets a list of the documentation classification jobs that you have submitted.
  */
 export const listDocumentClassificationJobs: API.PaginatedOperationMethod<
-  ListDocumentClassificationJobsRequest,
+  ListDocumentClassificationJobsRequest & RegionInput,
   ListDocumentClassificationJobsResponse,
   ListDocumentClassificationJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3527,7 +3528,7 @@ export type ListDocumentClassifiersError =
  * Gets a list of the document classifiers that you have created.
  */
 export const listDocumentClassifiers: API.PaginatedOperationMethod<
-  ListDocumentClassifiersRequest,
+  ListDocumentClassifiersRequest & RegionInput,
   ListDocumentClassifiersResponse,
   ListDocumentClassifiersError,
   Credentials | HttpClient.HttpClient,
@@ -3562,7 +3563,7 @@ export type ListDocumentClassifierSummariesError =
  * Gets a list of summaries of the document classifiers that you have created
  */
 export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
-  ListDocumentClassifierSummariesRequest,
+  ListDocumentClassifierSummariesRequest & RegionInput,
   ListDocumentClassifierSummariesResponse,
   ListDocumentClassifierSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3593,7 +3594,7 @@ export type ListDominantLanguageDetectionJobsError =
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
 export const listDominantLanguageDetectionJobs: API.PaginatedOperationMethod<
-  ListDominantLanguageDetectionJobsRequest,
+  ListDominantLanguageDetectionJobsRequest & RegionInput,
   ListDominantLanguageDetectionJobsResponse,
   ListDominantLanguageDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3629,7 +3630,7 @@ export type ListEndpointsError =
  * For information about endpoints, see Managing endpoints.
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResponse,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -3661,7 +3662,7 @@ export type ListEntitiesDetectionJobsError =
  * Gets a list of the entity detection jobs that you have submitted.
  */
 export const listEntitiesDetectionJobs: API.PaginatedOperationMethod<
-  ListEntitiesDetectionJobsRequest,
+  ListEntitiesDetectionJobsRequest & RegionInput,
   ListEntitiesDetectionJobsResponse,
   ListEntitiesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3703,7 +3704,7 @@ export type ListEntityRecognizersError =
  * locally if needed.
  */
 export const listEntityRecognizers: API.PaginatedOperationMethod<
-  ListEntityRecognizersRequest,
+  ListEntityRecognizersRequest & RegionInput,
   ListEntityRecognizersResponse,
   ListEntityRecognizersError,
   Credentials | HttpClient.HttpClient,
@@ -3738,7 +3739,7 @@ export type ListEntityRecognizerSummariesError =
  * Gets a list of summaries for the entity recognizers that you have created.
  */
 export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
-  ListEntityRecognizerSummariesRequest,
+  ListEntityRecognizerSummariesRequest & RegionInput,
   ListEntityRecognizerSummariesResponse,
   ListEntityRecognizerSummariesError,
   Credentials | HttpClient.HttpClient,
@@ -3770,7 +3771,7 @@ export type ListEventsDetectionJobsError =
  * Gets a list of the events detection jobs that you have submitted.
  */
 export const listEventsDetectionJobs: API.PaginatedOperationMethod<
-  ListEventsDetectionJobsRequest,
+  ListEventsDetectionJobsRequest & RegionInput,
   ListEventsDetectionJobsResponse,
   ListEventsDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3810,7 +3811,7 @@ export type ListFlywheelIterationHistoryError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const listFlywheelIterationHistory: API.PaginatedOperationMethod<
-  ListFlywheelIterationHistoryRequest,
+  ListFlywheelIterationHistoryRequest & RegionInput,
   ListFlywheelIterationHistoryResponse,
   ListFlywheelIterationHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -3847,7 +3848,7 @@ export type ListFlywheelsError =
  * Gets a list of the flywheels that you have created.
  */
 export const listFlywheels: API.PaginatedOperationMethod<
-  ListFlywheelsRequest,
+  ListFlywheelsRequest & RegionInput,
   ListFlywheelsResponse,
   ListFlywheelsError,
   Credentials | HttpClient.HttpClient,
@@ -3883,7 +3884,7 @@ export type ListKeyPhrasesDetectionJobsError =
  * Get a list of key phrase detection jobs that you have submitted.
  */
 export const listKeyPhrasesDetectionJobs: API.PaginatedOperationMethod<
-  ListKeyPhrasesDetectionJobsRequest,
+  ListKeyPhrasesDetectionJobsRequest & RegionInput,
   ListKeyPhrasesDetectionJobsResponse,
   ListKeyPhrasesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3919,7 +3920,7 @@ export type ListPiiEntitiesDetectionJobsError =
  * Gets a list of the PII entity detection jobs that you have submitted.
  */
 export const listPiiEntitiesDetectionJobs: API.PaginatedOperationMethod<
-  ListPiiEntitiesDetectionJobsRequest,
+  ListPiiEntitiesDetectionJobsRequest & RegionInput,
   ListPiiEntitiesDetectionJobsResponse,
   ListPiiEntitiesDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3956,7 +3957,7 @@ export type ListSentimentDetectionJobsError =
  * Gets a list of sentiment detection jobs that you have submitted.
  */
 export const listSentimentDetectionJobs: API.PaginatedOperationMethod<
-  ListSentimentDetectionJobsRequest,
+  ListSentimentDetectionJobsRequest & RegionInput,
   ListSentimentDetectionJobsResponse,
   ListSentimentDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3991,7 +3992,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a given Amazon Comprehend resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4016,7 +4017,7 @@ export type ListTargetedSentimentDetectionJobsError =
  * Gets a list of targeted sentiment detection jobs that you have submitted.
  */
 export const listTargetedSentimentDetectionJobs: API.PaginatedOperationMethod<
-  ListTargetedSentimentDetectionJobsRequest,
+  ListTargetedSentimentDetectionJobsRequest & RegionInput,
   ListTargetedSentimentDetectionJobsResponse,
   ListTargetedSentimentDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4052,7 +4053,7 @@ export type ListTopicsDetectionJobsError =
  * Gets a list of the topic detection jobs that you have submitted.
  */
 export const listTopicsDetectionJobs: API.PaginatedOperationMethod<
-  ListTopicsDetectionJobsRequest,
+  ListTopicsDetectionJobsRequest & RegionInput,
   ListTopicsDetectionJobsResponse,
   ListTopicsDetectionJobsError,
   Credentials | HttpClient.HttpClient,
@@ -4089,7 +4090,7 @@ export type PutResourcePolicyError =
  * Comprehend in their account.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4120,7 +4121,7 @@ export type StartDocumentClassificationJobError =
  * operation to track the progress of the job.
  */
 export const startDocumentClassificationJob: API.OperationMethod<
-  StartDocumentClassificationJobRequest,
+  StartDocumentClassificationJobRequest & RegionInput,
   StartDocumentClassificationJobResponse,
   StartDocumentClassificationJobError,
   Credentials | HttpClient.HttpClient
@@ -4158,7 +4159,7 @@ export type StartDominantLanguageDetectionJobError =
  * of a job.
  */
 export const startDominantLanguageDetectionJob: API.OperationMethod<
-  StartDominantLanguageDetectionJobRequest,
+  StartDominantLanguageDetectionJobRequest & RegionInput,
   StartDominantLanguageDetectionJobResponse,
   StartDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4199,7 +4200,7 @@ export type StartEntitiesDetectionJobError =
  * entity.
  */
 export const startEntitiesDetectionJob: API.OperationMethod<
-  StartEntitiesDetectionJobRequest,
+  StartEntitiesDetectionJobRequest & RegionInput,
   StartEntitiesDetectionJobResponse,
   StartEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4236,7 +4237,7 @@ export type StartEventsDetectionJobError =
  * Starts an asynchronous event detection job for a collection of documents.
  */
 export const startEventsDetectionJob: API.OperationMethod<
-  StartEventsDetectionJobRequest,
+  StartEventsDetectionJobRequest & RegionInput,
   StartEventsDetectionJobResponse,
   StartEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4272,7 +4273,7 @@ export type StartFlywheelIterationError =
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
 export const startFlywheelIteration: API.OperationMethod<
-  StartFlywheelIterationRequest,
+  StartFlywheelIterationRequest & RegionInput,
   StartFlywheelIterationResponse,
   StartFlywheelIterationError,
   Credentials | HttpClient.HttpClient
@@ -4307,7 +4308,7 @@ export type StartKeyPhrasesDetectionJobError =
  * job.
  */
 export const startKeyPhrasesDetectionJob: API.OperationMethod<
-  StartKeyPhrasesDetectionJobRequest,
+  StartKeyPhrasesDetectionJobRequest & RegionInput,
   StartKeyPhrasesDetectionJobResponse,
   StartKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4341,7 +4342,7 @@ export type StartPiiEntitiesDetectionJobError =
  * Starts an asynchronous PII entity detection job for a collection of documents.
  */
 export const startPiiEntitiesDetectionJob: API.OperationMethod<
-  StartPiiEntitiesDetectionJobRequest,
+  StartPiiEntitiesDetectionJobRequest & RegionInput,
   StartPiiEntitiesDetectionJobResponse,
   StartPiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4377,7 +4378,7 @@ export type StartSentimentDetectionJobError =
  * job.
  */
 export const startSentimentDetectionJob: API.OperationMethod<
-  StartSentimentDetectionJobRequest,
+  StartSentimentDetectionJobRequest & RegionInput,
   StartSentimentDetectionJobResponse,
   StartSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4413,7 +4414,7 @@ export type StartTargetedSentimentDetectionJobError =
  * job.
  */
 export const startTargetedSentimentDetectionJob: API.OperationMethod<
-  StartTargetedSentimentDetectionJobRequest,
+  StartTargetedSentimentDetectionJobRequest & RegionInput,
   StartTargetedSentimentDetectionJobResponse,
   StartTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4448,7 +4449,7 @@ export type StartTopicsDetectionJobError =
  * `DescribeTopicDetectionJob` operation to track the status of a job.
  */
 export const startTopicsDetectionJob: API.OperationMethod<
-  StartTopicsDetectionJobRequest,
+  StartTopicsDetectionJobRequest & RegionInput,
   StartTopicsDetectionJobResponse,
   StartTopicsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4491,7 +4492,7 @@ export type StopDominantLanguageDetectionJobError =
  * location.
  */
 export const stopDominantLanguageDetectionJob: API.OperationMethod<
-  StopDominantLanguageDetectionJobRequest,
+  StopDominantLanguageDetectionJobRequest & RegionInput,
   StopDominantLanguageDetectionJobResponse,
   StopDominantLanguageDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4527,7 +4528,7 @@ export type StopEntitiesDetectionJobError =
  * location.
  */
 export const stopEntitiesDetectionJob: API.OperationMethod<
-  StopEntitiesDetectionJobRequest,
+  StopEntitiesDetectionJobRequest & RegionInput,
   StopEntitiesDetectionJobResponse,
   StopEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4552,7 +4553,7 @@ export type StopEventsDetectionJobError =
  * Stops an events detection job in progress.
  */
 export const stopEventsDetectionJob: API.OperationMethod<
-  StopEventsDetectionJobRequest,
+  StopEventsDetectionJobRequest & RegionInput,
   StopEventsDetectionJobResponse,
   StopEventsDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4593,7 +4594,7 @@ export type StopKeyPhrasesDetectionJobError =
  * location.
  */
 export const stopKeyPhrasesDetectionJob: API.OperationMethod<
-  StopKeyPhrasesDetectionJobRequest,
+  StopKeyPhrasesDetectionJobRequest & RegionInput,
   StopKeyPhrasesDetectionJobResponse,
   StopKeyPhrasesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4617,7 +4618,7 @@ export type StopPiiEntitiesDetectionJobError =
  * Stops a PII entities detection job in progress.
  */
 export const stopPiiEntitiesDetectionJob: API.OperationMethod<
-  StopPiiEntitiesDetectionJobRequest,
+  StopPiiEntitiesDetectionJobRequest & RegionInput,
   StopPiiEntitiesDetectionJobResponse,
   StopPiiEntitiesDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4653,7 +4654,7 @@ export type StopSentimentDetectionJobError =
  * location.
  */
 export const stopSentimentDetectionJob: API.OperationMethod<
-  StopSentimentDetectionJobRequest,
+  StopSentimentDetectionJobRequest & RegionInput,
   StopSentimentDetectionJobResponse,
   StopSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4689,7 +4690,7 @@ export type StopTargetedSentimentDetectionJobError =
  * location.
  */
 export const stopTargetedSentimentDetectionJob: API.OperationMethod<
-  StopTargetedSentimentDetectionJobRequest,
+  StopTargetedSentimentDetectionJobRequest & RegionInput,
   StopTargetedSentimentDetectionJobResponse,
   StopTargetedSentimentDetectionJobError,
   Credentials | HttpClient.HttpClient
@@ -4720,7 +4721,7 @@ export type StopTrainingDocumentClassifierError =
  * an empty HTTP body.
  */
 export const stopTrainingDocumentClassifier: API.OperationMethod<
-  StopTrainingDocumentClassifierRequest,
+  StopTrainingDocumentClassifierRequest & RegionInput,
   StopTrainingDocumentClassifierResponse,
   StopTrainingDocumentClassifierError,
   Credentials | HttpClient.HttpClient
@@ -4756,7 +4757,7 @@ export type StopTrainingEntityRecognizerError =
  * with an empty HTTP body.
  */
 export const stopTrainingEntityRecognizer: API.OperationMethod<
-  StopTrainingEntityRecognizerRequest,
+  StopTrainingEntityRecognizerRequest & RegionInput,
   StopTrainingEntityRecognizerResponse,
   StopTrainingEntityRecognizerError,
   Credentials | HttpClient.HttpClient
@@ -4789,7 +4790,7 @@ export type TagResourceError =
  * "Sales" as the key might be added to a resource to indicate its use by the sales department.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4821,7 +4822,7 @@ export type UntagResourceError =
  * Removes a specific tag associated with an Amazon Comprehend resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -4856,7 +4857,7 @@ export type UpdateEndpointError =
  * For information about endpoints, see Managing endpoints.
  */
 export const updateEndpoint: API.OperationMethod<
-  UpdateEndpointRequest,
+  UpdateEndpointRequest & RegionInput,
   UpdateEndpointResponse,
   UpdateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -4890,7 +4891,7 @@ export type UpdateFlywheelError =
  * Update the configuration information for an existing flywheel.
  */
 export const updateFlywheel: API.OperationMethod<
-  UpdateFlywheelRequest,
+  UpdateFlywheelRequest & RegionInput,
   UpdateFlywheelResponse,
   UpdateFlywheelError,
   Credentials | HttpClient.HttpClient

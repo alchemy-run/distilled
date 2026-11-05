@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -840,7 +841,7 @@ export type CreateBudgetError =
  * section shows the `FilterExpression`/`Metrics` syntax.
  */
 export const createBudget: API.OperationMethod<
-  CreateBudgetRequest,
+  CreateBudgetRequest & RegionInput,
   CreateBudgetResponse,
   CreateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -879,7 +880,7 @@ export type CreateBudgetActionError =
  * Creates a budget action.
  */
 export const createBudgetAction: API.OperationMethod<
-  CreateBudgetActionRequest,
+  CreateBudgetActionRequest & RegionInput,
   CreateBudgetActionResponse,
   CreateBudgetActionError,
   Credentials | HttpClient.HttpClient
@@ -916,7 +917,7 @@ export type CreateNotificationError =
  * Creates a notification. You must create the budget before you create the associated notification.
  */
 export const createNotification: API.OperationMethod<
-  CreateNotificationRequest,
+  CreateNotificationRequest & RegionInput,
   CreateNotificationResponse,
   CreateNotificationError,
   Credentials | HttpClient.HttpClient
@@ -952,7 +953,7 @@ export type CreateSubscriberError =
  * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
  */
 export const createSubscriber: API.OperationMethod<
-  CreateSubscriberRequest,
+  CreateSubscriberRequest & RegionInput,
   CreateSubscriberResponse,
   CreateSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -988,7 +989,7 @@ export type DeleteBudgetError =
  * Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
  */
 export const deleteBudget: API.OperationMethod<
-  DeleteBudgetRequest,
+  DeleteBudgetRequest & RegionInput,
   DeleteBudgetResponse,
   DeleteBudgetError,
   Credentials | HttpClient.HttpClient
@@ -1021,7 +1022,7 @@ export type DeleteBudgetActionError =
  * Deletes a budget action.
  */
 export const deleteBudgetAction: API.OperationMethod<
-  DeleteBudgetActionRequest,
+  DeleteBudgetActionRequest & RegionInput,
   DeleteBudgetActionResponse,
   DeleteBudgetActionError,
   Credentials | HttpClient.HttpClient
@@ -1056,7 +1057,7 @@ export type DeleteNotificationError =
  * Deleting a notification also deletes the subscribers that are associated with the notification.
  */
 export const deleteNotification: API.OperationMethod<
-  DeleteNotificationRequest,
+  DeleteNotificationRequest & RegionInput,
   DeleteNotificationResponse,
   DeleteNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1090,7 +1091,7 @@ export type DeleteSubscriberError =
  * Deleting the last subscriber to a notification also deletes the notification.
  */
 export const deleteSubscriber: API.OperationMethod<
-  DeleteSubscriberRequest,
+  DeleteSubscriberRequest & RegionInput,
   DeleteSubscriberResponse,
   DeleteSubscriberError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type DescribeBudgetError =
  * `PlannedBudgetLimits`, see the Examples section.
  */
 export const describeBudget: API.OperationMethod<
-  DescribeBudgetRequest,
+  DescribeBudgetRequest & RegionInput,
   DescribeBudgetResponse,
   DescribeBudgetError,
   Credentials | HttpClient.HttpClient
@@ -1157,7 +1158,7 @@ export type DescribeBudgetActionError =
  * Describes a budget action detail.
  */
 export const describeBudgetAction: API.OperationMethod<
-  DescribeBudgetActionRequest,
+  DescribeBudgetActionRequest & RegionInput,
   DescribeBudgetActionResponse,
   DescribeBudgetActionError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type DescribeBudgetActionHistoriesError =
  * Describes a budget action history detail.
  */
 export const describeBudgetActionHistories: API.PaginatedOperationMethod<
-  DescribeBudgetActionHistoriesRequest,
+  DescribeBudgetActionHistoriesRequest & RegionInput,
   DescribeBudgetActionHistoriesResponse,
   DescribeBudgetActionHistoriesError,
   Credentials | HttpClient.HttpClient,
@@ -1230,7 +1231,7 @@ export type DescribeBudgetActionsForAccountError =
  * Describes all of the budget actions for an account.
  */
 export const describeBudgetActionsForAccount: API.PaginatedOperationMethod<
-  DescribeBudgetActionsForAccountRequest,
+  DescribeBudgetActionsForAccountRequest & RegionInput,
   DescribeBudgetActionsForAccountResponse,
   DescribeBudgetActionsForAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1270,7 +1271,7 @@ export type DescribeBudgetActionsForBudgetError =
  * Describes all of the budget actions for a budget.
  */
 export const describeBudgetActionsForBudget: API.PaginatedOperationMethod<
-  DescribeBudgetActionsForBudgetRequest,
+  DescribeBudgetActionsForBudgetRequest & RegionInput,
   DescribeBudgetActionsForBudgetResponse,
   DescribeBudgetActionsForBudgetError,
   Credentials | HttpClient.HttpClient,
@@ -1312,7 +1313,7 @@ export type DescribeBudgetNotificationsForAccountError =
  * Lists the budget names and notifications that are associated with an account.
  */
 export const describeBudgetNotificationsForAccount: API.PaginatedOperationMethod<
-  DescribeBudgetNotificationsForAccountRequest,
+  DescribeBudgetNotificationsForAccountRequest & RegionInput,
   DescribeBudgetNotificationsForAccountResponse,
   DescribeBudgetNotificationsForAccountError,
   Credentials | HttpClient.HttpClient,
@@ -1356,7 +1357,7 @@ export type DescribeBudgetPerformanceHistoryError =
  * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
  */
 export const describeBudgetPerformanceHistory: API.PaginatedOperationMethod<
-  DescribeBudgetPerformanceHistoryRequest,
+  DescribeBudgetPerformanceHistoryRequest & RegionInput,
   DescribeBudgetPerformanceHistoryResponse,
   DescribeBudgetPerformanceHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1402,7 +1403,7 @@ export type DescribeBudgetsError =
  * `PlannedBudgetLimits`, see the Examples section.
  */
 export const describeBudgets: API.PaginatedOperationMethod<
-  DescribeBudgetsRequest,
+  DescribeBudgetsRequest & RegionInput,
   DescribeBudgetsResponse,
   DescribeBudgetsError,
   Credentials | HttpClient.HttpClient,
@@ -1445,7 +1446,7 @@ export type DescribeNotificationsForBudgetError =
  * Lists the notifications that are associated with a budget.
  */
 export const describeNotificationsForBudget: API.PaginatedOperationMethod<
-  DescribeNotificationsForBudgetRequest,
+  DescribeNotificationsForBudgetRequest & RegionInput,
   DescribeNotificationsForBudgetResponse,
   DescribeNotificationsForBudgetError,
   Credentials | HttpClient.HttpClient,
@@ -1488,7 +1489,7 @@ export type DescribeSubscribersForNotificationError =
  * Lists the subscribers that are associated with a notification.
  */
 export const describeSubscribersForNotification: API.PaginatedOperationMethod<
-  DescribeSubscribersForNotificationRequest,
+  DescribeSubscribersForNotificationRequest & RegionInput,
   DescribeSubscribersForNotificationResponse,
   DescribeSubscribersForNotificationError,
   Credentials | HttpClient.HttpClient,
@@ -1530,7 +1531,7 @@ export type ExecuteBudgetActionError =
  * Executes a budget action.
  */
 export const executeBudgetAction: API.OperationMethod<
-  ExecuteBudgetActionRequest,
+  ExecuteBudgetActionRequest & RegionInput,
   ExecuteBudgetActionResponse,
   ExecuteBudgetActionError,
   Credentials | HttpClient.HttpClient
@@ -1563,7 +1564,7 @@ export type ListTagsForResourceError =
  * Lists tags associated with a budget or budget action resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1596,7 +1597,7 @@ export type TagResourceError =
  * Creates tags for a budget or budget action resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1629,7 +1630,7 @@ export type UntagResourceError =
  * Deletes tags associated with a budget or budget action resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1675,7 +1676,7 @@ export type UpdateBudgetError =
  * section shows the `FilterExpression`/`Metrics` syntax.
  */
 export const updateBudget: API.OperationMethod<
-  UpdateBudgetRequest,
+  UpdateBudgetRequest & RegionInput,
   UpdateBudgetResponse,
   UpdateBudgetError,
   Credentials | HttpClient.HttpClient
@@ -1710,7 +1711,7 @@ export type UpdateBudgetActionError =
  * Updates a budget action.
  */
 export const updateBudgetAction: API.OperationMethod<
-  UpdateBudgetActionRequest,
+  UpdateBudgetActionRequest & RegionInput,
   UpdateBudgetActionResponse,
   UpdateBudgetActionError,
   Credentials | HttpClient.HttpClient
@@ -1744,7 +1745,7 @@ export type UpdateNotificationError =
  * Updates a notification.
  */
 export const updateNotification: API.OperationMethod<
-  UpdateNotificationRequest,
+  UpdateNotificationRequest & RegionInput,
   UpdateNotificationResponse,
   UpdateNotificationError,
   Credentials | HttpClient.HttpClient
@@ -1778,7 +1779,7 @@ export type UpdateSubscriberError =
  * Updates a subscriber.
  */
 export const updateSubscriber: API.OperationMethod<
-  UpdateSubscriberRequest,
+  UpdateSubscriberRequest & RegionInput,
   UpdateSubscriberResponse,
   UpdateSubscriberError,
   Credentials | HttpClient.HttpClient

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -283,7 +284,7 @@ export type GetEstimatedCarbonEmissionsError =
  * Returns estimated carbon emission values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedCarbonEmissions: API.PaginatedOperationMethod<
-  GetEstimatedCarbonEmissionsRequest,
+  GetEstimatedCarbonEmissionsRequest & RegionInput,
   GetEstimatedCarbonEmissionsResponse,
   GetEstimatedCarbonEmissionsError,
   Credentials | HttpClient.HttpClient,
@@ -320,7 +321,7 @@ export type GetEstimatedCarbonEmissionsDimensionValuesError =
  * Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationMethod<
-  GetEstimatedCarbonEmissionsDimensionValuesRequest,
+  GetEstimatedCarbonEmissionsDimensionValuesRequest & RegionInput,
   GetEstimatedCarbonEmissionsDimensionValuesResponse,
   GetEstimatedCarbonEmissionsDimensionValuesError,
   Credentials | HttpClient.HttpClient,
@@ -357,7 +358,7 @@ export type GetEstimatedWaterAllocationError =
  * Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
-  GetEstimatedWaterAllocationRequest,
+  GetEstimatedWaterAllocationRequest & RegionInput,
   GetEstimatedWaterAllocationResponse,
   GetEstimatedWaterAllocationError,
   Credentials | HttpClient.HttpClient,
@@ -394,7 +395,7 @@ export type GetEstimatedWaterAllocationDimensionValuesError =
  * Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
 export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationMethod<
-  GetEstimatedWaterAllocationDimensionValuesRequest,
+  GetEstimatedWaterAllocationDimensionValuesRequest & RegionInput,
   GetEstimatedWaterAllocationDimensionValuesResponse,
   GetEstimatedWaterAllocationDimensionValuesError,
   Credentials | HttpClient.HttpClient,
