@@ -4873,7 +4873,9 @@ export type ListTagsForResourceError =
   | ResourceArnRequiredException
   | CommonErrors;
 /**
- * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const listTagsForResource: API.OperationMethod<
@@ -5846,7 +5848,9 @@ export type TagResourceError =
   | CommonErrors;
 /**
  * Adds or updates tags for a resource in CodeCommit. For a list of valid resources
- * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const tagResource: API.OperationMethod<
@@ -5953,7 +5957,9 @@ export type UntagResourceError =
   | TooManyTagsException
   | CommonErrors;
 /**
- * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
+ * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see
+ * CodeCommit Resources and Operations in the
+ * CodeCommit User
  * Guide.
  */
 export const untagResource: API.OperationMethod<

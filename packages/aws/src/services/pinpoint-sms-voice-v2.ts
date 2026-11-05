@@ -965,6 +965,7 @@ export interface PhoneNumberInformation {
   PoolId?: string;
   RegistrationId?: string;
   MessagingLimits?: MessagingLimits;
+  PricingTier?: string;
   CreatedTimestamp: Date;
 }
 export type PhoneNumberInformationList = PhoneNumberInformation[];
@@ -1396,6 +1397,7 @@ export interface SenderIdInformation {
   Registered: boolean;
   RegistrationId?: string;
   MessagingLimits?: MessagingLimits;
+  PricingTier?: string;
 }
 export type SenderIdInformationList = SenderIdInformation[];
 export interface DescribeSenderIdsResult {
@@ -7797,6 +7799,7 @@ function __c82(j: number): any {
           PoolId: S.optional(S.String),
           RegistrationId: S.optional(S.String),
           MessagingLimits: S.optional(__S(2657, __c83, 1)),
+          PricingTier: S.optional(S.String),
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "PhoneNumberInformation" });
@@ -8339,6 +8342,7 @@ function __c96(j: number): any {
           Registered: S.Boolean,
           RegistrationId: S.optional(S.String),
           MessagingLimits: S.optional(__S(2657, __c83, 1)),
+          PricingTier: S.optional(S.String),
         }),
       ).annotate({ identifier: "SenderIdInformation" });
     case 4:

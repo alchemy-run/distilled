@@ -363,6 +363,7 @@ export type Dimension =
   | "INVOICING_ENTITY"
   | "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
   | "ANOMALY_TOTAL_IMPACT_PERCENTAGE"
+  | "PRODUCT_ATTRIBUTE"
   | (string & {});
 export type Value = string;
 export type Values = string[];
@@ -394,6 +395,13 @@ export interface CostCategoryValues {
   Values?: string[];
   MatchOptions?: MatchOption[];
 }
+export type ProductAttributeName = string;
+export type ProductAttributeValueList = string[];
+export interface ProductAttributeValues {
+  Key: string;
+  Values?: string[];
+  MatchOptions?: MatchOption[];
+}
 export interface Expression {
   Or?: Expression[];
   And?: Expression[];
@@ -401,6 +409,7 @@ export interface Expression {
   Dimensions?: DimensionValues;
   Tags?: TagValues;
   CostCategories?: CostCategoryValues;
+  ProductAttributes?: ProductAttributeValues;
 }
 export type NonNegativeInteger = number;
 export interface AnomalyMonitor {
@@ -757,7 +766,12 @@ export interface GetCommitmentPurchaseAnalysisResponse {
 }
 export type MetricName = string;
 export type MetricNames = string[];
-export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY" | (string & {});
+export type GroupDefinitionType =
+  | "DIMENSION"
+  | "TAG"
+  | "COST_CATEGORY"
+  | "PRODUCT_ATTRIBUTE"
+  | (string & {});
 export type GroupDefinitionKey = string;
 export interface GroupDefinition {
   Type?: GroupDefinitionType;
@@ -937,11 +951,13 @@ export interface GetCostForecastResponse {
   Total?: MetricValue;
   ForecastResultsByTime?: ForecastResult[];
 }
+export type DimensionKey = string;
 export type Context = "COST_AND_USAGE" | "RESERVATIONS" | "SAVINGS_PLANS" | (string & {});
 export interface GetDimensionValuesRequest {
   SearchString?: string;
   TimePeriod: DateInterval;
   Dimension: Dimension;
+  DimensionKey?: string;
   Context?: Context;
   Filter?: Expression;
   SortBy?: SortDefinition[];
@@ -3319,7 +3335,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(68, __c2, 4)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(69, __c2, 5)).annotate({
           identifier: "Expression",
         }),
       );
@@ -3344,18 +3360,27 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          Key: S.String,
+          Values: S.optional(__S(32, __c1, 0)),
+          MatchOptions: S.optional(__S(65, __c2, 1)),
+        }),
+      ).annotate({ identifier: "ProductAttributeValues" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           Or: S.optional(S.suspend(() => __S(64, __c2, 0)).annotate({ identifier: "Expressions" })),
           And: S.optional(
             S.suspend(() => __S(64, __c2, 0)).annotate({ identifier: "Expressions" }),
           ),
           Not: S.optional(
-            S.suspend((): S.Schema<Expression> => __S(68, __c2, 4)).annotate({
+            S.suspend((): S.Schema<Expression> => __S(69, __c2, 5)).annotate({
               identifier: "Expression",
             }),
           ),
           Dimensions: S.optional(__S(66, __c2, 2)),
           Tags: S.optional(__S(67, __c2, 3)),
           CostCategories: S.optional(__S(67, __c2, 3)),
+          ProductAttributes: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "Expression" });
   }
@@ -3382,7 +3407,7 @@ function __c4(j: number): any {
           LastEvaluatedDate: S.optional(S.String),
           MonitorType: S.String,
           MonitorDimension: S.optional(S.String),
-          MonitorSpecification: S.optional(__S(68, __c2, 4)),
+          MonitorSpecification: S.optional(__S(69, __c2, 5)),
           DimensionalValueCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AnomalyMonitor" });
@@ -3419,7 +3444,7 @@ function __c7(j: number): any {
           Threshold: S.optional(S.Number),
           Frequency: S.String,
           SubscriptionName: S.String,
-          ThresholdExpression: S.optional(__S(68, __c2, 4)),
+          ThresholdExpression: S.optional(__S(69, __c2, 5)),
         }),
       ).annotate({ identifier: "AnomalySubscription" });
   }
@@ -3472,7 +3497,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Value: S.optional(S.String),
-          Rule: S.optional(__S(68, __c2, 4)),
+          Rule: S.optional(__S(69, __c2, 5)),
           InheritedValue: S.optional(__S(352, __c11, 0)),
           Type: S.optional(S.String),
         }),
@@ -3840,7 +3865,7 @@ function __c27(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: __S(32, __c1, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           BillingViewArn: S.optional(S.String),
@@ -3924,7 +3949,7 @@ function __c33(j: number): any {
           BaselineTimePeriod: __S(736, __c23, 0),
           ComparisonTimePeriod: __S(736, __c23, 0),
           MetricForComparison: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           MaxResults: S.optional(S.Number),
           NextPageToken: S.optional(S.String),
@@ -3933,7 +3958,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CostAndUsageSelector: S.optional(__S(68, __c2, 4)),
+          CostAndUsageSelector: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "CostAndUsageComparison" });
@@ -3971,7 +3996,7 @@ function __c35(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.String,
-          Filter: __S(68, __c2, 4),
+          Filter: __S(69, __c2, 5),
           Metrics: S.optional(__S(32, __c1, 0)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           BillingViewArn: S.optional(S.String),
@@ -3988,7 +4013,7 @@ function __c36(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           CostCategoryName: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4030,7 +4055,7 @@ function __c39(j: number): any {
           BaselineTimePeriod: __S(736, __c23, 0),
           ComparisonTimePeriod: __S(736, __c23, 0),
           MetricForComparison: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           MaxResults: S.optional(S.Number),
           NextPageToken: S.optional(S.String),
@@ -4049,7 +4074,7 @@ function __c39(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CostSelector: S.optional(__S(68, __c2, 4)),
+          CostSelector: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(1089, __c34, 1)),
           CostDrivers: S.optional(__S(1250, __c39, 2)),
         }),
@@ -4073,7 +4098,7 @@ function __c40(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           Metric: S.String,
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           BillingViewArn: S.optional(S.String),
           PredictionIntervalLevel: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4110,8 +4135,9 @@ function __c42(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           Dimension: S.String,
+          DimensionKey: S.optional(S.String),
           Context: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4137,7 +4163,7 @@ function __c43(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(32, __c1, 0)),
           NextPageToken: S.optional(S.String),
           SortBy: S.optional(__S(1184, __c37, 0)),
@@ -4218,7 +4244,7 @@ function __c44(j: number): any {
         S.Struct({
           AccountId: S.optional(S.String),
           Service: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           AccountScope: S.optional(S.String),
           LookbackPeriodInDays: S.optional(S.String),
           TermInYears: S.optional(S.String),
@@ -4389,7 +4415,7 @@ function __c46(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1184, __c37, 0)),
           NextPageToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4457,7 +4483,7 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Configuration: S.optional(__S(1504, __c47, 0)),
           Service: S.String,
           PageSize: S.optional(S.Number),
@@ -4669,7 +4695,7 @@ function __c49(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(32, __c1, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4713,7 +4739,7 @@ function __c50(j: number): any {
           NextPageToken: S.optional(S.String),
           PageSize: S.optional(S.Number),
           LookbackPeriodInDays: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSavingsPlansPurchaseRecommendationRequest" });
     case 1:
@@ -4793,7 +4819,7 @@ function __c51(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1184, __c37, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSavingsPlansUtilizationRequest" });
@@ -4859,7 +4885,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           DataType: S.optional(__S(65, __c2, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4897,7 +4923,7 @@ function __c54(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           TagKey: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4923,7 +4949,7 @@ function __c55(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           Metric: S.String,
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           BillingViewArn: S.optional(S.String),
           PredictionIntervalLevel: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5246,7 +5272,7 @@ function __c71(j: number): any {
           MonitorArnList: S.optional(__S(32, __c1, 0)),
           Subscribers: S.optional(__S(257, __c8, 1)),
           SubscriptionName: S.optional(S.String),
-          ThresholdExpression: S.optional(__S(68, __c2, 4)),
+          ThresholdExpression: S.optional(__S(69, __c2, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateAnomalySubscriptionRequest" });
   }

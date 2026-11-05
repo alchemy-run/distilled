@@ -470,6 +470,7 @@ export type PlatformType =
   | "WINDOWS_SERVER_2019"
   | "WINDOWS_SERVER_2022"
   | "WINDOWS_SERVER_2025"
+  | "WINDOWS_11"
   | "AMAZON_LINUX2"
   | "RHEL8"
   | "ROCKY_LINUX8"
@@ -975,6 +976,10 @@ export interface AgentAccessConfig {
   ScreenImageFormat?: ScreenImageFormat;
   UserControlMode?: UserControlMode;
 }
+export type StorageConnectorAuthentication =
+  | "FORCE_REAUTHENTICATION"
+  | "REUSE_CREDENTIALS"
+  | (string & {});
 export interface CreateStackRequest {
   Name?: string;
   Description?: string;
@@ -990,6 +995,7 @@ export interface CreateStackRequest {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfig;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export type StackErrorCode = "STORAGE_CONNECTOR_ERROR" | "INTERNAL_SERVICE_ERROR" | (string & {});
 export interface StackError {
@@ -1019,6 +1025,7 @@ export interface Stack {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfig;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export interface CreateStackResult {
   Stack?: Stack & {
@@ -1861,6 +1868,7 @@ export type StackAttribute =
   | "STREAMING_EXPERIENCE_SETTINGS"
   | "CONTENT_REDIRECTION"
   | "AGENT_ACCESS_CONFIG"
+  | "STORAGE_CONNECTOR_AUTHENTICATION"
   | (string & {});
 export type StackAttributes = StackAttribute[];
 export interface AgentAccessConfigForUpdate {
@@ -1887,6 +1895,7 @@ export interface UpdateStackRequest {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfigForUpdate;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export interface UpdateStackResult {
   Stack?: Stack & {
@@ -4576,6 +4585,7 @@ function __c2(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackRequest" });
   }
@@ -5458,6 +5468,7 @@ function __c59(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackRequest" });
   }
@@ -5557,6 +5568,7 @@ function __c61(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
   }

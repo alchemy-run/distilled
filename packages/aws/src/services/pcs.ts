@@ -597,6 +597,7 @@ export interface RegisterComputeNodeGroupInstanceResponse {
   computeNodeGroupId?: string;
   computeNodeGroupName?: string;
   nodeLifecycleActions?: NodeLifecycleActions;
+  schedulerVersion?: string;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1499,6 +1500,7 @@ function __c12(j: number): any {
           computeNodeGroupId: S.optional(S.String),
           computeNodeGroupName: S.optional(S.String),
           nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          schedulerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
   }

@@ -1608,7 +1608,8 @@ export type ListArtifactsError =
  *
  * For more information about Amplify testing support, see Setting up
  * end-to-end Cypress tests for your Amplify application in the
- * *Amplify Hosting User Guide*.
+ *
+ * Amplify Hosting User Guide.
  */
 export const listArtifacts: API.OperationMethod<
   ListArtifactsRequest & RegionInput,

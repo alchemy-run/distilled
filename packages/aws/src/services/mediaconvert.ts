@@ -956,6 +956,9 @@ export type __listOfCmafAdditionalManifest = CmafAdditionalManifest[];
 const __listOfCmafAdditionalManifest = /*@__PURE__*/ __L.at(__c8, 24);
 export type CmafClientCache = "DISABLED" | "ENABLED" | (string & {});
 export type CmafCodecSpecification = "RFC_6381" | "RFC_4281" | (string & {});
+export type DashAdaptationSetGrouping = "CODEC" | (string & {});
+export type __listOfDashAdaptationSetGrouping = DashAdaptationSetGrouping[];
+const __listOfDashAdaptationSetGrouping = /*@__PURE__*/ __L.at(__c3, 9);
 export type __stringMin1Max256 = string;
 export type DashManifestStyle = "BASIC" | "COMPACT" | "DISTINCT" | "FULL" | (string & {});
 export type S3ObjectCannedAcl =
@@ -1111,6 +1114,7 @@ export interface CmafGroupSettings {
   BaseUrl?: string;
   ClientCache?: CmafClientCache;
   CodecSpecification?: CmafCodecSpecification;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1212,6 +1216,7 @@ export interface DashIsoGroupSettings {
   AdditionalManifests?: DashAdditionalManifest[];
   AudioChannelConfigSchemeIdUri?: DashIsoGroupAudioChannelConfigSchemeIdUri;
   BaseUrl?: string;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1239,7 +1244,8 @@ export interface FileGroupSettings {
 }
 export type HlsAdMarkers = "ELEMENTAL" | "ELEMENTAL_SCTE35" | (string & {});
 export type __listOfHlsAdMarkers = HlsAdMarkers[];
-const __listOfHlsAdMarkers = /*@__PURE__*/ __L.at(__c3, 9);
+const __listOfHlsAdMarkers =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfHlsAdMarkers>;
 export interface HlsAdditionalManifest {
   ManifestNameModifier?: string;
   SelectedOutputs?: string[];
@@ -1384,7 +1390,8 @@ export type FrameMetricType =
   | "SHOT_CHANGE"
   | (string & {});
 export type __listOfFrameMetricType = FrameMetricType[];
-const __listOfFrameMetricType = __listOfHlsAdMarkers as any as S.Schema<__listOfFrameMetricType>;
+const __listOfFrameMetricType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfFrameMetricType>;
 export type OutputGroupType =
   | "HLS_GROUP_SETTINGS"
   | "DASH_ISO_GROUP_SETTINGS"
@@ -1432,7 +1439,8 @@ export type AudioChannelTag =
   | "M"
   | (string & {});
 export type __listOfAudioChannelTag = AudioChannelTag[];
-const __listOfAudioChannelTag = __listOfHlsAdMarkers as any as S.Schema<__listOfAudioChannelTag>;
+const __listOfAudioChannelTag =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfAudioChannelTag>;
 export interface AudioChannelTaggingSettings {
   ChannelTag?: AudioChannelTag;
   ChannelTags?: AudioChannelTag[];
@@ -1999,7 +2007,8 @@ export type TeletextPageType =
   | "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
   | (string & {});
 export type __listOfTeletextPageType = TeletextPageType[];
-const __listOfTeletextPageType = __listOfHlsAdMarkers as any as S.Schema<__listOfTeletextPageType>;
+const __listOfTeletextPageType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfTeletextPageType>;
 export interface TeletextDestinationSettings {
   PageNumber?: string;
   PageTypes?: TeletextPageType[];
@@ -2365,6 +2374,7 @@ export type Av1AdaptiveQuantization =
   | "MAX"
   | (string & {});
 export type Av1BitDepth = "BIT_8" | "BIT_10" | (string & {});
+export type __integerMin1000Max1152000000 = number;
 export type Av1FilmGrainSynthesis = "DISABLED" | "ENABLED" | (string & {});
 export type Av1FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export type Av1FramerateConversionAlgorithm =
@@ -2373,7 +2383,6 @@ export type Av1FramerateConversionAlgorithm =
   | "FRAMEFORMER"
   | "MAINTAIN_FRAME_COUNT"
   | (string & {});
-export type __integerMin1000Max1152000000 = number;
 export type __integerMin0Max15 = number;
 export type __integerMin1Max10 = number;
 export type __doubleMin0Max1 = number;
@@ -2381,11 +2390,14 @@ export interface Av1QvbrSettings {
   QvbrQualityLevel?: number;
   QvbrQualityLevelFineTune?: number;
 }
-export type Av1RateControlMode = "QVBR" | (string & {});
+export type Av1RateControlMode = "CBR" | "QVBR" | (string & {});
+export type Av1SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
+export type __integerMin1000Max3000 = number;
 export type Av1SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export interface Av1Settings {
   AdaptiveQuantization?: Av1AdaptiveQuantization;
   BitDepth?: Av1BitDepth;
+  Bitrate?: number;
   FilmGrainSynthesis?: Av1FilmGrainSynthesis;
   FramerateControl?: Av1FramerateControl;
   FramerateConversionAlgorithm?: Av1FramerateConversionAlgorithm;
@@ -2397,7 +2409,10 @@ export interface Av1Settings {
   PerFrameMetrics?: FrameMetricType[];
   QvbrSettings?: Av1QvbrSettings;
   RateControlMode?: Av1RateControlMode;
+  SceneChangeDetect?: Av1SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SpatialAdaptiveQuantization?: Av1SpatialAdaptiveQuantization;
 }
 export type AvcIntraClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | "CLASS_4K_2K" | (string & {});
@@ -2605,6 +2620,8 @@ export interface H264Settings {
   ScanTypeConversionMode?: H264ScanTypeConversionMode;
   SceneChangeDetect?: H264SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H264SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: H264SpatialAdaptiveQuantization;
@@ -2741,6 +2758,8 @@ export interface H265Settings {
   ScanTypeConversionMode?: H265ScanTypeConversionMode;
   SceneChangeDetect?: H265SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H265SlowPal;
   SpatialAdaptiveQuantization?: H265SpatialAdaptiveQuantization;
   Telecine?: H265Telecine;
@@ -2822,6 +2841,8 @@ export interface Mpeg2Settings {
   RateControlMode?: Mpeg2RateControlMode;
   ScanTypeConversionMode?: Mpeg2ScanTypeConversionMode;
   SceneChangeDetect?: Mpeg2SceneChangeDetect;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: Mpeg2SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: Mpeg2SpatialAdaptiveQuantization;
@@ -3211,6 +3232,8 @@ export type NoiseReducerFilter =
   | "CONSERVE"
   | "SPATIAL"
   | "TEMPORAL"
+  | "PERCEPTUAL"
+  | "NONE"
   | (string & {});
 export type __integerMin0Max3 = number;
 export interface NoiseReducerFilterSettings {
@@ -3408,7 +3431,7 @@ export type JobPhase = "PROBING" | "TRANSCODING" | "UPLOADING" | (string & {});
 export type ElementalInferenceFeature = "SMART_CROP" | (string & {});
 export type __listOfElementalInferenceFeature = ElementalInferenceFeature[];
 const __listOfElementalInferenceFeature =
-  __listOfHlsAdMarkers as any as S.Schema<__listOfElementalInferenceFeature>;
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfElementalInferenceFeature>;
 export type ElementalInferenceFeedManagementState =
   | "CREATED"
   | "ASSOCIATED"
@@ -6675,6 +6698,7 @@ function __c4(j: number): any {
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
           BitDepth: S.optional(S.String),
+          Bitrate: S.optional(S.Number),
           FilmGrainSynthesis: S.optional(S.String),
           FramerateControl: S.optional(S.String),
           FramerateConversionAlgorithm: S.optional(S.String),
@@ -6686,12 +6710,16 @@ function __c4(j: number): any {
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           QvbrSettings: S.optional(__S(146, __c4, 18)),
           RateControlMode: S.optional(S.String),
+          SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
             BitDepth: "bitDepth",
+            Bitrate: "bitrate",
             FilmGrainSynthesis: "filmGrainSynthesis",
             FramerateControl: "framerateControl",
             FramerateConversionAlgorithm: "framerateConversionAlgorithm",
@@ -6703,7 +6731,10 @@ function __c4(j: number): any {
             PerFrameMetrics: "perFrameMetrics",
             QvbrSettings: "qvbrSettings",
             RateControlMode: "rateControlMode",
+            SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
           }),
         ),
@@ -6838,6 +6869,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -6887,6 +6920,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -6940,6 +6975,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           SpatialAdaptiveQuantization: S.optional(S.String),
           Telecine: S.optional(S.String),
@@ -6993,6 +7030,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
             Telecine: "telecine",
@@ -7039,6 +7078,8 @@ function __c4(j: number): any {
           RateControlMode: S.optional(S.String),
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -7075,6 +7116,8 @@ function __c4(j: number): any {
             RateControlMode: "rateControlMode",
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -8383,6 +8426,7 @@ function __c9(j: number): any {
           BaseUrl: S.optional(S.String),
           ClientCache: S.optional(S.String),
           CodecSpecification: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
@@ -8414,6 +8458,7 @@ function __c9(j: number): any {
             BaseUrl: "baseUrl",
             ClientCache: "clientCache",
             CodecSpecification: "codecSpecification",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",
@@ -8478,6 +8523,7 @@ function __c9(j: number): any {
           AdditionalManifests: S.optional(__listOfDashAdditionalManifest),
           AudioChannelConfigSchemeIdUri: S.optional(S.String),
           BaseUrl: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
@@ -8503,6 +8549,7 @@ function __c9(j: number): any {
             AdditionalManifests: "additionalManifests",
             AudioChannelConfigSchemeIdUri: "audioChannelConfigSchemeIdUri",
             BaseUrl: "baseUrl",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",

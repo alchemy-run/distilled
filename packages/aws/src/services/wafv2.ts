@@ -1156,8 +1156,15 @@ export interface RequestBodyAssociatedResourceTypeConfig {
 export type RequestBody = {
   [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
 };
+export interface ChallengeJavascriptSdkInjectionConfig {}
+export type ChallengeJavascriptSdkInjection = {
+  [key in AssociatedResourceType]?: ChallengeJavascriptSdkInjectionConfig;
+};
 export interface AssociationConfig {
   RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined };
+  ChallengeJavascriptSdkInjection?: {
+    [key: string]: ChallengeJavascriptSdkInjectionConfig | undefined;
+  };
 }
 export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON" | (string & {});
 export interface OnSourceDDoSProtectionConfig {
@@ -2187,6 +2194,7 @@ export type ParameterExceptionField =
   | "PRICE_AMOUNT"
   | "PAYMENT_NETWORK"
   | "PRE_PARSE_TEXT_TRANSFORMATION"
+  | "CHALLENGE_JAVASCRIPT_SDK_INJECTION_CONFIG"
   | (string & {});
 export type ParameterExceptionParameter = string;
 export type ErrorReason = string;
@@ -5159,9 +5167,9 @@ function __c19(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWebACLRequest" });
@@ -5199,21 +5207,26 @@ function __c20(j: number): any {
     case 6:
       return S.Record(S.String, /*@__PURE__*/ __S(645, __c20, 5).pipe(S.optional));
     case 7:
-      return S.suspend(() => S.Struct({ RequestBody: S.optional(__S(646, __c20, 6)) })).annotate({
-        identifier: "AssociationConfig",
-      });
+      return S.Record(S.String, /*@__PURE__*/ __S(224, __c7, 0).pipe(S.optional));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          RequestBody: S.optional(__S(646, __c20, 6)),
+          ChallengeJavascriptSdkInjection: S.optional(__S(647, __c20, 7)),
+        }),
+      ).annotate({ identifier: "AssociationConfig" });
+    case 9:
       return S.suspend(() => S.Struct({ ALBLowReputationMode: S.String })).annotate({
         identifier: "OnSourceDDoSProtectionConfig",
       });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(96, __c3, 0)) }),
       ).annotate({ identifier: "ApplicationAttribute" });
-    case 10:
-      return S.Array(__S(649, __c20, 9));
     case 11:
-      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(650, __c20, 10)) })).annotate({
+      return S.Array(__S(650, __c20, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(651, __c20, 11)) })).annotate({
         identifier: "ApplicationConfig",
       });
   }
@@ -6026,10 +6039,10 @@ function __c56(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
           RetrofittedByFirewallManager: S.optional(S.Boolean),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }),
       ).annotate({ identifier: "WebACL" });
@@ -6551,9 +6564,9 @@ function __c82(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWebACLRequest" });

@@ -532,10 +532,10 @@ export interface GetActivityTaskInput {
   activityArn: string;
   workerName?: string;
 }
-export type TaskToken = string;
+export type TaskToken = string | redacted.Redacted<string>;
 export type SensitiveDataJobInput = string | redacted.Redacted<string>;
 export interface GetActivityTaskOutput {
-  taskToken?: string;
+  taskToken?: string | redacted.Redacted<string>;
   input?: string | redacted.Redacted<string>;
 }
 export type PageSize = number;
@@ -970,17 +970,17 @@ export interface RedriveExecutionOutput {
   redriveDate: Date;
 }
 export interface SendTaskFailureInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
   error?: string | redacted.Redacted<string>;
   cause?: string | redacted.Redacted<string>;
 }
 export interface SendTaskFailureOutput {}
 export interface SendTaskHeartbeatInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
 }
 export interface SendTaskHeartbeatOutput {}
 export interface SendTaskSuccessInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
   output: string | redacted.Redacted<string>;
 }
 export interface SendTaskSuccessOutput {}
@@ -3179,7 +3179,10 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetActivityTaskInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.optional(S.String), input: S.optional(SensitiveString) }).pipe(ns),
+        S.Struct({
+          taskToken: S.optional(SensitiveString),
+          input: S.optional(SensitiveString),
+        }).pipe(ns),
       ).annotate({ identifier: "GetActivityTaskOutput" });
   }
 }
@@ -3612,7 +3615,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskToken: S.String,
+          taskToken: SensitiveString,
           error: S.optional(SensitiveString),
           cause: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3623,7 +3626,7 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String }).pipe(
+        S.Struct({ taskToken: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskHeartbeatInput" });
@@ -3633,7 +3636,7 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String, output: SensitiveString }).pipe(
+        S.Struct({ taskToken: SensitiveString, output: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskSuccessInput" });
