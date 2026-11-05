@@ -20,7 +20,13 @@
             "includes": "volume was not found"
           }
         }
-      ]
+      ],
+      "iam": {
+        "reason": "Granting fsx:CreateSnapshot on its snapshot and volume ARN formats is denied live (Alchemy's FSx Bindings suite: AccessDeniedException instead of SnapshotVolumeNotFound); the call is authorized only on *.",
+        "resources": {
+          "fsx:CreateSnapshot": "*"
+        }
+      }
     },
     "restoreVolumeFromSnapshot": {
       "syntheticErrors": [

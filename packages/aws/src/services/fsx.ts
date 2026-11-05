@@ -3915,12 +3915,6 @@ export const createSnapshot: API.OperationMethod<
   operationName: "CreateSnapshot",
   iam: {
     actions: ["fsx:CreateSnapshot", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateSnapshot": [
-        "arn:${Partition}:fsx:${Region}:${Account}:snapshot/${VolumeId}/${SnapshotId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:volume/${FileSystemId}/${VolumeId}",
-      ],
-    },
     conditional: { "fsx:TagResource": "Tags" },
   },
   telemetry: TELEMETRY,
