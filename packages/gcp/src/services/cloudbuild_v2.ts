@@ -677,6 +677,7 @@ export const batchCreateProjectsLocationsConnectionsRepositories: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsConnectionsRepositories",
+  iam: { actions: ["cloudbuild.connections.update"], roles: ["roles/cloudbuild.connectionAdmin"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -842,6 +843,10 @@ export const fetchLinkableRepositoriesProjectsLocationsConnections: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchLinkableRepositoriesProjectsLocationsConnections",
+  iam: {
+    actions: ["cloudbuild.connections.fetchLinkableRepositories"],
+    roles: ["roles/cloudbuild.connectionViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -894,6 +899,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnections",
+  iam: { actions: ["cloudbuild.connections.get"], roles: ["roles/cloudbuild.connectionViewer"] },
 }));
 
 export type GetProjectsLocationsConnectionsRepositoriesError = NotFound | Forbidden | GcpOpError;
@@ -911,6 +917,7 @@ export const getProjectsLocationsConnectionsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionsRepositories",
+  iam: { actions: ["cloudbuild.repositories.get"], roles: ["roles/cloudbuild.connectionViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -965,6 +972,7 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnections",
+  iam: { actions: ["cloudbuild.connections.list"], roles: ["roles/cloudbuild.connectionViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -984,6 +992,7 @@ export const listProjectsLocationsConnectionsRepositories: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsRepositories",
+  iam: { actions: ["cloudbuild.repositories.list"], roles: ["roles/cloudbuild.connectionViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1029,6 +1038,7 @@ export const processWebhookProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessWebhookProjectsLocationsConnections",
+  iam: { actions: ["cloudbuild.connections.update"], roles: ["roles/cloudbuild.connectionAdmin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsConnectionsError =

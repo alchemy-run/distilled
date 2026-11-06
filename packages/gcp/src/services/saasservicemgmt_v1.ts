@@ -1378,6 +1378,10 @@ export const createProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsUnitOperations",
+  iam: {
+    actions: ["saasservicemgmt.unitOperations.create"],
+    roles: ["roles/saasservicemgmt.admin"],
+  },
 }));
 
 export type CreateProjectsLocationsUnitsError =
@@ -1554,6 +1558,10 @@ export const deleteProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsUnitOperations",
+  iam: {
+    actions: ["saasservicemgmt.unitOperations.delete"],
+    roles: ["roles/saasservicemgmt.admin"],
+  },
 }));
 
 export type DeleteProjectsLocationsUnitsError =
@@ -1610,6 +1618,7 @@ export const getProjectsLocationsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReleases",
+  iam: { actions: ["saasservicemgmt.releases.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsRolloutKindsError = NotFound | Forbidden | GcpOpError;
@@ -1627,6 +1636,7 @@ export const getProjectsLocationsRolloutKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRolloutKinds",
+  iam: { actions: ["saasservicemgmt.rolloutKinds.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsRolloutsError = NotFound | Forbidden | GcpOpError;
@@ -1644,6 +1654,7 @@ export const getProjectsLocationsRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRollouts",
+  iam: { actions: ["saasservicemgmt.rollouts.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsSaasError = NotFound | Forbidden | GcpOpError;
@@ -1661,6 +1672,7 @@ export const getProjectsLocationsSaas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSaas",
+  iam: { actions: ["saasservicemgmt.saas.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsTenantsError = NotFound | Forbidden | GcpOpError;
@@ -1678,6 +1690,7 @@ export const getProjectsLocationsTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTenants",
+  iam: { actions: ["saasservicemgmt.tenants.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsUnitKindsError = NotFound | Forbidden | GcpOpError;
@@ -1695,6 +1708,7 @@ export const getProjectsLocationsUnitKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsUnitKinds",
+  iam: { actions: ["saasservicemgmt.unitKinds.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsUnitOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1712,6 +1726,7 @@ export const getProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsUnitOperations",
+  iam: { actions: ["saasservicemgmt.unitOperations.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type GetProjectsLocationsUnitsError = NotFound | Forbidden | GcpOpError;
@@ -1729,6 +1744,7 @@ export const getProjectsLocationsUnits: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsUnits",
+  iam: { actions: ["saasservicemgmt.units.get"], roles: ["roles/saasservicemgmt.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1766,6 +1782,7 @@ export const listProjectsLocationsReleases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReleases",
+  iam: { actions: ["saasservicemgmt.releases.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1785,6 +1802,7 @@ export const listProjectsLocationsRolloutKinds: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRolloutKinds",
+  iam: { actions: ["saasservicemgmt.rolloutKinds.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1804,6 +1822,7 @@ export const listProjectsLocationsRollouts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRollouts",
+  iam: { actions: ["saasservicemgmt.rollouts.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1823,6 +1842,7 @@ export const listProjectsLocationsSaas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSaas",
+  iam: { actions: ["saasservicemgmt.saas.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1842,6 +1862,7 @@ export const listProjectsLocationsTenants: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTenants",
+  iam: { actions: ["saasservicemgmt.tenants.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1861,6 +1882,7 @@ export const listProjectsLocationsUnitKinds: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUnitKinds",
+  iam: { actions: ["saasservicemgmt.unitKinds.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1880,6 +1902,10 @@ export const listProjectsLocationsUnitOperations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUnitOperations",
+  iam: {
+    actions: ["saasservicemgmt.unitOperations.list"],
+    roles: ["roles/saasservicemgmt.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1899,6 +1925,7 @@ export const listProjectsLocationsUnits: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUnits",
+  iam: { actions: ["saasservicemgmt.units.list"], roles: ["roles/saasservicemgmt.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2057,6 +2084,10 @@ export const patchProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsUnitOperations",
+  iam: {
+    actions: ["saasservicemgmt.unitOperations.update"],
+    roles: ["roles/saasservicemgmt.admin"],
+  },
 }));
 
 export type PatchProjectsLocationsUnitsError =

@@ -874,6 +874,10 @@ export const getConfigProjectsLocationsRecommenders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsLocationsRecommenders",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommenderConfig.get"],
+    roles: ["roles/recommender.viewer"],
+  },
 }));
 
 export type GetFoldersLocationsInsightTypesInsightsError = NotFound | Forbidden | GcpOpError;
@@ -990,6 +994,10 @@ export const getProjectsLocationsRecommendersRecommendations: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.get"],
+    roles: ["roles/recommender.viewer"],
+  },
 }));
 
 export type ListBillingAccountsLocationsInsightTypesInsightsError =
@@ -1196,6 +1204,10 @@ export const listProjectsLocationsRecommendersRecommendations: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.list"],
+    roles: ["roles/recommender.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1405,6 +1417,10 @@ export const markClaimedProjectsLocationsRecommendersRecommendations: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkClaimedProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.update"],
+    roles: ["roles/recommender.admin"],
+  },
 }));
 
 export type MarkDismissedBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1509,6 +1525,10 @@ export const markDismissedProjectsLocationsRecommendersRecommendations: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkDismissedProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.update"],
+    roles: ["roles/recommender.admin"],
+  },
 }));
 
 export type MarkFailedBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1613,6 +1633,10 @@ export const markFailedProjectsLocationsRecommendersRecommendations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkFailedProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.update"],
+    roles: ["roles/recommender.admin"],
+  },
 }));
 
 export type MarkSucceededBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1717,6 +1741,10 @@ export const markSucceededProjectsLocationsRecommendersRecommendations: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkSucceededProjectsLocationsRecommendersRecommendations",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommendations.update"],
+    roles: ["roles/recommender.admin"],
+  },
 }));
 
 export type UpdateConfigBillingAccountsLocationsInsightTypesError =
@@ -1865,6 +1893,10 @@ export const updateConfigProjectsLocationsRecommenders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateConfigProjectsLocationsRecommenders",
+  iam: {
+    actions: ["recommender.computeInstanceMachineTypeRecommenderConfig.update"],
+    roles: ["roles/recommender.admin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

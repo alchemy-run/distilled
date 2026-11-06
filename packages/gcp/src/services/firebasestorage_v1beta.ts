@@ -171,6 +171,7 @@ export const addFirebaseProjectsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddFirebaseProjectsBuckets",
+  iam: { actions: ["firebasestorage.buckets.addFirebase"], roles: ["roles/firebasestorage.admin"] },
 }));
 
 export type CreateProjectsDefaultBucketError =
@@ -193,6 +194,10 @@ export const createProjectsDefaultBucket: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDefaultBucket",
+  iam: {
+    actions: ["firebasestorage.defaultBucket.create"],
+    roles: ["roles/firebasestorage.admin"],
+  },
 }));
 
 export type DeleteDefaultBucketProjectsError =
@@ -215,6 +220,10 @@ export const deleteDefaultBucketProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDefaultBucketProjects",
+  iam: {
+    actions: ["firebasestorage.defaultBucket.delete"],
+    roles: ["roles/firebasestorage.admin"],
+  },
 }));
 
 export type GetDefaultBucketProjectsError = NotFound | Forbidden | GcpOpError;
@@ -232,6 +241,7 @@ export const getDefaultBucketProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDefaultBucketProjects",
+  iam: { actions: ["firebasestorage.defaultBucket.get"], roles: ["roles/firebasestorage.viewer"] },
 }));
 
 export type GetProjectsBucketsError = NotFound | Forbidden | GcpOpError;
@@ -249,6 +259,7 @@ export const getProjectsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsBuckets",
+  iam: { actions: ["firebasestorage.buckets.get"], roles: ["roles/firebasestorage.viewer"] },
 }));
 
 export type ListProjectsBucketsError = NotFound | Forbidden | GcpOpError;
@@ -267,6 +278,7 @@ export const listProjectsBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsBuckets",
+  iam: { actions: ["firebasestorage.buckets.list"], roles: ["roles/firebasestorage.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -290,6 +302,10 @@ export const removeFirebaseProjectsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveFirebaseProjectsBuckets",
+  iam: {
+    actions: ["firebasestorage.buckets.removeFirebase"],
+    roles: ["roles/firebasestorage.admin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

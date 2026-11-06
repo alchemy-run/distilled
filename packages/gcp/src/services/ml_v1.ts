@@ -1343,6 +1343,7 @@ export const addMeasurementProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddMeasurementProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.update"], roles: ["roles/ml.developer"] },
 }));
 
 export type CancelProjectsJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1360,6 +1361,7 @@ export const cancelProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsJobs",
+  iam: { actions: ["ml.jobs.cancel"], roles: ["roles/ml.jobOwner"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1430,6 +1432,7 @@ export const checkEarlyStoppingStateProjectsLocationsStudiesTrials: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckEarlyStoppingStateProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.get"], roles: ["roles/ml.viewer"] },
 }));
 
 export type CompleteProjectsLocationsStudiesTrialsError =
@@ -1452,6 +1455,7 @@ export const completeProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.update"], roles: ["roles/ml.developer"] },
 }));
 
 export type CreateProjectsJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1469,6 +1473,7 @@ export const createProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsJobs",
+  iam: { actions: ["ml.jobs.create"], roles: ["roles/ml.jobOwner"] },
 }));
 
 export type CreateProjectsLocationsStudiesError =
@@ -1491,6 +1496,7 @@ export const createProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsStudies",
+  iam: { actions: ["ml.studies.create"], roles: ["roles/ml.developer"] },
 }));
 
 export type CreateProjectsLocationsStudiesTrialsError =
@@ -1513,6 +1519,7 @@ export const createProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.create"], roles: ["roles/ml.developer"] },
 }));
 
 export type CreateProjectsModelsError =
@@ -1581,6 +1588,7 @@ export const deleteProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsStudies",
+  iam: { actions: ["ml.studies.delete"], roles: ["roles/ml.developer"] },
 }));
 
 export type DeleteProjectsLocationsStudiesTrialsError =
@@ -1603,6 +1611,7 @@ export const deleteProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.delete"], roles: ["roles/ml.developer"] },
 }));
 
 export type DeleteProjectsModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1659,6 +1668,7 @@ export const explainProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExplainProjects",
+  iam: { actions: ["ml.models.predict"], roles: ["roles/ml.modelUser"] },
 }));
 
 export type GetConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1676,6 +1686,7 @@ export const getConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjects",
+  iam: { actions: ["ml.projects.getConfig"], roles: ["roles/ml.viewer"] },
 }));
 
 export type GetIamPolicyProjectsJobsError = NotFound | Forbidden | GcpOpError;
@@ -1727,6 +1738,7 @@ export const getProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsJobs",
+  iam: { actions: ["ml.jobs.get"], roles: ["roles/ml.viewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1778,6 +1790,7 @@ export const getProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStudies",
+  iam: { actions: ["ml.studies.get"], roles: ["roles/ml.viewer"] },
 }));
 
 export type GetProjectsLocationsStudiesTrialsError = NotFound | Forbidden | GcpOpError;
@@ -1795,6 +1808,7 @@ export const getProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.get"], roles: ["roles/ml.viewer"] },
 }));
 
 export type GetProjectsModelsError = NotFound | Forbidden | GcpOpError;
@@ -1872,6 +1886,7 @@ export const listOptimalTrialsProjectsLocationsStudiesTrials: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOptimalTrialsProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.get"], roles: ["roles/ml.viewer"] },
 }));
 
 export type ListProjectsJobsError = NotFound | Forbidden | GcpOpError;
@@ -1890,6 +1905,7 @@ export const listProjectsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsJobs",
+  iam: { actions: ["ml.jobs.list"], roles: ["roles/ml.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1927,6 +1943,7 @@ export const listProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStudies",
+  iam: { actions: ["ml.studies.list"], roles: ["roles/ml.viewer"] },
 }));
 
 export type ListProjectsLocationsStudiesTrialsError = NotFound | Forbidden | GcpOpError;
@@ -1944,6 +1961,7 @@ export const listProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.list"], roles: ["roles/ml.viewer"] },
 }));
 
 export type ListProjectsModelsError = NotFound | Forbidden | GcpOpError;
@@ -1962,6 +1980,7 @@ export const listProjectsModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsModels",
+  iam: { actions: ["ml.models.list"], roles: ["roles/ml.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1981,6 +2000,7 @@ export const listProjectsModelsVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsModelsVersions",
+  iam: { actions: ["ml.versions.list"], roles: ["roles/ml.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2018,6 +2038,7 @@ export const patchProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsJobs",
+  iam: { actions: ["ml.jobs.update"], roles: ["roles/ml.jobOwner"] },
 }));
 
 export type PatchProjectsModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2096,6 +2117,7 @@ export const setDefaultProjectsModelsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDefaultProjectsModelsVersions",
+  iam: { actions: ["ml.versions.update"], roles: ["roles/ml.modelOwner"] },
 }));
 
 export type SetIamPolicyProjectsJobsError =
@@ -2162,6 +2184,7 @@ export const stopProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.update"], roles: ["roles/ml.developer"] },
 }));
 
 export type SuggestProjectsLocationsStudiesTrialsError =
@@ -2184,6 +2207,7 @@ export const suggestProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuggestProjectsLocationsStudiesTrials",
+  iam: { actions: ["ml.trials.update"], roles: ["roles/ml.developer"] },
 }));
 
 export type TestIamPermissionsProjectsJobsError =

@@ -729,6 +729,10 @@ export const collectProjectsLocationsCatalogsEventStoresUserEvents: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CollectProjectsLocationsCatalogsEventStoresUserEvents",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type CreateProjectsLocationsCatalogsCatalogItemsError =
@@ -783,6 +787,10 @@ export const createProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type DeleteProjectsLocationsCatalogsCatalogItemsError =
@@ -806,6 +814,10 @@ export const deleteProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCatalogsCatalogItems",
+  iam: {
+    actions: ["automlrecommendations.catalogItems.delete"],
+    roles: ["roles/automlrecommendations.editor"],
+  },
 }));
 
 export type DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError =
@@ -833,6 +845,10 @@ export const deleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type GetProjectsLocationsCatalogsCatalogItemsError =
@@ -923,6 +939,10 @@ export const importProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCatalogsCatalogItems",
+  iam: {
+    actions: ["automlrecommendations.catalogItems.update"],
+    roles: ["roles/automlrecommendations.editor"],
+  },
 }));
 
 export type ImportProjectsLocationsCatalogsEventStoresUserEventsError =
@@ -950,6 +970,10 @@ export const importProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCatalogsEventStoresUserEvents",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type ListProjectsLocationsCatalogsError =
@@ -976,6 +1000,10 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogs",
+  iam: {
+    actions: ["automlrecommendations.catalogs.list"],
+    roles: ["roles/automlrecommendations.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1003,6 +1031,10 @@ export const listProjectsLocationsCatalogsCatalogItems: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsCatalogItems",
+  iam: {
+    actions: ["automlrecommendations.catalogItems.list"],
+    roles: ["roles/automlrecommendations.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1139,6 +1171,10 @@ export const patchProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCatalogs",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type PatchProjectsLocationsCatalogsCatalogItemsError =
@@ -1162,6 +1198,10 @@ export const patchProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCatalogsCatalogItems",
+  iam: {
+    actions: ["automlrecommendations.catalogItems.update"],
+    roles: ["roles/automlrecommendations.editor"],
+  },
 }));
 
 export type PredictProjectsLocationsCatalogsEventStoresPlacementsError =
@@ -1193,6 +1233,10 @@ export const predictProjectsLocationsCatalogsEventStoresPlacements: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictProjectsLocationsCatalogsEventStoresPlacements",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type PurgeProjectsLocationsCatalogsEventStoresUserEventsError =
@@ -1220,6 +1264,10 @@ export const purgeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCatalogsEventStoresUserEvents",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type RejoinProjectsLocationsCatalogsEventStoresUserEventsError =
@@ -1247,6 +1295,10 @@ export const rejoinProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejoinProjectsLocationsCatalogsEventStoresUserEvents",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 export type WriteProjectsLocationsCatalogsEventStoresUserEventsError =
@@ -1274,6 +1326,10 @@ export const writeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsCatalogsEventStoresUserEvents",
+  iam: {
+    actions: ["automlrecommendations.catalogs.update"],
+    roles: ["roles/automlrecommendations.admin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

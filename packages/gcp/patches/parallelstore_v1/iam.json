@@ -1,0 +1,61 @@
+{
+  "description": "What each parallelstore_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#CreateProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.create"],
+        "roles": ["roles/parallelstore.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.delete"],
+        "roles": ["roles/parallelstore.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#ExportDataProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.exportData"],
+        "roles": ["roles/parallelstore.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.get"],
+        "roles": ["roles/parallelstore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#ImportDataProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.importData"],
+        "roles": ["roles/parallelstore.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.list"],
+        "roles": ["roles/parallelstore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.parallelstore_v1#PatchProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["parallelstore.instances.update"],
+        "roles": ["roles/parallelstore.admin"]
+      }
+    }
+  ]
+}

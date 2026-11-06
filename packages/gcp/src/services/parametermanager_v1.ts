@@ -529,6 +529,7 @@ export const createProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTemplates",
+  iam: { actions: ["parametermanager.templates.create"], roles: ["roles/parametermanager.editor"] },
 }));
 
 export type CreateProjectsLocationsTemplatesVersionsError =
@@ -617,6 +618,7 @@ export const deleteProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTemplates",
+  iam: { actions: ["parametermanager.templates.delete"], roles: ["roles/parametermanager.editor"] },
 }));
 
 export type DeleteProjectsLocationsTemplatesVersionsError =
@@ -639,6 +641,7 @@ export const deleteProjectsLocationsTemplatesVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTemplatesVersions",
+  iam: { actions: ["parametermanager.templates.update"], roles: ["roles/parametermanager.editor"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -707,6 +710,10 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTemplates",
+  iam: {
+    actions: ["parametermanager.templates.get"],
+    roles: ["roles/parametermanager.templateViewer"],
+  },
 }));
 
 export type GetProjectsLocationsTemplatesVersionsError = NotFound | Forbidden | GcpOpError;
@@ -724,6 +731,10 @@ export const getProjectsLocationsTemplatesVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTemplatesVersions",
+  iam: {
+    actions: ["parametermanager.templates.get"],
+    roles: ["roles/parametermanager.templateViewer"],
+  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -761,6 +772,10 @@ export const listProjectsLocationsParameters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsParameters",
+  iam: {
+    actions: ["parametermanager.parameters.list"],
+    roles: ["roles/parametermanager.parameterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -780,6 +795,10 @@ export const listProjectsLocationsParametersVersions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsParametersVersions",
+  iam: {
+    actions: ["parametermanager.parameters.get"],
+    roles: ["roles/parametermanager.parameterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -799,6 +818,10 @@ export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTemplates",
+  iam: {
+    actions: ["parametermanager.templates.list"],
+    roles: ["roles/parametermanager.templateViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -818,6 +841,10 @@ export const listProjectsLocationsTemplatesVersions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTemplatesVersions",
+  iam: {
+    actions: ["parametermanager.templates.get"],
+    roles: ["roles/parametermanager.templateViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -885,6 +912,7 @@ export const patchProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTemplates",
+  iam: { actions: ["parametermanager.templates.update"], roles: ["roles/parametermanager.editor"] },
 }));
 
 export type PatchProjectsLocationsTemplatesVersionsError =
@@ -907,6 +935,7 @@ export const patchProjectsLocationsTemplatesVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTemplatesVersions",
+  iam: { actions: ["parametermanager.templates.update"], roles: ["roles/parametermanager.editor"] },
 }));
 
 export type RenderProjectsLocationsParametersVersionsError = NotFound | Forbidden | GcpOpError;
@@ -941,6 +970,10 @@ export const renderProjectsLocationsTemplatesVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenderProjectsLocationsTemplatesVersions",
+  iam: {
+    actions: ["parametermanager.templates.update"],
+    roles: ["roles/parametermanager.templateAccessor"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

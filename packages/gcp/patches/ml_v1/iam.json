@@ -1,0 +1,197 @@
+{
+  "description": "What each ml_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#AddMeasurementProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.update"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CancelProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.jobs.cancel"],
+        "roles": ["roles/ml.jobOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CheckEarlyStoppingStateProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.get"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CompleteProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.update"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CreateProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.jobs.create"],
+        "roles": ["roles/ml.jobOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CreateProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.studies.create"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#CreateProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.create"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#DeleteProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.studies.delete"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#DeleteProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.delete"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ExplainProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.models.predict"],
+        "roles": ["roles/ml.modelUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#GetConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.projects.getConfig"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#GetProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.jobs.get"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#GetProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.studies.get"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#GetProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.get"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListOptimalTrialsProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.get"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.jobs.list"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.studies.list"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.list"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListProjectsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.models.list"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#ListProjectsModelsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.versions.list"],
+        "roles": ["roles/ml.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#PatchProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.jobs.update"],
+        "roles": ["roles/ml.jobOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#SetDefaultProjectsModelsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.versions.update"],
+        "roles": ["roles/ml.modelOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#StopProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.update"],
+        "roles": ["roles/ml.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ml_v1#SuggestProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ml.trials.update"],
+        "roles": ["roles/ml.developer"]
+      }
+    }
+  ]
+}

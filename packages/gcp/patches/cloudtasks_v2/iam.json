@@ -1,0 +1,101 @@
+{
+  "description": "What each cloudtasks_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#BatchCreateProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.create"],
+        "roles": ["roles/cloudtasks.enqueuer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#BatchDeleteProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.delete"],
+        "roles": ["roles/cloudtasks.taskDeleter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#BufferProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.create"],
+        "roles": ["roles/cloudtasks.enqueuer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#DeleteProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.delete"],
+        "roles": ["roles/cloudtasks.taskDeleter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#GetProjectsLocationsQueues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.queues.get"],
+        "roles": ["roles/cloudtasks.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#GetProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.get"],
+        "roles": ["roles/cloudtasks.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#ListProjectsLocationsQueues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.queues.list"],
+        "roles": ["roles/cloudtasks.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#ListProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.list"],
+        "roles": ["roles/cloudtasks.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#PauseProjectsLocationsQueues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.queues.pause"],
+        "roles": ["roles/cloudtasks.queueAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#PurgeProjectsLocationsQueues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.queues.purge"],
+        "roles": ["roles/cloudtasks.queueAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#ResumeProjectsLocationsQueues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.queues.resume"],
+        "roles": ["roles/cloudtasks.queueAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudtasks_v2#RunProjectsLocationsQueuesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtasks.tasks.run"],
+        "roles": ["roles/cloudtasks.taskRunner"]
+      }
+    }
+  ]
+}

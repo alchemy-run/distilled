@@ -1,0 +1,133 @@
+{
+  "description": "What each apphub_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.applications.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplicationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.services.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsApplicationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.workloads.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsDiscoveredServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredServices.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsDiscoveredWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredWorkloads.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsExtendedMetadataSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.extendedMetadataSchemas.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#GetProjectsLocationsServiceProjectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.serviceProjectAttachments.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.applications.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplicationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.services.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsApplicationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.workloads.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsDiscoveredServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredServices.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsDiscoveredWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredWorkloads.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsExtendedMetadataSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.extendedMetadataSchemas.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#ListProjectsLocationsServiceProjectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.serviceProjectAttachments.list"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#LookupProjectsLocationsDiscoveredServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredServices.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apphub_v1#LookupProjectsLocationsDiscoveredWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apphub.discoveredWorkloads.get"],
+        "roles": ["roles/apphub.viewer"]
+      }
+    }
+  ]
+}

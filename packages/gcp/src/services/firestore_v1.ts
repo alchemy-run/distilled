@@ -1848,6 +1848,7 @@ export const batchGetProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type BatchWriteProjectsDatabasesDocumentsError =
@@ -1870,6 +1871,7 @@ export const batchWriteProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchWriteProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.update"], roles: ["roles/datastore.user"] },
 }));
 
 export type BeginTransactionProjectsDatabasesDocumentsError =
@@ -1892,6 +1894,7 @@ export const beginTransactionProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BeginTransactionProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.databases.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type BulkDeleteDocumentsProjectsDatabasesError =
@@ -1914,6 +1917,7 @@ export const bulkDeleteDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDeleteDocumentsProjectsDatabases",
+  iam: { actions: ["datastore.databases.bulkDelete"], roles: ["roles/datastore.bulkAdmin"] },
 }));
 
 export type CancelProjectsDatabasesOperationsError =
@@ -1975,6 +1979,7 @@ export const commitProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.update"], roles: ["roles/datastore.user"] },
 }));
 
 export type CreateDocumentProjectsDatabasesDocumentsError =
@@ -2042,6 +2047,10 @@ export const createProjectsDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDatabasesBackupSchedules",
+  iam: {
+    actions: ["datastore.backupSchedules.create"],
+    roles: ["roles/datastore.backupSchedulesAdmin"],
+  },
 }));
 
 export type CreateProjectsDatabasesChangeStreamsError =
@@ -2090,6 +2099,7 @@ export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDatabasesCollectionGroupsIndexes",
+  iam: { actions: ["datastore.indexes.create"], roles: ["roles/datastore.indexAdmin"] },
 }));
 
 export type CreateProjectsDatabasesUserCredsError =
@@ -2113,6 +2123,7 @@ export const createProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.create"], roles: ["roles/datastore.userCredsAdmin"] },
 }));
 
 export type DeleteProjectsDatabasesError =
@@ -2157,6 +2168,10 @@ export const deleteProjectsDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsDatabasesBackupSchedules",
+  iam: {
+    actions: ["datastore.backupSchedules.delete"],
+    roles: ["roles/datastore.backupSchedulesAdmin"],
+  },
 }));
 
 export type DeleteProjectsDatabasesChangeStreamsError =
@@ -2205,6 +2220,7 @@ export const deleteProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsDatabasesCollectionGroupsIndexes",
+  iam: { actions: ["datastore.indexes.delete"], roles: ["roles/datastore.indexAdmin"] },
 }));
 
 export type DeleteProjectsDatabasesDocumentsError =
@@ -2272,6 +2288,7 @@ export const deleteProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.delete"], roles: ["roles/datastore.userCredsAdmin"] },
 }));
 
 export type DeleteProjectsLocationsBackupsError =
@@ -2294,6 +2311,7 @@ export const deleteProjectsLocationsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackups",
+  iam: { actions: ["datastore.backups.delete"], roles: ["roles/datastore.backupsAdmin"] },
 }));
 
 export type DisableProjectsDatabasesUserCredsError =
@@ -2316,6 +2334,7 @@ export const disableProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.update"], roles: ["roles/datastore.userCredsAdmin"] },
 }));
 
 export type EnableProjectsDatabasesUserCredsError =
@@ -2338,6 +2357,7 @@ export const enableProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.update"], roles: ["roles/datastore.userCredsAdmin"] },
 }));
 
 export type ExecutePipelineProjectsDatabasesDocumentsError =
@@ -2360,6 +2380,7 @@ export const executePipelineProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecutePipelineProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.list"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type ExportDocumentsProjectsDatabasesError =
@@ -2382,6 +2403,7 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportDocumentsProjectsDatabases",
+  iam: { actions: ["datastore.databases.export"], roles: ["roles/datastore.importExportAdmin"] },
 }));
 
 export type GetProjectsDatabasesError = NotFound | Forbidden | GcpOpError;
@@ -2399,6 +2421,7 @@ export const getProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDatabases",
+  iam: { actions: ["datastore.databases.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type GetProjectsDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -2416,6 +2439,10 @@ export const getProjectsDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDatabasesBackupSchedules",
+  iam: {
+    actions: ["datastore.backupSchedules.get"],
+    roles: ["roles/datastore.backupSchedulesViewer"],
+  },
 }));
 
 export type GetProjectsDatabasesChangeStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2450,6 +2477,7 @@ export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDatabasesCollectionGroupsFields",
+  iam: { actions: ["datastore.indexes.get"], roles: ["roles/datastore.indexAdmin"] },
 }));
 
 export type GetProjectsDatabasesCollectionGroupsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -2467,6 +2495,7 @@ export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDatabasesCollectionGroupsIndexes",
+  iam: { actions: ["datastore.indexes.get"], roles: ["roles/datastore.indexAdmin"] },
 }));
 
 export type GetProjectsDatabasesDocumentsError =
@@ -2522,6 +2551,7 @@ export const getProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.get"], roles: ["roles/datastore.userCredsViewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2556,6 +2586,7 @@ export const getProjectsLocationsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackups",
+  iam: { actions: ["datastore.backups.get"], roles: ["roles/datastore.backupsViewer"] },
 }));
 
 export type ImportDocumentsProjectsDatabasesError =
@@ -2578,6 +2609,7 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportDocumentsProjectsDatabases",
+  iam: { actions: ["datastore.databases.import"], roles: ["roles/datastore.importExportAdmin"] },
 }));
 
 export type ListCollectionIdsProjectsDatabasesDocumentsError =
@@ -2600,6 +2632,7 @@ export const listCollectionIdsProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCollectionIdsProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.list"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type ListDocumentsProjectsDatabasesDocumentsError = NotFound | Forbidden | GcpOpError;
@@ -2618,6 +2651,7 @@ export const listDocumentsProjectsDatabasesDocuments: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDocumentsProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.list"], roles: ["roles/datastore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2658,6 +2692,7 @@ export const listProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDatabases",
+  iam: { actions: ["datastore.databases.list"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type ListProjectsDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -2675,6 +2710,10 @@ export const listProjectsDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDatabasesBackupSchedules",
+  iam: {
+    actions: ["datastore.backupSchedules.list"],
+    roles: ["roles/datastore.backupSchedulesViewer"],
+  },
 }));
 
 export type ListProjectsDatabasesChangeStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2710,6 +2749,7 @@ export const listProjectsDatabasesCollectionGroupsFields: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDatabasesCollectionGroupsFields",
+  iam: { actions: ["datastore.indexes.list"], roles: ["roles/datastore.indexAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2729,6 +2769,7 @@ export const listProjectsDatabasesCollectionGroupsIndexes: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDatabasesCollectionGroupsIndexes",
+  iam: { actions: ["datastore.indexes.list"], roles: ["roles/datastore.indexAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2789,6 +2830,7 @@ export const listProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.list"], roles: ["roles/datastore.userCredsViewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2825,6 +2867,7 @@ export const listProjectsLocationsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackups",
+  iam: { actions: ["datastore.backups.list"], roles: ["roles/datastore.backupsViewer"] },
 }));
 
 export type PartitionQueryProjectsDatabasesDocumentsError =
@@ -2847,6 +2890,7 @@ export const partitionQueryProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PartitionQueryProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.list"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type PatchProjectsDatabasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2886,6 +2930,10 @@ export const patchProjectsDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDatabasesBackupSchedules",
+  iam: {
+    actions: ["datastore.backupSchedules.update"],
+    roles: ["roles/datastore.backupSchedulesAdmin"],
+  },
 }));
 
 export type PatchProjectsDatabasesCollectionGroupsFieldsError =
@@ -2908,6 +2956,7 @@ export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDatabasesCollectionGroupsFields",
+  iam: { actions: ["datastore.indexes.update"], roles: ["roles/datastore.indexAdmin"] },
 }));
 
 export type PatchProjectsDatabasesDocumentsError =
@@ -2953,6 +3002,7 @@ export const resetPasswordProjectsDatabasesUserCreds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetPasswordProjectsDatabasesUserCreds",
+  iam: { actions: ["datastore.userCreds.update"], roles: ["roles/datastore.userCredsAdmin"] },
 }));
 
 export type RestoreProjectsDatabasesError =
@@ -2997,6 +3047,7 @@ export const rollbackProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.databases.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type RunAggregationQueryProjectsDatabasesDocumentsError =
@@ -3023,6 +3074,7 @@ export const runAggregationQueryProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunAggregationQueryProjectsDatabasesDocuments",
+  iam: { actions: ["datastore.entities.list"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type RunQueryProjectsDatabasesDocumentsError =

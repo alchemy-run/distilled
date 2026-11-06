@@ -1,0 +1,445 @@
+{
+  "description": "What each managedkafka_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#AddAclEntryProjectsLocationsClustersAcls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.acls.update"],
+        "roles": ["roles/managedkafka.aclEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibility/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemaRegistries.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsClustersConsumerGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.consumerGroups.delete"],
+        "roles": ["roles/managedkafka.consumerGroupEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.delete"],
+        "roles": ["roles/managedkafka.schemaRegistryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsClustersAcls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.acls.get"],
+        "roles": ["roles/managedkafka.aclViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsClustersConsumerGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.consumerGroups.get"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.get"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.contexts.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemas.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemas.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemas.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.clusters.list"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsClustersAcls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.acls.list"],
+        "roles": ["roles/managedkafka.aclViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsClustersConsumerGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.consumerGroups.list"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsClustersTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.topics.list"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsConnectClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectClusters.list"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.list"],
+        "roles": ["roles/managedkafka.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemaRegistries.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.contexts.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemas.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedby/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemas.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.subjects.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjectsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.list"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.versions.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#LookupVersionProjectsLocationsSchemaRegistriesSubjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.schemaRegistries.get"],
+        "roles": ["roles/managedkafka.schemaRegistryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#PatchProjectsLocationsClustersConsumerGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.consumerGroups.update"],
+        "roles": ["roles/managedkafka.consumerGroupEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#PauseProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.pause"],
+        "roles": ["roles/managedkafka.connectorEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#RemoveAclEntryProjectsLocationsClustersAcls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.acls.update"],
+        "roles": ["roles/managedkafka.aclEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#RestartProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.restart"],
+        "roles": ["roles/managedkafka.connectorEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ResumeProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.resume"],
+        "roles": ["roles/managedkafka.connectorEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#StopProjectsLocationsConnectClustersConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.connectors.stop"],
+        "roles": ["roles/managedkafka.connectorEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.update"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesContextsConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.config.update"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesContextsMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.update"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesMode/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedkafka.mode.update"],
+        "roles": ["roles/managedkafka.schemaRegistryAdmin"]
+      }
+    }
+  ]
+}

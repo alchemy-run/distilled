@@ -1,0 +1,293 @@
+{
+  "description": "What each cloudkms_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToDecrypt"],
+        "roles": ["roles/cloudkms.cryptoKeyDecrypter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToSign"],
+        "roles": ["roles/cloudkms.signer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.create"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToDecapsulate"],
+        "roles": ["roles/cloudkms.decapsulator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.delete"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.destroy"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetAutokeyConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.autokeyConfigs.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsEkmConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.ekmConnections.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsKeyHandles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.keyHandles.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsKeyRings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.keyRings.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsKeyRingsCryptoKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeys.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsKeyRingsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.importJobs.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsRetiredResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.retiredResources.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsSingleTenantHsmInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.singleTenantHsmInstances.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetProjectsLocationsSingleTenantHsmInstancesProposals/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.singleTenantHsmInstances.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.viewPublicKey"],
+        "roles": ["roles/cloudkms.publicKeyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsEkmConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.ekmConnections.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsKeyHandles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.keyHandles.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsKeyRings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.keyRings.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsKeyRingsCryptoKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeys.list"],
+        "roles": ["roles/cloudkms.encryptionDashboardViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsKeyRingsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.importJobs.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsRetiredResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.retiredResources.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsSingleTenantHsmInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.singleTenantHsmInstances.list"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#ListProjectsLocationsSingleTenantHsmInstancesProposals/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.singleTenantHsmInstances.get"],
+        "roles": ["roles/cloudkms.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToSign"],
+        "roles": ["roles/cloudkms.signer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToVerify"],
+        "roles": ["roles/cloudkms.verifier"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#PatchProjectsLocationsEkmConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.ekmConnections.update"],
+        "roles": ["roles/cloudkms.ekmConnectionsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.update"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToDecrypt"],
+        "roles": ["roles/cloudkms.cryptoKeyDecrypter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.useToEncrypt"],
+        "roles": ["roles/cloudkms.cryptoKeyEncrypter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeyVersions.restore"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#UpdateAutokeyConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.autokeyConfigs.update"],
+        "roles": ["roles/cloudkms.autokeyAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeys.update"],
+        "roles": ["roles/cloudkms.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudkms_v1#VerifyConnectivityProjectsLocationsEkmConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.ekmConnections.verifyConnectivity"],
+        "roles": ["roles/cloudkms.ekmConnectionsAdmin"]
+      }
+    }
+  ]
+}

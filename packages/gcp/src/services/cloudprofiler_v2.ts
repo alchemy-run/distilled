@@ -196,6 +196,7 @@ export const createOfflineProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOfflineProjectsProfiles",
+  iam: { actions: ["cloudprofiler.profiles.update"], roles: ["roles/cloudprofiler.agent"] },
 }));
 
 export type CreateProjectsProfilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -213,6 +214,7 @@ export const createProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsProfiles",
+  iam: { actions: ["cloudprofiler.profiles.create"], roles: ["roles/cloudprofiler.agent"] },
 }));
 
 export type ListProjectsProfilesError = NotFound | Forbidden | GcpOpError;
@@ -231,6 +233,7 @@ export const listProjectsProfiles: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsProfiles",
+  iam: { actions: ["cloudprofiler.profiles.list"], roles: ["roles/cloudprofiler.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -249,6 +252,7 @@ export const patchProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsProfiles",
+  iam: { actions: ["cloudprofiler.profiles.update"], roles: ["roles/cloudprofiler.agent"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

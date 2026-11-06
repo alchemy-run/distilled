@@ -3756,6 +3756,7 @@ export const getProjectsLocationsAgentGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentGateways",
+  iam: { actions: ["networkservices.agentGateways.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsAuthzExtensionsError = NotFound | Forbidden | GcpOpError;
@@ -3773,6 +3774,10 @@ export const getProjectsLocationsAuthzExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthzExtensions",
+  iam: {
+    actions: ["networkservices.authzExtensions.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsEndpointPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -3790,6 +3795,10 @@ export const getProjectsLocationsEndpointPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEndpointPolicies",
+  iam: {
+    actions: ["networkservices.endpointPolicies.get"],
+    roles: ["roles/networkservices.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsExtensionBindingsError = NotFound | Forbidden | GcpOpError;
@@ -3824,6 +3833,7 @@ export const getProjectsLocationsGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGateways",
+  iam: { actions: ["networkservices.gateways.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsGatewaysRouteViewsError = NotFound | Forbidden | GcpOpError;
@@ -3841,6 +3851,7 @@ export const getProjectsLocationsGatewaysRouteViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGatewaysRouteViews",
+  iam: { actions: ["networkservices.gateways.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsGrpcRoutesError = NotFound | Forbidden | GcpOpError;
@@ -3858,6 +3869,7 @@ export const getProjectsLocationsGrpcRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGrpcRoutes",
+  iam: { actions: ["networkservices.grpcRoutes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsHttpRoutesError = NotFound | Forbidden | GcpOpError;
@@ -3875,6 +3887,7 @@ export const getProjectsLocationsHttpRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsHttpRoutes",
+  iam: { actions: ["networkservices.httpRoutes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsLbEdgeExtensionsError = NotFound | Forbidden | GcpOpError;
@@ -3892,6 +3905,10 @@ export const getProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLbEdgeExtensions",
+  iam: {
+    actions: ["networkservices.lbEdgeExtensions.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsLbRouteExtensionsError = NotFound | Forbidden | GcpOpError;
@@ -3909,6 +3926,10 @@ export const getProjectsLocationsLbRouteExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLbRouteExtensions",
+  iam: {
+    actions: ["networkservices.lbRouteExtensions.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsLbTrafficExtensionsError = NotFound | Forbidden | GcpOpError;
@@ -3926,6 +3947,10 @@ export const getProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLbTrafficExtensions",
+  iam: {
+    actions: ["networkservices.lbTrafficExtensions.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsMeshesError = NotFound | Forbidden | GcpOpError;
@@ -3943,6 +3968,7 @@ export const getProjectsLocationsMeshes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMeshes",
+  iam: { actions: ["networkservices.meshes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsMeshesRouteViewsError = NotFound | Forbidden | GcpOpError;
@@ -3960,6 +3986,7 @@ export const getProjectsLocationsMeshesRouteViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMeshesRouteViews",
+  iam: { actions: ["networkservices.meshes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsMulticastConsumerAssociationsError =
@@ -4059,6 +4086,10 @@ export const getProjectsLocationsServiceBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceBindings",
+  iam: {
+    actions: ["networkservices.serviceBindings.get"],
+    roles: ["roles/networkservices.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsServiceLbPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -4076,6 +4107,10 @@ export const getProjectsLocationsServiceLbPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceLbPolicies",
+  iam: {
+    actions: ["networkservices.serviceLbPolicies.get"],
+    roles: ["roles/networkservices.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsTcpRoutesError = NotFound | Forbidden | GcpOpError;
@@ -4093,6 +4128,7 @@ export const getProjectsLocationsTcpRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTcpRoutes",
+  iam: { actions: ["networkservices.tcpRoutes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsTlsRoutesError = NotFound | Forbidden | GcpOpError;
@@ -4110,6 +4146,7 @@ export const getProjectsLocationsTlsRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTlsRoutes",
+  iam: { actions: ["networkservices.tlsRoutes.get"], roles: ["roles/networkservices.viewer"] },
 }));
 
 export type GetProjectsLocationsWasmPluginsError = NotFound | Forbidden | GcpOpError;
@@ -4127,6 +4164,10 @@ export const getProjectsLocationsWasmPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWasmPlugins",
+  iam: {
+    actions: ["networkservices.wasmPlugins.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsWasmPluginsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -4144,6 +4185,10 @@ export const getProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWasmPluginsVersions",
+  iam: {
+    actions: ["networkservices.wasmPlugins.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4207,6 +4252,7 @@ export const listProjectsLocationsAgentGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentGateways",
+  iam: { actions: ["networkservices.agentGateways.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4226,6 +4272,10 @@ export const listProjectsLocationsAuthzExtensions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthzExtensions",
+  iam: {
+    actions: ["networkservices.authzExtensions.list"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4245,6 +4295,10 @@ export const listProjectsLocationsEndpointPolicies: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEndpointPolicies",
+  iam: {
+    actions: ["networkservices.endpointPolicies.list"],
+    roles: ["roles/networkservices.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4283,6 +4337,7 @@ export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGateways",
+  iam: { actions: ["networkservices.gateways.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4302,6 +4357,7 @@ export const listProjectsLocationsGatewaysRouteViews: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGatewaysRouteViews",
+  iam: { actions: ["networkservices.gateways.get"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4321,6 +4377,7 @@ export const listProjectsLocationsGrpcRoutes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGrpcRoutes",
+  iam: { actions: ["networkservices.grpcRoutes.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4340,6 +4397,7 @@ export const listProjectsLocationsHttpRoutes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsHttpRoutes",
+  iam: { actions: ["networkservices.httpRoutes.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4359,6 +4417,10 @@ export const listProjectsLocationsLbEdgeExtensions: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLbEdgeExtensions",
+  iam: {
+    actions: ["networkservices.lbEdgeExtensions.list"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4378,6 +4440,10 @@ export const listProjectsLocationsLbRouteExtensions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLbRouteExtensions",
+  iam: {
+    actions: ["networkservices.lbRouteExtensions.list"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4397,6 +4463,10 @@ export const listProjectsLocationsLbTrafficExtensions: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLbTrafficExtensions",
+  iam: {
+    actions: ["networkservices.lbTrafficExtensions.list"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4416,6 +4486,7 @@ export const listProjectsLocationsMeshes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMeshes",
+  iam: { actions: ["networkservices.meshes.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4435,6 +4506,7 @@ export const listProjectsLocationsMeshesRouteViews: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMeshesRouteViews",
+  iam: { actions: ["networkservices.meshes.get"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4544,6 +4616,10 @@ export const listProjectsLocationsServiceBindings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceBindings",
+  iam: {
+    actions: ["networkservices.serviceBindings.list"],
+    roles: ["roles/networkservices.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4563,6 +4639,10 @@ export const listProjectsLocationsServiceLbPolicies: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceLbPolicies",
+  iam: {
+    actions: ["networkservices.serviceLbPolicies.list"],
+    roles: ["roles/networkservices.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4582,6 +4662,7 @@ export const listProjectsLocationsTcpRoutes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTcpRoutes",
+  iam: { actions: ["networkservices.tcpRoutes.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4601,6 +4682,7 @@ export const listProjectsLocationsTlsRoutes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTlsRoutes",
+  iam: { actions: ["networkservices.tlsRoutes.list"], roles: ["roles/networkservices.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4620,6 +4702,10 @@ export const listProjectsLocationsWasmPlugins: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWasmPlugins",
+  iam: {
+    actions: ["networkservices.wasmPlugins.list"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4639,6 +4725,10 @@ export const listProjectsLocationsWasmPluginsVersions: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWasmPluginsVersions",
+  iam: {
+    actions: ["networkservices.wasmPlugins.get"],
+    roles: ["roles/networkservices.serviceExtensionsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

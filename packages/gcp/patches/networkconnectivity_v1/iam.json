@@ -1,0 +1,381 @@
+{
+  "description": "What each networkconnectivity_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#AcceptSpokeProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.update"],
+        "roles": ["roles/networkconnectivity.hubAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#AcceptSpokeUpdateProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.update"],
+        "roles": ["roles/networkconnectivity.hubAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#CreateProjectsLocationsPscAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.pscAuthorizationPolicies.create"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#DeleteProjectsLocationsPscAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.pscAuthorizationPolicies.delete"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#DeleteProjectsLocationsServiceClasses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceClasses.delete"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsGlobalHubsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.groups.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsGlobalHubsRouteTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsGlobalHubsRouteTablesRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsGlobalPolicyBasedRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.policyBasedRoutes.get"],
+        "roles": ["roles/networkconnectivity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsInternalRanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.internalRanges.get"],
+        "roles": ["roles/networkconnectivity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsMulticloudDataTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferConfigs.get"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsMulticloudDataTransferConfigsDestinations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferConfigs.get"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsMulticloudDataTransferSupportedServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferSupportedServices.get"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferDestinationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsPscAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.pscAuthorizationPolicies.get"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsRegionalEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.regionalEndpoints.get"],
+        "roles": ["roles/networkconnectivity.regionalEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsRemoteTransportProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.remoteTransportProfiles.get"],
+        "roles": ["roles/networkconnectivity.transportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsServiceClasses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceClasses.get"],
+        "roles": ["roles/networkconnectivity.serviceClassUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsServiceConnectionMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceConnectionMaps.get"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsServiceConnectionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceConnectionPolicies.get"],
+        "roles": ["roles/networkconnectivity.consumerNetworkAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsSpokes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.spokes.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsSpokesGatewayAdvertisedRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.gatewayAdvertisedRoutes.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#GetProjectsLocationsTransports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.transports.get"],
+        "roles": ["roles/networkconnectivity.transportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.list"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsGlobalHubsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.groups.list"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsGlobalHubsRouteTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsGlobalHubsRouteTablesRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.get"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsGlobalPolicyBasedRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.policyBasedRoutes.list"],
+        "roles": ["roles/networkconnectivity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsInternalRanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.internalRanges.list"],
+        "roles": ["roles/networkconnectivity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsMulticloudDataTransferConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferConfigs.list"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsMulticloudDataTransferConfigsDestinations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferConfigs.get"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsMulticloudDataTransferSupportedServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.multicloudDataTransferSupportedServices.list"],
+        "roles": ["roles/networkconnectivity.multicloudDataTransferDestinationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsPscAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.pscAuthorizationPolicies.list"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsRegionalEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.regionalEndpoints.list"],
+        "roles": ["roles/networkconnectivity.regionalEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsRemoteTransportProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.remoteTransportProfiles.list"],
+        "roles": ["roles/networkconnectivity.transportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsServiceClasses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceClasses.list"],
+        "roles": ["roles/networkconnectivity.serviceClassUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsServiceConnectionMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceConnectionMaps.list"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsServiceConnectionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceConnectionPolicies.list"],
+        "roles": ["roles/networkconnectivity.consumerNetworkAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsSpokes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.spokes.list"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsSpokesGatewayAdvertisedRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.gatewayAdvertisedRoutes.list"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListProjectsLocationsTransports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.transports.list"],
+        "roles": ["roles/networkconnectivity.transportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#ListSpokesProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.listSpokes"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#PatchProjectsLocationsGlobalHubsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.update"],
+        "roles": ["roles/networkconnectivity.hubAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#PatchProjectsLocationsServiceClasses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.serviceClasses.update"],
+        "roles": ["roles/networkconnectivity.serviceProducerAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#QueryStatusProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.queryStatus"],
+        "roles": ["roles/networkconnectivity.hubViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#RejectSpokeProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.update"],
+        "roles": ["roles/networkconnectivity.hubAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networkconnectivity_v1#RejectSpokeUpdateProjectsLocationsGlobalHubs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networkconnectivity.hubs.update"],
+        "roles": ["roles/networkconnectivity.hubAdmin"]
+      }
+    }
+  ]
+}

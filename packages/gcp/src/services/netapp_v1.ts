@@ -2483,6 +2483,7 @@ export const encryptProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EncryptProjectsLocationsKmsConfigs",
+  iam: { actions: ["netapp.kmsConfigs.encrypt"], roles: ["roles/netapp.admin"] },
 }));
 
 export type EstablishPeeringProjectsLocationsVolumesError =
@@ -2531,6 +2532,7 @@ export const establishPeeringProjectsLocationsVolumesReplications: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EstablishPeeringProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.establishPeering"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ExecuteOntapDeleteProjectsLocationsStoragePoolsOntapError =
@@ -2557,6 +2559,7 @@ export const executeOntapDeleteProjectsLocationsStoragePoolsOntap: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteOntapDeleteProjectsLocationsStoragePoolsOntap",
+  iam: { actions: ["netapp.storagePools.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ExecuteOntapGetProjectsLocationsStoragePoolsOntapError =
@@ -2581,6 +2584,7 @@ export const executeOntapGetProjectsLocationsStoragePoolsOntap: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteOntapGetProjectsLocationsStoragePoolsOntap",
+  iam: { actions: ["netapp.storagePools.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ExecuteOntapPatchProjectsLocationsStoragePoolsOntapError =
@@ -2607,6 +2611,7 @@ export const executeOntapPatchProjectsLocationsStoragePoolsOntap: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteOntapPatchProjectsLocationsStoragePoolsOntap",
+  iam: { actions: ["netapp.storagePools.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ExecuteOntapPostProjectsLocationsStoragePoolsOntapError =
@@ -2633,6 +2638,7 @@ export const executeOntapPostProjectsLocationsStoragePoolsOntap: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteOntapPostProjectsLocationsStoragePoolsOntap",
+  iam: { actions: ["netapp.storagePools.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2667,6 +2673,7 @@ export const getProjectsLocationsActiveDirectories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsActiveDirectories",
+  iam: { actions: ["netapp.activeDirectories.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2684,6 +2691,7 @@ export const getProjectsLocationsBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPolicies",
+  iam: { actions: ["netapp.backupPolicies.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupVaultsError = NotFound | Forbidden | GcpOpError;
@@ -2701,6 +2709,7 @@ export const getProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupVaults",
+  iam: { actions: ["netapp.backupVaults.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupVaultsBackupsError = NotFound | Forbidden | GcpOpError;
@@ -2718,6 +2727,7 @@ export const getProjectsLocationsBackupVaultsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupVaultsBackups",
+  iam: { actions: ["netapp.backups.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsHostGroupsError = NotFound | Forbidden | GcpOpError;
@@ -2735,6 +2745,7 @@ export const getProjectsLocationsHostGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsHostGroups",
+  iam: { actions: ["netapp.hostGroups.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsKmsConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2752,6 +2763,7 @@ export const getProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKmsConfigs",
+  iam: { actions: ["netapp.kmsConfigs.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2786,6 +2798,7 @@ export const getProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2803,6 +2816,7 @@ export const getProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsVolumesQuotaRulesError = NotFound | Forbidden | GcpOpError;
@@ -2820,6 +2834,7 @@ export const getProjectsLocationsVolumesQuotaRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumesQuotaRules",
+  iam: { actions: ["netapp.quotaRules.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsVolumesReplicationsError = NotFound | Forbidden | GcpOpError;
@@ -2837,6 +2852,7 @@ export const getProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetProjectsLocationsVolumesSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -2854,6 +2870,7 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumesSnapshots",
+  iam: { actions: ["netapp.snapshots.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type GetSplitStatusProjectsLocationsVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2871,6 +2888,7 @@ export const getSplitStatusProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSplitStatusProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.get"], roles: ["roles/netapp.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2908,6 +2926,7 @@ export const listProjectsLocationsActiveDirectories: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsActiveDirectories",
+  iam: { actions: ["netapp.activeDirectories.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2927,6 +2946,7 @@ export const listProjectsLocationsBackupPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPolicies",
+  iam: { actions: ["netapp.backupPolicies.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2946,6 +2966,7 @@ export const listProjectsLocationsBackupVaults: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupVaults",
+  iam: { actions: ["netapp.backupVaults.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2965,6 +2986,7 @@ export const listProjectsLocationsBackupVaultsBackups: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupVaultsBackups",
+  iam: { actions: ["netapp.backups.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2984,6 +3006,7 @@ export const listProjectsLocationsHostGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsHostGroups",
+  iam: { actions: ["netapp.hostGroups.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3003,6 +3026,7 @@ export const listProjectsLocationsKmsConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKmsConfigs",
+  iam: { actions: ["netapp.kmsConfigs.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3041,6 +3065,7 @@ export const listProjectsLocationsStoragePools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3064,6 +3089,7 @@ export const listProjectsLocationsStoragePoolsBackupConfigs: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStoragePoolsBackupConfigs",
+  iam: { actions: ["netapp.storagePools.get"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3083,6 +3109,7 @@ export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3102,6 +3129,7 @@ export const listProjectsLocationsVolumesQuotaRules: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumesQuotaRules",
+  iam: { actions: ["netapp.quotaRules.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3121,6 +3149,7 @@ export const listProjectsLocationsVolumesReplications: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3140,6 +3169,7 @@ export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumesSnapshots",
+  iam: { actions: ["netapp.snapshots.list"], roles: ["roles/netapp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3405,6 +3435,7 @@ export const restoreProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.restore"], roles: ["roles/netapp.admin"] },
 }));
 
 export type RestoreVolumeProjectsLocationsStoragePoolsError =
@@ -3427,6 +3458,7 @@ export const restoreVolumeProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreVolumeProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.restoreVolume"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ResumeProjectsLocationsVolumesReplicationsError =
@@ -3449,6 +3481,7 @@ export const resumeProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.resume"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ReverseDirectionProjectsLocationsVolumesReplicationsError =
@@ -3475,6 +3508,7 @@ export const reverseDirectionProjectsLocationsVolumesReplications: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReverseDirectionProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type RevertProjectsLocationsVolumesError =
@@ -3497,6 +3531,7 @@ export const revertProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevertProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.revert"], roles: ["roles/netapp.admin"] },
 }));
 
 export type StartSplitProjectsLocationsVolumesError =
@@ -3519,6 +3554,7 @@ export const startSplitProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartSplitProjectsLocationsVolumes",
+  iam: { actions: ["netapp.volumes.update"], roles: ["roles/netapp.admin"] },
 }));
 
 export type StopProjectsLocationsVolumesReplicationsError =
@@ -3541,6 +3577,7 @@ export const stopProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.stop"], roles: ["roles/netapp.admin"] },
 }));
 
 export type SwitchProjectsLocationsStoragePoolsError =
@@ -3563,6 +3600,7 @@ export const switchProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.switch"], roles: ["roles/netapp.admin"] },
 }));
 
 export type SyncProjectsLocationsVolumesReplicationsError =
@@ -3585,6 +3623,7 @@ export const syncProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SyncProjectsLocationsVolumesReplications",
+  iam: { actions: ["netapp.replications.sync"], roles: ["roles/netapp.admin"] },
 }));
 
 export type UpdateBackupConfigProjectsLocationsStoragePoolsError =
@@ -3611,6 +3650,7 @@ export const updateBackupConfigProjectsLocationsStoragePools: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateBackupConfigProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.updateBackupConfig"], roles: ["roles/netapp.admin"] },
 }));
 
 export type ValidateDirectoryServiceProjectsLocationsStoragePoolsError =
@@ -3637,6 +3677,7 @@ export const validateDirectoryServiceProjectsLocationsStoragePools: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateDirectoryServiceProjectsLocationsStoragePools",
+  iam: { actions: ["netapp.storagePools.validateDirectoryService"], roles: ["roles/netapp.admin"] },
 }));
 
 export type VerifyProjectsLocationsKmsConfigsError =
@@ -3659,6 +3700,7 @@ export const verifyProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsLocationsKmsConfigs",
+  iam: { actions: ["netapp.kmsConfigs.verify"], roles: ["roles/netapp.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

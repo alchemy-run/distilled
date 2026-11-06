@@ -6785,6 +6785,7 @@ export const activateOrganizationsInstancesNatAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateOrganizationsInstancesNatAddresses",
+  iam: { actions: ["apigee.nataddresses.activate"], roles: ["roles/apigee.editor"] },
 }));
 
 export type AdjustOrganizationsAppgroupsBalanceError =
@@ -6858,6 +6859,7 @@ export const attachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type AttributesOrganizationsApiproductsError =
@@ -6881,6 +6883,7 @@ export const attributesOrganizationsApiproducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttributesOrganizationsApiproducts",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type AttributesOrganizationsDevelopersError =
@@ -6904,6 +6907,7 @@ export const attributesOrganizationsDevelopers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttributesOrganizationsDevelopers",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type AttributesOrganizationsDevelopersAppsError =
@@ -6927,6 +6931,7 @@ export const attributesOrganizationsDevelopersApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttributesOrganizationsDevelopersApps",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type BatchComputeOrganizationsSecurityAssessmentResultsError =
@@ -6989,6 +6994,7 @@ export const batchUpdateOrganizationsEnvironmentsSecurityIncidents: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateOrganizationsEnvironmentsSecurityIncidents",
+  iam: { actions: ["apigee.securityIncidents.update"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsError =
@@ -7020,6 +7026,7 @@ export const computeEnvironmentScoresOrganizationsSecurityProfilesEnvironments: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironments",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type CreateOrganizationsError =
@@ -7296,6 +7303,7 @@ export const createOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsAppgroupsSubscriptions",
+  iam: { actions: ["apigee.appgroups.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type CreateOrganizationsDatacollectorsError =
@@ -7415,6 +7423,7 @@ export const createOrganizationsDevelopersAppsKeysCreate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsDevelopersAppsKeysCreate",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type CreateOrganizationsDevelopersSubscriptionsError =
@@ -7438,6 +7447,7 @@ export const createOrganizationsDevelopersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsDevelopersSubscriptions",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type CreateOrganizationsDnsZonesError =
@@ -7580,6 +7590,7 @@ export const createOrganizationsEnvironmentsAnalyticsExports: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsEnvironmentsAnalyticsExports",
+  iam: { actions: ["apigee.exports.create"], roles: ["roles/apigee.analyticsEditor"] },
 }));
 
 export type CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -7761,6 +7772,7 @@ export const createOrganizationsEnvironmentsQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsEnvironmentsQueries",
+  iam: { actions: ["apigee.queries.create"], roles: ["roles/apigee.analyticsEditor"] },
 }));
 
 export type CreateOrganizationsEnvironmentsReferencesError =
@@ -7811,6 +7823,7 @@ export const createOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.create"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type CreateOrganizationsEnvironmentsSecurityActionsError =
@@ -7865,6 +7878,7 @@ export const createOrganizationsEnvironmentsSecurityReports: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsEnvironmentsSecurityReports",
+  iam: { actions: ["apigee.securityreports.create"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type CreateOrganizationsEnvironmentsTargetserversError =
@@ -7942,6 +7956,7 @@ export const createOrganizationsHostQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsHostQueries",
+  iam: { actions: ["apigee.hostqueries.create"], roles: ["roles/apigee.analyticsEditor"] },
 }));
 
 export type CreateOrganizationsHostSecurityReportsError =
@@ -7965,6 +7980,7 @@ export const createOrganizationsHostSecurityReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsHostSecurityReports",
+  iam: { actions: ["apigee.hostsecurityreports.create"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type CreateOrganizationsInstancesError =
@@ -8038,6 +8054,7 @@ export const createOrganizationsInstancesCanaryevaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsInstancesCanaryevaluations",
+  iam: { actions: ["apigee.canaryevaluations.create"], roles: ["roles/apigee.runtimeAgent"] },
 }));
 
 export type CreateOrganizationsInstancesNatAddressesError =
@@ -8420,6 +8437,7 @@ export const csrOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CsrOrganizationsEnvironmentsKeystoresAliases",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -8447,6 +8465,7 @@ export const deleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DeleteOrganizationsError =
@@ -8562,6 +8581,7 @@ export const deleteOrganizationsApiproductsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsApiproductsAttributes",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type DeleteOrganizationsApiproductsRateplansError =
@@ -8777,6 +8797,7 @@ export const deleteOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsAppgroupsAppsKeysApiproducts",
+  iam: { actions: ["apigee.apiproducts.delete"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type DeleteOrganizationsDatacollectorsError =
@@ -8873,6 +8894,7 @@ export const deleteOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsDevelopersAppsAttributes",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type DeleteOrganizationsDevelopersAppsKeysError =
@@ -8923,6 +8945,7 @@ export const deleteOrganizationsDevelopersAppsKeysApiproducts: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsDevelopersAppsKeysApiproducts",
+  iam: { actions: ["apigee.apiproducts.delete"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type DeleteOrganizationsDevelopersAttributesError =
@@ -8946,6 +8969,7 @@ export const deleteOrganizationsDevelopersAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsDevelopersAttributes",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type DeleteOrganizationsDnsZonesError =
@@ -9111,6 +9135,7 @@ export const deleteOrganizationsEnvironmentsCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsEnvironmentsCaches",
+  iam: { actions: ["apigee.caches.delete"], roles: ["roles/apigee.editor"] },
 }));
 
 export type DeleteOrganizationsEnvironmentsKeystoresError =
@@ -9257,6 +9282,7 @@ export const deleteOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.delete"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DeleteOrganizationsEnvironmentsSecurityActionsError =
@@ -9572,6 +9598,7 @@ export const deleteOrganizationsSecurityProfilesEnvironments: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsSecurityProfilesEnvironments",
+  iam: { actions: ["apigee.environments.delete"], roles: ["roles/apigee.editor"] },
 }));
 
 export type DeleteOrganizationsSecurityProfilesV2Error =
@@ -9737,6 +9764,7 @@ export const deployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployOrganizationsEnvironmentsApisRevisions",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DeployOrganizationsEnvironmentsSharedflowsRevisionsError =
@@ -9764,6 +9792,7 @@ export const deployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployOrganizationsEnvironmentsSharedflowsRevisions",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksError =
@@ -9791,6 +9820,7 @@ export const detachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type DisableOrganizationsEnvironmentsSecurityActionsError =
@@ -9818,6 +9848,7 @@ export const disableOrganizationsEnvironmentsSecurityActions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableOrganizationsEnvironmentsSecurityActions",
+  iam: { actions: ["apigee.securityActions.update"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type EnableOrganizationsEnvironmentsSecurityActionsError =
@@ -9845,6 +9876,7 @@ export const enableOrganizationsEnvironmentsSecurityActions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableOrganizationsEnvironmentsSecurityActions",
+  iam: { actions: ["apigee.securityActions.update"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type ExpireOrganizationsAppgroupsSubscriptionsError =
@@ -9868,6 +9900,7 @@ export const expireOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExpireOrganizationsAppgroupsSubscriptions",
+  iam: { actions: ["apigee.appgroups.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type ExpireOrganizationsDevelopersSubscriptionsError =
@@ -9891,6 +9924,7 @@ export const expireOrganizationsDevelopersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExpireOrganizationsDevelopersSubscriptions",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError =
@@ -9918,6 +9952,7 @@ export const generateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDep
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments",
+  iam: { actions: ["apigee.deployments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -9945,6 +9980,7 @@ export const generateDownloadUrlOrganizationsEnvironmentsArchiveDeployments: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeployments",
+  iam: { actions: ["apigee.archivedeployments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsError =
@@ -9972,6 +10008,7 @@ export const generateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError =
@@ -9999,6 +10036,7 @@ export const generateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsD
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments",
+  iam: { actions: ["apigee.deployments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -10026,6 +10064,7 @@ export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateUploadUrlOrganizationsEnvironmentsArchiveDeployments",
+  iam: { actions: ["apigee.archivedeployments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type GetAddonsConfigOrganizationsEnvironmentsError =
@@ -10139,6 +10178,7 @@ export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCertificateOrganizationsEnvironmentsKeystoresAliases",
+  iam: { actions: ["apigee.keystores.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetControlPlaneAccessOrganizationsError =
@@ -10298,6 +10338,7 @@ export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisions",
+  iam: { actions: ["apigee.sharedflows.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetDocumentationOrganizationsSitesApidocsError =
@@ -10470,6 +10511,7 @@ export const getOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizations",
+  iam: { actions: ["apigee.organizations.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsAnalyticsDatastoresError =
@@ -10491,6 +10533,7 @@ export const getOrganizationsAnalyticsDatastores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsAnalyticsDatastores",
+  iam: { actions: ["apigee.datastores.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsApimServiceExtensionsError =
@@ -10533,6 +10576,7 @@ export const getOrganizationsApiproducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApiproducts",
+  iam: { actions: ["apigee.apiproducts.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsApiproductsAttributesError =
@@ -10554,6 +10598,7 @@ export const getOrganizationsApiproductsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApiproductsAttributes",
+  iam: { actions: ["apigee.apiproducts.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsApiproductsRateplansError =
@@ -10575,6 +10620,7 @@ export const getOrganizationsApiproductsRateplans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApiproductsRateplans",
+  iam: { actions: ["apigee.rateplans.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsApisError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -10613,6 +10659,7 @@ export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApisKeyvaluemaps",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsApisKeyvaluemapsEntriesError =
@@ -10634,6 +10681,7 @@ export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApisKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsApisRevisionsError =
@@ -10676,6 +10724,7 @@ export const getOrganizationsAppgroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsAppgroups",
+  iam: { actions: ["apigee.appgroups.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsAppgroupsAppsError =
@@ -10697,6 +10746,7 @@ export const getOrganizationsAppgroupsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsAppgroupsApps",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsAppgroupsAppsKeysError =
@@ -10718,6 +10768,7 @@ export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsAppgroupsAppsKeys",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsAppgroupsSubscriptionsError =
@@ -10739,6 +10790,7 @@ export const getOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsAppgroupsSubscriptions",
+  iam: { actions: ["apigee.appgroups.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsAppsError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -10756,6 +10808,7 @@ export const getOrganizationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsApps",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDatacollectorsError =
@@ -10777,6 +10830,7 @@ export const getOrganizationsDatacollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDatacollectors",
+  iam: { actions: ["apigee.datacollectors.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsDevelopersError =
@@ -10798,6 +10852,7 @@ export const getOrganizationsDevelopers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopers",
+  iam: { actions: ["apigee.developers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDevelopersAppsError =
@@ -10819,6 +10874,7 @@ export const getOrganizationsDevelopersApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopersApps",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDevelopersAppsAttributesError =
@@ -10840,6 +10896,7 @@ export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopersAppsAttributes",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDevelopersAppsKeysError =
@@ -10861,6 +10918,7 @@ export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopersAppsKeys",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDevelopersAttributesError =
@@ -10882,6 +10940,7 @@ export const getOrganizationsDevelopersAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopersAttributes",
+  iam: { actions: ["apigee.developers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDevelopersSubscriptionsError =
@@ -10903,6 +10962,7 @@ export const getOrganizationsDevelopersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDevelopersSubscriptions",
+  iam: { actions: ["apigee.developers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsDnsZonesError =
@@ -10924,6 +10984,7 @@ export const getOrganizationsDnsZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDnsZones",
+  iam: { actions: ["apigee.dnsZones.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEndpointAttachmentsError =
@@ -10945,6 +11006,7 @@ export const getOrganizationsEndpointAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEndpointAttachments",
+  iam: { actions: ["apigee.endpointattachments.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvgroupsError =
@@ -10966,6 +11028,7 @@ export const getOrganizationsEnvgroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvgroups",
+  iam: { actions: ["apigee.envgroups.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvgroupsAttachmentsError =
@@ -10987,6 +11050,7 @@ export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvgroupsAttachments",
+  iam: { actions: ["apigee.envgroups.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsError =
@@ -11008,6 +11072,7 @@ export const getOrganizationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironments",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsAnalyticsExportsError =
@@ -11058,6 +11123,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsApisRevisionsDebugsessions",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataError =
@@ -11083,6 +11149,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsApisRevisionsDebugsessionsData",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -11108,6 +11175,7 @@ export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsArchiveDeployments",
+  iam: { actions: ["apigee.archivedeployments.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsDeploymentsError =
@@ -11129,6 +11197,7 @@ export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsDeployments",
+  iam: { actions: ["apigee.deployments.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsFlowhooksError =
@@ -11150,6 +11219,7 @@ export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsFlowhooks",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsKeystoresError =
@@ -11171,6 +11241,7 @@ export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsKeystores",
+  iam: { actions: ["apigee.keystores.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsKeystoresAliasesError =
@@ -11196,6 +11267,7 @@ export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsKeystoresAliases",
+  iam: { actions: ["apigee.keystores.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsError =
@@ -11217,6 +11289,7 @@ export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsKeyvaluemaps",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -11242,6 +11315,7 @@ export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsOptimizedStatsError =
@@ -11263,6 +11337,7 @@ export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsOptimizedStats",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsQueriesError =
@@ -11284,6 +11359,7 @@ export const getOrganizationsEnvironmentsQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsQueries",
+  iam: { actions: ["apigee.queries.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsReferencesError =
@@ -11305,6 +11381,7 @@ export const getOrganizationsEnvironmentsReferences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsReferences",
+  iam: { actions: ["apigee.references.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsResourcefilesError =
@@ -11326,6 +11403,7 @@ export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsSecurityActionsError =
@@ -11351,6 +11429,7 @@ export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsSecurityActions",
+  iam: { actions: ["apigee.securityActions.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsSecurityIncidentsError =
@@ -11376,6 +11455,7 @@ export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsSecurityIncidents",
+  iam: { actions: ["apigee.securityIncidents.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsSecurityReportsError =
@@ -11401,6 +11481,7 @@ export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsSecurityReports",
+  iam: { actions: ["apigee.securityreports.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsStatsError =
@@ -11422,6 +11503,7 @@ export const getOrganizationsEnvironmentsStats: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsStats",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsTargetserversError =
@@ -11443,6 +11525,7 @@ export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsTargetservers",
+  iam: { actions: ["apigee.targetservers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -11468,6 +11551,7 @@ export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEnvironmentsTraceConfigOverrides",
+  iam: { actions: ["apigee.traceconfig.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsHostQueriesError =
@@ -11489,6 +11573,7 @@ export const getOrganizationsHostQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsHostQueries",
+  iam: { actions: ["apigee.hostqueries.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsHostSecurityReportsError =
@@ -11510,6 +11595,7 @@ export const getOrganizationsHostSecurityReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsHostSecurityReports",
+  iam: { actions: ["apigee.hostsecurityreports.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsHostStatsError =
@@ -11531,6 +11617,7 @@ export const getOrganizationsHostStats: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsHostStats",
+  iam: { actions: ["apigee.hoststats.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsInstancesError =
@@ -11552,6 +11639,7 @@ export const getOrganizationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsInstances",
+  iam: { actions: ["apigee.instances.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsInstancesAttachmentsError =
@@ -11573,6 +11661,7 @@ export const getOrganizationsInstancesAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsInstancesAttachments",
+  iam: { actions: ["apigee.instances.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsInstancesCanaryevaluationsError =
@@ -11594,6 +11683,7 @@ export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsInstancesCanaryevaluations",
+  iam: { actions: ["apigee.canaryevaluations.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsInstancesNatAddressesError =
@@ -11615,6 +11705,7 @@ export const getOrganizationsInstancesNatAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsInstancesNatAddresses",
+  iam: { actions: ["apigee.nataddresses.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsKeyvaluemapsError =
@@ -11636,6 +11727,7 @@ export const getOrganizationsKeyvaluemaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsKeyvaluemaps",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsKeyvaluemapsEntriesError =
@@ -11657,6 +11749,7 @@ export const getOrganizationsKeyvaluemapsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type GetOrganizationsOperationsError =
@@ -11720,6 +11813,7 @@ export const getOrganizationsReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsReports",
+  iam: { actions: ["apigee.reports.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetOrganizationsSecurityFeedbackError =
@@ -11741,6 +11835,7 @@ export const getOrganizationsSecurityFeedback: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSecurityFeedback",
+  iam: { actions: ["apigee.securityFeedback.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsSecurityMonitoringConditionsError =
@@ -11766,6 +11861,10 @@ export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSecurityMonitoringConditions",
+  iam: {
+    actions: ["apigee.securityMonitoringConditions.get"],
+    roles: ["roles/apigee.securityViewer"],
+  },
 }));
 
 export type GetOrganizationsSecurityProfilesError =
@@ -11787,6 +11886,7 @@ export const getOrganizationsSecurityProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSecurityProfiles",
+  iam: { actions: ["apigee.securityProfiles.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsSecurityProfilesV2Error =
@@ -11808,6 +11908,7 @@ export const getOrganizationsSecurityProfilesV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSecurityProfilesV2",
+  iam: { actions: ["apigee.securityProfilesV2.get"], roles: ["roles/apigee.securityViewer"] },
 }));
 
 export type GetOrganizationsSharedflowsError =
@@ -11829,6 +11930,7 @@ export const getOrganizationsSharedflows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSharedflows",
+  iam: { actions: ["apigee.sharedflows.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsSharedflowsRevisionsError =
@@ -11850,6 +11952,7 @@ export const getOrganizationsSharedflowsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSharedflowsRevisions",
+  iam: { actions: ["apigee.sharedflows.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetOrganizationsSitesApicategoriesError =
@@ -11913,6 +12016,7 @@ export const getOrganizationsSpaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSpaces",
+  iam: { actions: ["apigee.spaces.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type GetProjectMappingOrganizationsError =
@@ -11934,6 +12038,7 @@ export const getProjectMappingOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectMappingOrganizations",
+  iam: { actions: ["apigee.organizations.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetResultOrganizationsEnvironmentsQueriesError =
@@ -12236,6 +12341,7 @@ export const getSyncAuthorizationOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSyncAuthorizationOrganizations",
+  iam: { actions: ["apigee.organizations.get"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type GetTraceConfigOrganizationsEnvironmentsError =
@@ -12286,6 +12392,7 @@ export const listEnvironmentResourcesOrganizationsEnvironmentsResourcefiles: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentResourcesOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListHybridIssuersError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -12341,6 +12448,7 @@ export const listOrganizationsAnalyticsDatastores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAnalyticsDatastores",
+  iam: { actions: ["apigee.datastores.list"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type ListOrganizationsApimServiceExtensionsError =
@@ -12389,6 +12497,7 @@ export const listOrganizationsApiproducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApiproducts",
+  iam: { actions: ["apigee.apiproducts.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsApiproductsAttributesError =
@@ -12410,6 +12519,7 @@ export const listOrganizationsApiproductsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApiproductsAttributes",
+  iam: { actions: ["apigee.apiproducts.get"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsApiproductsRateplansError =
@@ -12431,6 +12541,7 @@ export const listOrganizationsApiproductsRateplans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApiproductsRateplans",
+  iam: { actions: ["apigee.rateplans.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsApisError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -12492,6 +12603,7 @@ export const listOrganizationsApisDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApisDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsApisKeyvaluemapsEntriesError =
@@ -12514,6 +12626,7 @@ export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApisKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12536,6 +12649,7 @@ export const listOrganizationsApisRevisionsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApisRevisionsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsAppgroupsError =
@@ -12558,6 +12672,7 @@ export const listOrganizationsAppgroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAppgroups",
+  iam: { actions: ["apigee.appgroups.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12581,6 +12696,7 @@ export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAppgroupsApps",
+  iam: { actions: ["apigee.apps.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12608,6 +12724,7 @@ export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsAppgroupsSubscriptions",
+  iam: { actions: ["apigee.appgroups.get"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12627,6 +12744,7 @@ export const listOrganizationsApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsApps",
+  iam: { actions: ["apigee.apps.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12650,6 +12768,7 @@ export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDatacollectors",
+  iam: { actions: ["apigee.datacollectors.list"], roles: ["roles/apigee.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12672,6 +12791,7 @@ export const listOrganizationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsDevelopersError =
@@ -12693,6 +12813,7 @@ export const listOrganizationsDevelopers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDevelopers",
+  iam: { actions: ["apigee.developers.list"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsDevelopersAppsError =
@@ -12714,6 +12835,7 @@ export const listOrganizationsDevelopersApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDevelopersApps",
+  iam: { actions: ["apigee.apps.list"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsDevelopersAppsAttributesError =
@@ -12735,6 +12857,7 @@ export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDevelopersAppsAttributes",
+  iam: { actions: ["apigee.apps.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsDevelopersAttributesError =
@@ -12756,6 +12879,7 @@ export const listOrganizationsDevelopersAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDevelopersAttributes",
+  iam: { actions: ["apigee.developers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsDevelopersSubscriptionsError =
@@ -12781,6 +12905,7 @@ export const listOrganizationsDevelopersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDevelopersSubscriptions",
+  iam: { actions: ["apigee.developers.get"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsDnsZonesError =
@@ -12803,6 +12928,7 @@ export const listOrganizationsDnsZones: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsDnsZones",
+  iam: { actions: ["apigee.dnsZones.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12830,6 +12956,7 @@ export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEndpointAttachments",
+  iam: { actions: ["apigee.endpointattachments.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12853,6 +12980,7 @@ export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvgroups",
+  iam: { actions: ["apigee.envgroups.list"], roles: ["roles/apigee.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12880,6 +13008,7 @@ export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvgroupsAttachments",
+  iam: { actions: ["apigee.envgroups.get"], roles: ["roles/apigee.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12906,6 +13035,7 @@ export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsAnalyticsExports",
+  iam: { actions: ["apigee.exports.list"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsApisDeploymentsError =
@@ -12931,6 +13061,7 @@ export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsApisDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -12957,6 +13088,7 @@ export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsApisRevisionsDebugsessions",
+  iam: { actions: ["apigee.environments.get"], roles: ["roles/apigee.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12988,6 +13120,7 @@ export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsArchiveDeployments",
+  iam: { actions: ["apigee.archivedeployments.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13010,6 +13143,7 @@ export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -13036,6 +13170,7 @@ export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13058,6 +13193,7 @@ export const listOrganizationsEnvironmentsQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsQueries",
+  iam: { actions: ["apigee.queries.list"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsResourcefilesError =
@@ -13083,6 +13219,7 @@ export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.list"], roles: ["roles/apigee.viewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsSecurityActionsError =
@@ -13109,6 +13246,7 @@ export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsSecurityActions",
+  iam: { actions: ["apigee.securityActions.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13136,6 +13274,7 @@ export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsSecurityIncidents",
+  iam: { actions: ["apigee.securityIncidents.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13163,6 +13302,7 @@ export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsSecurityReports",
+  iam: { actions: ["apigee.securityreports.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13189,6 +13329,7 @@ export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsEnvironmentsSharedflowsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -13241,6 +13382,7 @@ export const listOrganizationsHostQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsHostQueries",
+  iam: { actions: ["apigee.hostqueries.list"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type ListOrganizationsHostSecurityReportsError =
@@ -13263,6 +13405,7 @@ export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsHostSecurityReports",
+  iam: { actions: ["apigee.hostsecurityreports.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13286,6 +13429,7 @@ export const listOrganizationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsInstances",
+  iam: { actions: ["apigee.instances.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13313,6 +13457,7 @@ export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsInstancesAttachments",
+  iam: { actions: ["apigee.instances.get"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13336,6 +13481,7 @@ export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsInstancesNatAddresses",
+  iam: { actions: ["apigee.nataddresses.list"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13359,6 +13505,7 @@ export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsKeyvaluemapsEntries",
+  iam: { actions: ["apigee.keyvaluemaps.get"], roles: ["roles/apigee.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13404,6 +13551,7 @@ export const listOrganizationsReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsReports",
+  iam: { actions: ["apigee.reports.list"], roles: ["roles/apigee.analyticsViewer"] },
 }));
 
 export type ListOrganizationsSecurityFeedbackError =
@@ -13426,6 +13574,7 @@ export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSecurityFeedback",
+  iam: { actions: ["apigee.securityFeedback.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13457,6 +13606,10 @@ export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSecurityMonitoringConditions",
+  iam: {
+    actions: ["apigee.securityMonitoringConditions.list"],
+    roles: ["roles/apigee.securityViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13480,6 +13633,7 @@ export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSecurityProfiles",
+  iam: { actions: ["apigee.securityProfiles.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13507,6 +13661,7 @@ export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSecurityProfilesV2",
+  iam: { actions: ["apigee.securityProfilesV2.list"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13529,6 +13684,7 @@ export const listOrganizationsSharedflows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSharedflows",
+  iam: { actions: ["apigee.sharedflows.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsSharedflowsDeploymentsError =
@@ -13550,6 +13706,7 @@ export const listOrganizationsSharedflowsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSharedflowsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsSharedflowsRevisionsDeploymentsError =
@@ -13575,6 +13732,7 @@ export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSharedflowsRevisionsDeployments",
+  iam: { actions: ["apigee.deployments.list"], roles: ["roles/apigee.spaceContentViewer"] },
 }));
 
 export type ListOrganizationsSitesApicategoriesError =
@@ -13641,6 +13799,7 @@ export const listOrganizationsSpaces: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsSpaces",
+  iam: { actions: ["apigee.spaces.list"], roles: ["roles/apigee.spaceContentViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13668,6 +13827,7 @@ export const listRevisionsOrganizationsSecurityProfiles: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRevisionsOrganizationsSecurityProfiles",
+  iam: { actions: ["apigee.securityProfiles.get"], roles: ["roles/apigee.securityViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13692,6 +13852,7 @@ export const modifyEnvironmentOrganizationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyEnvironmentOrganizationsEnvironments",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type MoveOrganizationsApiproductsError =
@@ -13715,6 +13876,7 @@ export const moveOrganizationsApiproducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveOrganizationsApiproducts",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type MoveOrganizationsApisError =
@@ -13934,6 +14096,7 @@ export const patchOrganizationsEnvironmentsSecurityIncidents: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsEnvironmentsSecurityIncidents",
+  iam: { actions: ["apigee.securityIncidents.update"], roles: ["roles/apigee.securityAdmin"] },
 }));
 
 export type PatchOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -14149,6 +14312,7 @@ export const provisionOrganizationProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProvisionOrganizationProjects",
+  iam: { actions: ["apigee.projects.update"], roles: ["roles/apigee.editor"] },
 }));
 
 export type QueryTabularStatsOrganizationsEnvironmentsSecurityStatsError =
@@ -14176,6 +14340,10 @@ export const queryTabularStatsOrganizationsEnvironmentsSecurityStats: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryTabularStatsOrganizationsEnvironmentsSecurityStats",
+  iam: {
+    actions: ["apigee.securityStats.queryTabularStats"],
+    roles: ["roles/apigee.securityViewer"],
+  },
 }));
 
 export type QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsError =
@@ -14203,6 +14371,10 @@ export const queryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats",
+  iam: {
+    actions: ["apigee.securityStats.queryTimeSeriesStats"],
+    roles: ["roles/apigee.securityViewer"],
+  },
 }));
 
 export type ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
@@ -14230,6 +14402,7 @@ export const replaceDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeys",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type ReportStatusOrganizationsInstancesError =
@@ -14253,6 +14426,7 @@ export const reportStatusOrganizationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportStatusOrganizationsInstances",
+  iam: { actions: ["apigee.instances.reportStatus"], roles: ["roles/apigee.runtimeAgent"] },
 }));
 
 export type SetAddonEnablementOrganizationsEnvironmentsAddonsConfigError =
@@ -14303,6 +14477,7 @@ export const setAddonsOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAddonsOrganizations",
+  iam: { actions: ["apigee.organizations.update"], roles: ["roles/apigee.editor"] },
 }));
 
 export type SetDeveloperStatusOrganizationsDevelopersError =
@@ -14326,6 +14501,7 @@ export const setDeveloperStatusOrganizationsDevelopers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDeveloperStatusOrganizationsDevelopers",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type SetIamPolicyOrganizationsEnvironmentsError =
@@ -14422,6 +14598,7 @@ export const setSyncAuthorizationOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSyncAuthorizationOrganizations",
+  iam: { actions: ["apigee.organizations.update"], roles: ["roles/apigee.editor"] },
 }));
 
 export type SubscribeOrganizationsEnvironmentsError =
@@ -14445,6 +14622,7 @@ export const subscribeOrganizationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscribeOrganizationsEnvironments",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type TestIamPermissionsOrganizationsEnvironmentsError =
@@ -14545,6 +14723,7 @@ export const testOrganizationsAnalyticsDatastores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestOrganizationsAnalyticsDatastores",
+  iam: { actions: ["apigee.datastores.update"], roles: ["roles/apigee.analyticsEditor"] },
 }));
 
 export type UndeployOrganizationsEnvironmentsApisRevisionsError =
@@ -14572,6 +14751,7 @@ export const undeployOrganizationsEnvironmentsApisRevisions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployOrganizationsEnvironmentsApisRevisions",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type UndeployOrganizationsEnvironmentsSharedflowsRevisionsError =
@@ -14599,6 +14779,7 @@ export const undeployOrganizationsEnvironmentsSharedflowsRevisions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployOrganizationsEnvironmentsSharedflowsRevisions",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type UnsubscribeOrganizationsEnvironmentsError =
@@ -14622,6 +14803,7 @@ export const unsubscribeOrganizationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnsubscribeOrganizationsEnvironments",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type UpdateApiProductAttributeOrganizationsApiproductsAttributesError =
@@ -14649,6 +14831,7 @@ export const updateApiProductAttributeOrganizationsApiproductsAttributes: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateApiProductAttributeOrganizationsApiproductsAttributes",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type UpdateApiProxyRevisionOrganizationsApisRevisionsError =
@@ -14703,6 +14886,7 @@ export const updateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiprod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysError =
@@ -14730,6 +14914,7 @@ export const updateAppGroupAppKeyOrganizationsAppgroupsAppsKeys: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeys",
+  iam: { actions: ["apigee.appgroups.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type UpdateControlPlaneAccessOrganizationsError =
@@ -14803,6 +14988,7 @@ export const updateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsError =
@@ -14830,6 +15016,7 @@ export const updateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApipr
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts",
+  iam: { actions: ["apigee.apiproducts.update"], roles: ["roles/apigee.spaceContentEditor"] },
 }));
 
 export type UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
@@ -14857,6 +15044,7 @@ export const updateDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeys",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type UpdateDeveloperAttributeOrganizationsDevelopersAttributesError =
@@ -14884,6 +15072,7 @@ export const updateDeveloperAttributeOrganizationsDevelopersAttributes: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDeveloperAttributeOrganizationsDevelopersAttributes",
+  iam: { actions: ["apigee.developers.update"], roles: ["roles/apigee.developerAdmin"] },
 }));
 
 export type UpdateDocumentationOrganizationsSitesApidocsError =
@@ -14938,6 +15127,7 @@ export const updateEnvironmentOrganizationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentOrganizationsEnvironments",
+  iam: { actions: ["apigee.environments.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type UpdateMonetizationConfigOrganizationsAppgroupsError =
@@ -15380,6 +15570,7 @@ export const updateOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrganizationsEnvironmentsResourcefiles",
+  iam: { actions: ["apigee.resourcefiles.update"], roles: ["roles/apigee.environmentAdmin"] },
 }));
 
 export type UpdateOrganizationsEnvironmentsTargetserversError =

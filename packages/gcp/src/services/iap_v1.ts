@@ -519,6 +519,7 @@ export const createProjectsBrands: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsBrands",
+  iam: { actions: ["clientauthconfig.brands.create"], roles: ["roles/oauthconfig.editor"] },
 }));
 
 export type CreateProjectsBrandsIdentityAwareProxyClientsError =
@@ -666,6 +667,7 @@ export const getProjectsBrands: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsBrands",
+  iam: { actions: ["clientauthconfig.brands.get"], roles: ["roles/oauthconfig.viewer"] },
 }));
 
 export type GetProjectsBrandsIdentityAwareProxyClientsError = NotFound | Forbidden | GcpOpError;
@@ -683,6 +685,7 @@ export const getProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsBrandsIdentityAwareProxyClients",
+  iam: { actions: ["clientauthconfig.clients.get"], roles: ["roles/oauthconfig.viewer"] },
 }));
 
 export type GetProjectsIap_tunnelLocationsDestGroupsError = NotFound | Forbidden | GcpOpError;
@@ -717,6 +720,7 @@ export const listProjectsBrands: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsBrands",
+  iam: { actions: ["clientauthconfig.brands.list"], roles: ["roles/oauthconfig.viewer"] },
 }));
 
 export type ListProjectsBrandsIdentityAwareProxyClientsError = NotFound | Forbidden | GcpOpError;
@@ -735,6 +739,7 @@ export const listProjectsBrandsIdentityAwareProxyClients: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsBrandsIdentityAwareProxyClients",
+  iam: { actions: ["clientauthconfig.clients.list"], roles: ["roles/riscconfigs.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -803,6 +808,7 @@ export const resetSecretProjectsBrandsIdentityAwareProxyClients: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetSecretProjectsBrandsIdentityAwareProxyClients",
+  iam: { actions: ["clientauthconfig.clients.getWithSecret"], roles: ["roles/oauthconfig.editor"] },
 }));
 
 export type SetIamPolicyV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

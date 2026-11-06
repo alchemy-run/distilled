@@ -2420,6 +2420,7 @@ export const createProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSnoozes",
+  iam: { actions: ["monitoring.snoozes.create"], roles: ["roles/monitoring.snoozeEditor"] },
 }));
 
 export type CreateProjectsTimeSeriesError =
@@ -2442,6 +2443,7 @@ export const createProjectsTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTimeSeries",
+  iam: { actions: ["monitoring.timeSeries.create"], roles: ["roles/monitoring.metricWriter"] },
 }));
 
 export type CreateProjectsUptimeCheckConfigsError =
@@ -2486,6 +2488,7 @@ export const createServiceProjectsTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServiceProjectsTimeSeries",
+  iam: { actions: ["monitoring.timeSeries.create"], roles: ["roles/monitoring.metricWriter"] },
 }));
 
 export type CreateServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2647,6 +2650,7 @@ export const deleteServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServices",
+  iam: { actions: ["monitoring.services.delete"], roles: ["roles/monitoring.servicesEditor"] },
 }));
 
 export type DeleteServicesServiceLevelObjectivesError =
@@ -2669,6 +2673,7 @@ export const deleteServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServicesServiceLevelObjectives",
+  iam: { actions: ["monitoring.services.update"], roles: ["roles/monitoring.servicesEditor"] },
 }));
 
 export type GetProjectsAlertPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2686,6 +2691,7 @@ export const getProjectsAlertPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAlertPolicies",
+  iam: { actions: ["monitoring.alertPolicies.get"], roles: ["roles/monitoring.alertPolicyViewer"] },
 }));
 
 export type GetProjectsAlertsError = NotFound | Forbidden | GcpOpError;
@@ -2703,6 +2709,7 @@ export const getProjectsAlerts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAlerts",
+  iam: { actions: ["monitoring.alerts.get"], roles: ["roles/monitoring.alertViewer"] },
 }));
 
 export type GetProjectsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -2720,6 +2727,7 @@ export const getProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsGroups",
+  iam: { actions: ["monitoring.groups.get"], roles: ["roles/monitoring.viewer"] },
 }));
 
 export type GetProjectsMetricDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2737,6 +2745,7 @@ export const getProjectsMetricDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMetricDescriptors",
+  iam: { actions: ["monitoring.metricDescriptors.get"], roles: ["roles/monitoring.viewer"] },
 }));
 
 export type GetProjectsMonitoredResourceDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2754,6 +2763,10 @@ export const getProjectsMonitoredResourceDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMonitoredResourceDescriptors",
+  iam: {
+    actions: ["monitoring.monitoredResourceDescriptors.get"],
+    roles: ["roles/monitoring.viewer"],
+  },
 }));
 
 export type GetProjectsNotificationChannelDescriptorsError = NotFound | Forbidden | GcpOpError;
@@ -2771,6 +2784,10 @@ export const getProjectsNotificationChannelDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsNotificationChannelDescriptors",
+  iam: {
+    actions: ["monitoring.notificationChannelDescriptors.get"],
+    roles: ["roles/monitoring.notificationChannelViewer"],
+  },
 }));
 
 export type GetProjectsNotificationChannelsError = NotFound | Forbidden | GcpOpError;
@@ -2788,6 +2805,10 @@ export const getProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsNotificationChannels",
+  iam: {
+    actions: ["monitoring.notificationChannels.get"],
+    roles: ["roles/monitoring.notificationChannelViewer"],
+  },
 }));
 
 export type GetProjectsSnoozesError = NotFound | Forbidden | GcpOpError;
@@ -2805,6 +2826,7 @@ export const getProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSnoozes",
+  iam: { actions: ["monitoring.snoozes.get"], roles: ["roles/monitoring.snoozeViewer"] },
 }));
 
 export type GetProjectsUptimeCheckConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2822,6 +2844,10 @@ export const getProjectsUptimeCheckConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsUptimeCheckConfigs",
+  iam: {
+    actions: ["monitoring.uptimeCheckConfigs.get"],
+    roles: ["roles/monitoring.uptimeCheckConfigViewer"],
+  },
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -2839,6 +2865,7 @@ export const getServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServices",
+  iam: { actions: ["monitoring.services.get"], roles: ["roles/monitoring.servicesViewer"] },
 }));
 
 export type GetServicesServiceLevelObjectivesError = NotFound | Forbidden | GcpOpError;
@@ -2856,6 +2883,7 @@ export const getServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServicesServiceLevelObjectives",
+  iam: { actions: ["monitoring.services.get"], roles: ["roles/monitoring.servicesViewer"] },
 }));
 
 export type GetVerificationCodeProjectsNotificationChannelsError =
@@ -2882,6 +2910,10 @@ export const getVerificationCodeProjectsNotificationChannels: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVerificationCodeProjectsNotificationChannels",
+  iam: {
+    actions: ["monitoring.notificationChannels.getVerificationCode"],
+    roles: ["roles/monitoring.admin"],
+  },
 }));
 
 export type ListFoldersTimeSeriesError = NotFound | Forbidden | GcpOpError;
@@ -2938,6 +2970,10 @@ export const listProjectsAlertPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAlertPolicies",
+  iam: {
+    actions: ["monitoring.alertPolicies.list"],
+    roles: ["roles/monitoring.alertPolicyViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2957,6 +2993,7 @@ export const listProjectsAlerts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAlerts",
+  iam: { actions: ["monitoring.alerts.list"], roles: ["roles/monitoring.alertViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2976,6 +3013,7 @@ export const listProjectsGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroups",
+  iam: { actions: ["monitoring.groups.list"], roles: ["roles/monitoring.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2995,6 +3033,7 @@ export const listProjectsGroupsMembers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroupsMembers",
+  iam: { actions: ["monitoring.groups.get"], roles: ["roles/monitoring.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3014,6 +3053,7 @@ export const listProjectsMetricDescriptors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMetricDescriptors",
+  iam: { actions: ["monitoring.metricDescriptors.list"], roles: ["roles/monitoring.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3033,6 +3073,10 @@ export const listProjectsMonitoredResourceDescriptors: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMonitoredResourceDescriptors",
+  iam: {
+    actions: ["monitoring.monitoredResourceDescriptors.list"],
+    roles: ["roles/monitoring.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3052,6 +3096,10 @@ export const listProjectsNotificationChannelDescriptors: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotificationChannelDescriptors",
+  iam: {
+    actions: ["monitoring.notificationChannelDescriptors.list"],
+    roles: ["roles/monitoring.notificationChannelViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3071,6 +3119,10 @@ export const listProjectsNotificationChannels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotificationChannels",
+  iam: {
+    actions: ["monitoring.notificationChannels.list"],
+    roles: ["roles/monitoring.notificationChannelViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3090,6 +3142,7 @@ export const listProjectsSnoozes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSnoozes",
+  iam: { actions: ["monitoring.snoozes.list"], roles: ["roles/monitoring.snoozeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3109,6 +3162,7 @@ export const listProjectsTimeSeries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTimeSeries",
+  iam: { actions: ["monitoring.timeSeries.list"], roles: ["roles/monitoring.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3128,6 +3182,10 @@ export const listProjectsUptimeCheckConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsUptimeCheckConfigs",
+  iam: {
+    actions: ["monitoring.uptimeCheckConfigs.list"],
+    roles: ["roles/monitoring.uptimeCheckConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3147,6 +3205,7 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
+  iam: { actions: ["monitoring.services.list"], roles: ["roles/monitoring.servicesViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3166,6 +3225,7 @@ export const listServicesServiceLevelObjectives: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServicesServiceLevelObjectives",
+  iam: { actions: ["monitoring.services.get"], roles: ["roles/monitoring.servicesViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3247,6 +3307,7 @@ export const patchProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSnoozes",
+  iam: { actions: ["monitoring.snoozes.update"], roles: ["roles/monitoring.snoozeEditor"] },
 }));
 
 export type PatchProjectsUptimeCheckConfigsError =
@@ -3286,6 +3347,7 @@ export const patchServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchServices",
+  iam: { actions: ["monitoring.services.update"], roles: ["roles/monitoring.servicesEditor"] },
 }));
 
 export type PatchServicesServiceLevelObjectivesError =
@@ -3308,6 +3370,7 @@ export const patchServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchServicesServiceLevelObjectives",
+  iam: { actions: ["monitoring.services.update"], roles: ["roles/monitoring.servicesEditor"] },
 }));
 
 export type QueryProjectsTimeSeriesError =
@@ -3330,6 +3393,7 @@ export const queryProjectsTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsTimeSeries",
+  iam: { actions: ["monitoring.timeSeries.list"], roles: ["roles/monitoring.viewer"] },
 }));
 
 export type SendVerificationCodeProjectsNotificationChannelsError =
@@ -3356,6 +3420,10 @@ export const sendVerificationCodeProjectsNotificationChannels: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendVerificationCodeProjectsNotificationChannels",
+  iam: {
+    actions: ["monitoring.notificationChannels.sendVerificationCode"],
+    roles: ["roles/monitoring.notificationChannelEditor"],
+  },
 }));
 
 export type UpdateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3395,6 +3463,10 @@ export const verifyProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsNotificationChannels",
+  iam: {
+    actions: ["monitoring.notificationChannels.verify"],
+    roles: ["roles/monitoring.notificationChannelEditor"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

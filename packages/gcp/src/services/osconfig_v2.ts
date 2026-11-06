@@ -1066,6 +1066,10 @@ export const getFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersLocationsGlobalPolicyOrchestrators",
+  iam: {
+    actions: ["osconfig.policyOrchestrators.get"],
+    roles: ["roles/osconfig.policyOrchestratorViewer"],
+  },
 }));
 
 export type GetFoldersLocationsOperationsError =
@@ -1112,6 +1116,10 @@ export const getOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsGlobalPolicyOrchestrators",
+  iam: {
+    actions: ["osconfig.policyOrchestrators.get"],
+    roles: ["roles/osconfig.policyOrchestratorViewer"],
+  },
 }));
 
 export type GetOrganizationsLocationsOperationsError =
@@ -1158,6 +1166,10 @@ export const getProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalPolicyOrchestrators",
+  iam: {
+    actions: ["osconfig.policyOrchestrators.get"],
+    roles: ["roles/osconfig.policyOrchestratorViewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1317,6 +1329,10 @@ export const listProjectsLocationsGlobalPolicyOrchestrators: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalPolicyOrchestrators",
+  iam: {
+    actions: ["osconfig.policyOrchestrators.list"],
+    roles: ["roles/osconfig.policyOrchestratorViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

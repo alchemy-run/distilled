@@ -2251,6 +2251,10 @@ export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocumentsDocumentLinks",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 export type CreateProjectsLocationsRuleSetsError =
@@ -2366,6 +2370,10 @@ export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentsDocumentLinks",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 export type DeleteProjectsLocationsDocumentsReferenceIdError =
@@ -2458,6 +2466,10 @@ export const fetchAclProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAclProjects",
+  iam: {
+    actions: ["contentwarehouse.documents.getIamPolicy"],
+    roles: ["roles/contentwarehouse.documentViewer"],
+  },
 }));
 
 export type FetchAclProjectsLocationsDocumentsError =
@@ -2481,6 +2493,10 @@ export const fetchAclProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAclProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.get"],
+    roles: ["roles/contentwarehouse.documentViewer"],
+  },
 }));
 
 export type GetProjectsLocationsDocumentsError =
@@ -2674,6 +2690,10 @@ export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedSourcesProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 export type LinkedTargetsProjectsLocationsDocumentsError =
@@ -2701,6 +2721,10 @@ export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedTargetsProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 export type ListProjectsLocationsDocumentSchemasError =
@@ -2727,6 +2751,10 @@ export const listProjectsLocationsDocumentSchemas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDocumentSchemas",
+  iam: {
+    actions: ["contentwarehouse.documentSchemas.list"],
+    roles: ["roles/contentwarehouse.documentSchemaViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2750,6 +2778,7 @@ export const listProjectsLocationsRuleSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRuleSets",
+  iam: { actions: ["contentwarehouse.ruleSets.list"], roles: ["roles/contentwarehouse.admin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2777,6 +2806,7 @@ export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSynonymSets",
+  iam: { actions: ["contentwarehouse.synonymSets.list"], roles: ["roles/contentwarehouse.admin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2801,6 +2831,10 @@ export const lockProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LockProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 export type PatchProjectsLocationsDocumentsError =
@@ -2974,6 +3008,10 @@ export const searchProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.get"],
+    roles: ["roles/contentwarehouse.documentViewer"],
+  },
 }));
 
 export type SetAclProjectsError =
@@ -2997,6 +3035,10 @@ export const setAclProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjects",
+  iam: {
+    actions: ["contentwarehouse.documents.setIamPolicy"],
+    roles: ["roles/contentwarehouse.documentAdmin"],
+  },
 }));
 
 export type SetAclProjectsLocationsDocumentsError =
@@ -3020,6 +3062,10 @@ export const setAclProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjectsLocationsDocuments",
+  iam: {
+    actions: ["contentwarehouse.documents.update"],
+    roles: ["roles/contentwarehouse.documentEditor"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

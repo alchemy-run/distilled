@@ -1,0 +1,133 @@
+{
+  "description": "What each assuredworkloads_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#AcknowledgeOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.violations.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#AggregateProjectsLocationsDbFrameworkComplianceReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.dbFrameworkComplianceReports.aggregate"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#AnalyzeWorkloadMoveOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ApplyOrganizationsLocationsWorkloadsUpdates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.updates.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#EnableComplianceUpdatesOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#EnableResourceMonitoringOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#FetchProjectsLocationsDbFrameworkComplianceReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.dbFrameworkComplianceReports.get"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#GetOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.get"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#GetOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.violations.get"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ListOrganizationsLocationsWorkloadsUpdates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.updates.list"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ListOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.violations.list"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFindingSummaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.dbFindingSummaries.list"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.dbControlComplianceSummaries.list"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#ListProjectsLocationsDbFrameworkComplianceSummaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.dbFrameworkComplianceSummaries.list"],
+        "roles": ["roles/assuredworkloads.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#MutatePartnerPermissionsOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.assuredworkloads_v1#RestrictAllowedResourcesOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
+      }
+    }
+  ]
+}

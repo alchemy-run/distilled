@@ -2388,6 +2388,10 @@ export const addCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
+  iam: {
+    actions: ["retail.attributesConfigs.addCatalogAttribute"],
+    roles: ["roles/retail.editor"],
+  },
 }));
 
 export type AddControlProjectsLocationsCatalogsServingConfigsError =
@@ -2422,6 +2426,7 @@ export const addControlProjectsLocationsCatalogsServingConfigs: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddControlProjectsLocationsCatalogsServingConfigs",
+  iam: { actions: ["retail.servingConfigs.update"], roles: ["roles/retail.merchantApprover"] },
 }));
 
 export type AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
@@ -2456,6 +2461,7 @@ export const addFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
@@ -2490,6 +2496,7 @@ export const addLocalInventoriesProjectsLocationsCatalogsBranchesProducts: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddLocalInventoriesProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError =
@@ -2528,6 +2535,7 @@ export const batchUpdateProjectsLocationsCatalogsGenerativeQuestion: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateProjectsLocationsCatalogsGenerativeQuestion",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type CollectProjectsLocationsCatalogsUserEventsError =
@@ -2558,6 +2566,7 @@ export const collectProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CollectProjectsLocationsCatalogsUserEvents",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type CompleteQueryProjectsLocationsCatalogsError =
@@ -2579,6 +2588,7 @@ export const completeQueryProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteQueryProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.completeQuery"], roles: ["roles/retail.viewer"] },
 }));
 
 export type ConversationalSearchProjectsLocationsCatalogsPlacementsError =
@@ -2613,6 +2623,7 @@ export const conversationalSearchProjectsLocationsCatalogsPlacements: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConversationalSearchProjectsLocationsCatalogsPlacements",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type ConversationalSearchProjectsLocationsCatalogsServingConfigsError =
@@ -2647,6 +2658,7 @@ export const conversationalSearchProjectsLocationsCatalogsServingConfigs: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConversationalSearchProjectsLocationsCatalogsServingConfigs",
+  iam: { actions: ["retail.servingConfigs.update"], roles: ["roles/retail.merchantApprover"] },
 }));
 
 export type CreateProjectsLocationsCatalogsBranchesProductsError =
@@ -2937,6 +2949,7 @@ export const exportAnalyticsMetricsProjectsLocationsCatalogs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportAnalyticsMetricsProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.exportAnalyticsMetrics"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetAttributesConfigProjectsLocationsCatalogsError =
@@ -2958,6 +2971,7 @@ export const getAttributesConfigProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAttributesConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetCompletionConfigProjectsLocationsCatalogsError =
@@ -2979,6 +2993,7 @@ export const getCompletionConfigProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCompletionConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
@@ -3008,6 +3023,7 @@ export const getConversationalSearchCustomizationConfigProjectsLocationsCatalogs
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetDefaultBranchProjectsLocationsCatalogsError =
@@ -3029,6 +3045,7 @@ export const getDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDefaultBranchProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetGenerativeQuestionFeatureProjectsLocationsCatalogsError =
@@ -3058,6 +3075,7 @@ export const getGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGenerativeQuestionFeatureProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsBranchesOperationsError =
@@ -3108,6 +3126,7 @@ export const getProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsControlsError =
@@ -3129,6 +3148,7 @@ export const getProjectsLocationsCatalogsControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsControls",
+  iam: { actions: ["retail.controls.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsModelsError =
@@ -3150,6 +3170,7 @@ export const getProjectsLocationsCatalogsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsModels",
+  iam: { actions: ["retail.models.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsOperationsError =
@@ -3192,6 +3213,7 @@ export const getProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsServingConfigs",
+  iam: { actions: ["retail.servingConfigs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -3268,6 +3290,7 @@ export const importProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.import"], roles: ["roles/retail.editor"] },
 }));
 
 export type ImportProjectsLocationsCatalogsCompletionDataError =
@@ -3302,6 +3325,7 @@ export const importProjectsLocationsCatalogsCompletionData: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCatalogsCompletionData",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type ImportProjectsLocationsCatalogsUserEventsError =
@@ -3332,6 +3356,7 @@ export const importProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCatalogsUserEvents",
+  iam: { actions: ["retail.userEvents.import"], roles: ["roles/retail.editor"] },
 }));
 
 export type ListProjectsLocationsCatalogsError =
@@ -3354,6 +3379,7 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.list"], roles: ["roles/retail.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3381,6 +3407,7 @@ export const listProjectsLocationsCatalogsBranchesProducts: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.list"], roles: ["roles/retail.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3404,6 +3431,7 @@ export const listProjectsLocationsCatalogsControls: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsControls",
+  iam: { actions: ["retail.controls.list"], roles: ["roles/retail.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3434,6 +3462,7 @@ export const listProjectsLocationsCatalogsGenerativeQuestions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsGenerativeQuestions",
+  iam: { actions: ["retail.catalogs.get"], roles: ["roles/retail.viewer"] },
 }));
 
 export type ListProjectsLocationsCatalogsModelsError =
@@ -3456,6 +3485,7 @@ export const listProjectsLocationsCatalogsModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsModels",
+  iam: { actions: ["retail.models.list"], roles: ["roles/retail.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3502,6 +3532,7 @@ export const listProjectsLocationsCatalogsServingConfigs: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsServingConfigs",
+  iam: { actions: ["retail.servingConfigs.list"], roles: ["roles/retail.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3579,6 +3610,7 @@ export const patchProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type PatchProjectsLocationsCatalogsBranchesProductsError =
@@ -3737,6 +3769,7 @@ export const pauseProjectsLocationsCatalogsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsCatalogsModels",
+  iam: { actions: ["retail.models.pause"], roles: ["roles/retail.editor"] },
 }));
 
 export type PredictProjectsLocationsCatalogsPlacementsError =
@@ -3767,6 +3800,7 @@ export const predictProjectsLocationsCatalogsPlacements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictProjectsLocationsCatalogsPlacements",
+  iam: { actions: ["retail.placements.predict"], roles: ["roles/retail.viewer"] },
 }));
 
 export type PredictProjectsLocationsCatalogsServingConfigsError =
@@ -3835,6 +3869,7 @@ export const purgeProjectsLocationsCatalogsBranchesProducts: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.purge"], roles: ["roles/retail.admin"] },
 }));
 
 export type PurgeProjectsLocationsCatalogsUserEventsError =
@@ -3865,6 +3900,7 @@ export const purgeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCatalogsUserEvents",
+  iam: { actions: ["retail.userEvents.purge"], roles: ["roles/retail.admin"] },
 }));
 
 export type RejoinProjectsLocationsCatalogsUserEventsError =
@@ -3895,6 +3931,7 @@ export const rejoinProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejoinProjectsLocationsCatalogsUserEvents",
+  iam: { actions: ["retail.userEvents.rejoin"], roles: ["roles/retail.admin"] },
 }));
 
 export type RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
@@ -3929,6 +3966,10 @@ export const removeCatalogAttributeProjectsLocationsCatalogsAttributesConfig: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
+  iam: {
+    actions: ["retail.attributesConfigs.removeCatalogAttribute"],
+    roles: ["roles/retail.admin"],
+  },
 }));
 
 export type RemoveControlProjectsLocationsCatalogsServingConfigsError =
@@ -3963,6 +4004,7 @@ export const removeControlProjectsLocationsCatalogsServingConfigs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveControlProjectsLocationsCatalogsServingConfigs",
+  iam: { actions: ["retail.servingConfigs.update"], roles: ["roles/retail.merchantApprover"] },
 }));
 
 export type RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
@@ -3997,6 +4039,7 @@ export const removeFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
@@ -4031,6 +4074,7 @@ export const removeLocalInventoriesProjectsLocationsCatalogsBranchesProducts: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
@@ -4065,6 +4109,10 @@ export const replaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
+  iam: {
+    actions: ["retail.attributesConfigs.replaceCatalogAttribute"],
+    roles: ["roles/retail.editor"],
+  },
 }));
 
 export type ResumeProjectsLocationsCatalogsModelsError =
@@ -4095,6 +4143,7 @@ export const resumeProjectsLocationsCatalogsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsCatalogsModels",
+  iam: { actions: ["retail.models.resume"], roles: ["roles/retail.editor"] },
 }));
 
 export type SearchProjectsLocationsCatalogsPlacementsError =
@@ -4125,6 +4174,7 @@ export const searchProjectsLocationsCatalogsPlacements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsCatalogsPlacements",
+  iam: { actions: ["retail.placements.search"], roles: ["roles/retail.viewer"] },
 }));
 
 export type SearchProjectsLocationsCatalogsServingConfigsError =
@@ -4189,6 +4239,7 @@ export const setDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDefaultBranchProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type SetInventoryProjectsLocationsCatalogsBranchesProductsError =
@@ -4223,6 +4274,7 @@ export const setInventoryProjectsLocationsCatalogsBranchesProducts: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetInventoryProjectsLocationsCatalogsBranchesProducts",
+  iam: { actions: ["retail.products.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type TuneProjectsLocationsCatalogsModelsError =
@@ -4253,6 +4305,7 @@ export const tuneProjectsLocationsCatalogsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TuneProjectsLocationsCatalogsModels",
+  iam: { actions: ["retail.models.tune"], roles: ["roles/retail.editor"] },
 }));
 
 export type UpdateAttributesConfigProjectsLocationsCatalogsError =
@@ -4287,6 +4340,7 @@ export const updateAttributesConfigProjectsLocationsCatalogs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAttributesConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type UpdateCompletionConfigProjectsLocationsCatalogsError =
@@ -4321,6 +4375,7 @@ export const updateCompletionConfigProjectsLocationsCatalogs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCompletionConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
@@ -4359,6 +4414,7 @@ export const updateConversationalSearchCustomizationConfigProjectsLocationsCatal
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError =
@@ -4397,6 +4453,7 @@ export const updateGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGenerativeQuestionFeatureProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type UpdateGenerativeQuestionProjectsLocationsCatalogsError =
@@ -4431,6 +4488,7 @@ export const updateGenerativeQuestionProjectsLocationsCatalogs: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGenerativeQuestionProjectsLocationsCatalogs",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 export type WriteProjectsLocationsCatalogsUserEventsError =
@@ -4461,6 +4519,7 @@ export const writeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsCatalogsUserEvents",
+  iam: { actions: ["retail.catalogs.update"], roles: ["roles/retail.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

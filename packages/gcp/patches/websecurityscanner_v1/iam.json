@@ -1,0 +1,85 @@
+{
+  "description": "What each websecurityscanner_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#GetProjectsScanConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scans.get"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#GetProjectsScanConfigsScanRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scanruns.get"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#GetProjectsScanConfigsScanRunsFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.results.get"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#ListProjectsScanConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scans.list"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#ListProjectsScanConfigsScanRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scanruns.list"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#ListProjectsScanConfigsScanRunsCrawledUrls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.crawledurls.list"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#ListProjectsScanConfigsScanRunsFindingTypeStats/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.results.list"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#ListProjectsScanConfigsScanRunsFindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.results.list"],
+        "roles": ["roles/cloudsecurityscanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#StartProjectsScanConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scans.run"],
+        "roles": ["roles/cloudsecurityscanner.runner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.websecurityscanner_v1#StopProjectsScanConfigsScanRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsecurityscanner.scanruns.stop"],
+        "roles": ["roles/cloudsecurityscanner.runner"]
+      }
+    }
+  ]
+}

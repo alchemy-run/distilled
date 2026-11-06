@@ -826,6 +826,7 @@ export const createProjectsLocationsReplays: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReplays",
+  iam: { actions: ["policysimulator.replays.create"], roles: ["roles/policysimulator.admin"] },
 }));
 
 export type GetFoldersLocationsAccessPolicySimulationsOperationsError =
@@ -1100,6 +1101,7 @@ export const getProjectsLocationsReplays: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReplays",
+  iam: { actions: ["policysimulator.replays.get"], roles: ["roles/policysimulator.viewer"] },
 }));
 
 export type GetProjectsLocationsReplaysOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1321,6 +1323,7 @@ export const listProjectsLocationsReplaysResults: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReplaysResults",
+  iam: { actions: ["policysimulator.replays.get"], roles: ["roles/policysimulator.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

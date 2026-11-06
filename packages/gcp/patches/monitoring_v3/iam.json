@@ -1,0 +1,293 @@
+{
+  "description": "What each monitoring_v3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#CreateProjectsSnoozes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.snoozes.create"],
+        "roles": ["roles/monitoring.snoozeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#CreateProjectsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.timeSeries.create"],
+        "roles": ["roles/monitoring.metricWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#CreateServiceProjectsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.timeSeries.create"],
+        "roles": ["roles/monitoring.metricWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#DeleteServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.delete"],
+        "roles": ["roles/monitoring.servicesEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#DeleteServicesServiceLevelObjectives/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.update"],
+        "roles": ["roles/monitoring.servicesEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsAlertPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.alertPolicies.get"],
+        "roles": ["roles/monitoring.alertPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsAlerts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.alerts.get"],
+        "roles": ["roles/monitoring.alertViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.groups.get"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsMetricDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.metricDescriptors.get"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsMonitoredResourceDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.monitoredResourceDescriptors.get"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsNotificationChannelDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannelDescriptors.get"],
+        "roles": ["roles/monitoring.notificationChannelViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsNotificationChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannels.get"],
+        "roles": ["roles/monitoring.notificationChannelViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsSnoozes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.snoozes.get"],
+        "roles": ["roles/monitoring.snoozeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetProjectsUptimeCheckConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.uptimeCheckConfigs.get"],
+        "roles": ["roles/monitoring.uptimeCheckConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.get"],
+        "roles": ["roles/monitoring.servicesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetServicesServiceLevelObjectives/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.get"],
+        "roles": ["roles/monitoring.servicesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#GetVerificationCodeProjectsNotificationChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannels.getVerificationCode"],
+        "roles": ["roles/monitoring.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsAlertPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.alertPolicies.list"],
+        "roles": ["roles/monitoring.alertPolicyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsAlerts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.alerts.list"],
+        "roles": ["roles/monitoring.alertViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.groups.list"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsGroupsMembers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.groups.get"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsMetricDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.metricDescriptors.list"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsMonitoredResourceDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.monitoredResourceDescriptors.list"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsNotificationChannelDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannelDescriptors.list"],
+        "roles": ["roles/monitoring.notificationChannelViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsNotificationChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannels.list"],
+        "roles": ["roles/monitoring.notificationChannelViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsSnoozes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.snoozes.list"],
+        "roles": ["roles/monitoring.snoozeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.timeSeries.list"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListProjectsUptimeCheckConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.uptimeCheckConfigs.list"],
+        "roles": ["roles/monitoring.uptimeCheckConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.list"],
+        "roles": ["roles/monitoring.servicesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#ListServicesServiceLevelObjectives/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.get"],
+        "roles": ["roles/monitoring.servicesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#PatchProjectsSnoozes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.snoozes.update"],
+        "roles": ["roles/monitoring.snoozeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#PatchServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.update"],
+        "roles": ["roles/monitoring.servicesEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#PatchServicesServiceLevelObjectives/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.services.update"],
+        "roles": ["roles/monitoring.servicesEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#QueryProjectsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.timeSeries.list"],
+        "roles": ["roles/monitoring.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#SendVerificationCodeProjectsNotificationChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannels.sendVerificationCode"],
+        "roles": ["roles/monitoring.notificationChannelEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.monitoring_v3#VerifyProjectsNotificationChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["monitoring.notificationChannels.verify"],
+        "roles": ["roles/monitoring.notificationChannelEditor"]
+      }
+    }
+  ]
+}

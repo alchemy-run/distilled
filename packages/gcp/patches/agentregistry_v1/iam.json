@@ -1,0 +1,133 @@
+{
+  "description": "What each agentregistry_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#CreateProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.services.create"],
+        "roles": ["roles/agentregistry.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#DeleteProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.services.delete"],
+        "roles": ["roles/agentregistry.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#FetchAvailableProjectsLocationsBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.bindings.fetchAvailable"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.agents.get"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.bindings.get"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.endpoints.get"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsMcpServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.mcpServers.get"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#GetProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.services.get"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.agents.list"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.bindings.list"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.endpoints.list"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsMcpServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.mcpServers.list"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#ListProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.services.list"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#PatchProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.services.update"],
+        "roles": ["roles/agentregistry.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#SearchProjectsLocationsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.agents.search"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.agentregistry_v1#SearchProjectsLocationsMcpServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["agentregistry.mcpServers.search"],
+        "roles": ["roles/agentregistry.viewer"]
+      }
+    }
+  ]
+}

@@ -1899,6 +1899,7 @@ export const getBackupIndexDownloadUrlProjectsLocationsBackupPlansBackups: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackups",
+  iam: { actions: ["gkebackup.backups.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetIamPolicyProjectsLocationsBackupPlansError = NotFound | Forbidden | GcpOpError;
@@ -2063,6 +2064,7 @@ export const getProjectsLocationsBackupChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupChannels",
+  iam: { actions: ["gkebackup.backupChannels.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupChannelsBackupPlanBindingsError =
@@ -2087,6 +2089,7 @@ export const getProjectsLocationsBackupChannelsBackupPlanBindings: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupChannelsBackupPlanBindings",
+  iam: { actions: ["gkebackup.backupPlanBindings.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPlansError = NotFound | Forbidden | GcpOpError;
@@ -2104,6 +2107,7 @@ export const getProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlans",
+  iam: { actions: ["gkebackup.backupPlans.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPlansBackupsError = NotFound | Forbidden | GcpOpError;
@@ -2121,6 +2125,7 @@ export const getProjectsLocationsBackupPlansBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlansBackups",
+  iam: { actions: ["gkebackup.backups.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPlansBackupsVolumeBackupsError =
@@ -2145,6 +2150,7 @@ export const getProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlansBackupsVolumeBackups",
+  iam: { actions: ["gkebackup.volumeBackups.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2179,6 +2185,7 @@ export const getProjectsLocationsRestoreChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRestoreChannels",
+  iam: { actions: ["gkebackup.restoreChannels.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsRestoreChannelsRestorePlanBindingsError =
@@ -2203,6 +2210,7 @@ export const getProjectsLocationsRestoreChannelsRestorePlanBindings: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRestoreChannelsRestorePlanBindings",
+  iam: { actions: ["gkebackup.restorePlanBindings.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsRestorePlansError = NotFound | Forbidden | GcpOpError;
@@ -2220,6 +2228,7 @@ export const getProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRestorePlans",
+  iam: { actions: ["gkebackup.restorePlans.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsRestorePlansRestoresError = NotFound | Forbidden | GcpOpError;
@@ -2237,6 +2246,7 @@ export const getProjectsLocationsRestorePlansRestores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRestorePlansRestores",
+  iam: { actions: ["gkebackup.restores.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetProjectsLocationsRestorePlansRestoresVolumeRestoresError =
@@ -2261,6 +2271,7 @@ export const getProjectsLocationsRestorePlansRestoresVolumeRestores: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRestorePlansRestoresVolumeRestores",
+  iam: { actions: ["gkebackup.volumeRestores.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetTagsProjectsLocationsBackupPlansError = NotFound | Forbidden | GcpOpError;
@@ -2278,6 +2289,7 @@ export const getTagsProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTagsProjectsLocationsBackupPlans",
+  iam: { actions: ["gkebackup.backupPlans.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type GetTagsProjectsLocationsRestorePlansError = NotFound | Forbidden | GcpOpError;
@@ -2295,6 +2307,7 @@ export const getTagsProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTagsProjectsLocationsRestorePlans",
+  iam: { actions: ["gkebackup.restorePlans.get"], roles: ["roles/gkebackup.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2332,6 +2345,7 @@ export const listProjectsLocationsBackupChannels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupChannels",
+  iam: { actions: ["gkebackup.backupChannels.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2358,6 +2372,7 @@ export const listProjectsLocationsBackupChannelsBackupPlanBindings: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupChannelsBackupPlanBindings",
+  iam: { actions: ["gkebackup.backupPlanBindings.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2377,6 +2392,7 @@ export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlans",
+  iam: { actions: ["gkebackup.backupPlans.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2396,6 +2412,7 @@ export const listProjectsLocationsBackupPlansBackups: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlansBackups",
+  iam: { actions: ["gkebackup.backups.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2422,6 +2439,7 @@ export const listProjectsLocationsBackupPlansBackupsVolumeBackups: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlansBackupsVolumeBackups",
+  iam: { actions: ["gkebackup.volumeBackups.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2460,6 +2478,7 @@ export const listProjectsLocationsRestoreChannels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRestoreChannels",
+  iam: { actions: ["gkebackup.restoreChannels.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2486,6 +2505,7 @@ export const listProjectsLocationsRestoreChannelsRestorePlanBindings: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRestoreChannelsRestorePlanBindings",
+  iam: { actions: ["gkebackup.restorePlanBindings.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2505,6 +2525,7 @@ export const listProjectsLocationsRestorePlans: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRestorePlans",
+  iam: { actions: ["gkebackup.restorePlans.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2524,6 +2545,7 @@ export const listProjectsLocationsRestorePlansRestores: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRestorePlansRestores",
+  iam: { actions: ["gkebackup.restores.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2550,6 +2572,7 @@ export const listProjectsLocationsRestorePlansRestoresVolumeRestores: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRestorePlansRestoresVolumeRestores",
+  iam: { actions: ["gkebackup.volumeRestores.list"], roles: ["roles/gkebackup.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2853,6 +2876,7 @@ export const setTagsProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTagsProjectsLocationsBackupPlans",
+  iam: { actions: ["gkebackup.backupPlans.update"], roles: ["roles/gkebackup.backupAdmin"] },
 }));
 
 export type SetTagsProjectsLocationsRestorePlansError =
@@ -2875,6 +2899,7 @@ export const setTagsProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTagsProjectsLocationsRestorePlans",
+  iam: { actions: ["gkebackup.restorePlans.update"], roles: ["roles/gkebackup.restoreAdmin"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsBackupPlansError =

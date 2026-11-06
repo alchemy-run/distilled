@@ -672,6 +672,7 @@ export const getEffectivePolicyProjectsPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEffectivePolicyProjectsPolicies",
+  iam: { actions: ["orgpolicy.policy.get"], roles: ["roles/orgpolicy.policyViewer"] },
 }));
 
 export type GetFoldersPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -706,6 +707,7 @@ export const getOrganizationsCustomConstraints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsCustomConstraints",
+  iam: { actions: ["orgpolicy.customConstraints.get"], roles: ["roles/orgpolicy.policyViewer"] },
 }));
 
 export type GetOrganizationsPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -740,6 +742,7 @@ export const getProjectsPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsPolicies",
+  iam: { actions: ["orgpolicy.policy.get"], roles: ["roles/orgpolicy.policyViewer"] },
 }));
 
 export type ListFoldersConstraintsError = NotFound | Forbidden | GcpOpError;
@@ -857,6 +860,7 @@ export const listProjectsConstraints: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsConstraints",
+  iam: { actions: ["orgpolicy.constraints.list"], roles: ["roles/orgpolicy.policyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -876,6 +880,7 @@ export const listProjectsPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsPolicies",
+  iam: { actions: ["orgpolicy.policies.list"], roles: ["roles/orgpolicy.policyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -422,6 +422,7 @@ export const deleteEventsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEventsProjects",
+  iam: { actions: ["errorreporting.errorEvents.delete"], roles: ["roles/errorreporting.user"] },
 }));
 
 export type DeleteEventsProjectsLocationsError =
@@ -461,6 +462,7 @@ export const getProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsGroups",
+  iam: { actions: ["errorreporting.groupMetadata.get"], roles: ["roles/errorreporting.viewer"] },
 }));
 
 export type GetProjectsLocationsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -478,6 +480,7 @@ export const getProjectsLocationsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGroups",
+  iam: { actions: ["errorreporting.groupMetadata.get"], roles: ["roles/errorreporting.viewer"] },
 }));
 
 export type ListProjectsEventsError = NotFound | Forbidden | GcpOpError;
@@ -496,6 +499,7 @@ export const listProjectsEvents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsEvents",
+  iam: { actions: ["errorreporting.errorEvents.list"], roles: ["roles/errorreporting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -515,6 +519,7 @@ export const listProjectsGroupStats: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroupStats",
+  iam: { actions: ["errorreporting.groups.list"], roles: ["roles/errorreporting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -534,6 +539,7 @@ export const listProjectsLocationsEvents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvents",
+  iam: { actions: ["errorreporting.errorEvents.list"], roles: ["roles/errorreporting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -553,6 +559,7 @@ export const listProjectsLocationsGroupStats: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGroupStats",
+  iam: { actions: ["errorreporting.groups.list"], roles: ["roles/errorreporting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -571,6 +578,7 @@ export const reportProjectsEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportProjectsEvents",
+  iam: { actions: ["errorreporting.errorEvents.create"], roles: ["roles/errorreporting.writer"] },
 }));
 
 export type UpdateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -588,6 +596,7 @@ export const updateProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsGroups",
+  iam: { actions: ["errorreporting.groupMetadata.update"], roles: ["roles/errorreporting.user"] },
 }));
 
 export type UpdateProjectsLocationsGroupsError =
@@ -610,6 +619,7 @@ export const updateProjectsLocationsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsGroups",
+  iam: { actions: ["errorreporting.groupMetadata.update"], roles: ["roles/errorreporting.user"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -934,6 +934,7 @@ export const getProjectsLocationsConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConfig",
+  iam: { actions: ["datalineage.configs.get"], roles: ["roles/datalineage.admin"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -968,6 +969,7 @@ export const getProjectsLocationsProcesses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcesses",
+  iam: { actions: ["datalineage.processes.get"], roles: ["roles/datalineage.viewer"] },
 }));
 
 export type GetProjectsLocationsProcessesRunsError = NotFound | Forbidden | GcpOpError;
@@ -985,6 +987,7 @@ export const getProjectsLocationsProcessesRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcessesRuns",
+  iam: { actions: ["datalineage.runs.get"], roles: ["roles/datalineage.viewer"] },
 }));
 
 export type GetProjectsLocationsProcessesRunsLineageEventsError = NotFound | Forbidden | GcpOpError;
@@ -1006,6 +1009,7 @@ export const getProjectsLocationsProcessesRunsLineageEvents: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcessesRunsLineageEvents",
+  iam: { actions: ["datalineage.runs.get"], roles: ["roles/datalineage.viewer"] },
 }));
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1047,6 +1051,7 @@ export const listProjectsLocationsProcesses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcesses",
+  iam: { actions: ["datalineage.processes.list"], roles: ["roles/datalineage.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1066,6 +1071,7 @@ export const listProjectsLocationsProcessesRuns: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessesRuns",
+  iam: { actions: ["datalineage.runs.list"], roles: ["roles/datalineage.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1096,6 +1102,7 @@ export const listProjectsLocationsProcessesRunsLineageEvents: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessesRunsLineageEvents",
+  iam: { actions: ["datalineage.runs.get"], roles: ["roles/datalineage.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1175,6 +1182,7 @@ export const patchProjectsLocationsConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConfig",
+  iam: { actions: ["datalineage.configs.update"], roles: ["roles/datalineage.admin"] },
 }));
 
 export type PatchProjectsLocationsProcessesError =

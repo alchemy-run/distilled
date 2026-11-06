@@ -819,6 +819,10 @@ export const getProjectsLocationsContactCenters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsContactCenters",
+  iam: {
+    actions: ["contactcenteraiplatform.contactCenters.get"],
+    roles: ["roles/contactcenteraiplatform.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -881,6 +885,10 @@ export const listProjectsLocationsContactCenters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsContactCenters",
+  iam: {
+    actions: ["contactcenteraiplatform.contactCenters.list"],
+    roles: ["roles/contactcenteraiplatform.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

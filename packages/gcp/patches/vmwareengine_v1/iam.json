@@ -1,0 +1,405 @@
+{
+  "description": "What each vmwareengine_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#CreateProjectsLocationsPrivateCloudsHcxActivationKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.hcxActivationKeys.create"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#FetchExternalAddressesProjectsLocationsNetworkPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPolicies.fetchExternalAddresses"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetDnsForwardingProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsDatastores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.datastores.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsNetworkPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPeerings.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsNetworkPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPolicies.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsNetworkPoliciesExternalAccessRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.externalAccessRules.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsNodeTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.nodeTypes.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.clusters.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsClustersNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.nodes.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsExternalAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.externalAddresses.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsHcxActivationKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.hcxActivationKeys.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsLoggingServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.loggingServers.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsManagementDnsZoneBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.managementDnsZoneBindings.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsSubnets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.subnets.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateCloudsUpgrades/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateConnections.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GetProjectsLocationsVmwareEngineNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.vmwareEngineNetworks.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#GrantProjectsLocationsDnsBindPermission/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.dnsBindPermission.grant"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsDatastores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.datastores.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsNetworkPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPeerings.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsNetworkPeeringsPeeringRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPeerings.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsNetworkPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.networkPolicies.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsNetworkPoliciesExternalAccessRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.externalAccessRules.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsNodeTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.nodeTypes.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.clusters.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsClustersNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.nodes.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsExternalAddresses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.externalAddresses.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsHcxActivationKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.hcxActivationKeys.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsLoggingServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.loggingServers.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsManagementDnsZoneBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.managementDnsZoneBindings.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsSubnets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.subnets.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateCloudsUpgrades/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateConnections.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsPrivateConnectionsPeeringRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateConnections.get"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ListProjectsLocationsVmwareEngineNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.vmwareEngineNetworks.list"],
+        "roles": ["roles/vmwareengine.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#MigrateManagementVmsProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.migrateManagementVms"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#MountDatastoreProjectsLocationsPrivateCloudsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.clusters.mountDatastore"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#PatchProjectsLocationsPrivateCloudsSubnets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.subnets.update"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#PatchProjectsLocationsPrivateCloudsUpgrades/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.update"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#PrivateCloudDeletionNowProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.privateCloudDeletionNow"],
+        "roles": ["roles/vmwareengine.vmwareenginePrivilegedUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.managementDnsZoneBindings.repair"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ResetNsxCredentialsProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.resetNsxCredentials"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#ResetVcenterCredentialsProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.resetVcenterCredentials"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#RevokeProjectsLocationsDnsBindPermission/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.dnsBindPermission.revoke"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#UndeleteProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.undelete"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#UnmountDatastoreProjectsLocationsPrivateCloudsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.clusters.unmountDatastore"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmwareengine_v1#UpdateDnsForwardingProjectsLocationsPrivateClouds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmwareengine.privateClouds.update"],
+        "roles": ["roles/vmwareengine.editor"]
+      }
+    }
+  ]
+}

@@ -1354,6 +1354,7 @@ export const acknowledgeOrganizationsLocationsWorkloadsViolations: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcknowledgeOrganizationsLocationsWorkloadsViolations",
+  iam: { actions: ["assuredworkloads.violations.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 export type AggregateFoldersLocationsDbFrameworkComplianceReportsError =
@@ -1438,6 +1439,10 @@ export const aggregateProjectsLocationsDbFrameworkComplianceReports: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregateProjectsLocationsDbFrameworkComplianceReports",
+  iam: {
+    actions: ["assuredworkloads.dbFrameworkComplianceReports.aggregate"],
+    roles: ["roles/assuredworkloads.reader"],
+  },
 }));
 
 export type AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsError =
@@ -1467,6 +1472,7 @@ export const analyzeWorkloadMoveOrganizationsLocationsWorkloads: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeWorkloadMoveOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1490,6 +1496,7 @@ export const applyOrganizationsLocationsWorkloadsUpdates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyOrganizationsLocationsWorkloadsUpdates",
+  iam: { actions: ["assuredworkloads.updates.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 export type CreateOrganizationsLocationsWorkloadsError =
@@ -1564,6 +1571,7 @@ export const enableComplianceUpdatesOrganizationsLocationsWorkloads: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableComplianceUpdatesOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 export type EnableResourceMonitoringOrganizationsLocationsWorkloadsError =
@@ -1594,6 +1602,7 @@ export const enableResourceMonitoringOrganizationsLocationsWorkloads: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableResourceMonitoringOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 export type FetchFoldersLocationsDbFrameworkComplianceReportsError =
@@ -1678,6 +1687,10 @@ export const fetchProjectsLocationsDbFrameworkComplianceReports: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchProjectsLocationsDbFrameworkComplianceReports",
+  iam: {
+    actions: ["assuredworkloads.dbFrameworkComplianceReports.get"],
+    roles: ["roles/assuredworkloads.reader"],
+  },
 }));
 
 export type GetOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1712,6 +1725,7 @@ export const getOrganizationsLocationsWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.get"], roles: ["roles/assuredworkloads.reader"] },
 }));
 
 export type GetOrganizationsLocationsWorkloadsViolationsError = NotFound | Forbidden | GcpOpError;
@@ -1729,6 +1743,7 @@ export const getOrganizationsLocationsWorkloadsViolations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsWorkloadsViolations",
+  iam: { actions: ["assuredworkloads.violations.get"], roles: ["roles/assuredworkloads.reader"] },
 }));
 
 export type ListFoldersLocationsDbFindingSummariesError = NotFound | Forbidden | GcpOpError;
@@ -1955,6 +1970,7 @@ export const listOrganizationsLocationsWorkloadsUpdates: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsWorkloadsUpdates",
+  iam: { actions: ["assuredworkloads.updates.list"], roles: ["roles/assuredworkloads.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1982,6 +1998,7 @@ export const listOrganizationsLocationsWorkloadsViolations: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsWorkloadsViolations",
+  iam: { actions: ["assuredworkloads.violations.list"], roles: ["roles/assuredworkloads.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2005,6 +2022,10 @@ export const listProjectsLocationsDbFindingSummaries: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbFindingSummaries",
+  iam: {
+    actions: ["assuredworkloads.dbFindingSummaries.list"],
+    roles: ["roles/assuredworkloads.reader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2035,6 +2056,10 @@ export const listProjectsLocationsDbFrameworkComplianceReportsDbControlComplianc
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummaries",
+  iam: {
+    actions: ["assuredworkloads.dbControlComplianceSummaries.list"],
+    roles: ["roles/assuredworkloads.reader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2065,6 +2090,10 @@ export const listProjectsLocationsDbFrameworkComplianceSummaries: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbFrameworkComplianceSummaries",
+  iam: {
+    actions: ["assuredworkloads.dbFrameworkComplianceSummaries.list"],
+    roles: ["roles/assuredworkloads.reader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2092,6 +2121,7 @@ export const mutatePartnerPermissionsOrganizationsLocationsWorkloads: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MutatePartnerPermissionsOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 export type PatchOrganizationsLocationsWorkloadsError =
@@ -2144,6 +2174,7 @@ export const restrictAllowedResourcesOrganizationsLocationsWorkloads: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestrictAllowedResourcesOrganizationsLocationsWorkloads",
+  iam: { actions: ["assuredworkloads.workload.update"], roles: ["roles/assuredworkloads.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

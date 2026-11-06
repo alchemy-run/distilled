@@ -730,6 +730,7 @@ export const addFirebaseProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddFirebaseProjects",
+  iam: { actions: ["firebase.projects.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type AddGoogleAnalyticsProjectsError =
@@ -752,6 +753,7 @@ export const addGoogleAnalyticsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddGoogleAnalyticsProjects",
+  iam: { actions: ["firebase.projects.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type CreateProjectsAndroidAppsError =
@@ -796,6 +798,7 @@ export const createProjectsAndroidAppsSha: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsAndroidAppsSha",
+  iam: { actions: ["firebase.clients.create"], roles: ["roles/firebase.editor"] },
 }));
 
 export type CreateProjectsIosAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -813,6 +816,7 @@ export const createProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsIosApps",
+  iam: { actions: ["firebase.clients.create"], roles: ["roles/firebase.editor"] },
 }));
 
 export type CreateProjectsWebAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -830,6 +834,7 @@ export const createProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsWebApps",
+  iam: { actions: ["firebase.clients.create"], roles: ["roles/firebase.editor"] },
 }));
 
 export type DeleteProjectsAndroidAppsShaError =
@@ -852,6 +857,7 @@ export const deleteProjectsAndroidAppsSha: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsAndroidAppsSha",
+  iam: { actions: ["firebase.clients.delete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type FinalizeProjectsDefaultLocationError =
@@ -874,6 +880,7 @@ export const finalizeProjectsDefaultLocation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinalizeProjectsDefaultLocation",
+  iam: { actions: ["firebase.projects.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type GetAdminSdkConfigProjectsError = NotFound | Forbidden | GcpOpError;
@@ -891,6 +898,7 @@ export const getAdminSdkConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAdminSdkConfigProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetAnalyticsDetailsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -908,6 +916,7 @@ export const getAnalyticsDetailsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAnalyticsDetailsProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetConfigProjectsAndroidAppsError = NotFound | Forbidden | GcpOpError;
@@ -925,6 +934,7 @@ export const getConfigProjectsAndroidApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsAndroidApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetConfigProjectsIosAppsError = NotFound | Forbidden | GcpOpError;
@@ -942,6 +952,7 @@ export const getConfigProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsIosApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetConfigProjectsWebAppsError = NotFound | Forbidden | GcpOpError;
@@ -959,6 +970,7 @@ export const getConfigProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsWebApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -993,6 +1005,7 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetProjectsAndroidAppsError = NotFound | Forbidden | AndroidAppNotFound | GcpOpError;
@@ -1010,6 +1023,7 @@ export const getProjectsAndroidApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAndroidApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetProjectsIosAppsError = NotFound | Forbidden | GcpOpError;
@@ -1027,6 +1041,7 @@ export const getProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsIosApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type GetProjectsWebAppsError = NotFound | Forbidden | GcpOpError;
@@ -1044,6 +1059,7 @@ export const getProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsWebApps",
+  iam: { actions: ["firebase.clients.get"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type ListAvailableProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1062,6 +1078,7 @@ export const listAvailableProjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailableProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1081,6 +1098,7 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1100,6 +1118,7 @@ export const listProjectsAndroidApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAndroidApps",
+  iam: { actions: ["firebase.clients.list"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1118,6 +1137,7 @@ export const listProjectsAndroidAppsSha: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAndroidAppsSha",
+  iam: { actions: ["firebase.clients.list"], roles: ["roles/firebase.analyticsViewer"] },
 }));
 
 export type ListProjectsAvailableLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1155,6 +1175,7 @@ export const listProjectsIosApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsIosApps",
+  iam: { actions: ["firebase.clients.list"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1174,6 +1195,7 @@ export const listProjectsWebApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsWebApps",
+  iam: { actions: ["firebase.clients.list"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1232,6 +1254,7 @@ export const patchProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsIosApps",
+  iam: { actions: ["firebase.clients.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type PatchProjectsWebAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1249,6 +1272,7 @@ export const patchProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsWebApps",
+  iam: { actions: ["firebase.clients.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type RemoveAnalyticsProjectsError =
@@ -1271,6 +1295,7 @@ export const removeAnalyticsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveAnalyticsProjects",
+  iam: { actions: ["firebase.projects.update"], roles: ["roles/firebase.editor"] },
 }));
 
 export type RemoveProjectsAndroidAppsError =
@@ -1294,6 +1319,7 @@ export const removeProjectsAndroidApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveProjectsAndroidApps",
+  iam: { actions: ["firebase.clients.delete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type RemoveProjectsIosAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1311,6 +1337,7 @@ export const removeProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveProjectsIosApps",
+  iam: { actions: ["firebase.clients.delete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type RemoveProjectsWebAppsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1328,6 +1355,7 @@ export const removeProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveProjectsWebApps",
+  iam: { actions: ["firebase.clients.delete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type SearchAppsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1346,6 +1374,7 @@ export const searchAppsProjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchAppsProjects",
+  iam: { actions: ["firebase.projects.get"], roles: ["roles/firebase.analyticsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1369,6 +1398,7 @@ export const undeleteProjectsAndroidApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsAndroidApps",
+  iam: { actions: ["firebase.clients.undelete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type UndeleteProjectsIosAppsError =
@@ -1391,6 +1421,7 @@ export const undeleteProjectsIosApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsIosApps",
+  iam: { actions: ["firebase.clients.undelete"], roles: ["roles/firebase.editor"] },
 }));
 
 export type UndeleteProjectsWebAppsError =
@@ -1413,6 +1444,7 @@ export const undeleteProjectsWebApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsWebApps",
+  iam: { actions: ["firebase.clients.undelete"], roles: ["roles/firebase.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

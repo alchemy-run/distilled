@@ -1,0 +1,333 @@
+{
+  "description": "What each ces_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#BatchDeleteProjectsLocationsAppsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#CancelAssistantTurnProjectsLocationsAppsAssistantSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#DeleteProjectsLocationsAppsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.conversations.delete"],
+        "roles": ["roles/ces.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ExecuteToolProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ExportAppProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GenerateChatTokenProjectsLocationsAppsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GenerateOnboardingSuggestionsProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetExtendedAgentCardProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetExtendedAgentCardProjectsLocationsAppsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.deployments.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetExtendedAgentCardProjectsLocationsAppsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.agents.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsChangelogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.changelogs.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.conversations.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.deployments.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsExamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.examples.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsGuardrails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.guardrails.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.tools.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsToolsets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.toolsets.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#GetProjectsLocationsAppsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ImportAppProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsAgents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.agents.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsChangelogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.changelogs.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsConversations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.conversations.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.deployments.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsExamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.examples.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsGuardrails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.guardrails.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.tools.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsToolsets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.toolsets.list"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#ListProjectsLocationsAppsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.get"],
+        "roles": ["roles/ces.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#RestoreProjectsLocationsAppsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#RunSessionProjectsLocationsAppsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.sessions.runSession"],
+        "roles": ["roles/ces.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#SendProjectsLocationsAppsDeploymentsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.deployments.update"],
+        "roles": ["roles/ces.deploymentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#SendProjectsLocationsAppsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#SendProjectsLocationsAppsVersionsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#StreamChatAiAssistantProjectsLocationsAppsAssistantSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#StreamProjectsLocationsAppsDeploymentsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.deployments.update"],
+        "roles": ["roles/ces.deploymentEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#StreamProjectsLocationsAppsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#StreamProjectsLocationsAppsVersionsMessage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.ces_v1#StreamRunSessionProjectsLocationsAppsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["ces.apps.update"],
+        "roles": ["roles/ces.appEditor"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "description": "What each accessapproval_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#ApproveProjectsApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.requests.approve"],
+        "roles": ["roles/accessapproval.approver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.settings.delete"],
+        "roles": ["roles/accessapproval.configEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#DismissProjectsApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.requests.dismiss"],
+        "roles": ["roles/accessapproval.approver"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#GetAccessApprovalSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.settings.get"],
+        "roles": ["roles/accessapproval.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#GetProjectsApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.requests.get"],
+        "roles": ["roles/accessapproval.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#GetServiceAccountProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.serviceAccounts.get"],
+        "roles": ["roles/accessapproval.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#InvalidateProjectsApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.requests.invalidate"],
+        "roles": ["roles/accessapproval.invalidator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#ListProjectsApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.requests.list"],
+        "roles": ["roles/accessapproval.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accessapproval.settings.update"],
+        "roles": ["roles/accessapproval.configEditor"]
+      }
+    }
+  ]
+}
