@@ -1,0 +1,109 @@
+{
+  "description": "What each composer_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#CheckUpgradeProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.get"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#DatabaseFailoverProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#FetchDatabasePropertiesProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.get"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#ListProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.list"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#ListProjectsLocationsEnvironmentsUserWorkloadsConfigMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.userworkloadsconfigmaps.list"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#ListProjectsLocationsEnvironmentsUserWorkloadsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.userworkloadssecrets.list"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#ListProjectsLocationsEnvironmentsWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.get"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#ListProjectsLocationsImageVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.imageversions.list"],
+        "roles": ["roles/composer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#LoadSnapshotProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#PollAirflowCommandProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#RestartWebServerProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#SaveSnapshotProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.composer_v1#StopAirflowCommandProjectsLocationsEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["composer.environments.update"],
+        "roles": ["roles/composer.editor"]
+      }
+    }
+  ]
+}

@@ -525,6 +525,7 @@ export const applyParametersProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyParametersProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.applyParameters"], roles: ["roles/memcache.editor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -689,6 +690,7 @@ export const getTagsProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTagsProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.get"], roles: ["roles/memcache.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -726,6 +728,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.list"], roles: ["roles/memcache.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -794,6 +797,7 @@ export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleMaintenanceProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.rescheduleMaintenance"], roles: ["roles/memcache.admin"] },
 }));
 
 export type SetTagsProjectsLocationsInstancesError =
@@ -816,6 +820,7 @@ export const setTagsProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTagsProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.update"], roles: ["roles/memcache.editor"] },
 }));
 
 export type UpdateParametersProjectsLocationsInstancesError =
@@ -838,6 +843,7 @@ export const updateParametersProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateParametersProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.updateParameters"], roles: ["roles/memcache.editor"] },
 }));
 
 export type UpgradeProjectsLocationsInstancesError =
@@ -860,6 +866,7 @@ export const upgradeProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsInstances",
+  iam: { actions: ["memcache.instances.upgrade"], roles: ["roles/memcache.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

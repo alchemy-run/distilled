@@ -1,0 +1,133 @@
+{
+  "description": "What each notebooks_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#CheckAuthorizationProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.get"],
+        "roles": ["roles/notebooks.legacyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#CheckUpgradabilityProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.checkUpgradability"],
+        "roles": ["roles/notebooks.legacyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#DiagnoseProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.diagnose"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#GenerateAccessTokenProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#GetConfigProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.get"],
+        "roles": ["roles/notebooks.legacyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.get"],
+        "roles": ["roles/notebooks.legacyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.list"],
+        "roles": ["roles/notebooks.legacyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#ReportInfoSystemProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#ResetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.reset"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#ResizeDiskProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#RestoreProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#RollbackProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#StartProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.start"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#StopProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.stop"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#UpgradeProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.upgrade"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.notebooks_v2#UpgradeSystemProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["notebooks.instances.update"],
+        "roles": ["roles/notebooks.editor"]
+      }
+    }
+  ]
+}

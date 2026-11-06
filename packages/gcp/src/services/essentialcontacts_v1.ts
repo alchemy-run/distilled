@@ -397,6 +397,7 @@ export const computeProjectsContacts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeProjectsContacts",
+  iam: { actions: ["essentialcontacts.contacts.get"], roles: ["roles/essentialcontacts.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -527,6 +528,7 @@ export const getFoldersContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersContacts",
+  iam: { actions: ["essentialcontacts.contacts.get"], roles: ["roles/essentialcontacts.viewer"] },
 }));
 
 export type GetOrganizationsContactsError = NotFound | Forbidden | GcpOpError;
@@ -544,6 +546,7 @@ export const getOrganizationsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsContacts",
+  iam: { actions: ["essentialcontacts.contacts.get"], roles: ["roles/essentialcontacts.viewer"] },
 }));
 
 export type GetProjectsContactsError = NotFound | Forbidden | GcpOpError;
@@ -561,6 +564,7 @@ export const getProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsContacts",
+  iam: { actions: ["essentialcontacts.contacts.get"], roles: ["roles/essentialcontacts.viewer"] },
 }));
 
 export type ListFoldersContactsError = NotFound | Forbidden | GcpOpError;
@@ -617,6 +621,7 @@ export const listProjectsContacts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsContacts",
+  iam: { actions: ["essentialcontacts.contacts.list"], roles: ["roles/essentialcontacts.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -740,6 +745,7 @@ export const sendTestMessageProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendTestMessageProjectsContacts",
+  iam: { actions: ["essentialcontacts.contacts.update"], roles: ["roles/essentialcontacts.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

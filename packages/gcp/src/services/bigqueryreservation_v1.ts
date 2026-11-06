@@ -811,6 +811,10 @@ export const createProjectsLocationsReservationsAssignments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReservationsAssignments",
+  iam: {
+    actions: ["bigquery.reservationAssignments.create"],
+    roles: ["roles/bigquery.resourceEditor"],
+  },
 }));
 
 export type DeleteProjectsLocationsCapacityCommitmentsError =
@@ -907,6 +911,10 @@ export const deleteProjectsLocationsReservationsAssignments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsReservationsAssignments",
+  iam: {
+    actions: ["bigquery.reservationAssignments.delete"],
+    roles: ["roles/bigquery.resourceEditor"],
+  },
 }));
 
 export type FailoverReservationProjectsLocationsReservationsError =
@@ -933,6 +941,7 @@ export const failoverReservationProjectsLocationsReservations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverReservationProjectsLocationsReservations",
+  iam: { actions: ["bigquery.reservations.update"], roles: ["roles/bigquery.resourceEditor"] },
 }));
 
 export type GetBiReservationProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1008,6 +1017,7 @@ export const getProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCapacityCommitments",
+  iam: { actions: ["bigquery.capacityCommitments.get"], roles: ["roles/bigquery.resourceViewer"] },
 }));
 
 export type GetProjectsLocationsReservationGroupsError = NotFound | Forbidden | GcpOpError;
@@ -1025,6 +1035,7 @@ export const getProjectsLocationsReservationGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReservationGroups",
+  iam: { actions: ["bigquery.reservationGroups.get"], roles: ["roles/bigquery.resourceViewer"] },
 }));
 
 export type GetProjectsLocationsReservationsError = NotFound | Forbidden | GcpOpError;
@@ -1042,6 +1053,7 @@ export const getProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReservations",
+  iam: { actions: ["bigquery.reservations.get"], roles: ["roles/bigquery.resourceViewer"] },
 }));
 
 export type ListProjectsLocationsCapacityCommitmentsError = NotFound | Forbidden | GcpOpError;
@@ -1060,6 +1072,7 @@ export const listProjectsLocationsCapacityCommitments: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCapacityCommitments",
+  iam: { actions: ["bigquery.capacityCommitments.list"], roles: ["roles/bigquery.resourceViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1079,6 +1092,7 @@ export const listProjectsLocationsReservationGroups: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReservationGroups",
+  iam: { actions: ["bigquery.reservationGroups.list"], roles: ["roles/bigquery.resourceViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1098,6 +1112,7 @@ export const listProjectsLocationsReservations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReservations",
+  iam: { actions: ["bigquery.reservations.list"], roles: ["roles/bigquery.resourceViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1117,6 +1132,10 @@ export const listProjectsLocationsReservationsAssignments: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReservationsAssignments",
+  iam: {
+    actions: ["bigquery.reservationAssignments.list"],
+    roles: ["roles/bigquery.resourceViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1140,6 +1159,10 @@ export const mergeProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MergeProjectsLocationsCapacityCommitments",
+  iam: {
+    actions: ["bigquery.capacityCommitments.update"],
+    roles: ["roles/bigquery.resourceAdmin"],
+  },
 }));
 
 export type MoveProjectsLocationsReservationsAssignmentsError =
@@ -1162,6 +1185,7 @@ export const moveProjectsLocationsReservationsAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjectsLocationsReservationsAssignments",
+  iam: { actions: ["bigquery.reservations.update"], roles: ["roles/bigquery.resourceEditor"] },
 }));
 
 export type PatchProjectsLocationsCapacityCommitmentsError =
@@ -1254,6 +1278,7 @@ export const patchProjectsLocationsReservationsAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsReservationsAssignments",
+  iam: { actions: ["bigquery.reservations.update"], roles: ["roles/bigquery.resourceEditor"] },
 }));
 
 export type SearchAllAssignmentsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1362,6 +1387,10 @@ export const splitProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SplitProjectsLocationsCapacityCommitments",
+  iam: {
+    actions: ["bigquery.capacityCommitments.update"],
+    roles: ["roles/bigquery.resourceAdmin"],
+  },
 }));
 
 export type TestIamPermissionsProjectsLocationsReservationsError =

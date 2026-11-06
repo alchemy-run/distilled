@@ -1248,6 +1248,10 @@ export const activateProjectsLocationsCaPoolsCertificateAuthorities: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: {
+    actions: ["privateca.certificateAuthorities.update"],
+    roles: ["roles/privateca.caManager"],
+  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1340,6 +1344,10 @@ export const createProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCaPoolsCertificates",
+  iam: {
+    actions: ["privateca.certificates.create"],
+    roles: ["roles/privateca.certificateRequester"],
+  },
 }));
 
 export type CreateProjectsLocationsCertificateTemplatesError =
@@ -1480,6 +1488,10 @@ export const disableProjectsLocationsCaPoolsCertificateAuthorities: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: {
+    actions: ["privateca.certificateAuthorities.update"],
+    roles: ["roles/privateca.caManager"],
+  },
 }));
 
 export type EnableProjectsLocationsCaPoolsCertificateAuthoritiesError =
@@ -1506,6 +1518,10 @@ export const enableProjectsLocationsCaPoolsCertificateAuthorities: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: {
+    actions: ["privateca.certificateAuthorities.update"],
+    roles: ["roles/privateca.caManager"],
+  },
 }));
 
 export type FetchCaCertsProjectsLocationsCaPoolsError =
@@ -1552,6 +1568,7 @@ export const fetchProjectsLocationsCaPoolsCertificateAuthorities: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: { actions: ["privateca.certificateAuthorities.get"], roles: ["roles/privateca.viewer"] },
 }));
 
 export type GetIamPolicyProjectsLocationsCaPoolsError = NotFound | Forbidden | GcpOpError;
@@ -1651,6 +1668,7 @@ export const getProjectsLocationsCaPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCaPools",
+  iam: { actions: ["privateca.caPools.get"], roles: ["roles/privateca.poolReader"] },
 }));
 
 export type GetProjectsLocationsCaPoolsCertificateAuthoritiesError =
@@ -1699,6 +1717,7 @@ export const getProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists",
+  iam: { actions: ["privateca.certificateRevocationLists.get"], roles: ["roles/privateca.viewer"] },
 }));
 
 export type GetProjectsLocationsCaPoolsCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -1716,6 +1735,7 @@ export const getProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCaPoolsCertificates",
+  iam: { actions: ["privateca.certificates.get"], roles: ["roles/privateca.viewer"] },
 }));
 
 export type GetProjectsLocationsCertificateTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -1733,6 +1753,7 @@ export const getProjectsLocationsCertificateTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificateTemplates",
+  iam: { actions: ["privateca.certificateTemplates.get"], roles: ["roles/privateca.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1787,6 +1808,7 @@ export const listProjectsLocationsCaPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCaPools",
+  iam: { actions: ["privateca.caPools.list"], roles: ["roles/privateca.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1813,6 +1835,7 @@ export const listProjectsLocationsCaPoolsCertificateAuthorities: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: { actions: ["privateca.certificateAuthorities.list"], roles: ["roles/privateca.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1839,6 +1862,10 @@ export const listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoca
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists",
+  iam: {
+    actions: ["privateca.certificateRevocationLists.list"],
+    roles: ["roles/privateca.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1858,6 +1885,7 @@ export const listProjectsLocationsCaPoolsCertificates: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCaPoolsCertificates",
+  iam: { actions: ["privateca.certificates.list"], roles: ["roles/privateca.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1877,6 +1905,7 @@ export const listProjectsLocationsCertificateTemplates: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificateTemplates",
+  iam: { actions: ["privateca.certificateTemplates.list"], roles: ["roles/privateca.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1971,6 +2000,10 @@ export const patchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoc
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists",
+  iam: {
+    actions: ["privateca.certificateRevocationLists.update"],
+    roles: ["roles/privateca.caManager"],
+  },
 }));
 
 export type PatchProjectsLocationsCaPoolsCertificatesError =
@@ -1993,6 +2026,7 @@ export const patchProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCaPoolsCertificates",
+  iam: { actions: ["privateca.certificates.update"], roles: ["roles/privateca.caManager"] },
 }));
 
 export type PatchProjectsLocationsCertificateTemplatesError =
@@ -2037,6 +2071,7 @@ export const revokeProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeProjectsLocationsCaPoolsCertificates",
+  iam: { actions: ["privateca.certificates.update"], roles: ["roles/privateca.caManager"] },
 }));
 
 export type SetIamPolicyProjectsLocationsCaPoolsError =
@@ -2211,6 +2246,10 @@ export const undeleteProjectsLocationsCaPoolsCertificateAuthorities: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsCaPoolsCertificateAuthorities",
+  iam: {
+    actions: ["privateca.certificateAuthorities.update"],
+    roles: ["roles/privateca.caManager"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

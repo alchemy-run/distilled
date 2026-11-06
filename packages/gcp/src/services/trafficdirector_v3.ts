@@ -603,6 +603,10 @@ export const client_statusDiscovery: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "Client_statusDiscovery",
+  iam: {
+    actions: ["trafficdirector.networks.getConfigs"],
+    roles: ["roles/trafficdirector.client"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

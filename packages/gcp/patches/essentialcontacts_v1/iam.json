@@ -1,0 +1,53 @@
+{
+  "description": "What each essentialcontacts_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#ComputeProjectsContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.get"],
+        "roles": ["roles/essentialcontacts.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#GetFoldersContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.get"],
+        "roles": ["roles/essentialcontacts.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#GetOrganizationsContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.get"],
+        "roles": ["roles/essentialcontacts.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#GetProjectsContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.get"],
+        "roles": ["roles/essentialcontacts.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#ListProjectsContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.list"],
+        "roles": ["roles/essentialcontacts.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.essentialcontacts_v1#SendTestMessageProjectsContacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["essentialcontacts.contacts.update"],
+        "roles": ["roles/essentialcontacts.admin"]
+      }
+    }
+  ]
+}

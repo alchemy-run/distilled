@@ -1369,6 +1369,7 @@ export const deleteProjectsLocationsAccountConnectorsUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAccountConnectorsUsers",
+  iam: { actions: ["developerconnect.users.delete"], roles: ["roles/developerconnect.oauthAdmin"] },
 }));
 
 export type DeleteProjectsLocationsConnectionsError =
@@ -1487,6 +1488,10 @@ export const deleteSelfProjectsLocationsAccountConnectorsUsers: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSelfProjectsLocationsAccountConnectorsUsers",
+  iam: {
+    actions: ["developerconnect.users.deleteSelf"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
 }));
 
 export type FetchAccessTokenProjectsLocationsAccountConnectorsUsersError =
@@ -1513,6 +1518,10 @@ export const fetchAccessTokenProjectsLocationsAccountConnectorsUsers: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAccessTokenProjectsLocationsAccountConnectorsUsers",
+  iam: {
+    actions: ["developerconnect.users.fetchAccessToken"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
 }));
 
 export type FetchGitHubInstallationsProjectsLocationsConnectionsError =
@@ -1537,6 +1546,10 @@ export const fetchGitHubInstallationsProjectsLocationsConnections: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchGitHubInstallationsProjectsLocationsConnections",
+  iam: {
+    actions: ["developerconnect.connections.fetchGitHubInstallations"],
+    roles: ["roles/developerconnect.user"],
+  },
 }));
 
 export type FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksError =
@@ -1588,6 +1601,10 @@ export const fetchLinkableGitRepositoriesProjectsLocationsConnections: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchLinkableGitRepositoriesProjectsLocationsConnections",
+  iam: {
+    actions: ["developerconnect.connections.fetchLinkableGitRepositories"],
+    roles: ["roles/developerconnect.user"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1665,6 +1682,10 @@ export const fetchSelfProjectsLocationsAccountConnectorsUsers: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchSelfProjectsLocationsAccountConnectorsUsers",
+  iam: {
+    actions: ["developerconnect.accountConnectors.get"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
 }));
 
 export type FetchUserRepositoriesProjectsLocationsAccountConnectorsError =
@@ -1690,6 +1711,10 @@ export const fetchUserRepositoriesProjectsLocationsAccountConnectors: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchUserRepositoriesProjectsLocationsAccountConnectors",
+  iam: {
+    actions: ["developerconnect.accountConnectors.fetchUserRepositories"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1715,6 +1740,10 @@ export const finishOAuthFlowProjectsLocationsAccountConnectorsUsers: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinishOAuthFlowProjectsLocationsAccountConnectorsUsers",
+  iam: {
+    actions: ["developerconnect.accountConnectors.update"],
+    roles: ["roles/developerconnect.oauthAdmin"],
+  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1749,6 +1778,10 @@ export const getProjectsLocationsAccountConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAccountConnectors",
+  iam: {
+    actions: ["developerconnect.accountConnectors.get"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
 }));
 
 export type GetProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -1766,6 +1799,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnections",
+  iam: { actions: ["developerconnect.connections.get"], roles: ["roles/developerconnect.viewer"] },
 }));
 
 export type GetProjectsLocationsConnectionsGitRepositoryLinksError =
@@ -1790,6 +1824,10 @@ export const getProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.gitRepositoryLinks.get"],
+    roles: ["roles/developerconnect.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsInsightsConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1807,6 +1845,10 @@ export const getProjectsLocationsInsightsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInsightsConfigs",
+  iam: {
+    actions: ["developerconnect.insightsConfigs.get"],
+    roles: ["roles/developerconnect.insightsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsInsightsConfigsDeploymentEventsError =
@@ -1831,6 +1873,10 @@ export const getProjectsLocationsInsightsConfigsDeploymentEvents: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInsightsConfigsDeploymentEvents",
+  iam: {
+    actions: ["developerconnect.deploymentEvents.get"],
+    roles: ["roles/developerconnect.insightsViewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1885,6 +1931,10 @@ export const listProjectsLocationsAccountConnectors: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAccountConnectors",
+  iam: {
+    actions: ["developerconnect.accountConnectors.list"],
+    roles: ["roles/developerconnect.oauthUser"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1904,6 +1954,7 @@ export const listProjectsLocationsAccountConnectorsUsers: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAccountConnectorsUsers",
+  iam: { actions: ["developerconnect.users.list"], roles: ["roles/developerconnect.oauthAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1923,6 +1974,7 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnections",
+  iam: { actions: ["developerconnect.connections.list"], roles: ["roles/developerconnect.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1949,6 +2001,10 @@ export const listProjectsLocationsConnectionsGitRepositoryLinks: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.gitRepositoryLinks.list"],
+    roles: ["roles/developerconnect.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1968,6 +2024,10 @@ export const listProjectsLocationsInsightsConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInsightsConfigs",
+  iam: {
+    actions: ["developerconnect.insightsConfigs.list"],
+    roles: ["roles/developerconnect.insightsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1994,6 +2054,10 @@ export const listProjectsLocationsInsightsConfigsDeploymentEvents: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInsightsConfigsDeploymentEvents",
+  iam: {
+    actions: ["developerconnect.deploymentEvents.list"],
+    roles: ["roles/developerconnect.insightsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2106,6 +2170,10 @@ export const processBitbucketCloudWebhookProjectsLocationsConnectionsGitReposito
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.connections.update"],
+    roles: ["roles/developerconnect.admin"],
+  },
 }));
 
 export type ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
@@ -2132,6 +2200,10 @@ export const processBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRep
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.connections.update"],
+    roles: ["roles/developerconnect.admin"],
+  },
 }));
 
 export type ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsError =
@@ -2158,6 +2230,10 @@ export const processGitHubEnterpriseWebhookProjectsLocationsConnections: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessGitHubEnterpriseWebhookProjectsLocationsConnections",
+  iam: {
+    actions: ["developerconnect.connections.update"],
+    roles: ["roles/developerconnect.admin"],
+  },
 }));
 
 export type ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
@@ -2184,6 +2260,10 @@ export const processGitLabEnterpriseWebhookProjectsLocationsConnectionsGitReposi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.connections.update"],
+    roles: ["roles/developerconnect.admin"],
+  },
 }));
 
 export type ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
@@ -2210,6 +2290,10 @@ export const processGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinks:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinks",
+  iam: {
+    actions: ["developerconnect.connections.update"],
+    roles: ["roles/developerconnect.admin"],
+  },
 }));
 
 export type StartOAuthFlowProjectsLocationsAccountConnectorsUsersError =
@@ -2234,6 +2318,10 @@ export const startOAuthFlowProjectsLocationsAccountConnectorsUsers: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartOAuthFlowProjectsLocationsAccountConnectorsUsers",
+  iam: {
+    actions: ["developerconnect.accountConnectors.update"],
+    roles: ["roles/developerconnect.oauthAdmin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

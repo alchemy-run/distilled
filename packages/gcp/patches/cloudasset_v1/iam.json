@@ -1,0 +1,173 @@
+{
+  "description": "What each cloudasset_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeIamPolicyLongrunningV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeIamPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeIamPolicyV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeIamPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeMoveV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeMove"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeOrgPoliciesV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeOrgPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeOrgPolicyGovernedAssetsV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeOrgPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#AnalyzeOrgPolicyGovernedContainersV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeOrgPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#BatchGetAssetsHistoryV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.exportResource"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#BatchGetEffectiveIamPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.analyzeIamPolicy"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#DeleteFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.feeds.delete"],
+        "roles": ["roles/cloudasset.owner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#DeleteSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.savedqueries.delete"],
+        "roles": ["roles/cloudasset.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#ExportAssetsV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.exportResource"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#GetFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.feeds.get"],
+        "roles": ["roles/cloudasset.owner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#GetSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.savedqueries.get"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#ListAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.listResource"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#ListFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.feeds.list"],
+        "roles": ["roles/cloudasset.owner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#ListSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.savedqueries.list"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#PatchFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.feeds.update"],
+        "roles": ["roles/cloudasset.owner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#PatchSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.savedqueries.update"],
+        "roles": ["roles/cloudasset.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#QueryAssetsV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.queryResource"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#SearchAllIamPoliciesV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.searchAllIamPolicies"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudasset_v1#SearchAllResourcesV1/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudasset.assets.searchAllResources"],
+        "roles": ["roles/cloudasset.viewer"]
+      }
+    }
+  ]
+}

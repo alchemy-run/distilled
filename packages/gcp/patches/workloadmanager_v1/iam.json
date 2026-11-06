@@ -1,0 +1,165 @@
+{
+  "description": "What each workloadmanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#CreateProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.deployments.create"],
+        "roles": ["roles/workloadmanager.worker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.deployments.delete"],
+        "roles": ["roles/workloadmanager.worker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsEvaluationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.executions.delete"],
+        "roles": ["roles/workloadmanager.evaluationAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#DeleteProjectsLocationsInsights/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.insights.delete"],
+        "roles": ["roles/workloadmanager.insightWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.deployments.get"],
+        "roles": ["roles/workloadmanager.deploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDeploymentsActuations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.actuations.get"],
+        "roles": ["roles/workloadmanager.deploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDiscoveredprofiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.discoveredprofiles.get"],
+        "roles": ["roles/workloadmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsDiscoveredprofilesHealth/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.discoveredprofiles.get"],
+        "roles": ["roles/workloadmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.evaluations.get"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#GetProjectsLocationsEvaluationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.executions.get"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.deployments.list"],
+        "roles": ["roles/workloadmanager.deploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDeploymentsActuations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.actuations.list"],
+        "roles": ["roles/workloadmanager.deploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsDiscoveredprofiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.discoveredprofiles.list"],
+        "roles": ["roles/workloadmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.evaluations.list"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.executions.list"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutionsResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.results.list"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsEvaluationsExecutionsScannedResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.executions.get"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#ListProjectsLocationsRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.rules.list"],
+        "roles": ["roles/workloadmanager.evaluationViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#RunProjectsLocationsEvaluationsExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.evaluations.update"],
+        "roles": ["roles/workloadmanager.evaluationAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.workloadmanager_v1#WriteInsightProjectsLocationsInsights/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["workloadmanager.insights.write"],
+        "roles": ["roles/workloadmanager.insightWriter"]
+      }
+    }
+  ]
+}

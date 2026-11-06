@@ -1795,6 +1795,7 @@ export const createsecondaryProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatesecondaryProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.update"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type CreatesecondaryProjectsLocationsClustersInstancesError =
@@ -1821,6 +1822,7 @@ export const createsecondaryProjectsLocationsClustersInstances: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatesecondaryProjectsLocationsClustersInstances",
+  iam: { actions: ["alloydb.instances.update"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type DeleteProjectsLocationsBackupsError =
@@ -1975,6 +1977,7 @@ export const exportProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.export"], roles: ["roles/alloydb.viewer"] },
 }));
 
 export type FailoverProjectsLocationsClustersInstancesError =
@@ -1997,6 +2000,7 @@ export const failoverProjectsLocationsClustersInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverProjectsLocationsClustersInstances",
+  iam: { actions: ["alloydb.instances.failover"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type GetConnectionInfoProjectsLocationsClustersInstancesError =
@@ -2145,6 +2149,7 @@ export const importProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.import"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type InjectFaultProjectsLocationsClustersInstancesError =
@@ -2171,6 +2176,7 @@ export const injectFaultProjectsLocationsClustersInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InjectFaultProjectsLocationsClustersInstances",
+  iam: { actions: ["alloydb.instances.injectFault"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2208,6 +2214,7 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackups",
+  iam: { actions: ["alloydb.backups.list"], roles: ["roles/alloydb.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2227,6 +2234,7 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.list"], roles: ["roles/alloydb.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2246,6 +2254,7 @@ export const listProjectsLocationsClustersInstances: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersInstances",
+  iam: { actions: ["alloydb.instances.list"], roles: ["roles/alloydb.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2265,6 +2274,7 @@ export const listProjectsLocationsClustersUsers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersUsers",
+  iam: { actions: ["alloydb.users.list"], roles: ["roles/alloydb.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2303,6 +2313,7 @@ export const listProjectsLocationsSupportedDatabaseFlags: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSupportedDatabaseFlags",
+  iam: { actions: ["alloydb.supportedDatabaseFlags.list"], roles: ["roles/alloydb.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2414,6 +2425,7 @@ export const promoteProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.promote"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type RestartProjectsLocationsClustersInstancesError =
@@ -2436,6 +2448,7 @@ export const restartProjectsLocationsClustersInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsClustersInstances",
+  iam: { actions: ["alloydb.instances.restart"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type RestoreFromCloudSQLProjectsLocationsClustersError =
@@ -2462,6 +2475,7 @@ export const restoreFromCloudSQLProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreFromCloudSQLProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.update"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type RestoreProjectsLocationsClustersError =
@@ -2484,6 +2498,7 @@ export const restoreProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.update"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type SwitchoverProjectsLocationsClustersError =
@@ -2506,6 +2521,7 @@ export const switchoverProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchoverProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.switchover"], roles: ["roles/alloydb.editor"] },
 }));
 
 export type UpgradeProjectsLocationsClustersError =
@@ -2528,6 +2544,7 @@ export const upgradeProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsClusters",
+  iam: { actions: ["alloydb.clusters.upgrade"], roles: ["roles/alloydb.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

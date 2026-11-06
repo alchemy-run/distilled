@@ -1,0 +1,285 @@
+{
+  "description": "What each datamigration_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ApplyProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.apply"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#CommitProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.commit"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ConvertProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.convert"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#DemoteDestinationProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.demoteDestination"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#DescribeDatabaseEntitiesProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#FetchEntitiesStatusViewProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#FetchIssuesProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#FetchSourceObjectsProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.fetchSourceObjects"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GenerateSshScriptProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.generateSshScript"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GenerateTcpProxyScriptProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.generateTcpProxyScript"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsConnectionProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.connectionprofiles.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsConversionWorkspacesMappingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsMigrationJobsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.objects.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#GetProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.privateconnections.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ImportProjectsLocationsConversionWorkspacesMappingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.mappingrules.import"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsConnectionProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.connectionprofiles.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsConversionWorkspacesMappingRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsMigrationJobsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.objects.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ListProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.privateconnections.list"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#LookupProjectsLocationsMigrationJobsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.objects.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#PromoteProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.promote"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#RestartProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.restart"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#ResumeProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.resume"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#RollbackProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.rollback"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#SearchBackgroundJobsProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.get"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#SeedProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.seed"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#SetDraftEntityDdlProjectsLocationsConversionWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.conversionworkspaces.update"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#StartProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.start"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#StopProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.stop"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datamigration_v1#VerifyProjectsLocationsMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datamigration.migrationjobs.verify"],
+        "roles": ["roles/datamigration.editor"]
+      }
+    }
+  ]
+}

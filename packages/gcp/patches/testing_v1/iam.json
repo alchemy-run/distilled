@@ -1,0 +1,77 @@
+{
+  "description": "What each testing_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#CancelProjectsDeviceSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.devicesession.cancel"],
+        "roles": ["roles/cloudtestservice.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#CancelProjectsTestMatrices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.matrices.update"],
+        "roles": ["roles/cloudtestservice.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#CreateProjectsDeviceSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.devicesession.create"],
+        "roles": ["roles/cloudtestservice.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#CreateProjectsTestMatrices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.matrices.create"],
+        "roles": ["roles/cloudtestservice.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#GetApkDetailsApplicationDetailService/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.environmentcatalog.get"],
+        "roles": ["roles/cloudtestservice.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#GetProjectsDeviceSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.devicesession.get"],
+        "roles": ["roles/cloudtestservice.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#GetProjectsTestMatrices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.matrices.get"],
+        "roles": ["roles/cloudtestservice.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#ListProjectsDeviceSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.devicesession.list"],
+        "roles": ["roles/cloudtestservice.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.testing_v1#PatchProjectsDeviceSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtestservice.devicesession.update"],
+        "roles": ["roles/cloudtestservice.admin"]
+      }
+    }
+  ]
+}

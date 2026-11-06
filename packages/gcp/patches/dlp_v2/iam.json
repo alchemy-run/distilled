@@ -1,0 +1,509 @@
+{
+  "description": "What each dlp_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ActivateProjectsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.update"],
+        "roles": ["roles/dlp.jobTriggersEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ActivateProjectsLocationsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.update"],
+        "roles": ["roles/dlp.jobTriggersEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#CancelProjectsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.cancel"],
+        "roles": ["roles/dlp.jobsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#CancelProjectsLocationsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.cancel"],
+        "roles": ["roles/dlp.jobsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#DeidentifyProjectsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#DeidentifyProjectsLocationsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#DeleteProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.connections.delete"],
+        "roles": ["roles/dlp.connectionsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#DeleteProjectsLocationsFileStoreDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.fileStoreProfiles.delete"],
+        "roles": ["roles/dlp.fileStoreProfilesAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#DeleteProjectsLocationsTableDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.tableDataProfiles.delete"],
+        "roles": ["roles/dlp.tableDataProfilesAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#FinishProjectsLocationsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.cancel"],
+        "roles": ["roles/dlp.jobsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.get"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.get"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsLocationsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.get"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsLocationsDiscoveryConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsLocationsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.get"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsLocationsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.get"],
+        "roles": ["roles/dlp.jobTriggersReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsLocationsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.get"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetOrganizationsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.get"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.get"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.get"],
+        "roles": ["roles/dlp.jobsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.get"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.get"],
+        "roles": ["roles/dlp.jobTriggersReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsColumnDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.columnDataProfiles.get"],
+        "roles": ["roles/dlp.columnDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.connections.get"],
+        "roles": ["roles/dlp.connectionsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsContentPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.contentPolicies.get"],
+        "roles": ["roles/dlp.contentPoliciesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.get"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsDiscoveryConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.get"],
+        "roles": ["roles/dlp.jobsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsFileStoreDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.fileStoreProfiles.get"],
+        "roles": ["roles/dlp.fileStoreProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.get"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.get"],
+        "roles": ["roles/dlp.jobTriggersReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsProjectDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.projectDataProfiles.get"],
+        "roles": ["roles/dlp.projectDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.get"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsLocationsTableDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.tableDataProfiles.get"],
+        "roles": ["roles/dlp.tableDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#GetProjectsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.get"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#HybridInspectProjectsLocationsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.hybridInspect"],
+        "roles": ["roles/dlp.jobsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#HybridInspectProjectsLocationsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.hybridInspect"],
+        "roles": ["roles/dlp.jobTriggersEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#InspectProjectsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#InspectProjectsLocationsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.list"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.list"],
+        "roles": ["roles/dlp.jobsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.list"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.list"],
+        "roles": ["roles/dlp.jobTriggersReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsColumnDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.columnDataProfiles.list"],
+        "roles": ["roles/dlp.columnDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.connections.list"],
+        "roles": ["roles/dlp.connectionsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsContentPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.contentPolicies.list"],
+        "roles": ["roles/dlp.contentPoliciesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsDeidentifyTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.deidentifyTemplates.list"],
+        "roles": ["roles/dlp.deidentifyTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsDiscoveryConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsDlpJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobs.list"],
+        "roles": ["roles/dlp.jobsReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsFileStoreDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.fileStoreProfiles.list"],
+        "roles": ["roles/dlp.fileStoreProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsInspectTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.inspectTemplates.list"],
+        "roles": ["roles/dlp.inspectTemplatesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsJobTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.jobTriggers.list"],
+        "roles": ["roles/dlp.jobTriggersReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsProjectDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.projectDataProfiles.list"],
+        "roles": ["roles/dlp.projectDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.list"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsLocationsTableDataProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.tableDataProfiles.list"],
+        "roles": ["roles/dlp.tableDataProfilesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ListProjectsStoredInfoTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.storedInfoTypes.list"],
+        "roles": ["roles/dlp.storedInfoTypesReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#PatchProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.connections.update"],
+        "roles": ["roles/dlp.connectionsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#RedactProjectsImage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#RedactProjectsLocationsImage/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ReidentifyProjectsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#ReidentifyProjectsLocationsContent/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["serviceusage.services.use"],
+        "roles": ["roles/serviceusage.serviceUsageConsumer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dlp_v2#SearchProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dlp.connections.search"],
+        "roles": ["roles/dlp.connectionsReader"]
+      }
+    }
+  ]
+}

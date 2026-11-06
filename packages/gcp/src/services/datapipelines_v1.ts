@@ -476,6 +476,7 @@ export const getProjectsLocationsPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPipelines",
+  iam: { actions: ["datapipelines.pipelines.get"], roles: ["roles/datapipelines.viewer"] },
 }));
 
 export type ListProjectsLocationsPipelinesError = NotFound | Forbidden | GcpOpError;
@@ -494,6 +495,7 @@ export const listProjectsLocationsPipelines: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPipelines",
+  iam: { actions: ["datapipelines.pipelines.list"], roles: ["roles/datapipelines.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -513,6 +515,7 @@ export const listProjectsLocationsPipelinesJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPipelinesJobs",
+  iam: { actions: ["datapipelines.jobs.list"], roles: ["roles/datapipelines.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -1,0 +1,173 @@
+{
+  "description": "What each managedidentities_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#AttachTrustProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.attachTrust"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#CheckMigrationPermissionProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.checkMigrationPermission"],
+        "roles": ["roles/managedidentities.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#DetachTrustProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.detachTrust"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#DisableMigrationProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.disableMigration"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#DomainJoinMachineProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.domainJoinMachine"],
+        "roles": ["roles/managedidentities.domainJoin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#EnableMigrationProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.enableMigration"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ExtendSchemaProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.extendSchema"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#GetLdapssettingsProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.get"],
+        "roles": ["roles/managedidentities.backupViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#GetProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.get"],
+        "roles": ["roles/managedidentities.backupViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#GetProjectsLocationsGlobalDomainsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.backups.get"],
+        "roles": ["roles/managedidentities.backupViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#GetProjectsLocationsGlobalDomainsSqlIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.sqlintegrations.get"],
+        "roles": ["roles/managedidentities.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#GetProjectsLocationsGlobalPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.peerings.get"],
+        "roles": ["roles/managedidentities.peeringViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ListProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.list"],
+        "roles": ["roles/managedidentities.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ListProjectsLocationsGlobalDomainsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.backups.list"],
+        "roles": ["roles/managedidentities.backupViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ListProjectsLocationsGlobalDomainsSqlIntegrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.sqlintegrations.list"],
+        "roles": ["roles/managedidentities.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ListProjectsLocationsGlobalPeerings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.peerings.list"],
+        "roles": ["roles/managedidentities.peeringViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ReconfigureTrustProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.reconfigureTrust"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ResetAdminPasswordProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.update"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#RestoreProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.restore"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#UpdateLdapssettingsProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.updateLDAPSSettings"],
+        "roles": ["roles/managedidentities.domainAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedidentities_v1#ValidateTrustProjectsLocationsGlobalDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["managedidentities.domains.validateTrust"],
+        "roles": ["roles/managedidentities.viewer"]
+      }
+    }
+  ]
+}

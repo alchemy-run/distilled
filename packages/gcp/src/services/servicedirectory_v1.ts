@@ -620,6 +620,7 @@ export const getProjectsLocationsNamespaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNamespaces",
+  iam: { actions: ["servicedirectory.namespaces.get"], roles: ["roles/servicedirectory.viewer"] },
 }));
 
 export type GetProjectsLocationsNamespacesServicesError = NotFound | Forbidden | GcpOpError;
@@ -637,6 +638,7 @@ export const getProjectsLocationsNamespacesServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNamespacesServices",
+  iam: { actions: ["servicedirectory.services.get"], roles: ["roles/servicedirectory.viewer"] },
 }));
 
 export type GetProjectsLocationsNamespacesServicesEndpointsError =
@@ -698,6 +700,7 @@ export const listProjectsLocationsNamespaces: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNamespaces",
+  iam: { actions: ["servicedirectory.namespaces.list"], roles: ["roles/servicedirectory.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -717,6 +720,7 @@ export const listProjectsLocationsNamespacesServices: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNamespacesServices",
+  iam: { actions: ["servicedirectory.services.list"], roles: ["roles/servicedirectory.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -743,6 +747,7 @@ export const listProjectsLocationsNamespacesServicesEndpoints: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNamespacesServicesEndpoints",
+  iam: { actions: ["servicedirectory.endpoints.list"], roles: ["roles/servicedirectory.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

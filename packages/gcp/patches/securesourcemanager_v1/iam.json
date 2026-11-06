@@ -1,0 +1,285 @@
+{
+  "description": "What each securesourcemanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.update"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#CloseProjectsLocationsRepositoriesIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issues.close"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#CloseProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.close"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#CreateProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.instances.create"],
+        "roles": ["roles/securesourcemanager.instanceOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#CreateProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.create"],
+        "roles": ["roles/securesourcemanager.repoCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#CreateProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.create"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.instances.delete"],
+        "roles": ["roles/securesourcemanager.instanceManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#DeleteProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.delete"],
+        "roles": ["roles/securesourcemanager.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#FetchBlobProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#FetchRefsProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#FetchTreeProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.instances.get"],
+        "roles": ["roles/securesourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesBranchRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.branchRules.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesHooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.hooks.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issues.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesIssuesIssueComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issuecomments.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#GetProjectsLocationsRepositoriesPullRequestsPullRequestComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListFileDiffsProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.listFileDiffs"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.instances.list"],
+        "roles": ["roles/securesourcemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesBranchRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.branchRules.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesHooks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.hooks.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issues.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesIssuesIssueComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issuecomments.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.list"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ListProjectsLocationsRepositoriesPullRequestsPullRequestComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.get"],
+        "roles": ["roles/securesourcemanager.repoReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#MergeProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.merge"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#OpenProjectsLocationsRepositoriesIssues/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.issues.open"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#OpenProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.open"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#PatchProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.repositories.update"],
+        "roles": ["roles/securesourcemanager.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#PatchProjectsLocationsRepositoriesPullRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.update"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#ResolveProjectsLocationsRepositoriesPullRequestsPullRequestComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.update"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securesourcemanager_v1#UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["securesourcemanager.pullRequests.update"],
+        "roles": ["roles/securesourcemanager.repoWriter"]
+      }
+    }
+  ]
+}

@@ -623,6 +623,10 @@ export const getProjectsScanConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsScanConfigs",
+  iam: {
+    actions: ["cloudsecurityscanner.scans.get"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
 }));
 
 export type GetProjectsScanConfigsScanRunsError = NotFound | Forbidden | GcpOpError;
@@ -640,6 +644,10 @@ export const getProjectsScanConfigsScanRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsScanConfigsScanRuns",
+  iam: {
+    actions: ["cloudsecurityscanner.scanruns.get"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
 }));
 
 export type GetProjectsScanConfigsScanRunsFindingsError = NotFound | Forbidden | GcpOpError;
@@ -657,6 +665,10 @@ export const getProjectsScanConfigsScanRunsFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsScanConfigsScanRunsFindings",
+  iam: {
+    actions: ["cloudsecurityscanner.results.get"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
 }));
 
 export type ListProjectsScanConfigsError = NotFound | Forbidden | GcpOpError;
@@ -675,6 +687,10 @@ export const listProjectsScanConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsScanConfigs",
+  iam: {
+    actions: ["cloudsecurityscanner.scans.list"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -694,6 +710,10 @@ export const listProjectsScanConfigsScanRuns: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsScanConfigsScanRuns",
+  iam: {
+    actions: ["cloudsecurityscanner.scanruns.list"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -713,6 +733,10 @@ export const listProjectsScanConfigsScanRunsCrawledUrls: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsScanConfigsScanRunsCrawledUrls",
+  iam: {
+    actions: ["cloudsecurityscanner.crawledurls.list"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -732,6 +756,10 @@ export const listProjectsScanConfigsScanRunsFindings: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsScanConfigsScanRunsFindings",
+  iam: {
+    actions: ["cloudsecurityscanner.results.list"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -757,6 +785,10 @@ export const listProjectsScanConfigsScanRunsFindingTypeStats: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsScanConfigsScanRunsFindingTypeStats",
+  iam: {
+    actions: ["cloudsecurityscanner.results.list"],
+    roles: ["roles/cloudsecurityscanner.viewer"],
+  },
 }));
 
 export type PatchProjectsScanConfigsError =
@@ -802,6 +834,10 @@ export const startProjectsScanConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsScanConfigs",
+  iam: {
+    actions: ["cloudsecurityscanner.scans.run"],
+    roles: ["roles/cloudsecurityscanner.runner"],
+  },
 }));
 
 export type StopProjectsScanConfigsScanRunsError =
@@ -824,6 +860,10 @@ export const stopProjectsScanConfigsScanRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsScanConfigsScanRuns",
+  iam: {
+    actions: ["cloudsecurityscanner.scanruns.stop"],
+    roles: ["roles/cloudsecurityscanner.runner"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

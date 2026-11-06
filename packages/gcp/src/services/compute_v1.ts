@@ -36026,6 +36026,10 @@ export const abandonInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AbandonInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AbandonInstancesRegionInstanceGroupManagersError =
@@ -36048,6 +36052,10 @@ export const abandonInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AbandonInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AddAccessConfigInstancesError =
@@ -36070,6 +36078,7 @@ export const addAccessConfigInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAccessConfigInstances",
+  iam: { actions: ["compute.instances.addAccessConfig"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type AddAssociationFirewallPoliciesError =
@@ -36114,6 +36123,10 @@ export const addAssociationNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAssociationNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type AddAssociationOrganizationSecurityPoliciesError =
@@ -36158,6 +36171,10 @@ export const addAssociationRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAssociationRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type AddHealthCheckTargetPoolsError =
@@ -36180,6 +36197,10 @@ export const addHealthCheckTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddHealthCheckTargetPools",
+  iam: {
+    actions: ["compute.targetPools.addHealthCheck"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type AddInstancesInstanceGroupsError =
@@ -36202,6 +36223,7 @@ export const addInstancesInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddInstancesInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type AddInstanceTargetPoolsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -36219,6 +36241,7 @@ export const addInstanceTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddInstanceTargetPools",
+  iam: { actions: ["compute.targetPools.addInstance"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type AddNetworkInterfaceInstancesError =
@@ -36241,6 +36264,10 @@ export const addNetworkInterfaceInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddNetworkInterfaceInstances",
+  iam: {
+    actions: ["compute.instances.addNetworkInterface"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AddNodesNodeGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -36258,6 +36285,7 @@ export const addNodesNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddNodesNodeGroups",
+  iam: { actions: ["compute.nodeGroups.addNodes"], roles: ["roles/compute.editor"] },
 }));
 
 export type AddPacketMirroringRuleNetworkFirewallPoliciesError =
@@ -36284,6 +36312,10 @@ export const addPacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddPacketMirroringRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type AddPeeringNetworksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -36301,6 +36333,7 @@ export const addPeeringNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddPeeringNetworks",
+  iam: { actions: ["compute.networks.addPeering"], roles: ["roles/compute.editor"] },
 }));
 
 export type AddResourcePoliciesDisksError =
@@ -36323,6 +36356,7 @@ export const addResourcePoliciesDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddResourcePoliciesDisks",
+  iam: { actions: ["compute.disks.addResourcePolicies"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type AddResourcePoliciesInstancesError =
@@ -36345,6 +36379,10 @@ export const addResourcePoliciesInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddResourcePoliciesInstances",
+  iam: {
+    actions: ["compute.instances.addResourcePolicies"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AddResourcePoliciesRegionDisksError =
@@ -36367,6 +36405,7 @@ export const addResourcePoliciesRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddResourcePoliciesRegionDisks",
+  iam: { actions: ["compute.disks.addResourcePolicies"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type AddRuleFirewallPoliciesError =
@@ -36411,6 +36450,10 @@ export const addRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type AddRuleOrganizationSecurityPoliciesError =
@@ -36455,6 +36498,10 @@ export const addRuleRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddRuleRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type AddRuleRegionSecurityPoliciesError =
@@ -36477,6 +36524,10 @@ export const addRuleRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddRuleRegionSecurityPolicies",
+  iam: {
+    actions: ["compute.regionSecurityPolicies.update"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type AddRuleSecurityPoliciesError =
@@ -36499,6 +36550,10 @@ export const addRuleSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddRuleSecurityPolicies",
+  iam: {
+    actions: ["compute.securityPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type AddSignedUrlKeyBackendBucketsError =
@@ -36521,6 +36576,10 @@ export const addSignedUrlKeyBackendBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddSignedUrlKeyBackendBuckets",
+  iam: {
+    actions: ["compute.backendBuckets.addSignedUrlKey"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type AddSignedUrlKeyBackendServicesError =
@@ -36543,6 +36602,10 @@ export const addSignedUrlKeyBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddSignedUrlKeyBackendServices",
+  iam: {
+    actions: ["compute.backendServices.addSignedUrlKey"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type AdvanceRolloutsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -36577,6 +36640,10 @@ export const aggregatedListAcceleratorTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListAcceleratorTypes",
+  iam: {
+    actions: ["compute.acceleratorTypes.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36595,6 +36662,7 @@ export const aggregatedListAddresses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListAddresses",
+  iam: { actions: ["compute.addresses.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36613,6 +36681,7 @@ export const aggregatedListAutoscalers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListAutoscalers",
+  iam: { actions: ["compute.autoscalers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36631,6 +36700,7 @@ export const aggregatedListBackendBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListBackendBuckets",
+  iam: { actions: ["compute.backendBuckets.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36649,6 +36719,7 @@ export const aggregatedListBackendServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListBackendServices",
+  iam: { actions: ["compute.backendServices.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36667,6 +36738,7 @@ export const aggregatedListDisks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListDisks",
+  iam: { actions: ["compute.disks.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36685,6 +36757,7 @@ export const aggregatedListDiskTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListDiskTypes",
+  iam: { actions: ["compute.diskTypes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36703,6 +36776,7 @@ export const aggregatedListForwardingRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListForwardingRules",
+  iam: { actions: ["compute.forwardingRules.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36721,6 +36795,10 @@ export const aggregatedListFutureReservations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListFutureReservations",
+  iam: {
+    actions: ["compute.futureReservations.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36757,6 +36835,10 @@ export const aggregatedListGlobalVmExtensionPolicies: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListGlobalVmExtensionPolicies",
+  iam: {
+    actions: ["compute.vmExtensionPolicies.list"],
+    roles: ["roles/compute.vmExtensionPolicyViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36775,6 +36857,7 @@ export const aggregatedListHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListHealthChecks",
+  iam: { actions: ["compute.healthChecks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36793,6 +36876,7 @@ export const aggregatedListInstanceGroupManagers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36811,6 +36895,7 @@ export const aggregatedListInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36829,6 +36914,7 @@ export const aggregatedListInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInstances",
+  iam: { actions: ["compute.instances.list"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36847,6 +36933,10 @@ export const aggregatedListInstanceTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInstanceTemplates",
+  iam: {
+    actions: ["compute.instanceTemplates.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36865,6 +36955,7 @@ export const aggregatedListInstantSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36883,6 +36974,10 @@ export const aggregatedListInterconnectAttachments: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListInterconnectAttachments",
+  iam: {
+    actions: ["compute.interconnectAttachments.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36901,6 +36996,7 @@ export const aggregatedListMachineTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListMachineTypes",
+  iam: { actions: ["compute.machineTypes.list"], roles: ["roles/compute.futureReservationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36919,6 +37015,7 @@ export const aggregatedListNetworkAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNetworkAttachments",
+  iam: { actions: ["compute.networkAttachments.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36937,6 +37034,7 @@ export const aggregatedListNetworkEdgeSecurityServices: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNetworkEdgeSecurityServices",
+  iam: { actions: ["compute.networkEdgeSecurityServices.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36955,6 +37053,7 @@ export const aggregatedListNetworkEndpointGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36973,6 +37072,7 @@ export const aggregatedListNetworkFirewallPolicies: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -36991,6 +37091,7 @@ export const aggregatedListNodeGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNodeGroups",
+  iam: { actions: ["compute.nodeGroups.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37009,6 +37110,7 @@ export const aggregatedListNodeTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNodeTemplates",
+  iam: { actions: ["compute.nodeTemplates.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37027,6 +37129,7 @@ export const aggregatedListNodeTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListNodeTypes",
+  iam: { actions: ["compute.nodeTypes.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37045,6 +37148,7 @@ export const aggregatedListPacketMirrorings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListPacketMirrorings",
+  iam: { actions: ["compute.packetMirrorings.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37063,6 +37167,7 @@ export const aggregatedListPublicDelegatedPrefixes: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListPublicDelegatedPrefixes",
+  iam: { actions: ["compute.publicDelegatedPrefixes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37081,6 +37186,7 @@ export const aggregatedListRegionCommitments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionCommitments",
+  iam: { actions: ["compute.commitments.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37099,6 +37205,10 @@ export const aggregatedListRegionCompositeHealthChecks: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionCompositeHealthChecks",
+  iam: {
+    actions: ["compute.regionCompositeHealthChecks.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37121,6 +37231,10 @@ export const aggregatedListRegionHealthAggregationPolicies: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionHealthAggregationPolicies",
+  iam: {
+    actions: ["compute.regionHealthAggregationPolicies.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37139,6 +37253,10 @@ export const aggregatedListRegionHealthCheckServices: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionHealthCheckServices",
+  iam: {
+    actions: ["compute.regionHealthCheckServices.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37157,6 +37275,7 @@ export const aggregatedListRegionHealthSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionHealthSources",
+  iam: { actions: ["compute.regionHealthSources.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37175,6 +37294,10 @@ export const aggregatedListRegionNotificationEndpoints: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRegionNotificationEndpoints",
+  iam: {
+    actions: ["compute.regionNotificationEndpoints.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37193,6 +37316,7 @@ export const aggregatedListReservations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListReservations",
+  iam: { actions: ["compute.reservations.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37211,6 +37335,7 @@ export const aggregatedListResourcePolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListResourcePolicies",
+  iam: { actions: ["compute.resourcePolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37229,6 +37354,7 @@ export const aggregatedListRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListRouters",
+  iam: { actions: ["compute.routers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37247,6 +37373,7 @@ export const aggregatedListSecurityPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37265,6 +37392,7 @@ export const aggregatedListServiceAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListServiceAttachments",
+  iam: { actions: ["compute.serviceAttachments.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37283,6 +37411,7 @@ export const aggregatedListSslCertificates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListSslCertificates",
+  iam: { actions: ["compute.sslCertificates.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37301,6 +37430,7 @@ export const aggregatedListSslPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListSslPolicies",
+  iam: { actions: ["compute.sslPolicies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37319,6 +37449,7 @@ export const aggregatedListStoragePools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListStoragePools",
+  iam: { actions: ["compute.storagePools.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37337,6 +37468,7 @@ export const aggregatedListStoragePoolTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListStoragePoolTypes",
+  iam: { actions: ["compute.storagePools.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37355,6 +37487,7 @@ export const aggregatedListSubnetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListSubnetworks",
+  iam: { actions: ["compute.subnetworks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37373,6 +37506,7 @@ export const aggregatedListTargetHttpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetHttpProxies",
+  iam: { actions: ["compute.targetHttpProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37391,6 +37525,7 @@ export const aggregatedListTargetHttpsProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetHttpsProxies",
+  iam: { actions: ["compute.targetHttpsProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37409,6 +37544,7 @@ export const aggregatedListTargetInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetInstances",
+  iam: { actions: ["compute.targetInstances.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37427,6 +37563,7 @@ export const aggregatedListTargetPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetPools",
+  iam: { actions: ["compute.targetPools.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37445,6 +37582,7 @@ export const aggregatedListTargetTcpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetTcpProxies",
+  iam: { actions: ["compute.targetTcpProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37463,6 +37601,7 @@ export const aggregatedListTargetVpnGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListTargetVpnGateways",
+  iam: { actions: ["compute.targetVpnGateways.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37481,6 +37620,7 @@ export const aggregatedListUrlMaps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListUrlMaps",
+  iam: { actions: ["compute.urlMaps.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37499,6 +37639,7 @@ export const aggregatedListVpnGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListVpnGateways",
+  iam: { actions: ["compute.vpnGateways.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37517,6 +37658,7 @@ export const aggregatedListVpnTunnels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedListVpnTunnels",
+  iam: { actions: ["compute.vpnTunnels.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 }));
 
@@ -37540,6 +37682,10 @@ export const announcePublicAdvertisedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnouncePublicAdvertisedPrefixes",
+  iam: {
+    actions: ["compute.publicAdvertisedPrefixes.update"],
+    roles: ["roles/compute.publicIpAdmin"],
+  },
 }));
 
 export type AnnouncePublicDelegatedPrefixesError =
@@ -37562,6 +37708,10 @@ export const announcePublicDelegatedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnouncePublicDelegatedPrefixes",
+  iam: {
+    actions: ["compute.publicDelegatedPrefixes.announce"],
+    roles: ["roles/compute.publicIpAdmin"],
+  },
 }));
 
 export type ApplyUpdatesToInstancesInstanceGroupManagersError =
@@ -37588,6 +37738,10 @@ export const applyUpdatesToInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyUpdatesToInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type ApplyUpdatesToInstancesRegionInstanceGroupManagersError =
@@ -37614,6 +37768,10 @@ export const applyUpdatesToInstancesRegionInstanceGroupManagers: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyUpdatesToInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AttachDiskInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37631,6 +37789,7 @@ export const attachDiskInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachDiskInstances",
+  iam: { actions: ["compute.instances.attachDisk"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type AttachNetworkEndpointsGlobalNetworkEndpointGroupsError =
@@ -37657,6 +37816,10 @@ export const attachNetworkEndpointsGlobalNetworkEndpointGroups: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachNetworkEndpointsGlobalNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.globalNetworkEndpointGroups.attachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AttachNetworkEndpointsNetworkEndpointGroupsError =
@@ -37683,6 +37846,10 @@ export const attachNetworkEndpointsNetworkEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachNetworkEndpointsNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.networkEndpointGroups.attachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type AttachNetworkEndpointsRegionNetworkEndpointGroupsError =
@@ -37709,6 +37876,10 @@ export const attachNetworkEndpointsRegionNetworkEndpointGroups: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachNetworkEndpointsRegionNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.networkEndpointGroups.attachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type BulkInsertDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37726,6 +37897,7 @@ export const bulkInsertDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkInsertDisks",
+  iam: { actions: ["compute.disks.create"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type BulkInsertInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37743,6 +37915,7 @@ export const bulkInsertInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkInsertInstances",
+  iam: { actions: ["compute.instances.create"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type BulkInsertRegionDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37760,6 +37933,7 @@ export const bulkInsertRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkInsertRegionDisks",
+  iam: { actions: ["compute.disks.create"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type BulkInsertRegionInstancesError =
@@ -37782,6 +37956,7 @@ export const bulkInsertRegionInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkInsertRegionInstances",
+  iam: { actions: ["compute.instances.create"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type BulkSetLabelsDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37799,6 +37974,7 @@ export const bulkSetLabelsDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkSetLabelsDisks",
+  iam: { actions: ["compute.disks.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type CalendarModeAdviceError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37816,6 +37992,7 @@ export const calendarModeAdvice: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CalendarModeAdvice",
+  iam: { actions: ["compute.advice.calendarMode"], roles: ["roles/compute.futureReservationUser"] },
 }));
 
 export type CancelFutureReservationsError =
@@ -37838,6 +38015,10 @@ export const cancelFutureReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelFutureReservations",
+  iam: {
+    actions: ["compute.futureReservations.cancel"],
+    roles: ["roles/compute.futureReservationAdmin"],
+  },
 }));
 
 export type CancelInstanceGroupManagerResizeRequestsError =
@@ -37860,6 +38041,10 @@ export const cancelInstanceGroupManagerResizeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelInstanceGroupManagerResizeRequests",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type CancelRegionInstanceGroupManagerResizeRequestsError =
@@ -37886,6 +38071,10 @@ export const cancelRegionInstanceGroupManagerResizeRequests: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelRegionInstanceGroupManagerResizeRequests",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type CancelRequestRemovePeeringNetworksError =
@@ -37908,6 +38097,7 @@ export const cancelRequestRemovePeeringNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelRequestRemovePeeringNetworks",
+  iam: { actions: ["compute.networks.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type CancelRolloutsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37925,6 +38115,7 @@ export const cancelRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelRollouts",
+  iam: { actions: ["compute.rollouts.cancel"], roles: ["roles/compute.vmExtensionPolicyAdmin"] },
 }));
 
 export type CapacityAdviceError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37942,6 +38133,7 @@ export const capacityAdvice: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CapacityAdvice",
+  iam: { actions: ["compute.advice.capacity"], roles: ["roles/compute.viewer"] },
 }));
 
 export type CapacityHistoryAdviceError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -37959,6 +38151,7 @@ export const capacityHistoryAdvice: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CapacityHistoryAdvice",
+  iam: { actions: ["compute.advice.capacityHistory"], roles: ["roles/compute.viewer"] },
 }));
 
 export type CloneRulesFirewallPoliciesError =
@@ -38003,6 +38196,10 @@ export const cloneRulesNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneRulesNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.cloneRules"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type CloneRulesRegionNetworkFirewallPoliciesError =
@@ -38025,6 +38222,10 @@ export const cloneRulesRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneRulesRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.cloneRules"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type CopyRulesOrganizationSecurityPoliciesError =
@@ -38069,6 +38270,10 @@ export const createInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type CreateInstancesRegionInstanceGroupManagersError =
@@ -38091,6 +38296,10 @@ export const createInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type CreateMembersInterconnectGroupsError =
@@ -38113,6 +38322,7 @@ export const createMembersInterconnectGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMembersInterconnectGroups",
+  iam: { actions: ["compute.interconnectGroups.patch"], roles: ["roles/compute.editor"] },
 }));
 
 export type CreateSnapshotDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -38130,6 +38340,7 @@ export const createSnapshotDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSnapshotDisks",
+  iam: { actions: ["compute.disks.createSnapshot"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type CreateSnapshotRegionDisksError =
@@ -38152,6 +38363,7 @@ export const createSnapshotRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSnapshotRegionDisks",
+  iam: { actions: ["compute.disks.createSnapshot"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type DeleteAccessConfigInstancesError =
@@ -38174,6 +38386,10 @@ export const deleteAccessConfigInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccessConfigInstances",
+  iam: {
+    actions: ["compute.instances.deleteAccessConfig"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeleteAddressesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -38699,6 +38915,10 @@ export const deleteInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeleteInstancesRegionInstanceGroupManagersError =
@@ -38721,6 +38941,10 @@ export const deleteInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeleteInstanceTemplatesError =
@@ -38916,6 +39140,7 @@ export const deleteNamedSetRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteNamedSetRouters",
+  iam: { actions: ["compute.routers.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type DeleteNetworkAttachmentsError =
@@ -39026,6 +39251,10 @@ export const deleteNetworkInterfaceInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteNetworkInterfaceInstances",
+  iam: {
+    actions: ["compute.instances.deleteNetworkInterface"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeleteNetworksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -39077,6 +39306,7 @@ export const deleteNodesNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteNodesNodeGroups",
+  iam: { actions: ["compute.nodeGroups.deleteNodes"], roles: ["roles/compute.editor"] },
 }));
 
 export type DeleteNodeTemplatesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -39159,6 +39389,10 @@ export const deletePerInstanceConfigsInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePerInstanceConfigsInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeletePerInstanceConfigsRegionInstanceGroupManagersError =
@@ -39185,6 +39419,10 @@ export const deletePerInstanceConfigsRegionInstanceGroupManagers: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePerInstanceConfigsRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DeletePublicAdvertisedPrefixesError =
@@ -39876,6 +40114,7 @@ export const deleteRoutePolicyRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteRoutePolicyRouters",
+  iam: { actions: ["compute.routers.deleteRoutePolicy"], roles: ["roles/compute.editor"] },
 }));
 
 export type DeleteRoutersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -39971,6 +40210,10 @@ export const deleteSignedUrlKeyBackendBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSignedUrlKeyBackendBuckets",
+  iam: {
+    actions: ["compute.backendBuckets.deleteSignedUrlKey"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type DeleteSignedUrlKeyBackendServicesError =
@@ -39993,6 +40236,10 @@ export const deleteSignedUrlKeyBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSignedUrlKeyBackendServices",
+  iam: {
+    actions: ["compute.backendServices.deleteSignedUrlKey"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type DeleteSnapshotsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -40364,6 +40611,7 @@ export const deprecateImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeprecateImages",
+  iam: { actions: ["compute.images.deprecate"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type DetachDiskInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -40381,6 +40629,7 @@ export const detachDiskInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachDiskInstances",
+  iam: { actions: ["compute.instances.detachDisk"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type DetachNetworkEndpointsGlobalNetworkEndpointGroupsError =
@@ -40407,6 +40656,10 @@ export const detachNetworkEndpointsGlobalNetworkEndpointGroups: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachNetworkEndpointsGlobalNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.globalNetworkEndpointGroups.detachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DetachNetworkEndpointsNetworkEndpointGroupsError =
@@ -40433,6 +40686,10 @@ export const detachNetworkEndpointsNetworkEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachNetworkEndpointsNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.networkEndpointGroups.detachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DetachNetworkEndpointsRegionNetworkEndpointGroupsError =
@@ -40459,6 +40716,10 @@ export const detachNetworkEndpointsRegionNetworkEndpointGroups: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachNetworkEndpointsRegionNetworkEndpointGroups",
+  iam: {
+    actions: ["compute.networkEndpointGroups.detachNetworkEndpoints"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type DisableXpnHostProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -40559,6 +40820,7 @@ export const expandIpCidrRangeSubnetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExpandIpCidrRangeSubnetworks",
+  iam: { actions: ["compute.subnetworks.expandIpCidrRange"], roles: ["roles/compute.editor"] },
 }));
 
 export type GetAcceleratorTypesError = NotFound | Forbidden | GcpOpError;
@@ -40576,6 +40838,7 @@ export const getAcceleratorTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAcceleratorTypes",
+  iam: { actions: ["compute.acceleratorTypes.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetAddressesError = NotFound | Forbidden | GcpOpError;
@@ -40593,6 +40856,7 @@ export const getAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAddresses",
+  iam: { actions: ["compute.addresses.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetAssociationFirewallPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -40627,6 +40891,7 @@ export const getAssociationNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAssociationNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetAssociationOrganizationSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -40665,6 +40930,7 @@ export const getAssociationRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAssociationRegionNetworkFirewallPolicies",
+  iam: { actions: ["compute.regionFirewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetAutoscalersError = NotFound | Forbidden | GcpOpError;
@@ -40682,6 +40948,7 @@ export const getAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAutoscalers",
+  iam: { actions: ["compute.autoscalers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetBackendBucketsError = NotFound | Forbidden | GcpOpError;
@@ -40699,6 +40966,7 @@ export const getBackendBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackendBuckets",
+  iam: { actions: ["compute.backendBuckets.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetBackendServicesError = NotFound | Forbidden | GcpOpError;
@@ -40716,6 +40984,7 @@ export const getBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackendServices",
+  iam: { actions: ["compute.backendServices.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetCrossSiteNetworksError = NotFound | Forbidden | GcpOpError;
@@ -40733,6 +41002,7 @@ export const getCrossSiteNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCrossSiteNetworks",
+  iam: { actions: ["compute.crossSiteNetworks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetDiagnosticsInterconnectsError = NotFound | Forbidden | GcpOpError;
@@ -40750,6 +41020,7 @@ export const getDiagnosticsInterconnects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDiagnosticsInterconnects",
+  iam: { actions: ["compute.interconnects.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetDisksError = NotFound | Forbidden | GcpOpError;
@@ -40763,6 +41034,7 @@ export const getDisks: API.OperationMethod<GetDisksRequest, Disk, GetDisksError,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetDisks",
+    iam: { actions: ["compute.disks.get"], roles: ["roles/compute.viewer"] },
   }));
 
 export type GetDiskTypesError = NotFound | Forbidden | GcpOpError;
@@ -40780,6 +41052,7 @@ export const getDiskTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDiskTypes",
+  iam: { actions: ["compute.diskTypes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetEffectiveFirewallsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -40797,6 +41070,10 @@ export const getEffectiveFirewallsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEffectiveFirewallsInstances",
+  iam: {
+    actions: ["compute.instances.getEffectiveFirewalls"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type GetEffectiveFirewallsNetworksError = NotFound | Forbidden | GcpOpError;
@@ -40814,6 +41091,10 @@ export const getEffectiveFirewallsNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEffectiveFirewallsNetworks",
+  iam: {
+    actions: ["compute.networks.getEffectiveFirewalls"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type GetEffectiveFirewallsRegionNetworkFirewallPoliciesError =
@@ -40842,6 +41123,7 @@ export const getEffectiveFirewallsRegionNetworkFirewallPolicies: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEffectiveFirewallsRegionNetworkFirewallPolicies",
+  iam: { actions: ["compute.regionFirewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetEffectiveSecurityPoliciesBackendServicesError = NotFound | Forbidden | GcpOpError;
@@ -40867,6 +41149,7 @@ export const getEffectiveSecurityPoliciesBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEffectiveSecurityPoliciesBackendServices",
+  iam: { actions: ["compute.backendServices.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetExternalVpnGatewaysError = NotFound | Forbidden | GcpOpError;
@@ -40884,6 +41167,7 @@ export const getExternalVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExternalVpnGateways",
+  iam: { actions: ["compute.externalVpnGateways.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetFirewallPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -40918,6 +41202,7 @@ export const getFirewalls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFirewalls",
+  iam: { actions: ["compute.firewalls.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetForwardingRulesError = NotFound | Forbidden | GcpOpError;
@@ -40935,6 +41220,7 @@ export const getForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetForwardingRules",
+  iam: { actions: ["compute.forwardingRules.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetFromFamilyImagesError = NotFound | Forbidden | GcpOpError;
@@ -40952,6 +41238,7 @@ export const getFromFamilyImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFromFamilyImages",
+  iam: { actions: ["compute.images.getFromFamily"], roles: ["roles/compute.imageUser"] },
 }));
 
 export type GetFutureReservationsError = NotFound | Forbidden | GcpOpError;
@@ -40969,6 +41256,10 @@ export const getFutureReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFutureReservations",
+  iam: {
+    actions: ["compute.futureReservations.get"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
 }));
 
 export type GetGlobalAddressesError = NotFound | Forbidden | GcpOpError;
@@ -40986,6 +41277,7 @@ export const getGlobalAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalAddresses",
+  iam: { actions: ["compute.globalAddresses.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetGlobalForwardingRulesError = NotFound | Forbidden | GcpOpError;
@@ -41003,6 +41295,7 @@ export const getGlobalForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalForwardingRules",
+  iam: { actions: ["compute.globalForwardingRules.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetGlobalFrontendSettingsError = NotFound | Forbidden | GcpOpError;
@@ -41020,6 +41313,7 @@ export const getGlobalFrontendSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalFrontendSettings",
+  iam: { actions: ["compute.globalFrontendSettings.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetGlobalNetworkEndpointGroupsError = NotFound | Forbidden | GcpOpError;
@@ -41037,6 +41331,7 @@ export const getGlobalNetworkEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalNetworkEndpointGroups",
+  iam: { actions: ["compute.globalNetworkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetGlobalOperationsError = NotFound | Forbidden | GcpOpError;
@@ -41088,6 +41383,7 @@ export const getGlobalPublicDelegatedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalPublicDelegatedPrefixes",
+  iam: { actions: ["compute.globalPublicDelegatedPrefixes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetGlobalVmExtensionPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -41105,6 +41401,10 @@ export const getGlobalVmExtensionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGlobalVmExtensionPolicies",
+  iam: {
+    actions: ["compute.vmExtensionPolicies.get"],
+    roles: ["roles/compute.vmExtensionPolicyViewer"],
+  },
 }));
 
 export type GetGuestAttributesInstancesError = NotFound | Forbidden | GcpOpError;
@@ -41122,6 +41422,10 @@ export const getGuestAttributesInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGuestAttributesInstances",
+  iam: {
+    actions: ["compute.instances.getGuestAttributes"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type GetHealthBackendServicesError =
@@ -41144,6 +41448,7 @@ export const getHealthBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthBackendServices",
+  iam: { actions: ["compute.backendServices.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -41161,6 +41466,7 @@ export const getHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthChecks",
+  iam: { actions: ["compute.healthChecks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHealthRegionBackendServicesError =
@@ -41183,6 +41489,7 @@ export const getHealthRegionBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthRegionBackendServices",
+  iam: { actions: ["compute.regionBackendServices.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHealthRegionCompositeHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -41200,6 +41507,10 @@ export const getHealthRegionCompositeHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthRegionCompositeHealthChecks",
+  iam: {
+    actions: ["compute.regionCompositeHealthChecks.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetHealthRegionHealthSourcesError = NotFound | Forbidden | GcpOpError;
@@ -41217,6 +41528,7 @@ export const getHealthRegionHealthSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthRegionHealthSources",
+  iam: { actions: ["compute.regionHealthSources.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHealthReservationSlotsError =
@@ -41239,6 +41551,7 @@ export const getHealthReservationSlots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthReservationSlots",
+  iam: { actions: ["compute.reservationSlots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetHealthTargetPoolsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -41256,6 +41569,7 @@ export const getHealthTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHealthTargetPools",
+  iam: { actions: ["compute.targetPools.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHostsError = NotFound | Forbidden | GcpOpError;
@@ -41269,6 +41583,7 @@ export const getHosts: API.OperationMethod<GetHostsRequest, Host, GetHostsError,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetHosts",
+    iam: { actions: ["compute.hosts.get"], roles: ["roles/compute.viewer"] },
   }));
 
 export type GetHttpHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -41286,6 +41601,7 @@ export const getHttpHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHttpHealthChecks",
+  iam: { actions: ["compute.httpHealthChecks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetHttpsHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -41303,6 +41619,7 @@ export const getHttpsHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHttpsHealthChecks",
+  iam: { actions: ["compute.httpsHealthChecks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetIamPolicyBackendBucketsError = NotFound | Forbidden | GcpOpError;
@@ -41894,6 +42211,7 @@ export const getImages: API.OperationMethod<GetImagesRequest, Image, GetImagesEr
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetImages",
+    iam: { actions: ["compute.images.get"], roles: ["roles/compute.viewer"] },
   }));
 
 export type GetImageViewsError = NotFound | Forbidden | GcpOpError;
@@ -41928,6 +42246,7 @@ export const getInstanceGroupManagerResizeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceGroupManagerResizeRequests",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInstanceGroupManagersError = NotFound | Forbidden | GcpOpError;
@@ -41945,6 +42264,7 @@ export const getInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInstanceGroupsError = NotFound | Forbidden | GcpOpError;
@@ -41962,6 +42282,7 @@ export const getInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInstancesError = NotFound | Forbidden | GcpOpError;
@@ -41996,6 +42317,7 @@ export const getInstanceSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceSettings",
+  iam: { actions: ["compute.instanceSettings.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInstanceTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -42013,6 +42335,7 @@ export const getInstanceTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceTemplates",
+  iam: { actions: ["compute.instanceTemplates.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetInstantSnapshotGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42030,6 +42353,7 @@ export const getInstantSnapshotGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstantSnapshotGroups",
+  iam: { actions: ["compute.instantSnapshotGroups.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetInstantSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -42047,6 +42371,7 @@ export const getInstantSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetInterconnectAttachmentGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42064,6 +42389,10 @@ export const getInterconnectAttachmentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnectAttachmentGroups",
+  iam: {
+    actions: ["compute.interconnectAttachmentGroups.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetInterconnectAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -42081,6 +42410,7 @@ export const getInterconnectAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnectAttachments",
+  iam: { actions: ["compute.interconnectAttachments.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInterconnectGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42098,6 +42428,7 @@ export const getInterconnectGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnectGroups",
+  iam: { actions: ["compute.interconnectGroups.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInterconnectLocationsError = NotFound | Forbidden | GcpOpError;
@@ -42115,6 +42446,7 @@ export const getInterconnectLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnectLocations",
+  iam: { actions: ["compute.interconnectLocations.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetInterconnectRemoteLocationsError = NotFound | Forbidden | GcpOpError;
@@ -42132,6 +42464,10 @@ export const getInterconnectRemoteLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnectRemoteLocations",
+  iam: {
+    actions: ["compute.interconnectRemoteLocations.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetInterconnectsError = NotFound | Forbidden | GcpOpError;
@@ -42149,6 +42485,7 @@ export const getInterconnects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInterconnects",
+  iam: { actions: ["compute.interconnects.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetLicenseCodesError = NotFound | Forbidden | GcpOpError;
@@ -42166,6 +42503,7 @@ export const getLicenseCodes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLicenseCodes",
+  iam: { actions: ["compute.licenseCodes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetLicensesError = NotFound | Forbidden | GcpOpError;
@@ -42183,6 +42521,7 @@ export const getLicenses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLicenses",
+  iam: { actions: ["compute.licenses.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetMachineImagesError = NotFound | Forbidden | GcpOpError;
@@ -42200,6 +42539,7 @@ export const getMachineImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMachineImages",
+  iam: { actions: ["compute.machineImages.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetMachineTypesError = NotFound | Forbidden | GcpOpError;
@@ -42217,6 +42557,7 @@ export const getMachineTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMachineTypes",
+  iam: { actions: ["compute.machineTypes.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetMacsecConfigInterconnectsError = NotFound | Forbidden | GcpOpError;
@@ -42234,6 +42575,10 @@ export const getMacsecConfigInterconnects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMacsecConfigInterconnects",
+  iam: {
+    actions: ["compute.interconnects.getMacsecConfig"],
+    roles: ["roles/compute.networkAdmin"],
+  },
 }));
 
 export type GetManagedRulesetsError = NotFound | Forbidden | GcpOpError;
@@ -42251,6 +42596,7 @@ export const getManagedRulesets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagedRulesets",
+  iam: { actions: ["compute.managedRulesets.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetNamedSetRoutersError = NotFound | Forbidden | GcpOpError;
@@ -42268,6 +42614,7 @@ export const getNamedSetRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNamedSetRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetNatIpInfoRoutersError = NotFound | Forbidden | GcpOpError;
@@ -42285,6 +42632,7 @@ export const getNatIpInfoRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNatIpInfoRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetNatMappingInfoRoutersError = NotFound | Forbidden | GcpOpError;
@@ -42303,6 +42651,7 @@ export const getNatMappingInfoRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNatMappingInfoRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -42321,6 +42670,7 @@ export const getNetworkAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworkAttachments",
+  iam: { actions: ["compute.networkAttachments.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetNetworkEdgeSecurityServicesError = NotFound | Forbidden | GcpOpError;
@@ -42338,6 +42688,7 @@ export const getNetworkEdgeSecurityServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworkEdgeSecurityServices",
+  iam: { actions: ["compute.networkEdgeSecurityServices.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetNetworkEndpointGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42355,6 +42706,7 @@ export const getNetworkEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetNetworkFirewallPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -42372,6 +42724,7 @@ export const getNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetNetworkProfilesError = NotFound | Forbidden | GcpOpError;
@@ -42389,6 +42742,7 @@ export const getNetworkProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworkProfiles",
+  iam: { actions: ["compute.networkProfiles.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetNetworksError = NotFound | Forbidden | GcpOpError;
@@ -42406,6 +42760,7 @@ export const getNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNetworks",
+  iam: { actions: ["compute.networks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetNodeGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42423,6 +42778,7 @@ export const getNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNodeGroups",
+  iam: { actions: ["compute.nodeGroups.get"], roles: ["roles/compute.soleTenantViewer"] },
 }));
 
 export type GetNodeTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -42440,6 +42796,7 @@ export const getNodeTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNodeTemplates",
+  iam: { actions: ["compute.nodeTemplates.get"], roles: ["roles/compute.soleTenantViewer"] },
 }));
 
 export type GetNodeTypesError = NotFound | Forbidden | GcpOpError;
@@ -42457,6 +42814,7 @@ export const getNodeTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNodeTypes",
+  iam: { actions: ["compute.nodeTypes.get"], roles: ["roles/compute.soleTenantViewer"] },
 }));
 
 export type GetOperationalStatusInterconnectAttachmentGroupsError =
@@ -42485,6 +42843,10 @@ export const getOperationalStatusInterconnectAttachmentGroups: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOperationalStatusInterconnectAttachmentGroups",
+  iam: {
+    actions: ["compute.interconnectAttachmentGroups.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetOperationalStatusInterconnectGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42502,6 +42864,7 @@ export const getOperationalStatusInterconnectGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOperationalStatusInterconnectGroups",
+  iam: { actions: ["compute.interconnectGroups.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetOrganizationSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -42540,6 +42903,7 @@ export const getPacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPacketMirroringRuleNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetPacketMirroringsError = NotFound | Forbidden | GcpOpError;
@@ -42557,6 +42921,7 @@ export const getPacketMirrorings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPacketMirrorings",
+  iam: { actions: ["compute.packetMirrorings.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetPreviewFeaturesError = NotFound | Forbidden | GcpOpError;
@@ -42574,6 +42939,7 @@ export const getPreviewFeatures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPreviewFeatures",
+  iam: { actions: ["compute.previewFeatures.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetProjectsError = NotFound | Forbidden | GcpOpError;
@@ -42591,6 +42957,7 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjects",
+  iam: { actions: ["compute.projects.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetProjectViewsError = NotFound | Forbidden | GcpOpError;
@@ -42625,6 +42992,7 @@ export const getPublicAdvertisedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPublicAdvertisedPrefixes",
+  iam: { actions: ["compute.publicAdvertisedPrefixes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetPublicDelegatedPrefixesError = NotFound | Forbidden | GcpOpError;
@@ -42642,6 +43010,7 @@ export const getPublicDelegatedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPublicDelegatedPrefixes",
+  iam: { actions: ["compute.publicDelegatedPrefixes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionAutoscalersError = NotFound | Forbidden | GcpOpError;
@@ -42659,6 +43028,7 @@ export const getRegionAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionAutoscalers",
+  iam: { actions: ["compute.autoscalers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionBackendBucketsError = NotFound | Forbidden | GcpOpError;
@@ -42676,6 +43046,7 @@ export const getRegionBackendBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionBackendBuckets",
+  iam: { actions: ["compute.regionBackendBuckets.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionBackendServicesError = NotFound | Forbidden | GcpOpError;
@@ -42693,6 +43064,7 @@ export const getRegionBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionBackendServices",
+  iam: { actions: ["compute.regionBackendServices.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionCommitmentsError = NotFound | Forbidden | GcpOpError;
@@ -42710,6 +43082,7 @@ export const getRegionCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionCommitments",
+  iam: { actions: ["compute.commitments.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionCompositeHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -42727,6 +43100,10 @@ export const getRegionCompositeHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionCompositeHealthChecks",
+  iam: {
+    actions: ["compute.regionCompositeHealthChecks.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetRegionDisksError = NotFound | Forbidden | GcpOpError;
@@ -42744,6 +43121,7 @@ export const getRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionDisks",
+  iam: { actions: ["compute.disks.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionDiskTypesError = NotFound | Forbidden | GcpOpError;
@@ -42761,6 +43139,7 @@ export const getRegionDiskTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionDiskTypes",
+  iam: { actions: ["compute.diskTypes.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionHealthAggregationPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -42778,6 +43157,10 @@ export const getRegionHealthAggregationPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionHealthAggregationPolicies",
+  iam: {
+    actions: ["compute.regionHealthAggregationPolicies.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetRegionHealthChecksError = NotFound | Forbidden | GcpOpError;
@@ -42795,6 +43178,7 @@ export const getRegionHealthChecks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionHealthChecks",
+  iam: { actions: ["compute.regionHealthChecks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionHealthCheckServicesError = NotFound | Forbidden | GcpOpError;
@@ -42812,6 +43196,10 @@ export const getRegionHealthCheckServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionHealthCheckServices",
+  iam: {
+    actions: ["compute.regionHealthCheckServices.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetRegionHealthSourcesError = NotFound | Forbidden | GcpOpError;
@@ -42829,6 +43217,7 @@ export const getRegionHealthSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionHealthSources",
+  iam: { actions: ["compute.regionHealthSources.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionInstanceGroupManagerResizeRequestsError = NotFound | Forbidden | GcpOpError;
@@ -42850,6 +43239,7 @@ export const getRegionInstanceGroupManagerResizeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstanceGroupManagerResizeRequests",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionInstanceGroupManagersError = NotFound | Forbidden | GcpOpError;
@@ -42867,6 +43257,7 @@ export const getRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionInstanceGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42884,6 +43275,7 @@ export const getRegionInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionInstanceTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -42901,6 +43293,7 @@ export const getRegionInstanceTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstanceTemplates",
+  iam: { actions: ["compute.instanceTemplates.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionInstantSnapshotGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42918,6 +43311,7 @@ export const getRegionInstantSnapshotGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstantSnapshotGroups",
+  iam: { actions: ["compute.instantSnapshotGroups.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionInstantSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -42935,6 +43329,7 @@ export const getRegionInstantSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionNetworkEndpointGroupsError = NotFound | Forbidden | GcpOpError;
@@ -42952,6 +43347,7 @@ export const getRegionNetworkEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionNetworkFirewallPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -42969,6 +43365,7 @@ export const getRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionNetworkFirewallPolicies",
+  iam: { actions: ["compute.regionFirewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionNotificationEndpointsError = NotFound | Forbidden | GcpOpError;
@@ -42986,6 +43383,10 @@ export const getRegionNotificationEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionNotificationEndpoints",
+  iam: {
+    actions: ["compute.regionNotificationEndpoints.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetRegionOperationsError = NotFound | Forbidden | GcpOpError;
@@ -43020,6 +43421,7 @@ export const getRegions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegions",
+  iam: { actions: ["compute.regions.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43037,6 +43439,7 @@ export const getRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionSecurityPolicies",
+  iam: { actions: ["compute.regionSecurityPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -43054,6 +43457,7 @@ export const getRegionSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionSnapshots",
+  iam: { actions: ["compute.snapshots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionSnapshotSettingsError = NotFound | Forbidden | GcpOpError;
@@ -43071,6 +43475,7 @@ export const getRegionSnapshotSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionSnapshotSettings",
+  iam: { actions: ["compute.snapshotSettings.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRegionSslCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -43088,6 +43493,7 @@ export const getRegionSslCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionSslCertificates",
+  iam: { actions: ["compute.regionSslCertificates.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionSslPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43105,6 +43511,7 @@ export const getRegionSslPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionSslPolicies",
+  iam: { actions: ["compute.regionSslPolicies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionTargetHttpProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43122,6 +43529,7 @@ export const getRegionTargetHttpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionTargetHttpProxies",
+  iam: { actions: ["compute.regionTargetHttpProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionTargetHttpsProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43139,6 +43547,10 @@ export const getRegionTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionTargetHttpsProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpsProxies.get"],
+    roles: ["roles/compute.networkViewer"],
+  },
 }));
 
 export type GetRegionTargetTcpProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43156,6 +43568,7 @@ export const getRegionTargetTcpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionTargetTcpProxies",
+  iam: { actions: ["compute.regionTargetTcpProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRegionUrlMapsError = NotFound | Forbidden | GcpOpError;
@@ -43173,6 +43586,7 @@ export const getRegionUrlMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionUrlMaps",
+  iam: { actions: ["compute.regionUrlMaps.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetReliabilityRisksError = NotFound | Forbidden | GcpOpError;
@@ -43190,6 +43604,7 @@ export const getReliabilityRisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReliabilityRisks",
+  iam: { actions: ["compute.reliabilityRisks.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetReservationBlocksError = NotFound | Forbidden | GcpOpError;
@@ -43207,6 +43622,7 @@ export const getReservationBlocks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReservationBlocks",
+  iam: { actions: ["compute.reservationBlocks.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetReservationsError = NotFound | Forbidden | GcpOpError;
@@ -43224,6 +43640,7 @@ export const getReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReservations",
+  iam: { actions: ["compute.reservations.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetReservationSlotsError = NotFound | Forbidden | GcpOpError;
@@ -43241,6 +43658,7 @@ export const getReservationSlots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReservationSlots",
+  iam: { actions: ["compute.reservationSlots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetReservationSubBlocksError = NotFound | Forbidden | GcpOpError;
@@ -43275,6 +43693,7 @@ export const getResourcePolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourcePolicies",
+  iam: { actions: ["compute.resourcePolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRolloutPlansError = NotFound | Forbidden | GcpOpError;
@@ -43292,6 +43711,7 @@ export const getRolloutPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRolloutPlans",
+  iam: { actions: ["compute.rolloutPlans.get"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
 }));
 
 export type GetRolloutsError = NotFound | Forbidden | GcpOpError;
@@ -43309,6 +43729,7 @@ export const getRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRollouts",
+  iam: { actions: ["compute.rollouts.get"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
 }));
 
 export type GetRoutePolicyRoutersError = NotFound | Forbidden | GcpOpError;
@@ -43326,6 +43747,7 @@ export const getRoutePolicyRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRoutePolicyRouters",
+  iam: { actions: ["compute.routers.getRoutePolicy"], roles: ["roles/compute.securityAdmin"] },
 }));
 
 export type GetRoutersError = NotFound | Forbidden | GcpOpError;
@@ -43343,6 +43765,7 @@ export const getRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRouterStatusRoutersError = NotFound | Forbidden | GcpOpError;
@@ -43360,6 +43783,7 @@ export const getRouterStatusRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRouterStatusRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetRoutesError = NotFound | Forbidden | GcpOpError;
@@ -43373,6 +43797,7 @@ export const getRoutes: API.OperationMethod<GetRoutesRequest, Route, GetRoutesEr
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetRoutes",
+    iam: { actions: ["compute.routes.get"], roles: ["roles/compute.networkViewer"] },
   }));
 
 export type GetRuleFirewallPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43407,6 +43832,7 @@ export const getRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRuleNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRuleOrganizationSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43441,6 +43867,7 @@ export const getRuleRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRuleRegionNetworkFirewallPolicies",
+  iam: { actions: ["compute.regionFirewallPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRuleRegionSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43458,6 +43885,7 @@ export const getRuleRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRuleRegionSecurityPolicies",
+  iam: { actions: ["compute.regionSecurityPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetRuleSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43475,6 +43903,7 @@ export const getRuleSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRuleSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetScreenshotInstancesError = NotFound | Forbidden | GcpOpError;
@@ -43492,6 +43921,7 @@ export const getScreenshotInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetScreenshotInstances",
+  iam: { actions: ["compute.instances.getScreenshot"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type GetSecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43509,6 +43939,7 @@ export const getSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetSerialPortOutputInstancesError = NotFound | Forbidden | GcpOpError;
@@ -43526,6 +43957,10 @@ export const getSerialPortOutputInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSerialPortOutputInstances",
+  iam: {
+    actions: ["compute.instances.getSerialPortOutput"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type GetServiceAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -43543,6 +43978,7 @@ export const getServiceAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceAttachments",
+  iam: { actions: ["compute.serviceAttachments.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetShieldedInstanceIdentityInstancesError = NotFound | Forbidden | GcpOpError;
@@ -43560,6 +43996,10 @@ export const getShieldedInstanceIdentityInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetShieldedInstanceIdentityInstances",
+  iam: {
+    actions: ["compute.instances.getShieldedInstanceIdentity"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type GetSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -43577,6 +44017,7 @@ export const getSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSnapshots",
+  iam: { actions: ["compute.snapshots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetSnapshotSettingsError = NotFound | Forbidden | GcpOpError;
@@ -43594,6 +44035,7 @@ export const getSnapshotSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSnapshotSettings",
+  iam: { actions: ["compute.snapshotSettings.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetSslCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -43611,6 +44053,7 @@ export const getSslCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSslCertificates",
+  iam: { actions: ["compute.sslCertificates.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetSslPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -43628,6 +44071,7 @@ export const getSslPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSslPolicies",
+  iam: { actions: ["compute.sslPolicies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetStatusVpnGatewaysError = NotFound | Forbidden | GcpOpError;
@@ -43645,6 +44089,7 @@ export const getStatusVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStatusVpnGateways",
+  iam: { actions: ["compute.vpnGateways.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetStoragePoolsError = NotFound | Forbidden | GcpOpError;
@@ -43662,6 +44107,7 @@ export const getStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStoragePools",
+  iam: { actions: ["compute.storagePools.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetStoragePoolTypesError = NotFound | Forbidden | GcpOpError;
@@ -43679,6 +44125,7 @@ export const getStoragePoolTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStoragePoolTypes",
+  iam: { actions: ["compute.storagePools.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetSubnetworksError = NotFound | Forbidden | GcpOpError;
@@ -43696,6 +44143,7 @@ export const getSubnetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSubnetworks",
+  iam: { actions: ["compute.subnetworks.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetGrpcProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43713,6 +44161,7 @@ export const getTargetGrpcProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetGrpcProxies",
+  iam: { actions: ["compute.targetGrpcProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetHttpProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43730,6 +44179,7 @@ export const getTargetHttpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetHttpProxies",
+  iam: { actions: ["compute.targetHttpProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetHttpsProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43747,6 +44197,7 @@ export const getTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetHttpsProxies",
+  iam: { actions: ["compute.targetHttpsProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetInstancesError = NotFound | Forbidden | GcpOpError;
@@ -43764,6 +44215,7 @@ export const getTargetInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetInstances",
+  iam: { actions: ["compute.targetInstances.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetPoolsError = NotFound | Forbidden | GcpOpError;
@@ -43781,6 +44233,7 @@ export const getTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetPools",
+  iam: { actions: ["compute.targetPools.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetSslProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43798,6 +44251,7 @@ export const getTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetSslProxies",
+  iam: { actions: ["compute.targetSslProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetTcpProxiesError = NotFound | Forbidden | GcpOpError;
@@ -43815,6 +44269,7 @@ export const getTargetTcpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetTcpProxies",
+  iam: { actions: ["compute.targetTcpProxies.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetTargetVpnGatewaysError = NotFound | Forbidden | GcpOpError;
@@ -43832,6 +44287,7 @@ export const getTargetVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTargetVpnGateways",
+  iam: { actions: ["compute.targetVpnGateways.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetUrlMapsError = NotFound | Forbidden | GcpOpError;
@@ -43849,6 +44305,7 @@ export const getUrlMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUrlMaps",
+  iam: { actions: ["compute.urlMaps.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetVersionHostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -43866,6 +44323,7 @@ export const getVersionHosts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVersionHosts",
+  iam: { actions: ["compute.hosts.getVersion"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type GetVersionReservationSlotsError =
@@ -43888,6 +44346,7 @@ export const getVersionReservationSlots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVersionReservationSlots",
+  iam: { actions: ["compute.reservationSlots.get"], roles: ["roles/compute.viewer"] },
 }));
 
 export type GetVersionReservationSubBlocksError =
@@ -43927,6 +44386,7 @@ export const getVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVpnGateways",
+  iam: { actions: ["compute.vpnGateways.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetVpnTunnelsError = NotFound | Forbidden | GcpOpError;
@@ -43944,6 +44404,7 @@ export const getVpnTunnels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVpnTunnels",
+  iam: { actions: ["compute.vpnTunnels.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetWireGroupsError = NotFound | Forbidden | GcpOpError;
@@ -43961,6 +44422,7 @@ export const getWireGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWireGroups",
+  iam: { actions: ["compute.wireGroups.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type GetXpnHostProjectsError = NotFound | Forbidden | GcpOpError;
@@ -44027,6 +44489,7 @@ export const getZones: API.OperationMethod<GetZonesRequest, Zone, GetZonesError,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetZones",
+    iam: { actions: ["compute.zones.get"], roles: ["roles/compute.networkViewer"] },
   }));
 
 export type GetZoneVmExtensionPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -44044,6 +44507,10 @@ export const getZoneVmExtensionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetZoneVmExtensionPolicies",
+  iam: {
+    actions: ["compute.vmExtensionPolicies.get"],
+    roles: ["roles/compute.vmExtensionPolicyViewer"],
+  },
 }));
 
 export type InsertAddressesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -45012,6 +45479,7 @@ export const insertRegionCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InsertRegionCommitments",
+  iam: { actions: ["compute.commitments.create"], roles: ["roles/compute.editor"] },
 }));
 
 export type InsertRegionCompositeHealthChecksError =
@@ -45965,6 +46433,7 @@ export const invalidateCacheUrlMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvalidateCacheUrlMaps",
+  iam: { actions: ["compute.urlMaps.invalidateCache"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type ListAcceleratorTypesError = NotFound | Forbidden | GcpOpError;
@@ -45983,6 +46452,10 @@ export const listAcceleratorTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAcceleratorTypes",
+  iam: {
+    actions: ["compute.acceleratorTypes.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46002,6 +46475,7 @@ export const listAddresses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAddresses",
+  iam: { actions: ["compute.addresses.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46063,6 +46537,7 @@ export const listAutoscalers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAutoscalers",
+  iam: { actions: ["compute.autoscalers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46081,6 +46556,10 @@ export const listAvailableFeaturesRegionSslPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailableFeaturesRegionSslPolicies",
+  iam: {
+    actions: ["compute.regionSslPolicies.listAvailableFeatures"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type ListAvailableFeaturesSslPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -46098,6 +46577,10 @@ export const listAvailableFeaturesSslPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailableFeaturesSslPolicies",
+  iam: {
+    actions: ["compute.sslPolicies.listAvailableFeatures"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type ListBackendBucketsError = NotFound | Forbidden | GcpOpError;
@@ -46116,6 +46599,7 @@ export const listBackendBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackendBuckets",
+  iam: { actions: ["compute.backendBuckets.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46135,6 +46619,7 @@ export const listBackendServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackendServices",
+  iam: { actions: ["compute.backendServices.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46154,6 +46639,7 @@ export const listBgpRoutesRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBgpRoutesRouters",
+  iam: { actions: ["compute.routers.listBgpRoutes"], roles: ["roles/compute.securityAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -46173,6 +46659,7 @@ export const listCrossSiteNetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCrossSiteNetworks",
+  iam: { actions: ["compute.crossSiteNetworks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46192,6 +46679,7 @@ export const listDisks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisks",
+  iam: { actions: ["compute.disks.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46211,6 +46699,7 @@ export const listDisksStoragePools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisksStoragePools",
+  iam: { actions: ["compute.storagePools.get"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46230,6 +46719,7 @@ export const listDiskTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiskTypes",
+  iam: { actions: ["compute.diskTypes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46249,6 +46739,7 @@ export const listErrorsInstanceGroupManagers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListErrorsInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46268,6 +46759,7 @@ export const listErrorsRegionInstanceGroupManagers: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListErrorsRegionInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46287,6 +46779,7 @@ export const listExternalVpnGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExternalVpnGateways",
+  iam: { actions: ["compute.externalVpnGateways.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46325,6 +46818,7 @@ export const listFirewalls: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewalls",
+  iam: { actions: ["compute.firewalls.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46344,6 +46838,7 @@ export const listForwardingRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListForwardingRules",
+  iam: { actions: ["compute.forwardingRules.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46363,6 +46858,10 @@ export const listFutureReservations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFutureReservations",
+  iam: {
+    actions: ["compute.futureReservations.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46382,6 +46881,7 @@ export const listGlobalAddresses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalAddresses",
+  iam: { actions: ["compute.globalAddresses.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46401,6 +46901,7 @@ export const listGlobalForwardingRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalForwardingRules",
+  iam: { actions: ["compute.globalForwardingRules.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46420,6 +46921,7 @@ export const listGlobalNetworkEndpointGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalNetworkEndpointGroups",
+  iam: { actions: ["compute.globalNetworkEndpointGroups.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46477,6 +46979,7 @@ export const listGlobalPublicDelegatedPrefixes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalPublicDelegatedPrefixes",
+  iam: { actions: ["compute.globalPublicDelegatedPrefixes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46496,6 +46999,10 @@ export const listGlobalVmExtensionPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGlobalVmExtensionPolicies",
+  iam: {
+    actions: ["compute.vmExtensionPolicies.list"],
+    roles: ["roles/compute.vmExtensionPolicyViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46515,6 +47022,7 @@ export const listHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHealthChecks",
+  iam: { actions: ["compute.healthChecks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46534,6 +47042,7 @@ export const listHosts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHosts",
+  iam: { actions: ["compute.hosts.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46553,6 +47062,7 @@ export const listHttpHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHttpHealthChecks",
+  iam: { actions: ["compute.httpHealthChecks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46572,6 +47082,7 @@ export const listHttpsHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHttpsHealthChecks",
+  iam: { actions: ["compute.httpsHealthChecks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46591,6 +47102,7 @@ export const listImages: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImages",
+  iam: { actions: ["compute.images.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46629,6 +47141,7 @@ export const listInstanceGroupManagerResizeRequests: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceGroupManagerResizeRequests",
+  iam: { actions: ["compute.instanceGroupManagers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46648,6 +47161,7 @@ export const listInstanceGroupManagers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46667,6 +47181,7 @@ export const listInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46686,6 +47201,7 @@ export const listInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstances",
+  iam: { actions: ["compute.instances.list"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46710,6 +47226,7 @@ export const listInstancesInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstancesInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46734,6 +47251,7 @@ export const listInstancesRegionInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstancesRegionInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46753,6 +47271,10 @@ export const listInstanceTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceTemplates",
+  iam: {
+    actions: ["compute.instanceTemplates.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46791,6 +47313,7 @@ export const listInstantSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46810,6 +47333,10 @@ export const listInterconnectAttachmentGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnectAttachmentGroups",
+  iam: {
+    actions: ["compute.interconnectAttachmentGroups.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46829,6 +47356,10 @@ export const listInterconnectAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnectAttachments",
+  iam: {
+    actions: ["compute.interconnectAttachments.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46848,6 +47379,7 @@ export const listInterconnectGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnectGroups",
+  iam: { actions: ["compute.interconnectGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46867,6 +47399,7 @@ export const listInterconnectLocations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnectLocations",
+  iam: { actions: ["compute.interconnectLocations.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46886,6 +47419,10 @@ export const listInterconnectRemoteLocations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnectRemoteLocations",
+  iam: {
+    actions: ["compute.interconnectRemoteLocations.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46905,6 +47442,7 @@ export const listInterconnects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInterconnects",
+  iam: { actions: ["compute.interconnects.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46924,6 +47462,7 @@ export const listLicenses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLicenses",
+  iam: { actions: ["compute.licenses.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46943,6 +47482,7 @@ export const listMachineImages: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineImages",
+  iam: { actions: ["compute.machineImages.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46962,6 +47502,7 @@ export const listMachineTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineTypes",
+  iam: { actions: ["compute.machineTypes.list"], roles: ["roles/compute.futureReservationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -46990,6 +47531,7 @@ export const listManagedInstancesInstanceGroupManagers: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedInstancesInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -47022,6 +47564,7 @@ export const listManagedInstancesRegionInstanceGroupManagers: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedInstancesRegionInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -47041,6 +47584,7 @@ export const listManagedRulesets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedRulesets",
+  iam: { actions: ["compute.managedRulesets.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47060,6 +47604,7 @@ export const listNamedSetsRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamedSetsRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -47079,6 +47624,7 @@ export const listNetworkAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkAttachments",
+  iam: { actions: ["compute.networkAttachments.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47098,6 +47644,7 @@ export const listNetworkEndpointGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47126,6 +47673,7 @@ export const listNetworkEndpointsGlobalNetworkEndpointGroups: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkEndpointsGlobalNetworkEndpointGroups",
+  iam: { actions: ["compute.globalNetworkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47150,6 +47698,7 @@ export const listNetworkEndpointsNetworkEndpointGroups: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkEndpointsNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47178,6 +47727,7 @@ export const listNetworkEndpointsRegionNetworkEndpointGroups: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkEndpointsRegionNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.get"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47197,6 +47747,7 @@ export const listNetworkFirewallPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkFirewallPolicies",
+  iam: { actions: ["compute.firewallPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47216,6 +47767,7 @@ export const listNetworkProfiles: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkProfiles",
+  iam: { actions: ["compute.networkProfiles.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47235,6 +47787,7 @@ export const listNetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworks",
+  iam: { actions: ["compute.networks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47254,6 +47807,7 @@ export const listNodeGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeGroups",
+  iam: { actions: ["compute.nodeGroups.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47273,6 +47827,7 @@ export const listNodesNodeGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodesNodeGroups",
+  iam: { actions: ["compute.nodeGroups.get"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47292,6 +47847,7 @@ export const listNodeTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeTemplates",
+  iam: { actions: ["compute.nodeTemplates.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47311,6 +47867,7 @@ export const listNodeTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeTypes",
+  iam: { actions: ["compute.nodeTypes.list"], roles: ["roles/compute.soleTenantViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47349,6 +47906,7 @@ export const listPacketMirrorings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPacketMirrorings",
+  iam: { actions: ["compute.packetMirrorings.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47368,6 +47926,7 @@ export const listPeeringRoutesNetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeeringRoutesNetworks",
+  iam: { actions: ["compute.networks.listPeeringRoutes"], roles: ["roles/compute.networkUser"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47396,6 +47955,7 @@ export const listPerInstanceConfigsInstanceGroupManagers: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPerInstanceConfigsInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47428,6 +47988,7 @@ export const listPerInstanceConfigsRegionInstanceGroupManagers: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPerInstanceConfigsRegionInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.get"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47485,6 +48046,7 @@ export const listPreconfiguredExpressionSetsSecurityPolicies: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPreconfiguredExpressionSetsSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.list"], roles: ["roles/compute.viewer"] },
 }));
 
 export type ListPreviewFeaturesError = NotFound | Forbidden | GcpOpError;
@@ -47503,6 +48065,7 @@ export const listPreviewFeatures: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPreviewFeatures",
+  iam: { actions: ["compute.previewFeatures.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47522,6 +48085,7 @@ export const listPublicAdvertisedPrefixes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublicAdvertisedPrefixes",
+  iam: { actions: ["compute.publicAdvertisedPrefixes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47541,6 +48105,7 @@ export const listPublicDelegatedPrefixes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPublicDelegatedPrefixes",
+  iam: { actions: ["compute.publicDelegatedPrefixes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47560,6 +48125,7 @@ export const listReferrersInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReferrersInstances",
+  iam: { actions: ["compute.instances.listReferrers"], roles: ["roles/compute.instanceAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47579,6 +48145,7 @@ export const listRegionAutoscalers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionAutoscalers",
+  iam: { actions: ["compute.autoscalers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47598,6 +48165,7 @@ export const listRegionBackendBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionBackendBuckets",
+  iam: { actions: ["compute.regionBackendBuckets.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47617,6 +48185,7 @@ export const listRegionBackendServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionBackendServices",
+  iam: { actions: ["compute.regionBackendServices.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47636,6 +48205,7 @@ export const listRegionCommitments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionCommitments",
+  iam: { actions: ["compute.commitments.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47655,6 +48225,10 @@ export const listRegionCompositeHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionCompositeHealthChecks",
+  iam: {
+    actions: ["compute.regionCompositeHealthChecks.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47674,6 +48248,7 @@ export const listRegionDisks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionDisks",
+  iam: { actions: ["compute.disks.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47693,6 +48268,7 @@ export const listRegionDiskTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionDiskTypes",
+  iam: { actions: ["compute.diskTypes.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47712,6 +48288,10 @@ export const listRegionHealthAggregationPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionHealthAggregationPolicies",
+  iam: {
+    actions: ["compute.regionHealthAggregationPolicies.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47731,6 +48311,7 @@ export const listRegionHealthChecks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionHealthChecks",
+  iam: { actions: ["compute.regionHealthChecks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47750,6 +48331,10 @@ export const listRegionHealthCheckServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionHealthCheckServices",
+  iam: {
+    actions: ["compute.regionHealthCheckServices.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47769,6 +48354,7 @@ export const listRegionHealthSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionHealthSources",
+  iam: { actions: ["compute.regionHealthSources.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47796,6 +48382,7 @@ export const listRegionInstanceGroupManagerResizeRequests: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstanceGroupManagerResizeRequests",
+  iam: { actions: ["compute.instanceGroupManagers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47815,6 +48402,7 @@ export const listRegionInstanceGroupManagers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstanceGroupManagers",
+  iam: { actions: ["compute.instanceGroupManagers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47834,6 +48422,7 @@ export const listRegionInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47853,6 +48442,10 @@ export const listRegionInstanceTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstanceTemplates",
+  iam: {
+    actions: ["compute.instanceTemplates.list"],
+    roles: ["roles/compute.futureReservationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47872,6 +48465,7 @@ export const listRegionInstantSnapshotGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstantSnapshotGroups",
+  iam: { actions: ["compute.instantSnapshotGroups.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47891,6 +48485,7 @@ export const listRegionInstantSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47910,6 +48505,7 @@ export const listRegionNetworkEndpointGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionNetworkEndpointGroups",
+  iam: { actions: ["compute.networkEndpointGroups.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47929,6 +48525,7 @@ export const listRegionNetworkFirewallPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionNetworkFirewallPolicies",
+  iam: { actions: ["compute.regionFirewallPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47948,6 +48545,10 @@ export const listRegionNotificationEndpoints: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionNotificationEndpoints",
+  iam: {
+    actions: ["compute.regionNotificationEndpoints.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -47986,6 +48587,7 @@ export const listRegions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegions",
+  iam: { actions: ["compute.regions.list"], roles: ["roles/compute.futureReservationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48005,6 +48607,7 @@ export const listRegionSecurityPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionSecurityPolicies",
+  iam: { actions: ["compute.regionSecurityPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48024,6 +48627,7 @@ export const listRegionSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionSnapshots",
+  iam: { actions: ["compute.snapshots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48043,6 +48647,7 @@ export const listRegionSslCertificates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionSslCertificates",
+  iam: { actions: ["compute.regionSslCertificates.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48062,6 +48667,7 @@ export const listRegionSslPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionSslPolicies",
+  iam: { actions: ["compute.regionSslPolicies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48081,6 +48687,10 @@ export const listRegionTargetHttpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionTargetHttpProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpProxies.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48100,6 +48710,10 @@ export const listRegionTargetHttpsProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionTargetHttpsProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpsProxies.list"],
+    roles: ["roles/compute.networkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48119,6 +48733,7 @@ export const listRegionTargetTcpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionTargetTcpProxies",
+  iam: { actions: ["compute.regionTargetTcpProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48138,6 +48753,7 @@ export const listRegionUrlMaps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionUrlMaps",
+  iam: { actions: ["compute.regionUrlMaps.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48157,6 +48773,7 @@ export const listRegionZones: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegionZones",
+  iam: { actions: ["compute.zones.list"], roles: ["roles/compute.futureReservationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48176,6 +48793,7 @@ export const listReliabilityRisks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReliabilityRisks",
+  iam: { actions: ["compute.reliabilityRisks.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48195,6 +48813,7 @@ export const listReservationBlocks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservationBlocks",
+  iam: { actions: ["compute.reservationBlocks.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48214,6 +48833,7 @@ export const listReservations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservations",
+  iam: { actions: ["compute.reservations.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48233,6 +48853,7 @@ export const listReservationSlots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservationSlots",
+  iam: { actions: ["compute.reservationSlots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48271,6 +48892,7 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourcePolicies",
+  iam: { actions: ["compute.resourcePolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48290,6 +48912,7 @@ export const listRolloutPlans: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRolloutPlans",
+  iam: { actions: ["compute.rolloutPlans.list"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48309,6 +48932,7 @@ export const listRollouts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRollouts",
+  iam: { actions: ["compute.rollouts.list"], roles: ["roles/compute.vmExtensionPolicyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48328,6 +48952,7 @@ export const listRoutePoliciesRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoutePoliciesRouters",
+  iam: { actions: ["compute.routers.listRoutePolicies"], roles: ["roles/compute.securityAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -48347,6 +48972,7 @@ export const listRouters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRouters",
+  iam: { actions: ["compute.routers.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48366,6 +48992,7 @@ export const listRoutes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoutes",
+  iam: { actions: ["compute.routes.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48385,6 +49012,7 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48404,6 +49032,7 @@ export const listServiceAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceAttachments",
+  iam: { actions: ["compute.serviceAttachments.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48423,6 +49052,7 @@ export const listSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshots",
+  iam: { actions: ["compute.snapshots.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48442,6 +49072,7 @@ export const listSslCertificates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSslCertificates",
+  iam: { actions: ["compute.sslCertificates.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48461,6 +49092,7 @@ export const listSslPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSslPolicies",
+  iam: { actions: ["compute.sslPolicies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48480,6 +49112,7 @@ export const listStoragePools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStoragePools",
+  iam: { actions: ["compute.storagePools.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48499,6 +49132,7 @@ export const listStoragePoolTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStoragePoolTypes",
+  iam: { actions: ["compute.storagePools.list"], roles: ["roles/compute.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48518,6 +49152,7 @@ export const listSubnetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubnetworks",
+  iam: { actions: ["compute.subnetworks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48537,6 +49172,7 @@ export const listTargetGrpcProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetGrpcProxies",
+  iam: { actions: ["compute.targetGrpcProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48556,6 +49192,7 @@ export const listTargetHttpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetHttpProxies",
+  iam: { actions: ["compute.targetHttpProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48575,6 +49212,7 @@ export const listTargetHttpsProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetHttpsProxies",
+  iam: { actions: ["compute.targetHttpsProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48594,6 +49232,7 @@ export const listTargetInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetInstances",
+  iam: { actions: ["compute.targetInstances.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48613,6 +49252,7 @@ export const listTargetPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetPools",
+  iam: { actions: ["compute.targetPools.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48632,6 +49272,7 @@ export const listTargetSslProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetSslProxies",
+  iam: { actions: ["compute.targetSslProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48651,6 +49292,7 @@ export const listTargetTcpProxies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetTcpProxies",
+  iam: { actions: ["compute.targetTcpProxies.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48670,6 +49312,7 @@ export const listTargetVpnGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetVpnGateways",
+  iam: { actions: ["compute.targetVpnGateways.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48689,6 +49332,7 @@ export const listUrlMaps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUrlMaps",
+  iam: { actions: ["compute.urlMaps.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48708,6 +49352,7 @@ export const listUsableBackendBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableBackendBuckets",
+  iam: { actions: ["compute.backendBuckets.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48727,6 +49372,7 @@ export const listUsableBackendServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableBackendServices",
+  iam: { actions: ["compute.backendServices.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48746,6 +49392,7 @@ export const listUsableRegionBackendBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableRegionBackendBuckets",
+  iam: { actions: ["compute.regionBackendBuckets.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48765,6 +49412,7 @@ export const listUsableRegionBackendServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableRegionBackendServices",
+  iam: { actions: ["compute.regionBackendServices.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48784,6 +49432,7 @@ export const listUsableSubnetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableSubnetworks",
+  iam: { actions: ["compute.subnetworks.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48803,6 +49452,7 @@ export const listVpnGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVpnGateways",
+  iam: { actions: ["compute.vpnGateways.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48822,6 +49472,7 @@ export const listVpnTunnels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVpnTunnels",
+  iam: { actions: ["compute.vpnTunnels.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48841,6 +49492,7 @@ export const listWireGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWireGroups",
+  iam: { actions: ["compute.wireGroups.list"], roles: ["roles/compute.networkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48898,6 +49550,7 @@ export const listZones: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListZones",
+  iam: { actions: ["compute.zones.list"], roles: ["roles/compute.futureReservationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -48917,6 +49570,10 @@ export const listZoneVmExtensionPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListZoneVmExtensionPolicies",
+  iam: {
+    actions: ["compute.vmExtensionPolicies.list"],
+    roles: ["roles/compute.vmExtensionPolicyViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -49051,6 +49708,10 @@ export const patchAssociationRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAssociationRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type PatchAutoscalersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -49068,6 +49729,7 @@ export const patchAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAutoscalers",
+  iam: { actions: ["compute.autoscalers.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type PatchBackendBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -49214,6 +49876,10 @@ export const patchGlobalFrontendSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchGlobalFrontendSettings",
+  iam: {
+    actions: ["compute.globalFrontendSettings.update"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type PatchGlobalPublicDelegatedPrefixesError =
@@ -49343,6 +50009,7 @@ export const patchInstanceSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchInstanceSettings",
+  iam: { actions: ["compute.instanceSettings.update"], roles: ["roles/compute.instanceAdmin.v1"] },
 }));
 
 export type PatchInterconnectAttachmentGroupsError =
@@ -49443,6 +50110,7 @@ export const patchNamedSetRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchNamedSetRouters",
+  iam: { actions: ["compute.routers.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type PatchNetworkAttachmentsError =
@@ -49591,6 +50259,10 @@ export const patchPacketMirroringRuleNetworkFirewallPolicies: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchPacketMirroringRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type PatchPacketMirroringsError =
@@ -49640,6 +50312,10 @@ export const patchPerInstanceConfigsInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchPerInstanceConfigsInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type PatchPerInstanceConfigsRegionInstanceGroupManagersError =
@@ -49666,6 +50342,10 @@ export const patchPerInstanceConfigsRegionInstanceGroupManagers: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchPerInstanceConfigsRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type PatchPublicAdvertisedPrefixesError =
@@ -49727,6 +50407,7 @@ export const patchRegionAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRegionAutoscalers",
+  iam: { actions: ["compute.autoscalers.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type PatchRegionBackendBucketsError =
@@ -49969,6 +50650,7 @@ export const patchRegionSnapshotSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRegionSnapshotSettings",
+  iam: { actions: ["compute.snapshotSettings.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type PatchRegionSslPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -50064,6 +50746,7 @@ export const patchRoutePolicyRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRoutePolicyRouters",
+  iam: { actions: ["compute.routers.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type PatchRoutersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -50125,6 +50808,10 @@ export const patchRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type PatchRuleOrganizationSecurityPoliciesError =
@@ -50169,6 +50856,10 @@ export const patchRuleRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRuleRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type PatchRuleRegionSecurityPoliciesError =
@@ -50191,6 +50882,10 @@ export const patchRuleRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRuleRegionSecurityPolicies",
+  iam: {
+    actions: ["compute.regionSecurityPolicies.update"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type PatchRuleSecurityPoliciesError =
@@ -50213,6 +50908,10 @@ export const patchRuleSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchRuleSecurityPolicies",
+  iam: {
+    actions: ["compute.securityPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type PatchSecurityPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -50269,6 +50968,7 @@ export const patchSnapshotSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSnapshotSettings",
+  iam: { actions: ["compute.snapshotSettings.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type PatchSslPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -50432,6 +51132,10 @@ export const performMaintenanceInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PerformMaintenanceInstances",
+  iam: {
+    actions: ["compute.instances.performMaintenance"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type PerformMaintenanceNodeGroupsError =
@@ -50454,6 +51158,7 @@ export const performMaintenanceNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PerformMaintenanceNodeGroups",
+  iam: { actions: ["compute.nodeGroups.performMaintenance"], roles: ["roles/compute.editor"] },
 }));
 
 export type PerformMaintenanceReservationBlocksError =
@@ -50476,6 +51181,10 @@ export const performMaintenanceReservationBlocks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PerformMaintenanceReservationBlocks",
+  iam: {
+    actions: ["compute.reservationBlocks.performMaintenance"],
+    roles: ["roles/compute.futureReservationAdmin"],
+  },
 }));
 
 export type PerformMaintenanceReservationsError =
@@ -50498,6 +51207,10 @@ export const performMaintenanceReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PerformMaintenanceReservations",
+  iam: {
+    actions: ["compute.reservations.performMaintenance"],
+    roles: ["roles/compute.futureReservationAdmin"],
+  },
 }));
 
 export type PerformMaintenanceReservationSubBlocksError =
@@ -50537,6 +51250,7 @@ export const previewRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PreviewRouters",
+  iam: { actions: ["compute.routers.get"], roles: ["roles/compute.networkViewer"] },
 }));
 
 export type RecreateInstancesInstanceGroupManagersError =
@@ -50559,6 +51273,10 @@ export const recreateInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecreateInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type RecreateInstancesRegionInstanceGroupManagersError =
@@ -50585,6 +51303,10 @@ export const recreateInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecreateInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type RemoveAssociationFirewallPoliciesError =
@@ -50629,6 +51351,10 @@ export const removeAssociationNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveAssociationNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type RemoveAssociationOrganizationSecurityPoliciesError =
@@ -50681,6 +51407,10 @@ export const removeAssociationRegionNetworkFirewallPolicies: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveAssociationRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type RemoveHealthCheckTargetPoolsError =
@@ -50703,6 +51433,10 @@ export const removeHealthCheckTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveHealthCheckTargetPools",
+  iam: {
+    actions: ["compute.targetPools.removeHealthCheck"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type RemoveInstancesInstanceGroupsError =
@@ -50725,6 +51459,7 @@ export const removeInstancesInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveInstancesInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type RemoveInstanceTargetPoolsError =
@@ -50747,6 +51482,10 @@ export const removeInstanceTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveInstanceTargetPools",
+  iam: {
+    actions: ["compute.targetPools.removeInstance"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type RemovePacketMirroringRuleNetworkFirewallPoliciesError =
@@ -50773,6 +51512,10 @@ export const removePacketMirroringRuleNetworkFirewallPolicies: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemovePacketMirroringRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type RemovePeeringNetworksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -50790,6 +51533,7 @@ export const removePeeringNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemovePeeringNetworks",
+  iam: { actions: ["compute.networks.removePeering"], roles: ["roles/compute.editor"] },
 }));
 
 export type RemoveResourcePoliciesDisksError =
@@ -50812,6 +51556,7 @@ export const removeResourcePoliciesDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveResourcePoliciesDisks",
+  iam: { actions: ["compute.disks.removeResourcePolicies"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type RemoveResourcePoliciesInstancesError =
@@ -50834,6 +51579,10 @@ export const removeResourcePoliciesInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveResourcePoliciesInstances",
+  iam: {
+    actions: ["compute.instances.removeResourcePolicies"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type RemoveResourcePoliciesRegionDisksError =
@@ -50856,6 +51605,7 @@ export const removeResourcePoliciesRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveResourcePoliciesRegionDisks",
+  iam: { actions: ["compute.disks.removeResourcePolicies"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type RemoveRuleFirewallPoliciesError =
@@ -50900,6 +51650,10 @@ export const removeRuleNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveRuleNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.firewallPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type RemoveRuleOrganizationSecurityPoliciesError =
@@ -50944,6 +51698,10 @@ export const removeRuleRegionNetworkFirewallPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveRuleRegionNetworkFirewallPolicies",
+  iam: {
+    actions: ["compute.regionFirewallPolicies.update"],
+    roles: ["roles/compute.orgFirewallPolicyAdmin"],
+  },
 }));
 
 export type RemoveRuleRegionSecurityPoliciesError =
@@ -50966,6 +51724,10 @@ export const removeRuleRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveRuleRegionSecurityPolicies",
+  iam: {
+    actions: ["compute.regionSecurityPolicies.update"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type RemoveRuleSecurityPoliciesError =
@@ -50988,6 +51750,10 @@ export const removeRuleSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveRuleSecurityPolicies",
+  iam: {
+    actions: ["compute.securityPolicies.update"],
+    roles: ["roles/compute.orgSecurityPolicyAdmin"],
+  },
 }));
 
 export type ReportFaultyReservationSubBlocksError =
@@ -51054,6 +51820,7 @@ export const requestRemovePeeringNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RequestRemovePeeringNetworks",
+  iam: { actions: ["compute.networks.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type ResetInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51071,6 +51838,7 @@ export const resetInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetInstances",
+  iam: { actions: ["compute.instances.reset"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type ResizeDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51088,6 +51856,7 @@ export const resizeDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeDisks",
+  iam: { actions: ["compute.disks.resize"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type ResizeInstanceGroupManagersError =
@@ -51110,6 +51879,10 @@ export const resizeInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type ResizeRegionDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51127,6 +51900,7 @@ export const resizeRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeRegionDisks",
+  iam: { actions: ["compute.disks.resize"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type ResizeRegionInstanceGroupManagersError =
@@ -51149,6 +51923,10 @@ export const resizeRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type ResizeReservationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51166,6 +51944,7 @@ export const resizeReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeReservations",
+  iam: { actions: ["compute.reservations.resize"], roles: ["roles/compute.editor"] },
 }));
 
 export type ResumeInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51183,6 +51962,7 @@ export const resumeInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeInstances",
+  iam: { actions: ["compute.instances.resume"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type ResumeInstancesInstanceGroupManagersError =
@@ -51205,6 +51985,10 @@ export const resumeInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type ResumeInstancesRegionInstanceGroupManagersError =
@@ -51231,6 +52015,10 @@ export const resumeInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type ResumeRolloutsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51270,6 +52058,10 @@ export const sendDiagnosticInterruptInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendDiagnosticInterruptInstances",
+  iam: {
+    actions: ["compute.instances.sendDiagnosticInterrupt"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetBackendServiceTargetSslProxiesError =
@@ -51292,6 +52084,10 @@ export const setBackendServiceTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetBackendServiceTargetSslProxies",
+  iam: {
+    actions: ["compute.targetSslProxies.setBackendService"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetBackendServiceTargetTcpProxiesError =
@@ -51314,6 +52110,7 @@ export const setBackendServiceTargetTcpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetBackendServiceTargetTcpProxies",
+  iam: { actions: ["compute.targetTcpProxies.update"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type SetBackupTargetPoolsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -51331,6 +52128,7 @@ export const setBackupTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetBackupTargetPools",
+  iam: { actions: ["compute.targetPools.update"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type SetCertificateMapTargetHttpsProxiesError =
@@ -51353,6 +52151,10 @@ export const setCertificateMapTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCertificateMapTargetHttpsProxies",
+  iam: {
+    actions: ["compute.targetHttpsProxies.setCertificateMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetCertificateMapTargetSslProxiesError =
@@ -51375,6 +52177,10 @@ export const setCertificateMapTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCertificateMapTargetSslProxies",
+  iam: {
+    actions: ["compute.targetSslProxies.setCertificateMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetCloudArmorTierProjectsError =
@@ -51397,6 +52203,7 @@ export const setCloudArmorTierProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCloudArmorTierProjects",
+  iam: { actions: ["compute.projects.setCloudArmorTier"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetCommonInstanceMetadataProjectsError =
@@ -51419,6 +52226,10 @@ export const setCommonInstanceMetadataProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCommonInstanceMetadataProjects",
+  iam: {
+    actions: ["compute.projects.setCommonInstanceMetadata"],
+    roles: ["roles/compute.instanceAdmin.v1"],
+  },
 }));
 
 export type SetDefaultNetworkTierProjectsError =
@@ -51441,6 +52252,7 @@ export const setDefaultNetworkTierProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDefaultNetworkTierProjects",
+  iam: { actions: ["compute.projects.setDefaultNetworkTier"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetDeletionProtectionInstancesError =
@@ -51463,6 +52275,10 @@ export const setDeletionProtectionInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDeletionProtectionInstances",
+  iam: {
+    actions: ["compute.instances.setDeletionProtection"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetDiskAutoDeleteInstancesError =
@@ -51485,6 +52301,7 @@ export const setDiskAutoDeleteInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDiskAutoDeleteInstances",
+  iam: { actions: ["compute.instances.setDiskAutoDelete"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetEdgeSecurityPolicyBackendBucketsError =
@@ -51507,6 +52324,7 @@ export const setEdgeSecurityPolicyBackendBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetEdgeSecurityPolicyBackendBuckets",
+  iam: { actions: ["compute.backendBuckets.update"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type SetEdgeSecurityPolicyBackendServicesError =
@@ -51529,6 +52347,7 @@ export const setEdgeSecurityPolicyBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetEdgeSecurityPolicyBackendServices",
+  iam: { actions: ["compute.backendServices.update"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type SetIamPolicyBackendBucketsError =
@@ -52251,6 +53070,10 @@ export const setInstanceTemplateInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetInstanceTemplateInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetInstanceTemplateRegionInstanceGroupManagersError =
@@ -52277,6 +53100,10 @@ export const setInstanceTemplateRegionInstanceGroupManagers: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetInstanceTemplateRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetLabelsAddressesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52294,6 +53121,7 @@ export const setLabelsAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsAddresses",
+  iam: { actions: ["compute.addresses.setLabels"], roles: ["roles/compute.publicIpAdmin"] },
 }));
 
 export type SetLabelsDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52311,6 +53139,7 @@ export const setLabelsDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsDisks",
+  iam: { actions: ["compute.disks.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsExternalVpnGatewaysError =
@@ -52333,6 +53162,7 @@ export const setLabelsExternalVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsExternalVpnGateways",
+  iam: { actions: ["compute.externalVpnGateways.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetLabelsForwardingRulesError =
@@ -52355,6 +53185,10 @@ export const setLabelsForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsForwardingRules",
+  iam: {
+    actions: ["compute.forwardingRules.setLabels"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetLabelsGlobalAddressesError =
@@ -52377,6 +53211,7 @@ export const setLabelsGlobalAddresses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsGlobalAddresses",
+  iam: { actions: ["compute.globalAddresses.setLabels"], roles: ["roles/compute.publicIpAdmin"] },
 }));
 
 export type SetLabelsGlobalForwardingRulesError =
@@ -52399,6 +53234,10 @@ export const setLabelsGlobalForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsGlobalForwardingRules",
+  iam: {
+    actions: ["compute.globalForwardingRules.setLabels"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetLabelsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52416,6 +53255,7 @@ export const setLabelsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsImages",
+  iam: { actions: ["compute.images.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52433,6 +53273,10 @@ export const setLabelsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsInstances",
+  iam: {
+    actions: ["compute.instances.setLabels"],
+    roles: ["roles/compute.vmExtensionPolicyAdmin"],
+  },
 }));
 
 export type SetLabelsInstantSnapshotsError =
@@ -52455,6 +53299,7 @@ export const setLabelsInstantSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsInterconnectAttachmentsError =
@@ -52477,6 +53322,7 @@ export const setLabelsInterconnectAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsInterconnectAttachments",
+  iam: { actions: ["compute.interconnectAttachments.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetLabelsInterconnectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52494,6 +53340,7 @@ export const setLabelsInterconnects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsInterconnects",
+  iam: { actions: ["compute.interconnects.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetLabelsMachineImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52511,6 +53358,7 @@ export const setLabelsMachineImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsMachineImages",
+  iam: { actions: ["compute.machineImages.setLabels"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetLabelsRegionDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52528,6 +53376,7 @@ export const setLabelsRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsRegionDisks",
+  iam: { actions: ["compute.disks.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsRegionInstantSnapshotsError =
@@ -52550,6 +53399,7 @@ export const setLabelsRegionInstantSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsRegionInstantSnapshots",
+  iam: { actions: ["compute.instantSnapshots.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsRegionSecurityPoliciesError =
@@ -52572,6 +53422,10 @@ export const setLabelsRegionSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsRegionSecurityPolicies",
+  iam: {
+    actions: ["compute.regionSecurityPolicies.update"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type SetLabelsRegionSnapshotsError =
@@ -52594,6 +53448,7 @@ export const setLabelsRegionSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsRegionSnapshots",
+  iam: { actions: ["compute.snapshots.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsSecurityPoliciesError =
@@ -52616,6 +53471,7 @@ export const setLabelsSecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsSecurityPolicies",
+  iam: { actions: ["compute.securityPolicies.setLabels"], roles: ["roles/compute.securityAdmin"] },
 }));
 
 export type SetLabelsSnapshotsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52633,6 +53489,7 @@ export const setLabelsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsSnapshots",
+  iam: { actions: ["compute.snapshots.setLabels"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type SetLabelsTargetVpnGatewaysError =
@@ -52655,6 +53512,7 @@ export const setLabelsTargetVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsTargetVpnGateways",
+  iam: { actions: ["compute.targetVpnGateways.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetLabelsVpnGatewaysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52672,6 +53530,7 @@ export const setLabelsVpnGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsVpnGateways",
+  iam: { actions: ["compute.vpnGateways.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetLabelsVpnTunnelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52689,6 +53548,7 @@ export const setLabelsVpnTunnels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLabelsVpnTunnels",
+  iam: { actions: ["compute.vpnTunnels.setLabels"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetMachineResourcesInstancesError =
@@ -52711,6 +53571,10 @@ export const setMachineResourcesInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMachineResourcesInstances",
+  iam: {
+    actions: ["compute.instances.setMachineResources"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetMachineTypeInstancesError =
@@ -52733,6 +53597,7 @@ export const setMachineTypeInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMachineTypeInstances",
+  iam: { actions: ["compute.instances.setMachineType"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetMetadataInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52750,6 +53615,7 @@ export const setMetadataInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMetadataInstances",
+  iam: { actions: ["compute.instances.setMetadata"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetMinCpuPlatformInstancesError =
@@ -52772,6 +53638,7 @@ export const setMinCpuPlatformInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMinCpuPlatformInstances",
+  iam: { actions: ["compute.instances.setMinCpuPlatform"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetNamedPortsInstanceGroupsError =
@@ -52794,6 +53661,7 @@ export const setNamedPortsInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNamedPortsInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetNamedPortsRegionInstanceGroupsError =
@@ -52816,6 +53684,7 @@ export const setNamedPortsRegionInstanceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNamedPortsRegionInstanceGroups",
+  iam: { actions: ["compute.instanceGroups.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetNameInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52833,6 +53702,7 @@ export const setNameInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNameInstances",
+  iam: { actions: ["compute.instances.setName"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetNodeTemplateNodeGroupsError =
@@ -52855,6 +53725,7 @@ export const setNodeTemplateNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNodeTemplateNodeGroups",
+  iam: { actions: ["compute.nodeGroups.setNodeTemplate"], roles: ["roles/compute.editor"] },
 }));
 
 export type SetPrivateIpGoogleAccessSubnetworksError =
@@ -52877,6 +53748,10 @@ export const setPrivateIpGoogleAccessSubnetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetPrivateIpGoogleAccessSubnetworks",
+  iam: {
+    actions: ["compute.subnetworks.setPrivateIpGoogleAccess"],
+    roles: ["roles/compute.editor"],
+  },
 }));
 
 export type SetProxyHeaderTargetSslProxiesError =
@@ -52899,6 +53774,10 @@ export const setProxyHeaderTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetProxyHeaderTargetSslProxies",
+  iam: {
+    actions: ["compute.targetSslProxies.setProxyHeader"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetProxyHeaderTargetTcpProxiesError =
@@ -52921,6 +53800,7 @@ export const setProxyHeaderTargetTcpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetProxyHeaderTargetTcpProxies",
+  iam: { actions: ["compute.targetTcpProxies.update"], roles: ["roles/compute.loadBalancerAdmin"] },
 }));
 
 export type SetQuicOverrideTargetHttpsProxiesError =
@@ -52943,6 +53823,10 @@ export const setQuicOverrideTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetQuicOverrideTargetHttpsProxies",
+  iam: {
+    actions: ["compute.targetHttpsProxies.setQuicOverride"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSchedulingInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -52960,6 +53844,7 @@ export const setSchedulingInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSchedulingInstances",
+  iam: { actions: ["compute.instances.setScheduling"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetSecurityPolicyBackendServicesError =
@@ -52982,6 +53867,10 @@ export const setSecurityPolicyBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecurityPolicyBackendServices",
+  iam: {
+    actions: ["compute.backendServices.setSecurityPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSecurityPolicyInstancesError =
@@ -53004,6 +53893,7 @@ export const setSecurityPolicyInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecurityPolicyInstances",
+  iam: { actions: ["compute.instances.setSecurityPolicy"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetSecurityPolicyRegionBackendServicesError =
@@ -53026,6 +53916,10 @@ export const setSecurityPolicyRegionBackendServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecurityPolicyRegionBackendServices",
+  iam: {
+    actions: ["compute.regionBackendServices.setSecurityPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSecurityPolicyTargetInstancesError =
@@ -53048,6 +53942,10 @@ export const setSecurityPolicyTargetInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecurityPolicyTargetInstances",
+  iam: {
+    actions: ["compute.targetInstances.setSecurityPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSecurityPolicyTargetPoolsError =
@@ -53070,6 +53968,10 @@ export const setSecurityPolicyTargetPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecurityPolicyTargetPools",
+  iam: {
+    actions: ["compute.targetPools.setSecurityPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetServiceAccountInstancesError =
@@ -53092,6 +53994,7 @@ export const setServiceAccountInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetServiceAccountInstances",
+  iam: { actions: ["compute.instances.setServiceAccount"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SetShieldedInstanceIntegrityPolicyInstancesError =
@@ -53118,6 +54021,10 @@ export const setShieldedInstanceIntegrityPolicyInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetShieldedInstanceIntegrityPolicyInstances",
+  iam: {
+    actions: ["compute.instances.setShieldedInstanceIntegrityPolicy"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type SetSslCertificatesRegionTargetHttpsProxiesError =
@@ -53144,6 +54051,10 @@ export const setSslCertificatesRegionTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSslCertificatesRegionTargetHttpsProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpsProxies.setSslCertificates"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSslCertificatesTargetHttpsProxiesError =
@@ -53166,6 +54077,10 @@ export const setSslCertificatesTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSslCertificatesTargetHttpsProxies",
+  iam: {
+    actions: ["compute.targetHttpsProxies.setSslCertificates"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSslCertificatesTargetSslProxiesError =
@@ -53188,6 +54103,10 @@ export const setSslCertificatesTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSslCertificatesTargetSslProxies",
+  iam: {
+    actions: ["compute.targetSslProxies.setSslCertificates"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSslPolicyTargetHttpsProxiesError =
@@ -53210,6 +54129,10 @@ export const setSslPolicyTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSslPolicyTargetHttpsProxies",
+  iam: {
+    actions: ["compute.targetHttpsProxies.setSslPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetSslPolicyTargetSslProxiesError =
@@ -53232,6 +54155,10 @@ export const setSslPolicyTargetSslProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSslPolicyTargetSslProxies",
+  iam: {
+    actions: ["compute.targetSslProxies.setSslPolicy"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetTagsInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -53249,6 +54176,7 @@ export const setTagsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTagsInstances",
+  iam: { actions: ["compute.instances.setTags"], roles: ["roles/compute.vmExtensionPolicyAdmin"] },
 }));
 
 export type SetTargetForwardingRulesError =
@@ -53271,6 +54199,10 @@ export const setTargetForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTargetForwardingRules",
+  iam: {
+    actions: ["compute.forwardingRules.setTarget"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetTargetGlobalForwardingRulesError =
@@ -53293,6 +54225,10 @@ export const setTargetGlobalForwardingRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTargetGlobalForwardingRules",
+  iam: {
+    actions: ["compute.globalForwardingRules.setTarget"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetTargetPoolsInstanceGroupManagersError =
@@ -53315,6 +54251,10 @@ export const setTargetPoolsInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTargetPoolsInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetTargetPoolsRegionInstanceGroupManagersError =
@@ -53341,6 +54281,10 @@ export const setTargetPoolsRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetTargetPoolsRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SetUrlMapRegionTargetHttpProxiesError =
@@ -53363,6 +54307,10 @@ export const setUrlMapRegionTargetHttpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetUrlMapRegionTargetHttpProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpProxies.setUrlMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetUrlMapRegionTargetHttpsProxiesError =
@@ -53385,6 +54333,10 @@ export const setUrlMapRegionTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetUrlMapRegionTargetHttpsProxies",
+  iam: {
+    actions: ["compute.regionTargetHttpsProxies.setUrlMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetUrlMapTargetHttpProxiesError =
@@ -53407,6 +54359,10 @@ export const setUrlMapTargetHttpProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetUrlMapTargetHttpProxies",
+  iam: {
+    actions: ["compute.targetHttpProxies.setUrlMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetUrlMapTargetHttpsProxiesError =
@@ -53429,6 +54385,10 @@ export const setUrlMapTargetHttpsProxies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetUrlMapTargetHttpsProxies",
+  iam: {
+    actions: ["compute.targetHttpsProxies.setUrlMap"],
+    roles: ["roles/compute.loadBalancerAdmin"],
+  },
 }));
 
 export type SetUsageExportBucketProjectsError =
@@ -53451,6 +54411,7 @@ export const setUsageExportBucketProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetUsageExportBucketProjects",
+  iam: { actions: ["compute.projects.setUsageExportBucket"], roles: ["roles/compute.editor"] },
 }));
 
 export type SimulateMaintenanceEventInstancesError =
@@ -53473,6 +54434,10 @@ export const simulateMaintenanceEventInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SimulateMaintenanceEventInstances",
+  iam: {
+    actions: ["compute.instances.simulateMaintenanceEvent"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SimulateMaintenanceEventNodeGroupsError =
@@ -53495,6 +54460,10 @@ export const simulateMaintenanceEventNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SimulateMaintenanceEventNodeGroups",
+  iam: {
+    actions: ["compute.nodeGroups.simulateMaintenanceEvent"],
+    roles: ["roles/compute.editor"],
+  },
 }));
 
 export type StartAsyncReplicationDisksError =
@@ -53517,6 +54486,7 @@ export const startAsyncReplicationDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartAsyncReplicationDisks",
+  iam: { actions: ["compute.disks.startAsyncReplication"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type StartAsyncReplicationRegionDisksError =
@@ -53539,6 +54509,7 @@ export const startAsyncReplicationRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartAsyncReplicationRegionDisks",
+  iam: { actions: ["compute.disks.startAsyncReplication"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type StartInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -53578,6 +54549,10 @@ export const startInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type StartInstancesRegionInstanceGroupManagersError =
@@ -53604,6 +54579,10 @@ export const startInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type StartWithEncryptionKeyInstancesError =
@@ -53626,6 +54605,10 @@ export const startWithEncryptionKeyInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartWithEncryptionKeyInstances",
+  iam: {
+    actions: ["compute.instances.startWithEncryptionKey"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type StopAsyncReplicationDisksError =
@@ -53648,6 +54631,7 @@ export const stopAsyncReplicationDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopAsyncReplicationDisks",
+  iam: { actions: ["compute.disks.stopAsyncReplication"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type StopAsyncReplicationRegionDisksError =
@@ -53670,6 +54654,7 @@ export const stopAsyncReplicationRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopAsyncReplicationRegionDisks",
+  iam: { actions: ["compute.disks.stopAsyncReplication"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type StopGroupAsyncReplicationDisksError =
@@ -53692,6 +54677,10 @@ export const stopGroupAsyncReplicationDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopGroupAsyncReplicationDisks",
+  iam: {
+    actions: ["compute.disks.stopGroupAsyncReplication"],
+    roles: ["roles/compute.storageAdmin"],
+  },
 }));
 
 export type StopGroupAsyncReplicationRegionDisksError =
@@ -53714,6 +54703,10 @@ export const stopGroupAsyncReplicationRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopGroupAsyncReplicationRegionDisks",
+  iam: {
+    actions: ["compute.disks.stopGroupAsyncReplication"],
+    roles: ["roles/compute.storageAdmin"],
+  },
 }));
 
 export type StopInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -53753,6 +54746,10 @@ export const stopInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type StopInstancesRegionInstanceGroupManagersError =
@@ -53775,6 +54772,10 @@ export const stopInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SuspendInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -53792,6 +54793,7 @@ export const suspendInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendInstances",
+  iam: { actions: ["compute.instances.suspend"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type SuspendInstancesInstanceGroupManagersError =
@@ -53814,6 +54816,10 @@ export const suspendInstancesInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendInstancesInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SuspendInstancesRegionInstanceGroupManagersError =
@@ -53840,6 +54846,10 @@ export const suspendInstancesRegionInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendInstancesRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type SwitchToCustomModeNetworksError =
@@ -53862,6 +54872,7 @@ export const switchToCustomModeNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchToCustomModeNetworks",
+  iam: { actions: ["compute.networks.switchToCustomMode"], roles: ["roles/compute.editor"] },
 }));
 
 export type TestIamPermissionsAddressesError =
@@ -55214,6 +56225,10 @@ export const updateAccessConfigInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAccessConfigInstances",
+  iam: {
+    actions: ["compute.instances.updateAccessConfig"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type UpdateAutoscalersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55231,6 +56246,7 @@ export const updateAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAutoscalers",
+  iam: { actions: ["compute.autoscalers.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type UpdateBackendBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55304,6 +56320,10 @@ export const updateDisplayDeviceInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDisplayDeviceInstances",
+  iam: {
+    actions: ["compute.instances.updateDisplayDevice"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type UpdateFirewallsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55455,6 +56475,7 @@ export const updateKmsKeyDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateKmsKeyDisks",
+  iam: { actions: ["compute.disks.updateKmsKey"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type UpdateKmsKeyRegionDisksError =
@@ -55477,6 +56498,7 @@ export const updateKmsKeyRegionDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateKmsKeyRegionDisks",
+  iam: { actions: ["compute.disks.updateKmsKey"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type UpdateKmsKeyRegionSnapshotsError =
@@ -55499,6 +56521,7 @@ export const updateKmsKeyRegionSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateKmsKeyRegionSnapshots",
+  iam: { actions: ["compute.snapshots.updateKmsKey"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type UpdateKmsKeySnapshotsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55516,6 +56539,7 @@ export const updateKmsKeySnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateKmsKeySnapshots",
+  iam: { actions: ["compute.snapshots.updateKmsKey"], roles: ["roles/compute.storageAdmin"] },
 }));
 
 export type UpdateLicensesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55550,6 +56574,7 @@ export const updateNamedSetRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateNamedSetRouters",
+  iam: { actions: ["compute.routers.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type UpdateNetworkInterfaceInstancesError =
@@ -55572,6 +56597,10 @@ export const updateNetworkInterfaceInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateNetworkInterfaceInstances",
+  iam: {
+    actions: ["compute.instances.updateNetworkInterface"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type UpdatePeeringNetworksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55589,6 +56618,7 @@ export const updatePeeringNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePeeringNetworks",
+  iam: { actions: ["compute.networks.updatePeering"], roles: ["roles/compute.editor"] },
 }));
 
 export type UpdatePerInstanceConfigsInstanceGroupManagersError =
@@ -55611,6 +56641,10 @@ export const updatePerInstanceConfigsInstanceGroupManagers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePerInstanceConfigsInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type UpdatePerInstanceConfigsRegionInstanceGroupManagersError =
@@ -55637,6 +56671,10 @@ export const updatePerInstanceConfigsRegionInstanceGroupManagers: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePerInstanceConfigsRegionInstanceGroupManagers",
+  iam: {
+    actions: ["compute.instanceGroupManagers.update"],
+    roles: ["roles/compute.instanceAdmin"],
+  },
 }));
 
 export type UpdatePreviewFeaturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55676,6 +56714,7 @@ export const updateRegionAutoscalers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRegionAutoscalers",
+  iam: { actions: ["compute.autoscalers.update"], roles: ["roles/compute.instanceAdmin"] },
 }));
 
 export type UpdateRegionBackendServicesError =
@@ -55720,6 +56759,7 @@ export const updateRegionCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRegionCommitments",
+  iam: { actions: ["compute.commitments.update"], roles: ["roles/compute.editor"] },
 }));
 
 export type UpdateRegionDisksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55832,6 +56872,7 @@ export const updateRoutePolicyRouters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRoutePolicyRouters",
+  iam: { actions: ["compute.routers.updateRoutePolicy"], roles: ["roles/compute.editor"] },
 }));
 
 export type UpdateRoutersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55871,6 +56912,10 @@ export const updateShieldedInstanceConfigInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateShieldedInstanceConfigInstances",
+  iam: {
+    actions: ["compute.instances.updateShieldedInstanceConfig"],
+    roles: ["roles/compute.securityAdmin"],
+  },
 }));
 
 export type UpdateStoragePoolsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55944,6 +56989,7 @@ export const validateRegionUrlMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateRegionUrlMaps",
+  iam: { actions: ["compute.regionUrlMaps.validate"], roles: ["roles/compute.viewer"] },
 }));
 
 export type ValidateUrlMapsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -55961,6 +57007,7 @@ export const validateUrlMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateUrlMaps",
+  iam: { actions: ["compute.urlMaps.validate"], roles: ["roles/compute.viewer"] },
 }));
 
 export type WaitGlobalOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -56034,6 +57081,10 @@ export const withdrawPublicAdvertisedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WithdrawPublicAdvertisedPrefixes",
+  iam: {
+    actions: ["compute.publicAdvertisedPrefixes.update"],
+    roles: ["roles/compute.publicIpAdmin"],
+  },
 }));
 
 export type WithdrawPublicDelegatedPrefixesError =
@@ -56056,6 +57107,10 @@ export const withdrawPublicDelegatedPrefixes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WithdrawPublicDelegatedPrefixes",
+  iam: {
+    actions: ["compute.publicDelegatedPrefixes.withdraw"],
+    roles: ["roles/compute.publicIpAdmin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

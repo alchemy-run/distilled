@@ -1295,6 +1295,10 @@ export const autocompletePlaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AutocompletePlaces",
+  iam: {
+    actions: ["serviceusage.services.use"],
+    roles: ["roles/serviceusage.serviceUsageConsumer"],
+  },
 }));
 
 export type GetMediaPlacesPhotosError = NotFound | Forbidden | GcpOpError;
@@ -1346,6 +1350,10 @@ export const searchNearbyPlaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchNearbyPlaces",
+  iam: {
+    actions: ["serviceusage.services.use"],
+    roles: ["roles/serviceusage.serviceUsageConsumer"],
+  },
 }));
 
 export type SearchTextPlacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1363,6 +1371,10 @@ export const searchTextPlaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchTextPlaces",
+  iam: {
+    actions: ["serviceusage.services.use"],
+    roles: ["roles/serviceusage.serviceUsageConsumer"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

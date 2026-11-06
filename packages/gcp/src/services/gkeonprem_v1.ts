@@ -2458,6 +2458,7 @@ export const createProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBareMetalAdminClusters",
+  iam: { actions: ["gkeonprem.bareMetalAdminClusters.create"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type CreateProjectsLocationsBareMetalClustersError =
@@ -2529,6 +2530,7 @@ export const createProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.update"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type CreateProjectsLocationsVmwareClustersError =
@@ -2718,6 +2720,7 @@ export const enrollProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsBareMetalAdminClusters",
+  iam: { actions: ["gkeonprem.bareMetalAdminClusters.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type EnrollProjectsLocationsBareMetalClustersError =
@@ -2740,6 +2743,7 @@ export const enrollProjectsLocationsBareMetalClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsBareMetalClusters",
+  iam: { actions: ["gkeonprem.bareMetalClusters.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
@@ -2766,6 +2770,7 @@ export const enrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsBareMetalClustersBareMetalNodePools",
+  iam: { actions: ["gkeonprem.bareMetalNodePools.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type EnrollProjectsLocationsVmwareAdminClustersError =
@@ -2788,6 +2793,7 @@ export const enrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type EnrollProjectsLocationsVmwareClustersError =
@@ -2810,6 +2816,7 @@ export const enrollProjectsLocationsVmwareClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsVmwareClusters",
+  iam: { actions: ["gkeonprem.vmwareClusters.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type EnrollProjectsLocationsVmwareClustersVmwareNodePoolsError =
@@ -2836,6 +2843,7 @@ export const enrollProjectsLocationsVmwareClustersVmwareNodePools: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollProjectsLocationsVmwareClustersVmwareNodePools",
+  iam: { actions: ["gkeonprem.vmwareNodePools.enroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type GetIamPolicyProjectsLocationsBareMetalAdminClustersError =
@@ -3004,6 +3012,7 @@ export const getProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBareMetalAdminClusters",
+  iam: { actions: ["gkeonprem.bareMetalAdminClusters.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsBareMetalAdminClustersOperationsError =
@@ -3045,6 +3054,7 @@ export const getProjectsLocationsBareMetalClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBareMetalClusters",
+  iam: { actions: ["gkeonprem.bareMetalClusters.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
@@ -3069,6 +3079,7 @@ export const getProjectsLocationsBareMetalClustersBareMetalNodePools: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBareMetalClustersBareMetalNodePools",
+  iam: { actions: ["gkeonprem.bareMetalNodePools.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError =
@@ -3151,6 +3162,7 @@ export const getProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsVmwareAdminClustersOperationsError =
@@ -3192,6 +3204,7 @@ export const getProjectsLocationsVmwareClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVmwareClusters",
+  iam: { actions: ["gkeonprem.vmwareClusters.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsVmwareClustersOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3237,6 +3250,7 @@ export const getProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVmwareClustersVmwareNodePools",
+  iam: { actions: ["gkeonprem.vmwareNodePools.get"], roles: ["roles/gkeonprem.viewer"] },
 }));
 
 export type GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsError =
@@ -3298,6 +3312,7 @@ export const listProjectsLocationsBareMetalAdminClusters: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBareMetalAdminClusters",
+  iam: { actions: ["gkeonprem.bareMetalAdminClusters.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3343,6 +3358,7 @@ export const listProjectsLocationsBareMetalClusters: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBareMetalClusters",
+  iam: { actions: ["gkeonprem.bareMetalClusters.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3369,6 +3385,7 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePools: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBareMetalClustersBareMetalNodePools",
+  iam: { actions: ["gkeonprem.bareMetalNodePools.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3459,6 +3476,7 @@ export const listProjectsLocationsVmwareAdminClusters: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3504,6 +3522,7 @@ export const listProjectsLocationsVmwareClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVmwareClusters",
+  iam: { actions: ["gkeonprem.vmwareClusters.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3553,6 +3572,7 @@ export const listProjectsLocationsVmwareClustersVmwareNodePools: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVmwareClustersVmwareNodePools",
+  iam: { actions: ["gkeonprem.vmwareNodePools.list"], roles: ["roles/gkeonprem.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3606,6 +3626,7 @@ export const patchProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBareMetalAdminClusters",
+  iam: { actions: ["gkeonprem.bareMetalAdminClusters.update"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type PatchProjectsLocationsBareMetalClustersError =
@@ -3676,6 +3697,7 @@ export const patchProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.update"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type PatchProjectsLocationsVmwareClustersError =
@@ -3750,6 +3772,10 @@ export const queryVersionConfigProjectsLocationsBareMetalAdminClusters: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryVersionConfigProjectsLocationsBareMetalAdminClusters",
+  iam: {
+    actions: ["gkeonprem.bareMetalAdminClusters.queryVersionConfig"],
+    roles: ["roles/gkeonprem.viewer"],
+  },
 }));
 
 export type QueryVersionConfigProjectsLocationsBareMetalClustersError =
@@ -3776,6 +3802,10 @@ export const queryVersionConfigProjectsLocationsBareMetalClusters: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryVersionConfigProjectsLocationsBareMetalClusters",
+  iam: {
+    actions: ["gkeonprem.bareMetalClusters.queryVersionConfig"],
+    roles: ["roles/gkeonprem.viewer"],
+  },
 }));
 
 export type QueryVersionConfigProjectsLocationsVmwareClustersError =
@@ -3802,6 +3832,10 @@ export const queryVersionConfigProjectsLocationsVmwareClusters: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryVersionConfigProjectsLocationsVmwareClusters",
+  iam: {
+    actions: ["gkeonprem.vmwareClusters.queryVersionConfig"],
+    roles: ["roles/gkeonprem.viewer"],
+  },
 }));
 
 export type SetIamPolicyProjectsLocationsBareMetalAdminClustersError =
@@ -4136,6 +4170,10 @@ export const unenrollProjectsLocationsBareMetalAdminClusters: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsBareMetalAdminClusters",
+  iam: {
+    actions: ["gkeonprem.bareMetalAdminClusters.unenroll"],
+    roles: ["roles/gkeonprem.editor"],
+  },
 }));
 
 export type UnenrollProjectsLocationsBareMetalClustersError =
@@ -4158,6 +4196,7 @@ export const unenrollProjectsLocationsBareMetalClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsBareMetalClusters",
+  iam: { actions: ["gkeonprem.bareMetalClusters.unenroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
@@ -4184,6 +4223,7 @@ export const unenrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsBareMetalClustersBareMetalNodePools",
+  iam: { actions: ["gkeonprem.bareMetalNodePools.unenroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type UnenrollProjectsLocationsVmwareAdminClustersError =
@@ -4210,6 +4250,7 @@ export const unenrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsVmwareAdminClusters",
+  iam: { actions: ["gkeonprem.vmwareAdminClusters.unenroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type UnenrollProjectsLocationsVmwareClustersError =
@@ -4232,6 +4273,7 @@ export const unenrollProjectsLocationsVmwareClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsVmwareClusters",
+  iam: { actions: ["gkeonprem.vmwareClusters.unenroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 export type UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsError =
@@ -4258,6 +4300,7 @@ export const unenrollProjectsLocationsVmwareClustersVmwareNodePools: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnenrollProjectsLocationsVmwareClustersVmwareNodePools",
+  iam: { actions: ["gkeonprem.vmwareNodePools.unenroll"], roles: ["roles/gkeonprem.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,0 +1,141 @@
+{
+  "description": "What each eventarc_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsChannelConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.channelConnections.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.channels.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsEnrollments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.enrollments.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsGoogleApiSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.googleApiSources.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsMessageBuses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.messageBuses.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.pipelines.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.providers.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#GetProjectsLocationsTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.triggers.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListEnrollmentsProjectsLocationsMessageBuses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.messageBuses.get"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsChannelConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.channelConnections.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.channels.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsEnrollments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.enrollments.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsGoogleApiSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.googleApiSources.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsMessageBuses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.messageBuses.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.pipelines.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsProviders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.providers.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.eventarc_v1#ListProjectsLocationsTriggers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["eventarc.triggers.list"],
+        "roles": ["roles/eventarc.viewer"]
+      }
+    }
+  ]
+}

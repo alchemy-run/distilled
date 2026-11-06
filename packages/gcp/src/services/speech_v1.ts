@@ -719,6 +719,7 @@ export const listProjectsLocationsCustomClasses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCustomClasses",
+  iam: { actions: ["speech.customClasses.list"], roles: ["roles/speech.client"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -738,6 +739,7 @@ export const listProjectsLocationsPhraseSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPhraseSets",
+  iam: { actions: ["speech.phraseSets.list"], roles: ["roles/speech.client"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -761,6 +763,7 @@ export const longrunningrecognizeSpeech: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LongrunningrecognizeSpeech",
+  iam: { actions: ["speech.speech.longrunningrecognize"], roles: ["roles/speech.client"] },
 }));
 
 export type PatchProjectsLocationsCustomClassesError =

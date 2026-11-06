@@ -1,0 +1,109 @@
+{
+  "description": "What each beyondcorp_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#GetProjectsLocationsAppConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnections.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#GetProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnectors.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#GetProjectsLocationsAppGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appGateways.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#GetProjectsLocationsSecurityGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.securityGateways.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#GetProjectsLocationsSecurityGatewaysApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.securityGateways.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ListProjectsLocationsAppConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnections.list"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ListProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnectors.list"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ListProjectsLocationsAppGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appGateways.list"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ListProjectsLocationsSecurityGateways/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.securityGateways.list"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ListProjectsLocationsSecurityGatewaysApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.securityGateways.get"],
+        "roles": ["roles/beyondcorp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ReportStatusProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnectors.reportStatus"],
+        "roles": ["roles/beyondcorp.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ResolveInstanceConfigProjectsLocationsAppConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnectors.update"],
+        "roles": ["roles/beyondcorp.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.beyondcorp_v1#ResolveProjectsLocationsAppConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["beyondcorp.appConnections.update"],
+        "roles": ["roles/beyondcorp.editor"]
+      }
+    }
+  ]
+}

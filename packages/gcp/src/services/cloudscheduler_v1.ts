@@ -536,6 +536,7 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobs",
+  iam: { actions: ["cloudscheduler.jobs.get"], roles: ["roles/cloudscheduler.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -590,6 +591,7 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobs",
+  iam: { actions: ["cloudscheduler.jobs.list"], roles: ["roles/cloudscheduler.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

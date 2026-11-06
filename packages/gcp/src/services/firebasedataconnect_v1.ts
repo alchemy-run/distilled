@@ -1126,6 +1126,10 @@ export const generateQueryProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateQueryProjectsLocationsServices",
+  iam: {
+    actions: ["firebasedataconnect.services.generateQuery"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
 }));
 
 export type GenerateSchemaProjectsLocationsServicesError =
@@ -1148,6 +1152,10 @@ export const generateSchemaProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateSchemaProjectsLocationsServices",
+  iam: {
+    actions: ["firebasedataconnect.services.generateSchema"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1199,6 +1207,10 @@ export const getProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServices",
+  iam: {
+    actions: ["firebasedataconnect.services.get"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsServicesConnectorsError = NotFound | Forbidden | GcpOpError;
@@ -1216,6 +1228,10 @@ export const getProjectsLocationsServicesConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesConnectors",
+  iam: {
+    actions: ["firebasedataconnect.connectors.get"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsServicesSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1233,6 +1249,10 @@ export const getProjectsLocationsServicesSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesSchemas",
+  iam: {
+    actions: ["firebasedataconnect.schemas.get"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
 }));
 
 export type ImpersonateMutationProjectsLocationsServicesConnectorsError =
@@ -1259,6 +1279,10 @@ export const impersonateMutationProjectsLocationsServicesConnectors: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImpersonateMutationProjectsLocationsServicesConnectors",
+  iam: {
+    actions: ["firebasedataconnect.connectors.impersonateMutation"],
+    roles: ["roles/firebasedataconnect.dataAdmin"],
+  },
 }));
 
 export type ImpersonateQueryProjectsLocationsServicesConnectorsError =
@@ -1285,6 +1309,10 @@ export const impersonateQueryProjectsLocationsServicesConnectors: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImpersonateQueryProjectsLocationsServicesConnectors",
+  iam: {
+    actions: ["firebasedataconnect.connectors.impersonateQuery"],
+    roles: ["roles/firebasedataconnect.dataViewer"],
+  },
 }));
 
 export type IntrospectGraphqlProjectsLocationsServicesError =
@@ -1307,6 +1335,10 @@ export const introspectGraphqlProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IntrospectGraphqlProjectsLocationsServices",
+  iam: {
+    actions: ["firebasedataconnect.services.introspectGraphql"],
+    roles: ["roles/firebasedataconnect.dataViewer"],
+  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1363,6 +1395,10 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServices",
+  iam: {
+    actions: ["firebasedataconnect.services.list"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1382,6 +1418,10 @@ export const listProjectsLocationsServicesConnectors: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesConnectors",
+  iam: {
+    actions: ["firebasedataconnect.connectors.list"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1401,6 +1441,10 @@ export const listProjectsLocationsServicesSchemas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesSchemas",
+  iam: {
+    actions: ["firebasedataconnect.schemas.list"],
+    roles: ["roles/firebasedataconnect.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1424,6 +1468,10 @@ export const migrateProjectsLocationsServicesSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MigrateProjectsLocationsServicesSchemas",
+  iam: {
+    actions: ["firebasedataconnect.schemas.migrate"],
+    roles: ["roles/firebasedataconnect.admin"],
+  },
 }));
 
 export type PatchProjectsLocationsServicesError =

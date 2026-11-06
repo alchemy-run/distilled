@@ -1,0 +1,637 @@
+{
+  "description": "What each dataproc_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessEnvironmentInfoProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessEnvironmentInfoProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessJobProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessJobProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessNativeBuildInfoProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessNativeBuildInfoProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessNativeSqlQueryProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessNativeSqlQueryProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessSqlPlanProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessSqlPlanProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessSqlQueryProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessSqlQueryProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessStageAttemptProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessStageAttemptProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessStageRddGraphProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AccessStageRddGraphProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#AnalyzeProjectsLocationsBatches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.analyze"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#CancelProjectsRegionsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.jobs.cancel"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ComputeTuningConfigProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#CreateProjectsRegionsClustersNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.nodeGroups.create"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#DiagnoseProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.update"],
+        "roles": ["roles/dataproc.hubAgent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsLocationsAutoscalingPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.autoscalingPolicies.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsLocationsBatches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsLocationsSessionTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessionTemplates.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsLocationsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsLocationsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsRegionsAutoscalingPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.autoscalingPolicies.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsRegionsClustersNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.nodeGroups.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsRegionsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.jobs.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#GetProjectsRegionsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.get"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#InjectCredentialsProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.update"],
+        "roles": ["roles/dataproc.hubAgent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#InstantiateInlineProjectsLocationsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.instantiateInline"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#InstantiateInlineProjectsRegionsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.instantiateInline"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#InstantiateProjectsLocationsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.instantiate"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#InstantiateProjectsRegionsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.instantiate"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsLocationsAutoscalingPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.autoscalingPolicies.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsLocationsBatches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.list"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsLocationsSessionTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessionTemplates.list"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsLocationsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.list"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsLocationsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsRegionsAutoscalingPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.autoscalingPolicies.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsRegionsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.jobs.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ListProjectsRegionsWorkflowTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.workflowTemplates.list"],
+        "roles": ["roles/dataproc.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#RepairProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.repair"],
+        "roles": ["roles/dataproc.hubAgent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#RepairProjectsRegionsClustersNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.nodeGroups.update"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#ResizeProjectsRegionsClustersNodeGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.nodeGroups.update"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchExecutorsProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchExecutorsProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchJobsProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchJobsProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchSqlQueriesProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchSqlQueriesProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStageAttemptTasksProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStageAttemptTasksProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStageAttemptsProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStageAttemptsProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStagesProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SearchStagesProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#StartProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.start"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#StopProjectsRegionsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.clusters.stop"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SubmitAsOperationProjectsRegionsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.jobs.update"],
+        "roles": ["roles/dataproc.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeExecutorsProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeExecutorsProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeJobsProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeJobsProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeStagesProjectsLocationsBatchesSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.batches.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#SummarizeStagesProjectsLocationsSessionsSparkApplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.get"],
+        "roles": ["roles/dataproc.serverlessViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataproc_v1#TerminateProjectsLocationsSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataproc.sessions.terminate"],
+        "roles": ["roles/dataproc.serverlessEditor"]
+      }
+    }
+  ]
+}

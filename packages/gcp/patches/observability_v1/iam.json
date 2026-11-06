@@ -1,0 +1,117 @@
+{
+  "description": "What each observability_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#CreateProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.buckets.create"],
+        "roles": ["roles/observability.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.buckets.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsBucketsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.datasets.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsBucketsDatasetsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.links.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsBucketsDatasetsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.views.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.scopes.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#GetProjectsLocationsTraceScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.traceScopes.get"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#ListProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.buckets.list"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#ListProjectsLocationsBucketsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.datasets.list"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#ListProjectsLocationsBucketsDatasetsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.links.list"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#ListProjectsLocationsBucketsDatasetsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.views.list"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#ListProjectsLocationsTraceScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.traceScopes.list"],
+        "roles": ["roles/observability.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#PatchProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.buckets.update"],
+        "roles": ["roles/observability.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.observability_v1#PatchProjectsLocationsScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["observability.scopes.update"],
+        "roles": ["roles/observability.scopesEditor"]
+      }
+    }
+  ]
+}

@@ -1210,6 +1210,10 @@ export const cancelProjectsDeviceSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsDeviceSessions",
+  iam: {
+    actions: ["cloudtestservice.devicesession.cancel"],
+    roles: ["roles/cloudtestservice.admin"],
+  },
 }));
 
 export type CancelProjectsTestMatricesError =
@@ -1232,6 +1236,7 @@ export const cancelProjectsTestMatrices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsTestMatrices",
+  iam: { actions: ["cloudtestservice.matrices.update"], roles: ["roles/cloudtestservice.admin"] },
 }));
 
 export type CreateProjectsDeviceSessionsError =
@@ -1254,6 +1259,10 @@ export const createProjectsDeviceSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDeviceSessions",
+  iam: {
+    actions: ["cloudtestservice.devicesession.create"],
+    roles: ["roles/cloudtestservice.admin"],
+  },
 }));
 
 export type CreateProjectsTestMatricesError =
@@ -1276,6 +1285,7 @@ export const createProjectsTestMatrices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTestMatrices",
+  iam: { actions: ["cloudtestservice.matrices.create"], roles: ["roles/cloudtestservice.admin"] },
 }));
 
 export type GetApkDetailsApplicationDetailServiceError =
@@ -1298,6 +1308,10 @@ export const getApkDetailsApplicationDetailService: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApkDetailsApplicationDetailService",
+  iam: {
+    actions: ["cloudtestservice.environmentcatalog.get"],
+    roles: ["roles/cloudtestservice.viewer"],
+  },
 }));
 
 export type GetProjectsDeviceSessionsError = NotFound | Forbidden | GcpOpError;
@@ -1315,6 +1329,10 @@ export const getProjectsDeviceSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDeviceSessions",
+  iam: {
+    actions: ["cloudtestservice.devicesession.get"],
+    roles: ["roles/cloudtestservice.viewer"],
+  },
 }));
 
 export type GetProjectsTestMatricesError = NotFound | Forbidden | GcpOpError;
@@ -1332,6 +1350,7 @@ export const getProjectsTestMatrices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsTestMatrices",
+  iam: { actions: ["cloudtestservice.matrices.get"], roles: ["roles/cloudtestservice.viewer"] },
 }));
 
 export type GetTestEnvironmentCatalogError = NotFound | Forbidden | GcpOpError;
@@ -1367,6 +1386,10 @@ export const listProjectsDeviceSessions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDeviceSessions",
+  iam: {
+    actions: ["cloudtestservice.devicesession.list"],
+    roles: ["roles/cloudtestservice.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1390,6 +1413,10 @@ export const patchProjectsDeviceSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDeviceSessions",
+  iam: {
+    actions: ["cloudtestservice.devicesession.update"],
+    roles: ["roles/cloudtestservice.admin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,0 +1,285 @@
+{
+  "description": "What each backupdr_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#AbandonBackupProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#DeleteProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#EndProjectsLocationsTrial/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.trial.end"],
+        "roles": ["roles/backupdr.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchAccessTokenProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchForResourceTypeProjectsLocationsBackupPlanAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlanAssociations.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchForResourceTypeProjectsLocationsDataSourceReferences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.dataSourceReferences.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchProjectsLocationsResourceBackupConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.resourceBackupConfigs.fetch"],
+        "roles": ["roles/backupdr.backupConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FetchUsableProjectsLocationsBackupVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#FinalizeBackupProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupPlanAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlanAssociations.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlans.get"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupPlansRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlans.get"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsDataSourceReferences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.dataSourceReferences.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#GetProjectsLocationsManagementServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.managementServers.get"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#InitializeProjectsLocationsServiceConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.serviceConfig.initialize"],
+        "roles": ["roles/backupdr.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#InitiateBackupProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupPlanAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlanAssociations.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlans.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupPlansRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupPlans.get"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.list"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.get"],
+        "roles": ["roles/backupdr.backupvaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsDataSourceReferences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.dataSourceReferences.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsManagementServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.managementServers.list"],
+        "roles": ["roles/backupdr.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#ListProjectsLocationsResourceBackupConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.resourceBackupConfigs.list"],
+        "roles": ["roles/backupdr.backupConfigViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#PatchProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#PatchProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#RemoveProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#RestoreProjectsLocationsBackupVaultsDataSourcesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#SetInternalStatusProjectsLocationsBackupVaultsDataSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.backupVaults.update"],
+        "roles": ["roles/backupdr.backupvaultAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#SubscribeProjectsLocationsTrial/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["backupdr.trial.subscribe"],
+        "roles": ["roles/backupdr.editor"]
+      }
+    }
+  ]
+}

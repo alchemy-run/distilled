@@ -1,0 +1,197 @@
+{
+  "description": "What each bigtableadmin_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#CheckConsistencyProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.checkConsistency"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#CopyProjectsInstancesClustersBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.backups.create"],
+        "roles": ["roles/bigtable.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#DropRowRangeProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.mutateRows"],
+        "roles": ["roles/bigtable.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GenerateConsistencyTokenProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.generateConsistencyToken"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesAppProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.appProfiles.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesClustersBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.backups.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesLogicalViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.logicalViews.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesMaterializedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.materializedViews.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesTablesAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.authorizedViews.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#GetProjectsInstancesTablesSchemaBundles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.schemaBundles.get"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.instances.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesAppProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.appProfiles.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.clusters.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesClustersBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.backups.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesClustersHotTablets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.hotTablets.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesClustersMemoryLayers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.memoryLayers.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesLogicalViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.logicalViews.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesMaterializedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.materializedViews.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesTablesAuthorizedViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.authorizedViews.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ListProjectsInstancesTablesSchemaBundles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.schemaBundles.list"],
+        "roles": ["roles/bigtable.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#ModifyColumnFamiliesProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.update"],
+        "roles": ["roles/bigtable.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#RestoreProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.backups.restore"],
+        "roles": ["roles/bigtable.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#UndeleteProjectsInstancesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigtable.tables.undelete"],
+        "roles": ["roles/bigtable.editor"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "description": "What each firebase_v1beta1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#AddFirebaseProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#AddGoogleAnalyticsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#CreateProjectsAndroidAppsSha/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.create"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#CreateProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.create"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#CreateProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.create"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#DeleteProjectsAndroidAppsSha/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.delete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#FinalizeProjectsDefaultLocation/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetAdminSdkConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetAnalyticsDetailsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetConfigProjectsAndroidApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetConfigProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetConfigProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetProjectsAndroidApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListAvailableProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListProjectsAndroidApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.list"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListProjectsAndroidAppsSha/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.list"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.list"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#ListProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.list"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#PatchProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#PatchProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#RemoveAnalyticsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.update"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#RemoveProjectsAndroidApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.delete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#RemoveProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.delete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#RemoveProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.delete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#SearchAppsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.projects.get"],
+        "roles": ["roles/firebase.analyticsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#UndeleteProjectsAndroidApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.undelete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#UndeleteProjectsIosApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.undelete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#UndeleteProjectsWebApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebase.clients.undelete"],
+        "roles": ["roles/firebase.editor"]
+      }
+    }
+  ]
+}

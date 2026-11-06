@@ -1348,6 +1348,10 @@ export const listProjectsLocationsWorkstationClusters: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkstationClusters",
+  iam: {
+    actions: ["workstations.workstationClusters.list"],
+    roles: ["roles/workstations.workstationCreator"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1374,6 +1378,7 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigs: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkstationClustersWorkstationConfigs",
+  iam: { actions: ["workstations.workstationConfigs.list"], roles: ["roles/workstations.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1400,6 +1405,7 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  iam: { actions: ["workstations.workstations.list"], roles: ["roles/workstations.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1426,6 +1432,10 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableProjectsLocationsWorkstationClustersWorkstationConfigs",
+  iam: {
+    actions: ["workstations.workstationConfigs.get"],
+    roles: ["roles/workstations.workstationLimitExemptedCreator"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1452,6 +1462,7 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  iam: { actions: ["workstations.workstations.get"], roles: ["roles/workstations.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1657,6 +1668,7 @@ export const suspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkst
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  iam: { actions: ["workstations.workstations.update"], roles: ["roles/workstations.user"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsError =

@@ -505,6 +505,7 @@ export const getProjectsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsReleases",
+  iam: { actions: ["firebaserules.releases.get"], roles: ["roles/firebaserules.viewer"] },
 }));
 
 export type GetProjectsRulesetsError = NotFound | Forbidden | GcpOpError;
@@ -522,6 +523,7 @@ export const getProjectsRulesets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRulesets",
+  iam: { actions: ["firebaserules.rulesets.get"], roles: ["roles/firebaserules.viewer"] },
 }));
 
 export type ListProjectsReleasesError = NotFound | Forbidden | GcpOpError;
@@ -540,6 +542,7 @@ export const listProjectsReleases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsReleases",
+  iam: { actions: ["firebaserules.releases.list"], roles: ["roles/firebaserules.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -559,6 +562,7 @@ export const listProjectsRulesets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRulesets",
+  iam: { actions: ["firebaserules.rulesets.list"], roles: ["roles/firebaserules.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

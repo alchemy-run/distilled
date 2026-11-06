@@ -748,6 +748,7 @@ export const batchAddProjectsTesters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchAddProjectsTesters",
+  iam: { actions: ["firebaseappdistro.testers.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type BatchDeleteProjectsAppsReleasesError =
@@ -771,6 +772,7 @@ export const batchDeleteProjectsAppsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsAppsReleases",
+  iam: { actions: ["firebaseappdistro.releases.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type BatchJoinProjectsGroupsError =
@@ -794,6 +796,7 @@ export const batchJoinProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchJoinProjectsGroups",
+  iam: { actions: ["firebaseappdistro.groups.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type BatchLeaveProjectsGroupsError =
@@ -817,6 +820,7 @@ export const batchLeaveProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchLeaveProjectsGroups",
+  iam: { actions: ["firebaseappdistro.groups.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type BatchRemoveProjectsTestersError =
@@ -844,6 +848,7 @@ export const batchRemoveProjectsTesters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchRemoveProjectsTesters",
+  iam: { actions: ["firebaseappdistro.testers.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type CancelProjectsAppsReleasesOperationsError =
@@ -913,6 +918,7 @@ export const deleteProjectsAppsReleasesFeedbackReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsAppsReleasesFeedbackReports",
+  iam: { actions: ["firebaseappdistro.releases.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type DeleteProjectsAppsReleasesOperationsError =
@@ -982,6 +988,7 @@ export const distributeProjectsAppsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DistributeProjectsAppsReleases",
+  iam: { actions: ["firebaseappdistro.releases.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type GetAabInfoProjectsAppsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -999,6 +1006,7 @@ export const getAabInfoProjectsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAabInfoProjectsApps",
+  iam: { actions: ["firebaseappdistro.releases.list"], roles: ["roles/firebaseappdistro.viewer"] },
 }));
 
 export type GetProjectsAppsReleasesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1016,6 +1024,7 @@ export const getProjectsAppsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsReleases",
+  iam: { actions: ["firebaseappdistro.releases.list"], roles: ["roles/firebaseappdistro.viewer"] },
 }));
 
 export type GetProjectsAppsReleasesFeedbackReportsError =
@@ -1037,6 +1046,7 @@ export const getProjectsAppsReleasesFeedbackReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsReleasesFeedbackReports",
+  iam: { actions: ["firebaseappdistro.releases.list"], roles: ["roles/firebaseappdistro.viewer"] },
 }));
 
 export type GetProjectsAppsReleasesOperationsError =
@@ -1075,6 +1085,7 @@ export const getProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsGroups",
+  iam: { actions: ["firebaseappdistro.groups.list"], roles: ["roles/firebaseappdistro.viewer"] },
 }));
 
 export type ListProjectsAppsReleasesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1093,6 +1104,7 @@ export const listProjectsAppsReleases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAppsReleases",
+  iam: { actions: ["firebaseappdistro.releases.list"], roles: ["roles/firebaseappdistro.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1120,6 +1132,7 @@ export const listProjectsAppsReleasesFeedbackReports: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAppsReleasesFeedbackReports",
+  iam: { actions: ["firebaseappdistro.releases.list"], roles: ["roles/firebaseappdistro.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1162,6 +1175,7 @@ export const listProjectsGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsGroups",
+  iam: { actions: ["firebaseappdistro.groups.list"], roles: ["roles/firebaseappdistro.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1181,6 +1195,7 @@ export const listProjectsTesters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTesters",
+  iam: { actions: ["firebaseappdistro.testers.list"], roles: ["roles/firebaseappdistro.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1205,6 +1220,7 @@ export const patchProjectsAppsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsReleases",
+  iam: { actions: ["firebaseappdistro.releases.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type PatchProjectsGroupsError =
@@ -1251,6 +1267,7 @@ export const patchProjectsTesters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTesters",
+  iam: { actions: ["firebaseappdistro.testers.update"], roles: ["roles/firebaseappdistro.admin"] },
 }));
 
 export type UploadMediaError =

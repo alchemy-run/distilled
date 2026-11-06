@@ -1,0 +1,61 @@
+{
+  "description": "What each biglake_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#GetProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.catalogs.get"],
+        "roles": ["roles/biglake.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#GetProjectsLocationsCatalogsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.databases.get"],
+        "roles": ["roles/biglake.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#GetProjectsLocationsCatalogsDatabasesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.tables.get"],
+        "roles": ["roles/biglake.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#ListProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.catalogs.list"],
+        "roles": ["roles/biglake.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#ListProjectsLocationsCatalogsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.databases.list"],
+        "roles": ["roles/biglake.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#ListProjectsLocationsCatalogsDatabasesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.tables.list"],
+        "roles": ["roles/biglake.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.biglake_v1#RenameProjectsLocationsCatalogsDatabasesTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["biglake.tables.update"],
+        "roles": ["roles/biglake.editor"]
+      }
+    }
+  ]
+}

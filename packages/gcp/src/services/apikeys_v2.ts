@@ -364,6 +364,7 @@ export const getProjectsLocationsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeys",
+  iam: { actions: ["apikeys.keys.get"], roles: ["roles/serviceusage.apiKeysViewer"] },
 }));
 
 export type ListProjectsLocationsKeysError = NotFound | Forbidden | GcpOpError;
@@ -382,6 +383,7 @@ export const listProjectsLocationsKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeys",
+  iam: { actions: ["apikeys.keys.list"], roles: ["roles/serviceusage.apiKeysViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -400,6 +402,7 @@ export const lookupKeyKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupKeyKeys",
+  iam: { actions: ["apikeys.keys.get"], roles: ["roles/serviceusage.apiKeysViewer"] },
 }));
 
 export type PatchProjectsLocationsKeysError =
@@ -444,6 +447,7 @@ export const undeleteProjectsLocationsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsKeys",
+  iam: { actions: ["apikeys.keys.undelete"], roles: ["roles/serviceusage.apiKeysAdmin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

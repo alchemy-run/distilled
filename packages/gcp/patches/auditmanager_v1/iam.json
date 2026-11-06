@@ -1,0 +1,85 @@
+{
+  "description": "What each auditmanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#CreateProjectsLocationsAuditSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditSchedules.create"],
+        "roles": ["roles/auditmanager.auditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditReports.generate"],
+        "roles": ["roles/auditmanager.auditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditScopeReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditScopeReports.generate"],
+        "roles": ["roles/auditmanager.auditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#GetProjectsLocationsAuditReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditReports.get"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#GetProjectsLocationsAuditSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditSchedules.get"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#GetProjectsLocationsResourceEnrollmentStatuses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.resourceEnrollmentStatuses.get"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#ListProjectsLocationsAuditReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditReports.list"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#ListProjectsLocationsAuditSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditSchedules.list"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#ListProjectsLocationsStandardsControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.controls.list"],
+        "roles": ["roles/auditmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.auditmanager_v1#PatchProjectsLocationsAuditSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["auditmanager.auditSchedules.update"],
+        "roles": ["roles/auditmanager.auditor"]
+      }
+    }
+  ]
+}

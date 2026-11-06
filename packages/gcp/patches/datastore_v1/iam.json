@@ -1,0 +1,77 @@
+{
+  "description": "What each datastore_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#AllocateIdsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.allocateIds"],
+        "roles": ["roles/datastore.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#BeginTransactionProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#ExportProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.export"],
+        "roles": ["roles/datastore.importExportAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#GetProjectsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.getMetadata"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#ImportProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.import"],
+        "roles": ["roles/datastore.importExportAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#ListProjectsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.getMetadata"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#ReserveIdsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.allocateIds"],
+        "roles": ["roles/datastore.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#RollbackProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#RunAggregationQueryProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    }
+  ]
+}

@@ -1548,6 +1548,10 @@ export const analyzePackagesProjectsLocationsScans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzePackagesProjectsLocationsScans",
+  iam: {
+    actions: ["ondemandscanning.scans.analyzePackages"],
+    roles: ["roles/ondemandscanning.admin"],
+  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1646,6 +1650,10 @@ export const listProjectsLocationsScansVulnerabilities: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsScansVulnerabilities",
+  iam: {
+    actions: ["ondemandscanning.scans.listVulnerabilities"],
+    roles: ["roles/ondemandscanning.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

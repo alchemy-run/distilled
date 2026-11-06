@@ -1145,6 +1145,7 @@ export const acknowledgeProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcknowledgeProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type CommitProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1162,6 +1163,7 @@ export const commitProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.commit"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type CreateProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1179,6 +1181,7 @@ export const createProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.create"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type CreateProjectsSnapshotsError =
@@ -1201,6 +1204,7 @@ export const createProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSnapshots",
+  iam: { actions: ["pubsub.snapshots.create"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type CreateProjectsSubscriptionsError =
@@ -1231,6 +1235,7 @@ export const createProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.create"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type CreateProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1248,6 +1253,7 @@ export const createProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTopics",
+  iam: { actions: ["pubsub.topics.create"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DeleteProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1265,6 +1271,7 @@ export const deleteProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.delete"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DeleteProjectsSnapshotsError =
@@ -1287,6 +1294,7 @@ export const deleteProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSnapshots",
+  iam: { actions: ["pubsub.snapshots.delete"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DeleteProjectsSubscriptionsError =
@@ -1309,6 +1317,7 @@ export const deleteProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.delete"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DeleteProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1326,6 +1335,7 @@ export const deleteProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsTopics",
+  iam: { actions: ["pubsub.topics.delete"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DeleteRevisionProjectsSchemasError =
@@ -1348,6 +1358,7 @@ export const deleteRevisionProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteRevisionProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.commit"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type DetachProjectsSubscriptionsError =
@@ -1370,6 +1381,7 @@ export const detachProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type GetIamPolicyProjectsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1455,6 +1467,7 @@ export const getProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.get"], roles: ["roles/pubsub.viewer"] },
 }));
 
 export type GetProjectsSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -1472,6 +1485,7 @@ export const getProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSnapshots",
+  iam: { actions: ["pubsub.snapshots.get"], roles: ["roles/pubsub.viewer"] },
 }));
 
 export type GetProjectsSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -1489,6 +1503,7 @@ export const getProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.get"], roles: ["roles/pubsub.viewer"] },
 }));
 
 export type GetProjectsTopicsError = NotFound | Forbidden | GcpOpError;
@@ -1506,6 +1521,7 @@ export const getProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsTopics",
+  iam: { actions: ["pubsub.topics.get"], roles: ["roles/pubsub.viewer"] },
 }));
 
 export type ListProjectsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1524,6 +1540,7 @@ export const listProjectsSchemas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1543,6 +1560,7 @@ export const listProjectsSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSnapshots",
+  iam: { actions: ["pubsub.snapshots.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1562,6 +1580,7 @@ export const listProjectsSubscriptions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1581,6 +1600,7 @@ export const listProjectsTopics: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTopics",
+  iam: { actions: ["pubsub.topics.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1600,6 +1620,7 @@ export const listProjectsTopicsSnapshots: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTopicsSnapshots",
+  iam: { actions: ["pubsub.snapshots.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1619,6 +1640,7 @@ export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTopicsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.list"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1638,6 +1660,7 @@ export const listRevisionsProjectsSchemas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRevisionsProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.listRevisions"], roles: ["roles/pubsub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1661,6 +1684,7 @@ export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyAckDeadlineProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type ModifyPushConfigProjectsSubscriptionsError =
@@ -1683,6 +1707,7 @@ export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyPushConfigProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type PatchProjectsSnapshotsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1700,6 +1725,7 @@ export const patchProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSnapshots",
+  iam: { actions: ["pubsub.snapshots.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type PatchProjectsSubscriptionsError =
@@ -1730,6 +1756,7 @@ export const patchProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type PatchProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1747,6 +1774,7 @@ export const patchProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTopics",
+  iam: { actions: ["pubsub.topics.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type PublishProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1764,6 +1792,7 @@ export const publishProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsTopics",
+  iam: { actions: ["pubsub.topics.publish"], roles: ["roles/pubsub.publisher"] },
 }));
 
 export type PullProjectsSubscriptionsError =
@@ -1786,6 +1815,7 @@ export const pullProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PullProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type RollbackProjectsSchemasError =
@@ -1808,6 +1838,7 @@ export const rollbackProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.rollback"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type SeekProjectsSubscriptionsError =
@@ -1830,6 +1861,7 @@ export const seekProjectsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SeekProjectsSubscriptions",
+  iam: { actions: ["pubsub.subscriptions.update"], roles: ["roles/pubsub.editor"] },
 }));
 
 export type SetIamPolicyProjectsSchemasError =
@@ -2029,6 +2061,7 @@ export const validateMessageProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateMessageProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.get"], roles: ["roles/pubsub.viewer"] },
 }));
 
 export type ValidateProjectsSchemasError =
@@ -2051,6 +2084,7 @@ export const validateProjectsSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateProjectsSchemas",
+  iam: { actions: ["pubsub.schemas.validate"], roles: ["roles/pubsub.viewer"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

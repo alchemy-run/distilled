@@ -1062,6 +1062,10 @@ export const commitAccessPoliciesServicePerimeters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitAccessPoliciesServicePerimeters",
+  iam: {
+    actions: ["accesscontextmanager.servicePerimeters.commit"],
+    roles: ["roles/accesscontextmanager.policyEditor"],
+  },
 }));
 
 export type CreateAccessPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1323,6 +1327,10 @@ export const getAccessPoliciesAccessLevels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccessPoliciesAccessLevels",
+  iam: {
+    actions: ["accesscontextmanager.accessLevels.get"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
 }));
 
 export type GetAccessPoliciesAuthorizedOrgsDescsError = NotFound | Forbidden | GcpOpError;
@@ -1340,6 +1348,10 @@ export const getAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccessPoliciesAuthorizedOrgsDescs",
+  iam: {
+    actions: ["accesscontextmanager.authorizedOrgsDescs.get"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
 }));
 
 export type GetAccessPoliciesServicePerimetersError = NotFound | Forbidden | GcpOpError;
@@ -1357,6 +1369,10 @@ export const getAccessPoliciesServicePerimeters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccessPoliciesServicePerimeters",
+  iam: {
+    actions: ["accesscontextmanager.servicePerimeters.get"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
 }));
 
 export type GetIamPolicyAccessPoliciesError =
@@ -1413,6 +1429,10 @@ export const getOrganizationsGcpUserAccessBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsGcpUserAccessBindings",
+  iam: {
+    actions: ["accesscontextmanager.gcpUserAccessBindings.get"],
+    roles: ["roles/accesscontextmanager.gcpAccessReader"],
+  },
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -1467,6 +1487,10 @@ export const listAccessPoliciesAccessLevels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPoliciesAccessLevels",
+  iam: {
+    actions: ["accesscontextmanager.accessLevels.list"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1486,6 +1510,10 @@ export const listAccessPoliciesAuthorizedOrgsDescs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPoliciesAuthorizedOrgsDescs",
+  iam: {
+    actions: ["accesscontextmanager.authorizedOrgsDescs.list"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1505,6 +1533,10 @@ export const listAccessPoliciesServicePerimeters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccessPoliciesServicePerimeters",
+  iam: {
+    actions: ["accesscontextmanager.servicePerimeters.list"],
+    roles: ["roles/accesscontextmanager.policyReader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1743,6 +1775,10 @@ export const replaceAllAccessPoliciesAccessLevels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceAllAccessPoliciesAccessLevels",
+  iam: {
+    actions: ["accesscontextmanager.accessLevels.replaceAll"],
+    roles: ["roles/accesscontextmanager.policyEditor"],
+  },
 }));
 
 export type ReplaceAllAccessPoliciesServicePerimetersError =
@@ -1765,6 +1801,10 @@ export const replaceAllAccessPoliciesServicePerimeters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceAllAccessPoliciesServicePerimeters",
+  iam: {
+    actions: ["accesscontextmanager.servicePerimeters.replaceAll"],
+    roles: ["roles/accesscontextmanager.policyEditor"],
+  },
 }));
 
 export type SetIamPolicyAccessPoliciesError =

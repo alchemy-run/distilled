@@ -1,0 +1,101 @@
+{
+  "description": "What each firebasedataconnect_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#GenerateQueryProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.services.generateQuery"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#GenerateSchemaProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.services.generateSchema"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#GetProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.services.get"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#GetProjectsLocationsServicesConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.connectors.get"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#GetProjectsLocationsServicesSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.schemas.get"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#ImpersonateMutationProjectsLocationsServicesConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.connectors.impersonateMutation"],
+        "roles": ["roles/firebasedataconnect.dataAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#ImpersonateQueryProjectsLocationsServicesConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.connectors.impersonateQuery"],
+        "roles": ["roles/firebasedataconnect.dataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#IntrospectGraphqlProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.services.introspectGraphql"],
+        "roles": ["roles/firebasedataconnect.dataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#ListProjectsLocationsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.services.list"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#ListProjectsLocationsServicesConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.connectors.list"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#ListProjectsLocationsServicesSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.schemas.list"],
+        "roles": ["roles/firebasedataconnect.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasedataconnect_v1#MigrateProjectsLocationsServicesSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasedataconnect.schemas.migrate"],
+        "roles": ["roles/firebasedataconnect.admin"]
+      }
+    }
+  ]
+}

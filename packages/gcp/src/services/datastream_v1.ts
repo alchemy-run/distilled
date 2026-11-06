@@ -2139,6 +2139,7 @@ export const discoverProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DiscoverProjectsLocationsConnectionProfiles",
+  iam: { actions: ["datastream.connectionProfiles.discover"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type FetchStaticIpsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2192,6 +2193,7 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionProfiles",
+  iam: { actions: ["datastream.connectionProfiles.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2226,6 +2228,7 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPrivateConnections",
+  iam: { actions: ["datastream.privateConnections.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type GetProjectsLocationsPrivateConnectionsRoutesError = NotFound | Forbidden | GcpOpError;
@@ -2243,6 +2246,7 @@ export const getProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPrivateConnectionsRoutes",
+  iam: { actions: ["datastream.routes.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type GetProjectsLocationsStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2260,6 +2264,7 @@ export const getProjectsLocationsStreams: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStreams",
+  iam: { actions: ["datastream.streams.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type GetProjectsLocationsStreamsObjectsError = NotFound | Forbidden | GcpOpError;
@@ -2277,6 +2282,7 @@ export const getProjectsLocationsStreamsObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStreamsObjects",
+  iam: { actions: ["datastream.objects.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2314,6 +2320,7 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionProfiles",
+  iam: { actions: ["datastream.connectionProfiles.list"], roles: ["roles/datastream.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2352,6 +2359,7 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPrivateConnections",
+  iam: { actions: ["datastream.privateConnections.list"], roles: ["roles/datastream.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2375,6 +2383,7 @@ export const listProjectsLocationsPrivateConnectionsRoutes: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPrivateConnectionsRoutes",
+  iam: { actions: ["datastream.routes.list"], roles: ["roles/datastream.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2394,6 +2403,7 @@ export const listProjectsLocationsStreams: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStreams",
+  iam: { actions: ["datastream.streams.list"], roles: ["roles/datastream.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2413,6 +2423,7 @@ export const listProjectsLocationsStreamsObjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStreamsObjects",
+  iam: { actions: ["datastream.objects.list"], roles: ["roles/datastream.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2436,6 +2447,7 @@ export const lookupProjectsLocationsStreamsObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsStreamsObjects",
+  iam: { actions: ["datastream.objects.get"], roles: ["roles/datastream.viewer"] },
 }));
 
 export type PatchProjectsLocationsConnectionProfilesError =
@@ -2502,6 +2514,7 @@ export const runProjectsLocationsStreams: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsStreams",
+  iam: { actions: ["datastream.streams.update"], roles: ["roles/datastream.bigqueryWriter"] },
 }));
 
 export type StartBackfillJobProjectsLocationsStreamsObjectsError =
@@ -2528,6 +2541,10 @@ export const startBackfillJobProjectsLocationsStreamsObjects: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartBackfillJobProjectsLocationsStreamsObjects",
+  iam: {
+    actions: ["datastream.objects.startBackfillJob"],
+    roles: ["roles/datastream.bigqueryWriter"],
+  },
 }));
 
 export type StopBackfillJobProjectsLocationsStreamsObjectsError =
@@ -2554,6 +2571,10 @@ export const stopBackfillJobProjectsLocationsStreamsObjects: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopBackfillJobProjectsLocationsStreamsObjects",
+  iam: {
+    actions: ["datastream.objects.stopBackfillJob"],
+    roles: ["roles/datastream.bigqueryWriter"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -2807,6 +2807,7 @@ export const batchDeleteProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.update"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type BatchRunProjectsLocationsAgentsTestCasesError =
@@ -2828,6 +2829,7 @@ export const batchRunProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchRunProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.update"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type CalculateCoverageProjectsLocationsAgentsTestCasesError =
@@ -2855,6 +2857,10 @@ export const calculateCoverageProjectsLocationsAgentsTestCases: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CalculateCoverageProjectsLocationsAgentsTestCases",
+  iam: {
+    actions: ["dialogflow.testcases.calculateCoverage"],
+    roles: ["roles/dialogflow.testCaseAdmin"],
+  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -2922,6 +2928,7 @@ export const compareVersionsProjectsLocationsAgentsFlowsVersions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompareVersionsProjectsLocationsAgentsFlowsVersions",
+  iam: { actions: ["dialogflow.versions.update"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type CreateProjectsLocationsAgentsError =
@@ -3282,6 +3289,7 @@ export const createProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.create"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type CreateProjectsLocationsAgentsToolsError =
@@ -3864,6 +3872,10 @@ export const deployFlowProjectsLocationsAgentsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployFlowProjectsLocationsAgentsEnvironments",
+  iam: {
+    actions: ["dialogflow.environments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type DetectIntentProjectsLocationsAgentsEnvironmentsSessionsError =
@@ -3889,6 +3901,7 @@ export const detectIntentProjectsLocationsAgentsEnvironmentsSessions: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetectIntentProjectsLocationsAgentsEnvironmentsSessions",
+  iam: { actions: ["dialogflow.sessions.detectIntent"], roles: ["roles/dialogflow.client"] },
 }));
 
 export type DetectIntentProjectsLocationsAgentsSessionsError =
@@ -3914,6 +3927,7 @@ export const detectIntentProjectsLocationsAgentsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetectIntentProjectsLocationsAgentsSessions",
+  iam: { actions: ["dialogflow.sessions.detectIntent"], roles: ["roles/dialogflow.client"] },
 }));
 
 export type ExportProjectsLocationsAgentsError =
@@ -3935,6 +3949,7 @@ export const exportProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.export"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type ExportProjectsLocationsAgentsEntityTypesError =
@@ -3956,6 +3971,7 @@ export const exportProjectsLocationsAgentsEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgentsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.update"], roles: ["roles/dialogflow.entityTypeAdmin"] },
 }));
 
 export type ExportProjectsLocationsAgentsFlowsError =
@@ -3977,6 +3993,7 @@ export const exportProjectsLocationsAgentsFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.update"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type ExportProjectsLocationsAgentsIntentsError =
@@ -3998,6 +4015,7 @@ export const exportProjectsLocationsAgentsIntents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgentsIntents",
+  iam: { actions: ["dialogflow.intents.update"], roles: ["roles/dialogflow.intentAdmin"] },
 }));
 
 export type ExportProjectsLocationsAgentsPlaybooksError =
@@ -4019,6 +4037,7 @@ export const exportProjectsLocationsAgentsPlaybooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgentsPlaybooks",
+  iam: { actions: ["dialogflow.playbooks.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type ExportProjectsLocationsAgentsTestCasesError =
@@ -4040,6 +4059,7 @@ export const exportProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.export"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type FulfillIntentProjectsLocationsAgentsEnvironmentsSessionsError =
@@ -4065,6 +4085,10 @@ export const fulfillIntentProjectsLocationsAgentsEnvironmentsSessions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FulfillIntentProjectsLocationsAgentsEnvironmentsSessions",
+  iam: {
+    actions: ["dialogflow.environments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type FulfillIntentProjectsLocationsAgentsSessionsError =
@@ -4090,6 +4114,7 @@ export const fulfillIntentProjectsLocationsAgentsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FulfillIntentProjectsLocationsAgentsSessions",
+  iam: { actions: ["dialogflow.agents.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type GetGenerativeSettingsProjectsLocationsAgentsError = NotFound | Forbidden | GcpOpError;
@@ -4110,6 +4135,7 @@ export const getGenerativeSettingsProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGenerativeSettingsProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4142,6 +4168,7 @@ export const getProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsChangelogsError = NotFound | Forbidden | GcpOpError;
@@ -4158,6 +4185,7 @@ export const getProjectsLocationsAgentsChangelogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsChangelogs",
+  iam: { actions: ["dialogflow.changelogs.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsEntityTypesError = NotFound | Forbidden | GcpOpError;
@@ -4174,6 +4202,7 @@ export const getProjectsLocationsAgentsEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsEnvironmentsError = NotFound | Forbidden | GcpOpError;
@@ -4190,6 +4219,7 @@ export const getProjectsLocationsAgentsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsEnvironments",
+  iam: { actions: ["dialogflow.environments.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsEnvironmentsDeploymentsError =
@@ -4213,6 +4243,7 @@ export const getProjectsLocationsAgentsEnvironmentsDeployments: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsEnvironmentsDeployments",
+  iam: { actions: ["dialogflow.deployments.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsEnvironmentsExperimentsError =
@@ -4236,6 +4267,7 @@ export const getProjectsLocationsAgentsEnvironmentsExperiments: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsEnvironmentsExperiments",
+  iam: { actions: ["dialogflow.experiments.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsEnvironmentsSessionsEntityTypesError =
@@ -4259,6 +4291,7 @@ export const getProjectsLocationsAgentsEnvironmentsSessionsEntityTypes: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsEnvironmentsSessionsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsFlowsError = NotFound | Forbidden | GcpOpError;
@@ -4275,6 +4308,7 @@ export const getProjectsLocationsAgentsFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsFlowsPagesError = NotFound | Forbidden | GcpOpError;
@@ -4291,6 +4325,7 @@ export const getProjectsLocationsAgentsFlowsPages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsFlowsPages",
+  iam: { actions: ["dialogflow.pages.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsFlowsTransitionRouteGroupsError =
@@ -4314,6 +4349,7 @@ export const getProjectsLocationsAgentsFlowsTransitionRouteGroups: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsFlowsTransitionRouteGroups",
+  iam: { actions: ["dialogflow.transitionRouteGroups.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsFlowsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -4330,6 +4366,7 @@ export const getProjectsLocationsAgentsFlowsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsFlowsVersions",
+  iam: { actions: ["dialogflow.versions.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsGeneratorsError = NotFound | Forbidden | GcpOpError;
@@ -4346,6 +4383,7 @@ export const getProjectsLocationsAgentsGenerators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsGenerators",
+  iam: { actions: ["dialogflow.generators.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsIntentsError = NotFound | Forbidden | GcpOpError;
@@ -4362,6 +4400,7 @@ export const getProjectsLocationsAgentsIntents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsIntents",
+  iam: { actions: ["dialogflow.intents.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsPlaybooksError = NotFound | Forbidden | GcpOpError;
@@ -4378,6 +4417,7 @@ export const getProjectsLocationsAgentsPlaybooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsPlaybooks",
+  iam: { actions: ["dialogflow.playbooks.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsPlaybooksExamplesError = NotFound | Forbidden | GcpOpError;
@@ -4398,6 +4438,7 @@ export const getProjectsLocationsAgentsPlaybooksExamples: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsPlaybooksExamples",
+  iam: { actions: ["dialogflow.examples.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsPlaybooksVersionsError = NotFound | Forbidden | GcpOpError;
@@ -4418,6 +4459,7 @@ export const getProjectsLocationsAgentsPlaybooksVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsPlaybooksVersions",
+  iam: { actions: ["dialogflow.versions.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsSessionsEntityTypesError = NotFound | Forbidden | GcpOpError;
@@ -4438,6 +4480,7 @@ export const getProjectsLocationsAgentsSessionsEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsSessionsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsTestCasesError = NotFound | Forbidden | GcpOpError;
@@ -4454,6 +4497,7 @@ export const getProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsTestCasesResultsError = NotFound | Forbidden | GcpOpError;
@@ -4470,6 +4514,7 @@ export const getProjectsLocationsAgentsTestCasesResults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsTestCasesResults",
+  iam: { actions: ["dialogflow.testcases.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsToolsError = NotFound | Forbidden | GcpOpError;
@@ -4486,6 +4531,7 @@ export const getProjectsLocationsAgentsTools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsTools",
+  iam: { actions: ["dialogflow.tools.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsToolsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -4502,6 +4548,7 @@ export const getProjectsLocationsAgentsToolsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsToolsVersions",
+  iam: { actions: ["dialogflow.versions.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsTransitionRouteGroupsError =
@@ -4525,6 +4572,7 @@ export const getProjectsLocationsAgentsTransitionRouteGroups: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsTransitionRouteGroups",
+  iam: { actions: ["dialogflow.transitionRouteGroups.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsAgentsWebhooksError = NotFound | Forbidden | GcpOpError;
@@ -4541,6 +4589,7 @@ export const getProjectsLocationsAgentsWebhooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgentsWebhooks",
+  iam: { actions: ["dialogflow.webhooks.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4573,6 +4622,7 @@ export const getProjectsLocationsSecuritySettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecuritySettings",
+  iam: { actions: ["dialogflow.securitySettings.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4605,6 +4655,7 @@ export const getValidationResultProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetValidationResultProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type GetValidationResultProjectsLocationsAgentsFlowsError =
@@ -4628,6 +4679,7 @@ export const getValidationResultProjectsLocationsAgentsFlows: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetValidationResultProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.get"], roles: ["roles/dialogflow.reader"] },
 }));
 
 export type ImportProjectsLocationsAgentsEntityTypesError =
@@ -4649,6 +4701,7 @@ export const importProjectsLocationsAgentsEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsAgentsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.update"], roles: ["roles/dialogflow.entityTypeAdmin"] },
 }));
 
 export type ImportProjectsLocationsAgentsFlowsError =
@@ -4670,6 +4723,7 @@ export const importProjectsLocationsAgentsFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.update"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type ImportProjectsLocationsAgentsIntentsError =
@@ -4691,6 +4745,7 @@ export const importProjectsLocationsAgentsIntents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsAgentsIntents",
+  iam: { actions: ["dialogflow.intents.update"], roles: ["roles/dialogflow.intentAdmin"] },
 }));
 
 export type ImportProjectsLocationsAgentsPlaybooksError =
@@ -4712,6 +4767,7 @@ export const importProjectsLocationsAgentsPlaybooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsAgentsPlaybooks",
+  iam: { actions: ["dialogflow.playbooks.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type ImportProjectsLocationsAgentsTestCasesError =
@@ -4733,6 +4789,7 @@ export const importProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.import"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4768,6 +4825,7 @@ export const listProjectsLocationsAgents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4786,6 +4844,7 @@ export const listProjectsLocationsAgentsChangelogs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsChangelogs",
+  iam: { actions: ["dialogflow.changelogs.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4804,6 +4863,7 @@ export const listProjectsLocationsAgentsEntityTypes: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4822,6 +4882,7 @@ export const listProjectsLocationsAgentsEnvironments: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEnvironments",
+  iam: { actions: ["dialogflow.environments.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4851,6 +4912,7 @@ export const listProjectsLocationsAgentsEnvironmentsContinuousTestResults: API.P
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEnvironmentsContinuousTestResults",
+  iam: { actions: ["dialogflow.environments.get"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4876,6 +4938,7 @@ export const listProjectsLocationsAgentsEnvironmentsDeployments: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEnvironmentsDeployments",
+  iam: { actions: ["dialogflow.deployments.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4901,6 +4964,7 @@ export const listProjectsLocationsAgentsEnvironmentsExperiments: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEnvironmentsExperiments",
+  iam: { actions: ["dialogflow.experiments.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4930,6 +4994,7 @@ export const listProjectsLocationsAgentsEnvironmentsSessionsEntityTypes: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4948,6 +5013,7 @@ export const listProjectsLocationsAgentsFlows: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4966,6 +5032,7 @@ export const listProjectsLocationsAgentsFlowsPages: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsFlowsPages",
+  iam: { actions: ["dialogflow.pages.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4995,6 +5062,7 @@ export const listProjectsLocationsAgentsFlowsTransitionRouteGroups: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsFlowsTransitionRouteGroups",
+  iam: { actions: ["dialogflow.transitionRouteGroups.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5013,6 +5081,7 @@ export const listProjectsLocationsAgentsFlowsVersions: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsFlowsVersions",
+  iam: { actions: ["dialogflow.versions.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5031,6 +5100,7 @@ export const listProjectsLocationsAgentsGenerators: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsGenerators",
+  iam: { actions: ["dialogflow.generators.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5049,6 +5119,7 @@ export const listProjectsLocationsAgentsIntents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsIntents",
+  iam: { actions: ["dialogflow.intents.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5067,6 +5138,7 @@ export const listProjectsLocationsAgentsPlaybooks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsPlaybooks",
+  iam: { actions: ["dialogflow.playbooks.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5085,6 +5157,7 @@ export const listProjectsLocationsAgentsPlaybooksExamples: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsPlaybooksExamples",
+  iam: { actions: ["dialogflow.examples.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5107,6 +5180,7 @@ export const listProjectsLocationsAgentsPlaybooksVersions: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsPlaybooksVersions",
+  iam: { actions: ["dialogflow.versions.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5133,6 +5207,7 @@ export const listProjectsLocationsAgentsSessionsEntityTypes: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsSessionsEntityTypes",
+  iam: { actions: ["dialogflow.entityTypes.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5151,6 +5226,7 @@ export const listProjectsLocationsAgentsTestCases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5173,6 +5249,7 @@ export const listProjectsLocationsAgentsTestCasesResults: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsTestCasesResults",
+  iam: { actions: ["dialogflow.testcases.get"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5191,6 +5268,7 @@ export const listProjectsLocationsAgentsTools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsTools",
+  iam: { actions: ["dialogflow.tools.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5209,6 +5287,7 @@ export const listProjectsLocationsAgentsToolsVersions: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsToolsVersions",
+  iam: { actions: ["dialogflow.versions.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5238,6 +5317,7 @@ export const listProjectsLocationsAgentsTransitionRouteGroups: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsTransitionRouteGroups",
+  iam: { actions: ["dialogflow.transitionRouteGroups.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5256,6 +5336,7 @@ export const listProjectsLocationsAgentsWebhooks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgentsWebhooks",
+  iam: { actions: ["dialogflow.webhooks.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5296,6 +5377,7 @@ export const listProjectsLocationsSecuritySettings: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecuritySettings",
+  iam: { actions: ["dialogflow.securitySettings.list"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5336,6 +5418,7 @@ export const loadProjectsLocationsAgentsFlowsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadProjectsLocationsAgentsFlowsVersions",
+  iam: { actions: ["dialogflow.versions.load"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsError =
@@ -5364,6 +5447,7 @@ export const lookupEnvironmentHistoryProjectsLocationsAgentsEnvironments: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupEnvironmentHistoryProjectsLocationsAgentsEnvironments",
+  iam: { actions: ["dialogflow.environments.get"], roles: ["roles/dialogflow.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5390,6 +5474,10 @@ export const matchIntentProjectsLocationsAgentsEnvironmentsSessions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MatchIntentProjectsLocationsAgentsEnvironmentsSessions",
+  iam: {
+    actions: ["dialogflow.environments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type MatchIntentProjectsLocationsAgentsSessionsError =
@@ -5411,6 +5499,7 @@ export const matchIntentProjectsLocationsAgentsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MatchIntentProjectsLocationsAgentsSessions",
+  iam: { actions: ["dialogflow.agents.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type PatchProjectsLocationsAgentsError =
@@ -5746,6 +5835,7 @@ export const patchProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.update"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type PatchProjectsLocationsAgentsToolsError =
@@ -5855,6 +5945,7 @@ export const restoreProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.restore"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type RestoreProjectsLocationsAgentsPlaybooksVersionsError =
@@ -5884,6 +5975,7 @@ export const restoreProjectsLocationsAgentsPlaybooksVersions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAgentsPlaybooksVersions",
+  iam: { actions: ["dialogflow.versions.update"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type RestoreProjectsLocationsAgentsToolsVersionsError =
@@ -5909,6 +6001,7 @@ export const restoreProjectsLocationsAgentsToolsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAgentsToolsVersions",
+  iam: { actions: ["dialogflow.versions.update"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type RunContinuousTestProjectsLocationsAgentsEnvironmentsError =
@@ -5934,6 +6027,10 @@ export const runContinuousTestProjectsLocationsAgentsEnvironments: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunContinuousTestProjectsLocationsAgentsEnvironments",
+  iam: {
+    actions: ["dialogflow.environments.runContinuousTest"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type RunProjectsLocationsAgentsTestCasesError =
@@ -5955,6 +6052,7 @@ export const runProjectsLocationsAgentsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsAgentsTestCases",
+  iam: { actions: ["dialogflow.testcases.run"], roles: ["roles/dialogflow.testCaseAdmin"] },
 }));
 
 export type ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessionsError =
@@ -5980,6 +6078,10 @@ export const serverStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessions",
+  iam: {
+    actions: ["dialogflow.environments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type ServerStreamingDetectIntentProjectsLocationsAgentsSessionsError =
@@ -6005,6 +6107,7 @@ export const serverStreamingDetectIntentProjectsLocationsAgentsSessions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingDetectIntentProjectsLocationsAgentsSessions",
+  iam: { actions: ["dialogflow.agents.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type StartProjectsLocationsAgentsEnvironmentsExperimentsError =
@@ -6030,6 +6133,10 @@ export const startProjectsLocationsAgentsEnvironmentsExperiments: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsAgentsEnvironmentsExperiments",
+  iam: {
+    actions: ["dialogflow.experiments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type StopProjectsLocationsAgentsEnvironmentsExperimentsError =
@@ -6055,6 +6162,10 @@ export const stopProjectsLocationsAgentsEnvironmentsExperiments: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsAgentsEnvironmentsExperiments",
+  iam: {
+    actions: ["dialogflow.experiments.update"],
+    roles: ["roles/dialogflow.environmentEditor"],
+  },
 }));
 
 export type SubmitAnswerFeedbackProjectsLocationsAgentsSessionsError =
@@ -6080,6 +6191,7 @@ export const submitAnswerFeedbackProjectsLocationsAgentsSessions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubmitAnswerFeedbackProjectsLocationsAgentsSessions",
+  iam: { actions: ["dialogflow.agents.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type TrainProjectsLocationsAgentsFlowsError =
@@ -6101,6 +6213,7 @@ export const trainProjectsLocationsAgentsFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TrainProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.train"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 export type UpdateGenerativeSettingsProjectsLocationsAgentsError =
@@ -6126,6 +6239,7 @@ export const updateGenerativeSettingsProjectsLocationsAgents: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGenerativeSettingsProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.update"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type ValidateProjectsLocationsAgentsError =
@@ -6147,6 +6261,7 @@ export const validateProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateProjectsLocationsAgents",
+  iam: { actions: ["dialogflow.agents.validate"], roles: ["roles/dialogflow.admin"] },
 }));
 
 export type ValidateProjectsLocationsAgentsFlowsError =
@@ -6168,6 +6283,7 @@ export const validateProjectsLocationsAgentsFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateProjectsLocationsAgentsFlows",
+  iam: { actions: ["dialogflow.flows.validate"], roles: ["roles/dialogflow.flowEditor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

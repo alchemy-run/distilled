@@ -1,0 +1,173 @@
+{
+  "description": "What each translate_v3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#CreateProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.create"],
+        "roles": ["roles/cloudtranslate.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtFiles.delete"],
+        "roles": ["roles/cloudtranslate.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#DeleteProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.delete"],
+        "roles": ["roles/cloudtranslate.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#DetectLanguageProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.languageDetectionModels.predict"],
+        "roles": ["roles/cloudtranslate.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ExportDataProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.export"],
+        "roles": ["roles/cloudtranslate.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtFiles.get"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#GetProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.get"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#GetProjectsLocationsGlossaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.glossaries.get"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#GetSupportedLanguagesProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.generalModels.get"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtFiles.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ImportDataProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.import"],
+        "roles": ["roles/cloudtranslate.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsAdaptiveMtDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtDatasets.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtFiles.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtSentences.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.adaptiveMtSentences.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsDatasetsExamples/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.datasets.get"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsGlossaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.glossaries.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsGlossariesGlossaryEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.glossaryentries.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#ListProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.customModels.list"],
+        "roles": ["roles/cloudtranslate.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#RomanizeTextProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudtranslate.generalModels.predict"],
+        "roles": ["roles/cloudtranslate.user"]
+      }
+    }
+  ]
+}

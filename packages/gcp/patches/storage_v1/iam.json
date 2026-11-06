@@ -1,0 +1,277 @@
+{
+  "description": "What each storage_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#BulkRestoreObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.restore"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ComposeObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.create"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#CopyObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.create"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#DeleteRecursiveFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.folders.delete"],
+        "roles": ["roles/storage.legacyBucketWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#DisableAnywhereCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.anywhereCaches.disable"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetAnywhereCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.anywhereCaches.get"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetBucketAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.getIamPolicy"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.get"],
+        "roles": ["roles/storage.bucketViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetDefaultObjectAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.getIamPolicy"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.folders.get"],
+        "roles": ["roles/storage.legacyBucketReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetManagedFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.managedFolders.get"],
+        "roles": ["roles/storage.legacyBucketReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetNotifications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.get"],
+        "roles": ["roles/storage.bucketViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetObjectAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.getIamPolicy"],
+        "roles": ["roles/storage.legacyObjectOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetProjectsHmacKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.hmacKeys.get"],
+        "roles": ["roles/storage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#GetStorageLayoutBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.list"],
+        "roles": ["roles/storage.objectViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListAnywhereCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.anywhereCaches.list"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListBucketAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.getIamPolicy"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.list"],
+        "roles": ["roles/storage.bucketViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListDefaultObjectAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.getIamPolicy"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.folders.list"],
+        "roles": ["roles/storage.legacyBucketReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListManagedFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.managedFolders.list"],
+        "roles": ["roles/storage.legacyBucketReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListNotifications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.get"],
+        "roles": ["roles/storage.bucketViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListObjectAccessControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.getIamPolicy"],
+        "roles": ["roles/storage.legacyObjectOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ListProjectsHmacKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.hmacKeys.list"],
+        "roles": ["roles/storage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#MoveObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.move"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#PatchObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.update"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#RenameFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.folders.rename"],
+        "roles": ["roles/storage.legacyBucketWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#RestoreBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.buckets.restore"],
+        "roles": ["roles/storage.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#RestoreObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.restore"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ResumeAnywhereCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.anywhereCaches.resume"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#RewriteObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.create"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#UpdateAnywhereCaches/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.anywhereCaches.update"],
+        "roles": ["roles/storage.legacyBucketOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#UpdateObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.update"],
+        "roles": ["roles/storage.objectUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ViewFullContextObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storage.objects.get"],
+        "roles": ["roles/storage.objectViewer"]
+      }
+    }
+  ]
+}

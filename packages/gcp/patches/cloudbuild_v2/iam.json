@@ -1,0 +1,61 @@
+{
+  "description": "What each cloudbuild_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#BatchCreateProjectsLocationsConnectionsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.connections.update"],
+        "roles": ["roles/cloudbuild.connectionAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#FetchLinkableRepositoriesProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.connections.fetchLinkableRepositories"],
+        "roles": ["roles/cloudbuild.connectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#GetProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.connections.get"],
+        "roles": ["roles/cloudbuild.connectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#GetProjectsLocationsConnectionsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.repositories.get"],
+        "roles": ["roles/cloudbuild.connectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#ListProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.connections.list"],
+        "roles": ["roles/cloudbuild.connectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#ListProjectsLocationsConnectionsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.repositories.list"],
+        "roles": ["roles/cloudbuild.connectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudbuild_v2#ProcessWebhookProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudbuild.connections.update"],
+        "roles": ["roles/cloudbuild.connectionAdmin"]
+      }
+    }
+  ]
+}

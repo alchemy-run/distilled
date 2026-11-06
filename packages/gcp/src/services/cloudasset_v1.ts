@@ -1915,6 +1915,7 @@ export const analyzeIamPolicyLongrunningV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeIamPolicyLongrunningV1",
+  iam: { actions: ["cloudasset.assets.analyzeIamPolicy"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type AnalyzeIamPolicyV1Error = NotFound | Forbidden | GcpOpError;
@@ -1932,6 +1933,7 @@ export const analyzeIamPolicyV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeIamPolicyV1",
+  iam: { actions: ["cloudasset.assets.analyzeIamPolicy"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type AnalyzeMoveV1Error = NotFound | Forbidden | GcpOpError;
@@ -1949,6 +1951,7 @@ export const analyzeMoveV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeMoveV1",
+  iam: { actions: ["cloudasset.assets.analyzeMove"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type AnalyzeOrgPoliciesV1Error = NotFound | Forbidden | GcpOpError;
@@ -1967,6 +1970,7 @@ export const analyzeOrgPoliciesV1: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeOrgPoliciesV1",
+  iam: { actions: ["cloudasset.assets.analyzeOrgPolicy"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1986,6 +1990,7 @@ export const analyzeOrgPolicyGovernedAssetsV1: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeOrgPolicyGovernedAssetsV1",
+  iam: { actions: ["cloudasset.assets.analyzeOrgPolicy"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2005,6 +2010,7 @@ export const analyzeOrgPolicyGovernedContainersV1: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeOrgPolicyGovernedContainersV1",
+  iam: { actions: ["cloudasset.assets.analyzeOrgPolicy"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2023,6 +2029,7 @@ export const batchGetAssetsHistoryV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetAssetsHistoryV1",
+  iam: { actions: ["cloudasset.assets.exportResource"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type BatchGetEffectiveIamPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2040,6 +2047,7 @@ export const batchGetEffectiveIamPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetEffectiveIamPolicies",
+  iam: { actions: ["cloudasset.assets.analyzeIamPolicy"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type CreateFeedsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2091,6 +2099,7 @@ export const deleteFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFeeds",
+  iam: { actions: ["cloudasset.feeds.delete"], roles: ["roles/cloudasset.owner"] },
 }));
 
 export type DeleteSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2108,6 +2117,7 @@ export const deleteSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSavedQueries",
+  iam: { actions: ["cloudasset.savedqueries.delete"], roles: ["roles/cloudasset.editor"] },
 }));
 
 export type ExportAssetsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2125,6 +2135,7 @@ export const exportAssetsV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportAssetsV1",
+  iam: { actions: ["cloudasset.assets.exportResource"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type GetFeedsError = NotFound | Forbidden | GcpOpError;
@@ -2138,6 +2149,7 @@ export const getFeeds: API.OperationMethod<GetFeedsRequest, Feed, GetFeedsError,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetFeeds",
+    iam: { actions: ["cloudasset.feeds.get"], roles: ["roles/cloudasset.owner"] },
   }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2172,6 +2184,7 @@ export const getSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSavedQueries",
+  iam: { actions: ["cloudasset.savedqueries.get"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type ListAssetsError = NotFound | Forbidden | GcpOpError;
@@ -2190,6 +2203,7 @@ export const listAssets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAssets",
+  iam: { actions: ["cloudasset.assets.listResource"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2208,6 +2222,7 @@ export const listFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFeeds",
+  iam: { actions: ["cloudasset.feeds.list"], roles: ["roles/cloudasset.owner"] },
 }));
 
 export type ListSavedQueriesError = NotFound | Forbidden | GcpOpError;
@@ -2226,6 +2241,7 @@ export const listSavedQueries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSavedQueries",
+  iam: { actions: ["cloudasset.savedqueries.list"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2244,6 +2260,7 @@ export const patchFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFeeds",
+  iam: { actions: ["cloudasset.feeds.update"], roles: ["roles/cloudasset.owner"] },
 }));
 
 export type PatchSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2261,6 +2278,7 @@ export const patchSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSavedQueries",
+  iam: { actions: ["cloudasset.savedqueries.update"], roles: ["roles/cloudasset.editor"] },
 }));
 
 export type QueryAssetsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2278,6 +2296,7 @@ export const queryAssetsV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryAssetsV1",
+  iam: { actions: ["cloudasset.assets.queryResource"], roles: ["roles/cloudasset.viewer"] },
 }));
 
 export type SearchAllIamPoliciesV1Error = NotFound | Forbidden | GcpOpError;
@@ -2296,6 +2315,7 @@ export const searchAllIamPoliciesV1: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchAllIamPoliciesV1",
+  iam: { actions: ["cloudasset.assets.searchAllIamPolicies"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2315,6 +2335,7 @@ export const searchAllResourcesV1: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchAllResourcesV1",
+  iam: { actions: ["cloudasset.assets.searchAllResources"], roles: ["roles/cloudasset.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
