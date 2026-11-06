@@ -2,7 +2,7 @@
  * Archil disk objects -- hand-written.
  *
  * Every disk is also an S3-compatible bucket on the region's data plane
- * (`s3.<color>.<region>.…`, path-style, bucket = disk id, `<disk>.<branch>`
+ * (`s3.<color>.<region>....`, path-style, bucket = disk id, `<disk>.<branch>`
  * for a branch). Requests authenticate with {@link ObjectCredentials}:
  * either the account's API key, sent as the `Authorization` header the
  * official `disk` SDK sends ({@link ObjectCredentialsFromApiKey}), or a
@@ -11,7 +11,7 @@
  * `readOnly`, so prefer them for anything that only needs that disk.
  *
  * Supported: GetObject (with Range), HeadObject, PutObject, AppendObject
- * (`PUT ?append=true`, ≤ 1 MiB), DeleteObject, DeleteObjects (≤ 1000 keys
+ * (`PUT ?append=true`, <= 1 MiB), DeleteObject, DeleteObjects (<= 1000 keys
  * per request), CopyObject (same bucket), ListObjectsV2 (`/` delimiter only),
  * and multipart upload (create, upload part, complete, abort, list parts,
  * list uploads). Writes that conflict with a FUSE mount's write delegation
@@ -328,7 +328,7 @@ const posixHeaders = (attrs: PosixAttributes = {}) => ({
   "x-archil-gid": attrs.gid !== undefined ? String(attrs.gid) : undefined,
 });
 
-/** Write an object (≤ 5 GiB; use multipart above that). */
+/** Write an object (<= 5 GiB; use multipart above that). */
 export const putObject = Effect.fn(function* (
   ref: DiskRef,
   key: string,
@@ -347,7 +347,7 @@ export const putObject = Effect.fn(function* (
   return { etag: etagOf(response) };
 });
 
-/** Append to an object, creating it when missing (≤ 1 MiB per call). */
+/** Append to an object, creating it when missing (<= 1 MiB per call). */
 export const appendObject = Effect.fn(function* (
   ref: DiskRef,
   key: string,
@@ -531,7 +531,7 @@ export const createMultipartUpload = Effect.fn(function* (
   return { key, uploadId };
 });
 
-/** Upload one part (≥ 5 MiB except the last; at most 10,000 parts). */
+/** Upload one part (>= 5 MiB except the last; at most 10,000 parts). */
 export const uploadPart = Effect.fn(function* (
   ref: DiskRef,
   key: string,

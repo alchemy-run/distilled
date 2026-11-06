@@ -36,7 +36,7 @@ export const controlPlaneUrl = (region: Region): string | undefined =>
 
 /**
  * The S3-compatible data-plane base URL paired with a control-plane URL:
- * `control.<color>.<region>…` becomes `s3.<color>.<region>…`.
+ * `control.<color>.<region>...` becomes `s3.<color>.<region>...`.
  */
 export const s3BaseUrl = (apiBaseUrl: string): string =>
   apiBaseUrl.replace(/^https:\/\/control\./, "https://s3.");

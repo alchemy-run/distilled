@@ -5,14 +5,14 @@
  * protocol runs over that socket (the same protocol the official `disk` SDK
  * speaks):
  *
- *   • first text frame in   — `{type:"start", command, cwd, env, terminal, timeout_seconds}`
+ *   - first text frame in   -- `{type:"start", command, cwd, env, terminal, timeout_seconds}`
  *                             or `{type:"attach", process_id, offset}`
- *   • text frames out        — `{type:"started"|"attached", process_id}`,
+ *   - text frames out        -- `{type:"started"|"attached", process_id}`,
  *                             `{type:"exit", status, exit_code, exit_reason, cursor}`,
  *                             `{type:"error", error, message}`
- *   • binary frames out      — `[1 byte stream (1 stdout, 2 stderr)][8 byte BE offset][payload]`
- *   • binary frames in       — stdin bytes; `{type:"close_stdin"}` closes stdin
- *   • control (new socket)   — `{type:"kill"|"resize", process_id, cols?, rows?}`
+ *   - binary frames out      -- `[1 byte stream (1 stdout, 2 stderr)][8 byte BE offset][payload]`
+ *   - binary frames in       -- stdin bytes; `{type:"close_stdin"}` closes stdin
+ *   - control (new socket)   -- `{type:"kill"|"resize", process_id, cols?, rows?}`
  *                             answered by `{type:"killed"|"resized"}`
  *
  * Offsets are positions in the process's combined output, so a reconnect
