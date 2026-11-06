@@ -55,6 +55,7 @@ const d: ProtoDescriptors = {
       [8, "flag", "bool"],
       [9, "raw", "bytes"],
       [10, "picked", "int32", 0, 0, 1],
+      [11, "children", "message", "t.Test1", 1],
     ],
   },
   enums: { "t.Color": { COLOR_UNSPECIFIED: 0, COLOR_RED: 1, COLOR_BLUE: 2 } },
@@ -148,6 +149,7 @@ describe("protobuf wire codec", () => {
       big: "0",
       flag: false,
       raw: "",
+      children: [],
     });
     const bytes = encodeMessage(d, "t.Presence", { note: "", picked: 0, child: {} });
     expect(decodeMessage(d, "t.Presence", bytes)).toMatchObject({
