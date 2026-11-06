@@ -443,3 +443,18 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-rivet.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/core/conformance/connect"]
+	path = packages/core/conformance/connect
+	url = https://github.com/connectrpc/conformance.git
+	shallow = true
+	ignore = dirty
+[submodule "packages/core/conformance/protobuf"]
+	path = packages/core/conformance/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+	shallow = true
+	ignore = dirty
+[submodule "packages/e2b/specs/spec-mirror-e2b"]
+	path = packages/e2b/specs/spec-mirror-e2b
+	url = https://github.com/distilled-mirror/spec-mirror-e2b.git
+	ignore = dirty
+	shallow = true

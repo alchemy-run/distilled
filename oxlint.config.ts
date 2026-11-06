@@ -1,6 +1,8 @@
 import { defineConfig, type OxlintConfig } from "oxlint";
 
 export default defineConfig({
+  // Upstream conformance suites, submoduled (see packages/core/conformance).
+  ignorePatterns: ["packages/core/conformance/connect/**", "packages/core/conformance/protobuf/**"],
   overrides: [
     {
       files: ["packages/*/src/services/**", "packages/*/src/unstable-services/**"],
