@@ -67,6 +67,29 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("empty JSON bodies", () => {
+  const Empty = S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rpc.Service/List" }));
+  const build = (emptyJsonBody?: boolean) =>
+    Effect.runSync(
+      buildRequest({
+        input: {},
+        inputAst: Empty.ast,
+        baseUrl: "https://example.test",
+        ...(emptyJsonBody === undefined ? {} : { emptyJsonBody }),
+      }),
+    );
+
+  test("a POST with no body members sends no body by default", () => {
+    expect(build().body._tag).toBe("Empty");
+  });
+
+  test("emptyJsonBody sends {} as JSON", () => {
+    const body = build(true).body as { readonly _tag: string; readonly body?: Uint8Array };
+    expect(body._tag).toBe("Uint8Array");
+    expect(new TextDecoder().decode(body.body)).toBe("{}");
+  });
+});
+
 describe("URI label encoding", () => {
   const input = (preserve?: string) =>
     S.Struct({
