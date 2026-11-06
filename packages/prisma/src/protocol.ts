@@ -9,7 +9,7 @@ import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/
  * `makeRestProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
  * for the shared request/response machinery). What is Prisma's own:
  *
- *   request:  `Authorization: Bearer <apiToken>` (when a token is set) +
+ *   request:  `Authorization: Bearer <apiToken>` when a token is set, +
  *             base URL from the `Credentials` service (resolved on the
  *             calling fiber per request)
  *
@@ -70,8 +70,13 @@ export const PrismaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   // reintroduced for callers by `PrismaOpError`.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds): Record<string, string> =>
-    creds.apiToken ? { Authorization: `Bearer ${Redacted.value(creds.apiToken)}` } : {},
+  headers: (creds) => {
+    const headers: Record<string, string> = {};
+    if (creds.apiToken !== undefined) {
+      headers.Authorization = `Bearer ${Redacted.value(creds.apiToken)}`;
+    }
+    return headers;
+  },
   errorEnvelope,
   unknownError: (info) => {
     const env = envelopeOf(info.body);
