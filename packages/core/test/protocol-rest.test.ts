@@ -1182,6 +1182,45 @@ describe("makeRestProtocol response code members", () => {
     expect(existing).toEqual({ id: "t1", httpStatus: 200 });
   });
 
+  test("the response code member sits next to a raw body member", async () => {
+    const RawOutput = S.Struct({
+      items: S.Array(S.Struct({ id: S.String })).pipe(RawResponse()),
+      httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+    });
+    const rawOp = API.make(() => ({
+      input: ThingInput,
+      output: RawOutput,
+      errors: [],
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+    const out = await succeed(
+      rawOp({ id: "t1" }),
+      fakeClient(() => json([{ id: "a" }], 201)),
+      creds(),
+    );
+    expect(out).toEqual({ items: [{ id: "a" }], httpStatus: 201 });
+  });
+
+  test("an array body is returned unchanged", async () => {
+    const ArrayOutput = S.Struct({
+      httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+    });
+    const arrayOp = API.make(() => ({
+      input: ThingInput,
+      output: ArrayOutput,
+      errors: [],
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+    const out = await succeed(
+      arrayOp({ id: "t1" }),
+      fakeClient(() => json([{ id: "a" }], 201)),
+      creds(),
+    );
+    expect(out).toEqual([{ id: "a" }]);
+  });
+
   test("an output without a response code member is unchanged", async () => {
     const out = await succeed(
       createThing({ id: "t1" }),
