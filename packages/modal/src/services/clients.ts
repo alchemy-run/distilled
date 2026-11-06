@@ -30,15 +30,15 @@ export type WarningWarningType =
   | "WARNING_TYPE_RESOURCE_LIMIT"
   | "WARNING_TYPE_FUNCTION_CONFIGURATION";
 export interface Warning {
-  type?: WarningWarningType;
-  message?: string;
+  type: WarningWarningType;
+  message: string;
 }
 export type WarningList = Array<Warning>;
 export interface ClientHelloResponse {
-  warning?: string;
-  imageBuilderVersion?: string;
+  warning: string;
+  imageBuilderVersion: string;
   /** Deprecated, no longer used in client */
-  serverWarnings?: WarningList;
+  serverWarnings: WarningList;
 }
 export type ClientHelloError = ModalOpError;
 /** Clients */
@@ -69,8 +69,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
+          type: S.String,
+          message: S.String,
         }),
       ).annotate({ identifier: "Warning" });
     case 2:
@@ -78,9 +78,9 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          warning: S.optional(S.String),
-          imageBuilderVersion: S.optional(S.String),
-          serverWarnings: S.optional(__S(2, __c0, 2)),
+          warning: S.String,
+          imageBuilderVersion: S.String,
+          serverWarnings: __S(2, __c0, 2),
         }),
       ).annotate({ identifier: "ClientHelloResponse" });
   }

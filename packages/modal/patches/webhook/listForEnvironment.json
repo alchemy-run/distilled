@@ -1,0 +1,41 @@
+{
+  "description": "Type the missing environment on WebhookTokenListForEnvironment: an environment deleted between listing environments and listing its tokens answers gRPC NOT_FOUND `Environment '<name>' not found`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#EnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The environment doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5,
+              "message": {
+                "includes": "Environment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.webhook#WebhookTokenListForEnvironment/errors",
+      "value": [
+        {
+          "target": "com.modal.webhook#EnvironmentNotFound"
+        }
+      ]
+    }
+  ]
+}
