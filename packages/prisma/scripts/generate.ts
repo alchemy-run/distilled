@@ -37,6 +37,12 @@ const spec: SdkSpec = {
       pipe: "T.RawResponse()",
       rootPipe: "T.RawResponseRoot()",
     },
+    {
+      // The HTTP status, for idempotent creates that answer 201 or 200.
+      trait: "smithy.api#httpResponseCode",
+      binding: "responseCode",
+      pipe: "T.ResponseCode()",
+    },
   ],
 
   // `smithy.api#sensitive` members (connection strings, API keys, …): the

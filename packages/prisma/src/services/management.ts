@@ -1111,6 +1111,8 @@ export interface CreateServiceDomainResponseData {
 }
 export interface CreateServiceDomainResponse {
   data: CreateServiceDomainResponseData;
+  /** 201 when the call created it, 200 when it already existed. */
+  httpStatus?: number | undefined;
 }
 export interface CreateServicePromoteRequest {
   serviceId: string;
@@ -1427,6 +1429,8 @@ export interface CreateWorkspaceDomainOwnershipResponseData {
 }
 export interface CreateWorkspaceDomainOwnershipResponse {
   data: CreateWorkspaceDomainOwnershipResponseData;
+  /** 201 when the call created it, 200 when it already existed. */
+  httpStatus?: number | undefined;
 }
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
@@ -3919,7 +3923,7 @@ export const createDomainOwnershipVerify: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
+  output: __S(816, __c51, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -3936,7 +3940,7 @@ export const createDomainRetry: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<CreateDomainRetryRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateDomainRetryResponse>,
+  output: __S(864, __c54, 0) as any as S.Schema<CreateDomainRetryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4155,7 +4159,7 @@ export const createServiceDomain: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CreateServiceDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateServiceDomainResponse>,
+  output: __S(1153, __c72, 1) as any as S.Schema<CreateServiceDomainResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4310,7 +4314,7 @@ export const createWorkspaceDomainOwnership: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
+  output: __S(1377, __c86, 1) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4987,7 +4991,7 @@ export const getDomain: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<GetDomainResponse>,
+  output: __S(864, __c54, 0) as any as S.Schema<GetDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -5004,7 +5008,7 @@ export const getDomainOwnership: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<GetDomainOwnershipResponse>,
+  output: __S(816, __c51, 0) as any as S.Schema<GetDomainOwnershipResponse>,
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -6158,7 +6162,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/domains", code: 200 })),
       ).annotate({ identifier: "GetServiceDomainsRequest" });
     case 1:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(850, __c53, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6271,7 +6275,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsRequest" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(800, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6987,16 +6991,6 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(816, __c51, 0),
-        }),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String,
           type: S.String,
           workspaceId: S.String,
@@ -7010,6 +7004,16 @@ function __c51(j: number): any {
           createdAt: S.String,
         }),
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseData" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(800, __c50, 0),
+        }),
+      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponse" });
   }
 }
 function __c52(j: number): any {
@@ -7027,16 +7031,6 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(866, __c54, 2),
-        }),
-      ).annotate({ identifier: "CreateDomainRetryResponse" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           type: S.String,
           name: S.String,
           value: S.String,
@@ -7044,7 +7038,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseDataDnsRecordsItem" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(848, __c53, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7061,9 +7055,19 @@ function __c54(j: number): any {
           certExpiresAt: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
-          dnsRecords: __S(865, __c54, 1),
+          dnsRecords: __S(849, __c53, 1),
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseData" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(850, __c53, 2),
+        }),
+      ).annotate({ identifier: "CreateDomainRetryResponse" });
   }
 }
 function __c55(j: number): any {
@@ -7450,6 +7454,13 @@ function __c72(j: number): any {
           hostname: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/domains", code: 200 })),
       ).annotate({ identifier: "CreateServiceDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(850, __c53, 2),
+          httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+        }),
+      ).annotate({ identifier: "CreateServiceDomainResponse" });
   }
 }
 function __c73(j: number): any {
@@ -7706,6 +7717,13 @@ function __c86(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateWorkspaceDomainOwnershipRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(800, __c50, 0),
+          httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+        }),
+      ).annotate({ identifier: "CreateWorkspaceDomainOwnershipResponse" });
   }
 }
 function __c87(j: number): any {

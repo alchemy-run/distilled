@@ -1,0 +1,27 @@
+{
+  "description": "Expose the HTTP status of createServiceDomain and createWorkspaceDomainOwnership as `httpStatus`. Both creates are idempotent: the spec documents 201 when the call created the resource and 200 when it already existed (`POST /v1/services/{serviceId}/domains`: 200 \"Custom domain already registered on this service\"; `POST /v1/workspaces/{workspaceId}/domain-ownerships`: 200 \"The workspace already holds a domain ownership for the domain\"). The body is the same in both cases, so only the status tells a caller whether it owns what came back. alchemy-run/alchemy's Prisma.CustomDomain refused a 200 before it moved to distilled.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdDomainsResponse/members/httpStatus",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpResponseCode": {},
+          "smithy.api#documentation": "201 when the call created it, 200 when it already existed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1WorkspacesByWorkspaceIdDomainOwnershipsResponse/members/httpStatus",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpResponseCode": {},
+          "smithy.api#documentation": "201 when the call created it, 200 when it already existed."
+        }
+      }
+    }
+  ]
+}
