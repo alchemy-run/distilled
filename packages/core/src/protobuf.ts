@@ -1227,7 +1227,8 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
     out[json] = decodeMessage(d, ref, concatBytes(chunks));
   }
   for (const [, json, kind, ref, repeated, presence] of fields) {
-    if (presence || kind === "message" || json in out) continue;
+    // A singular message field has presence; a repeated one reads as [].
+    if (presence || (kind === "message" && !repeated) || json in out) continue;
     out[json] = repeated ? [] : kind === "map" ? {} : defaultOf(d, kind, ref);
   }
   return out;
