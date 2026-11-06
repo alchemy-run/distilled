@@ -445,6 +445,33 @@ describe("makeRestProtocol success decoding", () => {
     expect(out).toEqual({});
   });
 
+  test("an empty 200 body decodes to an empty string when the output is a string", async () => {
+    const getText = API.make(() => ({
+      input: S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
+        T.Http({ method: "GET", uri: "/things/{id}/logs" }),
+      ),
+      output: S.String,
+      errors: [],
+      protocol: DefaultProtocol,
+    }));
+    const empty = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(empty).toEqual("");
+    const text = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("done\n", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(text).toEqual("done\n");
+  });
+
   test("transformResponse runs on the parsed body before key mapping", async () => {
     const seen: Array<unknown> = [];
     const UnwrapProtocol = makeRestProtocol<Creds>({

@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface InitializeRequest {
-  token: string;
+  token?: string;
 }
 export type InitializeResponseBodyMap = { [key: string]: string | undefined };
 export type InitializeResponse = InitializeResponseBodyMap;
@@ -82,7 +82,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/init", code: 200 })),
       ).annotate({ identifier: "InitializeRequest" });
   }
