@@ -76,14 +76,47 @@ export interface Function {
   /** URLs that resolve to the function. */
   url?: FunctionUrlList;
 }
-export type CreateFunctionRevisionRequestLabelsMap = { [key: string]: string | undefined };
+export type CreatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
+export interface CreatePullCredentialRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The OCI registry address. */
+  address: string;
+  /** Unique identifier for the OCI registry pull credential. */
+  id?: string;
+  labels?: CreatePullCredentialRequestLabelsMap;
+  /** Unique name for the OCI registry pull credential. */
+  name?: string;
+  /** The password for the OCI registry pull-credentials. */
+  password: string | Redacted.Redacted<string>;
+  /** The username for the OCI registry pull-credentials. */
+  username: string;
+}
+export type PullCredentialLabelsMap = { [key: string]: string | undefined };
+export interface PullCredential {
+  /** The OCI registry address. */
+  address: string;
+  /** Unique identifier for the OCI registry pull credential. */
+  id?: string;
+  labels?: PullCredentialLabelsMap;
+  /** Unique name for the OCI registry pull credential. */
+  name?: string;
+  /** The password for the OCI registry pull-credentials. */
+  password: string | Redacted.Redacted<string>;
+  /** The username for the OCI registry pull-credentials. */
+  username: string;
+}
+export type CreateRevisionRequestLabelsMap = { [key: string]: string | undefined };
 /** Resource utilization limitations */
 export interface ResourceLimits {
+  /** Maximum number of in-flight requests to a single instance */
   concurrency: number;
+  /** Maximum number of running instances */
+  max_scale?: number;
   plan: string;
 }
 /** Status of this revision. */
-export type CreateFunctionRevisionRequestState = "CANCELLED" | "CREATING" | "ACTIVE" | "FAILED";
+export type CreateRevisionRequestState = "CANCELLED" | "CREATING" | "ACTIVE" | "FAILED";
 /** Represents a variable value for a specific revision. */
 export interface RevisionVariable {
   /** Name of the variable (must match a variable definition on the function). */
@@ -94,8 +127,8 @@ export interface RevisionVariable {
   vault_reference?: string | null;
 }
 /** Variable values for this revision. Each variable must reference a variable definition on the function. */
-export type CreateFunctionRevisionRequestVariablesList = Array<RevisionVariable>;
-export interface CreateFunctionRevisionRequest {
+export type CreateRevisionRequestVariablesList = Array<RevisionVariable>;
+export interface CreateRevisionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
   projectId: string;
   /** The STACKIT Functions functionId */
@@ -108,7 +141,7 @@ export interface CreateFunctionRevisionRequest {
   function_id?: string;
   /** The revision identifier. */
   id?: string;
-  labels?: CreateFunctionRevisionRequestLabelsMap;
+  labels?: CreateRevisionRequestLabelsMap;
   limits: ResourceLimits;
   /** Revision message */
   message?: string;
@@ -119,13 +152,13 @@ export interface CreateFunctionRevisionRequest {
   /** OCI reference for the revision. */
   oci_reference: string;
   /** Status of this revision. */
-  state?: CreateFunctionRevisionRequestState | (string & {});
+  state?: CreateRevisionRequestState | (string & {});
   /** Error message related to this revision. */
   state_error?: string;
   /** Time the function was last updated. */
   updated_at?: string;
   /** Variable values for this revision. Each variable must reference a variable definition on the function. */
-  variables?: CreateFunctionRevisionRequestVariablesList;
+  variables?: CreateRevisionRequestVariablesList;
   /** The version number of the revision. */
   version?: number;
 }
@@ -164,36 +197,6 @@ export interface Revision {
   variables?: RevisionVariablesList;
   /** The version number of the revision. */
   version?: number;
-}
-export type CreatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
-export interface CreatePullCredentialRequest {
-  /** The STACKIT portal project UUID the resource is located in. */
-  projectId: string;
-  /** The OCI registry address. */
-  address: string;
-  /** Unique identifier for the OCI registry pull credential. */
-  id?: string;
-  labels?: CreatePullCredentialRequestLabelsMap;
-  /** Unique name for the OCI registry pull credential. */
-  name?: string;
-  /** The password for the OCI registry pull-credentials. */
-  password: string | Redacted.Redacted<string>;
-  /** The username for the OCI registry pull-credentials. */
-  username: string;
-}
-export type PullCredentialLabelsMap = { [key: string]: string | undefined };
-export interface PullCredential {
-  /** The OCI registry address. */
-  address: string;
-  /** Unique identifier for the OCI registry pull credential. */
-  id?: string;
-  labels?: PullCredentialLabelsMap;
-  /** Unique name for the OCI registry pull credential. */
-  name?: string;
-  /** The password for the OCI registry pull-credentials. */
-  password: string | Redacted.Redacted<string>;
-  /** The username for the OCI registry pull-credentials. */
-  username: string;
 }
 export interface DeleteFunctionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -333,23 +336,6 @@ export const createFunction: API.OperationMethod<
   span: "CreateFunction",
 }));
 
-export type CreateFunctionRevisionError = StackitOpError;
-/** Create a new function revision */
-export const createFunctionRevision: API.OperationMethod<
-  CreateFunctionRevisionRequest,
-  Revision,
-  CreateFunctionRevisionError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<CreateFunctionRevisionRequest>,
-  output: __S(19, __c4, 3) as any as S.Schema<Revision>,
-  errors: [UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateFunctionRevision",
-}));
-
 export type CreatePullCredentialError = StackitOpError;
 /** Create OCI image registry pull credential definition Create a new OCI image registry pull credential configuration. */
 export const createPullCredential: API.OperationMethod<
@@ -358,13 +344,30 @@ export const createPullCredential: API.OperationMethod<
   CreatePullCredentialError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<CreatePullCredentialRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<PullCredential>,
+  input: __S(12, __c3, 0) as any as S.Schema<CreatePullCredentialRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePullCredential",
+}));
+
+export type CreateRevisionError = StackitOpError;
+/** Create a new function revision */
+export const createRevision: API.OperationMethod<
+  CreateRevisionRequest,
+  Revision,
+  CreateRevisionError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c10, 0) as any as S.Schema<CreateRevisionRequest>,
+  output: __S(47, __c11, 3) as any as S.Schema<Revision>,
+  errors: [UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRevision",
 }));
 
 export type DeleteFunctionError = StackitOpError;
@@ -444,7 +447,7 @@ export const getPullCredential: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<GetPullCredentialRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<PullCredential>,
+  output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -461,7 +464,7 @@ export const getRevision: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<GetRevisionRequest>,
-  output: __S(19, __c4, 3) as any as S.Schema<Revision>,
+  output: __S(47, __c11, 3) as any as S.Schema<Revision>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -546,7 +549,7 @@ export const updatePullCredential: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<UpdatePullCredentialRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<PullCredential>,
+  output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -563,7 +566,7 @@ export const updateRevision: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateRevisionRequest>,
-  output: __S(19, __c4, 3) as any as S.Schema<Revision>,
+  output: __S(47, __c11, 3) as any as S.Schema<Revision>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -630,31 +633,21 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          functionId: S.String.pipe(T.Label()),
-          created_at: S.optional(S.String),
-          digest: S.optional(S.String),
-          function_id: S.optional(S.String),
+          address: S.String,
           id: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
-          limits: __S(16, __c4, 0),
-          message: S.optional(S.String),
           name: S.optional(S.String),
-          oci_pull_credential_id: S.optional(S.String),
-          oci_reference: S.String,
-          state: S.optional(S.String),
-          state_error: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          variables: S.optional(__S(18, __c4, 2)),
-          version: S.optional(S.Number),
+          password: S.String.pipe(T.SensitiveValue({})),
+          username: S.String,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1alpha/projects/{projectId}/functions/{functionId}/revisions",
+            uri: "/v1alpha/projects/{projectId}/pull-credentials",
             code: 200,
             baseUrl: "https://functions.api.{region}stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "CreateFunctionRevisionRequest" });
+      ).annotate({ identifier: "CreatePullCredentialRequest" });
   }
 }
 function __c4(j: number): any {
@@ -662,40 +655,14 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          concurrency: S.Number,
-          plan: S.String,
-        }),
-      ).annotate({ identifier: "ResourceLimits" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          value: S.optional(S.NullOr(S.String)),
-          vault_reference: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "RevisionVariable" });
-    case 2:
-      return S.Array(__S(17, __c4, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.optional(S.String),
-          digest: S.optional(S.String),
-          function_id: S.optional(S.String),
+          address: S.String,
           id: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
-          limits: __S(16, __c4, 0),
-          message: S.optional(S.String),
           name: S.optional(S.String),
-          oci_pull_credential_id: S.optional(S.String),
-          oci_reference: S.String,
-          state: S.optional(S.String),
-          state_error: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          variables: S.optional(__S(18, __c4, 2)),
-          version: S.optional(S.Number),
+          password: S.String.pipe(T.SensitiveValue({})),
+          username: S.String,
         }),
-      ).annotate({ identifier: "Revision" });
+      ).annotate({ identifier: "PullCredential" });
   }
 }
 function __c5(j: number): any {
@@ -714,7 +681,7 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListPullCredentialsRequest" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(16, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -741,7 +708,7 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListRevisionsRequest" });
     case 1:
-      return S.Array(__S(19, __c4, 3));
+      return S.Array(__S(47, __c11, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -822,21 +789,31 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          address: S.String,
+          functionId: S.String.pipe(T.Label()),
+          created_at: S.optional(S.String),
+          digest: S.optional(S.String),
+          function_id: S.optional(S.String),
           id: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
+          limits: __S(44, __c11, 0),
+          message: S.optional(S.String),
           name: S.optional(S.String),
-          password: S.String.pipe(T.SensitiveValue({})),
-          username: S.String,
+          oci_pull_credential_id: S.optional(S.String),
+          oci_reference: S.String,
+          state: S.optional(S.String),
+          state_error: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          variables: S.optional(__S(46, __c11, 2)),
+          version: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1alpha/projects/{projectId}/pull-credentials",
+            uri: "/v1alpha/projects/{projectId}/functions/{functionId}/revisions",
             code: 200,
             baseUrl: "https://functions.api.{region}stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "CreatePullCredentialRequest" });
+      ).annotate({ identifier: "CreateRevisionRequest" });
   }
 }
 function __c11(j: number): any {
@@ -844,14 +821,41 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.String,
+          concurrency: S.Number,
+          max_scale: S.optional(S.Number),
+          plan: S.String,
+        }),
+      ).annotate({ identifier: "ResourceLimits" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.optional(S.NullOr(S.String)),
+          vault_reference: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "RevisionVariable" });
+    case 2:
+      return S.Array(__S(45, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.optional(S.String),
+          digest: S.optional(S.String),
+          function_id: S.optional(S.String),
           id: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
+          limits: __S(44, __c11, 0),
+          message: S.optional(S.String),
           name: S.optional(S.String),
-          password: S.String.pipe(T.SensitiveValue({})),
-          username: S.String,
+          oci_pull_credential_id: S.optional(S.String),
+          oci_reference: S.String,
+          state: S.optional(S.String),
+          state_error: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          variables: S.optional(__S(46, __c11, 2)),
+          version: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PullCredential" });
+      ).annotate({ identifier: "Revision" });
   }
 }
 function __c12(j: number): any {

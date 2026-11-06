@@ -782,7 +782,7 @@ export const updateApproleSecretId: API.OperationMethod<
   span: "UpdateApproleSecretId",
 }));
 
-export type UpdateInstanceError = BadRequest | NotFound | StackitOpError;
+export type UpdateInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Updates the given Secrets Manager instance. */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
@@ -792,7 +792,7 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

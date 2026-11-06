@@ -216,6 +216,8 @@ export interface LoadbalancerOptionObservability {
 /** Defines any optional functionality you want to have enabled on your Application Load Balancer. */
 export interface LoadBalancerOptions {
   accessControl?: LoadbalancerOptionAccessControl;
+  /** Enable per-request access logs on the Application Load Balancer. Defaults to false. Enable only when the Application Load Balancer's expected traffic volume can be sustained by the downstream logging pipeline, as access-log volume scales linearly with request rate. Requires a STACKIT Telemetry Router to be set up for the logs to be viewable. */
+  accessLogs?: boolean;
   /** This option automates the handling of the external IP address for an Application Load Balancer. If set to true a new IP address will be automatically created. It will also be automatically deleted when the Load Balancer is deleted. */
   ephemeralAddress?: boolean;
   observability?: LoadbalancerOptionObservability;
@@ -1120,6 +1122,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessControl: S.optional(__S(368, __c11, 16)),
+          accessLogs: S.optional(S.Boolean),
           ephemeralAddress: S.optional(S.Boolean),
           observability: S.optional(__S(370, __c11, 18)),
           privateNetworkOnly: S.optional(S.Boolean),
