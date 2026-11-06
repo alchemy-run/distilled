@@ -329,6 +329,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   loggedAt: "logged_at",
   loginDesign: "login_design",
   loginMethod: "login_method",
+  loginPageAutoPrompt: "login_page_auto_prompt",
   logoPath: "logo_path",
   logoUrl: "logo_url",
   macAddress: "mac_address",
