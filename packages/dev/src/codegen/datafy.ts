@@ -493,6 +493,7 @@ export const datafyOperations = (
     name: string;
     init: Node;
     paginated: boolean;
+    streaming?: boolean;
     config: Node;
     strategy?: Node;
     error?: { exported: boolean };
@@ -550,7 +551,9 @@ export const datafyOperations = (
         init?.type === "CallExpression" &&
         init.callee.type === "MemberExpression" &&
         init.callee.object.name === "API" &&
-        (init.callee.property.name === "make" || init.callee.property.name === "makePaginated")
+        (init.callee.property.name === "make" ||
+          init.callee.property.name === "makePaginated" ||
+          init.callee.property.name === "makeStreaming")
       ) {
         const [fn, strategy] = init.arguments as Node[];
         if (
@@ -563,6 +566,7 @@ export const datafyOperations = (
           name: d.id.name,
           init: d.init,
           paginated: init.callee.property.name === "makePaginated",
+          streaming: init.callee.property.name === "makeStreaming",
           config: strip(fn.body),
           strategy,
         });
@@ -839,7 +843,7 @@ export const datafyOperations = (
       ]);
       return;
     }
-    const fn = o.paginated ? "API.opPaginated" : "API.op";
+    const fn = o.paginated ? "API.opPaginated" : o.streaming ? "API.opStreaming" : "API.op";
     const marked = /\/\*[@#]__PURE__\*\/\s*$/.test(code.slice(o.init.start - 20, o.init.start));
     edits.push([
       o.init.start,

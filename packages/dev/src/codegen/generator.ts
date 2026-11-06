@@ -10,7 +10,13 @@ import {
   suspendConst,
 } from "./emit.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
-import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./members.ts";
+import {
+  ADDITIONAL_PROPERTIES_TRAIT,
+  DEFAULT_TRAIT,
+  memberBases,
+  SERVER_STREAMING_TRAIT,
+  smithyWireName,
+} from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -599,6 +605,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const binding = bindingOf(traits);
       return {
         ...base,
+        // A member with a default (Smithy 2.0 `@default`) is always present
+        // in a response, so response-only shapes require it. Shapes a
+        // request also reaches keep it optional: the sender may omit it.
+        required:
+          base.required ||
+          (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
@@ -1113,12 +1125,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
+      const streaming = !paginated && SERVER_STREAMING_TRAIT in (ctx.op.def.traits ?? {});
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+        `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
           `  ${ctx.inputName},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
@@ -1145,7 +1158,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         operationConst({
           exportName: ctx.exportName,
           typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
+          factory: paginated ? "API.makePaginated" : streaming ? "API.makeStreaming" : "API.make",
           pure,
           extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
           config,
