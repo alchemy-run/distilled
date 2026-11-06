@@ -1,0 +1,86 @@
+{
+  "description": "Carry policy files as raw HuJSON text. getPolicyFile, setPolicyFile and validateAndTestPolicyFile send and return the body verbatim as application/hujson (the spec's empty-object and oneOf JSON schemas drop or re-quote comments), require the request body (an omitted body stores {}, live 2026-10-03), and model the ETag header on getPolicyFile and setPolicyFile so a guarded write can follow a write without a read.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0ItemSrcPostureAttrsValue"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0ItemSrcPostureAttrsMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0ItemAcceptList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0ItemDenyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0Item"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBodyCase0List"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequestBody"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.tailscale.api#GetPolicyFileResponse/members/body/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetPolicyFileRequest/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.tailscale.api#SetPolicyFileResponse/members/body/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequest/members/body/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFileRequest/members/body/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetPolicyFileResponse/members/eTag",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "ETag",
+          "smithy.api#documentation": "Entity tag for the policy file. Send it back as If-Match on setPolicyFile."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetPolicyFileResponse/members/eTag",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "ETag",
+          "smithy.api#documentation": "Entity tag for the stored policy file. Send it back as If-Match on the next setPolicyFile."
+        }
+      }
+    }
+  ]
+}

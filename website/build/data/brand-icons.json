@@ -1,5 +1,5 @@
 {
-  "_license": "Marks are rendered monochrome in currentColor. Sources: svgl.app (per-brand terms, see each brand's page) for most; Simple Icons (CC0) for stripe, planetscale, huggingface and brands svgl lacks; official vector files for aws; mercury.com favicon for mercury; Prisma's brand kit for prisma. Each entry: { viewBox, inner } where inner is SVG markup with fills set to currentColor.",
+  "_license": "Marks are rendered monochrome in currentColor. Sources: svgl.app (per-brand terms, see each brand's page) for most; Simple Icons (CC0) for stripe, planetscale, huggingface, tailscale and brands svgl lacks; official vector files for aws; mercury.com favicon for mercury; Prisma's brand kit for prisma. Each entry: { viewBox, inner } where inner is SVG markup with fills set to currentColor.",
   "apache-superset": {
     "viewBox": "0 0 24 24",
     "inner": "<path d=\"M6.168 6.045C2.603 6.045 0 8.579 0 12.014c0 3.434 2.603 5.941 6.168 5.941 2.184 0 3.888-1.026 5.775-3.078 1.53 2.033 4.037 3.136 5.89 3.078 3.566 0 6.167-2.503 6.167-5.941 0-3.438-2.601-5.97-6.168-5.97-2.864 0-5.138 2.425-5.771 3.173-.76-.9-1.674-1.665-2.682-2.274-1.019-.588-2.084-.898-3.211-.898Zm2.875 1.303c1.156.595 1.952 1.42 2.639 2.304-.534.63-1.245 1.483-1.739 2.07-.56-.658-1.58-1.907-2.609-2.308ZM6.186 9.703c1.018.027 1.81.458 3.435 2.408-1.158 1.378-2.202 2.244-3.435 2.244-1.51 0-2.41-.99-2.41-2.31s.906-2.382 2.41-2.342zm11.535 0c1.51 0 2.408 1.026 2.408 2.342 0 1.315-.862 2.301-2.402 2.31-.571-.037-1.529-.026-3.442-2.314l.074-.09.002.002c1.122-1.328 2.097-2.25 3.36-2.25zm-3.762 2.738c.61.68 1.795 1.988 2.713 2.24l-1.684 2.016h-.002c-.753-.371-2.031-1.134-2.716-2.215l1.689-2.04z\"/>"
@@ -215,6 +215,10 @@
   "surrealdb": {
     "viewBox": "0 0 256 299",
     "inner": "<path fill=\"currentColor\" d=\"m128 78.568 71.101 39.375v-15.787L128 62.872c-10.575 5.852-61.684 34.103-71.101 39.284 8.747 4.846 100.602 55.589 156.434 86.43v15.726C205.745 208.518 128 251.46 128 251.46a76502.912 76502.912 0 0 1-85.333-47.147v-47.146L128 204.312l14.232-7.862-113.798-62.842v78.598L128 267.185c9.813-5.425 92.282-50.987 99.535-55.01v-31.42L85.333 102.155 128 78.568ZM28.434 86.43v31.452l142.202 78.598-42.666 23.589-71.101-39.376v15.787l71.1 39.284c10.576-5.852 61.684-34.103 71.101-39.284-8.746-4.846-100.571-55.589-156.403-86.461V94.293C50.255 90.088 128 47.147 128 47.147a76501.239 76501.239 0 0 0 85.333 47.146v47.147L128 94.293l-14.232 7.863 113.767 62.873V86.43L128 31.421c-9.844 5.455-92.282 51.017-99.566 55.01ZM128 0 0 70.735v157.166l128 70.735 128-70.705V70.735L128 0Zm113.737 220.038L128 282.91 14.232 220.038V78.598L128 15.726l113.768 62.872-.03 141.44Z\"/>"
+  },
+  "tailscale": {
+    "viewBox": "0 0 24 24",
+    "inner": "<path d=\"M24 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm-9 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm0-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm6-6a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM3 24a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm18 .5a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM6 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm9-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm-3 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 5.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z\" fill=\"currentColor\"/>"
   },
   "temporal": {
     "viewBox": "0 0 24 24",
